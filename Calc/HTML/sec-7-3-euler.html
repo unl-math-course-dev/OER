@@ -1,0 +1,938 @@
+<!DOCTYPE html>
+<!--**************************************-->
+<!--*    Generated from PreTeXt source   *-->
+<!--*    on 2019-04-26T11:29:08-05:00    *-->
+<!--*                                    *-->
+<!--*   http://mathbook.pugetsound.edu   *-->
+<!--*                                    *-->
+<!--**************************************-->
+<html lang="en-US">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>AC Euler's method</title>
+<meta name="Keywords" content="Authored in PreTeXt">
+<meta name="viewport" content="width=device-width,  initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0">
+<script type="text/javascript" src="https://sagecell.sagemath.org/static/jquery.min.js"></script><script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [['\\(','\\)']],
+    },
+    TeX: {
+        extensions: ["extpfeil.js", "autobold.js", "https://aimath.org/mathbook/mathjaxknowl.js", ],
+        // scrolling to fragment identifiers is controlled by other Javascript
+        positionToHash: false,
+        equationNumbers: { autoNumber: "none", useLabelIds: true, },
+        TagSide: "right",
+        TagIndent: ".8em",
+    },
+    // HTML-CSS output Jax to be dropped for MathJax 3.0
+    "HTML-CSS": {
+        scale: 88,
+        mtextFontInherit: true,
+    },
+    CommonHTML: {
+        scale: 88,
+        mtextFontInherit: true,
+    },
+});
+</script><script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS_CHTML-full"></script><link href="https://math-webwork2.unl.edu//webwork2_files/js/apps/MathView/mathview.css" rel="stylesheet">
+<script type="text/javascript" src="https://math-webwork2.unl.edu//webwork2_files/js/vendor/iframe-resizer/js/iframeResizer.min.js"></script><script>(function() {
+  var cx = '015103900096539427448:ngwuia10qci';
+  var gcse = document.createElement('script');
+  gcse.type = 'text/javascript';
+  gcse.async = true;
+  gcse.src = 'https://cse.google.com/cse.js?cx=' + cx;
+  var s = document.getElementsByTagName('script')[0];
+  s.parentNode.insertBefore(gcse, s);
+})();
+</script><script type="text/javascript" src="https://aimath.org/knowl.js"></script><script src="https://aimath.org/mathbook/js/lib/jquery.sticky.js"></script><script src="https://aimath.org/mathbook/js/lib/jquery.espy.min.js"></script><script src="https://aimath.org/mathbook/js/Mathbook.js"></script><link href="https://fonts.googleapis.com/css?family=Open+Sans:400,400italic,600,600italic" rel="stylesheet" type="text/css">
+<link href="https://fonts.googleapis.com/css?family=Inconsolata:400,700&amp;subset=latin,latin-ext" rel="stylesheet" type="text/css">
+<link href="https://aimath.org/mathbook/stylesheets/mathbook-3.css" rel="stylesheet" type="text/css">
+<link href="https://aimath.org/mathbook/mathbook-add-on.css" rel="stylesheet" type="text/css">
+</head>
+<body class="mathbook-book has-toc has-sidebar-left">
+<a class="assistive" href="#content">Skip to main content</a><div class="hidden-content">\(\newcommand{\dollar}{\$}
+\DeclareMathOperator{\erf}{erf}
+\DeclareMathOperator{\arctanh}{arctanh}
+\newcommand{\lt}{&lt;}
+\newcommand{\gt}{&gt;}
+\newcommand{\amp}{&amp;}
+\)</div>
+<header id="masthead" class="smallbuttons"><div class="banner"><div class="container">
+<div class="searchwrapper"><div class="gcse-search"></div></div>
+<a id="logo-link" href="https://activecalculus.org" target="_blank"><img src="images/ActiveCalculusImage_sm.jpg" alt="Logo image"></a><div class="title-container">
+<h1 class="heading"><a href="index.html"><span class="title">Active Calculus</span></a></h1>
+<p class="byline">Matthew Boelkins</p>
+</div>
+</div></div>
+<nav id="primary-navbar" class="navbar"><div class="container">
+<div class="navbar-top-buttons">
+<button class="sidebar-left-toggle-button button active">Contents</button><div class="tree-nav toolbar toolbar-divisor-3">
+<a class="index-button toolbar-item button" href="index-1.html" title="Index" alt="Index">Index</a><span class="threebuttons"><a id="previousbutton" class="previous-button toolbar-item button" href="sec-7-2-qualitative.html" title="Previous" alt="Previous">Prev</a><a id="upbutton" class="up-button button toolbar-item" href="C-7.html" title="Up" alt="Up">Up</a><a id="nextbutton" class="next-button button toolbar-item" href="sec-7-4-separable.html" title="Next" alt="Next">Next</a></span>
+</div>
+<button class="sidebar-right-toggle-button button active">Annotations</button>
+</div>
+<div class="navbar-bottom-buttons toolbar toolbar-divisor-4">
+<button class="sidebar-left-toggle-button button toolbar-item active">Contents</button><a class="previous-button toolbar-item button" href="sec-7-2-qualitative.html" title="Previous" alt="Previous">Prev</a><a class="up-button button toolbar-item" href="C-7.html" title="Up" alt="Up">Up</a><a class="next-button button toolbar-item" href="sec-7-4-separable.html" title="Next" alt="Next">Next</a>
+</div>
+</div></nav></header><div class="page">
+<aside id="sidebar-left" class="sidebar"><div class="sidebar-content">
+<nav id="toc"><h2 class="link"><a href="frontmatter.html" data-scroll="frontmatter"><span class="title">Front Matter</span></a></h2>
+<ul>
+<li><a href="colophon-1.html" data-scroll="colophon-1">Colophon</a></li>
+<li><a href="acknowledgement-1.html" data-scroll="acknowledgement-1">Acknowledgements</a></li>
+<li><a href="preface-1.html" data-scroll="preface-1">Contributors</a></li>
+<li><a href="preface-2.html" data-scroll="preface-2">Active Calculus: Our Goals</a></li>
+<li><a href="preface-3.html" data-scroll="preface-3">Features of the Text</a></li>
+<li><a href="preface-4.html" data-scroll="preface-4">How to Use this Text</a></li>
+</ul>
+<h2 class="link"><a href="C-1.html" data-scroll="C-1"><span class="codenumber">1</span><span class="title">Understanding the Derivative</span></a></h2>
+<ul>
+<li><a href="sec-1-1-vel.html" data-scroll="sec-1-1-vel">How do we measure velocity?</a></li>
+<li><a href="sec-1-2-lim.html" data-scroll="sec-1-2-lim">The notion of limit</a></li>
+<li><a href="sec-1-3-derivative-pt.html" data-scroll="sec-1-3-derivative-pt">The derivative of a function at a point</a></li>
+<li><a href="sec-1-4-derivative-fxn.html" data-scroll="sec-1-4-derivative-fxn">The derivative function</a></li>
+<li><a href="sec-1-5-units.html" data-scroll="sec-1-5-units">Interpreting, estimating, and using the derivative</a></li>
+<li><a href="sec-1-6-second-d.html" data-scroll="sec-1-6-second-d">The second derivative</a></li>
+<li><a href="sec-1-7-lim-cont-diff.html" data-scroll="sec-1-7-lim-cont-diff">Limits, Continuity, and Differentiability</a></li>
+<li><a href="sec-1-8-tan-line-approx.html" data-scroll="sec-1-8-tan-line-approx">The Tangent Line Approximation</a></li>
+</ul>
+<h2 class="link"><a href="C-2.html" data-scroll="C-2"><span class="codenumber">2</span><span class="title">Computing Derivatives</span></a></h2>
+<ul>
+<li><a href="sec-2-1-elem-rules.html" data-scroll="sec-2-1-elem-rules">Elementary derivative rules</a></li>
+<li><a href="sec-2-2-sin-cos.html" data-scroll="sec-2-2-sin-cos">The sine and cosine functions</a></li>
+<li><a href="sec-2-3-prod-quot.html" data-scroll="sec-2-3-prod-quot">The product and quotient rules</a></li>
+<li><a href="sec-2-4-other-trig.html" data-scroll="sec-2-4-other-trig">Derivatives of other trigonometric functions</a></li>
+<li><a href="sec-2-5-chain.html" data-scroll="sec-2-5-chain">The chain rule</a></li>
+<li><a href="sec-2-6-inverse.html" data-scroll="sec-2-6-inverse">Derivatives of Inverse Functions</a></li>
+<li><a href="sec-2-7-implicit.html" data-scroll="sec-2-7-implicit">Derivatives of Functions Given Implicitly</a></li>
+<li><a href="sec-2-8-LHR.html" data-scroll="sec-2-8-LHR">Using Derivatives to Evaluate Limits</a></li>
+</ul>
+<h2 class="link"><a href="C-3.html" data-scroll="C-3"><span class="codenumber">3</span><span class="title">Using Derivatives</span></a></h2>
+<ul>
+<li><a href="sec-3-1-tests.html" data-scroll="sec-3-1-tests">Using derivatives to identify extreme values</a></li>
+<li><a href="sec-3-2-families.html" data-scroll="sec-3-2-families">Using derivatives to describe families of functions</a></li>
+<li><a href="sec-3-3-optimization.html" data-scroll="sec-3-3-optimization">Global Optimization</a></li>
+<li><a href="sec-3-4-applied-opt.html" data-scroll="sec-3-4-applied-opt">Applied Optimization</a></li>
+<li><a href="sec-3-5-rel-rates.html" data-scroll="sec-3-5-rel-rates">Related Rates</a></li>
+</ul>
+<h2 class="link"><a href="C-4.html" data-scroll="C-4"><span class="codenumber">4</span><span class="title">The Definite Integral</span></a></h2>
+<ul>
+<li><a href="sec-4-1-velocity-distance.html" data-scroll="sec-4-1-velocity-distance">Determining distance traveled from velocity</a></li>
+<li><a href="sec-4-2-Riemann.html" data-scroll="sec-4-2-Riemann">Riemann Sums</a></li>
+<li><a href="sec-4-3-definite-integral.html" data-scroll="sec-4-3-definite-integral">The Definite Integral</a></li>
+<li><a href="sec-4-4-FTC.html" data-scroll="sec-4-4-FTC">The Fundamental Theorem of Calculus</a></li>
+</ul>
+<h2 class="link"><a href="C-5.html" data-scroll="C-5"><span class="codenumber">5</span><span class="title">Evaluating Integrals</span></a></h2>
+<ul>
+<li><a href="sec-5-1-antid-graphs.html" data-scroll="sec-5-1-antid-graphs">Constructing Accurate Graphs of Antiderivatives</a></li>
+<li><a href="sec-5-2-FTC2.html" data-scroll="sec-5-2-FTC2">The Second Fundamental Theorem of Calculus</a></li>
+<li><a href="sec-5-3-substitution.html" data-scroll="sec-5-3-substitution">Integration by Substitution</a></li>
+<li><a href="sec-5-4-parts.html" data-scroll="sec-5-4-parts">Integration by Parts</a></li>
+<li><a href="sec-5-5-other-opt.html" data-scroll="sec-5-5-other-opt">Other Options for Finding Algebraic Antiderivatives</a></li>
+<li><a href="sec-5-6-num-int.html" data-scroll="sec-5-6-num-int">Numerical Integration</a></li>
+</ul>
+<h2 class="link"><a href="C-6.html" data-scroll="C-6"><span class="codenumber">6</span><span class="title">Using Definite Integrals</span></a></h2>
+<ul>
+<li><a href="sec-6-1-area.html" data-scroll="sec-6-1-area">Using Definite Integrals to Find Area and Length</a></li>
+<li><a href="sec-6-2-volume.html" data-scroll="sec-6-2-volume">Using Definite Integrals to Find Volume</a></li>
+<li><a href="sec-6-3-mass.html" data-scroll="sec-6-3-mass">Density, Mass, and Center of Mass</a></li>
+<li><a href="sec-6-4-physics.html" data-scroll="sec-6-4-physics">Physics Applications:  Work, Force, and Pressure</a></li>
+<li><a href="sec-6-5-improper.html" data-scroll="sec-6-5-improper">Improper Integrals</a></li>
+</ul>
+<h2 class="link active"><a href="C-7.html" data-scroll="C-7"><span class="codenumber">7</span><span class="title">Differential Equations</span></a></h2>
+<ul>
+<li><a href="sec-7-1-diff-eq-intro.html" data-scroll="sec-7-1-diff-eq-intro">An Introduction to Differential Equations</a></li>
+<li><a href="sec-7-2-qualitative.html" data-scroll="sec-7-2-qualitative">Qualitative behavior of solutions to DEs</a></li>
+<li><a href="sec-7-3-euler.html" data-scroll="sec-7-3-euler" class="active">Euler's method</a></li>
+<li><a href="sec-7-4-separable.html" data-scroll="sec-7-4-separable">Separable differential equations</a></li>
+<li><a href="sec-7-5-modeling.html" data-scroll="sec-7-5-modeling">Modeling with differential equations</a></li>
+<li><a href="sec-7-6-logistic.html" data-scroll="sec-7-6-logistic">Population Growth and the Logistic Equation</a></li>
+</ul>
+<h2 class="link"><a href="C-8.html" data-scroll="C-8"><span class="codenumber">8</span><span class="title">Sequences and Series</span></a></h2>
+<ul>
+<li><a href="sec-8-1-sequences.html" data-scroll="sec-8-1-sequences">Sequences</a></li>
+<li><a href="sec-8-2-geometric.html" data-scroll="sec-8-2-geometric">Geometric Series</a></li>
+<li><a href="sec-8-3-series.html" data-scroll="sec-8-3-series">Series of Real Numbers</a></li>
+<li><a href="sec-8-4-alternating.html" data-scroll="sec-8-4-alternating">Alternating Series</a></li>
+<li><a href="sec-8-5-taylor.html" data-scroll="sec-8-5-taylor">Taylor Polynomials and Taylor Series</a></li>
+<li><a href="sec-8-6-powerseries.html" data-scroll="sec-8-6-powerseries">Power Series</a></li>
+</ul>
+<h2 class="link"><a href="backmatter.html" data-scroll="backmatter"><span class="title">Back Matter</span></a></h2>
+<ul>
+<li><a href="integral-table.html" data-scroll="integral-table">A Short Table of Integrals</a></li>
+<li><a href="index-1.html" data-scroll="index-1">Index</a></li>
+<li><a href="colophon-2.html" data-scroll="colophon-2">Colophon</a></li>
+</ul></nav><div class="extras"><nav><a class="feedback-link" href="http://gvsu.edu/s/0vK" target="_blank">Feedback</a><a class="mathbook-link" href="https://mathbook.pugetsound.edu">Authored in PreTeXt</a><a href="https://www.mathjax.org"><img title="Powered by MathJax" src="https://www.mathjax.org/badge/badge.gif" border="0" alt="Powered by MathJax"></a></nav></div>
+</div></aside><main class="main"><div id="content" class="mathbook-content"><section class="section" id="sec-7-3-euler"><h2 class="heading hide-type" alt="Section 7.3 Euler's method">
+<span class="type">Section</span><span class="codenumber">7.3</span><span class="title">Euler's method</span>
+</h2>
+<a href="sec-7-3-euler.html" class="permalink">¶</a><article class="objectives" id="objectives-39"><h6 class="heading"><span class="type">Motivating Questions</span></h6>
+<ul class="disc">
+<li id="li-4088"><p id="p-6050">What is Euler's method and how can we use it to approximate the solution to an initial value problem?</p></li>
+<li id="li-4089"><p id="p-6051">How accurate is Euler's method?</p></li>
+</ul></article><section class="introduction" id="introduction-39"><p id="p-6052">In <a href="sec-7-2-qualitative.html" class="xref" alt="Section 7.2 Qualitative behavior of solutions to DEs" title="Section 7.2 Qualitative behavior of solutions to DEs">Section 7.2</a>, we saw how a slope field can be used to sketch solutions to a differential equation. In particular, the slope field is a plot of a large collection of tangent lines to a large number of solutions of the differential equation, and we sketch a single solution by simply following these tangent lines. With a little more thought, we can use this same idea to approximate numerically the solutions of a differential equation.</p>
+<article class="example-like" id="PA-7-3"><h6 class="heading">
+<span class="type">Preview Activity</span><span class="codenumber">7.8</span>
+</h6>
+<p id="p-6053">Consider the initial value problem</p>
+<div class="displaymath">
+\begin{equation*}
+\frac{dy}{dt} = \frac12 (y + 1), \ y(0) = 0\text{.}
+\end{equation*}
+</div>
+<ol id="p-6054" class="lower-alpha">
+<li id="li-4090"><p id="p-6055">Use the differential equation to find the slope of the tangent line to the solution \(y(t)\) at \(t=0\text{.}\) Then use the given initial value to find the equation of the tangent line at \(t=0\text{.}\)</p></li>
+<li id="li-4091">
+<p id="p-6056">Sketch the tangent line on the axes provided in <a knowl="./knowl/F-7-3-PA.html" knowl-id="xref-F-7-3-PA" alt="Figure 7.17 " title="Figure 7.17 ">Figure 7.17</a> on the interval \(0\leq t\leq 2\) and use it to approximate \(y(2)\text{,}\) the value of the solution at \(t=2\text{.}\)</p>
+<figure class="figure-like" id="F-7-3-PA"><img src="images/7_3_PA.svg" width="47%" style="display: block; margin: 0 auto;" alt=""><figcaption><span class="type">Figure</span><span class="codenumber">7.17</span>Grid for plotting the tangent line.</figcaption></figure>
+</li>
+<li id="li-4092"><p id="p-6057">Assuming that your approximation for \(y(2)\) is the actual value of \(y(2)\text{,}\) use the differential equation to find the slope of the tangent line to \(y(t)\) at \(t=2\text{.}\) Then, write the equation of the tangent line at \(t=2\text{.}\)</p></li>
+<li id="li-4093"><p id="p-6058">Add a sketch of this tangent line on the interval \(2\leq t\leq 4\) to your plot <a knowl="./knowl/F-7-3-PA.html" knowl-id="xref-F-7-3-PA" alt="Figure 7.17 " title="Figure 7.17 ">Figure 7.17</a>; use this new tangent line to approximate \(y(4)\text{,}\) the value of the solution at \(t=4\text{.}\)</p></li>
+<li id="li-4094"><p id="p-6059">Repeat the same step to find an approximation for \(y(6)\text{.}\)</p></li>
+</ol></article></section><section class="subsection" id="subsection-133"><h3 class="heading hide-type" alt="Subsection  Euler's Method">
+<span class="type">Subsection</span><span class="codenumber"></span><span class="title">Euler's Method</span>
+</h3>
+<p id="p-6060"><a knowl="./knowl/PA-7-3.html" knowl-id="xref-PA-7-3" alt="Preview Activity 7.8 " title="Preview Activity 7.8 ">Preview Activity 7.8</a> demonstrates an algorithm known as Euler's<span class="footnote"><a knowl="" class="id-ref" refid="hk-fn-45" id="fn-45"><sup> 3 </sup></a></span><span id="hk-fn-45" class="hidden-content tex2jax_ignore"><span class="footnote">“Euler” is pronounced “Oy-ler.” Among other things, Euler is the mathematician credited with the famous number \(e\text{;}\) if you incorrectly pronounce his name “You-ler,” you fail to appreciate his genius and legacy.</span></span> Method, which generates a numerical approximation to the solution of an initial value problem. In this algorithm, we will approximate the solution by taking horizontal steps of a fixed size that we denote by \(\Delta t\text{.}\)</p>
+<div class="sidebyside" id="sidebyside-281">
+<div class="sbsrow" style="margin-left:0%;margin-right:0%;">
+<div class="sbspanel" style="width:47%;justify-content:flex-start;">[stack]</div>
+<div class="sbspanel" style="width:47%;justify-content:flex-start;"><img src="images/7_3_slope.svg" width="100%" style="display: block; margin: 0 auto;" alt=""></div>
+</div>
+<div class="sbsrow" style="margin-left:0%;margin-right:0%;">
+<figcaption class="sbscaption" style="width:47%;"></figcaption><figcaption class="sbscaption" style="width:47%;"><span class="type">Figure</span><span class="codenumber">7.18</span>The role of slope in Euler's Method.</figcaption>
+</div>
+</div>
+<p id="p-6063">Now, suppose that we would like to solve the initial value problem</p>
+<div class="displaymath">
+\begin{equation*}
+\frac{dy}{dt} = t - y, \ y(0) = 1\text{.}
+\end{equation*}
+</div>
+<p id="p-6064">There is an algorithm by which we can find an algebraic formula for the solution to this initial value problem, and we can check that this solution is \(y(t) = t -1 + 2e^{-t}\text{.}\) But we are instead interested in generating an approximate solution by creating a sequence of points \((t_i, y_i)\text{,}\) where \(y_i\approx y(t_i)\text{.}\) For this first example, we choose \(\Delta t = 0.2\text{.}\)</p>
+<p id="p-6065">Since we know that \(y(0) = 1\text{,}\) we will take the initial point to be \((t_0,y_0) = (0,1)\) and move horizontally by \(\Delta t = 0.2\) to the point \((t_1,y_1)\text{.}\) Thus, \(t_1=t_0+\Delta t = 0.2\text{.}\) Now, the differential equation tells us that the slope of the tangent line at this point is</p>
+<div class="displaymath">
+\begin{equation*}
+m=\frac{dy}{dt}\bigg\vert_{(0,1)} = 0-1 = -1\text{,}
+\end{equation*}
+</div>
+<div class="sidebyside" id="sidebyside-282">
+<div class="sbsrow" style="margin-left:0%;margin-right:0%;">
+<div class="sbspanel" style="width:50%;justify-content:flex-start;">
+<p id="p-6066">so to move along the tangent line by taking a horizontal step of size \(\Delta t=0.2\text{,}\) we must also move vertically by</p>
+<div class="displaymath">
+\begin{equation*}
+\Delta y = m\Delta t = -1\cdot 0.2 = -0.2\text{.}
+\end{equation*}
+</div>
+<p>We then have the approximation \(y(0.2) \approx y_1= y_0 + \Delta y = 1 - 0.2 = 0.8\text{.}\) At this point, we have executed one step of Euler's method, as seen graphically in <a knowl="./knowl/F-7-3-euler-points-1.html" knowl-id="xref-F-7-3-euler-points-1" alt="Figure 7.19 " title="Figure 7.19 ">Figure 7.19</a>.</p>
+</div>
+<div class="sbspanel" style="width:44%;justify-content:flex-start;"><img src="images/7_3_euler_points_1.svg" width="100%" style="display: block; margin: 0 auto;" alt=""></div>
+</div>
+<div class="sbsrow" style="margin-left:0%;margin-right:0%;">
+<figcaption class="sbscaption" style="width:50%;"></figcaption><figcaption class="sbscaption" style="width:44%;"><span class="type">Figure</span><span class="codenumber">7.19</span>One step of Euler's method.</figcaption>
+</div>
+</div>
+<p id="p-6067">Now we repeat this process: at \((t_1,y_1) = (0.2,0.8)\text{,}\) the differential equation tells us that the slope is</p>
+<div class="displaymath">
+\begin{equation*}
+m=\frac{dy}{dt}\bigg\vert_{(0.2,0.8)} = 0.2-0.8 = -0.6\text{.}
+\end{equation*}
+</div>
+<div class="sidebyside" id="sidebyside-283">
+<div class="sbsrow" style="margin-left:0%;margin-right:0%;">
+<div class="sbspanel" style="width:50%;justify-content:flex-start;">
+<p id="p-6068">If we move forward horizontally by \(\Delta t\) to \(t_2=t_1+\Delta = 0.4\text{,}\) we must move vertically by</p>
+<div class="displaymath">
+\begin{equation*}
+\Delta y = -0.6\cdot0.2 = -0.12\text{.}
+\end{equation*}
+</div>
+<p>We consequently arrive at \(y_2=y_1+\Delta y = 0.8-0.12 = 0.68\text{,}\) which gives \(y(0.2)\approx 0.68\text{.}\) Now we have completed the second step of Euler's method, as shown in <a knowl="./knowl/F-7-3-euler-points-2.html" knowl-id="xref-F-7-3-euler-points-2" alt="Figure 7.20 " title="Figure 7.20 ">Figure 7.20</a>.</p>
+</div>
+<div class="sbspanel" style="width:44%;justify-content:flex-start;"><img src="images/7_3_euler_points_2.svg" width="100%" style="display: block; margin: 0 auto;" alt=""></div>
+</div>
+<div class="sbsrow" style="margin-left:0%;margin-right:0%;">
+<figcaption class="sbscaption" style="width:50%;"></figcaption><figcaption class="sbscaption" style="width:44%;"><span class="type">Figure</span><span class="codenumber">7.20</span>Two steps of Euler's method.</figcaption>
+</div>
+</div>
+<p id="p-6069">If we continue in this way, we may generate the points \((t_i, y_i)\) shown in <a knowl="./knowl/F-7-3-Euler-Pts-a.html" knowl-id="xref-F-7-3-Euler-Pts-a" alt="Figure 7.21 " title="Figure 7.21 ">Figure 7.21</a>. Because we can find a formula for the actual solution \(y(t)\) to this differential equation, we can graph \(y(t)\) and compare it to the points generated by Euler's method, as shown in <a knowl="./knowl/F-7-3-Euler-Pts-b.html" knowl-id="xref-F-7-3-Euler-Pts-b" alt="Figure 7.22 " title="Figure 7.22 ">Figure 7.22</a>.</p>
+<div class="sidebyside" id="sidebyside-284">
+<div class="sbsrow" style="margin-left:0%;margin-right:0%;">
+<div class="sbspanel" style="width:47%;justify-content:flex-start;"><img src="images/7_3_euler_points_6.svg" width="100%" style="display: block; margin: 0 auto;" alt=""></div>
+<div class="sbspanel" style="width:47%;justify-content:flex-start;"><img src="images/7_3_euler.svg" width="100%" style="display: block; margin: 0 auto;" alt=""></div>
+</div>
+<div class="sbsrow" style="margin-left:0%;margin-right:0%;">
+<figcaption class="sbscaption" style="width:47%;"><span class="type">Figure</span><span class="codenumber">7.21</span>The points and piecewise linear approximate solution generated by Euler's method.</figcaption><figcaption class="sbscaption" style="width:47%;"><span class="type">Figure</span><span class="codenumber">7.22</span>The approximate solution compared to the exact solution (shown in blue).</figcaption>
+</div>
+</div>
+<p id="p-6070">Because we need to generate a large number of points \((t_i,y_i)\text{,}\) it is convenient to organize the implementation of Euler's method in a table as shown. We begin with the given initial data.</p>
+<div class="sidebyside" id="sidebyside-285"><div class="sbsrow" style="margin-left:0%;margin-right:0%;"><div class="sbspanel fixed-width" style="width:100%;justify-content:flex-start;"><table>
+<tr>
+<td class="l m b1 r0 l0 t1 lines">\(t_i\)</td>
+<td class="l m b1 r0 l0 t1 lines">\(y_i\)</td>
+<td class="l m b1 r0 l0 t1 lines">\(dy/dt\)</td>
+<td class="l m b1 r0 l0 t1 lines">\(\Delta y\)</td>
+</tr>
+<tr>
+<td class="l m b1 r0 l0 t0 lines">\(0.0000\)</td>
+<td class="l m b1 r0 l0 t0 lines">\(1.0000\)</td>
+<td class="l m b1 r0 l0 t0 lines"></td>
+<td class="l m b1 r0 l0 t0 lines"></td>
+</tr>
+</table></div></div></div>
+<p id="p-6071">From here, we compute the slope of the tangent line \(m=dy/dt\) using the formula for \(dy/dt\) from the differential equation, and then we find \(\Delta y\text{,}\) the change in \(y\text{,}\) using the rule \(\Delta y = m\Delta t\text{.}\)</p>
+<div class="sidebyside" id="sidebyside-286"><div class="sbsrow" style="margin-left:0%;margin-right:0%;"><div class="sbspanel fixed-width" style="width:100%;justify-content:flex-start;"><table>
+<tr>
+<td class="l m b1 r0 l0 t1 lines">\(t_i\)</td>
+<td class="l m b1 r0 l0 t1 lines">\(y_i\)</td>
+<td class="l m b1 r0 l0 t1 lines">\(dy/dt\)</td>
+<td class="l m b1 r0 l0 t1 lines">\(\Delta y\)</td>
+</tr>
+<tr>
+<td class="l m b1 r0 l0 t0 lines">\(0.0000\)</td>
+<td class="l m b1 r0 l0 t0 lines">\(1.0000\)</td>
+<td class="l m b1 r0 l0 t0 lines">\(-1.0000\)</td>
+<td class="l m b1 r0 l0 t0 lines">\(-0.2000\)</td>
+</tr>
+</table></div></div></div>
+<p id="p-6072">Next, we increase \(t_i\) by \(\Delta t\) and \(y_i\) by \(\Delta y\) to get</p>
+<div class="sidebyside" id="sidebyside-287"><div class="sbsrow" style="margin-left:0%;margin-right:0%;"><div class="sbspanel fixed-width" style="width:100%;justify-content:flex-start;"><table>
+<tr>
+<td class="l m b1 r0 l0 t1 lines">\(t_i\)</td>
+<td class="l m b1 r0 l0 t1 lines">\(y_i\)</td>
+<td class="l m b1 r0 l0 t1 lines">\(dy/dt\)</td>
+<td class="l m b1 r0 l0 t1 lines">\(\Delta y\)</td>
+</tr>
+<tr>
+<td class="l m b1 r0 l0 t0 lines">\(0.0000\)</td>
+<td class="l m b1 r0 l0 t0 lines">\(1.0000\)</td>
+<td class="l m b1 r0 l0 t0 lines">\(-1.0000\)</td>
+<td class="l m b1 r0 l0 t0 lines">\(-0.2000\)</td>
+</tr>
+<tr>
+<td class="l m b1 r0 l0 t0 lines">\(0.2000\)</td>
+<td class="l m b1 r0 l0 t0 lines">\(0.8000\)</td>
+<td class="l m b1 r0 l0 t0 lines"></td>
+<td class="l m b1 r0 l0 t0 lines"></td>
+</tr>
+</table></div></div></div>
+<p id="p-6073">We continue the process for however many steps we decide, eventually generating a table like <a knowl="./knowl/T-7-3-Example.html" knowl-id="xref-T-7-3-Example" alt="Table 7.23 " title="Table 7.23 ">Table 7.23</a>.</p>
+<figure class="figure-like" id="T-7-3-Example"><table>
+<tr>
+<td class="l m b1 r0 l0 t1 lines">\(t_i\)</td>
+<td class="l m b1 r0 l0 t1 lines">\(y_i\)</td>
+<td class="l m b1 r0 l0 t1 lines">\(dy/dt\)</td>
+<td class="l m b1 r0 l0 t1 lines">\(\Delta y\)</td>
+</tr>
+<tr>
+<td class="l m b1 r0 l0 t0 lines">\(0.0000\)</td>
+<td class="l m b1 r0 l0 t0 lines">\(1.0000\)</td>
+<td class="l m b1 r0 l0 t0 lines">\(-1.0000\)</td>
+<td class="l m b1 r0 l0 t0 lines">\(-0.2000\)</td>
+</tr>
+<tr>
+<td class="l m b1 r0 l0 t0 lines">\(0.2000\)</td>
+<td class="l m b1 r0 l0 t0 lines">\(0.8000\)</td>
+<td class="l m b1 r0 l0 t0 lines">\(-0.6000\)</td>
+<td class="l m b1 r0 l0 t0 lines">\(-0.1200\)</td>
+</tr>
+<tr>
+<td class="l m b1 r0 l0 t0 lines">\(0.4000\)</td>
+<td class="l m b1 r0 l0 t0 lines">\(0.6800\)</td>
+<td class="l m b1 r0 l0 t0 lines">\(-0.2800\)</td>
+<td class="l m b1 r0 l0 t0 lines">\(-0.0560\)</td>
+</tr>
+<tr>
+<td class="l m b1 r0 l0 t0 lines">\(0.6000\)</td>
+<td class="l m b1 r0 l0 t0 lines">\(0.6240\)</td>
+<td class="l m b1 r0 l0 t0 lines">\(-0.0240\)</td>
+<td class="l m b1 r0 l0 t0 lines">\(-0.0048\)</td>
+</tr>
+<tr>
+<td class="l m b1 r0 l0 t0 lines">\(0.8000\)</td>
+<td class="l m b1 r0 l0 t0 lines">\(0.6192\)</td>
+<td class="l m b1 r0 l0 t0 lines">\(0.1808\)</td>
+<td class="l m b1 r0 l0 t0 lines">\(0.0362\)</td>
+</tr>
+<tr>
+<td class="l m b1 r0 l0 t0 lines">\(1.0000\)</td>
+<td class="l m b1 r0 l0 t0 lines">\(0.6554\)</td>
+<td class="l m b1 r0 l0 t0 lines">\(0.3446\)</td>
+<td class="l m b1 r0 l0 t0 lines">\(0.0689\)</td>
+</tr>
+<tr>
+<td class="l m b1 r0 l0 t0 lines">\(1.2000\)</td>
+<td class="l m b1 r0 l0 t0 lines">\(0.7243\)</td>
+<td class="l m b1 r0 l0 t0 lines">\(0.4757\)</td>
+<td class="l m b1 r0 l0 t0 lines">\(0.0951\)</td>
+</tr>
+</table>
+<figcaption><span class="type">Table</span><span class="codenumber">7.23</span>Euler's method for 6 steps with \(\Delta t = 0.2\text{.}\)</figcaption></figure><article class="example-like" id="act-7-3-1"><h6 class="heading">
+<span class="type">Activity</span><span class="codenumber">7.9</span>
+</h6>
+<p id="p-6074">Consider the initial value problem</p>
+<div class="displaymath">
+\begin{equation*}
+\frac{dy}{dt} = 2t-1, \ y(0) = 0
+\end{equation*}
+</div>
+<ol class="lower-alpha">
+<li id="li-4095">
+<p id="p-6075">Use Euler's method with \(\Delta t = 0.2\) to approximate the solution at \(t_i = 0.2, 0.4, 0.6, 0.8\text{,}\) and \(1.0\text{.}\) Record your work in the following table, and sketch the points \((t_i, y_i)\) on the axes provided.</p>
+<div class="sidebyside" id="sidebyside-288">
+<div class="sbsrow" style="margin-left:0%;margin-right:0%;">
+<div class="sbspanel fixed-width" style="width:47%;justify-content:flex-start;"><table>
+<tr>
+<td class="l m b2 r0 l0 t1 lines">\(t_i\)</td>
+<td class="l m b2 r0 l0 t1 lines">\(y_i\)</td>
+<td class="l m b2 r0 l0 t1 lines">\(dy/dt\)</td>
+<td class="l m b2 r0 l0 t1 lines">\(\Delta y\)</td>
+</tr>
+<tr>
+<td class="l m b1 r0 l0 t0 lines">\(0.0000\)</td>
+<td class="l m b1 r0 l0 t0 lines">\(0.0000\)</td>
+<td class="l m b1 r0 l0 t0 lines"></td>
+<td class="l m b1 r0 l0 t0 lines"></td>
+</tr>
+<tr>
+<td class="l m b1 r0 l0 t0 lines">\(0.2000\)</td>
+<td class="l m b1 r0 l0 t0 lines"></td>
+<td class="l m b1 r0 l0 t0 lines"></td>
+<td class="l m b1 r0 l0 t0 lines"></td>
+</tr>
+<tr>
+<td class="l m b1 r0 l0 t0 lines">\(0.4000\)</td>
+<td class="l m b1 r0 l0 t0 lines"></td>
+<td class="l m b1 r0 l0 t0 lines"></td>
+<td class="l m b1 r0 l0 t0 lines"></td>
+</tr>
+<tr>
+<td class="l m b1 r0 l0 t0 lines">\(0.6000\)</td>
+<td class="l m b1 r0 l0 t0 lines"></td>
+<td class="l m b1 r0 l0 t0 lines"></td>
+<td class="l m b1 r0 l0 t0 lines"></td>
+</tr>
+<tr>
+<td class="l m b1 r0 l0 t0 lines">\(0.8000\)</td>
+<td class="l m b1 r0 l0 t0 lines"></td>
+<td class="l m b1 r0 l0 t0 lines"></td>
+<td class="l m b1 r0 l0 t0 lines"></td>
+</tr>
+<tr>
+<td class="l m b1 r0 l0 t0 lines">\(1.0000\)</td>
+<td class="l m b1 r0 l0 t0 lines"></td>
+<td class="l m b1 r0 l0 t0 lines"></td>
+<td class="l m b1 r0 l0 t0 lines"></td>
+</tr>
+</table></div>
+<div class="sbspanel" style="width:47%;justify-content:flex-start;"><img src="images/7_3_euler_empty.svg" width="100%" style="display: block; margin: 0 auto;" alt=""></div>
+</div>
+<div class="sbsrow" style="margin-left:0%;margin-right:0%;">
+<figcaption class="sbscaption" style="width:47%;"><span class="type">Table</span><span class="codenumber">7.24</span>Table for recording results of Euler's method.</figcaption><figcaption class="sbscaption" style="width:47%;"><span class="type">Figure</span><span class="codenumber">7.25</span>Grid for plotting points generated by Euler's method.</figcaption>
+</div>
+</div>
+</li>
+<li id="li-4096"><p id="p-6076">Find the exact solution to the original initial value problem and use this function to find the error in your approximation at each one of the points \(t_i\text{.}\)</p></li>
+<li id="li-4097"><p id="p-6077">Explain why the value \(y_5\) generated by Euler's method for this initial value problem produces the same value as a left Riemann sum for the definite integral \(\int_0^1 (2t-1)~dt\text{.}\)</p></li>
+<li id="li-4098"><p id="p-6078">How would your computations differ if the initial value was \(y(0) = 1\text{?}\) What does this mean about different solutions to this differential equation?</p></li>
+</ol>
+<div class="solutions">
+<span class="solution"><a knowl="" class="id-ref" refid="hk-hint-109" id="hint-109"><span class="type">Hint</span></a></span><div id="hk-hint-109" class="hidden-content tex2jax_ignore"><span class="solution"><ol id="p-6079" class="lower-alpha"><li id="li-4099"><p id="p-6080">Small hints for each of the prompts above.</p></li></ol></span></div>
+<span class="solution"><a knowl="" class="id-ref" refid="hk-answer-248" id="answer-248"><span class="type">Answer</span></a></span><div id="hk-answer-248" class="hidden-content tex2jax_ignore"><span class="solution"><ol id="p-6081" class="lower-alpha">
+<li id="li-4100"><div class="sidebyside" id="sidebyside-289"><div class="sbsrow" style="margin-left:0%;margin-right:0%;">
+<div class="sbspanel fixed-width" style="width:47%;justify-content:flex-start;"><table>
+<tr>
+<td class="l m b2 r0 l0 t1 lines">\(t_i\)</td>
+<td class="l m b2 r0 l0 t1 lines">\(y_i\)</td>
+<td class="l m b2 r0 l0 t1 lines">\(dy/dt\)</td>
+<td class="l m b2 r0 l0 t1 lines">\(\Delta y\)</td>
+</tr>
+<tr>
+<td class="l m b1 r0 l0 t0 lines">\(0\)</td>
+<td class="l m b1 r0 l0 t0 lines">\(0\)</td>
+<td class="l m b1 r0 l0 t0 lines">\(-1\)</td>
+<td class="l m b1 r0 l0 t0 lines">\(-0.2\)</td>
+</tr>
+<tr>
+<td class="l m b1 r0 l0 t0 lines">\(0.2\)</td>
+<td class="l m b1 r0 l0 t0 lines">\(-0.2\)</td>
+<td class="l m b1 r0 l0 t0 lines">\(-0.6\)</td>
+<td class="l m b1 r0 l0 t0 lines">\(-0.12\)</td>
+</tr>
+<tr>
+<td class="l m b1 r0 l0 t0 lines">\(0.4\)</td>
+<td class="l m b1 r0 l0 t0 lines">\(-0.32\)</td>
+<td class="l m b1 r0 l0 t0 lines">\(-0.2\)</td>
+<td class="l m b1 r0 l0 t0 lines">\(-0.04\)</td>
+</tr>
+<tr>
+<td class="l m b1 r0 l0 t0 lines">\(0.6\)</td>
+<td class="l m b1 r0 l0 t0 lines">\(-0.36\)</td>
+<td class="l m b1 r0 l0 t0 lines">\(0.2\)</td>
+<td class="l m b1 r0 l0 t0 lines">\(0.04\)</td>
+</tr>
+<tr>
+<td class="l m b1 r0 l0 t0 lines">\(0.8\)</td>
+<td class="l m b1 r0 l0 t0 lines">\(-0.32\)</td>
+<td class="l m b1 r0 l0 t0 lines">\(0.6\)</td>
+<td class="l m b1 r0 l0 t0 lines">\(0.12\)</td>
+</tr>
+<tr>
+<td class="l m b1 r0 l0 t0 lines">\(1.0\)</td>
+<td class="l m b1 r0 l0 t0 lines">\(-0.2\)</td>
+<td class="l m b1 r0 l0 t0 lines">\(1\)</td>
+<td class="l m b1 r0 l0 t0 lines">\(0.2\)</td>
+</tr>
+</table></div>
+<div class="sbspanel" style="width:47%;justify-content:flex-start;"><img src="images/7_3_Act1_soln.svg" width="100%" style="display: block; margin: 0 auto;" alt=""></div>
+</div></div></li>
+<li id="li-4101"><p id="p-6082">\(y = t^2 - t\text{,}\) with errors \(e_1 = 0.04\text{,}\) \(e_2 = 0.08\text{,}\) \(e_3 = 0.12\text{,}\) \(e_4 = 0.16\text{,}\) \(e_5 = 0.2\text{.}\)</p></li>
+<li id="li-4102">
+<p id="p-6083">If we first think about how \(y_1\) is generated for the initial value problem \(\frac{dy}{dt} = f(t) = 2t-1, \ y(0) = 0\text{,}\) we see that \(y_1 = y_0 + \Delta t \cdot f(t_0)\text{.}\) Since \(y_0 = 0\text{,}\) we have \(y_1 = \Delta t \cdot f(t_0)\text{.}\) From there, we know that \(y_2\) is given by \(y_2 = y_1 + \Delta t f(t_1)\text{.}\) Substituting our earlier result for \(y_1\text{,}\) we see that \(y_2 = \Delta t \cdot f(t_0) + \Delta t f(t_1)\text{.}\) Continuing this process up to \(y_5\text{,}\) we get</p>
+<div class="displaymath">
+\begin{equation*}
+y_5 = \Delta t \cdot f(t_0) + \Delta t f(t_1) + \Delta t f(t_2) + \Delta t f(t_3) + \Delta t f(t_4)
+\end{equation*}
+</div>
+<p>This is precisely the left Riemann sum with five subintervals for the definite integral \(\int_0^1 (2t-1)~dt\text{.}\)</p>
+</li>
+<li id="li-4103"><p id="p-6084">Solutions to this differential equation all differ by only a constant.</p></li>
+</ol></span></div>
+<span class="solution"><a knowl="" class="id-ref" refid="hk-solution-281" id="solution-281"><span class="type">Solution</span></a></span><div id="hk-solution-281" class="hidden-content tex2jax_ignore"><span class="solution"><ol id="p-6085" class="lower-alpha">
+<li id="li-4104">
+<p id="p-6086">Using Euler's Method with \(\Delta t = 0.2\text{,}\) we find the results shown in the table and graph below.</p>
+<div class="sidebyside" id="sidebyside-290"><div class="sbsrow" style="margin-left:1.5%;margin-right:1.5%;">
+<div class="sbspanel fixed-width" style="width:48.4536082474227%;justify-content:flex-start;"><table>
+<tr>
+<td class="l m b2 r0 l0 t1 lines">\(t_i\)</td>
+<td class="l m b2 r0 l0 t1 lines">\(y_i\)</td>
+<td class="l m b2 r0 l0 t1 lines">\(dy/dt\)</td>
+<td class="l m b2 r0 l0 t1 lines">\(\Delta y\)</td>
+</tr>
+<tr>
+<td class="l m b1 r0 l0 t0 lines">\(0\)</td>
+<td class="l m b1 r0 l0 t0 lines">\(0\)</td>
+<td class="l m b1 r0 l0 t0 lines">\(-1\)</td>
+<td class="l m b1 r0 l0 t0 lines">\(-0.2\)</td>
+</tr>
+<tr>
+<td class="l m b1 r0 l0 t0 lines">\(0.2\)</td>
+<td class="l m b1 r0 l0 t0 lines">\(-0.2\)</td>
+<td class="l m b1 r0 l0 t0 lines">\(-0.6\)</td>
+<td class="l m b1 r0 l0 t0 lines">\(-0.12\)</td>
+</tr>
+<tr>
+<td class="l m b1 r0 l0 t0 lines">\(0.4\)</td>
+<td class="l m b1 r0 l0 t0 lines">\(-0.32\)</td>
+<td class="l m b1 r0 l0 t0 lines">\(-0.2\)</td>
+<td class="l m b1 r0 l0 t0 lines">\(-0.04\)</td>
+</tr>
+<tr>
+<td class="l m b1 r0 l0 t0 lines">\(0.6\)</td>
+<td class="l m b1 r0 l0 t0 lines">\(-0.36\)</td>
+<td class="l m b1 r0 l0 t0 lines">\(0.2\)</td>
+<td class="l m b1 r0 l0 t0 lines">\(0.04\)</td>
+</tr>
+<tr>
+<td class="l m b1 r0 l0 t0 lines">\(0.8\)</td>
+<td class="l m b1 r0 l0 t0 lines">\(-0.32\)</td>
+<td class="l m b1 r0 l0 t0 lines">\(0.6\)</td>
+<td class="l m b1 r0 l0 t0 lines">\(0.12\)</td>
+</tr>
+<tr>
+<td class="l m b1 r0 l0 t0 lines">\(1.0\)</td>
+<td class="l m b1 r0 l0 t0 lines">\(-0.2\)</td>
+<td class="l m b1 r0 l0 t0 lines">\(1\)</td>
+<td class="l m b1 r0 l0 t0 lines">\(0.2\)</td>
+</tr>
+</table></div>
+<div class="sbspanel" style="width:48.4536082474227%;justify-content:flex-start;"><img src="images/7_3_Act1_soln.svg" width="100%" style="display: block; margin: 0 auto;" alt=""></div>
+</div></div>
+</li>
+<li id="li-4105"><p id="p-6087">The exact solution to the initial value problem \(\frac{dy}{dt} = 2t-1, \ y(0) = 0\) is \(y = t^2 - t\text{,}\) which we find by integrating both sides with respect to \(t\) and then applying the fact that \(y(0) = 0\) to determine that the integration constant is \(0\text{.}\) From here, we can see that the errors are \(e_1 = y(0.2) - y_1 = 0.04\text{,}\) \(e_2 = y(0.4) - y_2 = 0.08\text{,}\) \(e_3 = y(0.6) - y_3 = 0.12\text{,}\) \(e_4 = y(0.8) - y_4 = 0.16\text{,}\) \(e_5 = y(1.0) - y_5 = 0.2\text{.}\)</p></li>
+<li id="li-4106">
+<p id="p-6088">If we first think about how \(y_1\) is generated for the initial value problem \(\frac{dy}{dt} = f(t) = 2t-1, \ y(0) = 0\text{,}\) we see that \(y_1 = y_0 + \Delta t \cdot f(t_0)\text{.}\) Since \(y_0 = 0\text{,}\) we have \(y_1 = \Delta t \cdot f(t_0)\text{.}\) From there, we know that \(y_2\) is given by \(y_2 = y_1 + \Delta t f(t_1)\text{.}\) Substituting our earlier result for \(y_1\text{,}\) we see that \(y_2 = \Delta t \cdot f(t_0) + \Delta t f(t_1)\text{.}\) Continuing this process up to \(y_5\text{,}\) we get</p>
+<div class="displaymath">
+\begin{equation*}
+y_5 = \Delta t \cdot f(t_0) + \Delta t f(t_1) + \Delta t f(t_2) + \Delta t f(t_3) + \Delta t f(t_4)
+\end{equation*}
+</div>
+<p>This is precisely the left Riemann sum with five subintervals for the definite integral \(\int_0^1 (2t-1)~dt\text{.}\)</p>
+</li>
+<li id="li-4107"><p id="p-6089">Since \(\frac{dy}{dt} = 2t-1\text{,}\) the slope of the tangent line depends only on \(t\text{.}\) Thus, the different initial condition of \(y(0) = 1\) simply adds \(1\) to every value of \(y_i\) in our computations, which shifts every point we compute by Euler's Method up by 1 unit. This tells us that the solutions to this differential equation all differ by only a constant. We can see that both in our computations with Euler's Method and if we solve the differential equation to get \(y = t^2 - t + C\text{.}\)</p></li>
+</ol></span></div>
+</div></article><article class="example-like" id="act-7-3-2"><h6 class="heading">
+<span class="type">Activity</span><span class="codenumber">7.10</span>
+</h6>
+<p id="p-6090">Consider the differential equation \(\frac{dy}{dt} = 6y-y^2\text{.}\) </p>
+<ol class="lower-alpha">
+<li id="li-4108">
+<p id="p-6091">Sketch the slope field for this differential equation on the axes provided in <a knowl="./knowl/F-7-3-act-2-grid.html" knowl-id="xref-F-7-3-act-2-grid" alt="Figure 7.26 " title="Figure 7.26 ">Figure 7.26</a>.</p>
+<figure class="figure-like" id="F-7-3-act-2-grid"><img src="images/7_3_slopefield.svg" width="50%" style="display: block; margin: 0 auto;" alt=""><figcaption><span class="type">Figure</span><span class="codenumber">7.26</span>Grid for plotting the slope field of the given differential equation.</figcaption></figure>
+</li>
+<li id="li-4109"><p id="p-6092">Identify any equilibrium solutions and determine whether they are stable or unstable.</p></li>
+<li id="li-4110"><p id="p-6093">What is the long-term behavior of the solution that satisfies the initial value \(y(0) = 1\text{?}\)</p></li>
+<li id="li-4111">
+<p id="p-6094">Using the initial value \(y(0) = 1\text{,}\) use Euler's method with \(\Delta t = 0.2\) to approximate the solution at \(t_i = 0.2, 0.4, 0.6, 0.8\text{,}\) and \(1.0\text{.}\) Record your results in <a knowl="./knowl/T-7-3-act-2.html" knowl-id="xref-T-7-3-act-2" alt="Table 7.27 " title="Table 7.27 ">Table 7.27</a> and sketch the corresponding points \((t_i, y_i)\) on the axes provided in <a knowl="./knowl/F-7-3-act-2.html" knowl-id="xref-F-7-3-act-2" alt="Figure 7.28 " title="Figure 7.28 ">Figure 7.28</a>. Note the different horizontal scale on the axes in <a knowl="./knowl/F-7-3-act-2.html" knowl-id="xref-F-7-3-act-2" alt="Figure 7.28 " title="Figure 7.28 ">Figure 7.28</a> compared to <a knowl="./knowl/F-7-3-act-2-grid.html" knowl-id="xref-F-7-3-act-2-grid" alt="Figure 7.26 " title="Figure 7.26 ">Figure 7.26</a>.</p>
+<div class="sidebyside" id="sidebyside-291">
+<div class="sbsrow" style="margin-left:0%;margin-right:0%;">
+<div class="sbspanel fixed-width" style="width:47%;justify-content:flex-start;"><table>
+<tr>
+<td class="l m b2 r0 l0 t1 lines">\(t_i\)</td>
+<td class="l m b2 r0 l0 t1 lines">\(y_i\)</td>
+<td class="l m b2 r0 l0 t1 lines">\(dy/dt\)</td>
+<td class="l m b2 r0 l0 t1 lines">\(\Delta y\)</td>
+</tr>
+<tr>
+<td class="l m b1 r0 l0 t0 lines">\(0.0\)</td>
+<td class="l m b1 r0 l0 t0 lines">\(1.0000\)</td>
+<td class="l m b1 r0 l0 t0 lines"></td>
+<td class="l m b1 r0 l0 t0 lines"></td>
+</tr>
+<tr>
+<td class="l m b1 r0 l0 t0 lines">\(0.2\)</td>
+<td class="l m b1 r0 l0 t0 lines"></td>
+<td class="l m b1 r0 l0 t0 lines"></td>
+<td class="l m b1 r0 l0 t0 lines"></td>
+</tr>
+<tr>
+<td class="l m b1 r0 l0 t0 lines">\(0.4\)</td>
+<td class="l m b1 r0 l0 t0 lines"></td>
+<td class="l m b1 r0 l0 t0 lines"></td>
+<td class="l m b1 r0 l0 t0 lines"></td>
+</tr>
+<tr>
+<td class="l m b1 r0 l0 t0 lines">\(0.6\)</td>
+<td class="l m b1 r0 l0 t0 lines"></td>
+<td class="l m b1 r0 l0 t0 lines"></td>
+<td class="l m b1 r0 l0 t0 lines"></td>
+</tr>
+<tr>
+<td class="l m b1 r0 l0 t0 lines">\(0.8\)</td>
+<td class="l m b1 r0 l0 t0 lines"></td>
+<td class="l m b1 r0 l0 t0 lines"></td>
+<td class="l m b1 r0 l0 t0 lines"></td>
+</tr>
+<tr>
+<td class="l m b1 r0 l0 t0 lines">\(1.0\)</td>
+<td class="l m b1 r0 l0 t0 lines"></td>
+<td class="l m b1 r0 l0 t0 lines"></td>
+<td class="l m b1 r0 l0 t0 lines"></td>
+</tr>
+</table></div>
+<div class="sbspanel" style="width:47%;justify-content:flex-start;"><img src="images/7_3_euler_empty_2.svg" width="100%" style="display: block; margin: 0 auto;" alt=""></div>
+</div>
+<div class="sbsrow" style="margin-left:0%;margin-right:0%;">
+<figcaption class="sbscaption" style="width:47%;"><span class="type">Table</span><span class="codenumber">7.27</span>Table for recording results of Euler's method with \(\Delta t = 0.2\text{.}\)</figcaption><figcaption class="sbscaption" style="width:47%;"><span class="type">Figure</span><span class="codenumber">7.28</span>Axes for plotting the results of Euler's method.</figcaption>
+</div>
+</div>
+</li>
+<li id="li-4112"><p id="p-6095">What happens if we apply Euler's method to approximate the solution with \(y(0) = 6\text{?}\)</p></li>
+</ol>
+<div class="solutions">
+<span class="solution"><a knowl="" class="id-ref" refid="hk-hint-110" id="hint-110"><span class="type">Hint</span></a></span><div id="hk-hint-110" class="hidden-content tex2jax_ignore"><span class="solution"><ol id="p-6096" class="lower-alpha"><li id="li-4113"><p id="p-6097">Small hints for each of the prompts above.</p></li></ol></span></div>
+<span class="solution"><a knowl="" class="id-ref" refid="hk-answer-249" id="answer-249"><span class="type">Answer</span></a></span><div id="hk-answer-249" class="hidden-content tex2jax_ignore"><span class="solution"><ol id="p-6098" class="lower-alpha">
+<li id="li-4114"><div class="sidebyside" id="sidebyside-292"><div class="sbsrow" style="margin-left:25%;margin-right:25%;"><div class="sbspanel" style="width:100%;justify-content:flex-start;"><img src="images/7_3_Act2_slope_field_soln.svg" width="100%" style="display: block; margin: 0 auto;" alt=""></div></div></div></li>
+<li id="li-4115"><p id="p-6099">\(y = 0\) or \(y = 6\text{.}\)</p></li>
+<li id="li-4116"><p id="p-6100">The solution will tend to \(y = 6\text{.}\)</p></li>
+<li id="li-4117"><div class="sidebyside" id="sidebyside-293"><div class="sbsrow" style="margin-left:0%;margin-right:0%;">
+<div class="sbspanel fixed-width" style="width:47%;justify-content:flex-start;"><table>
+<tr>
+<td class="l m b2 r0 l0 t1 lines">\(t_i\)</td>
+<td class="l m b2 r0 l0 t1 lines">\(y_i\)</td>
+<td class="l m b2 r0 l0 t1 lines">\(dy/dt\)</td>
+<td class="l m b2 r0 l0 t1 lines">\(\Delta y\)</td>
+</tr>
+<tr>
+<td class="l m b1 r0 l0 t0 lines">\(0.0\)</td>
+<td class="l m b1 r0 l0 t0 lines">\(1.0000\)</td>
+<td class="l m b1 r0 l0 t0 lines">\(5.0000\)</td>
+<td class="l m b1 r0 l0 t0 lines">\(1.0000\)</td>
+</tr>
+<tr>
+<td class="l m b1 r0 l0 t0 lines">\(0.2\)</td>
+<td class="l m b1 r0 l0 t0 lines">\(2.0000\)</td>
+<td class="l m b1 r0 l0 t0 lines">\(8.0000\)</td>
+<td class="l m b1 r0 l0 t0 lines">\(1.6000\)</td>
+</tr>
+<tr>
+<td class="l m b1 r0 l0 t0 lines">\(0.4\)</td>
+<td class="l m b1 r0 l0 t0 lines">\(3.6000\)</td>
+<td class="l m b1 r0 l0 t0 lines">\(8.6400\)</td>
+<td class="l m b1 r0 l0 t0 lines">\(1.7280\)</td>
+</tr>
+<tr>
+<td class="l m b1 r0 l0 t0 lines">\(0.6\)</td>
+<td class="l m b1 r0 l0 t0 lines">\(5.3280\)</td>
+<td class="l m b1 r0 l0 t0 lines">\(3.5804\)</td>
+<td class="l m b1 r0 l0 t0 lines">\(0.7161\)</td>
+</tr>
+<tr>
+<td class="l m b1 r0 l0 t0 lines">\(0.8\)</td>
+<td class="l m b1 r0 l0 t0 lines">\(6.0441\)</td>
+<td class="l m b1 r0 l0 t0 lines">\(-0.2664\)</td>
+<td class="l m b1 r0 l0 t0 lines">\(-0.0533\)</td>
+</tr>
+<tr>
+<td class="l m b1 r0 l0 t0 lines">\(1.0\)</td>
+<td class="l m b1 r0 l0 t0 lines">\(5.9908\)</td>
+<td class="l m b1 r0 l0 t0 lines">\(0.0551\)</td>
+<td class="l m b1 r0 l0 t0 lines">\(0.0110\)</td>
+</tr>
+</table></div>
+<div class="sbspanel" style="width:47%;justify-content:flex-start;"><img src="images/7_3_Act2_euler_soln.svg" width="100%" style="display: block; margin: 0 auto;" alt=""></div>
+</div></div></li>
+<li id="li-4118"><p id="p-6101">The value of \(y_i = 6\) for every value of \(i\text{.}\)</p></li>
+</ol></span></div>
+<span class="solution"><a knowl="" class="id-ref" refid="hk-solution-282" id="solution-282"><span class="type">Solution</span></a></span><div id="hk-solution-282" class="hidden-content tex2jax_ignore"><span class="solution"><ol id="p-6102" class="lower-alpha">
+<li id="li-4119">
+<p id="p-6103">The slope field for this differential equation is shown in the following figure.</p>
+<div class="sidebyside" id="sidebyside-294"><div class="sbsrow" style="margin-left:25%;margin-right:25%;"><div class="sbspanel" style="width:100%;justify-content:flex-start;"><img src="images/7_3_Act2_slope_field_soln.svg" width="100%" style="display: block; margin: 0 auto;" alt=""></div></div></div>
+</li>
+<li id="li-4120"><p id="p-6104">If \(y\) is an equilibrium solution, then \(y\) is constant so \(\frac{dy}{dt} = 0\text{.}\) Solving \(0 = 6y - y^2\text{,}\) we see that either \(y = 0\) or \(y = 6\text{,}\) which is also consistent with what we see in the slope field.</p></li>
+<li id="li-4121"><p id="p-6105">The long-term behavior of the solution that satisfies the initial value \(y(0) = 1\) is that the solution will tend to \(y = 6\text{.}\)</p></li>
+<li id="li-4122">
+<p id="p-6106">Using Euler's method with \(\Delta t = 0.2\text{,}\) we approximate the solution of the IVP at \(t_i = 0.2, 0.4, 0.6, 0.8\text{,}\) and \(1.0\) as shown in the following table and figure. We see that our estimates actually jump slightly above the equilibrium solution before being pulled back down.</p>
+<div class="sidebyside" id="sidebyside-295"><div class="sbsrow" style="margin-left:0%;margin-right:0%;">
+<div class="sbspanel fixed-width" style="width:47%;justify-content:flex-start;"><table>
+<tr>
+<td class="l m b2 r0 l0 t1 lines">\(t_i\)</td>
+<td class="l m b2 r0 l0 t1 lines">\(y_i\)</td>
+<td class="l m b2 r0 l0 t1 lines">\(dy/dt\)</td>
+<td class="l m b2 r0 l0 t1 lines">\(\Delta y\)</td>
+</tr>
+<tr>
+<td class="l m b1 r0 l0 t0 lines">\(0.0\)</td>
+<td class="l m b1 r0 l0 t0 lines">\(1.0000\)</td>
+<td class="l m b1 r0 l0 t0 lines">\(5.0000\)</td>
+<td class="l m b1 r0 l0 t0 lines">\(1.0000\)</td>
+</tr>
+<tr>
+<td class="l m b1 r0 l0 t0 lines">\(0.2\)</td>
+<td class="l m b1 r0 l0 t0 lines">\(2.0000\)</td>
+<td class="l m b1 r0 l0 t0 lines">\(8.0000\)</td>
+<td class="l m b1 r0 l0 t0 lines">\(1.6000\)</td>
+</tr>
+<tr>
+<td class="l m b1 r0 l0 t0 lines">\(0.4\)</td>
+<td class="l m b1 r0 l0 t0 lines">\(3.6000\)</td>
+<td class="l m b1 r0 l0 t0 lines">\(8.6400\)</td>
+<td class="l m b1 r0 l0 t0 lines">\(1.7280\)</td>
+</tr>
+<tr>
+<td class="l m b1 r0 l0 t0 lines">\(0.6\)</td>
+<td class="l m b1 r0 l0 t0 lines">\(5.3280\)</td>
+<td class="l m b1 r0 l0 t0 lines">\(3.5804\)</td>
+<td class="l m b1 r0 l0 t0 lines">\(0.7161\)</td>
+</tr>
+<tr>
+<td class="l m b1 r0 l0 t0 lines">\(0.8\)</td>
+<td class="l m b1 r0 l0 t0 lines">\(6.0441\)</td>
+<td class="l m b1 r0 l0 t0 lines">\(-0.2664\)</td>
+<td class="l m b1 r0 l0 t0 lines">\(-0.0533\)</td>
+</tr>
+<tr>
+<td class="l m b1 r0 l0 t0 lines">\(1.0\)</td>
+<td class="l m b1 r0 l0 t0 lines">\(5.9908\)</td>
+<td class="l m b1 r0 l0 t0 lines">\(0.0551\)</td>
+<td class="l m b1 r0 l0 t0 lines">\(0.0110\)</td>
+</tr>
+</table></div>
+<div class="sbspanel" style="width:47%;justify-content:flex-start;"><img src="images/7_3_Act2_euler_soln.svg" width="100%" style="display: block; margin: 0 auto;" alt=""></div>
+</div></div>
+</li>
+<li id="li-4123"><p id="p-6107">If we apply Euler's method to approximate the solution with \(y(0) = 6\text{,}\) the value of \(y_i = 6\) for every value of \(i\) since \(y=6\) is an equilibrium solution and the slope of the tangent line will always be \(0\text{.}\)</p></li>
+</ol></span></div>
+</div></article></section><section class="subsection" id="subsection-134"><h3 class="heading hide-type" alt="Subsection  The error in Euler's method">
+<span class="type">Subsection</span><span class="codenumber"></span><span class="title">The error in Euler's method</span>
+</h3>
+<p id="p-6108">Since we are approximating the solutions to an initial value problem using tangent lines, we should expect that the error in the approximation will be smaller when the step size is smaller. Consider the initial value problem</p>
+<div class="displaymath">
+\begin{equation*}
+\frac{dy}{dt} = y, \ y(0) = 1\text{,}
+\end{equation*}
+</div>
+<p>whose solution we can easily find.</p>
+<p id="p-6109">The question posed by this initial value problem is “what function do we know that is the same as its own derivative and has value 1 when \(t=0\text{?}\)” It is not hard to see that the solution is \(y(t) = e^t\text{.}\) We now apply Euler's method to approximate \(y(1) = e\) using several values of \(\Delta t\text{.}\) These approximations will be denoted by \(E_{\Delta t}\text{,}\) and we'll use them to see how accurate Euler's Method is.</p>
+<p id="p-6110">To begin, we apply Euler's method with a step size of \(\Delta t =
+0.2\text{.}\) In that case, we find that \(y(1) \approx E_{0.2} = 2.4883\text{.}\) The error is therefore</p>
+<div class="displaymath">
+\begin{equation*}
+y(1) - E_{0.2} = e - 2.4883 \approx 0.2300\text{.}
+\end{equation*}
+</div>
+<p id="p-6111">Repeatedly halving \(\Delta t\) gives the following results, expressed in both tabular and graphical form.</p>
+<div class="sidebyside" id="sidebyside-296">
+<div class="sbsrow" style="margin-left:0%;margin-right:0%;">
+<div class="sbspanel fixed-width" style="width:47%;justify-content:flex-start;"><table>
+<tr>
+<td class="l m b1 r0 l0 t1 lines">\(\Delta t\)</td>
+<td class="l m b1 r0 l0 t1 lines">\(E_{\Delta t}\)</td>
+<td class="l m b1 r0 l0 t1 lines">Error</td>
+</tr>
+<tr>
+<td class="l m b0 r0 l0 t0 lines">\(0.200\)</td>
+<td class="l m b0 r0 l0 t0 lines">\(2.4883\)</td>
+<td class="l m b0 r0 l0 t0 lines">\(0.2300\)</td>
+</tr>
+<tr>
+<td class="l m b0 r0 l0 t0 lines">\(0.100\)</td>
+<td class="l m b0 r0 l0 t0 lines">\(2.5937\)</td>
+<td class="l m b0 r0 l0 t0 lines">\(0.1245\)</td>
+</tr>
+<tr>
+<td class="l m b0 r0 l0 t0 lines">\(0.050\)</td>
+<td class="l m b0 r0 l0 t0 lines">\(2.6533\)</td>
+<td class="l m b0 r0 l0 t0 lines">\(0.0650\)</td>
+</tr>
+<tr>
+<td class="l m b1 r0 l0 t0 lines">\(0.025\)</td>
+<td class="l m b1 r0 l0 t0 lines">\(2.6851\)</td>
+<td class="l m b1 r0 l0 t0 lines">\(0.0332\)</td>
+</tr>
+</table></div>
+<div class="sbspanel" style="width:47%;justify-content:flex-start;"><img src="images/7_3_error.svg" width="100%" style="display: block; margin: 0 auto;" alt=""></div>
+</div>
+<div class="sbsrow" style="margin-left:0%;margin-right:0%;">
+<figcaption class="sbscaption" style="width:47%;"><span class="type">Table</span><span class="codenumber">7.29</span>Errors that correspond to different \(\Delta t\) values.</figcaption><figcaption class="sbscaption" style="width:47%;"><span class="type">Figure</span><span class="codenumber">7.30</span>A plot of the error as a function of \(\Delta t\text{.}\)</figcaption>
+</div>
+</div>
+<p id="p-6112">Notice, both numerically and graphically, that the error is roughly halved when \(\Delta t\) is halved. This example illustrates the following general principle.</p>
+<p id="p-6113">If Euler's method is used to approximate the solution to an initial value problem at a point \(\overline{t}\text{,}\) then the error is proportional to \(\Delta t\text{.}\) That is,</p>
+<div class="displaymath">
+\begin{equation*}
+y(\overline{t}) - E_{\Delta t} \approx K\Delta t
+\end{equation*}
+</div>
+<p>for some constant of proportionality \(K\text{.}\)</p></section><section class="subsection" id="subsection-135"><h3 class="heading hide-type" alt="Subsection  Summary">
+<span class="type">Subsection</span><span class="codenumber"></span><span class="title">Summary</span>
+</h3>
+<ul id="p-6114" class="disc">
+<li id="li-4124"><p id="p-6115">Euler's method is an algorithm for approximating the solution to an initial value problem by following the tangent lines while we take horizontal steps across the \(t\)-axis.</p></li>
+<li id="li-4125"><p id="p-6116">If we wish to approximate \(y(\overline{t})\) for some fixed \(\overline{t}\) by taking horizontal steps of size \(\Delta t\text{,}\) then the error in our approximation is proportional to \(\Delta t\text{.}\)</p></li>
+</ul></section><section class="exercises" id="ez-7-3"><h3 class="heading hide-type" alt="Exercises  Exercises">
+<span class="type">Subsection</span><span class="codenumber"></span><span class="title">Exercises</span>
+</h3>
+<a href="sec-7-3-euler.html#ez-7-3" class="permalink">¶</a><article class="exercise-like" id="ez-7-3-WW1"><h6 class="heading">
+<span class="codenumber">1</span><span class="title">A few steps of Euler's method</span>
+</h6>
+<span class="heading"><a knowl="./knowl/webwork-183-hidden.html" knowl-id="hidden-webwork-183" alt="WeBWorK  " title="WeBWorK  ">WeBWorK Exercise</a></span><div id="hk-webwork-183" class="hidden-content tex2jax_ignore">
+<!--use 'format=debug' on 'webwork' tag to debug problem--><iframe width="100%" src="https://math-webwork2.unl.edu//webwork2/html2xml?&amp;answersSubmitted=0&amp;sourceFilePath=Library/Michigan/Chap11Sec3/Q01.pg&amp;problemSeed=123567890&amp;displayMode=MathJax&amp;courseID=OERSystem&amp;userID=anonymous&amp;course_password=anonymous&amp;outputformat=simple"></iframe><script type="text/javascript">iFrameResize({log:true,inPageLinks:true,resizeFrom:'child',checkOrigin:'False'</script>
+</div></article><article class="exercise-like" id="ez-7-3-WW2"><h6 class="heading">
+<span class="codenumber">2</span><span class="title">Using Euler's method for a solution of \(y'=4y\)</span>
+</h6>
+<span class="heading"><a knowl="./knowl/webwork-184-hidden.html" knowl-id="hidden-webwork-184" alt="WeBWorK  " title="WeBWorK  ">WeBWorK Exercise</a></span><div id="hk-webwork-184" class="hidden-content tex2jax_ignore">
+<!--use 'format=debug' on 'webwork' tag to debug problem--><iframe width="100%" src="https://math-webwork2.unl.edu//webwork2/html2xml?&amp;answersSubmitted=0&amp;sourceFilePath=Library/Michigan/Chap11Sec3/Q03.pg&amp;problemSeed=123567890&amp;displayMode=MathJax&amp;courseID=OERSystem&amp;userID=anonymous&amp;course_password=anonymous&amp;outputformat=simple"></iframe><script type="text/javascript">iFrameResize({log:true,inPageLinks:true,resizeFrom:'child',checkOrigin:'False'</script>
+</div></article><article class="exercise-like" id="ez-7-3-WW3"><h6 class="heading">
+<span class="codenumber">3</span><span class="title">Using Euler's method with different time steps</span>
+</h6>
+<span class="heading"><a knowl="./knowl/webwork-185-hidden.html" knowl-id="hidden-webwork-185" alt="WeBWorK  " title="WeBWorK  ">WeBWorK Exercise</a></span><div id="hk-webwork-185" class="hidden-content tex2jax_ignore">
+<!--use 'format=debug' on 'webwork' tag to debug problem--><iframe width="100%" src="https://math-webwork2.unl.edu//webwork2/html2xml?&amp;answersSubmitted=0&amp;sourceFilePath=Library/Michigan/Chap11Sec3/Q09.pg&amp;problemSeed=123567890&amp;displayMode=MathJax&amp;courseID=OERSystem&amp;userID=anonymous&amp;course_password=anonymous&amp;outputformat=simple"></iframe><script type="text/javascript">iFrameResize({log:true,inPageLinks:true,resizeFrom:'child',checkOrigin:'False'</script>
+</div></article><article class="exercise-like" id="exercise-313"><h6 class="heading"><span class="codenumber">4</span></h6>
+<p id="p-6117">Newton's Law of Cooling says that the rate at which an object, such as a cup of coffee, cools is proportional to the difference in the object's temperature and room temperature. If \(T(t)\) is the object's temperature and \(T_r\) is room temperature, this law is expressed at</p>
+<div class="displaymath">
+\begin{equation*}
+\frac{dT}{dt} = -k(T-T_r)\text{,}
+\end{equation*}
+</div>
+<p>where \(k\) is a constant of proportionality. In this problem, temperature is measured in degrees Fahrenheit and time in minutes. </p>
+<ol class="lower-alpha">
+<li id="li-4126"><p id="p-6118">Two calculus students, Alice and Bob, enter a 70\(^\circ\) classroom at the same time. Each has a cup of coffee that is 100\(^\circ\text{.}\) The differential equation for Alice has a constant of proportionality \(k=0.5\text{,}\) while the constant of proportionality for Bob is \(k=0.1\text{.}\) What is the initial rate of change for Alice's coffee? What is the initial rate of change for Bob's coffee?</p></li>
+<li id="li-4127"><p id="p-6119">What feature of Alice's and Bob's cups of coffee could explain this difference?</p></li>
+<li id="li-4128">
+<p id="p-6120">As the heating unit turns on and off in the room, the temperature in the room is</p>
+<div class="displaymath">
+\begin{equation*}
+T_r=70+10\sin t\text{.}
+\end{equation*}
+</div>
+<p>Implement Euler's method with a step size of \(\Delta t = 0.1\) to approximate the temperature of Alice's coffee over the time interval \(0\leq t\leq
+50\text{.}\) This will most easily be performed using a spreadsheet such as <em class="emphasis">Excel</em>. Graph the temperature of her coffee and room temperature over this interval.</p>
+</li>
+<li id="li-4129"><p id="p-6121">In the same way, implement Euler's method to approximate the temperature of Bob's coffee over the same time interval. Graph the temperature of his coffee and room temperature over the interval.</p></li>
+<li id="li-4130"><p id="p-6122">Explain the similarities and differences that you see in the behavior of Alice's and Bob's cups of coffee.</p></li>
+</ol></article><article class="exercise-like" id="exercise-314"><h6 class="heading"><span class="codenumber">5</span></h6>
+<p id="p-6135">We have seen that the error in approximating the solution to an initial value problem is proportional to \(\Delta t\text{.}\) That is, if \(E_{\Delta t}\) is the Euler's method approximation to the solution to an initial value problem at \(\overline{t}\text{,}\) then</p>
+<div class="displaymath">
+\begin{equation*}
+y(\overline{t})-E_{\Delta t} \approx K\Delta t
+\end{equation*}
+</div>
+<p>for some constant of proportionality \(K\text{.}\)</p>
+<p id="p-6136">In this problem, we will see how to use this fact to improve our estimates, using an idea called <em class="emphasis">accelerated convergence</em>. </p>
+<ol class="lower-alpha">
+<li id="li-4141">
+<p id="p-6137">We will create a new approximation by assuming the error is <em class="emphasis">exactly</em> proportional to \(\Delta t\text{,}\) according to the formula</p>
+<div class="displaymath">
+\begin{equation*}
+y(\overline{t})-E_{\Delta t} =K\Delta t\text{.}
+\end{equation*}
+</div>
+<p>Using our earlier results from the initial value problem \(dy/dt = y\) and \(y(0)=1\) with \(\Delta t = 0.2\) and \(\Delta t = 0.1\text{,}\) we have</p>
+<div class="displaymath">
+\begin{align*}
+y(1) - 2.4883 =\mathstrut \amp  0.2K\\
+y(1) - 2.5937 =\mathstrut \amp  0.1K\text{.}
+\end{align*}
+</div>
+<p>This is a system of two linear equations in the unknowns \(y(1)\) and \(K\text{.}\) Solve this system to find a new approximation for \(y(1)\text{.}\)  (You may remember that the exact value is \(y(1) = e =
+2.71828\ldots\text{.}\))</p>
+</li>
+<li id="li-4142"><p id="p-6138">Use the other data, \(E_{0.05} = 2.6533\) and \(E_{0.025} = 2.6851\) to do similar work as in (a) to obtain another approximation. Which gives the better approximation? Why do you think this is?</p></li>
+<li id="li-4143">
+<p id="p-6139">Let's now study the initial value problem</p>
+<div class="displaymath">
+\begin{equation*}
+\frac{dy}{dt} = t-y, \ y(0) = 0\text{.}
+\end{equation*}
+</div>
+<p>Approximate \(y(0.3)\) by applying Euler's method to find approximations \(E_{0.1}\) and \(E_{0.05}\text{.}\) Now use the idea of accelerated convergence to obtain a better approximation.  (For the sake of comparison, you want to  note that the actual value is \(y(0.3) =
+0.0408\text{.}\))</p>
+</li>
+</ol></article><article class="exercise-like" id="exercise-315"><h6 class="heading"><span class="codenumber">6</span></h6>
+<p id="p-6148">In this problem, we'll modify Euler's method to obtain better approximations to solutions of initial value problems. This method is called the <em class="emphasis">Improved Euler's method.</em></p>
+<p id="p-6149">In Euler's method, we walk across an interval of width \(\Delta t\) using the slope obtained from the differential equation at the left endpoint of the interval. Of course, the slope of the solution will most likely change over this interval. We can improve our approximation by trying to incorporate the change in the slope over the interval.</p>
+<p id="p-6150">Let's again consider the initial value problem \(dy/dt = y\) and \(y(0) = 1\text{,}\) which we will approximate using steps of width \(\Delta t = 0.2\text{.}\) Our first interval is therefore \(0\leq t \leq 0.2\text{.}\) At \(t=0\text{,}\) the differential equation tells us that the slope is 1, and the approximation we obtain from Euler's method is that \(y(0.2)\approx y_1= 1+ 1(0.2)= 1.2\text{.}\)</p>
+<p id="p-6151">This gives us some idea for how the slope has changed over the interval \(0\leq t\leq 0.2\text{.}\) We know the slope at \(t=0\) is 1, while the slope at \(t=0.2\) is 1.2, trusting in the Euler's method approximation. We will therefore refine our estimate of the initial slope to be the average of these two slopes; that is, we will estimate the slope to be \((1+1.2)/2 = 1.1\text{.}\) This gives the new approximation \(y(1) = y_1 = 1 + 1.1(0.2) = 1.22\text{.}\)</p>
+<p id="p-6152">The first few steps look like what is found in <a knowl="./knowl/T-7-3-ez-3.html" knowl-id="xref-T-7-3-ez-3" alt="Table 7.31 " title="Table 7.31 ">Table 7.31</a>.</p>
+<figure class="figure-like" id="T-7-3-ez-3"><table>
+<tr>
+<td class="l m b1 r0 l0 t1 lines">\(t_i\)</td>
+<td class="l m b1 r0 l0 t1 lines">\(y_i\)</td>
+<td class="l m b1 r0 l0 t1 lines">Slope at \((t_{i+1},y_{i+1})\)</td>
+<td class="l m b1 r0 l0 t1 lines">Average slope</td>
+</tr>
+<tr>
+<td class="l m b0 r0 l0 t0 lines">\(0.0\)</td>
+<td class="l m b0 r0 l0 t0 lines">\(1.0000\)</td>
+<td class="l m b0 r0 l0 t0 lines">\(1.2000\)</td>
+<td class="l m b0 r0 l0 t0 lines">\(1.1000\)</td>
+</tr>
+<tr>
+<td class="l m b0 r0 l0 t0 lines">\(0.2\)</td>
+<td class="l m b0 r0 l0 t0 lines">\(1.2200\)</td>
+<td class="l m b0 r0 l0 t0 lines">\(1.4640\)</td>
+<td class="l m b0 r0 l0 t0 lines">\(1.3420\)</td>
+</tr>
+<tr>
+<td class="l m b0 r0 l0 t0 lines">\(0.4\)</td>
+<td class="l m b0 r0 l0 t0 lines">\(1.4884\)</td>
+<td class="l m b0 r0 l0 t0 lines">\(1.7861\)</td>
+<td class="l m b0 r0 l0 t0 lines">\(1.6372\)</td>
+</tr>
+<tr>
+<td class="l m b1 r0 l0 t0 lines">\(\vdots\)</td>
+<td class="l m b1 r0 l0 t0 lines">\(\vdots\)</td>
+<td class="l m b1 r0 l0 t0 lines">\(\vdots\)</td>
+<td class="l m b1 r0 l0 t0 lines">\(\vdots\)</td>
+</tr>
+</table>
+<figcaption><span class="type">Table</span><span class="codenumber">7.31</span>The first several steps of the improved Euler's method</figcaption></figure><ol id="p-6153" class="lower-alpha">
+<li id="li-4150"><p id="p-6154">Continue with this method to obtain an approximation for \(y(1) = e\text{.}\)</p></li>
+<li id="li-4151"><p id="p-6155">Repeat this method with \(\Delta t = 0.1\) to obtain a better approximation for \(y(1)\text{.}\)</p></li>
+<li id="li-4152"><p id="p-6156">We saw that the error in Euler's method is proportional to \(\Delta t\text{.}\) Using your results from parts (a) and (b), what power of \(\Delta t\) appears to be proportional to the error in the Improved Euler's Method?</p></li>
+</ol></article></section></section></div></main>
+</div>
+</body>
+</html>

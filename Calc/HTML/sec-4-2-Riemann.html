@@ -1,0 +1,633 @@
+<!DOCTYPE html>
+<!--**************************************-->
+<!--*    Generated from PreTeXt source   *-->
+<!--*    on 2019-04-26T11:28:14-05:00    *-->
+<!--*                                    *-->
+<!--*   http://mathbook.pugetsound.edu   *-->
+<!--*                                    *-->
+<!--**************************************-->
+<html lang="en-US">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>AC Riemann Sums</title>
+<meta name="Keywords" content="Authored in PreTeXt">
+<meta name="viewport" content="width=device-width,  initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0">
+<script type="text/javascript" src="https://sagecell.sagemath.org/static/jquery.min.js"></script><script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [['\\(','\\)']],
+    },
+    TeX: {
+        extensions: ["extpfeil.js", "autobold.js", "https://aimath.org/mathbook/mathjaxknowl.js", ],
+        // scrolling to fragment identifiers is controlled by other Javascript
+        positionToHash: false,
+        equationNumbers: { autoNumber: "none", useLabelIds: true, },
+        TagSide: "right",
+        TagIndent: ".8em",
+    },
+    // HTML-CSS output Jax to be dropped for MathJax 3.0
+    "HTML-CSS": {
+        scale: 88,
+        mtextFontInherit: true,
+    },
+    CommonHTML: {
+        scale: 88,
+        mtextFontInherit: true,
+    },
+});
+</script><script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS_CHTML-full"></script><link href="https://math-webwork2.unl.edu//webwork2_files/js/apps/MathView/mathview.css" rel="stylesheet">
+<script type="text/javascript" src="https://math-webwork2.unl.edu//webwork2_files/js/vendor/iframe-resizer/js/iframeResizer.min.js"></script><script>(function() {
+  var cx = '015103900096539427448:ngwuia10qci';
+  var gcse = document.createElement('script');
+  gcse.type = 'text/javascript';
+  gcse.async = true;
+  gcse.src = 'https://cse.google.com/cse.js?cx=' + cx;
+  var s = document.getElementsByTagName('script')[0];
+  s.parentNode.insertBefore(gcse, s);
+})();
+</script><script type="text/javascript" src="https://aimath.org/knowl.js"></script><script src="https://aimath.org/mathbook/js/lib/jquery.sticky.js"></script><script src="https://aimath.org/mathbook/js/lib/jquery.espy.min.js"></script><script src="https://aimath.org/mathbook/js/Mathbook.js"></script><link href="https://fonts.googleapis.com/css?family=Open+Sans:400,400italic,600,600italic" rel="stylesheet" type="text/css">
+<link href="https://fonts.googleapis.com/css?family=Inconsolata:400,700&amp;subset=latin,latin-ext" rel="stylesheet" type="text/css">
+<link href="https://aimath.org/mathbook/stylesheets/mathbook-3.css" rel="stylesheet" type="text/css">
+<link href="https://aimath.org/mathbook/mathbook-add-on.css" rel="stylesheet" type="text/css">
+</head>
+<body class="mathbook-book has-toc has-sidebar-left">
+<a class="assistive" href="#content">Skip to main content</a><div class="hidden-content">\(\newcommand{\dollar}{\$}
+\DeclareMathOperator{\erf}{erf}
+\DeclareMathOperator{\arctanh}{arctanh}
+\newcommand{\lt}{&lt;}
+\newcommand{\gt}{&gt;}
+\newcommand{\amp}{&amp;}
+\)</div>
+<header id="masthead" class="smallbuttons"><div class="banner"><div class="container">
+<div class="searchwrapper"><div class="gcse-search"></div></div>
+<a id="logo-link" href="https://activecalculus.org" target="_blank"><img src="images/ActiveCalculusImage_sm.jpg" alt="Logo image"></a><div class="title-container">
+<h1 class="heading"><a href="index.html"><span class="title">Active Calculus</span></a></h1>
+<p class="byline">Matthew Boelkins</p>
+</div>
+</div></div>
+<nav id="primary-navbar" class="navbar"><div class="container">
+<div class="navbar-top-buttons">
+<button class="sidebar-left-toggle-button button active">Contents</button><div class="tree-nav toolbar toolbar-divisor-3">
+<a class="index-button toolbar-item button" href="index-1.html" title="Index" alt="Index">Index</a><span class="threebuttons"><a id="previousbutton" class="previous-button toolbar-item button" href="sec-4-1-velocity-distance.html" title="Previous" alt="Previous">Prev</a><a id="upbutton" class="up-button button toolbar-item" href="C-4.html" title="Up" alt="Up">Up</a><a id="nextbutton" class="next-button button toolbar-item" href="sec-4-3-definite-integral.html" title="Next" alt="Next">Next</a></span>
+</div>
+<button class="sidebar-right-toggle-button button active">Annotations</button>
+</div>
+<div class="navbar-bottom-buttons toolbar toolbar-divisor-4">
+<button class="sidebar-left-toggle-button button toolbar-item active">Contents</button><a class="previous-button toolbar-item button" href="sec-4-1-velocity-distance.html" title="Previous" alt="Previous">Prev</a><a class="up-button button toolbar-item" href="C-4.html" title="Up" alt="Up">Up</a><a class="next-button button toolbar-item" href="sec-4-3-definite-integral.html" title="Next" alt="Next">Next</a>
+</div>
+</div></nav></header><div class="page">
+<aside id="sidebar-left" class="sidebar"><div class="sidebar-content">
+<nav id="toc"><h2 class="link"><a href="frontmatter.html" data-scroll="frontmatter"><span class="title">Front Matter</span></a></h2>
+<ul>
+<li><a href="colophon-1.html" data-scroll="colophon-1">Colophon</a></li>
+<li><a href="acknowledgement-1.html" data-scroll="acknowledgement-1">Acknowledgements</a></li>
+<li><a href="preface-1.html" data-scroll="preface-1">Contributors</a></li>
+<li><a href="preface-2.html" data-scroll="preface-2">Active Calculus: Our Goals</a></li>
+<li><a href="preface-3.html" data-scroll="preface-3">Features of the Text</a></li>
+<li><a href="preface-4.html" data-scroll="preface-4">How to Use this Text</a></li>
+</ul>
+<h2 class="link"><a href="C-1.html" data-scroll="C-1"><span class="codenumber">1</span><span class="title">Understanding the Derivative</span></a></h2>
+<ul>
+<li><a href="sec-1-1-vel.html" data-scroll="sec-1-1-vel">How do we measure velocity?</a></li>
+<li><a href="sec-1-2-lim.html" data-scroll="sec-1-2-lim">The notion of limit</a></li>
+<li><a href="sec-1-3-derivative-pt.html" data-scroll="sec-1-3-derivative-pt">The derivative of a function at a point</a></li>
+<li><a href="sec-1-4-derivative-fxn.html" data-scroll="sec-1-4-derivative-fxn">The derivative function</a></li>
+<li><a href="sec-1-5-units.html" data-scroll="sec-1-5-units">Interpreting, estimating, and using the derivative</a></li>
+<li><a href="sec-1-6-second-d.html" data-scroll="sec-1-6-second-d">The second derivative</a></li>
+<li><a href="sec-1-7-lim-cont-diff.html" data-scroll="sec-1-7-lim-cont-diff">Limits, Continuity, and Differentiability</a></li>
+<li><a href="sec-1-8-tan-line-approx.html" data-scroll="sec-1-8-tan-line-approx">The Tangent Line Approximation</a></li>
+</ul>
+<h2 class="link"><a href="C-2.html" data-scroll="C-2"><span class="codenumber">2</span><span class="title">Computing Derivatives</span></a></h2>
+<ul>
+<li><a href="sec-2-1-elem-rules.html" data-scroll="sec-2-1-elem-rules">Elementary derivative rules</a></li>
+<li><a href="sec-2-2-sin-cos.html" data-scroll="sec-2-2-sin-cos">The sine and cosine functions</a></li>
+<li><a href="sec-2-3-prod-quot.html" data-scroll="sec-2-3-prod-quot">The product and quotient rules</a></li>
+<li><a href="sec-2-4-other-trig.html" data-scroll="sec-2-4-other-trig">Derivatives of other trigonometric functions</a></li>
+<li><a href="sec-2-5-chain.html" data-scroll="sec-2-5-chain">The chain rule</a></li>
+<li><a href="sec-2-6-inverse.html" data-scroll="sec-2-6-inverse">Derivatives of Inverse Functions</a></li>
+<li><a href="sec-2-7-implicit.html" data-scroll="sec-2-7-implicit">Derivatives of Functions Given Implicitly</a></li>
+<li><a href="sec-2-8-LHR.html" data-scroll="sec-2-8-LHR">Using Derivatives to Evaluate Limits</a></li>
+</ul>
+<h2 class="link"><a href="C-3.html" data-scroll="C-3"><span class="codenumber">3</span><span class="title">Using Derivatives</span></a></h2>
+<ul>
+<li><a href="sec-3-1-tests.html" data-scroll="sec-3-1-tests">Using derivatives to identify extreme values</a></li>
+<li><a href="sec-3-2-families.html" data-scroll="sec-3-2-families">Using derivatives to describe families of functions</a></li>
+<li><a href="sec-3-3-optimization.html" data-scroll="sec-3-3-optimization">Global Optimization</a></li>
+<li><a href="sec-3-4-applied-opt.html" data-scroll="sec-3-4-applied-opt">Applied Optimization</a></li>
+<li><a href="sec-3-5-rel-rates.html" data-scroll="sec-3-5-rel-rates">Related Rates</a></li>
+</ul>
+<h2 class="link active"><a href="C-4.html" data-scroll="C-4"><span class="codenumber">4</span><span class="title">The Definite Integral</span></a></h2>
+<ul>
+<li><a href="sec-4-1-velocity-distance.html" data-scroll="sec-4-1-velocity-distance">Determining distance traveled from velocity</a></li>
+<li><a href="sec-4-2-Riemann.html" data-scroll="sec-4-2-Riemann" class="active">Riemann Sums</a></li>
+<li><a href="sec-4-3-definite-integral.html" data-scroll="sec-4-3-definite-integral">The Definite Integral</a></li>
+<li><a href="sec-4-4-FTC.html" data-scroll="sec-4-4-FTC">The Fundamental Theorem of Calculus</a></li>
+</ul>
+<h2 class="link"><a href="C-5.html" data-scroll="C-5"><span class="codenumber">5</span><span class="title">Evaluating Integrals</span></a></h2>
+<ul>
+<li><a href="sec-5-1-antid-graphs.html" data-scroll="sec-5-1-antid-graphs">Constructing Accurate Graphs of Antiderivatives</a></li>
+<li><a href="sec-5-2-FTC2.html" data-scroll="sec-5-2-FTC2">The Second Fundamental Theorem of Calculus</a></li>
+<li><a href="sec-5-3-substitution.html" data-scroll="sec-5-3-substitution">Integration by Substitution</a></li>
+<li><a href="sec-5-4-parts.html" data-scroll="sec-5-4-parts">Integration by Parts</a></li>
+<li><a href="sec-5-5-other-opt.html" data-scroll="sec-5-5-other-opt">Other Options for Finding Algebraic Antiderivatives</a></li>
+<li><a href="sec-5-6-num-int.html" data-scroll="sec-5-6-num-int">Numerical Integration</a></li>
+</ul>
+<h2 class="link"><a href="C-6.html" data-scroll="C-6"><span class="codenumber">6</span><span class="title">Using Definite Integrals</span></a></h2>
+<ul>
+<li><a href="sec-6-1-area.html" data-scroll="sec-6-1-area">Using Definite Integrals to Find Area and Length</a></li>
+<li><a href="sec-6-2-volume.html" data-scroll="sec-6-2-volume">Using Definite Integrals to Find Volume</a></li>
+<li><a href="sec-6-3-mass.html" data-scroll="sec-6-3-mass">Density, Mass, and Center of Mass</a></li>
+<li><a href="sec-6-4-physics.html" data-scroll="sec-6-4-physics">Physics Applications:  Work, Force, and Pressure</a></li>
+<li><a href="sec-6-5-improper.html" data-scroll="sec-6-5-improper">Improper Integrals</a></li>
+</ul>
+<h2 class="link"><a href="C-7.html" data-scroll="C-7"><span class="codenumber">7</span><span class="title">Differential Equations</span></a></h2>
+<ul>
+<li><a href="sec-7-1-diff-eq-intro.html" data-scroll="sec-7-1-diff-eq-intro">An Introduction to Differential Equations</a></li>
+<li><a href="sec-7-2-qualitative.html" data-scroll="sec-7-2-qualitative">Qualitative behavior of solutions to DEs</a></li>
+<li><a href="sec-7-3-euler.html" data-scroll="sec-7-3-euler">Euler's method</a></li>
+<li><a href="sec-7-4-separable.html" data-scroll="sec-7-4-separable">Separable differential equations</a></li>
+<li><a href="sec-7-5-modeling.html" data-scroll="sec-7-5-modeling">Modeling with differential equations</a></li>
+<li><a href="sec-7-6-logistic.html" data-scroll="sec-7-6-logistic">Population Growth and the Logistic Equation</a></li>
+</ul>
+<h2 class="link"><a href="C-8.html" data-scroll="C-8"><span class="codenumber">8</span><span class="title">Sequences and Series</span></a></h2>
+<ul>
+<li><a href="sec-8-1-sequences.html" data-scroll="sec-8-1-sequences">Sequences</a></li>
+<li><a href="sec-8-2-geometric.html" data-scroll="sec-8-2-geometric">Geometric Series</a></li>
+<li><a href="sec-8-3-series.html" data-scroll="sec-8-3-series">Series of Real Numbers</a></li>
+<li><a href="sec-8-4-alternating.html" data-scroll="sec-8-4-alternating">Alternating Series</a></li>
+<li><a href="sec-8-5-taylor.html" data-scroll="sec-8-5-taylor">Taylor Polynomials and Taylor Series</a></li>
+<li><a href="sec-8-6-powerseries.html" data-scroll="sec-8-6-powerseries">Power Series</a></li>
+</ul>
+<h2 class="link"><a href="backmatter.html" data-scroll="backmatter"><span class="title">Back Matter</span></a></h2>
+<ul>
+<li><a href="integral-table.html" data-scroll="integral-table">A Short Table of Integrals</a></li>
+<li><a href="index-1.html" data-scroll="index-1">Index</a></li>
+<li><a href="colophon-2.html" data-scroll="colophon-2">Colophon</a></li>
+</ul></nav><div class="extras"><nav><a class="feedback-link" href="http://gvsu.edu/s/0vK" target="_blank">Feedback</a><a class="mathbook-link" href="https://mathbook.pugetsound.edu">Authored in PreTeXt</a><a href="https://www.mathjax.org"><img title="Powered by MathJax" src="https://www.mathjax.org/badge/badge.gif" border="0" alt="Powered by MathJax"></a></nav></div>
+</div></aside><main class="main"><div id="content" class="mathbook-content"><section class="section" id="sec-4-2-Riemann"><h2 class="heading hide-type" alt="Section 4.2 Riemann Sums">
+<span class="type">Section</span><span class="codenumber">4.2</span><span class="title">Riemann Sums</span>
+</h2>
+<a href="sec-4-2-Riemann.html" class="permalink">¶</a><article class="objectives" id="objectives-23"><h6 class="heading"><span class="type">Motivating Questions</span></h6>
+<ul class="disc">
+<li id="li-2333"><p id="p-3372">How can we use a Riemann sum to estimate the area between a given curve and the horizontal axis over a particular interval?</p></li>
+<li id="li-2334"><p id="p-3373">What are the differences among left, right, middle, and random Riemann sums?</p></li>
+<li id="li-2335"><p id="p-3374">How can we write Riemann sums in an abbreviated form?</p></li>
+</ul></article><section class="introduction" id="introduction-23"><p id="p-3375">In <a href="sec-4-1-velocity-distance.html" class="xref" alt="Section 4.1 Determining distance traveled from velocity" title="Section 4.1 Determining distance traveled from velocity">Section 4.1</a>, we learned that if an object moves with positive velocity \(v\text{,}\) the area between \(y = v(t)\) and the \(t\)-axis over a given time interval tells us the distance traveled by the object over that time period. If \(v(t)\) is sometimes negative and we view the area of any region below the \(t\)-axis as having an associated negative sign, then the sum of these signed areas tells us the moving object's change in position over a given time interval.</p>
+<div class="sidebyside" id="sidebyside-168">
+<div class="sbsrow" style="margin-left:0%;margin-right:0%;">
+<div class="sbspanel" style="width:47%;justify-content:flex-start;">
+<p id="p-3376">For instance, for the velocity function given in <a knowl="./knowl/F-4-2-Intro.html" knowl-id="xref-F-4-2-Intro" alt="Figure 4.14 " title="Figure 4.14 ">Figure 4.14</a>, if the areas of shaded regions are \(A_1\text{,}\) \(A_2\text{,}\) and \(A_3\) as labeled, then the total distance \(D\) traveled by the moving object on \([a,b]\) is</p>
+<div class="displaymath">
+\begin{equation*}
+D = A_1 + A_2 + A_3\text{,}
+\end{equation*}
+</div>
+<p>while the total change in the object's position on \([a,b]\) is</p>
+<div class="displaymath">
+\begin{equation*}
+s(b) - s(a) = A_1 - A_2 + A_3\text{.}
+\end{equation*}
+</div>
+</div>
+<div class="sbspanel" style="width:47%;justify-content:flex-start;"><img src="images/4_2_Intro.svg" width="100%" style="display: block; margin: 0 auto;" alt=""></div>
+</div>
+<div class="sbsrow" style="margin-left:0%;margin-right:0%;">
+<figcaption class="sbscaption" style="width:47%;"></figcaption><figcaption class="sbscaption" style="width:47%;"><span class="type">Figure</span><span class="codenumber">4.14</span>A velocity function that is sometimes negative.</figcaption>
+</div>
+</div>
+<p id="p-3377">Because the motion is in the negative direction on the interval where \(v(t) \lt 0\text{,}\) we subtract \(A_2\) to determine the object's total change in position.</p>
+<p id="p-3378">Of course, finding \(D\) and \(s(b)-s(a)\) for the graph in <a knowl="./knowl/F-4-2-Intro.html" knowl-id="xref-F-4-2-Intro" alt="Figure 4.14 " title="Figure 4.14 ">Figure 4.14</a> presumes that we can actually find the areas \(A_1\text{,}\) \(A_2\text{,}\) and \(A_3\text{.}\) So far, we have worked with velocity functions that were either constant or linear, so that the area bounded by the velocity function and the horizontal axis is a combination of rectangles and triangles, and we can find the area exactly. But when the curve bounds a region that is not a familiar geometric shape, we cannot find its area exactly. Indeed, this is one of our biggest goals in <a href="C-4.html" class="xref" alt="Chapter 4 The Definite Integral" title="Chapter 4 The Definite Integral">Chapter 4</a>: to learn how to find the exact area bounded between a curve and the horizontal axis for as many different types of functions as possible.</p>
+<p id="p-3379">In <a knowl="./knowl/act-4-1-1.html" knowl-id="xref-act-4-1-1" alt="Activity 4.2 " title="Activity 4.2 ">Activity 4.2</a>, we approximated the area under a nonlinear velocity function using rectangles. In the following preview activity, we consider three different options for the heights of the rectangles we will use.</p>
+<article class="example-like" id="PA-4-2"><h6 class="heading">
+<span class="type">Preview Activity</span><span class="codenumber">4.5</span>
+</h6>
+<p id="p-3380">A person walking along a straight path has her velocity in miles per hour at time \(t\) given by the function \(v(t) = 0.25t^3-1.5t^2+3t+0.25\text{,}\) for times in the interval \(0 \le t \le 2\text{.}\) The graph of this function is also given in each of the three diagrams in <a knowl="./knowl/F-4-2-PA1.html" knowl-id="xref-F-4-2-PA1" alt="Figure 4.15 " title="Figure 4.15 ">Figure 4.15</a>.</p>
+<figure class="figure-like" id="F-4-2-PA1"><img src="images/4_2_PA1.svg" width="97%" style="display: block; margin: 0 auto;" alt=""><figcaption><span class="type">Figure</span><span class="codenumber">4.15</span>Three approaches to estimating the area under \(y = v(t)\) on the interval \([0,2]\text{.}\)</figcaption></figure><p id="p-3381">Note that in each diagram, we use four rectangles to estimate the area under \(y = v(t)\) on the interval \([0,2]\text{,}\) but the method by which the four rectangles' respective heights are decided varies among the three individual graphs. </p>
+<ol class="lower-alpha">
+<li id="li-2336">
+<p id="p-3382">How are the heights of rectangles in the left-most diagram being chosen? Explain, and hence determine the value of</p>
+<div class="displaymath">
+\begin{equation*}
+S = A_1 + A_2 + A_3 + A_4
+\end{equation*}
+</div>
+<p>by evaluating the function \(y = v(t)\) at appropriately chosen values and observing the width of each rectangle. Note, for example, that</p>
+<div class="displaymath">
+\begin{equation*}
+A_3 = v(1) \cdot \frac{1}{2} = 2 \cdot \frac{1}{2} = 1\text{.}
+\end{equation*}
+</div>
+</li>
+<li id="li-2337">
+<p id="p-3383">Explain how the heights of rectangles are being chosen in the middle diagram and find the value of</p>
+<div class="displaymath">
+\begin{equation*}
+T = B_1 + B_2 + B_3 + B_4\text{.}
+\end{equation*}
+</div>
+</li>
+<li id="li-2338">
+<p id="p-3384">Likewise, determine the pattern of how heights of rectangles are chosen in the right-most diagram and determine</p>
+<div class="displaymath">
+\begin{equation*}
+U = C_1 + C_2 + C_3 + C_4\text{.}
+\end{equation*}
+</div>
+</li>
+<li id="li-2339"><p id="p-3385">Of the estimates \(S\text{,}\) \(T\text{,}\) and \(U\text{,}\) which do you think is the best approximation of \(D\text{,}\) the total distance the person traveled on \([0,2]\text{?}\) Why?</p></li>
+</ol></article></section><section class="subsection" id="subsection-67"><h3 class="heading hide-type" alt="Subsection  Sigma Notation">
+<span class="type">Subsection</span><span class="codenumber"></span><span class="title">Sigma Notation</span>
+</h3>
+<p id="p-3386">We have used sums of areas of rectangles to approximate the area under a curve. Intuitively, we expect that using a larger number of thinner rectangles will provide a better estimate for the area. Consequently, we anticipate dealing with sums of a large number of terms. To do so, we introduce <em class="emphasis">sigma notation</em>,  named for the Greek letter \(\Sigma\text{,}\) which is the capital letter \(S\) in the Greek alphabet.</p>
+<p id="p-3387">For example, say we are interested in the sum</p>
+<div class="displaymath">
+\begin{equation*}
+1 + 2 + 3 + \cdots + 100\text{,}
+\end{equation*}
+</div>
+<p>the sum of the first 100 natural numbers. In sigma notation we write</p>
+<div class="displaymath">
+\begin{equation*}
+\sum_{k=1}^{100} k =  1 + 2 + 3 + \cdots + 100\text{.}
+\end{equation*}
+</div>
+<p id="p-3388">We read the symbol \(\sum_{k=1}^{100} k\) as “the sum from \(k\) equals 1 to 100 of \(k\text{.}\)” The variable \(k\) is called the index of summation, and any letter can be used for this variable. The pattern in the terms of the sum is denoted by a function of the index; for example,</p>
+<div class="displaymath">
+\begin{equation*}
+\sum_{k=1}^{10} (k^2 + 2k) =  (1^2 + 2\cdot 1) + (2^2 + 2\cdot 2) + (3^2 + 2\cdot 3) + \cdots + (10^2 + 2\cdot 10)\text{,}
+\end{equation*}
+</div>
+<p>and more generally,</p>
+<div class="displaymath">
+\begin{equation*}
+\sum_{k=1}^n f(k) = f(1) + f(2) + \cdots + f(n)\text{.}
+\end{equation*}
+</div>
+<p id="p-3389">Sigma notation allows us to vary easily the function being used to describe the terms in the sum, and to adjust the number of terms in the sum simply by changing the value of \(n\text{.}\) We test our understanding of this new notation in the following activity.</p>
+<article class="example-like" id="act-4-2-1"><h6 class="heading">
+<span class="type">Activity</span><span class="codenumber">4.6</span>
+</h6>
+<p id="p-3390">For each sum written in sigma notation, write the sum long-hand and evaluate the sum to find its value. For each sum written in expanded form, write the sum in sigma notation. </p>
+<ol class="lower-alpha cols2">
+<li id="li-2340"><p id="p-3391">\(\sum_{k=1}^{5} (k^2 + 2)\)</p></li>
+<li id="li-2341"><p id="p-3392">\(\sum_{i=3}^{6} (2i-1)\)</p></li>
+<li id="li-2342"><p id="p-3393">\(3 + 7 + 11 + 15 + \cdots + 27\)</p></li>
+<li id="li-2343"><p id="p-3394">\(4 + 8 + 16 + 32 + \cdots + 256\)</p></li>
+<li id="li-2344"><p id="p-3395">\(\sum_{i=1}^{6} \frac{1}{2^i}\)</p></li>
+</ol>
+<div class="solutions">
+<span class="solution"><a knowl="" class="id-ref" refid="hk-hint-67" id="hint-67"><span class="type">Hint</span></a></span><div id="hk-hint-67" class="hidden-content tex2jax_ignore"><span class="solution"><ol id="p-3396" class="lower-alpha">
+<li id="li-2345"><p id="p-3397">Observe that when \(k = 1\text{,}\) \(k^2 + 2 = 1^2 + 2 = 3\text{.}\) This is the first term in the sum.</p></li>
+<li id="li-2346"><p id="p-3398">Note that this sum starts at \(i = 3\text{.}\)</p></li>
+<li id="li-2347"><p id="p-3399">Since the terms in the sum increase by 4, try a function \(f(k)\) that somehow involves \(4k\text{.}\)</p></li>
+<li id="li-2348"><p id="p-3400">What pattern do you observe in the terms of the sum?</p></li>
+<li id="li-2349"><p id="p-3401">Write every term in the sum as a fraction with denominator \(2^6 = 64\text{.}\)</p></li>
+</ol></span></div>
+<span class="solution"><a knowl="" class="id-ref" refid="hk-answer-151" id="answer-151"><span class="type">Answer</span></a></span><div id="hk-answer-151" class="hidden-content tex2jax_ignore"><span class="solution"><ol id="p-3402" class="lower-alpha">
+<li id="li-2350"><p id="p-3403">\(64 \)</p></li>
+<li id="li-2351"><p id="p-3404">\(32 \)</p></li>
+<li id="li-2352"><div class="displaymath" id="p-3405">
+\begin{equation*}
+3 + 7 + 11 + 15 +  \cdots + 27 = \sum_{k=1}^{7} 4k-1\text{.}
+\end{equation*}
+</div></li>
+<li id="li-2353"><div class="displaymath" id="p-3406">
+\begin{equation*}
+4 + 8 + 16 + 32 + \cdots + 256 = \sum{i=2}^{8} 2^i\text{.}
+\end{equation*}
+</div></li>
+<li id="li-2354"><div class="displaymath" id="p-3407">
+\begin{equation*}
+\sum_{i=1}^{6} \frac{1}{2^i} =  \frac{63}{64}\text{.}
+\end{equation*}
+</div></li>
+</ol></span></div>
+<span class="solution"><a knowl="" class="id-ref" refid="hk-solution-167" id="solution-167"><span class="type">Solution</span></a></span><div id="hk-solution-167" class="hidden-content tex2jax_ignore"><span class="solution"><ol id="p-3408" class="lower-alpha">
+<li id="li-2355"><div class="displaymath" id="p-3409">
+\begin{align*}
+\sum_{k=1}^{5} (k^2 + 2) =\mathstrut \amp  (1^2 + 2) + (2^2 + 2) + (3^2 + 2) + (4^2 + 2) + (5^2 + 2)\\
+=\mathstrut \amp  3 + 6 + 11 + 17 + 27\\
+=\mathstrut \amp  64
+\end{align*}
+</div></li>
+<li id="li-2356"><div class="displaymath" id="p-3410">
+\begin{align*}
+\sum_{i=3}^{6} (2i-1) =\mathstrut \amp  (2 \cdot 3 - 1) + (2 \cdot 4- 1) + (2 \cdot 5 - 1) + (2 \cdot 6 - 1)\\
+=\mathstrut \amp  5 + 7 + 9 + 11\\
+=\mathstrut \amp  32
+\end{align*}
+</div></li>
+<li id="li-2357">
+<p id="p-3411">Observe that each term in the sum</p>
+<div class="displaymath">
+\begin{equation*}
+3 + 7 + 11 + 15 +  \cdots + 27
+\end{equation*}
+</div>
+<p>differs from the previous term by 4. If we view \(4\) as \(4 = 4 \cdot 1 - 1\) and \(7\) as \(7 = 4 \cdot 2 - 1\text{,}\) we see that the pattern may be represented through the function \(f(k) = 4k-1\text{,}\) so that</p>
+<div class="displaymath">
+\begin{equation*}
+3 + 7 + 11 + 15 +  \cdots + 27 = \sum_{k=1}^{7} 4k-1\text{.}
+\end{equation*}
+</div>
+<p>We note that \(k=7\) is the end value of the index since \(4 \cdot 7  = 28\text{.}\)</p>
+</li>
+<li id="li-2358">
+<p id="p-3412">The sum \(4 + 8 + 16 + 32 + \cdots + 256\) is a sum of powers of \(2\text{,}\) which we can express in sigma notation as</p>
+<div class="displaymath">
+\begin{equation*}
+4 + 8 + 16 + 32 + \cdots + 256 = \sum{i=2}^{8} 2^i\text{.}
+\end{equation*}
+</div>
+</li>
+<li id="li-2359"><div class="displaymath" id="p-3413">
+\begin{align*}
+\sum_{i=1}^{6} \frac{1}{2^i} =\mathstrut \amp  \frac{1}{2} + \frac{1}{2^2} + \cdots + \frac{1}{2^6}\\
+=\mathstrut \amp  \frac{32}{64} + \frac{16}{64} + \frac{8}{64} + \frac{4}{64} + \frac{2}{64} + \frac{1}{64}\\
+=\mathstrut \amp  \frac{63}{64}\text{.}
+\end{align*}
+</div></li>
+</ol></span></div>
+</div></article></section><section class="subsection" id="subsection-68"><h3 class="heading hide-type" alt="Subsection  Riemann Sums">
+<span class="type">Subsection</span><span class="codenumber"></span><span class="title">Riemann Sums</span>
+</h3>
+<p id="p-3414">When a moving body has a positive velocity function \(y = v(t)\) on a given interval \([a,b]\text{,}\) the area under the curve over the interval gives the total distance the body travels on \([a,b]\text{.}\) We are also interested in finding the exact area bounded by \(y = f(x)\) on an interval \([a,b]\text{,}\) regardless of the meaning or context of the function \(f\text{.}\) For now, we continue to focus on finding an accurate estimate of this area by using a sum of the areas of rectangles. Unless otherwise indicated, we assume that \(f\) is continuous and non-negative on \([a,b]\text{.}\)</p>
+<p id="p-3415">The first choice we make in such an approximation is the number of rectangles.</p>
+<figure class="figure-like" id="F-4-2-Interval"><img src="images/4_2_Interval.svg" width="80%" style="display: block; margin: 0 auto;" alt=""><figcaption><span class="type">Figure</span><span class="codenumber">4.16</span>Subdividing the interval \([a,b]\) into \(n\) subintervals of equal length \(\Delta x\text{.}\)</figcaption></figure><p id="p-3416">If we desire \(n\) rectangles of equal width to subdivide the interval \([a,b]\text{,}\) then each rectangle must have width \(\Delta x = \frac{b-a}{n}\text{.}\) We let \(x_0 = a\text{,}\) \(x_n = b\text{,}\) and define \(x_{i} = a + i\Delta x\text{,}\) so that \(x_1 = x_0 + \Delta x\text{,}\) \(x_2 = x_0 + 2 \Delta x\text{,}\) and so on, as pictured in <a knowl="./knowl/F-4-2-Interval.html" knowl-id="xref-F-4-2-Interval" alt="Figure 4.16 " title="Figure 4.16 ">Figure 4.16</a>.</p>
+<p id="p-3417">We use each subinterval \([x_i, x_{i+1}]\) as the base of a rectangle, and next choose the height of the rectangle on that subinterval. There are three standard choices: we can use the left endpoint of each subinterval, the right endpoint of each subinterval, or the midpoint of each. These are precisely the options encountered in <a knowl="./knowl/PA-4-2.html" knowl-id="xref-PA-4-2" alt="Preview Activity 4.5 " title="Preview Activity 4.5 ">Preview Activity 4.5</a> and seen in <a knowl="./knowl/F-4-2-PA1.html" knowl-id="xref-F-4-2-PA1" alt="Figure 4.15 " title="Figure 4.15 ">Figure 4.15</a>. We next explore how these choices can be described in sigma notation.</p>
+<p id="p-3418">Consider an arbitrary positive function \(f\) on \([a,b]\) with the interval subdivided as shown in <a knowl="./knowl/F-4-2-Interval.html" knowl-id="xref-F-4-2-Interval" alt="Figure 4.16 " title="Figure 4.16 ">Figure 4.16</a>, and choose to use left endpoints. Then on each interval \([x_{i}, x_{i+1}]\text{,}\) the area of the rectangle formed is given by</p>
+<div class="displaymath">
+\begin{equation*}
+A_{i+1} = f(x_i) \cdot \Delta x\text{,}
+\end{equation*}
+</div>
+<p>as seen in <a knowl="./knowl/F-4-2-LeftSum.html" knowl-id="xref-F-4-2-LeftSum" alt="Figure 4.17 " title="Figure 4.17 ">Figure 4.17</a>.</p>
+<figure class="figure-like" id="F-4-2-LeftSum"><img src="images/4_2_LeftSum.svg" width="73%" style="display: block; margin: 0 auto;" alt=""><figcaption><span class="type">Figure</span><span class="codenumber">4.17</span>Subdividing the interval \([a,b]\) into \(n\) subintervals of equal length \(\Delta x\) and approximating the area under \(y = f(x)\) over \([a,b]\) using left rectangles.</figcaption></figure><p id="p-3419">If we let \(L_n\) denote the sum of the areas of these rectangles, we see that</p>
+<div class="displaymath">
+\begin{align*}
+L_n =\mathstrut \amp  A_1 + A_2 + \cdots + A_{i+1} + \cdots + A_n\\
+=\mathstrut \amp  f(x_0) \cdot \Delta x + f(x_1) \cdot \Delta x + \cdots + f(x_i) \cdot \Delta x + \cdots + f(x_{n-1}) \cdot \Delta x\text{.}
+\end{align*}
+</div>
+<p>In the more compact sigma notation, we have</p>
+<div class="displaymath">
+\begin{equation*}
+L_n = \sum_{i = 0}^{n-1} f(x_i) \Delta x\text{.}
+\end{equation*}
+</div>
+<p id="p-3420">Note that since the index of summation begins at \(0\) and ends at \(n-1\text{,}\) there are indeed \(n\) terms in this sum. We call \(L_n\) the <em class="emphasis">left Riemann sum</em>   for the function \(f\) on the interval \([a,b]\text{.}\)</p>
+<p id="p-3421">To see how the Riemann sums for right endpoints and midpoints are constructed, we consider <a knowl="./knowl/F-4-2-RightMidSum.html" knowl-id="xref-F-4-2-RightMidSum" alt="Figure 4.18 " title="Figure 4.18 ">Figure 4.18</a>.</p>
+<figure class="figure-like" id="F-4-2-RightMidSum"><img src="images/4_2_RightMidSum.svg" width="100%" style="display: block; margin: 0 auto;" alt=""><figcaption><span class="type">Figure</span><span class="codenumber">4.18</span>Riemann sums using right endpoints and midpoints.</figcaption></figure><p id="p-3422">For the sum with right endpoints, we see that the area of the rectangle on an arbitrary interval \([x_i, x_{i+1}]\) is given by \(B_{i+1} = f(x_{i+1}) \cdot \Delta x\text{,}\) and that the sum of all such areas of rectangles is given by</p>
+<div class="displaymath">
+\begin{align*}
+R_n =\mathstrut \amp  B_1 + B_2 + \cdots + B_{i+1} + \cdots + B_n\\
+=\mathstrut \amp  f(x_1) \cdot \Delta x + f(x_2) \cdot \Delta x + \cdots + f(x_{i+1}) \cdot \Delta x + \cdots + f(x_{n}) \cdot \Delta x\\
+=\mathstrut \amp  \sum_{i=1}^{n} f(x_i) \Delta x\text{.}
+\end{align*}
+</div>
+<p id="p-3423">We call \(R_n\) the <em class="emphasis">right Riemann sum</em>  for the function \(f\) on the interval \([a,b]\text{.}\)</p>
+<p id="p-3424">For the sum that uses midpoints, we introduce the notation</p>
+<div class="displaymath">
+\begin{equation*}
+\overline{x}_{i+1} = \frac{x_{i} + x_{i+1}}{2}
+\end{equation*}
+</div>
+<p>so that \(\overline{x}_{i+1}\) is the midpoint of the interval \([x_i, x_{i+1}]\text{.}\) For instance, for the rectangle with area \(C_1\) in <a knowl="./knowl/F-4-2-RightMidSum.html" knowl-id="xref-F-4-2-RightMidSum" alt="Figure 4.18 " title="Figure 4.18 ">Figure 4.18</a>, we now have</p>
+<div class="displaymath">
+\begin{equation*}
+C_1 = f(\overline{x}_1) \cdot \Delta x\text{.}
+\end{equation*}
+</div>
+<p id="p-3425">Hence, the sum of all the areas of rectangles that use midpoints is</p>
+<div class="displaymath">
+\begin{align*}
+M_n =\mathstrut \amp  C_1 + C_2 + \cdots + C_{i+1} + \cdots + C_n\\
+=\mathstrut \amp  f(\overline{x_1}) \cdot \Delta x + f(\overline{x_2}) \cdot \Delta x + \cdots + f(\overline{x}_{i+1}) \cdot \Delta x + \cdots + f(\overline{x}_{n}) \cdot \Delta x\\
+=\mathstrut \amp  \sum_{i=1}^{n} f(\overline{x}_i) \Delta x\text{,}
+\end{align*}
+</div>
+<p>and we say that \(M_n\) is the <em class="emphasis">middle Riemann sum</em>  for \(f\) on \([a,b]\text{.}\)</p>
+<p id="p-3426">Thus, we have two variables to explore: the number of rectangles and the height of each rectangle. We can explore these choices dynamically, and the applet<span class="footnote"><a knowl="" class="id-ref" refid="hk-fn-22" id="fn-22"><sup> 4 </sup></a></span><span id="hk-fn-22" class="hidden-content tex2jax_ignore"><span class="footnote">Marc Renault, Geogebra Calculus Applets.</span></span> found at <a class="url" href="http://gvsu.edu/s/a9" target="_blank">http://gvsu.edu/s/a9</a> is a particularly useful one. There we see the image shown in <a knowl="./knowl/F-4-2-RenaultAppletRS.html" knowl-id="xref-F-4-2-RenaultAppletRS" alt="Figure 4.19 " title="Figure 4.19 ">Figure 4.19</a>, but with the opportunity to adjust the slider bars for the heights and the number of rectangles.</p>
+<figure class="figure-like" id="F-4-2-RenaultAppletRS"><img src="images/4_2_RenaultAppletRS.svg" width="71%" style="display: block; margin: 0 auto;" alt=""><figcaption><span class="type">Figure</span><span class="codenumber">4.19</span>A snapshot of the applet found at <a class="url" href="http://gvsu.edu/s/a9" target="_blank">http://gvsu.edu/s/a9</a>.</figcaption></figure><p id="p-3427">By moving the sliders, we can see how the heights of the rectangles change as we consider left endpoints, midpoints, and right endpoints, as well as the impact that a larger number of narrower rectangles has on the approximation of the exact area bounded by the function and the horizontal axis.</p>
+<p id="p-3428">When \(f(x) \ge 0\) on \([a,b]\text{,}\) each of the Riemann sums \(L_n\text{,}\) \(R_n\text{,}\) and \(M_n\) provides an estimate of the area under the curve \(y = f(x)\) over the interval \([a,b]\text{.}\) We also recall that in the context of a nonnegative velocity function \(y = v(t)\text{,}\) the corresponding Riemann sums approximate the distance traveled on \([a,b]\) by a moving object with velocity function \(v\text{.}\)</p>
+<p id="p-3429">There is a more general way to think of Riemann sums, and that is to allow any choice of where the function is evaluated to determine the rectangle heights. Rather than saying we'll always choose left endpoints, or always choose midpoints, we simply say that a point \(x_{i+1}^*\) will be selected at random in the interval \([x_i, x_{i+1}]\) (so that \(x_i \le x_{i+1}^* \le x_{i+1}\)). The Riemann sum is then given by</p>
+<div class="displaymath">
+\begin{equation*}
+f(x_1^*) \cdot \Delta x + f(x_2^*) \cdot \Delta x + \cdots + f(x_{i+1}^*) \cdot \Delta x + \cdots + f(x_n^*) \cdot \Delta x = \sum_{i=1}^{n} f(x_i^*) \Delta x\text{.}
+\end{equation*}
+</div>
+<p id="p-3430">At <a class="url" href="http://gvsu.edu/s/a9" target="_blank">http://gvsu.edu/s/a9</a>, the applet noted earlier and referenced in <a knowl="./knowl/F-4-2-RenaultAppletRS.html" knowl-id="xref-F-4-2-RenaultAppletRS" alt="Figure 4.19 " title="Figure 4.19 ">Figure 4.19</a>, by unchecking the “relative” box at the top left, and instead checking “random,” we can easily explore the effect of using random point locations in subintervals on a Riemann sum. In computational practice, we most often use \(L_n\text{,}\) \(R_n\text{,}\) or \(M_n\text{,}\) while the random Riemann sum is useful in theoretical discussions. In the following activity, we investigate several different Riemann sums for a particular velocity function.</p>
+<article class="example-like" id="act-4-2-2"><h6 class="heading">
+<span class="type">Activity</span><span class="codenumber">4.7</span>
+</h6>
+<p id="p-3431">Suppose that an object moving along a straight line path has its velocity in feet per second at time \(t\) in seconds given by \(v(t) = \frac{2}{9}(t-3)^2 + 2\text{.}\) </p>
+<ol class="lower-alpha">
+<li id="li-2360"><p id="p-3432">Carefully sketch the region whose exact area will tell you the value of the distance the object traveled on the time interval \(2 \le t \le 5\text{.}\)</p></li>
+<li id="li-2361"><p id="p-3433">Estimate the distance traveled on \([2,5]\) by computing \(L_4\text{,}\) \(R_4\text{,}\) and \(M_4\text{.}\)</p></li>
+<li id="li-2362"><p id="p-3434">Does averaging \(L_4\) and \(R_4\) result in the same value as \(M_4\text{?}\) If not, what do you think the average of \(L_4\) and \(R_4\) measures?</p></li>
+<li id="li-2363"><p id="p-3435">For this question, think about an arbitrary function \(f\text{,}\) rather than the particular function \(v\) given above. If \(f\) is positive and increasing on \([a,b]\text{,}\) will \(L_n\) over-estimate or under-estimate the exact area under \(f\) on \([a,b]\text{?}\) Will \(R_n\) over- or under-estimate the exact area under \(f\) on \([a,b]\text{?}\) Explain.</p></li>
+</ol>
+<div class="solutions">
+<span class="solution"><a knowl="" class="id-ref" refid="hk-hint-68" id="hint-68"><span class="type">Hint</span></a></span><div id="hk-hint-68" class="hidden-content tex2jax_ignore"><span class="solution"><ol id="p-3436" class="lower-alpha">
+<li id="li-2364"><p id="p-3437">Note that \(y = v(t)\) is a parabola with vertex \((3,2)\text{.}\)</p></li>
+<li id="li-2365"><p id="p-3438">Recall the formulas for \(L_n\text{,}\) \(R_n\text{,}\) and \(M_n\text{.}\)</p></li>
+<li id="li-2366"><p id="p-3439">Think about what the average of \(L_1\) and \(R_1\) measures.</p></li>
+<li id="li-2367"><p id="p-3440">Consider carefully the role of endpoints in generating \(L_n\) and \(R_n\text{.}\)</p></li>
+</ol></span></div>
+<span class="solution"><a knowl="" class="id-ref" refid="hk-answer-152" id="answer-152"><span class="type">Answer</span></a></span><div id="hk-answer-152" class="hidden-content tex2jax_ignore"><span class="solution"><ol id="p-3441" class="lower-alpha">
+<li id="li-2368"><div class="sidebyside" id="sidebyside-169"><div class="sbsrow" style="margin-left:30%;margin-right:30%;"><div class="sbspanel" style="width:100%;justify-content:flex-start;"><img src="images/4_2_Act2Soln.svg" width="100%" style="display: block; margin: 0 auto;" alt=""></div></div></div></li>
+<li id="li-2369"><p id="p-3442">\(L_4 = \frac{311}{48} \approx 6.47917\text{,}\) \(R_4 = \frac{335}{48} \approx 6.97917\text{,}\) and \(M_4 = \frac{637}{96} \approx 6.63542\text{.}\)</p></li>
+<li id="li-2370"><div class="displaymath" id="p-3443">
+\begin{equation*}
+\frac{L_4 + M_4}{2} = \frac{646}{96} \ne \frac{637}{96} = M_4\text{.}
+\end{equation*}
+</div></li>
+<li id="li-2371"><p id="p-3444">\(L_n\) is an under-estimate; \(R_n\) is an over-estimates.</p></li>
+</ol></span></div>
+<span class="solution"><a knowl="" class="id-ref" refid="hk-solution-168" id="solution-168"><span class="type">Solution</span></a></span><div id="hk-solution-168" class="hidden-content tex2jax_ignore"><span class="solution"><ol id="p-3445" class="lower-alpha">
+<li id="li-2372">
+<p id="p-3446">The region whose exact area tells us the value of the distance the object traveled on the time interval \(2 \le t \le 5\) is shown below.</p>
+<div class="sidebyside" id="sidebyside-170"><div class="sbsrow" style="margin-left:30%;margin-right:30%;"><div class="sbspanel" style="width:100%;justify-content:flex-start;"><img src="images/4_2_Act2Soln.svg" width="100%" style="display: block; margin: 0 auto;" alt=""></div></div></div>
+</li>
+<li id="li-2373"><p id="p-3447">\(L_4 = \frac{311}{48} \approx 6.47917\text{,}\) \(R_4 = \frac{335}{48} \approx 6.97917\text{,}\) and \(M_4 = \frac{637}{96} \approx 6.63542\text{.}\)</p></li>
+<li id="li-2374">
+<p id="p-3448">The average of \(L_4\) and \(R_4\) is</p>
+<div class="displaymath">
+\begin{equation*}
+\frac{L_4 + M_4}{2} = \frac{311+335}{96} = \frac{646}{96} \ne \frac{637}{96} = M_4\text{.}
+\end{equation*}
+</div>
+<p>This average actually measures what would result from using four trapezoids, rather than rectangles, to estimate the area on each subinterval. One reason this is so is because the area of a trapezoid is the average of the bases times the width, and the “bases” are given by the function values at the left and right endpoints.</p>
+</li>
+<li id="li-2375"><p id="p-3449">If \(f\) is positive and increasing on \([a,b]\text{,}\) \(L_n\) will under-estimate the exact area under \(f\) on \([a,b]\text{.}\) Because \(f\) is increasing, its value at the left endpoint of any subinterval will be lower than every other function value in the interval, and thus the rectangle with that height lies exclusively below the curve. In a similar way, \(R_n\) over-estimates the exact area under \(f\) on \([a,b]\text{.}\)</p></li>
+</ol></span></div>
+</div></article></section><section class="subsection" id="subsection-69"><h3 class="heading hide-type" alt="Subsection  When the function is sometimes negative">
+<span class="type">Subsection</span><span class="codenumber"></span><span class="title">When the function is sometimes negative</span>
+</h3>
+<p id="p-3450">For a Riemann sum such as</p>
+<div class="displaymath">
+\begin{equation*}
+L_n = \sum_{i=0}^{n-1} f(x_i) \Delta x\text{,}
+\end{equation*}
+</div>
+<p>we can of course compute the sum even when \(f\) takes on negative values. We know that when \(f\) is positive on \([a,b]\text{,}\) a Riemann sum estimates the area bounded between \(f\) and the horizontal axis over the interval.</p>
+<figure class="figure-like" id="F-4-2-NegF"><img src="images/4_2_NegF.svg" width="100%" style="display: block; margin: 0 auto;" alt=""><figcaption><span class="type">Figure</span><span class="codenumber">4.20</span>At left and center, two left Riemann sums for a function \(f\) that is sometimes negative; at right, the areas bounded by \(f\) on the interval \([a,d]\text{.}\)</figcaption></figure><p id="p-3451">For the function pictured in the first graph of <a knowl="./knowl/F-4-2-NegF.html" knowl-id="xref-F-4-2-NegF" alt="Figure 4.20 " title="Figure 4.20 ">Figure 4.20</a>, a left Riemann sum with 12 subintervals over \([a,d]\) is shown. The function is negative on the interval \(b \le x \le c\text{,}\) so at the four left endpoints that fall in \([b,c]\text{,}\) the terms \(f(x_i) \Delta x\) are negative. This means that those four terms in the Riemann sum produce an estimate of the <em class="emphasis">opposite</em> of the area bounded by \(y = f(x)\) and the \(x\)-axis on \([b,c]\text{.}\)</p>
+<p id="p-3452">In the middle graph of <a knowl="./knowl/F-4-2-NegF.html" knowl-id="xref-F-4-2-NegF" alt="Figure 4.20 " title="Figure 4.20 ">Figure 4.20</a>, we see that by increasing the number of rectangles the approximation of the area (or the opposite of the area) bounded by the curve appears to improve.</p>
+<p id="p-3453">In general, any Riemann sum of a continuous function \(f\) on an interval \([a,b]\) approximates the difference between the area that lies above the horizontal axis on \([a,b]\) and under \(f\) and the area that lies below the horizontal axis on \([a,b]\) and above \(f\text{.}\) In the notation of <a knowl="./knowl/F-4-2-NegF.html" knowl-id="xref-F-4-2-NegF" alt="Figure 4.20 " title="Figure 4.20 ">Figure 4.20</a>, we may say that</p>
+<div class="displaymath">
+\begin{equation*}
+L_{24} \approx A_1 - A_2 + A_3\text{,}
+\end{equation*}
+</div>
+<p>where \(L_{24}\) is the left Riemann sum using 24 subintervals shown in the middle graph. \(A_1\) and \(A_3\) are the areas of the regions where \(f\) is positive, and \(A_2\) is the area where \(f\) is negative. We will call the quantity \(A_1 - A_2 + A_3\) the <em class="emphasis">net signed area</em>  bounded by \(f\) over the interval \([a,d]\text{,}\) where by the phrase “signed area” we indicate that we are attaching a minus sign to the areas of regions that fall below the horizontal axis.</p>
+<p id="p-3454">Finally, we recall that if the function \(f\) represents the velocity of a moving object, the sum of the areas bounded by the curve tells us the total distance traveled over the relevant time interval, while the net signed area bounded by the curve computes the object's change in position on the interval.</p>
+<article class="example-like" id="act-4-2-3"><h6 class="heading">
+<span class="type">Activity</span><span class="codenumber">4.8</span>
+</h6>
+<p id="p-3455">Suppose that an object moving along a straight line path has its velocity \(v\) (in feet per second) at time \(t\) (in seconds) given by</p>
+<div class="displaymath">
+\begin{equation*}
+v(t) = \frac{1}{2}t^2 - 3t + \frac{7}{2}\text{.}
+\end{equation*}
+</div>
+<ol class="lower-alpha">
+<li id="li-2376"><p id="p-3456">Compute \(M_5\text{,}\) the middle Riemann sum, for \(v\) on the time interval \([1,5]\text{.}\) Be sure to clearly identify the value of \(\Delta t\) as well as the locations of \(t_0\text{,}\) \(t_1\text{,}\) \(\cdots\text{,}\) \(t_5\text{.}\) In addition, provide a careful sketch of the function and the corresponding rectangles that are being used in the sum.</p></li>
+<li id="li-2377"><p id="p-3457">Building on your work in (a), estimate the total change in position of the object on the interval \([1,5]\text{.}\)</p></li>
+<li id="li-2378"><p id="p-3458">Building on your work in (a) and (b), estimate the total distance traveled by the object on \([1,5]\text{.}\)</p></li>
+<li id="li-2379"><p id="p-3459">Use appropriate computing technology<span class="footnote"><a knowl="" class="id-ref" refid="hk-fn-23" id="fn-23"><sup> 5 </sup></a></span><span id="hk-fn-23" class="hidden-content tex2jax_ignore"><span class="footnote">For instance, consider the applet at <a class="url" href="http://gvsu.edu/s/a9" target="_blank">http://gvsu.edu/s/a9</a> and change the function and adjust the locations of the blue points that represent the interval endpoints \(a\) and \(b\text{.}\)</span></span> to compute \(M_{10}\) and \(M_{20}\text{.}\) What exact value do you think the middle sum eventually approaches as \(n\) increases without bound? What does that number represent in the physical context of the overall problem?</p></li>
+</ol>
+<div class="solutions">
+<span class="solution"><a knowl="" class="id-ref" refid="hk-hint-69" id="hint-69"><span class="type">Hint</span></a></span><div id="hk-hint-69" class="hidden-content tex2jax_ignore"><span class="solution"><ol id="p-3460" class="lower-alpha">
+<li id="li-2380"><p id="p-3461">Note that \(\Delta t = \frac{5-1}{5}\text{.}\)</p></li>
+<li id="li-2381"><p id="p-3462">Change in position is tied to the net signed area bounded by the velocity function.</p></li>
+<li id="li-2382"><p id="p-3463">Think about how total distance is different from change in position when the velocity is sometimes negative.</p></li>
+<li id="li-2383"><p id="p-3464">Besides the noted applet, computer algebra systems such as <em class="emphasis">Maple</em> and <em class="emphasis">Mathematica</em> offer this utility.</p></li>
+</ol></span></div>
+<span class="solution"><a knowl="" class="id-ref" refid="hk-answer-153" id="answer-153"><span class="type">Answer</span></a></span><div id="hk-answer-153" class="hidden-content tex2jax_ignore"><span class="solution"><ol id="p-3465" class="lower-alpha">
+<li id="li-2384">
+<p id="p-3466">\(M_5 = -\frac{36}{25} = -1.44\)</p>
+<div class="sidebyside" id="sidebyside-171"><div class="sbsrow" style="margin-left:20%;margin-right:20%;"><div class="sbspanel" style="width:100%;justify-content:flex-start;"><img src="images/4_2_Act3Soln.svg" width="100%" style="display: block; margin: 0 auto;" alt=""></div></div></div>
+</li>
+<li id="li-2385"><p id="p-3467">The change in position is approximately \(-1.44\) feet.</p></li>
+<li id="li-2386"><p id="p-3468">\(D \approx 2.336\text{.}\)</p></li>
+<li id="li-2387"><p id="p-3469">\(-\frac{4}{3}\) is the object's total change in position on \([1,5]\text{.}\)</p></li>
+</ol></span></div>
+<span class="solution"><a knowl="" class="id-ref" refid="hk-solution-169" id="solution-169"><span class="type">Solution</span></a></span><div id="hk-solution-169" class="hidden-content tex2jax_ignore"><span class="solution"><ol id="p-3470" class="lower-alpha">
+<li id="li-2388">
+<p id="p-3471">For this Riemann sum with five subintervals, \(\Delta t = \frac{5-1}{5} = \frac{4}{5}\text{,}\) so \(t_0 = 1\text{,}\) \(t_1 = 1.8\text{,}\) \(t_2 = 2.6\text{,}\) \(t_3 = 3.4\text{,}\) \(t_4 = 4.2\) and \(t_5 = 4\text{.}\) It follows that</p>
+<div class="displaymath">
+\begin{align*}
+M_5 =\mathstrut \amp  v(1.4) \Delta t + v(2.2) \Delta t + v(3.0) \Delta t + v(3.8) \Delta t + v(4.6)\\
+=\mathstrut \amp  \frac{7}{25} \cdot \frac{4}{5} - \frac{17}{25} \cdot \frac{4}{5} - 1 \cdot \frac{4}{5} - \frac{17}{25} \cdot \frac{4}{5} +  \frac{7}{25} \cdot \frac{4}{5}\\
+=\mathstrut \amp  -\frac{36}{25} = -1.44
+\end{align*}
+</div>
+<p>A sketch is shown below.</p>
+<div class="sidebyside" id="sidebyside-172"><div class="sbsrow" style="margin-left:20%;margin-right:20%;"><div class="sbspanel" style="width:100%;justify-content:flex-start;"><img src="images/4_2_Act3Soln.svg" width="100%" style="display: block; margin: 0 auto;" alt=""></div></div></div>
+</li>
+<li id="li-2389"><p id="p-3472">Since the net signed area bounded by \(v\) on \([1,5]\) represents the total change in position of the object on the interval \([1,5]\text{,}\) it follows that \(M_5\) estimates the total change in position. Hence, the change in position is approximately \(-1.44\) feet.</p></li>
+<li id="li-2390">
+<p id="p-3473">To estimate the total distance traveled by the object on \([1,5]\text{,}\) we have to calculate the total area between the curve and the \(t\)-axis. Thus,</p>
+<div class="displaymath">
+\begin{equation*}
+D \approx \frac{7}{25} \cdot \frac{4}{5} + \frac{17}{25} \cdot \frac{4}{5} + 1 \cdot \frac{4}{5} + \frac{17}{25} \cdot \frac{4}{5} +  \frac{7}{25} \cdot \frac{4}{5} = \frac{292}{125} \approx 2.336\text{.}
+\end{equation*}
+</div>
+</li>
+<li id="li-2391"><p id="p-3474">Using appropriate technology, \(M_{10} = -1.36\) and \(M_{20} = -1.34\text{.}\) Further calculations suggest that \(M_n \to -\frac{4}{3} = -1.\overline{33}\) as \(n \to \infty\text{,}\) and this number represents the object's total change in position on \([1,5]\text{.}\)</p></li>
+</ol></span></div>
+</div></article></section><section class="subsection" id="subsection-70"><h3 class="heading hide-type" alt="Subsection  Summary">
+<span class="type">Subsection</span><span class="codenumber"></span><span class="title">Summary</span>
+</h3>
+<ul id="p-3475" class="disc">
+<li id="li-2392"><p id="p-3476">A Riemann sum is simply a sum of products of the form \(f(x_i^*) \Delta x\) that estimates the area between a positive function and the horizontal axis over a given interval. If the function is sometimes negative on the interval, the Riemann sum estimates the difference between the areas that lie above the horizontal axis and those that lie below the axis.</p></li>
+<li id="li-2393"><p id="p-3477">The three most common types of Riemann sums are left, right, and middle sums, but we can also work with a more general Riemann sum. The only difference among these sums is the location of the point at which the function is evaluated to determine the height of the rectangle whose area is being computed. For a left Riemann sum, we evaluate the function at the left endpoint of each subinterval, while for right and middle sums, we use right endpoints and midpoints, respectively.</p></li>
+<li id="li-2394">
+<p id="p-3478">The left, right, and middle Riemann sums are denoted \(L_n\text{,}\) \(R_n\text{,}\) and \(M_n\text{,}\) with formulas</p>
+<div class="displaymath">
+\begin{align*}
+L_n = f(x_0) \Delta x + f(x_1) \Delta x + \cdots + f(x_{n-1}) \Delta x \amp= \sum_{i = 0}^{n-1} f(x_i) \Delta x,\\
+R_n = f(x_1) \Delta x + f(x_2) \Delta x + \cdots + f(x_{n}) \Delta x \amp= \sum_{i = 1}^{n} f(x_i) \Delta x,\\
+M_n = f(\overline{x}_1) \Delta x + f(\overline{x}_2) \Delta x + \cdots + f(\overline{x}_{n}) \Delta x \amp= \sum_{i = 1}^{n} f(\overline{x}_i) \Delta x\text{,}
+\end{align*}
+</div>
+<p>where \(x_0 = a\text{,}\) \(x_i = a + i\Delta x\text{,}\) and \(x_n = b\text{,}\) using \(\Delta x = \frac{b-a}{n}\text{.}\) For the midpoint sum, \(\overline{x}_{i} = (x_{i-1} + x_i)/2\text{.}\)</p>
+</li>
+</ul></section><section class="exercises" id="ez-4-2"><h3 class="heading hide-type" alt="Exercises  Exercises">
+<span class="type">Subsection</span><span class="codenumber"></span><span class="title">Exercises</span>
+</h3>
+<a href="sec-4-2-Riemann.html#ez-4-2" class="permalink">¶</a><article class="exercise-like" id="ez-4-2-WW1"><h6 class="heading">
+<span class="codenumber">1</span><span class="title">Evaluating Riemann sums for a quadratic function</span>
+</h6>
+<span class="heading"><a knowl="./knowl/webwork-111-hidden.html" knowl-id="hidden-webwork-111" alt="WeBWorK  " title="WeBWorK  ">WeBWorK Exercise</a></span><div id="hk-webwork-111" class="hidden-content tex2jax_ignore">
+<!--use 'format=debug' on 'webwork' tag to debug problem--><iframe width="100%" src="https://math-webwork2.unl.edu//webwork2/html2xml?&amp;answersSubmitted=0&amp;sourceFilePath=Library/Rochester/setIntegrals0Theory/S05.01.AreaDistance.PTP00.pg&amp;problemSeed=123567890&amp;displayMode=MathJax&amp;courseID=OERSystem&amp;userID=anonymous&amp;course_password=anonymous&amp;outputformat=simple"></iframe><script type="text/javascript">iFrameResize({log:true,inPageLinks:true,resizeFrom:'child',checkOrigin:'False'</script>
+</div></article><article class="exercise-like" id="ez-4-2-WW2"><h6 class="heading">
+<span class="codenumber">2</span><span class="title">Estimating distance traveled with a Riemann sum from data</span>
+</h6>
+<span class="heading"><a knowl="./knowl/webwork-112-hidden.html" knowl-id="hidden-webwork-112" alt="WeBWorK  " title="WeBWorK  ">WeBWorK Exercise</a></span><div id="hk-webwork-112" class="hidden-content tex2jax_ignore">
+<!--use 'format=debug' on 'webwork' tag to debug problem--><iframe width="100%" src="https://math-webwork2.unl.edu//webwork2/html2xml?&amp;answersSubmitted=0&amp;sourceFilePath=Library/Rochester/setIntegrals0Theory/S05.01.AreaDistance.PTP03.pg&amp;problemSeed=123567890&amp;displayMode=MathJax&amp;courseID=OERSystem&amp;userID=anonymous&amp;course_password=anonymous&amp;outputformat=simple"></iframe><script type="text/javascript">iFrameResize({log:true,inPageLinks:true,resizeFrom:'child',checkOrigin:'False'</script>
+</div></article><article class="exercise-like" id="ez-4-2-WW3"><h6 class="heading">
+<span class="codenumber">3</span><span class="title">Writing basic Riemann sums</span>
+</h6>
+<span class="heading"><a knowl="./knowl/webwork-113-hidden.html" knowl-id="hidden-webwork-113" alt="WeBWorK  " title="WeBWorK  ">WeBWorK Exercise</a></span><div id="hk-webwork-113" class="hidden-content tex2jax_ignore">
+<!--use 'format=debug' on 'webwork' tag to debug problem--><iframe width="100%" src="https://math-webwork2.unl.edu//webwork2/html2xml?&amp;answersSubmitted=0&amp;sourceFilePath=Library/Michigan/Chap5Sec2/Q19.pg&amp;problemSeed=123567890&amp;displayMode=MathJax&amp;courseID=OERSystem&amp;userID=anonymous&amp;course_password=anonymous&amp;outputformat=simple"></iframe><script type="text/javascript">iFrameResize({log:true,inPageLinks:true,resizeFrom:'child',checkOrigin:'False'</script>
+</div></article><article class="exercise-like" id="exercise-190"><h6 class="heading"><span class="codenumber">4</span></h6>
+<p id="p-3479">Consider the function \(f(x) = 3x + 4\text{.}\) </p>
+<ol class="lower-alpha">
+<li id="li-2395"><p id="p-3480">Compute \(M_4\) for \(y=f(x)\) on the interval \([2,5]\text{.}\) Be sure to clearly identify the value of \(\Delta x\text{,}\) as well as the locations of \(x_0, x_1, \ldots, x_4\text{.}\) Include a careful sketch of the function and the corresponding rectangles being used in the sum.</p></li>
+<li id="li-2396"><p id="p-3481">Use a familiar geometric formula to determine the exact value of the area of the region bounded by \(y = f(x)\) and the \(x\)-axis on \([2,5]\text{.}\)</p></li>
+<li id="li-2397"><p id="p-3482">Explain why the values you computed in (a) and (b) turn out to be the same. Will this be true if we use a number different than \(n = 4\) and compute \(M_n\text{?}\) Will \(L_4\) or \(R_4\) have the same value as the exact area of the region found in (b)?</p></li>
+<li id="li-2398"><p id="p-3483">Describe the collection of functions \(g\) for which it will always be the case that \(M_n\text{,}\) regardless of the value of \(n\text{,}\) gives the exact net signed area bounded between the function \(g\) and the \(x\)-axis on the interval \([a,b]\text{.}\)</p></li>
+</ol></article><article class="exercise-like" id="exercise-191"><h6 class="heading"><span class="codenumber">5</span></h6>
+<p id="p-3496">Let \(S\) be the sum given by</p>
+<div class="displaymath">
+\begin{equation*}
+S = ((1.4)^2 + 1) \cdot 0.4 + ((1.8)^2 + 1) \cdot 0.4 + ((2.2)^2 + 1) \cdot 0.4 + ((2.6)^2 + 1) \cdot 0.4 +((3.0)^2 + 1) \cdot 0.4\text{.}
+\end{equation*}
+</div>
+<ol class="lower-alpha">
+<li id="li-2407"><p id="p-3497">Assume that \(S\) is a right Riemann sum. For what function \(f\) and what interval \([a,b]\) is \(S\) this function's Riemann sum? Why?</p></li>
+<li id="li-2408"><p id="p-3498">How does your answer to (a) change if \(S\) is a left Riemann sum? a middle Riemann sum?</p></li>
+<li id="li-2409"><p id="p-3499">Suppose that \(S\) really is a right Riemann sum. What is geometric quantity does \(S\) approximate?</p></li>
+<li id="li-2410"><p id="p-3500">Use sigma notation to write a new sum \(R\) that is the right Riemann sum for the same function, but that uses twice as many subintervals as \(S\text{.}\)</p></li>
+</ol></article><article class="exercise-like" id="exercise-192"><h6 class="heading"><span class="codenumber">6</span></h6>
+<p id="p-3512">A car traveling along a straight road is braking and its velocity is measured at several different points in time, as given in the following table.</p>
+<figure class="figure-like" id="table-13"><table>
+<tr>
+<td class="l m b1 r0 l0 t1 lines">seconds, \(t\)</td>
+<td class="l m b1 r0 l0 t1 lines">\(0\)</td>
+<td class="l m b1 r0 l0 t1 lines">\(0.3\)</td>
+<td class="l m b1 r0 l0 t1 lines">\(0.6\)</td>
+<td class="l m b1 r0 l0 t1 lines">\(0.9\)</td>
+<td class="l m b1 r0 l0 t1 lines">\(1.2\)</td>
+<td class="l m b1 r0 l0 t1 lines">\(1.5\)</td>
+<td class="l m b1 r0 l0 t1 lines">\(1.8\)</td>
+</tr>
+<tr>
+<td class="l m b1 r0 l0 t0 lines">Velocity in ft/sec, \(v(t)\)</td>
+<td class="l m b1 r0 l0 t0 lines">\(100\)</td>
+<td class="l m b1 r0 l0 t0 lines">\(88\)</td>
+<td class="l m b1 r0 l0 t0 lines">\(74\)</td>
+<td class="l m b1 r0 l0 t0 lines">\(59\)</td>
+<td class="l m b1 r0 l0 t0 lines">\(40\)</td>
+<td class="l m b1 r0 l0 t0 lines">\(19\)</td>
+<td class="l m b1 r0 l0 t0 lines">\(0\)</td>
+</tr>
+</table>
+<figcaption><span class="type">Table</span><span class="codenumber">4.21</span>Data for the braking car.</figcaption></figure><ol id="p-3513" class="lower-alpha">
+<li id="li-2419"><p id="p-3514">Plot the given data on a set of axes with time on the horizontal axis and the velocity on the vertical axis.</p></li>
+<li id="li-2420"><p id="p-3515">Estimate the total distance traveled during the car the time brakes using a middle Riemann sum with 3 subintervals.</p></li>
+<li id="li-2421"><p id="p-3516">Estimate the total distance traveled on \([0,1.8]\) by computing \(L_6\text{,}\) \(R_6\text{,}\) and \(\frac{1}{2}(L_6 + R_6)\text{.}\)</p></li>
+<li id="li-2422"><p id="p-3517">Assuming that \(v(t)\) is always decreasing on \([0,1.8]\text{,}\) what is the maximum possible distance the car traveled before it stopped? Why?</p></li>
+</ol></article><article class="exercise-like" id="exercise-193"><h6 class="heading"><span class="codenumber">7</span></h6>
+<p id="p-3527">The rate at which pollution escapes a scrubbing process at a manufacturing plant increases over time as filters and other technologies become less effective. For this particular example, assume that the rate of pollution (in tons per week) is given by the function \(r\) that is pictured in <a knowl="./knowl/F-4-2-Ez4.html" knowl-id="xref-F-4-2-Ez4" alt="Figure 4.22 " title="Figure 4.22 ">Figure 4.22</a>.</p>
+<ol id="p-3528" class="lower-alpha">
+<li id="li-2431"><p id="p-3529">Use the graph to estimate the value of \(M_4\) on the interval \([0,4]\text{.}\)</p></li>
+<li id="li-2432"><p id="p-3530">What is the meaning of \(M_4\) in terms of the pollution discharged by the plant?</p></li>
+<li id="li-2433"><p id="p-3531">Suppose that \(r(t) = 0.5 e^{0.5t}\text{.}\) Use this formula for \(r\) to compute \(L_5\) on \([0,4]\text{.}\)</p></li>
+<li id="li-2434"><p id="p-3532">Determine an upper bound on the total amount of pollution that can escape the plant during the pictured four week time period that is accurate within an error of at most one ton of pollution.</p></li>
+</ol>
+<figure class="figure-like" id="F-4-2-Ez4"><img src="images/4_2_Ez4.svg" width="47%" style="display: block; margin: 0 auto;" alt=""><figcaption><span class="type">Figure</span><span class="codenumber">4.22</span>The rate, \(r(t)\text{,}\) of pollution in tons per week.</figcaption></figure></article></section></section></div></main>
+</div>
+</body>
+</html>

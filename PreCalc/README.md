@@ -6,7 +6,7 @@ The folder HTML contains all the HTML and image files and is the forward facing 
 
 from the html folder run the command
 cd ~/Documents/GitHub/OER/PreCalc/HTML
-xsltproc -xinclude mfg-html.xsl /net/mathstat/Users/Fac/nwakefield2/Library/OERSource/PreCalculusAtNebraska.xml 
+xsltproc -xinclude mfg-html.xsl ~/Documents/GitHub/OER/PreCalc/2019-2020/PreCalculusAtNebraska.xml 
 
 
 For the entire book 
