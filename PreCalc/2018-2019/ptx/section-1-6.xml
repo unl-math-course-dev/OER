@@ -1,0 +1,405 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!-- <mathbook><book> -->
+
+<section xml:id="linear-regression"   xmlns:xi="http://www.w3.org/2001/XInclude">
+<title>Linear Regression</title><introduction>
+<p>
+    We have spent most of this chapter analyzing models described by graphs or equations. To create a model, however, we often start with a quantity of data. Choosing an appropriate function for a model is a complicated process. In this section, we consider only linear models and explore methods for fitting a linear function to a collection of data points. First, we fit a line through two data points.
+</p>
+</introduction>
+<subsection><title>Fitting a Line through Two Points</title>   
+<p>
+    If we already know that two variables are related by a linear function, we can find a formula from just two data points. For example, variables that increase or decrease at a constant rate can be described by linear functions.
+</p>
+
+
+<example xml:id="example-wine"><statement>
+    <p>In 1993, Americans drank 188.6 million cases of wine. Wine consumption increased at a constant rate over the next decade, and we drank 258.3 million cases of wine in 2003. (Source: Los Angeles Times, Adams Beverage Group)
+    <ol label="a">
+        <li>Find a formula for wine consumption, <m>W</m>, in millions of cases, as a linear function of time, <m>t</m>, in years since 1990.</li>
+        <li>State the slope as a rate of change. What does the slope tell us about this problem?</li>
+    </ol></p></statement>
+<solution><p>
+    <ol label="a">
+        <li>We have two data points of the form <m>(t, W)</m>, namely <m>(3, 188.6)</m> and <m>(13, 258.3)</m>. We use the point-slope formula to fit a line through these two points. First, we compute the slope.
+        <me>\frac{\Delta W}{\Delta t}=\frac {258.3 - 188.6}{13 - 3}= 6.97</me>
+        Next, we use the slope m = <m>6.97</m> and either of the two data points in the point-slope formula.
+        \begin{align*}
+            W \amp =W_1 + m(t - t_1) \\
+            W \amp = 188.6 + 6.97(t - 3) \\
+            W \amp = 167.69 + 6.97t
+        \end{align*}
+
+        Thus, <m>W = f (t) = 167.69 + 6.97t</m>.
+        </li>
+        <li>The slope gives us the rate of change of the function, and the units of the variables can help us interpret the slope in context.
+        <me>\frac{\Delta W}{\Delta t}= 
+            \frac{258.3 - 188.6 \text{ millions of cases}}{13 - 3\text{ years}}
+                = 6.97 \text{ millions of cases / year}
+        </me>
+        Over the 10 years between 1993 and 2003, wine consumption in the United States increased at a rate of 6.97 million cases per year.</li>
+    </ol>
+</p></solution>
+</example>
+
+<assemblage><title>To Fit a Line through Two Points:</title>
+<p>
+    <ol label="1">
+        <li>
+            <p>Compute the slope between the two points.</p>
+        </li>
+        <li>
+            <p>
+                Substitute the slope and either point into the point-slope formula
+                <me>y = y_1 + m(x - x_1)</me>
+            </p>
+        </li>
+    </ol>
+</p></assemblage>
+
+<exercise xml:id="exercise-burglaries"><statement><p>
+In 1991, there were 64.6 burglaries per 1000 households in the United States. The number of burglaries reported annually declined at a roughly constant rate over the next decade, and in 2001 there were 28.7 burglaries per 1000 households. (Source: U.S. Department of Justice)
+<ol label="a">
+    <li><p>Find a function for the number of burglaries, <m>B</m>, as a function of time, <m>t</m>, in years, since 1990.</p> </li>
+    <li><p>State the slope as a rate of change. What does the slope tell us about this problem?</p></li>
+</ol>
+</p></statement>
+<answer><p>
+<ol label="a">
+    <li><p><m>y = 68.19 - 3.59x</m></p> </li>
+    <li><p><m>-3.59</m> burglaries per <m>1000</m> households per year. From 1991 to 2001, the burglary rate declined by <m>3.59</m> burglaries per 1000 households every year</p></li>
+</ol>
+</p></answer>
+</exercise>
+</subsection>
+
+<subsection><title>Scatterplots</title>
+    <p>Empirical data points in a linear relation may not lie exactly on a line. There are many factors that can affect experimental data, including measurement error, the influence of environmental conditions, and the presence of related variable quantities.
+    </p>
+
+<example xml:id="example-gas-mileage"><statement>
+<p>A consumer group wants to test the gas mileage of a new model SUV. They test-drive six vehicles under similar conditions and record the distance each drove on various amounts of gasoline.</p>
+    <sidebyside>
+    <tabular top="major" halign="center" right="minor" left="minor" bottom="minor">
+        <row bottom="minor">
+            <cell>Gasoline used (gal)</cell>
+            <cell><m>9.6</m></cell>
+            <cell><m>11.3</m></cell>
+            <cell><m>8.8</m></cell>
+            <cell><m>5.2</m></cell>
+            <cell><m>10.3</m></cell>
+            <cell><m>6.7</m></cell>
+        </row>
+        <row>
+            <cell>Miles driven</cell>
+            <cell><m>155.8</m></cell>
+            <cell><m>183.6</m></cell>
+            <cell><m>139.6</m></cell>
+            <cell><m>80.4</m></cell>
+            <cell><m>167.1</m></cell>
+            <cell><m>99.7</m></cell>
+        </row>
+    </tabular></sidebyside>
+    <p><ol label="a">
+        <li><p>Are the data linear?</p></li>
+        <li><p>Draw a line that fits the data.</p></li>
+        <li><p>What does the slope of the line tell us about the data?</p></li>
+    </ol>
+    </p></statement>
+<solution><p><ol label="a">
+    <li><p>No, the data are not strictly linear. If we compute the slopes between successive data points, the values are not constant. We can see from an accurate plot of the data, shown in <xref ref="fig-gas-mileage" text="type-global" />, that the points lie close to, but not precisely on, a straight line.</p>
+    <sidebyside widths="45% 45%"><figure xml:id="fig-gas-mileage"><caption></caption><image source="images/fig-gas-mileage"><description>gas mileage</description></image></figure>
+    <figure xml:id="fig-gas-mileage2"><caption></caption><image source="images/fig-gas-mileage2"><description>gas mileage</description></image></figure></sidebyside>
+    </li>
+    <li>We would like to draw a line that comes as close as possible to all the data points, even though it may not pass precisely through any of them. In particular, we try to adjust the line so that we have the same number of data points above the line and below the line. One possible solution is shown in <xref ref="fig-gas-mileage2" text="type-global" />.</li>
+    <li>To compute the slope of the our estimated line, we first choose two points on the line. Our line appears to pass through one of the data points,<m>(8.8, 139.6)</m>. We look for a second point on the line whose coordinates are easy to read, perhaps <m>(6.5,100)</m>. The slope is
+        <me>m = \frac{139.6 - 100}{8.8 - 6.5}= 17.2\text{ miles per gallon}</me>
+    According to our data, the SUV gets about 17.2 miles to the gallon.</li>
+</ol></p></solution></example>
+
+<warning><p>  To find the slope of your estimated line, be sure to choose points <em>on the line</em>; do not choose any of the data points (unless they happen to lie on your line).</p></warning>
+
+<exercise xml:id="exercise-scatterplot"><statement><p>
+    <ol label="a">
+        <li><p>Plot the data points. Do the points lie on a line?</p></li>
+        <li><p>Draw a line that fits the data.</p></li>
+    </ol></p>
+    <sidebyside>
+    <tabular top="major" halign="center" right="minor" left="minor" bottom="minor">
+        <row bottom="minor">
+            <cell><m>x</m></cell>
+            <cell><m>1.49</m></cell>
+            <cell><m>3.68</m></cell>
+            <cell><m>4.95</m></cell>
+            <cell><m>5.49</m></cell>
+            <cell><m>7.88</m></cell>
+            <cell><m>8.41</m></cell>
+        </row>
+        <row>
+            <cell><m>y</m></cell>
+            <cell><m>2.69</m></cell>
+            <cell><m>3.7</m></cell>
+            <cell><m>4.6</m></cell>
+            <cell><m>5.2</m></cell>
+            <cell><m>7.2</m></cell>
+            <cell><m>7.3</m></cell>
+        </row>
+    </tabular></sidebyside>
+</statement>
+<answer><p>
+    <ol label="a" cols="2">
+        <li><sidebyside width="85%"><image source="images/fig-in-ex-ans-1-6-2a"><description>scatterplot</description></image></sidebyside></li>
+        <li><sidebyside width="85%"><image source="images/fig-in-ex-ans-1-6-2b"><description>scatterplot with regression line</description></image></sidebyside></li>
+    </ol>
+</p></answer>
+</exercise>
+
+<p>
+    The graph in <xref ref="example-gas-mileage" text="type-global" /> is called a <term>scatterplot</term><idx>scatterplot</idx>. The points on a scatterplot may or may not show some sort of pattern. Consider the three plots in <xref ref="fig-scatterplots" text="type-global" />. 
+    <ul>
+        <li>In <xref ref="fig-scatterplots" text="type-global" />a, the data points resemble a cloud of gnats; there is no apparent pattern to their locations.</li>
+        <li> In <xref ref="fig-scatterplots" text="type-global" />b, the data follow a generally decreasing trend, but certainly do not all lie on the same line.</li>
+        <li> The points in <xref ref="fig-scatterplots" text="type-global" />c are even more organized; they seem to lie very close to an imaginary line.</li>
+    </ul>
+</p>
+<figure xml:id="fig-scatterplots"><caption></caption><image source="images/fig-scatterplots"   width="80%"><description>three scatterplots</description></image></figure>
+
+<p>
+    If the data in a scatterplot are roughly linear, we can estimate the location of an imaginary <term>line of best</term><idx>line of best</idx> fit that passes as close as possible to the data points. We can then use this line to make predictions about the data.</p>
+</subsection>
+
+
+<subsection><title>Linear Regression</title>
+    <p>
+        One measure of a person's physical fitness is the <term>body mass index</term><idx>body mass index</idx>, or BMI. Your BMI is the ratio of your weight in kilograms to the square of your height in centimeters. Thus, thinner people have lower BMI scores, and fatter people have higher scores. The Centers for Disease Control considers a BMI between 18.5 and 24.9 to be healthy.</p>
+        <p> The points on the scatterplot in <xref ref="fig-BMI" text="type-global"/> show the BMI of Miss America from 1918 to 1998. From the data in the scatterplot, can we see a trend in Americans’ ideal of female beauty?
+    </p>
+    <figure xml:id="fig-BMI"><caption></caption><image source="images/fig-BMI"   width="80%"><description>Miss America BMI</description></image></figure>
+<example xml:id="example-BMI"><statement><p>
+    <ol label="a">
+        <li>Estimate a line of best fit for the scatterplot in <xref ref="fig-BMI" text="type-global" />. (Source: http://www.pbs.org)</li>
+        <li>Use your line to estimate the BMI of Miss America 1980.</li>
+    </ol></p></statement>
+<solution><p>
+    <ol label="a">
+        <li><p>We draw a line that fits the data points as best we can, as shown in <xref ref="fig-BMI2" text="type-global" />. (Note that we have set <m>t = 0</m> in 1920 on this graph.) We try to end up with roughly equal numbers of data points above and below our line.</p>
+        <figure xml:id="fig-BMI2"><caption></caption><image source="images/fig-BMI2"   width="80%"><description>Miss America BMI</description></image></figure></li>
+        <li>We see that when <m>t = 60</m> on this line, the <m>y</m>-value is approximately 18.3. We therefore estimate that Miss America 1980 had a BMI of 18.3. (Her actual BMI was 17.85.)</li>
+    </ol>   
+</p></solution>
+</example>
+
+<exercise xml:id="hominid-brains"><statement><p>
+    Human brains consume a large amount of energy, about 16 times as much as muscle tissue per unit weight. In fact, brain metabolism accounts for about 25<percent/> of an adult human’s energy needs, as compared to about 5<percent/> for other mammals.</p>
+    <p> As hominid species evolved, their brains required larger and larger amounts of energy, as shown in <xref ref="fig-hominid-brains" text="type-global" />. (Source: Scientific American, December 2002)</p>
+    <figure xml:id="fig-hominid-brains"><caption></caption><image source="images/fig-hominid-brains" width="55%"><description>hominid brains</description></image></figure>
+    <p><ol label="a">
+        <li>Draw a line of best fit through the data points.</li>
+        <li>Estimate the amount of energy used by the brain of a hominid species that lived three million years ago.</li>
+    </ol>
+</p></statement>
+<answer><p>
+    <ol label="a">
+        <li><sidebyside  width="40%"><image source="images/fig-in-ex-ans-1-6-3"><description>scatterplot with regression line</description></image></sidebyside></li>
+        <li><p>About <m>10.5\%</m> </p></li>
+    </ol>
+</p></answer>
+</exercise>
+
+<p>
+    The process of predicting an output value based on a straight line that fits the data is called <term>linear regression</term><idx>linear regression</idx>, and the line itself is called the <term>regression line</term><idx>regression line</idx>. The equation of the regression line is usually used (instead of a graph) to predict values.</p>
+
+<example xml:id="example-BMI-regression"><statement><p>
+    <ol label="a">
+        <li>Find the equation of the regression line in <xref ref="example-BMI" text="type-global" />, <xref ref="fig-BMI" text="type-global" />.</li>
+        <li>Use the regression equation to predict the BMI of Miss America 1980.</li>
+    </ol></p></statement>
+<solution><p>
+    <ol label="a">
+        <li>We first calculate the slope by choosing two points on the regression line we drew in <xref ref="fig-BMI2" text="type-global" />. The points we choose are not necessarily any of the original data points; instead they should be points on the regression line itself. The line appears to pass through the points <m>(17, 20)</m> and <m>(67, 18)</m>. The slope of the line is then
+        <me>m = \frac{18 - 20}{67 - 17}\approx -0.04</me>
+        Now we use the point-slope formula to find the equation of the line. (If you need to review the point-slope formula, see <xref ref="linear-functions" text="type-global"/>.) We substitute <m>m = -0.04</m> and use either of the two points for <m>(x_1, y_1)</m>; we will choose <m>(17, 20)</m>. The equation of the regression line is
+        \begin{align*}
+        y \amp = y_1 + m(x - x_1)\\
+        y \amp = 20-0.04(x-17)
+        \amp \amp \text{Simplify.}\\
+        y \amp = 20.68 - 0.04t\\
+        \end{align*}
+        </li>
+        <li>We will use the regression equation to make our prediction. For Miss America 1980, <m>t = 60</m> and 
+        <me>y = 20.68 - 0.04(60) = 18.28</me>
+        This value agrees well with the estimate we made in <xref ref="example-BMI" text="type-global" />.</li>
+    </ol>
+</p></solution>
+</example>
+
+<exercise xml:id="exercise-manatees"><statement><p>
+    The number of manatees killed by watercraft in Florida waters has been increasing since 1975. Data are given at 5-year intervals in the table. (Source: Florida Fish and Wildlife Conservation Commission)</p>
+    <sidebyside valigns="middle middle"><tabular top="major" halign="center" right="minor" left="minor" bottom="minor">
+        <row bottom="minor">
+            <cell>Year</cell>
+            <cell>Manatee deaths</cell>
+        </row>
+        <row>
+            <cell><m>1975</m></cell>
+            <cell><m>6</m></cell>
+        </row>
+        <row>
+            <cell><m>1980</m></cell>
+            <cell><m>16</m></cell>
+        </row>
+        <row>
+            <cell><m>1985</m></cell>
+            <cell><m>33</m></cell>
+        </row>
+        <row>
+            <cell><m>1990</m></cell>
+            <cell><m>47</m></cell>
+        </row>
+        <row>
+            <cell><m>1995</m></cell>
+            <cell><m>42</m></cell>
+        </row>
+        <row>
+            <cell><m>2000</m></cell>
+            <cell><m>78</m></cell>
+        </row>
+    </tabular>
+    <figure xml:id="fig-manatees"><caption></caption><image source="images/fig-manatees"   width="100%"><description>manatee deaths</description></image></figure></sidebyside>
+    <p><ol label="a">
+        <li>Draw a regression line through the data points shown in <xref ref="fig-manatees" text="type-global" />.</li>
+        <li>Use the regression equation to estimate the number of manatees killed by watercraft in 1998.</li>
+    </ol>
+</p></statement>
+<answer><p>
+    <ol label="a">
+        <li><sidebyside width="65%"><image source="images/fig-in-ex-ans-1-6-4"><description>scatterplot with regression line</description></image></sidebyside></li>
+        <li><p><m>y = 4.7 + 2.6t</m> </p></li>
+        <li><p><m>65</m></p></li>
+    </ol>
+</p></answer>
+</exercise>
+</subsection>
+
+<subsection><title>Linear Interpolation and Extrapolation</title>
+    <p>
+        Using a regression line to estimate values between known data points is called <term>interpolation</term><idx>interpolation</idx>. Making predictions beyond the range of known data is called <term>extrapolation</term><idx>extrapolation</idx>.
+    </p>
+
+<example xml:id="example-BMI-extrapolation"><statement><p>
+    <ol label="a">
+        <li>Use linear interpolation to estimate the BMI of Miss America 1960.</li>
+        <li>Use linear extrapolation to predict the BMI of Miss America 2001.</li>
+    </ol></p></statement>
+<solution><p>
+    <ol label="a">
+        <li>For 1960, we substitute <m>t = 40</m> into the regression equation we found in <xref ref="example-BMI-regression" text="type-global" />. 
+        <me>y = 20.68 - 0.04(40) = 19.08</me> 
+        We estimate that Miss America 1960 had a BMI of 19.08. (Her BMI was actually 18.79.)</li>
+        <li>For 2001, we substitute <m>t = 81</m> into the regression equation. 
+        <me>y = 20.68 - 0.04(81) = 17.44</me></li>
+    </ol>
+    Our model predicts that Miss America 2001 had a BMI of 17.44. In fact, her BMI was 20.25. By the late 1990s, public concern over the self-image of young women had led to a reversal of the trend toward ever-thinner role models.</p>
+</solution>
+</example>
+
+<p>
+    <xref ref="example-BMI-extrapolation" text="type-global" />b illustrates an important fact about extrapolation: If we try to extrapolate too far, we may get unreasonable results. For example, if we use our model to predict the BMI of Miss America 2520 (when <m>t = 600</m>), we get 
+    <me>y = 20.68 - 0.04(600) =-3.32</me>
+    Even if the Miss America pageant is still operating in 600 years, the winner cannot have a negative BMI. Our linear model provides a fair approximation for 1920<ndash/>1990, but if we try to extrapolate too far beyond the known data, the model may no longer apply.
+</p>
+
+<p>We can also use interpolation and extrapolation to make estimates for nonlinear functions. Sometimes a variable relationship is not linear, but a portion of its graph can be approximated by a line.</p> 
+
+<sidebyside widths="35% 50%"><figure xml:id="fig-Emily-height"><caption></caption><image source="images/fig-Emily-height"><description>Emily's height</description></image></figure>
+<p>
+    The graph in <xref ref="fig-Emily-height" text="type-global" /> shows a child’s height each month. The graph is not linear because her rate of growth is not constant; her growth slows down as she approaches her adult height. However, over a short time interval the graph is close to a line, and that line can be used to approximate the coordinates of points on the curve.
+</p></sidebyside>
+
+<exercise xml:id="exercise-Emily-height"><statement><p>
+    Emily was 82 centimeters tall at age 36 months and 88 centimeters tall at age 48 months.
+    <ol label="a">
+        <li><p>Find a linear equation that approximates Emily's height in terms of her age over the given time interval.</p></li>
+        <li><p>Use linear interpolation to estimate Emily’s height when she was 38 months old, and extrapolate to predict her height at age 50 months.</p></li>
+        <li><p>Predict Emily's height at age 25 (300 months). Is your answer reasonable?</p></li>
+    </ol>
+</p></statement>
+<answer><p>
+    <ol label="a" cols="3">
+        <li><p><m>y = 64 + 0.5x</m></p></li>
+        <li><p><m>83</m> cm, <m>89</m> cm</p></li>
+        <li><p><m>214</m> cm; No</p></li>
+    </ol>
+</p></answer>
+</exercise>
+
+<p>Estimating a line of best fit is a subjective process. Rather than base their estimates on such a line, statisticians often use the <term>least squares regression line</term><idx>least squares regression line</idx>.</p>
+
+<sidebyside widths="22% 55%"><figure xml:id="fig-least-squares"><caption></caption><image source="images/fig-least-squares"   width="60%"><description>least squares line</description></image></figure>
+<p>
+    This regression line minimizes the sum of the squares of all the vertical distances between the data points and the corresponding points on the line (see <xref ref="fig-least-squares" text="type-global" />). Many calculators are programmed to find the least squares regression line, using an algorithm that depends only on the data, not on the appearance of the graph.
+</p></sidebyside>
+
+<technology><title><!--<image source="images/icon-GC.jpg"  width="8%"><description>Graphing Calculator</description></image>-->Using a Calculator for Linear Regression</title>
+<figure xml:id="fig-GC-lists"><caption></caption><image source="images/fig-GC-lists"   width="60%"><description>least squares line</description></image></figure>
+<p>
+    You can use a graphing calculator to make a scatterplot, find a regression line, and graph the regression line with the data points. On the TI-83 calculator, we use the statistics mode, which you can access by pressing <c>STAT</c>. You will see a display that looks like <xref ref="fig-GC-lists" text="type-global" />a. Choose <m>1</m> to Edit (enter or alter) data. Now follow the instructions in <xref ref="example-GC-regression" text="type-global"/> for using your calculator’s statistics features.
+</p>
+</technology>
+
+<example xml:id="example-GC-regression"><statement><p>
+    <ol label="a">
+        <li>Find the equation of the least squares regression line for the following data:
+            <me>(10, 12), (11, 14), (12, 14), (12, 16), (14, 20)</me>
+        </li>
+        <li>Plot the data points and the least squares regression line on the same axes.</li>
+    </ol></p></statement>
+<solution><p>
+    <ol label="a">
+        <li><p>We must first enter the data. Press <c>STAT</c><c>ENTER</c> to select Edit. If there are data in column <m>L_1</m> or <m>L_2</m>, clear them out: Use the <!--<m>\boxed{\uparrow}</m>  --> <m>\boxed{\uparrow}</m>  key to select <m>L_1</m>, press <c>CLEAR</c>, then do the same for <m>L_2</m>. Enter the <m>x</m>-coordinates of the data points in the <m>L_1</m> column and enter the <m>y</m>-coordinates in the <m>L_2</m> column, as shown in <xref ref="fig-GC-regression" text="type-global" />a.</p>
+        <figure xml:id="fig-GC-regression"><caption></caption><image source="images/fig-GC-regression"   width="70%"><description>GC regression windows</description></image></figure>
+        <p>Now we are ready to find the regression equation for our data. Press <c>STAT</c><!--<m>\boxed{\rightarrow}</m> --> <m>\boxed{\rightarrow}</m>  4 to select linear regression, or LinReg (ax + b), then press <c>ENTER</c>. The calculator will display the equation <m>y = ax + b</m> and the values for <m>a</m> and <m>b</m>, as shown in <xref ref="fig-GC-regression" text="type-global" />b. You should find that your regression line is approximately <m>y = 1.95x - 7.86</m>.</p></li>
+
+        <li><p>First, we first clear out any old definitions in the list. Position the cursor after <m>Y_1 =</m> and copy in the regression equation as follows: Press <c>VARS</c><m>5</m><!--<m>\boxed{\rightarrow}</m> <m>\boxed{\rightarrow}</m> --> <m>\boxed{\rightarrow}</m> <m>\boxed{\rightarrow}</m> <c>ENTER</c>. To draw a scatterplot, press <c>2nd</c><c>Y=</c><m>1</m> and set the Plot1 menu as shown in <xref ref="fig-GC-regression2" text="type-global" />a. Finally, press <c>ZOOM</c> <m>9</m> to see the scatterplot of the data and the regression line. The graph is shown in <xref ref="fig-GC-regression2" text="type-global"/>b.</p>
+        <figure xml:id="fig-GC-regression2"><caption></caption><image source="images/fig-GC-regression2"   width="70%"><description>GC regression windows</description></image></figure></li>
+</ol>
+</p></solution>
+</example>
+
+<warning>
+    <p>
+        When you are through with the scatterplot, press <c>Y=</c><!--<m>\boxed{\uparrow}</m>  --> <m>\boxed{\uparrow}</m>  <c>ENTER</c> to turn off the Stat Plot. If you neglect to do this, the calculator will continue to show the scatterplot even after you ask it to plot a new equation.
+    </p>
+</warning>
+
+<exercise xml:id="exercise-GC-regression"><statement><p>
+    <ol label="a">
+        <li><p>
+            Use your calculator’s statistics features to find the least squares regression equation for the data in <xref ref="exercise-scatterplot" text="type-global" />.
+        </p></li>
+        <li><p>
+            Plot the data and the graph of the regression equation.
+        </p></li>
+    </ol>
+</p></statement>
+<answer><p>
+    <ol label="a" cols="2">
+        <li><p><m>y = 1.34 + 0.71x</m></p></li>
+        <li><sidebyside width="90%">
+            <image source="images/fig-in-ex-ans-1-6-6.jpg">
+              <description>
+                GC scatterplot with regression line
+              </description>
+            </image>
+        </sidebyside></li>
+    </ol>
+</p></answer>  
+</exercise>
+
+</subsection>
+
+<xi:include href="./summary-1-6.xml" /> <!-- summary  -->
+<xi:include href="./section-1-6-exercises.xml" /> <!-- exercises  -->
+
+</section> 
+<!-- </book>  </mathbook> -->

@@ -1,0 +1,736 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!-- <mathbook><book> -->
+
+<section xml:id="Logarithm-Scales"   xmlns:xi="http://www.w3.org/2001/XInclude">
+<title>Logarithmic Scales</title>
+<introduction>
+<p>
+	Because logarithmic functions grow very slowly, they are useful for modeling phenomena that take on a very wide range of values. For example, biologists study how metabolic functions such as heart rate are related to an animal’s weight, or mass. <xref ref="table-mammal-mass" text="type-global"/> shows the mass in kilograms of several mammals.</p>
+	<table xml:id="table-mammal-mass"><caption></caption><tabular top="major" halign="center" right="minor" left="minor" bottom="minor">
+        <row bottom="minor">
+            <cell halign="left"><em>Animal</em></cell>
+            <cell>Shrew</cell>
+            <cell>Cat</cell>
+            <cell>Wolf</cell>
+            <cell>Horse</cell>
+            <cell>Elephant</cell>
+            <cell>Whale</cell>
+        </row>
+        <row>
+            <cell halign="left">Mass, kg</cell>
+            <cell><m>0.004</m></cell>
+            <cell><m>4</m></cell>
+            <cell><m>80</m></cell>
+            <cell><m>300</m></cell>
+            <cell><m>5400</m></cell>
+            <cell><m>70,000</m></cell>
+        </row>
+    </tabular></table>
+
+<p>
+	Imagine trying to scale the <m>x</m>-axis to show all of these values. If we set tick marks at intervals of <m>10,000</m> kg, as shown in <xref ref="fig-numline-mammal-mass" text="type-global"/>, we can plot the mass of the whale, and maybe the elephant, but the dots for the smaller animals will be indistinguishable.
+</p>
+<figure xml:id="fig-numline-mammal-mass"><caption></caption><image source="images/fig-numline-mammal-mass"  width="75%"><description>number line with masses of mammals</description></image></figure>
+<p>
+	On the other hand, we can plot the mass of the cat if we set tick marks at intervals of <m>1</m> kg, as shown in <xref ref="fig-numline-mammal-mass2" text="type-global"/>, but the axis will have to be extremely long to include even the wolf. We cannot show the masses of all these animals on the same scale.
+</p>
+<figure xml:id="fig-numline-mammal-mass2"><caption></caption><image source="images/fig-numline-mammal-mass2"  width="75%"><description>number line with masses of mammals</description></image></figure>
+<p>
+	To get around this problem, we can plot the log of the mass, instead of the mass itself. <xref ref="table-mammal-log-mass" text="type-global"/> shows the base 10 log of each animal's mass, rounded to <m>2</m> decimal places.</p>
+	<table xml:id="table-mammal-log-mass"><caption></caption><tabular top="major" halign="center" right="minor" left="minor" bottom="minor">
+        <row bottom="minor">
+            <cell halign="left"><em>Animal</em></cell>
+            <cell>Shrew</cell>
+            <cell>Cat</cell>
+            <cell>Wolf</cell>
+            <cell>Horse</cell>
+            <cell>Elephant</cell>
+            <cell>Whale</cell>
+        </row>
+        <row>
+            <cell halign="left">Mass, kg</cell>
+            <cell><m>0.004</m></cell>
+            <cell><m>4</m></cell>
+            <cell><m>80</m></cell>
+            <cell><m>300</m></cell>
+            <cell><m>5400</m></cell>
+            <cell><m>70,000</m></cell>
+        </row>
+        <row>
+            <cell halign="left">Log (mass)</cell>
+            <cell><m>-2.40</m></cell>
+            <cell><m>0.60</m></cell>
+            <cell><m>1.90</m></cell>
+            <cell><m>2.48</m></cell>
+            <cell><m>3.73</m></cell>
+            <cell><m>4.85</m></cell>
+        </row>
+    </tabular></table>
+
+<p>
+	The logs of the masses range from <m>-2.40</m> to <m>4.85</m>. We can easily plot these values on a single scale, as shown in <xref ref="fig-logscale-mammal-mass" text="type-global"/>.</p>
+	<figure xml:id="fig-logscale-mammal-mass"><caption></caption><image source="images/fig-logscale-mammal-mass"  width="80%"><description>mammal masses plotted on log scale</description></image></figure>
+
+<p>
+	The scale in <xref ref="fig-logscale-mammal-mass" text="type-global"/> is called a <term>logarithmic scale</term><idx>logarithmic scale</idx>, or log scale. The tick marks are labeled with powers of <m>10</m>, because, as you recall, a logarithm is actually an exponent. For example, the mass of the horse is <m>300</m> kg, and
+	<me>\log 300 = 2.48 ~~ \text{ so } ~~ 10^{2.48} = 300</me>
+	When we plot <m>2.48</m> for the horse, we are really plotting the power of <m>10</m> that gives its mass, because <m>10^{2.48} = 300</m> kg. The exponents on base <m>10</m> are evenly spaced on a log scale, so we plot <m>10^{2.48}</m> about halfway between <m>10^2</m> and <m>10^3</m>.
+</p>
+
+<example xml:id="example-plot-logscale"><statement>
+	<p>
+		Plot the values on a log scale.</p>
+		<sidebyside><tabular top="major" halign="center" right="minor" left="minor" bottom="minor">
+        <row bottom="minor">
+            <cell><m>x</m></cell>
+            <cell><m>0.0007</m></cell>
+            <cell><m>0.2</m></cell>
+            <cell><m>3.5</m></cell>
+            <cell><m>1600</m></cell>
+            <cell><m>72,000</m></cell>
+            <cell><m>4 \times 10^8</m></cell>               
+        </row>
+    </tabular></sidebyside>
+	
+</statement><solution>
+<p>
+	We actually plot the logs of the values, so we first compute the base <m>10</m> logarithm of each number.</p>
+		<sidebyside><tabular top="major" halign="center" right="minor" left="minor" bottom="minor">
+        <row bottom="minor">
+            <cell><m>x</m></cell>
+            <cell><m>0.0007</m></cell>
+            <cell><m>0.2</m></cell>
+            <cell><m>3.5</m></cell>
+            <cell><m>1600</m></cell>
+            <cell><m>72,000</m></cell>
+            <cell><m>4 \times 10^8</m></cell>               
+        </row>
+        <row>
+            <cell><m>\log x</m></cell>
+            <cell><m>-3.15</m></cell>
+            <cell><m>-0.70</m></cell>
+            <cell><m>0.54</m></cell>
+            <cell><m>3.20</m></cell>
+            <cell><m>4.86</m></cell>               
+            <cell><m>8.60</m></cell>               
+        </row>      
+    </tabular></sidebyside>
+	<p>Then we plot each logarithm, estimating its position between integer exponents. For example, we plot the first value, <m>-3.15</m>, closer to <m>-3</m> than to <m>-4</m>. The finished plot is shown in <xref ref="fig-logscale" text="type-global"/>.</p>
+	<figure xml:id="fig-logscale"><caption></caption><image source="images/fig-logscale"><description>points plotted on log scale</description></image></figure>
+
+</solution></example>
+
+<exercise xml:id="exercise-read-logscale"><statement>
+	<p>
+		Complete the table by estimating the logarithm of each point plotted on the log scale in <xref ref="fig-read-logscale" text="type-global"/>. Then give a decimal value for each point.</p>
+		<sidebyside><tabular top="major" halign="center" right="minor" left="minor" bottom="minor">
+        <row>
+            <cell><m>\log x</m></cell>
+            <cell><m>\hphantom{blank}</m></cell>
+            <cell><m>\hphantom{blank}</m></cell>
+            <cell><m>\hphantom{blank}</m></cell>
+            <cell><m>\hphantom{blank}</m></cell>
+        </row>      
+        <row>
+            <cell><m>x</m></cell>
+            <cell><m></m></cell>
+            <cell><m></m></cell>
+            <cell><m></m></cell>
+            <cell><m></m></cell>
+        </row>
+    </tabular></sidebyside>
+    <figure xml:id="fig-read-logscale"><caption></caption><image source="images/fig-read-logscale"  width="90%"><description>points on logscale</description></image></figure>
+	
+</statement>
+<answer><sidebyside>
+		<tabular top="major" halign="center" right="minor" left="minor" bottom="minor">
+        <row>
+            <cell><m>\log x</m></cell>
+            <cell><m>-4</m></cell>
+            <cell><m>-2.5</m></cell>
+            <cell><m>1.5</m></cell>
+            <cell><m>4.25</m></cell>
+        </row>      
+        <row>
+            <cell><m>x</m></cell>
+            <cell><m>0.0001</m></cell>
+            <cell><m>0.0032</m></cell>
+            <cell><m>31.6</m></cell>
+            <cell><m>17,782.8</m></cell>
+        </row>
+    </tabular>
+</sidebyside></answer>
+</exercise>
+</introduction>
+<subsection><title>Using Log Scales</title>
+<p>
+	By now, you have noticed that the values represented by points on a log scale increase rapidly as we move to the right along the scale. Also notice that <m>10^0 = 1</m>, so the "middle" of a log scale represents <m>1</m> (not zero, as on a linear scale).</p>
+    <p> Points to the left of <m>10^0</m> represent fractions between <m>0</m> and <m>1</m>, because powers of <m>10</m> with negative exponents are numbers less than <m>1</m>. Their values decrease toward <m>0</m> as we move to the left, but they never become negative.</p> 
+    <p>We cannot plot negative numbers or zero on a log scale, because the log of a negative number or zero is undefined.
+</p>
+
+<example xml:id="example-log-timeline"><statement>
+	<p>
+		<xref ref="fig-log-timeline" text="type-global"/> shows a timeline for life on Earth, in units of Mya (million years ago).</p>
+		<figure xml:id="fig-log-timeline"><caption></caption><image source="images/fig-log-timeline"><description>timeline of events on a logscale</description></image></figure>
+		<p>Approximately how long ago did each of the following events occur?
+		<ol label="a">
+			<li>
+				Formation of Earth
+			</li>
+			<li>
+				Dinosaurs became extinct
+			</li>
+			<li>
+				The last ice age
+			</li>
+			<li>
+				The Crusades
+			</li>
+		</ol>
+	</p>
+</statement><solution><p>
+	<ol label="a">
+		<li>
+			We read from the timeline that the Earth was formed between <m>10^3</m> and <m>10^4</m>, or between <m>1000</m> and <m>10,000</m> million years ago. We estimate that Earth formed <m>5000</m> million years ago.
+		</li>
+		<li>
+			The extinction of the dinosaurs is plotted between <m>10^1</m> and <m>10^2</m>, or between <m>10</m> and <m>100</m> million years ago. Because the point is closer to <m>10^2</m>, we estimate their extinction at <m>70</m> million years ago.
+		</li>
+		<li>
+			The last ice age is plotted just after <m>10^-2</m>, or <m>0.01</m> million years ago. One-hundredth of a million is <m>10,000</m>, so we estimate that the ice age occurred a little more than <m>10,000</m> years ago.
+		</li>
+		<li>
+			The Crusades occurred about <m>10^{-3}</m>, or about <m>0.001</m> million years ago. One-thousandth of a million is <m>1000</m>, so the Crusades occurred about <m>1000</m> years ago, or about <m>1000</m> A.D.
+		</li>
+	</ol>
+</p></solution></example>
+
+<exercise xml:id="exercise-log-costs"><statement>
+	<p>
+		Plot the following dollar values on a log scale.</p>
+		<sidebyside><tabular top="major" halign="left" right="minor" left="minor" bottom="minor">
+        <row bottom="minor">
+            <cell>Postage stamp</cell>
+            <cell><m>0.47</m></cell>
+        </row>
+        <row bottom="minor">
+            <cell>Medium cappuccino</cell>
+            <cell><m>3.65</m></cell>
+        </row>
+        <row bottom="minor">
+            <cell>Notebook computer</cell>
+            <cell><m>679</m></cell>
+        </row>
+        <row bottom="minor">
+            <cell>One year at Harvard</cell>
+            <cell><m>88,600</m></cell>
+        </row>
+        <row bottom="minor">
+            <cell>2016 Lamborghini</cell>
+            <cell><m>530,075</m></cell>
+        </row>
+        <row bottom="minor">
+            <cell>Kobe Bryant's salary</cell>
+            <cell><m>25,000,000</m></cell>
+        </row>
+        <row bottom="minor">
+            <cell>Bill Gates's financial worth</cell>
+            <cell><m>79,400,000,000</m></cell>
+        </row>
+        <row bottom="minor">
+            <cell>U.S. National debt</cell>
+            <cell><m>19,341,810,000</m></cell>
+        </row>
+    </tabular></sidebyside>
+
+	</statement>
+<answer><sidebyside><image source="images/fig-in-ex-ans-5-4-2"><description>logscale</description></image></sidebyside></answer>
+</exercise>
+
+</subsection>
+
+
+<subsection><title>Equal Increments on a Log Scale</title>
+<p>
+	Log scales allow us to plot a wide range of values, but there is a trade-off. Equal increments on a log scale do not correspond to equal differences in value, as they do on a linear scale. You can see why in <xref ref="fig-logscale-increments" text="type-global"/>: The difference between <m>10^1</m> and <m>10^0</m> is <m>10 - 1 = 9</m>, but the difference between <m>10^2</m> and <m>10^1</m> is <m>100 - 10 = 90</m>.</p>
+	<figure xml:id="fig-logscale-increments"><caption></caption><image source="images/fig-logscale-increments"  width="60%"><description>logscale with integer exponents</description></image></figure>
+	<p>If we include tick marks for intermediate values on the log scale, they look like <xref ref="fig-logscale-increments2" text="type-global"/>.</p>
+	<figure xml:id="fig-logscale-increments2"><caption></caption><image source="images/fig-logscale-increments2"><description>logscale with decimal exponents</description></image></figure>
+
+<p>
+	Once again, the difference between, say, <m>10^{0.1}</m> and <m>10^{0.2}</m> is not the same as the difference between <m>10^{0.2}</m> and <m>10^{0.3}</m>. The decimal values of the powers <m>10^{0.1}</m> through <m>10^{0.9}</m>, rounded to two places, are shown in <xref ref="fig-logscale-increments3" text="type-global"/>.</p>
+	<figure xml:id="fig-logscale-increments3"><caption></caption><image source="images/fig-logscale-increments3"  width="70%"><description>logscale showing values of powers</description></image></figure>
+
+<p>
+	As we move from left to right on this scale, we <em>multiply</em> the value at the previous tick mark by <m>10^{0.1}</m>, or about <m>1.258</m>. For example,
+	\begin{align*}
+	10^{0.2} \amp = 1.258 \times   10^{0.1} = 1.585\\
+	10^{0.3} \amp = 1.585 \times   10^{0.1} = 1.995
+	\end{align*}
+	and so on. Moving up by equal increments on a log scale does not add equal amounts to the values plotted; it <em>multiplies</em> the values by equal <em>factors</em>.
+</p>
+
+<example xml:id="example-logscale-half-step"><statement>
+	<p>
+		What number is halfway between <m>10</m> and <m>100</m> on a log scale?
+	</p>
+</statement><solution>
+	<p>
+		On a log scale, the number <m>10^{1.5}</m> is halfway between <m>10^1</m> and <m>10^2</m>, as shown in <xref ref="fig-logscale-half-step" text="type-global"/>.</p>
+		<figure xml:id="fig-logscale-half-step"><caption></caption><image source="images/fig-logscale-half-step"  width="60%"><description>log scale showing point halfway between 10 and 100</description></image></figure>
+		<p>Now, <m>10^{1.5} = 10\sqrt{10}</m>, or approximately <m>31.62</m>. Note how equal increments of <m>0.5</m> on the log scale correspond to equal factors of <m>10^{0.5}</m> in the values plotted:
+		\begin{align*}
+		10 \times 3.162 \amp = 31.62 \text{ and } 31.62 \times 3.162 = 100\\
+		10^1 \times 10^{0.5} \amp = 101.5 \text{ and }  101.5 \times 10^{0.5} = 10^2
+		\end{align*}
+	</p>
+</solution></example>
+
+<exercise><statement><p>
+	What number is halfway between <m>10^{1.5}</m> and <m>10^2</m> on a log scale?
+</p></statement>
+<answer><p><m>56.23</m></p></answer>
+</exercise>
+
+<p>
+	If we would like to label the log scale with integers, we get a very different-looking scale, one in which the tick marks are not evenly spaced.
+</p>
+
+<example xml:id="example-logscale-integer-labels"><statement>
+	<p>
+		Plot the integer values 2 through 9 and 20 through 90 on a log scale.
+	</p>
+</statement><solution>
+<p>
+		Compute the logarithm of each integer value.</p>
+		<sidebyside><tabular top="major" halign="center" right="minor" left="minor" bottom="minor">
+	        <row bottom="minor">
+	            <cell><m>x</m></cell>
+	            <cell><m>2</m></cell>
+	            <cell><m>3</m></cell>
+	            <cell><m>4</m></cell>
+	            <cell><m>5</m></cell>
+	            <cell><m>6</m></cell>
+	            <cell><m>7</m></cell>
+	            <cell><m>8</m></cell>
+	            <cell><m>9</m></cell>
+	        </row>
+	        <row>
+	            <cell><m>\log x</m></cell>
+	            <cell><m>0.301</m></cell>
+	            <cell><m>0.477</m></cell>
+	            <cell><m>0.602</m></cell>
+	            <cell><m>0.699</m></cell>
+	            <cell><m>0.778</m></cell>
+	            <cell><m>0.845</m></cell>
+	            <cell><m>0.903</m></cell>
+	            <cell><m>0.954</m></cell>
+	        </row>
+	    </tabular></sidebyside>
+		<sidebyside><tabular top="major" halign="center" right="minor" left="minor" bottom="minor">
+	        <row bottom="minor">
+	            <cell><m>x</m></cell>
+	            <cell><m>20</m></cell>
+	            <cell><m>30</m></cell>
+	            <cell><m>40</m></cell>
+	            <cell><m>50</m></cell>
+	            <cell><m>60</m></cell>
+	            <cell><m>70</m></cell>
+	            <cell><m>80</m></cell>
+	            <cell><m>90</m></cell>
+	        </row>
+	        <row>
+	            <cell><m>\log x</m></cell>
+	            <cell><m>1.301</m></cell>
+	            <cell><m>1.477</m></cell>
+	            <cell><m>1.602</m></cell>
+	            <cell><m>1.699</m></cell>
+	            <cell><m>1.778</m></cell>
+	            <cell><m>1.845</m></cell>
+	            <cell><m>1.903</m></cell>
+	            <cell><m>1.954</m></cell>
+	        </row>
+	    </tabular></sidebyside>
+	    <p>Plot on a log scale, as shown in <xref ref="fig-logscale-integer-labels" text="type-global"/>.</p>
+		<figure xml:id="fig-logscale-integer-labels"><caption></caption><image source="images/fig-logscale-integer-labels"><description>log scale showing integer points</description></image></figure>
+	
+</solution>
+</example>
+<p>
+	On the log scale in <xref ref="fig-logscale-integer-labels" text="type-global"/>, notice how the integer values are spaced: They get closer together as they approach the next power of <m>10</m>. You will often see log scales labeled not with powers of <m>10</m>, but with integer values, as in <xref ref="fig-logscale-integer-labels2" text="type-global"/>.</p>
+	<figure xml:id="fig-logscale-integer-labels2"><caption></caption><image source="images/fig-logscale-integer-labels2"  width="90%"><description>log scale showing tic marks at integer points</description></image></figure>
+
+<p>
+	In fact, <term>log-log graph paper</term><idx>log-log graph paper</idx> scales both axes with logarithmic scales.
+</p>
+
+<exercise xml:id="exercise-log-log-graph"><statement>
+	<p>
+		The opening page of <xref ref="chap3" text="type-global"/> shows the "mouse-to-elephant" curve, a graph of the metabolic rate of mammals as a function of their mass. (The elephant does not appear on that graph, because its mass is too big.) <xref ref="fig-log-log-graph" text="type-global"/> shows the same function, graphed on log-log paper.</p>
+		<figure xml:id="fig-log-log-graph"><caption></caption><image source="images/fig-log-log-graph"  width="80%"><description>mouse-to-elephant curve on log-log graph</description></image></figure>
+		<p>Use this graph to estimate the mass and metabolic rate for the following animals, labeled on the graph.</p>
+		<sidebyside><tabular top="major" halign="left" right="minor" left="minor" bottom="minor">
+        <row bottom="minor">
+            <cell>Animal</cell>
+            <cell>Mouse</cell>
+            <cell>Dog</cell>
+            <cell>Sheep</cell>
+            <cell>Cow</cell>
+            <cell>Elephant</cell>
+        </row>
+        <row>
+            <cell>Mass (kg)</cell>
+            <cell></cell>
+            <cell></cell>
+            <cell></cell>
+            <cell></cell>
+            <cell></cell>
+        </row>
+        <row>
+            <cell>Metabolic rate (kcal/day)</cell>
+            <cell></cell>
+            <cell></cell>
+            <cell></cell>
+            <cell></cell>
+            <cell></cell>
+        </row>
+    </tabular></sidebyside>
+	
+</statement>
+<answer><sidebyside>
+		<tabular top="major" halign="center" right="minor" left="minor" bottom="minor"><col halign="left"/>
+        <row bottom="minor">
+            <cell>Animal</cell>
+            <cell>Mouse</cell>
+            <cell>Dog</cell>
+            <cell>Sheep</cell>
+            <cell>Cow</cell>
+            <cell>Elephant</cell>
+        </row>
+        <row>
+            <cell>Mass (kg)</cell>
+            <cell><m>0.02</m></cell>
+            <cell><m>15</m></cell>
+            <cell><m>50</m></cell>
+            <cell><m>500</m></cell>
+            <cell><m>4000</m></cell>
+        </row>
+        <row>
+            <cell>Metabolic rate (kcal/day)</cell>
+            <cell><m>3.5</m></cell>
+            <cell><m>500</m></cell>
+            <cell><m>1500</m></cell>
+            <cell><m>6000</m></cell>
+            <cell><m>50,000</m></cell>
+        </row>
+    </tabular>
+</sidebyside></answer>
+</exercise>
+
+</subsection>
+
+
+
+<subsection><title>Acidity and the pH Scale</title>
+<p>
+	You may have already encountered log scales in some everyday applications. A simple example is the <term>pH scale</term><idx>pH scale</idx>, used by chemists to measure the acidity of a substance or chemical compound. This scale is based on the concentration of hydrogen ions in the substance, denoted by <m>[H^+]</m>. The pH value is defined by the formula 
+	<me>\text{pH}=-\log_{10}[H^+]</me> 
+	Values for pH fall between <m>0</m> and <m>14</m>, with <m>7</m> indicating a neutral solution. The lower the pH value, the more acidic the substance. Some common substances and their pH values are shown in <xref ref="table-pH" text="type-global"/>.</p>
+	<table xml:id="table-pH"><caption></caption><tabular top="major" halign="center" right="minor" left="minor" bottom="minor">
+		<col halign="left"/><col/><col/>
+        <row bottom="major">
+            <cell>Substance</cell>
+            <cell>pH</cell>
+            <cell><m>[H^+]</m></cell>
+        </row>
+        <row>
+            <cell>Battery acid</cell>
+            <cell><m>1</m></cell>
+            <cell><m>0.1</m></cell>
+        </row>
+        <row>
+            <cell>Lemon juice</cell>
+            <cell><m>2</m></cell>
+            <cell><m>0.01</m></cell>
+        </row>
+        <row>
+            <cell>Vinegar</cell>
+            <cell><m>3</m></cell>
+            <cell><m>0.001</m></cell>
+        </row>
+        <row>
+            <cell>Milk</cell>
+            <cell><m>6.4</m></cell>
+            <cell><m>10^{-6.4}</m></cell>
+        </row>
+        <row>
+            <cell>Baking soda</cell>
+            <cell><m>8.4</m></cell>
+            <cell><m>10^{-8.4}</m></cell>
+        </row>
+        <row>
+            <cell>Milk of magnesia</cell>
+            <cell><m>10.5</m></cell>
+            <cell><m>10^{-10.5}</m></cell>
+        </row>
+        <row>
+            <cell>Lye</cell>
+            <cell><m>13</m></cell>
+            <cell><m>10^{-13}</m></cell>
+        </row>
+    </tabular></table>
+
+
+<example xml:id="example-pH"><statement>
+<p>
+	<ol label="a">
+		<li>
+			Calculate the pH of a solution with a hydrogen ion concentration of <m>3.98 \times 10^{-5}</m>.
+		</li>
+		<li>
+			The water in a swimming pool should be maintained at a pH of <m>7.5</m>. What is the hydrogen ion concentration of the water?
+		</li>
+	</ol>
+</p>
+</statement><solution><p>
+	<ol label="a">
+		<li>
+			We use a calculator to evaluate the pH formula with <m>[H^+] = 3.98\times10^{-5}</m>.
+			<me>\text{pH} = -\log_{10}{(3.98 \times   10^{-5})} \approx 4.4</me>
+		</li>
+		<li>
+			We solve the equation
+			<me>7.5 = -\log_{10}[H^+]</me>
+			for <m>[H^+]</m>. First, we write
+			<me>-7.5 = \log_{10}[H^+]</me>
+			Then we convert the equation to exponential form to get
+			<me>[H^+] = 10^{-7.5}\approx 3.2 \times 10^{-8}</me>
+			The hydrogen ion concentration of the water is <m>3.2 \times 10^{-8}</m>.
+		</li>
+	</ol>
+</p></solution>
+</example>
+
+<exercise><statement>
+	<p>
+		The pH of the water in a tide pool is <m>8.3</m>. What is the hydrogen ion concentration of the water?
+	</p>
+</statement>
+<answer><p><m>5.01\times 10^{-9}</m></p></answer>
+</exercise>
+
+<p>
+	A decrease of <m>1</m> on the pH scale corresponds to an increase in acidity by a factor of <m>10</m>. Thus, lemon juice is <m>10</m> times more acidic than vinegar, and battery acid is <m>100</m> times more acidic than vinegar.
+</p>
+
+</subsection>
+
+
+
+<subsection><title>Decibels</title>
+<p>
+	The <term>decibel scale</term><idx>decibel scale</idx>, used to measure the loudness or intensity of a sound, is another example of a logarithmic scale. The loudness of a sound is measured in decibels, D, by
+	<me>D=10 \log_{10}\left(\frac{I}{10^{-12}}\right)</me>
+	where <m>I</m> is the intensity of its sound waves (in watts per square meter). <xref ref="table-dB" text="type-global"/> shows the intensity of some common sounds, measured in watts per square meter.</p>
+	<table xml:id="table-dB"><caption></caption><tabular top="major" halign="center" right="minor" left="minor" bottom="minor"><col halign="left"/><col/><col/>
+        <row bottom="major">
+            <cell>Sound</cell>
+            <cell>Intensity (watts/m<m>^2</m>)</cell>
+            <cell>Decibels</cell>
+        </row>
+        <row>
+            <cell>Whisper</cell>
+            <cell><m>10^{-10}</m></cell>
+            <cell><m>20</m></cell>
+        </row>
+        <row>
+            <cell>Background music</cell>
+            <cell><m>10^{-8}</m></cell>
+            <cell><m>40</m></cell>
+        </row>
+        <row>
+            <cell>Loud conversation</cell>
+            <cell><m>10^{-6}</m></cell>
+            <cell><m>60</m></cell>
+        </row>
+        <row>
+            <cell>Heavy traffic</cell>
+            <cell><m>10^{-4}</m></cell>
+            <cell><m>80</m></cell>
+        </row>
+        <row>
+            <cell>Jet airplane</cell>
+            <cell><m>10^{-2}</m></cell>
+            <cell><m>100</m></cell>
+        </row>
+        <row>
+            <cell>Thunder</cell>
+            <cell><m>10^{-1}</m></cell>
+            <cell><m>110</m></cell>
+        </row>
+    </tabular></table>
+
+
+<p>
+	Consider the ratio of the intensity of thunder to that of a whisper:
+	<me>\frac{\text{Intensity of thunder}}{\text{Intensity of a whisper}}
+		= \frac{10^{-1}}{10^{-10}}= 10^9</me>
+		Thunder is <m>10^9</m>, or one billion times more intense than a whisper. It would be impossible to show such a wide range of values on a graph and still maintain reasonable precision. When we use a log scale, however, there is a difference of only <m>90</m> decibels between a whisper and thunder.
+</p>
+
+<example xml:id="example-decibels"><statement>
+<p>
+	<ol label="a">
+		<li>
+			Normal breathing generates about <m>10^{-11}</m> watts per square meter at a distance of <m>3</m> feet. Find the number of decibels for a breath <m>3</m> feet away.
+		</li>
+		<li>
+			Normal conversation registers at about <m>40</m> decibels. How many times more intense than breathing is normal conversation?
+		</li>
+	</ol>
+</p>
+</statement><solution><p>
+	<ol label="a">
+		<li>
+			We evaluate the decibel formula with <m>I = \alert{10^{-11}}</m> to find
+			\begin{align*}
+			D \amp = 10 \log_{10}\left(\frac{\alert{10^{-11}}} {10^{-12}}\right)
+			 = 10 \log_{10} {10^1}\\ 
+			\amp = 10(1) = 10 \text{ decibels}
+			\end{align*}
+		</li>
+		<li>
+			We let <m>I_b</m> stand for the sound intensity of breathing, and <m>I_c</m> stand for the intensity of normal conversation. We are looking for the ratio <m>I_c/I_b</m>. From part (a), we know that
+			<me>I_w = 10^{-11}</me>
+			and from the formula for decibels, we have
+			<me>40 = 10 \log_{10}\left(\frac{I_c}{10^{-12}}\right)</me>
+			which we can solve for <m>I_c</m>. Dividing both sides of the equation by <m>10</m> and rewriting in exponential form, we have
+			\begin{align*}
+			\dfrac{I_c}{10^{-12}} \amp = 10^4\amp\amp\text{Multiply both sides by }10^{-12}.\\
+			I_c \amp = 10^4(10^{-12}) = 10^{-8}
+			\end{align*}
+			Finally, we compute the ratio <m>\dfrac{I_c}{I_b}</m>:
+			<me>\frac{I_c}{I_b}= \frac{10^{-8}}{10^{-11}}= 10^3</me>
+			Normal conversation is <m>1000</m> times more intense than breathing.
+		</li>
+	</ol>
+</p></solution></example>
+
+<exercise xml:id="exercise-decibels"><statement>
+	<p>
+		The noise of city traffic registers at about <m>70</m> decibels.
+		<ol label="a">
+			<li>
+				What is the intensity of traffic noise, in watts per square meter?
+			</li>
+			<li>
+				How many times more intense is traffic noise than conversation?
+			</li>
+		</ol>
+		</p>
+</statement>
+<answer><p><ol label="a" cols="2">
+	<li><p><m>I = 10^{-5} \text{watts}/m^2</m></p></li>
+	<li><p><m>1000</m></p></li>
+</ol></p></answer>
+</exercise>
+
+<warning><p>
+	Both the decibel model and the Richter scale in the next example use expressions of the form <m>\log\left(\dfrac{a}{b}\right)</m>. Be careful to follow the order of operations when using these models. We must compute the quotient <m>\dfrac{a}{b}</m> before taking a logarithm. In particular, it is <em>not</em> true that <m>\log\left(\dfrac{a}{b}\right)</m> can be simplified to <m>\dfrac{\log a}{\log b}</m>.
+</p></warning>
+
+</subsection>
+
+
+
+<subsection><title>The Richter Scale</title>
+<p>
+	One method for measuring the magnitude of an earthquake compares the amplitude <m>A</m> of its seismographic trace with the amplitude <m>A_0</m> of the smallest detectable earthquake. The log of their ratio is the Richter<idx>Richter</idx> magnitude, <m>M</m>. Thus, 
+	<me>M=\log_{10}\left(\frac{A}{A_0} \right)</me>
+</p>
+
+<example xml:id="example-northridge-earthquake"><statement>
+<p>
+	<ol label="a">
+		<li>
+			The Northridge earthquake of January 1994 registered 6.9 on the Richter scale. What would be the magnitude of an earthquake 100 times as powerful as the Northridge quake?
+		</li>
+		<li>
+			How many times more powerful than the Northridge quake was the San Francisco earthquake of 1989, which registered 7.1 on the Richter scale?
+		</li>
+	</ol>
+</p>
+</statement><solution><p>
+	<ol label="a">
+		<li>
+			We let <m>A_N</m> represent the amplitude of the Northridge quake and <m>A_H</m> represent the amplitude of a quake <m>100</m> times more powerful. From the Richter model, we have
+			<me>6.9 = \log_{10}\left(\frac{A_N}{A_0}\right)</me>
+			or, rewriting in exponential form,
+			<me>\frac{A_N}{A_0}= 10^{6.9}</me>
+			Now, <m>A_H = 100A_N</m> , so
+			\begin{align*}
+				\frac{A_H}{A_0}\amp= \frac{100A_N}{A_0}\\
+				\amp = 100\left(\frac{A_N}{A_0}\right)
+				= 10^2(10^{6.9})\\
+				\amp = 10^{8.9}
+			\end{align*}
+			Thus, the magnitude of the more powerful quake is
+			\begin{align*}
+				\log_{10}\left(\frac{A_H}{A_0}\right)
+				\amp = \log_{10} 10^{8.9}\\
+				\amp = 8.9
+			\end{align*}
+		</li>
+		<li>
+			We let <m>A_S</m> stand for the amplitude of the San Francisco earthquake. We are looking for the ratio <m>A_S/A_N</m>. First, we use the Richter formula to compute values for <m>A_S</m> and <m>A_N</m>.
+			<me>6.9 = \log_{10}\left(\frac{A_N}{A_0}\right)
+				~~\text{ and }~~ 7.1 = \log_{10}\left(\frac{A_s}{A_0}\right)
+			</me>
+			Rewriting each equation in exponential form, we have
+			<me>\frac{A_N}{A_0}= 10^{6.9}
+				~~\text{ and }~~ \frac{A_S}{A_0}= 10^{7.1}
+			</me>
+			or
+			<me>A_N = 10^{6.9}A_0 ~~\text{ and }~~A_S = 10^{7.1}A_0</me>
+			Now we can compute the ratio we want:
+			<me>\frac{A_S}{A_N}= \frac{10^{7.1}A_0}{10^{6.9}A_0}= 10^{0.2}</me>
+			The San Francisco earthquake was <m>10^{0.2}</m>, or approximately <m>1.58</m> times as powerful as the Northridge quake.
+		</li>
+	</ol>
+</p></solution></example>
+
+<exercise xml:id="exercise-Richter"><statement>
+	<p>
+		In October 2005, a magnitude 7.6 earthquake struck Pakistan. How much more powerful was this earthquake than the 1989 San Francisco earthquake of magnitude 7.1?
+	</p>
+</statement>
+<answer><p><m>3.16</m></p></answer>
+</exercise>
+
+<note><p>
+	An earthquake <m>100</m>, or <m>10^2</m>, times as strong is only two units greater in magnitude on the Richter scale. In general, a difference of <m>K</m> units on the Richter scale (or any logarithmic scale) corresponds to a factor of <m>10^K</m> units in the intensity of the quake.
+</p></note>
+
+<example xml:id="example-compare-logscale"><statement>
+	<p>
+		On a log scale, the weights of two animals differ by <m>1.6</m> units. What is the ratio of their actual weights?
+	</p>
+</statement><solution>
+	<p>
+		A difference of <m>1.6</m> on a log scale corresponds to a factor of <m>10^{1.6}</m> in the actual weights. Thus, the heavier animal is <m>10^{1.6}</m>, or <m>39.8</m> times as heavy as the lighter animal.
+	</p>
+</solution></example>
+
+<exercise xml:id="exercise-compare-logscale"><statement>
+	<p>Two points, labeled <m>A</m> and <m>B</m>, differ by <m>2.5</m> units on a log scale. What is the ratio of their decimal values?</p>
+</statement>
+<answer><p><m>316.2</m></p></answer>
+</exercise>
+
+
+</subsection>
+<xi:include href="./summary-5-4.xml" /> <!-- summary  -->
+<xi:include href="./section-5-4-exercises.xml" /> <!-- exercises  -->
+</section> 
+<!-- </book>  </mathbook> -->
