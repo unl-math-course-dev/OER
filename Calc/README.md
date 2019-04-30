@@ -9,5 +9,8 @@ cd ~/Documents/GitHub/OER/Calc/HTML
 xsltproc -xinclude mfg-html.xsl ~/Documents/GitHub/OER/Calc/2019-2020/PreCalculusAtNebraska.xml 
 
 
+xsltproc -xinclude mfg-html.xsl ~/Documents/GitHub/OER/Calc/2019-2020/update.xml 
+
+
 For the entire book 
 xsltproc -xinclude mfg-html.xsl ~/Documents/GitHub/OER/Calc/2019-2020/index.xml 
