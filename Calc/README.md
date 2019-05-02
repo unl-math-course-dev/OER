@@ -2,7 +2,7 @@
 
 The folder HTML contains all the HTML and image files and is the forward facing folder for the book
 
-
+Demonstrating the system
 
 from the html folder run the command
 cd ~/Documents/GitHub/OER/Calc/HTML
