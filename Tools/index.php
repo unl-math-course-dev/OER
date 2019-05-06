@@ -7,6 +7,7 @@ echo "<html>
   </head>
   <body>";
 
+
 require_once "phpCAS/CAS.php";
  //Initialize phpCAS
 phpCAS::client(CAS_VERSION_2_0,'shib.unl.edu',443,'/idp/profile/cas');
@@ -22,28 +23,34 @@ if (isset($_REQUEST['login'])) {
     phpCAS::forceAuthentication();
 }
 // check CAS authentication
-$auth = phpCAS::checkAuthentication();
+//$auth = phpCAS::checkAuthentication();
 
-if ($auth) {
-$uname=phpCAS::getUser();
-echo "<h1>Welcom</h1>";
-$admins = array('nwakefield2');
+
+//if ($auth) {
+//$uname=phpCAS::getUser();
+echo "<h1>Welcome</h1>";
+
+//$admins = array('nwakefield2');
+echo exec('svn co https://github.com/nwakefield2/OER/trunk/Contemporary/HTML/ /var/www/html/Contemporary');
+echo exec('svn co https://github.com/nwakefield2/OER/trunk/PreCalc/HTML/ /var/www/html/PreCalc');
+echo exec('svn co https://github.com/nwakefield2/OER/trunk/Tools/ /var/www/html/Admin');
+
 
 //if (in_array($uname , $admins)){
 //echo "You are logged in as ";
 //} else {
 //echo "You are logged in as  but you are not allowed toa ccess this resource.  If you believe you need access please contact Nathan";
 
-// }
+//}
 
 
-}  else {
+
+
+//}  else {
                                         
-    echo "<h1>Please Login</h1>";
-    echo "<p><a href=\"?login=\">Login</a></p>";
-}
-
-
+  //  echo "<h1>Please Login</h1>";
+    //echo "<p><a href=\"?login=\">Login</a></p>";
+//}
 
     echo "
     
