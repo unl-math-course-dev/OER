@@ -7,7 +7,7 @@ echo "<html>
   </head>
   <body>";
 
-require_once "/phpCAS/CAS.php";
+require_once "phpCAS/CAS.php";
  //Initialize phpCAS
 phpCAS::client(CAS_VERSION_2_0,'shib.unl.edu',443,'/idp/profile/cas');
 
