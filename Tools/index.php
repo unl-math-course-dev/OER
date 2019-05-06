@@ -29,12 +29,12 @@ $uname=phpCAS::getUser();
 echo "<h1>Welcom</h1>";
 $admins = array('nwakefield2');
 
-if (in_array($uname , $admins)){
-echo "You are logged in as ";
-} else {
-echo "You are logged in as  but you are not allowed toa ccess this resource.  If you believe you need access please contact Nathan";
+//if (in_array($uname , $admins)){
+//echo "You are logged in as ";
+//} else {
+//echo "You are logged in as  but you are not allowed toa ccess this resource.  If you believe you need access please contact Nathan";
 
-}
+// }
 
 
 }  else {
