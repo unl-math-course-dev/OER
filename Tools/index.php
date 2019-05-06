@@ -25,8 +25,16 @@ if (isset($_REQUEST['login'])) {
 $auth = phpCAS::checkAuthentication();
 
 if ($auth) {
-
+$uname=phpCAS::getUser();
 echo "<h1>Welcom</h1>";
+$admins = array('nwakefield2');
+
+if (in_array()){$uname , $admins
+echo "You are logged in as ".$uname;
+} else {
+echo "You are logged in as ".$uname." but you are not allowed toa ccess this resource.  If you believe you need access please contact Nathan";
+
+}
 
 
 }  else {
