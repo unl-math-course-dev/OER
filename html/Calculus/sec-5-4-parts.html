@@ -1,0 +1,802 @@
+<!DOCTYPE html>
+<!--**************************************-->
+<!--*    Generated from PreTeXt source   *-->
+<!--*    on 2019-05-08T14:09:14-05:00    *-->
+<!--*                                    *-->
+<!--*   http://mathbook.pugetsound.edu   *-->
+<!--*                                    *-->
+<!--**************************************-->
+<html lang="en-US">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>AC Integration by Parts</title>
+<meta name="Keywords" content="Authored in PreTeXt">
+<meta name="viewport" content="width=device-width,  initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0">
+<script type="text/javascript" src="https://sagecell.sagemath.org/static/jquery.min.js"></script><script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [['\\(','\\)']],
+    },
+    TeX: {
+        extensions: ["extpfeil.js", "autobold.js", "https://aimath.org/mathbook/mathjaxknowl.js", ],
+        // scrolling to fragment identifiers is controlled by other Javascript
+        positionToHash: false,
+        equationNumbers: { autoNumber: "none", useLabelIds: true, },
+        TagSide: "right",
+        TagIndent: ".8em",
+    },
+    // HTML-CSS output Jax to be dropped for MathJax 3.0
+    "HTML-CSS": {
+        scale: 88,
+        mtextFontInherit: true,
+    },
+    CommonHTML: {
+        scale: 88,
+        mtextFontInherit: true,
+    },
+});
+</script><script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS_CHTML-full"></script><link href="https://math-webwork2.unl.edu//webwork2_files/js/apps/MathView/mathview.css" rel="stylesheet">
+<script type="text/javascript" src="https://math-webwork2.unl.edu//webwork2_files/js/vendor/iframe-resizer/js/iframeResizer.min.js"></script><script>(function() {
+  var cx = '015103900096539427448:ngwuia10qci';
+  var gcse = document.createElement('script');
+  gcse.type = 'text/javascript';
+  gcse.async = true;
+  gcse.src = 'https://cse.google.com/cse.js?cx=' + cx;
+  var s = document.getElementsByTagName('script')[0];
+  s.parentNode.insertBefore(gcse, s);
+})();
+</script><script type="text/javascript" src="https://aimath.org/knowl.js"></script><script src="https://aimath.org/mathbook/js/lib/jquery.sticky.js"></script><script src="https://aimath.org/mathbook/js/lib/jquery.espy.min.js"></script><script src="https://aimath.org/mathbook/js/Mathbook.js"></script><link href="https://fonts.googleapis.com/css?family=Open+Sans:400,400italic,600,600italic" rel="stylesheet" type="text/css">
+<link href="https://fonts.googleapis.com/css?family=Inconsolata:400,700&amp;subset=latin,latin-ext" rel="stylesheet" type="text/css">
+<link href="https://aimath.org/mathbook/stylesheets/mathbook-3.css" rel="stylesheet" type="text/css">
+<link href="https://aimath.org/mathbook/mathbook-add-on.css" rel="stylesheet" type="text/css">
+</head>
+<body class="mathbook-book has-toc has-sidebar-left">
+<a class="assistive" href="#content">Skip to main content</a><div class="hidden-content">\(\newcommand{\dollar}{\$}
+\DeclareMathOperator{\erf}{erf}
+\DeclareMathOperator{\arctanh}{arctanh}
+\newcommand{\lt}{&lt;}
+\newcommand{\gt}{&gt;}
+\newcommand{\amp}{&amp;}
+\)</div>
+<header id="masthead" class="smallbuttons"><div class="banner"><div class="container">
+<div class="searchwrapper"><div class="gcse-search"></div></div>
+<a id="logo-link" href="https://activecalculus.org" target="_blank"><img src="images/ActiveCalculusImage_sm.jpg" alt="Logo image"></a><div class="title-container">
+<h1 class="heading"><a href="index.html"><span class="title">Active Calculus</span></a></h1>
+<p class="byline">Matthew Boelkins</p>
+</div>
+</div></div>
+<nav id="primary-navbar" class="navbar"><div class="container">
+<div class="navbar-top-buttons">
+<button class="sidebar-left-toggle-button button active">Contents</button><div class="tree-nav toolbar toolbar-divisor-3">
+<a class="index-button toolbar-item button" href="index-1.html" title="Index" alt="Index">Index</a><span class="threebuttons"><a id="previousbutton" class="previous-button toolbar-item button" href="sec-5-3-substitution.html" title="Previous" alt="Previous">Prev</a><a id="upbutton" class="up-button button toolbar-item" href="C-5.html" title="Up" alt="Up">Up</a><a id="nextbutton" class="next-button button toolbar-item" href="sec-5-5-other-opt.html" title="Next" alt="Next">Next</a></span>
+</div>
+<button class="sidebar-right-toggle-button button active">Annotations</button>
+</div>
+<div class="navbar-bottom-buttons toolbar toolbar-divisor-4">
+<button class="sidebar-left-toggle-button button toolbar-item active">Contents</button><a class="previous-button toolbar-item button" href="sec-5-3-substitution.html" title="Previous" alt="Previous">Prev</a><a class="up-button button toolbar-item" href="C-5.html" title="Up" alt="Up">Up</a><a class="next-button button toolbar-item" href="sec-5-5-other-opt.html" title="Next" alt="Next">Next</a>
+</div>
+</div></nav></header><div class="page">
+<aside id="sidebar-left" class="sidebar"><div class="sidebar-content">
+<nav id="toc"><h2 class="link"><a href="frontmatter.html" data-scroll="frontmatter"><span class="title">Front Matter</span></a></h2>
+<ul>
+<li><a href="colophon-1.html" data-scroll="colophon-1">Colophon</a></li>
+<li><a href="acknowledgement-1.html" data-scroll="acknowledgement-1">Acknowledgements</a></li>
+<li><a href="preface-1.html" data-scroll="preface-1">Contributors</a></li>
+<li><a href="preface-2.html" data-scroll="preface-2">Active Calculus: Our Goals</a></li>
+<li><a href="preface-3.html" data-scroll="preface-3">Features of the Text</a></li>
+<li><a href="preface-4.html" data-scroll="preface-4">How to Use this Text</a></li>
+</ul>
+<h2 class="link"><a href="C-1.html" data-scroll="C-1"><span class="codenumber">1</span><span class="title">Understanding the Derivative</span></a></h2>
+<ul>
+<li><a href="sec-1-1-vel.html" data-scroll="sec-1-1-vel">How do we measure velocity?</a></li>
+<li><a href="sec-1-2-lim.html" data-scroll="sec-1-2-lim">The notion of limit</a></li>
+<li><a href="sec-1-3-derivative-pt.html" data-scroll="sec-1-3-derivative-pt">The derivative of a function at a point</a></li>
+<li><a href="sec-1-4-derivative-fxn.html" data-scroll="sec-1-4-derivative-fxn">The derivative function</a></li>
+<li><a href="sec-1-5-units.html" data-scroll="sec-1-5-units">Interpreting, estimating, and using the derivative</a></li>
+<li><a href="sec-1-6-second-d.html" data-scroll="sec-1-6-second-d">The second derivative</a></li>
+<li><a href="sec-1-7-lim-cont-diff.html" data-scroll="sec-1-7-lim-cont-diff">Limits, Continuity, and Differentiability</a></li>
+<li><a href="sec-1-8-tan-line-approx.html" data-scroll="sec-1-8-tan-line-approx">The Tangent Line Approximation</a></li>
+</ul>
+<h2 class="link"><a href="C-2.html" data-scroll="C-2"><span class="codenumber">2</span><span class="title">Computing Derivatives</span></a></h2>
+<ul>
+<li><a href="sec-2-1-elem-rules.html" data-scroll="sec-2-1-elem-rules">Elementary derivative rules</a></li>
+<li><a href="sec-2-2-sin-cos.html" data-scroll="sec-2-2-sin-cos">The sine and cosine functions</a></li>
+<li><a href="sec-2-3-prod-quot.html" data-scroll="sec-2-3-prod-quot">The product and quotient rules</a></li>
+<li><a href="sec-2-4-other-trig.html" data-scroll="sec-2-4-other-trig">Derivatives of other trigonometric functions</a></li>
+<li><a href="sec-2-5-chain.html" data-scroll="sec-2-5-chain">The chain rule</a></li>
+<li><a href="sec-2-6-inverse.html" data-scroll="sec-2-6-inverse">Derivatives of Inverse Functions</a></li>
+<li><a href="sec-2-7-implicit.html" data-scroll="sec-2-7-implicit">Derivatives of Functions Given Implicitly</a></li>
+<li><a href="sec-2-8-LHR.html" data-scroll="sec-2-8-LHR">Using Derivatives to Evaluate Limits</a></li>
+</ul>
+<h2 class="link"><a href="C-3.html" data-scroll="C-3"><span class="codenumber">3</span><span class="title">Using Derivatives</span></a></h2>
+<ul>
+<li><a href="sec-3-1-tests.html" data-scroll="sec-3-1-tests">Using derivatives to identify extreme values</a></li>
+<li><a href="sec-3-2-families.html" data-scroll="sec-3-2-families">Using derivatives to describe families of functions</a></li>
+<li><a href="sec-3-3-optimization.html" data-scroll="sec-3-3-optimization">Global Optimization</a></li>
+<li><a href="sec-3-4-applied-opt.html" data-scroll="sec-3-4-applied-opt">Applied Optimization</a></li>
+<li><a href="sec-3-5-rel-rates.html" data-scroll="sec-3-5-rel-rates">Related Rates</a></li>
+</ul>
+<h2 class="link"><a href="C-4.html" data-scroll="C-4"><span class="codenumber">4</span><span class="title">The Definite Integral</span></a></h2>
+<ul>
+<li><a href="sec-4-1-velocity-distance.html" data-scroll="sec-4-1-velocity-distance">Determining distance traveled from velocity</a></li>
+<li><a href="sec-4-2-Riemann.html" data-scroll="sec-4-2-Riemann">Riemann Sums</a></li>
+<li><a href="sec-4-3-definite-integral.html" data-scroll="sec-4-3-definite-integral">The Definite Integral</a></li>
+<li><a href="sec-4-4-FTC.html" data-scroll="sec-4-4-FTC">The Fundamental Theorem of Calculus</a></li>
+</ul>
+<h2 class="link active"><a href="C-5.html" data-scroll="C-5"><span class="codenumber">5</span><span class="title">Evaluating Integrals</span></a></h2>
+<ul>
+<li><a href="sec-5-1-antid-graphs.html" data-scroll="sec-5-1-antid-graphs">Constructing Accurate Graphs of Antiderivatives</a></li>
+<li><a href="sec-5-2-FTC2.html" data-scroll="sec-5-2-FTC2">The Second Fundamental Theorem of Calculus</a></li>
+<li><a href="sec-5-3-substitution.html" data-scroll="sec-5-3-substitution">Integration by Substitution</a></li>
+<li><a href="sec-5-4-parts.html" data-scroll="sec-5-4-parts" class="active">Integration by Parts</a></li>
+<li><a href="sec-5-5-other-opt.html" data-scroll="sec-5-5-other-opt">Other Options for Finding Algebraic Antiderivatives</a></li>
+<li><a href="sec-5-6-num-int.html" data-scroll="sec-5-6-num-int">Numerical Integration</a></li>
+</ul>
+<h2 class="link"><a href="C-6.html" data-scroll="C-6"><span class="codenumber">6</span><span class="title">Using Definite Integrals</span></a></h2>
+<ul>
+<li><a href="sec-6-1-area.html" data-scroll="sec-6-1-area">Using Definite Integrals to Find Area and Length</a></li>
+<li><a href="sec-6-2-volume.html" data-scroll="sec-6-2-volume">Using Definite Integrals to Find Volume</a></li>
+<li><a href="sec-6-3-mass.html" data-scroll="sec-6-3-mass">Density, Mass, and Center of Mass</a></li>
+<li><a href="sec-6-4-physics.html" data-scroll="sec-6-4-physics">Physics Applications:  Work, Force, and Pressure</a></li>
+<li><a href="sec-6-5-improper.html" data-scroll="sec-6-5-improper">Improper Integrals</a></li>
+</ul>
+<h2 class="link"><a href="C-7.html" data-scroll="C-7"><span class="codenumber">7</span><span class="title">Differential Equations</span></a></h2>
+<ul>
+<li><a href="sec-7-1-diff-eq-intro.html" data-scroll="sec-7-1-diff-eq-intro">An Introduction to Differential Equations</a></li>
+<li><a href="sec-7-2-qualitative.html" data-scroll="sec-7-2-qualitative">Qualitative behavior of solutions to DEs</a></li>
+<li><a href="sec-7-3-euler.html" data-scroll="sec-7-3-euler">Euler's method</a></li>
+<li><a href="sec-7-4-separable.html" data-scroll="sec-7-4-separable">Separable differential equations</a></li>
+<li><a href="sec-7-5-modeling.html" data-scroll="sec-7-5-modeling">Modeling with differential equations</a></li>
+<li><a href="sec-7-6-logistic.html" data-scroll="sec-7-6-logistic">Population Growth and the Logistic Equation</a></li>
+</ul>
+<h2 class="link"><a href="C-8.html" data-scroll="C-8"><span class="codenumber">8</span><span class="title">Sequences and Series</span></a></h2>
+<ul>
+<li><a href="sec-8-1-sequences.html" data-scroll="sec-8-1-sequences">Sequences</a></li>
+<li><a href="sec-8-2-geometric.html" data-scroll="sec-8-2-geometric">Geometric Series</a></li>
+<li><a href="sec-8-3-series.html" data-scroll="sec-8-3-series">Series of Real Numbers</a></li>
+<li><a href="sec-8-4-alternating.html" data-scroll="sec-8-4-alternating">Alternating Series</a></li>
+<li><a href="sec-8-5-taylor.html" data-scroll="sec-8-5-taylor">Taylor Polynomials and Taylor Series</a></li>
+<li><a href="sec-8-6-powerseries.html" data-scroll="sec-8-6-powerseries">Power Series</a></li>
+</ul>
+<h2 class="link"><a href="backmatter.html" data-scroll="backmatter"><span class="title">Back Matter</span></a></h2>
+<ul>
+<li><a href="integral-table.html" data-scroll="integral-table">A Short Table of Integrals</a></li>
+<li><a href="index-1.html" data-scroll="index-1">Index</a></li>
+<li><a href="colophon-2.html" data-scroll="colophon-2">Colophon</a></li>
+</ul></nav><div class="extras"><nav><a class="feedback-link" href="http://gvsu.edu/s/0vK" target="_blank">Feedback</a><a class="mathbook-link" href="https://mathbook.pugetsound.edu">Authored in PreTeXt</a><a href="https://www.mathjax.org"><img title="Powered by MathJax" src="https://www.mathjax.org/badge/badge.gif" border="0" alt="Powered by MathJax"></a></nav></div>
+</div></aside><main class="main"><div id="content" class="mathbook-content"><section class="section" id="sec-5-4-parts"><h2 class="heading hide-type" alt="Section 5.4 Integration by Parts">
+<span class="type">Section</span><span class="codenumber">5.4</span><span class="title">Integration by Parts</span>
+</h2>
+<a href="sec-5-4-parts.html" class="permalink">¶</a><article class="objectives" id="objectives-29"><h6 class="heading"><span class="type">Motivating Questions</span></h6>
+<ul class="disc">
+<li id="li-3015"><p id="p-4430">How do we evaluate indefinite integrals that involve products of basic functions such as \(\int x \sin(x) \, dx\) and \(\int x e^x \, dx\text{?}\)</p></li>
+<li id="li-3016"><p id="p-4431">What is the method of integration by parts and how can we consistently apply it to integrate products of basic functions?</p></li>
+<li id="li-3017"><p id="p-4432">How does the algebraic structure of functions guide us in identifying \(u\) and \(dv\) in using integration by parts?</p></li>
+</ul></article><section class="introduction" id="introduction-29"><p id="p-4433">In <a href="sec-5-3-substitution.html" class="xref" alt="Section 5.3 Integration by Substitution" title="Section 5.3 Integration by Substitution">Section 5.3</a>, we learned the technique of \(u\)-substitution for evaluating indefinite integrals. For example, the indefinite integral \(\int x^3 \sin(x^4) \, dx\) is perfectly suited to \(u\)-substitution, because one factor is a composite function and the other factor is the derivative (up to a constant) of the inner function. Recognizing the algebraic structure of a function can help us to find its antiderivative.</p>
+<p id="p-4434">Next we consider integrands with a different elementary algebraic structure: a product of basic functions. For instance, suppose we are interested in evaluating the indefinite integral</p>
+<div class="displaymath">
+\begin{equation*}
+\int x \sin(x) \, dx\text{.}
+\end{equation*}
+</div>
+<p id="p-4435">The integrand is the product of the basic functions \(f(x) = x\) and \(g(x) = \sin(x)\text{.}\) We know that it is relatively complicated to compute the derivative of the product of two functions, so we should expect that antidifferentiating a product should be similarly involved. Intuitively, we expect that evaluating \(\int x \sin(x) \, dx\) will involve somehow reversing the Product Rule.</p>
+<p id="p-4436">To that end, in <a knowl="./knowl/PA-5-4.html" knowl-id="xref-PA-5-4" alt="Preview Activity 5.13 " title="Preview Activity 5.13 ">Preview Activity 5.13</a> we refresh our understanding of the Product Rule and then investigate some indefinite integrals that involve products of basic functions.</p>
+<article class="example-like" id="PA-5-4"><h6 class="heading">
+<span class="type">Preview Activity</span><span class="codenumber">5.13</span>
+</h6>
+<p id="p-4437">In <a href="sec-2-3-prod-quot.html" class="xref" alt="Section 2.3 The product and quotient rules" title="Section 2.3 The product and quotient rules">Section 2.3</a>, we developed the Product Rule and studied how it is employed to differentiate a product of two functions. In particular, recall that if \(f\) and \(g\) are differentiable functions of \(x\text{,}\) then</p>
+<div class="displaymath">
+\begin{equation*}
+\frac{d}{dx} \left[ f(x) \cdot g(x)  \right] = f(x) \cdot g'(x) + g(x) \cdot f'(x)\text{.}
+\end{equation*}
+</div>
+<ol id="p-4438" class="lower-alpha">
+<li id="li-3018">
+<p id="p-4439">For each of the following functions, use the Product Rule to find the function's derivative. Be sure to label each derivative by name (e.g., the derivative of \(g(x)\) should be labeled \(g'(x)\)).</p>
+<ol id="p-4440" class="lower-roman cols2">
+<li id="li-3019"><p id="p-4441">\(g(x) = x\sin(x)\)</p></li>
+<li id="li-3020"><p id="p-4442">\(h(x) = xe^x\)</p></li>
+<li id="li-3021"><p id="p-4443">\(p(x) = x\ln(x)\)</p></li>
+<li id="li-3022"><p id="p-4444">\(q(x) = x^2 \cos(x)\)</p></li>
+<li id="li-3023"><p id="p-4445">\(r(x) = e^x \sin(x)\)</p></li>
+</ol>
+</li>
+<li id="li-3024">
+<p id="p-4446">Use your work in (a) to help you evaluate the following indefinite integrals. Use differentiation to check your work. </p>
+<ol class="lower-roman cols2">
+<li id="li-3025"><p id="p-4447">\(\int xe^x + e^x \, dx\)</p></li>
+<li id="li-3026"><p id="p-4448">\(\int e^x(\sin(x) + \cos(x)) \, dx\)</p></li>
+<li id="li-3027"><p id="p-4449">\(\int 2x\cos(x) - x^2 \sin(x) \, dx\)</p></li>
+<li id="li-3028"><p id="p-4450">\(\int x\cos(x) + \sin(x) \, dx\)</p></li>
+<li id="li-3029"><p id="p-4451">\(\int 1 + \ln(x) \, dx\)</p></li>
+</ol>
+</li>
+<li id="li-3030">
+<p id="p-4452">Observe that the examples in (b) work nicely because of the derivatives you were asked to calculate in (a). Each integrand in (b) is precisely the result of differentiating one of the products of basic functions found in (a). To see what happens when an integrand is still a product but not necessarily the result of differentiating an elementary product, we consider how to evaluate</p>
+<div class="displaymath">
+\begin{equation*}
+\int x\cos(x) \, dx\text{.}
+\end{equation*}
+</div>
+<ol class="lower-roman">
+<li id="li-3031">
+<p id="p-4453">First, observe that</p>
+<div class="displaymath">
+\begin{equation*}
+\frac{d}{dx} \left[ x\sin(x) \right] = x\cos(x) + \sin(x)\text{.}
+\end{equation*}
+</div>
+<p>Integrating both sides indefinitely and using the fact that the integral of a sum is the sum of the integrals, we find that</p>
+<div class="displaymath">
+\begin{equation*}
+\int \left(\frac{d}{dx} \left[ x\sin(x) \right] \right) \, dx = \int  x\cos(x) \, dx +  \int \sin(x) \, dx\text{.}
+\end{equation*}
+</div>
+<p>In this last equation, evaluate the indefinite integral on the left side as well as the rightmost indefinite integral on the right.</p>
+</li>
+<li id="li-3032"><p id="p-4454">In the most recent equation from (i.), solve the equation for the expression \(\int x \cos(x) \, dx\text{.}\)</p></li>
+<li id="li-3033"><p id="p-4455">For which product of basic functions have you now found the antiderivative?</p></li>
+</ol>
+</li>
+</ol></article></section><section class="subsection" id="subsection-91"><h3 class="heading hide-type" alt="Subsection  Reversing the Product Rule: Integration by Parts">
+<span class="type">Subsection</span><span class="codenumber"></span><span class="title">Reversing the Product Rule: Integration by Parts</span>
+</h3>
+<p id="p-4456">Problem (c) in <a knowl="./knowl/PA-5-4.html" knowl-id="xref-PA-5-4" alt="Preview Activity 5.13 " title="Preview Activity 5.13 ">Preview Activity 5.13</a> provides a clue to the general technique known as Integration by Parts, which comes from reversing the Product Rule. Recall that the Product Rule states that</p>
+<div class="displaymath">
+\begin{equation*}
+\frac{d}{dx} \left[ f(x) g(x) \right] = f(x) g'(x) + g(x)  f'(x)\text{.}
+\end{equation*}
+</div>
+<p id="p-4457">Integrating both sides of this equation indefinitely with respect to \(x\text{,}\) we find</p>
+<div class="displaymath">
+\begin{equation}
+\int \frac{d}{dx} \left[ f(x)  g(x) \right] \, dx = \int f(x) g'(x) \, dx + \int g(x)  f'(x) \, dx\text{.}\label{E-intprod}\tag{5.6}
+\end{equation}
+</div>
+<p id="p-4458">On the left side of <a knowl="./knowl/E-intprod.html" knowl-id="xref-E-intprod" alt="Equation 5.6 " title="Equation 5.6 ">Equation (5.6)</a>, we have the indefinite integral of the derivative of a function. Temporarily omitting the constant that may arise, we have</p>
+<div class="displaymath">
+\begin{equation}
+f(x)  g(x) = \int f(x) g'(x) \, dx + \int g(x)  f'(x) \, dx\text{.}\label{E-intprod2}\tag{5.7}
+\end{equation}
+</div>
+<p id="p-4459">We solve for the first indefinite integral on the left to generate the rule</p>
+<div class="displaymath">
+\begin{equation}
+\int f(x) g'(x) \, dx  = f(x)  g(x) -  \int g(x)  f'(x) \, dx\text{.}\label{E-IBP1}\tag{5.8}
+\end{equation}
+</div>
+<p id="p-4460">Often we express <a knowl="./knowl/E-IBP1.html" knowl-id="xref-E-IBP1" alt="Equation 5.8 " title="Equation 5.8 ">Equation (5.8)</a> in terms of the variables \(u\) and \(v\text{,}\) where \(u = f(x)\) and \(v = g(x)\text{.}\) In differential notation, \(du = f'(x) \, dx\) and \(dv = g'(x) \, dx\text{,}\) so we can state the rule for Integration by Parts in its most common form as follows:</p>
+<article class="assemblage-like" id="assemblage-35"><div class="displaymath" id="p-4461">
+\begin{equation*}
+\int u \, dv  = uv -  \int v \, du\text{.}
+\end{equation*}
+</div></article><p id="p-4462">To apply integration by parts, we look for a product of basic functions that we can identify as \(u\) and \(dv\text{.}\) If we can antidifferentiate \(dv\) to find \(v\text{,}\) and evaluating \(\int v \, du\) is not more difficult than evaluating \(\int u \, dv\text{,}\) then this substitution usually proves to be fruitful. To demonstrate, we consider the following example.</p>
+<article class="example-like" id="Ex-5-4-IBP"><h6 class="heading">
+<span class="type">Example</span><span class="codenumber">5.19</span>
+</h6>
+<p id="p-4463">Evaluate the indefinite integral</p>
+<div class="displaymath">
+\begin{equation*}
+\int x\cos(x) \, dx
+\end{equation*}
+</div>
+<p>using integration by parts.</p>
+<div class="solutions">
+<span class="solution"><a knowl="" class="id-ref" refid="hk-solution-211" id="solution-211"><span class="type">Solution</span></a></span><div id="hk-solution-211" class="hidden-content tex2jax_ignore"><span class="solution"><p id="p-4464">When we use integration by parts, we have a choice for \(u\) and \(dv\text{.}\) In this problem, we can either let \(u = x\) and \(dv = \cos(x) \, dx\text{,}\) or let \(u = \cos(x)\) and \(dv = x \, dx\text{.}\) While there is not a universal rule for how to choose \(u\) and \(dv\text{,}\) a good guideline is this: do so in a way that \(\int v \, du\) is at least as simple as the original problem \(\int u \, dv\text{.}\)</p>
+<p id="p-4465">This leads us to choose<span class="footnote"><a knowl="" class="id-ref" refid="hk-fn-33" id="fn-33"><sup> 6 </sup></a></span><span id="hk-fn-33" class="hidden-content tex2jax_ignore"><span class="footnote">Observe that if we considered the alternate choice, and let \(u = \cos(x)\) and \(dv = x \, dx\text{,}\) then \(du = -\sin(x) \, dx\) and \(v = \frac{1}{2}x^2\text{,}\) from which we would write \(\int x\cos(x) \, dx = \frac{1}{2}x^2 \cos(x) - \int \frac{1}{2}x^2 (-\sin(x)) \, dx\text{.}\) Thus we have replaced the problem of integrating \(x \cos(x)\) with that of integrating \(\frac{1}{2}x^2 \sin(x)\text{;}\) the latter is clearly more complicated, which shows that this alternate choice is not as helpful as the first choice.</span></span>\(u = x\) and \(dv = \cos(x) \, dx\text{,}\) from which it follows that \(du = 1 \, dx\) and \(v = \sin(x)\text{.}\) With this substitution, the rule for integration by parts tells us that</p>
+<div class="displaymath">
+\begin{equation*}
+\int x \cos(x) \, dx = x \sin(x) - \int \sin(x) \cdot 1 \, dx\text{.}
+\end{equation*}
+</div>
+<p id="p-4466">All that remains to do is evaluate the (simpler) integral \(\int \sin(x) \cdot 1 \, dx\text{.}\) Doing so, we find</p>
+<div class="displaymath">
+\begin{equation*}
+\int x \cos(x) \, dx = x \sin(x) - (-\cos(x)) + C = x\sin(x) + \cos(x) + C\text{.}
+\end{equation*}
+</div>
+<p>Observe that when we get to the final stage of evaluating the last remaining antiderivative, it is at this step that we include the integration constant, \(+C\text{.}\)</p></span></div>
+</div></article><p id="p-4467">The general technique of integration by parts involves trading the problem of integrating the product of two functions for the problem of integrating the product of two related functions. That is, we convert the problem of evaluating \(\int u \, dv\) to that of evaluating \(\int v \, du\text{.}\) This clearly shapes our choice of \(u\) and \(v\text{.}\) In <a knowl="./knowl/Ex-5-4-IBP.html" knowl-id="xref-Ex-5-4-IBP" alt="Example 5.19 " title="Example 5.19 ">Example 5.19</a>, the original integral to evaluate was \(\int x \cos(x) \,dx\text{,}\) and through the substitution provided by integration by parts, we were instead able to evaluate \(\int \sin(x) \cdot 1 \, dx\text{.}\) Note that the original function \(x\) was replaced by its derivative, while \(\cos(x)\) was replaced by its antiderivative.</p>
+<article class="example-like" id="act-5-4-1"><h6 class="heading">
+<span class="type">Activity</span><span class="codenumber">5.14</span>
+</h6>
+<p id="p-4468">Evaluate each of the following indefinite integrals. Check each antiderivative that you find by differentiating. </p>
+<ol class="lower-alpha cols2">
+<li id="li-3034"><p id="p-4469">\(\int te^{-t} \, dt\)</p></li>
+<li id="li-3035"><p id="p-4470">\(\int 4x \sin(3x) \, dx\)</p></li>
+<li id="li-3036"><p id="p-4471">\(\int z \sec^2(z) \,dz\)</p></li>
+<li id="li-3037"><p id="p-4472">\(\int x \ln(x) \, dx\)</p></li>
+</ol>
+<div class="solutions">
+<span class="solution"><a knowl="" class="id-ref" refid="hk-hint-84" id="hint-84"><span class="type">Hint</span></a></span><div id="hk-hint-84" class="hidden-content tex2jax_ignore"><span class="solution"><ol id="p-4473" class="lower-alpha">
+<li id="li-3038"><p id="p-4474">Try \(u=t\text{.}\)</p></li>
+<li id="li-3039"><p id="p-4475">Let \(dv=\sin(3x)dx\)</p></li>
+<li id="li-3040"><p id="p-4476">Remember that \(\int \sec^2(z) \,dz = \tan(z)\text{.}\)</p></li>
+<li id="li-3041"><p id="p-4477">Note that \(\ln(x) \, dx\) has a simple derivative to work with.</p></li>
+</ol></span></div>
+<span class="solution"><a knowl="" class="id-ref" refid="hk-answer-191" id="answer-191"><span class="type">Answer</span></a></span><div id="hk-answer-191" class="hidden-content tex2jax_ignore"><span class="solution"><ol id="p-4478" class="lower-alpha">
+<li id="li-3042"><p id="p-4479">\(\int t e^{-t} dt = -te^{-t} - e^{-t}\text{.}\)</p></li>
+<li id="li-3043"><p id="p-4480">\(\int 4x \sin(3x) dx = -\dfrac{4}{3} x \cos(3x) + \frac{4}{9} \sin(3x) + c \text{.}\)</p></li>
+<li id="li-3044"><p id="p-4481">\(\int z \sec^2(z) dz = z \tan(z) + \ln (\cos(z)) + c \text{.}\)</p></li>
+<li id="li-3045"><p id="p-4482">\(\int x\ln(x) dx = \frac{1}{2}x^2 \ln(x) - \frac{1}{4}x^2 + c \text{.}\)</p></li>
+</ol></span></div>
+<span class="solution"><a knowl="" class="id-ref" refid="hk-solution-212" id="solution-212"><span class="type">Solution</span></a></span><div id="hk-solution-212" class="hidden-content tex2jax_ignore"><span class="solution"><ol id="p-4483" class="lower-alpha">
+<li id="li-3046">
+<p id="p-4484">Using \(u = t\) and \(dv = e^{-t} dt\text{,}\) we obtain \(du = dt\) and \(v = -e^{-t}\text{.}\) So</p>
+<div class="displaymath">
+\begin{align*}
+\int t e^{-t} dt \amp = -te^{-t} + \int e^{-t} dt\\
+\amp = -te^{-t} - e^{-t} + c
+\end{align*}
+</div>
+<p>We check using differentiation as follows:</p>
+<div class="displaymath">
+\begin{align*}
+\frac{d}{dt} \left( -te^{-t} - e^{-t} + c \right) \amp = \left( t e^{-t} - e^{-t} \right) + e^{-t}\\
+\amp = te^{-t}
+\end{align*}
+</div>
+</li>
+<li id="li-3047">
+<p id="p-4485">Using \(u = 4x\) and \(dv = \sin(3x) dx\text{,}\) we obtain \(du = 4 dx\) and \(v = -\dfrac{1}{3} \cos(3x)\text{.}\) So</p>
+<div class="displaymath">
+\begin{align*}
+\int 4x \sin(3x) dx \amp = -\dfrac{4}{3} x \cos(3x) + \dfrac{4}{3} \int \cos(3x) dx\\
+\amp = -\dfrac{4}{3} x \cos(3x) + \frac{4}{9} \sin(3x) + c
+\end{align*}
+</div>
+<p>We check using differentiation as follows:</p>
+<div class="displaymath">
+\begin{align*}
+\frac{d}{dx} \left( -\dfrac{4}{3} x \cos(3x) + \frac{4}{9} \sin(3x) + c \right) \amp = \left( 4x \sin(3x) - \frac{4}{3} \cos(3x) \right) + \frac{4}{3} \cos(3x)\\
+\amp = 4x \sin(3x)
+\end{align*}
+</div>
+</li>
+<li id="li-3048">
+<p id="p-4486">Using \(u = z\) and \(dv = \sec^2(z) dz\text{,}\) we obtain \(du = dz\) and \(v = \tan(z)\text{.}\) So</p>
+<div class="displaymath">
+\begin{align*}
+\int z \sec^2(z) dz \amp = z \tan(z) - \int \tan(z) dz\\
+\amp = z \tan(z) + \ln (\cos(z)) + c
+\end{align*}
+</div>
+<p>We check using differentiation as follows:</p>
+<div class="displaymath">
+\begin{align*}
+\frac{d}{dz} \left( z \tan(z) + \ln (\cos(z)) + c \right) \amp = z\sec^2(z) + \tan(z) - \frac{\sin(z)}{\cos(z)}\\
+\amp = z\sec^2(z) + \tan(z) - \tan(z)\\
+\amp = z \sec^2(z)
+\end{align*}
+</div>
+</li>
+<li id="li-3049">
+<p id="p-4487">Using \(u = \ln(x)\) and \(dv = x dx\text{,}\) we obtain \(du = \dfrac{1}{x} dx\) and \(v = \dfrac{1}{2}x^2\text{.}\) So</p>
+<div class="displaymath">
+\begin{align*}
+\int x\ln(x) dx \amp = \frac{1}{2}x^2 \ln(x) - \frac{1}{2} \int x dx\\
+\amp = \frac{1}{2}x^2 \ln(x) - \frac{1}{4}x^2 + c
+\end{align*}
+</div>
+<p>We check using differentiation as follows:</p>
+<div class="displaymath">
+\begin{align*}
+\frac{d}{dx} \left( \frac{1}{2}x^2 \ln(x) - \frac{1}{4}x^2 + c \right) \amp = \frac{1}{2}x + x \ln(x) - \frac{1}{2} x\\
+\amp = x \ln(x)
+\end{align*}
+</div>
+</li>
+</ol></span></div>
+</div></article></section><section class="subsection" id="subsection-92"><h3 class="heading hide-type" alt="Subsection  Some Subtleties with Integration by Parts">
+<span class="type">Subsection</span><span class="codenumber"></span><span class="title">Some Subtleties with Integration by Parts</span>
+</h3>
+<p id="p-4488">Sometimes integration by parts is not an obvious choice, but the technique is appropriate nonetheless. Integration by parts allows us to replace one function in a product with its derivative while replacing the other with its antiderivative. For instance, consider evaluating</p>
+<div class="displaymath">
+\begin{equation*}
+\int \arctan(x) \, dx\text{.}
+\end{equation*}
+</div>
+<p id="p-4489">Initially, this problem seems ill-suited to integration by parts, since there does not appear to be a product of functions present. But if we note that \(\arctan(x) = \arctan(x) \cdot 1\text{,}\) and realize that we know the derivative of \(\arctan(x)\) as well as the antiderivative of \(1\text{,}\) we see the possibility for the substitution \(u = \arctan(x)\) and \(dv = 1 \, dx\text{.}\) We explore this substitution further in <a knowl="./knowl/act-5-4-2.html" knowl-id="xref-act-5-4-2" alt="Activity 5.15 " title="Activity 5.15 ">Activity 5.15</a>.</p>
+<p id="p-4490">In a related problem, consider \(\int t^3 \sin(t^2) \, dt\text{.}\) Observe that there is a composite function present in \(\sin(t^2)\text{,}\) but there is not an obvious function-derivative pair, as we have \(t^3\) (rather than simply \(t\)) multiplying \(\sin(t^2)\text{.}\) In this problem we use both \(u\)-substitution and integration by parts. First we write \(t^3 = t \cdot t^2\) and consider the indefinite integral</p>
+<div class="displaymath">
+\begin{equation*}
+\int t \cdot t^2 \cdot \sin(t^2) \, dt\text{.}
+\end{equation*}
+</div>
+<p>We let \(z = t^2\) so that \(dz = 2t \, dt\text{,}\) and thus \(t \, dt = \frac{1}{2} \, dz\text{.}\) (We are using the variable \(z\) to perform a “\(z\)-substitution” first so that we may then apply integration by parts.) Under this \(z\)-substitution, we now have</p>
+<div class="displaymath">
+\begin{equation*}
+\int t \cdot t^2 \cdot \sin(t^2) \, dt = \int z \cdot \sin(z) \cdot \frac{1}{2} \, dz\text{.}
+\end{equation*}
+</div>
+<p id="p-4491">The resulting integral can be evaluated by parts. This, too, is explored further in <a knowl="./knowl/act-5-4-2.html" knowl-id="xref-act-5-4-2" alt="Activity 5.15 " title="Activity 5.15 ">Activity 5.15</a>.</p>
+<p id="p-4492">These problems show that we sometimes must think creatively in choosing the variables for substitution in integration by parts, and that we may need to use substitution for an additional change of variables.</p>
+<article class="example-like" id="act-5-4-2"><h6 class="heading">
+<span class="type">Activity</span><span class="codenumber">5.15</span>
+</h6>
+<p id="p-4493">Evaluate each of the following indefinite integrals, using the provided hints. </p>
+<ol class="lower-alpha">
+<li id="li-3050"><p id="p-4494">Evaluate \(\int \arctan(x) \, dx\) by using Integration by Parts with the substitution \(u = \arctan(x)\) and \(dv = 1 \, dx\text{.}\)</p></li>
+<li id="li-3051"><p id="p-4495">Evaluate \(\int \ln(z) \,dz\text{.}\) Consider a similar substitution to the one in (a).</p></li>
+<li id="li-3052"><p id="p-4496">Use the substitution \(z = t^2\) to transform the integral \(\int t^3 \sin(t^2) \, dt\) to a new integral in the variable \(z\text{,}\) and evaluate that new integral by parts.</p></li>
+<li id="li-3053"><p id="p-4497">Evaluate \(\int s^5 e^{s^3} \, ds\) using an approach similar to that described in (c).</p></li>
+<li id="li-3054"><p id="p-4498">Evaluate \(\int e^{2t} \cos(e^t) \, dt\text{.}\) You will find it helpful to note that \(e^{2t} = e^t \cdot e^t\text{.}\)</p></li>
+</ol>
+<div class="solutions">
+<span class="solution"><a knowl="" class="id-ref" refid="hk-answer-192" id="answer-192"><span class="type">Answer</span></a></span><div id="hk-answer-192" class="hidden-content tex2jax_ignore"><span class="solution"><ol id="p-4499" class="lower-alpha">
+<li id="li-3055"><p id="p-4500">\(\int{\arctan(x) dx} = x\arctan(x) - \frac{1}{2} \ln \left( 1 + x^2 \right) + c \text{.}\)</p></li>
+<li id="li-3056"><p id="p-4501">\(\int \ln(z) dz = z \ln(z) - z + c \text{.}\)</p></li>
+<li id="li-3057"><p id="p-4502">\(\int t^3 \sin(t^2) dt = \frac{1}{2} \left( -t^2 \cos\left(t^2 \right) + \sin\left(t^2\right) \right) \text{.}\)</p></li>
+<li id="li-3058"><p id="p-4503">\(\int s^5 e^{s^3} ds = \frac{1}{3} \left( s^3 e^{s^3} - e^{s^3} \right) + c \text{.}\)</p></li>
+<li id="li-3059"><p id="p-4504">\(\int e^{2t} \cos\left( e^t \right) dt = e^t \sin \left( e^t \right) + \cos \left( e^t \right) + c \text{.}\)</p></li>
+</ol></span></div>
+<span class="solution"><a knowl="" class="id-ref" refid="hk-solution-213" id="solution-213"><span class="type">Solution</span></a></span><div id="hk-solution-213" class="hidden-content tex2jax_ignore"><span class="solution"><ol id="p-4505" class="lower-alpha">
+<li id="li-3060">
+<p id="p-4506">We use integration by parts with \(u = \arctan(x)\) and \(dv = dx\text{.}\) So \(du = \dfrac{1}{1+x^2}dx\) and \(v = x\text{.}\)</p>
+<div class="displaymath">
+\begin{align*}
+\int{\arctan(x) dx} \amp = uv - \int{v du}\\
+\amp = x\arctan(x) - \int\frac{x}{1+x^2} dx
+\end{align*}
+</div>
+<p>For the integral in the last equation, use the substitution \(z = 1+x^2\) and \(dz = 2x\, dx\text{.}\)</p>
+<div class="displaymath">
+\begin{align*}
+\int \arctan(x) dx  \amp = x\arctan(x) -\int\frac{x}{1+x^2} dx\\
+\amp = x\arctan(x) - \frac{1}{2} \int \frac{1}{z} dz\\
+\amp = x\arctan(x) - \frac{1}{2} \ln(z) + c\\
+\amp = x\arctan(x) - \frac{1}{2} \ln \left( 1 + x^2 \right) + c
+\end{align*}
+</div>
+</li>
+<li id="li-3061">
+<p id="p-4507">Using \(u = \ln(z)\) and \(dv = dz\text{,}\) we obtain \(du = \dfrac{1}{z} dz\) and \(v = z\text{.}\) So</p>
+<div class="displaymath">
+\begin{align*}
+\int \ln(z) dz \amp = z \ln(z) - \int dz\\
+\amp = z \ln(z) - z + c
+\end{align*}
+</div>
+</li>
+<li id="li-3062">
+<p id="p-4508">Using \(z = t^2\text{,}\) we obtain \(dz = 2t dt\) and \(\dfrac{1}{2} dz = t dt\text{.}\) So</p>
+<div class="displaymath">
+\begin{align*}
+\int t^3 \sin(t^2) dt \amp = \int t^2 \sin(t^2) \cdot t dt\\
+\amp = \int z \sin(z) \frac{1}{2} dz\\
+\amp = \frac{1}{2} \int z \sin(z) dz
+\end{align*}
+</div>
+<p>Now using integration by parts with \(u = z\) and \(dv = \sin(z) dz\text{,}\) we obtain \(du = dz\) and \(v = -\cos(z)\text{.}\) So</p>
+<div class="displaymath">
+\begin{align*}
+\int t^3 \sin(t^2) dt \amp = \frac{1}{2} \int z \sin(z) dz\\
+\amp = \frac{1}{2} \left( -z \cos(z) + \int \cos(z) dz \right)\\
+\amp = \frac{1}{2} \left( -z \cos(z) + \sin(z) \right)
+\end{align*}
+</div>
+<p>Finally, we use \(z = t^2\) and obtain</p>
+<div class="displaymath">
+\begin{equation*}
+\int t^3 \sin(t^2) dt = \frac{1}{2} \left( -t^2 \cos\left(t^2 \right) + \sin\left(t^2\right) \right)\text{.}
+\end{equation*}
+</div>
+</li>
+<li id="li-3063">
+<p id="p-4509">Use a substitution with \(z = s^3\) and \(dz = 3s^2 ds\text{.}\)</p>
+<div class="displaymath">
+\begin{align*}
+\int s^5 e^{s^3} ds \amp = \int s^2 s^3 e^{s^3} ds\\
+\amp = \frac{1}{3} \int z e^z dz
+\end{align*}
+</div>
+<p>Now use integration by parts with \(u = z\) and \(dv = e^z dz\text{.}\) So \(du = dz\) and \(v = e^z\text{.}\)</p>
+<div class="displaymath">
+\begin{align*}
+\int s^5 e^{s^3} ds \amp = \frac{1}{3} \int z e^z dz\\
+\amp = \frac{1}{3} \left( z e^z - \int e^z dz \right)\\
+\amp = \frac{1}{3} \left( z e^z - e^z \right) + c\\
+\amp = \frac{1}{3} \left( s^3 e^{s^3} - e^{s^3} \right) + c
+\end{align*}
+</div>
+</li>
+<li id="li-3064">
+<p id="p-4510">Using \(z = e^t\text{,}\) we see that \(dz = e^t dt\) and so</p>
+<div class="displaymath">
+\begin{align*}
+\int e^{2t} \cos\left( e^t \right) dt \amp = \int e^t \cos\left( e^t \right) \cdot e^t  dt\\
+\amp = \int z \cos(z) dz
+\end{align*}
+</div>
+<p>In <a knowl="./knowl/Ex-5-4-IBP.html" knowl-id="xref-Ex-5-4-IBP" alt="Example 5.19 " title="Example 5.19 ">Example 5.19</a>, we saw that</p>
+<div class="displaymath">
+\begin{equation*}
+\int z \cos(z) dz = z \sin(z) + \cos(z) + c\text{.}
+\end{equation*}
+</div>
+<p>Combining these two results, we obtain</p>
+<div class="displaymath">
+\begin{align*}
+\int e^{2t} \cos\left( e^t \right) dt \amp = \int z \cos(z) dz\\
+\amp = z \sin(z) + \cos(z) + c\\
+\amp = e^t \sin \left( e^t \right) + \cos \left( e^t \right) + c
+\end{align*}
+</div>
+</li>
+</ol></span></div>
+</div></article></section><section class="subsection" id="subsection-93"><h3 class="heading hide-type" alt="Subsection  Using Integration by Parts Multiple Times">
+<span class="type">Subsection</span><span class="codenumber"></span><span class="title">Using Integration by Parts Multiple Times</span>
+</h3>
+<p id="p-4511">Integration by parts is well suited to integrating the product of basic functions, allowing us to trade a given integrand for a new one where one function in the product is replaced by its derivative, and the other is replaced by its antiderivative. The goal in this trade of \(\int u \, dv\) for \(\int v \, du\) is that the new integral be simpler to evaluate than the original one. Sometimes it is necessary to apply integration by parts more than once in order to evaluate a given integral.</p>
+<article class="example-like" id="example-39"><h6 class="heading">
+<span class="type">Example</span><span class="codenumber">5.20</span>
+</h6>
+<p id="p-4512">Evaluate \(\int t^2 e^t \, dt\text{.}\)</p>
+<div class="solutions">
+<span class="solution"><a knowl="" class="id-ref" refid="hk-solution-214" id="solution-214"><span class="type">Solution</span></a></span><div id="hk-solution-214" class="hidden-content tex2jax_ignore"><span class="solution"><p id="p-4513">Let \(u = t^2\) and \(dv = e^t \, dt\text{.}\) Then \(du = 2t \, dt\) and \(v = e^t\text{,}\) and thus</p>
+<div class="displaymath">
+\begin{equation*}
+\int t^2 e^t \, dt = t^2 e^t - \int 2t e^t \, dt\text{.}
+\end{equation*}
+</div>
+<p id="p-4514">The integral on the right side is simpler to evaluate than the one on the left, but it still requires integration by parts. Now letting \(u = 2t\) and \(dv = e^t \, dt\text{,}\) we have \(du = 2\, dt\) and \(v = e^t\text{,}\) so that</p>
+<div class="displaymath">
+\begin{equation*}
+\int t^2 e^t \, dt = t^2 e^t - \left( 2t e^t - \int 2 e^t \, dt \right)\text{.}
+\end{equation*}
+</div>
+<p id="p-4515">(Note the parentheses, which remind us to distribute the minus sign to the entire value of the integral \(\int 2t e^t \, dt\text{.}\)) The final integral on the right is a basic one; evaluating that integral and distributing the minus sign, we find</p>
+<div class="displaymath">
+\begin{equation*}
+\int t^2 e^t \, dt = t^2 e^t - 2t e^t +  2 e^t + C\text{.}
+\end{equation*}
+</div></span></div>
+</div></article><p id="p-4516">Of course, even more than two applications of integration by parts may be necessary. In the preceding example, if the integrand had been \(t^3e^t\text{,}\) we would have had to use integration by parts three times.</p>
+<p id="p-4517">Next, we consider the slightly different scenario.</p>
+<article class="example-like" id="example-40"><h6 class="heading">
+<span class="type">Example</span><span class="codenumber">5.21</span>
+</h6>
+<p id="p-4518">Evaluate \(\int e^t \cos(t) \, dt\text{.}\)</p>
+<div class="solutions">
+<span class="solution"><a knowl="" class="id-ref" refid="hk-solution-215" id="solution-215"><span class="type">Solution</span></a></span><div id="hk-solution-215" class="hidden-content tex2jax_ignore"><span class="solution"><p id="p-4519">We can choose to let \(u\) be either \(e^t\) or \(\cos(t)\text{;}\) we pick \(u = \cos(t)\text{,}\) and thus \(dv = e^t \, dt\text{.}\) With \(du = -\sin(t) \, dt\) and \(v = e^t\text{,}\) integration by parts tells us that</p>
+<div class="displaymath">
+\begin{equation*}
+\int e^t \cos(t) \, dt = e^t \cos(t) - \int e^t (-\sin(t))\, dt\text{,}
+\end{equation*}
+</div>
+<p>or equivalently that</p>
+<div class="displaymath">
+\begin{equation}
+\int e^t \cos(t) \, dt = e^t \cos(t) + \int e^t \sin(t) \, dt\text{.}\label{E_IBPtwice}\tag{5.9}
+\end{equation}
+</div>
+<p id="p-4520">The new integral has the same algebraic structure as the original one. While the overall situation isn't necessarily better than what we started with, it hasn't gotten worse. Thus, we proceed to integrate by parts again. This time we let \(u = \sin(t)\) and \(dv = e^t \, dt\text{,}\) so that \(du = \cos(t) \, dt\) and \(v = e^t\text{,}\) which implies</p>
+<div class="displaymath">
+\begin{equation}
+\int e^t \cos(t) \, dt = e^t \cos(t) + \left( e^t \sin(t) - \int e^t \cos(t) \, dt \right)\text{.}\label{E_IBPtwice2}\tag{5.10}
+\end{equation}
+</div>
+<p id="p-4521">We seem to be back where we started, as two applications of integration by parts has led us back to the original problem, \(\int e^t \cos(t) \, dt\text{.}\) But if we look closely at <a knowl="./knowl/E_IBPtwice2.html" knowl-id="xref-E_IBPtwice2" alt="Equation 5.10 " title="Equation 5.10 ">Equation (5.10)</a>, we see that we can use algebra to solve for the value of the desired integral. Adding \(\int e^t \cos(t) \, dt\) to both sides of the equation, we have</p>
+<div class="displaymath">
+\begin{equation*}
+2 \int e^t \cos(t) \, dt = e^t \cos(t) +  e^t \sin(t)\text{,}
+\end{equation*}
+</div>
+<p>and therefore</p>
+<div class="displaymath">
+\begin{equation*}
+\int e^t \cos(t) \, dt = \frac{1}{2} \left( e^t \cos(t) +  e^t \sin(t) \right) + C\text{.}
+\end{equation*}
+</div>
+<p id="p-4522">Note that since we never actually encountered an integral we could evaluate directly, we didn't have the opportunity to add the integration constant \(C\) until the final step.</p></span></div>
+</div></article><article class="example-like" id="act-5-4-3"><h6 class="heading">
+<span class="type">Activity</span><span class="codenumber">5.16</span>
+</h6>
+<p id="p-4523">Evaluate each of the following indefinite integrals. </p>
+<ol class="lower-alpha">
+<li id="li-3065"><p id="p-4524">\(\int x^2 \sin(x) \, dx\)</p></li>
+<li id="li-3066"><p id="p-4525">\(\int t^3 \ln(t) \, dt\)</p></li>
+<li id="li-3067"><p id="p-4526">\(\int e^z \sin(z) \, dz\)</p></li>
+<li id="li-3068"><p id="p-4527">\(\int s^2 e^{3s} \, ds\)</p></li>
+<li id="li-3069"><p id="p-4528">\(\int t \arctan(t) \,dt\) (<em class="emphasis">Hint:</em> At a certain point in this problem, it is very helpful to note that \(\frac{t^2}{1+t^2} = 1 - \frac{1}{1+t^2}\text{.}\))</p></li>
+</ol>
+<div class="solutions">
+<span class="solution"><a knowl="" class="id-ref" refid="hk-hint-85" id="hint-85"><span class="type">Hint</span></a></span><div id="hk-hint-85" class="hidden-content tex2jax_ignore"><span class="solution"><ol id="p-4529" class="lower-alpha">
+<li id="li-3070"><p id="p-4530">Start with \(u=x^2\text{.}\)</p></li>
+<li id="li-3071"><p id="p-4531">Begin with \(u=t^3\text{.}\)</p></li>
+<li id="li-3072"><p id="p-4532">You'll have to integrate by parts twice.</p></li>
+<li id="li-3073"><p id="p-4533">Start with \(u=s^2\text{.}\)</p></li>
+<li id="li-3074"><p id="p-4534">Try \(u=\arctan(x)\text{.}\)</p></li>
+</ol></span></div>
+<span class="solution"><a knowl="" class="id-ref" refid="hk-answer-193" id="answer-193"><span class="type">Answer</span></a></span><div id="hk-answer-193" class="hidden-content tex2jax_ignore"><span class="solution"><ol id="p-4535" class="lower-alpha">
+<li id="li-3075"><p id="p-4536">\(\int x^2 \sin(x) dx = -x^2 \cos(x) + 2x \sin(x) + 2 \cos(x) + c \text{.}\)</p></li>
+<li id="li-3076"><p id="p-4537">\(\int t^3 \ln(t) dt = \frac{1}{4} t^4 \ln(t) - \frac{1}{16} t^4 + c \text{.}\)</p></li>
+<li id="li-3077"><p id="p-4538">\(\int e^z \sin(z) dz = -\frac{1}{2}e^z \cos(z) + \frac{1}{2}e^z \sin(z) + c \text{.}\)</p></li>
+<li id="li-3078"><p id="p-4539">\(\int s^2 e^{3s} ds = \frac{1}{3}s^2 e^{3s} - \frac{2}{9}s e^{3s} + \frac{2}{27} e^{3s} + c \text{.}\)</p></li>
+<li id="li-3079"><p id="p-4540">\(\int t \arctan(t) dt = \frac{1}{2}t^2 \arctan(t) - \frac{1}{2}t - \frac{1}{2} \arctan(t) + c \text{.}\)</p></li>
+</ol></span></div>
+<span class="solution"><a knowl="" class="id-ref" refid="hk-solution-216" id="solution-216"><span class="type">Solution</span></a></span><div id="hk-solution-216" class="hidden-content tex2jax_ignore"><span class="solution"><ol id="p-4541" class="lower-alpha">
+<li id="li-3080">
+<p id="p-4542">First, using \(u = x^2\) and \(dv = \sin(x) dx\text{,}\) we get \(du = 2x dx\) and \(v = -\cos(x)\text{.}\) So</p>
+<div class="displaymath">
+\begin{equation*}
+\int x^2 \sin(x) dx = -x^2 \cos(x) + 2 \int x \cos(x) dx\text{.}
+\end{equation*}
+</div>
+<p>Now, for \(\int x \cos(x) dx\text{,}\) we use \(u = x\) and \(dv = \cos(x)\) and get \(du = dx\) and \(v =\sin(x)\text{.}\) So</p>
+<div class="displaymath">
+\begin{align*}
+\int x^2 \sin(x) dx \amp = -x^2 \cos(x) + 2 \left( x \sin(x) - \int \sin(x) dx \right)\\
+\amp = -x^2 \cos(x) + 2x \sin(x) + 2 \cos(x) + c
+\end{align*}
+</div>
+</li>
+<li id="li-3081">
+<p id="p-4543">Using \(u = \ln(t)\) and \(dv = t^3 dt\text{,}\) we get \(du = \dfrac{1}{t} dt\) and \(v = \dfrac{1}{4} t^4\text{.}\) So</p>
+<div class="displaymath">
+\begin{align*}
+\int t^3 \ln(t) dt \amp = \frac{1}{4} t^4 \ln(t) - \frac{1}{4} \int t^3 dt\\
+\amp = \frac{1}{4} t^4 \ln(t) - \frac{1}{4} \cdot \frac{1}{4} t^4 + c\\
+\amp = \frac{1}{4} t^4 \ln(t) - \frac{1}{16}  t^4 + c
+\end{align*}
+</div>
+</li>
+<li id="li-3082">
+<p id="p-4544">We use \(u = e^z\) and \(dv = \sin(z) dz\text{.}\) This gives \(du = e^z dz\) and \(v = -\cos(z)\text{,}\) and</p>
+<div class="displaymath">
+\begin{equation*}
+\int e^z \sin(z) dz = -e^z \cos(z) + \int e^z \cos(z) dz\text{.}
+\end{equation*}
+</div>
+<p>For \(\int e^z \cos(z) dz\text{,}\) we use \(u = e^z\) and \(dv = \cos(z) dz\text{.}\) So \(du = e^z dz\) and \(v = \sin(z)\text{,}\) and</p>
+<div class="displaymath">
+\begin{align*}
+\int e^z \sin(z) dz \amp = -e^z \cos(z)  + e^z \sin(z) dz - \int e^z \sin(z) dz\\
+2 \int e^z \sin(z) dz \amp = -e^z \cos(z) + e^z \sin(z) + c'\\
+\int e^z \sin(z) dz \amp = -\frac{1}{2}e^z \cos(z) + \frac{1}{2}e^z \sin(z) + c'
+\end{align*}
+</div>
+</li>
+<li id="li-3083">
+<p id="p-4545">We use \(u = s^2\text{,}\) \(dv = e^{3s} ds\text{,}\) \(du = 2s ds\text{,}\) and \(v = \frac{1}{3} e^{3s}\text{.}\) This gives</p>
+<div class="displaymath">
+\begin{equation*}
+\int s^2 e^{3s} ds = \frac{1}{3}s^2 e^{3s} - \frac{2}{3} \int s e^{3s} ds\text{.}
+\end{equation*}
+</div>
+<p>We now use \(u = s\text{,}\) \(dv = e^{3s} ds\text{,}\) \(du = ds\text{,}\) and \(v = \dfrac{1}{3} e^{3s}\) for \(\int s e^{3s} ds\text{.}\)</p>
+<div class="displaymath">
+\begin{align*}
+\int s^2 e^{3s} ds \amp = \frac{1}{3}s^2 e^{3s} - \frac{2}{3} \left( \frac{1}{3}s e^{3s} - \frac{1}{3}\int e^{3s} ds \right)\\
+\amp = \frac{1}{3}s^2 e^{3s} - \frac{2}{3} \left( \frac{1}{3}s e^{3s} - \frac{1}{9} e^{3s} \right) + c\\
+\amp = \frac{1}{3}s^2 e^{3s} - \frac{2}{9}s e^{3s} + \frac{2}{27} e^{3s} + c
+\end{align*}
+</div>
+</li>
+<li id="li-3084">
+<p id="p-4546">Using \(u = \arctan(t)\text{,}\) \(dv = t dt\text{,}\) \(du = \dfrac{1}{1+t^2} dt\text{,}\) and \(v = \dfrac{1}{2} t^2\text{,}\) we get</p>
+<div class="displaymath">
+\begin{align*}
+\int t \arctan(t) dt \amp = \frac{1}{2}t^2 \arctan(t) - \frac{1}{2} \int \frac{t^2}{1 + t^2} dt\\
+\amp = \frac{1}{2}t^2 \arctan(t) - \frac{1}{2} \int \left( 1 - \frac{1}{1 + t^2} \right) dt\\
+\amp = \frac{1}{2}t^2 \arctan(t) - \frac{1}{2}t - \frac{1}{2} \arctan(t) + c
+\end{align*}
+</div>
+</li>
+</ol></span></div>
+</div></article></section><section class="subsection" id="subsection-94"><h3 class="heading hide-type" alt="Subsection  Evaluating Definite Integrals Using Integration by Parts">
+<span class="type">Subsection</span><span class="codenumber"></span><span class="title">Evaluating Definite Integrals Using Integration by Parts</span>
+</h3>
+<p id="p-4547">We can use the technique of integration by parts to evaluate a definite integral.</p>
+<article class="example-like" id="example-41"><h6 class="heading">
+<span class="type">Example</span><span class="codenumber">5.22</span>
+</h6>
+<p id="p-4548">Evaluate</p>
+<div class="displaymath">
+\begin{equation*}
+\int_0^{\pi/2} t\sin(t) \, dt\text{.}
+\end{equation*}
+</div>
+<div class="solutions">
+<span class="solution"><a knowl="" class="id-ref" refid="hk-solution-217" id="solution-217"><span class="type">Solution</span></a></span><div id="hk-solution-217" class="hidden-content tex2jax_ignore"><span class="solution"><p id="p-4549">One option is to find an antiderivative (using indefinite integral notation) and then apply the Fundamental Theorem of Calculus to find that</p>
+<div class="displaymath">
+\begin{align*}
+\int_0^{\pi/2} t\sin(t) \, dt =\mathstrut \amp  \left( -t \cos(t) + \sin(t) \right) \bigg\vert_0^{\pi/2}\\
+=\mathstrut \amp  \left( -\frac{\pi}{2} \cos(\frac{\pi}{2}) + \sin(\frac{\pi}{2}) \right) - \left( -0 \cos(0) + \sin(0) \right)\\
+=\mathstrut \amp  1\text{.}
+\end{align*}
+</div>
+<p id="p-4550">Alternatively, we can apply integration by parts and work with definite integrals throughout. With this method, we must remember to evaluate the product \(uv\) over the given limits of integration. Using the substitution \(u = t\) and \(dv = \sin(t) \, dt\text{,}\) so that \(du = dt\) and \(v = -\cos(t)\text{,}\) we write</p>
+<div class="displaymath">
+\begin{align*}
+\int_0^{\pi/2} t\sin(t) \, dt =\mathstrut \amp  -t \cos(t) \bigg\vert_0^{\pi/2} - \int_0^{\pi/2} (-\cos(t)) \, dt\\
+=\mathstrut \amp  -t \cos(t) \bigg\vert_0^{\pi/2}  +  \sin(t) \bigg\vert_0^{\pi/2}\\
+=\mathstrut \amp  \left( -\frac{\pi}{2} \cos(\frac{\pi}{2}) + \sin(\frac{\pi}{2}) \right) - \left( -0 \cos(0) + \sin(0) \right)\\
+=\mathstrut \amp  1\text{.}
+\end{align*}
+</div></span></div>
+</div></article><p id="p-4551">As with any substitution technique, it is important to use notation carefully and completely, and to ensure that the end result makes sense.</p></section><section class="subsection" id="subsection-95"><h3 class="heading hide-type" alt="Subsection  When \(u\)-substitution and Integration by Parts Fail to Help">
+<span class="type">Subsection</span><span class="codenumber"></span><span class="title">When \(u\)-substitution and Integration by Parts Fail to Help</span>
+</h3>
+<p id="p-4552">Both integration techniques we have discussed apply in relatively limited circumstances. It is not hard to find examples of functions for which neither technique produces an antiderivative; indeed, there are many, many functions that appear elementary but that do not have an elementary algebraic antiderivative. For instance, neither \(u\)-substitution nor integration by parts proves fruitful for the indefinite integrals</p>
+<div class="displaymath">
+\begin{equation*}
+\int e^{x^2} \, dx \ \ \text{and}  \ \ \int x \tan(x) \, dx\text{.}
+\end{equation*}
+</div>
+<p>While there are other integration techniques, some of which we will consider briefly, none of them enables us to find an algebraic antiderivative for \(e^{x^2}\) or \(x \tan(x)\text{.}\) We do know from the Second Fundamental Theorem of Calculus that we can construct an integral antiderivative for each function; \(F(x) = \int_0^x e^{t^2} \, dt\) is an antiderivative of \(f(x) = e^{x^2}\text{,}\) and \(G(x) = \int_0^{x} t \tan(t) \, dt\) is an antiderivative of \(g(x) = x \tan(x)\text{.}\) But finding an elementary algebraic formula that doesn't involve integrals for either \(F\) or \(G\) turns out not only to be impossible through \(u\)-substitution or integration by parts, but indeed impossible altogether. Antidifferentiation is much harder in general than differentiation.</p></section><section class="subsection" id="subsection-96"><h3 class="heading hide-type" alt="Subsection  Summary">
+<span class="type">Subsection</span><span class="codenumber"></span><span class="title">Summary</span>
+</h3>
+<ul id="p-4553" class="disc">
+<li id="li-3085"><p id="p-4554">Through the method of integration by parts, we can evaluate indefinite integrals that involve products of basic functions such as \(\int x \sin(x) \, dx\) and \(\int x \ln(x) \, dx\text{.}\) Using a substitution enables us to trade one of the functions in the product for its derivative, and the other for its antiderivative, in an effort to find a different product of functions that is easier to integrate.</p></li>
+<li id="li-3086">
+<p id="p-4555">If the algebraic structure of an integrand is a product of basic functions in the form \(\int f(x) g'(x) \, dx\text{,}\) we can use the substitution \(u = f(x)\) and \(dv = g'(x) \,dx\) and apply the rule</p>
+<div class="displaymath">
+\begin{equation*}
+\int u \, dv = uv - \int v \, du
+\end{equation*}
+</div>
+<p>to evaluate the original integral \(\int f(x) g'(x) \, dx\) by instead evaluating</p>
+<div class="displaymath">
+\begin{equation*}
+\int v \, du = \int f'(x) g(x) \, dx\text{.}
+\end{equation*}
+</div>
+</li>
+<li id="li-3087"><p id="p-4556">When deciding to integrate by parts, we have to select both \(u\) and \(dv\text{.}\) That selection is guided by the overall principle that the new integral \(\int v \, du\) not be more difficult than the original integral \(\int u \, dv\text{.}\) In addition, it is often helpful to recognize if one of the functions present is much easier to differentiate than antidifferentiate (such as \(\ln(x)\)), in which case that function often is best assigned the variable \(u\text{.}\) In addition, \(dv\) must be a function that we can antidifferentiate.</p></li>
+</ul></section><section class="exercises" id="ez-5-4"><h3 class="heading hide-type" alt="Exercises  Exercises">
+<span class="type">Subsection</span><span class="codenumber"></span><span class="title">Exercises</span>
+</h3>
+<a href="sec-5-4-parts.html#ez-5-4" class="permalink">¶</a><article class="exercise-like" id="ez-5-4-WW1"><h6 class="heading">
+<span class="codenumber">1</span><span class="title">Choose which method to use</span>
+</h6>
+<span class="heading"><a knowl="./knowl/webwork-139-hidden.html" knowl-id="hidden-webwork-139" alt="WeBWorK  " title="WeBWorK  ">WeBWorK Exercise</a></span><div id="hk-webwork-139" class="hidden-content tex2jax_ignore">
+<!--use 'format=debug' on 'webwork' tag to debug problem--><iframe width="100%" src="https://math-webwork2.unl.edu//webwork2/html2xml?&amp;answersSubmitted=0&amp;sourceFilePath=Library/Michigan/Chap7Sec2/Q38.pg&amp;problemSeed=123567890&amp;displayMode=MathJax&amp;courseID=OERSystem&amp;userID=anonymous&amp;course_password=anonymous&amp;outputformat=simple"></iframe><script type="text/javascript">iFrameResize({log:true,inPageLinks:true,resizeFrom:'child',checkOrigin:'False'</script>
+</div></article><article class="exercise-like" id="ez-5-4-WW2"><h6 class="heading">
+<span class="codenumber">2</span><span class="title">Product involving \(\cos(5 x)\)</span>
+</h6>
+<span class="heading"><a knowl="./knowl/webwork-140-hidden.html" knowl-id="hidden-webwork-140" alt="WeBWorK  " title="WeBWorK  ">WeBWorK Exercise</a></span><div id="hk-webwork-140" class="hidden-content tex2jax_ignore">
+<!--use 'format=debug' on 'webwork' tag to debug problem--><iframe width="100%" src="https://math-webwork2.unl.edu//webwork2/html2xml?&amp;answersSubmitted=0&amp;sourceFilePath=Library/Rochester/setIntegrals15ByParts/sc5_6_3.pg&amp;problemSeed=123567890&amp;displayMode=MathJax&amp;courseID=OERSystem&amp;userID=anonymous&amp;course_password=anonymous&amp;outputformat=simple"></iframe><script type="text/javascript">iFrameResize({log:true,inPageLinks:true,resizeFrom:'child',checkOrigin:'False'</script>
+</div></article><article class="exercise-like" id="ez-5-4-WW3"><h6 class="heading">
+<span class="codenumber">3</span><span class="title">Product involving \(e^{8 z}\)</span>
+</h6>
+<span class="heading"><a knowl="./knowl/webwork-141-hidden.html" knowl-id="hidden-webwork-141" alt="WeBWorK  " title="WeBWorK  ">WeBWorK Exercise</a></span><div id="hk-webwork-141" class="hidden-content tex2jax_ignore">
+<!--use 'format=debug' on 'webwork' tag to debug problem--><iframe width="100%" src="https://math-webwork2.unl.edu//webwork2/html2xml?&amp;answersSubmitted=0&amp;sourceFilePath=Library/Michigan/Chap7Sec2/Q07.pg&amp;problemSeed=123567890&amp;displayMode=MathJax&amp;courseID=OERSystem&amp;userID=anonymous&amp;course_password=anonymous&amp;outputformat=simple"></iframe><script type="text/javascript">iFrameResize({log:true,inPageLinks:true,resizeFrom:'child',checkOrigin:'False'</script>
+</div></article><article class="exercise-like" id="ez-5-4-WW4"><h6 class="heading">
+<span class="codenumber">4</span><span class="title">Definite integral of \(t e^{-t}\)</span>
+</h6>
+<span class="heading"><a knowl="./knowl/webwork-142-hidden.html" knowl-id="hidden-webwork-142" alt="WeBWorK  " title="WeBWorK  ">WeBWorK Exercise</a></span><div id="hk-webwork-142" class="hidden-content tex2jax_ignore">
+<!--use 'format=debug' on 'webwork' tag to debug problem--><iframe width="100%" src="https://math-webwork2.unl.edu//webwork2/html2xml?&amp;answersSubmitted=0&amp;sourceFilePath=Library/Rochester/setIntegrals15ByParts/sc5_6_15.pg&amp;problemSeed=123567890&amp;displayMode=MathJax&amp;courseID=OERSystem&amp;userID=anonymous&amp;course_password=anonymous&amp;outputformat=simple"></iframe><script type="text/javascript">iFrameResize({log:true,inPageLinks:true,resizeFrom:'child',checkOrigin:'False'</script>
+</div></article><article class="exercise-like" id="exercise-241"><h6 class="heading"><span class="codenumber">5</span></h6>
+<p id="p-4557">Let \(f(t) = te^{-2t}\) and \(F(x) = \int_0^x f(t) \, dt\text{.}\) </p>
+<ol class="lower-alpha">
+<li id="li-3088"><p id="p-4558">Determine \(F'(x)\text{.}\)</p></li>
+<li id="li-3089"><p id="p-4559">Use the First FTC to find a formula for \(F\) that does not involve an integral.</p></li>
+<li id="li-3090"><p id="p-4560">Is \(F\) an increasing or decreasing function for \(x \gt 0\text{?}\) Why?</p></li>
+</ol></article><article class="exercise-like" id="exercise-242"><h6 class="heading"><span class="codenumber">6</span></h6>
+<p id="p-4569">Consider the indefinite integral given by \(\int e^{2x} \cos(e^x) \, dx\text{.}\) </p>
+<ol class="lower-alpha">
+<li id="li-3097"><p id="p-4570">Noting that \(e^{2x} = e^x \cdot e^x\text{,}\) use the substitution \(z = e^{x}\) to determine a new, equivalent integral in the variable \(z\text{.}\)</p></li>
+<li id="li-3098"><p id="p-4571">Evaluate the integral you found in (a) using an appropriate technique.</p></li>
+<li id="li-3099"><p id="p-4572">How is the problem of evaluating \(\int e^{2x} \cos(e^{2x}) \, dx\) different from evaluating the integral in (a)? Do so.</p></li>
+<li id="li-3100">
+<p id="p-4573">Evaluate each of the following integrals as well, keeping in mind the approach(es) used earlier in this problem: </p>
+<ul class="disc">
+<li id="li-3101"><p id="p-4574">\(\int e^{2x} \sin(e^x) \, dx\)</p></li>
+<li id="li-3102"><p id="p-4575">\(\int e^{3x} \sin(e^{3x}) \, dx\)</p></li>
+<li id="li-3103"><p id="p-4576">\(\int xe^{x^2} \cos(e^{x^2}) \sin(e^{x^2}) \, dx\)</p></li>
+</ul>
+</li>
+</ol></article><article class="exercise-like" id="exercise-243"><h6 class="heading"><span class="codenumber">7</span></h6>
+<p id="p-4593">For each of the following indefinite integrals, determine whether you would use \(u\)-substitution, integration by parts, neither*, or both to evaluate the integral. In each case, write one sentence to explain your reasoning, and include a statement of any substitutions used. (That is, if you decide in a problem to let \(u = e^{3x}\text{,}\) you should state that, as well as that \(du = 3e^{3x} \, dx\text{.}\)) Finally, use your chosen approach to evaluate each integral. (* one of the following problems does not have an elementary antiderivative and you are not expected to actually evaluate this integral; this will correspond with a choice of “neither” among those given.)</p>
+<ol id="p-4594" class="lower-alpha">
+<li id="li-3118"><p id="p-4595">\(\int x^2 \cos(x^3) \, dx\)</p></li>
+<li id="li-3119"><p id="p-4596">\(\int x^5 \cos(x^3) \, dx\)  (Hint: \(x^5 = x^2 \cdot x^3\))</p></li>
+<li id="li-3120"><p id="p-4597">\(\int x\ln(x^2) \, dx\)</p></li>
+<li id="li-3121"><p id="p-4598">\(\int \sin(x^4) \, dx\)</p></li>
+<li id="li-3122"><p id="p-4599">\(\int x^3 \sin(x^4) \, dx\)</p></li>
+<li id="li-3123"><p id="p-4600">\(\int x^7 \sin(x^4) \, dx\)</p></li>
+</ol></article></section></section></div></main>
+</div>
+</body>
+</html>

@@ -1,0 +1,652 @@
+<!DOCTYPE html>
+<!--**************************************-->
+<!--*    Generated from PreTeXt source   *-->
+<!--*    on 2019-05-08T14:08:55-05:00    *-->
+<!--*                                    *-->
+<!--*   http://mathbook.pugetsound.edu   *-->
+<!--*                                    *-->
+<!--**************************************-->
+<html lang="en-US">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>AC The Definite Integral</title>
+<meta name="Keywords" content="Authored in PreTeXt">
+<meta name="viewport" content="width=device-width,  initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0">
+<script type="text/javascript" src="https://sagecell.sagemath.org/static/jquery.min.js"></script><script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [['\\(','\\)']],
+    },
+    TeX: {
+        extensions: ["extpfeil.js", "autobold.js", "https://aimath.org/mathbook/mathjaxknowl.js", ],
+        // scrolling to fragment identifiers is controlled by other Javascript
+        positionToHash: false,
+        equationNumbers: { autoNumber: "none", useLabelIds: true, },
+        TagSide: "right",
+        TagIndent: ".8em",
+    },
+    // HTML-CSS output Jax to be dropped for MathJax 3.0
+    "HTML-CSS": {
+        scale: 88,
+        mtextFontInherit: true,
+    },
+    CommonHTML: {
+        scale: 88,
+        mtextFontInherit: true,
+    },
+});
+</script><script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS_CHTML-full"></script><link href="https://math-webwork2.unl.edu//webwork2_files/js/apps/MathView/mathview.css" rel="stylesheet">
+<script type="text/javascript" src="https://math-webwork2.unl.edu//webwork2_files/js/vendor/iframe-resizer/js/iframeResizer.min.js"></script><script>(function() {
+  var cx = '015103900096539427448:ngwuia10qci';
+  var gcse = document.createElement('script');
+  gcse.type = 'text/javascript';
+  gcse.async = true;
+  gcse.src = 'https://cse.google.com/cse.js?cx=' + cx;
+  var s = document.getElementsByTagName('script')[0];
+  s.parentNode.insertBefore(gcse, s);
+})();
+</script><script type="text/javascript" src="https://aimath.org/knowl.js"></script><script src="https://aimath.org/mathbook/js/lib/jquery.sticky.js"></script><script src="https://aimath.org/mathbook/js/lib/jquery.espy.min.js"></script><script src="https://aimath.org/mathbook/js/Mathbook.js"></script><link href="https://fonts.googleapis.com/css?family=Open+Sans:400,400italic,600,600italic" rel="stylesheet" type="text/css">
+<link href="https://fonts.googleapis.com/css?family=Inconsolata:400,700&amp;subset=latin,latin-ext" rel="stylesheet" type="text/css">
+<link href="https://aimath.org/mathbook/stylesheets/mathbook-3.css" rel="stylesheet" type="text/css">
+<link href="https://aimath.org/mathbook/mathbook-add-on.css" rel="stylesheet" type="text/css">
+</head>
+<body class="mathbook-book has-toc has-sidebar-left">
+<a class="assistive" href="#content">Skip to main content</a><div class="hidden-content">\(\newcommand{\dollar}{\$}
+\DeclareMathOperator{\erf}{erf}
+\DeclareMathOperator{\arctanh}{arctanh}
+\newcommand{\lt}{&lt;}
+\newcommand{\gt}{&gt;}
+\newcommand{\amp}{&amp;}
+\)</div>
+<header id="masthead" class="smallbuttons"><div class="banner"><div class="container">
+<div class="searchwrapper"><div class="gcse-search"></div></div>
+<a id="logo-link" href="https://activecalculus.org" target="_blank"><img src="images/ActiveCalculusImage_sm.jpg" alt="Logo image"></a><div class="title-container">
+<h1 class="heading"><a href="index.html"><span class="title">Active Calculus</span></a></h1>
+<p class="byline">Matthew Boelkins</p>
+</div>
+</div></div>
+<nav id="primary-navbar" class="navbar"><div class="container">
+<div class="navbar-top-buttons">
+<button class="sidebar-left-toggle-button button active">Contents</button><div class="tree-nav toolbar toolbar-divisor-3">
+<a class="index-button toolbar-item button" href="index-1.html" title="Index" alt="Index">Index</a><span class="threebuttons"><a id="previousbutton" class="previous-button toolbar-item button" href="sec-4-2-Riemann.html" title="Previous" alt="Previous">Prev</a><a id="upbutton" class="up-button button toolbar-item" href="C-4.html" title="Up" alt="Up">Up</a><a id="nextbutton" class="next-button button toolbar-item" href="sec-4-4-FTC.html" title="Next" alt="Next">Next</a></span>
+</div>
+<button class="sidebar-right-toggle-button button active">Annotations</button>
+</div>
+<div class="navbar-bottom-buttons toolbar toolbar-divisor-4">
+<button class="sidebar-left-toggle-button button toolbar-item active">Contents</button><a class="previous-button toolbar-item button" href="sec-4-2-Riemann.html" title="Previous" alt="Previous">Prev</a><a class="up-button button toolbar-item" href="C-4.html" title="Up" alt="Up">Up</a><a class="next-button button toolbar-item" href="sec-4-4-FTC.html" title="Next" alt="Next">Next</a>
+</div>
+</div></nav></header><div class="page">
+<aside id="sidebar-left" class="sidebar"><div class="sidebar-content">
+<nav id="toc"><h2 class="link"><a href="frontmatter.html" data-scroll="frontmatter"><span class="title">Front Matter</span></a></h2>
+<ul>
+<li><a href="colophon-1.html" data-scroll="colophon-1">Colophon</a></li>
+<li><a href="acknowledgement-1.html" data-scroll="acknowledgement-1">Acknowledgements</a></li>
+<li><a href="preface-1.html" data-scroll="preface-1">Contributors</a></li>
+<li><a href="preface-2.html" data-scroll="preface-2">Active Calculus: Our Goals</a></li>
+<li><a href="preface-3.html" data-scroll="preface-3">Features of the Text</a></li>
+<li><a href="preface-4.html" data-scroll="preface-4">How to Use this Text</a></li>
+</ul>
+<h2 class="link"><a href="C-1.html" data-scroll="C-1"><span class="codenumber">1</span><span class="title">Understanding the Derivative</span></a></h2>
+<ul>
+<li><a href="sec-1-1-vel.html" data-scroll="sec-1-1-vel">How do we measure velocity?</a></li>
+<li><a href="sec-1-2-lim.html" data-scroll="sec-1-2-lim">The notion of limit</a></li>
+<li><a href="sec-1-3-derivative-pt.html" data-scroll="sec-1-3-derivative-pt">The derivative of a function at a point</a></li>
+<li><a href="sec-1-4-derivative-fxn.html" data-scroll="sec-1-4-derivative-fxn">The derivative function</a></li>
+<li><a href="sec-1-5-units.html" data-scroll="sec-1-5-units">Interpreting, estimating, and using the derivative</a></li>
+<li><a href="sec-1-6-second-d.html" data-scroll="sec-1-6-second-d">The second derivative</a></li>
+<li><a href="sec-1-7-lim-cont-diff.html" data-scroll="sec-1-7-lim-cont-diff">Limits, Continuity, and Differentiability</a></li>
+<li><a href="sec-1-8-tan-line-approx.html" data-scroll="sec-1-8-tan-line-approx">The Tangent Line Approximation</a></li>
+</ul>
+<h2 class="link"><a href="C-2.html" data-scroll="C-2"><span class="codenumber">2</span><span class="title">Computing Derivatives</span></a></h2>
+<ul>
+<li><a href="sec-2-1-elem-rules.html" data-scroll="sec-2-1-elem-rules">Elementary derivative rules</a></li>
+<li><a href="sec-2-2-sin-cos.html" data-scroll="sec-2-2-sin-cos">The sine and cosine functions</a></li>
+<li><a href="sec-2-3-prod-quot.html" data-scroll="sec-2-3-prod-quot">The product and quotient rules</a></li>
+<li><a href="sec-2-4-other-trig.html" data-scroll="sec-2-4-other-trig">Derivatives of other trigonometric functions</a></li>
+<li><a href="sec-2-5-chain.html" data-scroll="sec-2-5-chain">The chain rule</a></li>
+<li><a href="sec-2-6-inverse.html" data-scroll="sec-2-6-inverse">Derivatives of Inverse Functions</a></li>
+<li><a href="sec-2-7-implicit.html" data-scroll="sec-2-7-implicit">Derivatives of Functions Given Implicitly</a></li>
+<li><a href="sec-2-8-LHR.html" data-scroll="sec-2-8-LHR">Using Derivatives to Evaluate Limits</a></li>
+</ul>
+<h2 class="link"><a href="C-3.html" data-scroll="C-3"><span class="codenumber">3</span><span class="title">Using Derivatives</span></a></h2>
+<ul>
+<li><a href="sec-3-1-tests.html" data-scroll="sec-3-1-tests">Using derivatives to identify extreme values</a></li>
+<li><a href="sec-3-2-families.html" data-scroll="sec-3-2-families">Using derivatives to describe families of functions</a></li>
+<li><a href="sec-3-3-optimization.html" data-scroll="sec-3-3-optimization">Global Optimization</a></li>
+<li><a href="sec-3-4-applied-opt.html" data-scroll="sec-3-4-applied-opt">Applied Optimization</a></li>
+<li><a href="sec-3-5-rel-rates.html" data-scroll="sec-3-5-rel-rates">Related Rates</a></li>
+</ul>
+<h2 class="link active"><a href="C-4.html" data-scroll="C-4"><span class="codenumber">4</span><span class="title">The Definite Integral</span></a></h2>
+<ul>
+<li><a href="sec-4-1-velocity-distance.html" data-scroll="sec-4-1-velocity-distance">Determining distance traveled from velocity</a></li>
+<li><a href="sec-4-2-Riemann.html" data-scroll="sec-4-2-Riemann">Riemann Sums</a></li>
+<li><a href="sec-4-3-definite-integral.html" data-scroll="sec-4-3-definite-integral" class="active">The Definite Integral</a></li>
+<li><a href="sec-4-4-FTC.html" data-scroll="sec-4-4-FTC">The Fundamental Theorem of Calculus</a></li>
+</ul>
+<h2 class="link"><a href="C-5.html" data-scroll="C-5"><span class="codenumber">5</span><span class="title">Evaluating Integrals</span></a></h2>
+<ul>
+<li><a href="sec-5-1-antid-graphs.html" data-scroll="sec-5-1-antid-graphs">Constructing Accurate Graphs of Antiderivatives</a></li>
+<li><a href="sec-5-2-FTC2.html" data-scroll="sec-5-2-FTC2">The Second Fundamental Theorem of Calculus</a></li>
+<li><a href="sec-5-3-substitution.html" data-scroll="sec-5-3-substitution">Integration by Substitution</a></li>
+<li><a href="sec-5-4-parts.html" data-scroll="sec-5-4-parts">Integration by Parts</a></li>
+<li><a href="sec-5-5-other-opt.html" data-scroll="sec-5-5-other-opt">Other Options for Finding Algebraic Antiderivatives</a></li>
+<li><a href="sec-5-6-num-int.html" data-scroll="sec-5-6-num-int">Numerical Integration</a></li>
+</ul>
+<h2 class="link"><a href="C-6.html" data-scroll="C-6"><span class="codenumber">6</span><span class="title">Using Definite Integrals</span></a></h2>
+<ul>
+<li><a href="sec-6-1-area.html" data-scroll="sec-6-1-area">Using Definite Integrals to Find Area and Length</a></li>
+<li><a href="sec-6-2-volume.html" data-scroll="sec-6-2-volume">Using Definite Integrals to Find Volume</a></li>
+<li><a href="sec-6-3-mass.html" data-scroll="sec-6-3-mass">Density, Mass, and Center of Mass</a></li>
+<li><a href="sec-6-4-physics.html" data-scroll="sec-6-4-physics">Physics Applications:  Work, Force, and Pressure</a></li>
+<li><a href="sec-6-5-improper.html" data-scroll="sec-6-5-improper">Improper Integrals</a></li>
+</ul>
+<h2 class="link"><a href="C-7.html" data-scroll="C-7"><span class="codenumber">7</span><span class="title">Differential Equations</span></a></h2>
+<ul>
+<li><a href="sec-7-1-diff-eq-intro.html" data-scroll="sec-7-1-diff-eq-intro">An Introduction to Differential Equations</a></li>
+<li><a href="sec-7-2-qualitative.html" data-scroll="sec-7-2-qualitative">Qualitative behavior of solutions to DEs</a></li>
+<li><a href="sec-7-3-euler.html" data-scroll="sec-7-3-euler">Euler's method</a></li>
+<li><a href="sec-7-4-separable.html" data-scroll="sec-7-4-separable">Separable differential equations</a></li>
+<li><a href="sec-7-5-modeling.html" data-scroll="sec-7-5-modeling">Modeling with differential equations</a></li>
+<li><a href="sec-7-6-logistic.html" data-scroll="sec-7-6-logistic">Population Growth and the Logistic Equation</a></li>
+</ul>
+<h2 class="link"><a href="C-8.html" data-scroll="C-8"><span class="codenumber">8</span><span class="title">Sequences and Series</span></a></h2>
+<ul>
+<li><a href="sec-8-1-sequences.html" data-scroll="sec-8-1-sequences">Sequences</a></li>
+<li><a href="sec-8-2-geometric.html" data-scroll="sec-8-2-geometric">Geometric Series</a></li>
+<li><a href="sec-8-3-series.html" data-scroll="sec-8-3-series">Series of Real Numbers</a></li>
+<li><a href="sec-8-4-alternating.html" data-scroll="sec-8-4-alternating">Alternating Series</a></li>
+<li><a href="sec-8-5-taylor.html" data-scroll="sec-8-5-taylor">Taylor Polynomials and Taylor Series</a></li>
+<li><a href="sec-8-6-powerseries.html" data-scroll="sec-8-6-powerseries">Power Series</a></li>
+</ul>
+<h2 class="link"><a href="backmatter.html" data-scroll="backmatter"><span class="title">Back Matter</span></a></h2>
+<ul>
+<li><a href="integral-table.html" data-scroll="integral-table">A Short Table of Integrals</a></li>
+<li><a href="index-1.html" data-scroll="index-1">Index</a></li>
+<li><a href="colophon-2.html" data-scroll="colophon-2">Colophon</a></li>
+</ul></nav><div class="extras"><nav><a class="feedback-link" href="http://gvsu.edu/s/0vK" target="_blank">Feedback</a><a class="mathbook-link" href="https://mathbook.pugetsound.edu">Authored in PreTeXt</a><a href="https://www.mathjax.org"><img title="Powered by MathJax" src="https://www.mathjax.org/badge/badge.gif" border="0" alt="Powered by MathJax"></a></nav></div>
+</div></aside><main class="main"><div id="content" class="mathbook-content"><section class="section" id="sec-4-3-definite-integral"><h2 class="heading hide-type" alt="Section 4.3 The Definite Integral">
+<span class="type">Section</span><span class="codenumber">4.3</span><span class="title">The Definite Integral</span>
+</h2>
+<a href="sec-4-3-definite-integral.html" class="permalink">¶</a><article class="objectives" id="objectives-24"><h6 class="heading"><span class="type">Motivating Questions</span></h6>
+<ul class="disc">
+<li id="li-2444"><p id="p-3544">How does increasing the number of subintervals affect the accuracy of the approximation generated by a Riemann sum?</p></li>
+<li id="li-2445"><p id="p-3545">What is the definition of the definite integral of a function \(f\) over the interval \([a,b]\text{?}\)</p></li>
+<li id="li-2446"><p id="p-3546">What does the definite integral measure exactly, and what are some of the key properties of the definite integral?</p></li>
+</ul></article><section class="introduction" id="introduction-24"><p id="p-3547">In <a knowl="./knowl/F-4-3-IncreaseN.html" knowl-id="xref-F-4-3-IncreaseN" alt="Figure 4.23 " title="Figure 4.23 ">Figure 4.23</a>, we see evidence that increasing the number of rectangles in a Riemann sum improves the accuracy of the approximation of the net signed area bounded by the given function.</p>
+<figure class="figure-like" id="F-4-3-IncreaseN"><img src="images/4_2_NegF.svg" width="100%" style="display: block; margin: 0 auto;" alt=""><figcaption><span class="type">Figure</span><span class="codenumber">4.23</span>At left and center, two left Riemann sums for a function \(f\) that is sometimes negative; at right, the exact areas bounded by \(f\) on the interval \([a,d]\text{.}\)</figcaption></figure><p id="p-3548">We therefore explore the natural idea of allowing the number of rectangles to increase without bound. In an effort to compute the exact net signed area we also consider the differences among left, right, and middle Riemann sums and the different results they generate as the value of \(n\) increases. We begin with functions that are exclusively positive on the interval under consideration.</p>
+<article class="example-like" id="PA-4-3"><h6 class="heading">
+<span class="type">Preview Activity</span><span class="codenumber">4.9</span>
+</h6>
+<p id="p-3549">Consider the applet found at <a class="url" href="http://gvsu.edu/s/a9" target="_blank">http://gvsu.edu/s/a9</a><span class="footnote"><a knowl="" class="id-ref" refid="hk-fn-24" id="fn-24"><sup> 6 </sup></a></span><span id="hk-fn-24" class="hidden-content tex2jax_ignore"><span class="footnote">Marc Renault, Shippensburg University, Geogebra Applets for Calclulus, <a class="url" href="http://gvsu.edu/s/5p" target="_blank">http://gvsu.edu/s/5p</a>.</span></span>. There, you will initially see the situation shown in <a knowl="./knowl/F-4-3-GGBApplet.html" knowl-id="xref-F-4-3-GGBApplet" alt="Figure 4.24 " title="Figure 4.24 ">Figure 4.24</a>.</p>
+<figure class="figure-like" id="F-4-3-GGBApplet"><img src="images/4_3_GGBApplet.svg" width="100%" style="display: block; margin: 0 auto;" alt=""><figcaption><span class="type">Figure</span><span class="codenumber">4.24</span>A right Riemann sum with 10 subintervals for the function \(f(x) = \sin(2x) - \frac{x^2}{10} + 3\) on the interval \([1,7]\text{.}\)  The value of the sum is \(R_{10} = 4.90595\text{.}\)</figcaption></figure><p id="p-3550">Note that the value of the chosen Riemann sum is displayed next to the word “relative,” and that you can change the type of Riemann sum being computed by dragging the point on the slider bar below the phrase “sample point placement.”</p>
+<p id="p-3551">Explore to see how you can change the window in which the function is viewed, as well as the function itself. You can set the minimum and maximum values of \(x\) by clicking and dragging on the blue points that set the endpoints; you can change the function by typing a new formula in the “f(x)” window at the bottom; and you can adjust the overall window by “panning and zooming” by using the Shift key and the scrolling feature of your mouse. More information on how to pan and zoom can be found at <a class="url" href="http://gvsu.edu/s/Fl" target="_blank">http://gvsu.edu/s/Fl</a>.</p>
+<p id="p-3552">Work accordingly to adjust the applet so that it uses a left Riemann sum with \(n = 5\) subintervals for the function is \(f(x) = 2x + 1\text{.}\) You should see the updated figure shown in <a knowl="./knowl/F-4-3-GGBApplet2.html" knowl-id="xref-F-4-3-GGBApplet2" alt="Figure 4.25 " title="Figure 4.25 ">Figure 4.25</a>. Then, answer the following questions.</p>
+<ol id="p-3553" class="lower-alpha">
+<li id="li-2447"><p id="p-3554">Update the applet (and view window, as needed) so that the function being considered is \(f(x) = 2x+1\) on \([1,4]\text{,}\) as directed above. For this function on this interval, compute \(L_{n}\text{,}\) \(M_{n}\text{,}\) \(R_{n}\) for \(n = 5\text{,}\) \(n = 25\text{,}\) and \(n = 100\text{.}\) What appears to be the exact area bounded by \(f(x) = 2x+1\) and the \(x\)-axis on \([1,4]\text{?}\)</p></li>
+<li id="li-2448"><p id="p-3555">Use basic geometry to determine the exact area bounded by \(f(x) = 2x+1\) and the \(x\)-axis on \([1,4]\text{.}\)</p></li>
+<li id="li-2449"><p id="p-3556">Based on your work in (a) and (b), what do you observe occurs when we increase the number of subintervals used in the Riemann sum?</p></li>
+<li id="li-2450"><p id="p-3557">Update the applet to consider the function \(f(x) = x^2 + 1\) on the interval \([1,4]\) (note that you need to enter “<code class="code-inline tex2jax_ignore">x ^ 2 + 1</code>” for the function formula). Use the applet to compute \(L_{n}\text{,}\) \(M_{n}\text{,}\) \(R_{n}\) for \(n = 5\text{,}\) \(n = 25\text{,}\) and \(n = 100\text{.}\) What do you conjecture is the exact area bounded by \(f(x) = x^2+1\) and the \(x\)-axis on \([1,4]\text{?}\)</p></li>
+<li id="li-2451"><p id="p-3558">Why can we not compute the exact value of the area bounded by \(f(x) = x^2+1\) and the \(x\)-axis on \([1,4]\) using a formula like we did in (b)?</p></li>
+</ol>
+<figure class="figure-like" id="F-4-3-GGBApplet2"><img src="images/4_3_GGBApplet2.svg" width="100%" style="display: block; margin: 0 auto;" alt=""><figcaption><span class="type">Figure</span><span class="codenumber">4.25</span>A left Riemann sum with 5 subintervals for the function \(f(x) = 2x+1\) on the interval \([1,4]\text{.}\)  The value of the sum is \(L_5 = 16.2\text{.}\)</figcaption></figure></article></section><section class="subsection" id="subsection-71"><h3 class="heading hide-type" alt="Subsection  The definition of the definite integral">
+<span class="type">Subsection</span><span class="codenumber"></span><span class="title">The definition of the definite integral</span>
+</h3>
+<p id="p-3559">In <a knowl="./knowl/PA-4-3.html" knowl-id="xref-PA-4-3" alt="Preview Activity 4.9 " title="Preview Activity 4.9 ">Preview Activity 4.9</a>, we saw that as the number of rectangles got larger and larger, the values of \(L_n\text{,}\) \(M_n\text{,}\) and \(R_n\) all grew closer and closer to the same value. It turns out that this occurs for any continuous function on an interval \([a,b]\text{,}\) and also for a Riemann sum using any point \(x_{i+1}^*\) in the interval \([x_i, x_{i+1}]\text{.}\) Thus, as we let \(n \to \infty\text{,}\) it doesn't really matter where we choose to evaluate the function within a given subinterval, because</p>
+<div class="displaymath">
+\begin{equation*}
+\lim_{n \to \infty} L_n = \lim_{n \to \infty} R_n = \lim_{n \to \infty} M_n = \lim_{n \to \infty} \sum_{i=1}^{n} f(x_i^*) \Delta x\text{.}
+\end{equation*}
+</div>
+<p id="p-3560">That these limits always exist (and share the same value) when \(f\) is continuous<span class="footnote"><a knowl="" class="id-ref" refid="hk-fn-25" id="fn-25"><sup> 7 </sup></a></span><span id="hk-fn-25" class="hidden-content tex2jax_ignore"><span class="footnote">It turns out that a function need not be continuous in order to have a definite integral. For our purposes, we assume that the functions we consider are continuous on the interval(s) of interest. It is straightforward to see that any function that is piecewise continuous on an interval of interest will also have a well-defined definite integral.</span></span> allows us to make the following definition.</p>
+<article class="definition-like" id="D-4-3-DefInt"><h6 class="heading">
+<span class="type">Definition</span><span class="codenumber">4.26</span>
+</h6>
+<p id="p-3561">The <dfn class="terminology">definite integral</dfn> of a continuous function \(f\) on the interval \([a,b]\text{,}\) denoted \(\int_a^b f(x) \, dx\text{,}\) is the real number given by</p>
+<div class="displaymath">
+\begin{equation*}
+\int_a^b f(x) \, dx = \lim_{n \to \infty} \sum_{i=1}^{n} f(x_i^*) \Delta x\text{,}
+\end{equation*}
+</div>
+<p>where \(\Delta x = \frac{b-a}{n}\text{,}\) \(x_i = a + i\Delta x\) (for \(i = 0, \ldots, n\)), and \(x_i^*\) satisfies \(x_{i-1} \le x_i^* \le x_i\) (for \(i = 1, \ldots, n\)).</p></article><p id="p-3562">We call the symbol \(\int\) the <em class="emphasis">integral sign</em>,  the values \(a\) and \(b\) the <em class="emphasis">limits of integration</em>,  and the function \(f\) the <em class="emphasis">integrand</em>  The process of determining the real number \(\int_a^b f(x) \, dx\) is called <em class="emphasis">evaluating the definite integral</em>. While there are several different interpretations of the definite integral, for now the most important is that \(\int_a^b f(x) \, dx\) measures the net signed area bounded by \(y = f(x)\) and the \(x\)-axis on the interval \([a,b]\text{.}\)</p>
+<p id="p-3563">For example, if \(f\) is the function pictured in <a knowl="./knowl/F-4-3-DefIntInterp.html" knowl-id="xref-F-4-3-DefIntInterp" alt="Figure 4.27 " title="Figure 4.27 ">Figure 4.27</a>, and \(A_1\text{,}\) \(A_2\text{,}\) and \(A_3\) are the exact areas bounded by \(f\) and the \(x\)-axis on the respective intervals \([a,b]\text{,}\) \([b,c]\text{,}\) and \([c,d]\text{,}\) then</p>
+<div class="displaymath">
+\begin{gather*}
+\int_a^b f(x) \, dx = A_1, \ \int_b^c f(x) \, dx = -A_2,\\
+\int_c^d f(x) \, dx = A_3,\\
+\text{ and } \int_a^d f(x) \, dx = A_1 - A_2 + A_3\text{.}
+\end{gather*}
+</div>
+<figure class="figure-like" id="F-4-3-DefIntInterp"><img src="images/4_3_DefIntInterp.svg" width="47%" style="display: block; margin: 0 auto;" alt=""><figcaption><span class="type">Figure</span><span class="codenumber">4.27</span>A continuous function \(f\) on the interval \([a,d]\text{.}\)</figcaption></figure><p id="p-3564">We can also use definite integrals to express the change in position and the distance traveled by a moving object. If \(v\) is a velocity function on an interval \([a,b]\text{,}\) then the change in position of the object, \(s(b) - s(a)\text{,}\) is given by</p>
+<div class="displaymath">
+\begin{equation*}
+s(b) - s(a) = \int_a^b v(t) \, dt\text{.}
+\end{equation*}
+</div>
+<p id="p-3565">If the velocity function is nonnegative on \([a,b]\text{,}\) then \(\int_a^b v(t) \,dt\) tells us the distance the object traveled. If the velocity is sometimes negative on \([a,b]\text{,}\) we can use definite integrals to find the areas bounded by the function on each interval where \(v\) does not change sign, and the sum of these areas will tell us the distance the object traveled.</p>
+<p id="p-3566">To compute the value of a definite integral from the definition, we have to take the limit of a sum. While this is possible to do in select circumstances, it is also tedious and time-consuming, and does not offer much additional insight into the meaning or interpretation of the definite integral. Instead, in <a href="sec-4-4-FTC.html" class="xref" alt="Section 4.4 The Fundamental Theorem of Calculus" title="Section 4.4 The Fundamental Theorem of Calculus">Section 4.4</a>, we will learn the Fundamental Theorem of Calculus, which provides a shortcut for evaluating a large class of definite integrals. This will enable us to determine the exact net signed area bounded by a continuous function and the \(x\)-axis in many circumstances.</p>
+<p id="p-3567">For now, our goal is to understand the meaning and properties of the definite integral, rather than to compute its value. To do this, we will rely on the net signed area interpretation of the definite integral. So we will use as examples curves that produce regions whose areas we can compute exactly through area formulas. We can thus compute the exact value of the corresponding integral.</p>
+<p id="p-3568">For instance, if we wish to evaluate the definite integral \(\int_1^4 (2x+1) \, dx\text{,}\) we observe that the region bounded by this function and the \(x\)-axis is the trapezoid shown in <a knowl="./knowl/F-4-3-TrapArea.html" knowl-id="xref-F-4-3-TrapArea" alt="Figure 4.28 " title="Figure 4.28 ">Figure 4.28</a>. By the formula for the area of a trapezoid, \(A = \frac{1}{2}(3+9) \cdot 3 = 18\text{,}\) so</p>
+<div class="displaymath">
+\begin{equation*}
+\int_1^4 (2x+1) \, dx = 18\text{.}
+\end{equation*}
+</div>
+<figure class="figure-like" id="F-4-3-TrapArea"><img src="images/4_3_TrapArea.svg" width="47%" style="display: block; margin: 0 auto;" alt=""><figcaption><span class="type">Figure</span><span class="codenumber">4.28</span>The area bounded by \(f(x)=2x+1\) and the \(x\)-axis on the interval \([1,4]\text{.}\)</figcaption></figure><article class="example-like" id="act-4-3-1"><h6 class="heading">
+<span class="type">Activity</span><span class="codenumber">4.10</span>
+</h6>
+<p id="p-3569">Use known geometric formulas and the net signed area interpretation of the definite integral to evaluate each of the definite integrals below.</p>
+<ol id="p-3570" class="lower-alpha">
+<li id="li-2452"><p id="p-3571">\(\int_0^1 3x \, dx\)</p></li>
+<li id="li-2453"><p id="p-3572">\(\int_{-1}^4 (2-2x) \, dx\)</p></li>
+<li id="li-2454"><p id="p-3573">\(\int_{-1}^1 \sqrt{1-x^2} \, dx\)</p></li>
+<li id="li-2455">
+<p id="p-3574">\(\int_{-3}^4 g(x) \, dx\text{,}\) where \(g\) is the function pictured in <a knowl="./knowl/F-4-3-Act1.html" knowl-id="xref-F-4-3-Act1" alt="Figure 4.29 " title="Figure 4.29 ">Figure 4.29</a>. Assume that each portion of \(g\) is either part of a line or part of a circle.</p>
+<figure class="figure-like" id="F-4-3-Act1"><img src="images/4_3_Act1.svg" width="65%" style="display: block; margin: 0 auto;" alt=""><figcaption><span class="type">Figure</span><span class="codenumber">4.29</span>A function \(g\) that is piecewise defined; each piece of the function is part of a circle or part of a line.</figcaption></figure>
+</li>
+</ol>
+<div class="solutions">
+<span class="solution"><a knowl="" class="id-ref" refid="hk-hint-70" id="hint-70"><span class="type">Hint</span></a></span><div id="hk-hint-70" class="hidden-content tex2jax_ignore"><span class="solution"><ol id="p-3575" class="lower-alpha">
+<li id="li-2456"><p id="p-3576">Sketch the region bounded by \(y = 3x\) and the \(x\)-axis on \([0,1]\text{.}\)</p></li>
+<li id="li-2457"><p id="p-3577">Sketch the region bounded by \(y = 2-2x\) and the \(x\)-axis on \([-1,4]\text{.}\)</p></li>
+<li id="li-2458"><p id="p-3578">Observe that \(y = \sqrt{1-x^2}\) is the top half the circle whose equation is \(x^2 + y^2 = 1\text{.}\)</p></li>
+<li id="li-2459"><p id="p-3579">Use known formulas for the area of a triangle, square, or circle appropriately.</p></li>
+</ol></span></div>
+<span class="solution"><a knowl="" class="id-ref" refid="hk-answer-158" id="answer-158"><span class="type">Answer</span></a></span><div id="hk-answer-158" class="hidden-content tex2jax_ignore"><span class="solution"><ol id="p-3580" class="lower-alpha">
+<li id="li-2460"><p id="p-3581">\(\int_0^1 3x \, dx = \frac{3}{2}\text{.}\)</p></li>
+<li id="li-2461"><p id="p-3582">\(\int_{-1}^4 (2-2x) \, dx = -5\text{.}\)</p></li>
+<li id="li-2462"><p id="p-3583">\(\int_{-1}^1 \sqrt{1-x^2} \, dx = \frac{\pi}{2}\text{.}\)</p></li>
+<li id="li-2463"><p id="p-3584">\(\int_{-3}^4 g(x) \, dx = \frac{3\pi}{4} - \frac{3}{2}\text{.}\)</p></li>
+</ol></span></div>
+<span class="solution"><a knowl="" class="id-ref" refid="hk-solution-175" id="solution-175"><span class="type">Solution</span></a></span><div id="hk-solution-175" class="hidden-content tex2jax_ignore"><span class="solution"><ol id="p-3585" class="lower-alpha">
+<li id="li-2464">
+<p id="p-3586">Because \(y = 3x\) and the \(x\)-axis bound a triangle with base of length 1 and height \(3\) on the interval \([0,1]\text{,}\) it follows that</p>
+<div class="displaymath">
+\begin{equation*}
+\int_0^1 3x \, dx = \frac{1}{2} \cdot 1 \cdot 3 = \frac{3}{2}\text{.}
+\end{equation*}
+</div>
+</li>
+<li id="li-2465">
+<p id="p-3587">For \(\int_{-1}^4 (2-2x) \, dx\text{,}\) we first sketch the region bounded by the function, as shown below.</p>
+<div class="sidebyside" id="sidebyside-183"><div class="sbsrow" style="margin-left:30%;margin-right:30%;"><div class="sbspanel" style="width:100%;justify-content:flex-start;"><img src="images/4_3_Act1bSoln.svg" width="100%" style="display: block; margin: 0 auto;" alt=""></div></div></div>
+<p id="p-3588">The line creates two triangles, one with area \(A_1 = \frac{1}{2} \cdot 2 \cdot 4 = 4\) and the other with area \(A_2 = \frac{1}{2} \cdot 3 \cdot 6 = 9\text{.}\) Since the latter area corresponds to a region below the \(x\)-axis, we associate a negative sign to it, and hence find that</p>
+<div class="displaymath">
+\begin{equation*}
+\int_{-1}^4 (2-2x) \, dx = A_1 - A_2 = 4 - 9 = -5\text{.}
+\end{equation*}
+</div>
+</li>
+<li id="li-2466">
+<p id="p-3589">For \(\int_{-1}^1 \sqrt{1-x^2} \, dx\text{,}\) we simply observe that this function is the top half of a circle of radius 1, and thus the bounded region is a semicircle of radius 1, thus having an area of \(\frac{\pi}{2}\text{.}\) Therefore,</p>
+<div class="displaymath">
+\begin{equation*}
+\int_{-1}^1 \sqrt{1-x^2} \, dx = \frac{\pi}{2}\text{.}
+\end{equation*}
+</div>
+</li>
+<li id="li-2467">
+<p id="p-3590">Finally, for \(\int_{-3}^4 g(x) \, dx\text{,}\) where \(g\) is the function pictured in <a knowl="./knowl/F-4-3-Act1.html" knowl-id="xref-F-4-3-Act1" alt="Figure 4.29 " title="Figure 4.29 ">Figure 4.29</a>, we consider the function on seven consecutive subintervals of length 1. Observe that on \([-3,-2]\text{,}\) the bounded area is \(\frac{1}{2}\text{.}\) On \([-2,-1]\text{,}\) the area is \(\frac{1}{4} \pi\text{.}\) Similarly, on the next five subintervals of length 1, the areas bounded are respectively \(\frac{1}{2}\text{,}\) \(1\text{,}\) \(\frac{1}{2}\text{,}\) \(\frac{1}{4} \pi\text{,}\) and \(\frac{1}{4} \pi\text{.}\) Thus, the value of the integral is</p>
+<div class="displaymath">
+\begin{equation*}
+\int_{-3}^4 g(x) \, dx = \frac{1}{2} + \frac{\pi}{4} - \frac{1}{2} - 1 - \frac{1}{2} + \frac{\pi}{4} + \frac{\pi}{4} = \frac{3\pi}{4} - \frac{3}{2}\text{,}
+\end{equation*}
+</div>
+<p>which is approximately 0.8562.</p>
+</li>
+</ol></span></div>
+</div></article></section><section class="subsection" id="subsection-72"><h3 class="heading hide-type" alt="Subsection  Some properties of the definite integral">
+<span class="type">Subsection</span><span class="codenumber"></span><span class="title">Some properties of the definite integral</span>
+</h3>
+<p id="p-3591">Regarding the definite integral of a function \(f\) over an interval \([a,b]\) as the net signed area bounded by \(f\) and the \(x\)-axis, we discover several standard properties of the definite integral. It is helpful to remember that the definite integral is defined in terms of Riemann sums, which consist of the areas of rectangles.</p>
+<p id="p-3592">For any real number \(a\) and the definite integral \(\int_a^a f(x) \, dx\) it is evident that no area is enclosed, because the interval begins and ends with the same point. Hence,</p>
+<article class="assemblage-like" id="assemblage-23"><p id="p-3593">If \(f\) is a continuous function and \(a\) is a real number, then \(\int_a^a f(x) \,dx = 0\text{.}\)</p></article><p id="p-3594">Next, we consider the result of subdividing the interval of integration. In <a knowl="./knowl/F-4-3-AdditiveProp.html" knowl-id="xref-F-4-3-AdditiveProp" alt="Figure 4.30 " title="Figure 4.30 ">Figure 4.30</a>, we see that</p>
+<div class="displaymath">
+\begin{gather*}
+\int_a^b f(x) \, dx = A_1, \ \int_b^c f(x) \, dx = A_2,\\
+\text{and }\int_a^c f(x) \, dx = A_1 + A_2\text{,}
+\end{gather*}
+</div>
+<p>which illustrates the following general rule.</p>
+<figure class="figure-like" id="F-4-3-AdditiveProp"><img src="images/4_3_AdditiveProp.svg" width="47%" style="display: block; margin: 0 auto;" alt=""><figcaption><span class="type">Figure</span><span class="codenumber">4.30</span>The area bounded by \(y=f(x)\) on the interval \([a,c]\text{.}\)</figcaption></figure><article class="assemblage-like" id="assemblage-24"><p id="p-3595">If \(f\) is a continuous function and \(a\text{,}\) \(b\text{,}\) and \(c\) are real numbers, then</p>
+<div class="displaymath">
+\begin{equation*}
+\int_a^c f(x) \,dx = \int_a^b f(x) \,dx + \int_b^c f(x) \,dx\text{.}
+\end{equation*}
+</div></article><p id="p-3596">While this rule is easy to see if \(a \lt b \lt c\text{,}\) it in fact holds in general for any values of \(a\text{,}\) \(b\text{,}\) and \(c\text{.}\) Another property of the definite integral states that if we reverse the order of the limits of integration, we change the sign of the integral's value.</p>
+<article class="assemblage-like" id="assemblage-25"><p id="p-3597">If \(f\) is a continuous function and \(a\) and \(b\) are real numbers, then</p>
+<div class="displaymath">
+\begin{equation*}
+\int_b^a f(x) \,dx = -\int_a^b f(x) \,dx\text{.}
+\end{equation*}
+</div></article><p id="p-3598">This result makes sense because if we integrate from \(a\) to \(b\text{,}\) then in the defining Riemann sum we set \(\Delta x = \frac{b-a}{n}\text{,}\) while if we integrate from \(b\) to \(a\text{,}\) we have \(\Delta x = \frac{a-b}{n} = -\frac{b-a}{n}\text{,}\) and this is the only change in the sum used to define the integral.</p>
+<p id="p-3599">There are two additional useful properties of the definite integral. When we worked with derivative rules in <a href="C-2.html" class="xref" alt="Chapter 2 Computing Derivatives" title="Chapter 2 Computing Derivatives">Chapter 2</a>, we formulated the Constant Multiple Rule and the Sum Rule. Recall that the Constant Multiple Rule says that if \(f\) is a differentiable function and \(k\) is a constant, then</p>
+<div class="displaymath">
+\begin{equation*}
+\frac{d}{dx} [kf(x)] = kf'(x)\text{,}
+\end{equation*}
+</div>
+<p>and the Sum Rule says that if \(f\) and \(g\) are differentiable functions, then</p>
+<div class="displaymath">
+\begin{equation*}
+\frac{d}{dx}[f(x) + g(x)] = f'(x) + g'(x)\text{.}
+\end{equation*}
+</div>
+<p id="p-3600">These rules are useful because they allow to deal individually with the simplest parts of certain functions by taking advantage of addition and multiplying by a constant. In other words, the process of taking the derivative respects addition and multiplying by constants in the simplest possible way.</p>
+<p id="p-3601">It turns out that similar rules hold for the definite integral. First, let's consider the functions pictured in <a knowl="./knowl/F-4-3-ConstMult.html" knowl-id="xref-F-4-3-ConstMult" alt="Figure 4.31 " title="Figure 4.31 ">Figure 4.31</a>.</p>
+<figure class="figure-like" id="F-4-3-ConstMult"><img src="images/4_3_ConstMult.svg" width="100%" style="display: block; margin: 0 auto;" alt=""><figcaption><span class="type">Figure</span><span class="codenumber">4.31</span>The areas bounded by \(y = f(x)\) and \(y = 2f(x)\) on \([a,b]\text{.}\)</figcaption></figure><p id="p-3602">Because multiplying the function by 2 doubles its height at every \(x\)-value, we see that the height of each rectangle in a left Riemann sum is doubled, \(f(x_i)\) for the original function, versus \(2f(x_i)\) in the doubled function. For the areas \(A\) and \(B\text{,}\) it follows \(B = 2A\text{.}\) As this is true regardless of the value of \(n\) or the type of sum we use, we see that in the limit, the area of the red region bounded by \(y = 2f(x)\) will be twice the area of the blue region bounded by \(y = f(x)\text{.}\) As there is nothing special about the value \(2\) compared to an arbitrary constant \(k\text{,}\) the following general principle holds.</p>
+<article class="assemblage-like" id="assemblage-26"><h6 class="heading"><span class="title">Constant Multiple Rule</span></h6>
+<p id="p-3603">If \(f\) is a continuous function and \(k\) is any real number, then</p>
+<div class="displaymath">
+\begin{equation*}
+\int_a^b k \cdot f(x) \,dx = k \int_a^b f(x) \,dx\text{.}
+\end{equation*}
+</div></article><p id="p-3604">We see a similar situation with the sum of two functions \(f\) and \(g\text{.}\)</p>
+<figure class="figure-like" id="F-4-3-Sum"><img src="images/4_3_Sum.svg" width="100%" style="display: block; margin: 0 auto;" alt=""><figcaption><span class="type">Figure</span><span class="codenumber">4.32</span>The areas bounded by \(y = f(x)\) and \(y = g(x)\) on \([a,b]\text{,}\) as well as the area bounded by \(y = f(x) + g(x)\text{.}\)</figcaption></figure><p id="p-3605">If we take the sum of two functions \(f\) and \(g\) at every point in the interval, the height of the function \(f+g\) is given by \((f+g)(x_i) = f(x_i) + g(x_i)\text{.}\) Hence, for the pictured rectangles with areas \(A\text{,}\) \(B\text{,}\) and \(C\text{,}\) it follows that \(C = A + B\text{.}\) Because this will occur for every such rectangle, in the limit the area of the gray region will be the sum of the areas of the blue and red regions. In terms of definite integrals, we have the following general rule.</p>
+<article class="assemblage-like" id="assemblage-27"><h6 class="heading"><span class="title">Sum Rule</span></h6>
+<p id="p-3606">If \(f\) and \(g\) are continuous functions, then</p>
+<div class="displaymath">
+\begin{equation*}
+\int_a^b [f(x) + g(x)] \,dx = \int_a^b f(x) \,dx + \int_a^b g(x) \,dx\text{.}
+\end{equation*}
+</div></article><p id="p-3607">The Constant Multiple and Sum Rules can be combined to say that for any continuous functions \(f\) and \(g\) and any constants \(c\) and \(k\text{,}\)</p>
+<div class="displaymath">
+\begin{equation*}
+\int_a^b [c f(x) \pm k g(x)] \,dx = c \int_a^b f(x) \,dx \pm k \int_a^b g(x) \,dx\text{.}
+\end{equation*}
+</div>
+<article class="example-like" id="act-4-3-2"><h6 class="heading">
+<span class="type">Activity</span><span class="codenumber">4.11</span>
+</h6>
+<p id="p-3608">Suppose that the following information is known about the functions \(f\text{,}\) \(g\text{,}\) \(x^2\text{,}\) and \(x^3\text{:}\) </p>
+<ul class="disc">
+<li id="li-2468"><p id="p-3609">\(\int_0^2 f(x) \, dx = -3\text{;}\) \(\int_2^5 f(x) \, dx = 2\)</p></li>
+<li id="li-2469"><p id="p-3610">\(\int_0^2 g(x) \, dx = 4\text{;}\) \(\int_2^5 g(x) \, dx = -1\)</p></li>
+<li id="li-2470"><p id="p-3611">\(\int_0^2 x^2 \, dx = \frac{8}{3}\text{;}\) \(\int_2^5 x^2 \, dx = \frac{117}{3}\)</p></li>
+<li id="li-2471"><p id="p-3612">\(\int_0^2 x^3 \, dx = 4\text{;}\) \(\int_2^5 x^3 \, dx = \frac{609}{4}\)</p></li>
+</ul>
+<p id="p-3613">Use the provided information and the rules discussed in the preceding section to evaluate each of the following definite integrals. </p>
+<ol class="lower-alpha cols2">
+<li id="li-2472"><p id="p-3614">\(\int_5^2 f(x) \, dx\)</p></li>
+<li id="li-2473"><p id="p-3615">\(\int_0^5 g(x) \, dx\)</p></li>
+<li id="li-2474"><p id="p-3616">\(\int_0^5 (f(x) + g(x))\, dx\)</p></li>
+<li id="li-2475"><p id="p-3617">\(\int_2^5 (3x^2 - 4x^3) \, dx\)</p></li>
+<li id="li-2476"><p id="p-3618">\(\int_5^0 (2x^3 - 7g(x)) \, dx\)</p></li>
+</ol>
+<div class="solutions">
+<span class="solution"><a knowl="" class="id-ref" refid="hk-hint-71" id="hint-71"><span class="type">Hint</span></a></span><div id="hk-hint-71" class="hidden-content tex2jax_ignore"><span class="solution"><ol id="p-3619" class="lower-alpha">
+<li id="li-2477"><p id="p-3620">Note that the value of \(\int_2^5 f(x) \, dx\) is given.</p></li>
+<li id="li-2478"><p id="p-3621">Use the values of \(\int_0^2 g(x) \,dx\) and \(\int_2^5 g(x) \,dx\text{.}\)</p></li>
+<li id="li-2479"><p id="p-3622">First find \(\int_0^5 f(x) \, dx\) and \(\int_0^5 g(x) \, dx\text{.}\)</p></li>
+<li id="li-2480"><p id="p-3623">Use the sum and constant multiple rules.</p></li>
+<li id="li-2481"><p id="p-3624">First write \(\int_5^0 (2x^3 - 7g(x)) \, dx = -\int_0^5 (2x^3 - 7g(x)) \, dx\text{.}\)</p></li>
+</ol></span></div>
+<span class="solution"><a knowl="" class="id-ref" refid="hk-answer-159" id="answer-159"><span class="type">Answer</span></a></span><div id="hk-answer-159" class="hidden-content tex2jax_ignore"><span class="solution"><ol id="p-3625" class="lower-alpha">
+<li id="li-2482"><p id="p-3626">\(\int_5^2 f(x) \,dx = -2\text{.}\)</p></li>
+<li id="li-2483"><p id="p-3627">\(\int_0^5 g(x) \,dx = 3\text{.}\)</p></li>
+<li id="li-2484"><p id="p-3628">\(\int_0^5 (f(x) + g(x))\, dx = 2\text{.}\)</p></li>
+<li id="li-2485"><p id="p-3629">\(\int_2^5 (3x^2 - 4x^3) \, dx = -492\text{.}\)</p></li>
+<li id="li-2486"><p id="p-3630">\(\int_5^0 (2x^3 - 7g(x)) \, dx = -\frac{187}{3}\text{.}\)</p></li>
+</ol></span></div>
+<span class="solution"><a knowl="" class="id-ref" refid="hk-solution-176" id="solution-176"><span class="type">Solution</span></a></span><div id="hk-solution-176" class="hidden-content tex2jax_ignore"><span class="solution"><ol id="p-3631" class="lower-alpha">
+<li id="li-2487">
+<p id="p-3632">Note that the value of \(\int_2^5 f(x) \, dx\) is given, and thus</p>
+<div class="displaymath">
+\begin{equation*}
+\int_5^2 f(x) \,dx = -\int_2^5 f(x) \, dx = -2\text{.}
+\end{equation*}
+</div>
+</li>
+<li id="li-2488">
+<p id="p-3633">Since \(\int_0^2 g(x) \,dx = 4\) and \(\int_2^5 g(x) \,dx = -1\text{,}\) we have</p>
+<div class="displaymath">
+\begin{equation*}
+\int_0^5 g(x) \,dx = \int_0^2 g(x) \,dx + \int_2^5 g(x) \,dx = 4 + (-1) = 3\text{.}
+\end{equation*}
+</div>
+</li>
+<li id="li-2489">
+<p id="p-3634">First, using work from and similar to that in (c), we find \(\int_0^5 f(x) \, dx = -3 + 2 = -1\) and \(\int_0^5 g(x) \, dx = 3\text{,}\) thus by the sum rule,</p>
+<div class="displaymath">
+\begin{equation*}
+\int_0^5 (f(x) + g(x))\, dx = \int_0^5 f(x)\, dx + \int_0^5 g(x)\, dx = -1 + 3 = 2\text{.}
+\end{equation*}
+</div>
+</li>
+<li id="li-2490">
+<p id="p-3635">By the sum and constant multiple rules,</p>
+<div class="displaymath">
+\begin{equation*}
+\int_2^5 (3x^2 - 4x^3) \, dx = 3\int_2^5 x^2 \, dx - 4\int_2^5 x^3 \, dx = 3 \cdot \frac{117}{3} - 4 \frac{609}{4} = 117 - 609 = -492\text{.}
+\end{equation*}
+</div>
+</li>
+<li id="li-2491">
+<p id="p-3636">First, we write \(\int_5^0 (2x^3 - 7g(x)) \, dx = -\int_0^5 (2x^3 - 7g(x)) \, dx\text{.}\) Then, using the sum and constant multiple rules, it follows</p>
+<div class="displaymath">
+\begin{align*}
+\int_5^0 (2x^3 - 7g(x)) \, dx =\mathstrut \amp  -\int_0^5 (2x^3 - 7g(x)) \, dx\\
+=\mathstrut \amp  -\left(2 \int_0^5 x^3 \, dx - 7 \int_0^5 g(x) \,dx \right)\\
+=\mathstrut \amp  -2 \left(\frac{8}{3} + \frac{117}{3}\right)  + 7 \left(4 +  (-1))\right)\\
+=\mathstrut \amp  -\frac{250}{3} + 21\\
+=\mathstrut \amp  -\frac{187}{3}\text{.}
+\end{align*}
+</div>
+</li>
+</ol></span></div>
+</div></article></section><section class="subsection" id="subsection-73"><h3 class="heading hide-type" alt="Subsection  How the definite integral is connected to a function's average value">
+<span class="type">Subsection</span><span class="codenumber"></span><span class="title">How the definite integral is connected to a function's average value</span>
+</h3>
+<p id="p-3637">One of the most valuable applications of the definite integral is that it provides a way to discuss the average value of a function, even for a function that takes on infinitely many values. Recall that if we wish to take the average of \(n\) numbers \(y_1\text{,}\) \(y_2\text{,}\) \(\ldots\text{,}\) \(y_n\text{,}\) we compute</p>
+<div class="displaymath">
+\begin{equation*}
+AVG  = \frac{y_1 + y_2 + \cdots + y_n}{n}\text{.}
+\end{equation*}
+</div>
+<p id="p-3638">Since integrals arise from Riemann sums in which we add \(n\) values of a function, it should not be surprising that evaluating an integral is similar to averaging the output values of a function. Consider, for instance, the right Riemann sum \(R_n\) of a function \(f\text{,}\) which is given by</p>
+<div class="displaymath">
+\begin{equation*}
+R_n = f(x_1) \Delta x + f(x_2) \Delta x + \cdots + f(x_n) \Delta x = (f(x_1) + f(x_2) + \cdots + f(x_n))\Delta x\text{.}
+\end{equation*}
+</div>
+<p id="p-3639">Since \(\Delta x = \frac{b-a}{n}\text{,}\) we can thus write</p>
+<div class="displaymath">
+\begin{align}
+R_n =\mathstrut \amp (f(x_1) + f(x_2) + \cdots + f(x_n))\cdot \frac{b-a}{n}\notag\\
+=\mathstrut \amp (b-a) \frac{f(x_1) + f(x_2) + \cdots + f(x_n)}{n}\text{.}\label{E-RAvg}\tag{4.1}
+\end{align}
+</div>
+<p id="p-3640">We see that the right Riemann sum with \(n\) subintervals is just the length of the interval \((b-a)\) times the average of the \(n\) function values found at the right endpoints. And just as with our efforts to compute area, the larger the value of \(n\) we use, the more accurate our average will be. Indeed, we will define the average value of \(f\) on \([a,b]\) to be</p>
+<div class="displaymath">
+\begin{equation*}
+f_{\operatorname{AVG} [a,b]} = \lim_{n \to \infty} \frac{f(x_1) + f(x_2) + \cdots + f(x_n)}{n}\text{.}
+\end{equation*}
+</div>
+<p id="p-3641">But we also know that for any continuous function \(f\) on \([a,b]\text{,}\) taking the limit of a Riemann sum leads precisely to the definite integral. That is, \(\lim_{n \to \infty} R_n = \int_a^b f(x) \, dx\text{,}\) and thus taking the limit as \(n \to \infty\) in <a knowl="./knowl/E-RAvg.html" knowl-id="xref-E-RAvg" alt="Equation 4.1 " title="Equation 4.1 ">Equation (4.1)</a>, we have that</p>
+<div class="displaymath">
+\begin{equation}
+\int_a^b f(x) \, dx = (b-a) \cdot f_{\operatorname{AVG} [a,b]}\text{.}\label{E-RAvg2}\tag{4.2}
+\end{equation}
+</div>
+<p id="p-3642">Solving Equation <a knowl="./knowl/E-RAvg2.html" knowl-id="xref-E-RAvg2" alt="Equation 4.2 " title="Equation 4.2 ">(4.2)</a> for \(f_{\operatorname{AVG} [a,b]}\text{,}\) we have the following general principle.</p>
+<article class="assemblage-like" id="average-value"><h6 class="heading"><span class="title">Average value of a function</span></h6>
+<p id="p-3643"> If \(f\) is a continuous function on \([a,b]\text{,}\) then its average value on \([a,b]\) is given by the formula</p>
+<div class="displaymath">
+\begin{equation*}
+f_{\operatorname{AVG} [a,b]} = \frac{1}{b-a} \cdot \int_a^b f(x) \, dx\text{.}
+\end{equation*}
+</div></article><p id="p-3644">Equation <a knowl="./knowl/E-RAvg2.html" knowl-id="xref-E-RAvg2" alt="Equation 4.2 " title="Equation 4.2 ">(4.2)</a> tells us another way to interpret the definite integral: the definite integral of a function \(f\) from \(a\) to \(b\) is the length of the interval \((b-a)\) times the average value of the function on the interval. In addition, when the function \(f\) is nonnegative on \([a,b]\text{,}\) Equation <a knowl="./knowl/E-RAvg2.html" knowl-id="xref-E-RAvg2" alt="Equation 4.2 " title="Equation 4.2 ">(4.2)</a> has a natural visual interpretation.</p>
+<figure class="figure-like" id="F-4-3-AvgVal"><img src="images/4_3_AvgVal.svg" width="100%" style="display: block; margin: 0 auto;" alt=""><figcaption><span class="type">Figure</span><span class="codenumber">4.33</span>A function \(y = f(x)\text{,}\) the area it bounds, and its average value on \([a,b]\text{.}\)</figcaption></figure><p id="p-3645">Consider <a knowl="./knowl/F-4-3-AvgVal.html" knowl-id="xref-F-4-3-AvgVal" alt="Figure 4.33 " title="Figure 4.33 ">Figure 4.33</a>, where we see at left the shaded region whose area is \(\int_a^b f(x) \, dx\text{,}\) at center the shaded rectangle whose dimensions are \((b-a)\) by \(f_{\operatorname{AVG} [a,b]}\text{,}\) and at right these two figures superimposed. Note that in dark green we show the horizontal line \(y = f_{\operatorname{AVG} [a,b]}\text{.}\) Thus, the area of the green rectangle is given by \((b-a) \cdot f_{\operatorname{AVG} [a,b]}\text{,}\) which is precisely the value of \(\int_a^b f(x) \, dx\text{.}\) The area of the blue region in the left figure is the same as the area of the green rectangle in the center figure. We can also observe that the areas \(A_1\) and \(A_2\) in the rightmost figure appear to be equal. Thus, knowing the average value of a function enables us to construct a rectangle whose area is the same as the value of the definite integral of the function on the interval. The java applet<span class="footnote"><a knowl="" class="id-ref" refid="hk-fn-26" id="fn-26"><sup> 8 </sup></a></span><span id="hk-fn-26" class="hidden-content tex2jax_ignore"><span class="footnote">David Austin, <a class="url" href="http://gvsu.edu/s/5r" target="_blank">http://gvsu.edu/s/5r</a>.</span></span> at <a class="url" href="http://gvsu.edu/s/az" target="_blank">http://gvsu.edu/s/az</a> provides an opportunity to explore how the average value of the function changes as the interval changes, through an image similar to that found in <a knowl="./knowl/F-4-3-AvgVal.html" knowl-id="xref-F-4-3-AvgVal" alt="Figure 4.33 " title="Figure 4.33 ">Figure 4.33</a>.</p>
+<article class="example-like" id="act-4-3-3"><h6 class="heading">
+<span class="type">Activity</span><span class="codenumber">4.12</span>
+</h6>
+<p id="p-3646">Suppose that \(v(t) = \sqrt{4-(t-2)^2}\) tells us the instantaneous velocity of a moving object on the interval \(0 \le t \le 4\text{,}\) where \(t\) is measured in minutes and \(v\) is measured in meters per minute. </p>
+<ol class="lower-alpha">
+<li id="li-2492"><p id="p-3647">Sketch an accurate graph of \(y = v(t)\text{.}\) What kind of curve is \(y = \sqrt{4-(t-2)^2}\text{?}\)</p></li>
+<li id="li-2493"><p id="p-3648">Evaluate \(\int_0^4 v(t) \, dt\) exactly.</p></li>
+<li id="li-2494"><p id="p-3649">In terms of the physical problem of the moving object with velocity \(v(t)\text{,}\) what is the meaning of \(\int_0^4 v(t) \, dt\text{?}\) Include units on your answer.</p></li>
+<li id="li-2495"><p id="p-3650">Determine the exact average value of \(v(t)\) on \([0,4]\text{.}\) Include units on your answer.</p></li>
+<li id="li-2496"><p id="p-3651">Sketch a rectangle whose base is the line segment from \(t=0\) to \(t = 4\) on the \(t\)-axis such that the rectangle's area is equal to the value of \(\int_0^4 v(t) \, dt\text{.}\) What is the rectangle's exact height?</p></li>
+<li id="li-2497"><p id="p-3652">How can you use the average value you found in (d) to compute the total distance traveled by the moving object over \([0,4]\text{?}\)</p></li>
+</ol>
+<div class="solutions">
+<span class="solution"><a knowl="" class="id-ref" refid="hk-hint-72" id="hint-72"><span class="type">Hint</span></a></span><div id="hk-hint-72" class="hidden-content tex2jax_ignore"><span class="solution"><ol id="p-3653" class="lower-alpha">
+<li id="li-2498"><p id="p-3654">Note that \(y = \sqrt{4-(t-2)^2}\) is part of the curve given by \((t-2)^2 + y^2 = 4\text{.}\)</p></li>
+<li id="li-2499"><p id="p-3655">What familiar shape is generated by the curve \(y = v(t)\text{?}\)</p></li>
+<li id="li-2500"><p id="p-3656">Recall the meaning of the area bounded by a nonnegative velocity function on a given interval.</p></li>
+<li id="li-2501"><p id="p-3657">From the meaning of the average value of a function, we know \(v_{\text{AVG} }[a,b] = \frac{1}{b-a} \int_a^b v(t) \, dt\text{.}\)</p></li>
+<li id="li-2502"><p id="p-3658">Consider a key recent figure in the text.</p></li>
+<li id="li-2503"><p id="p-3659">Distance equals average rate times \(\ldots\text{.}\)</p></li>
+</ol></span></div>
+<span class="solution"><a knowl="" class="id-ref" refid="hk-answer-160" id="answer-160"><span class="type">Answer</span></a></span><div id="hk-answer-160" class="hidden-content tex2jax_ignore"><span class="solution"><ol id="p-3660" class="lower-alpha">
+<li id="li-2504"><p id="p-3661">\(y = v(t) = \sqrt{4-(t-2)^2}\) is the top half of the circle \((t-2)^2 + y^2 = 4\text{,}\) which has radius 2 and is centered at \((2,0)\text{.}\)</p></li>
+<li id="li-2505"><p id="p-3662">\(\int_0^4 v(t) \, dt = 2\pi\text{.}\)</p></li>
+<li id="li-2506"><p id="p-3663">The object moved \(2 \pi\) meters in 4 minutes.</p></li>
+<li id="li-2507"><p id="p-3664">\(v_{\text{AVG} }[0,4] = \frac{\pi}{2}\text{,}\) meters per minute,.</p></li>
+<li id="li-2508">
+<div class="sidebyside" id="sidebyside-184"><div class="sbsrow" style="margin-left:25%;margin-right:25%;"><div class="sbspanel" style="width:100%;justify-content:flex-start;"><img src="images/4_3_Act3Soln.svg" width="100%" style="display: block; margin: 0 auto;" alt=""></div></div></div>
+<p id="p-3665">The height of the rectangle is the average value of \(v\text{,}\) \(v_{\text{AVG} }[0,4] = \frac{\pi}{2} \approx 1.57\text{.}\)</p>
+</li>
+<li id="li-2509"><p id="p-3666">\(D = 2\pi\text{.}\)</p></li>
+</ol></span></div>
+<span class="solution"><a knowl="" class="id-ref" refid="hk-solution-177" id="solution-177"><span class="type">Solution</span></a></span><div id="hk-solution-177" class="hidden-content tex2jax_ignore"><span class="solution"><ol id="p-3667" class="lower-alpha">
+<li id="li-2510"><p id="p-3668">The curve \(y = v(t) = \sqrt{4-(t-2)^2}\) is the top half of the circle \((t-2)^2 + y^2 = 4\text{,}\) which has radius 2 and is centered at \((2,0)\text{.}\)</p></li>
+<li id="li-2511"><p id="p-3669">Thus, the value of \(\int_0^4 v(t) \, dt\) is the area of a semicircle of radius 2, which is \(\frac{1}{2} \pi (2)^2 = 2\pi\text{.}\)</p></li>
+<li id="li-2512"><p id="p-3670">Because the velocity \(v(t)\) is always nonnegative in this problem, the meaning of \(\int_0^4 v(t) \, dt = 2\pi\) is both the distance traveled and the change in position of the object on the interval \(0 \le t \le \pi\text{.}\) Specifically, the object moved \(2 \pi\) meters in 4 minutes.</p></li>
+<li id="li-2513">
+<p id="p-3671">We know \(v_{\text{AVG} }[a,b] = \frac{1}{b-a}  \int_a^b v(t) \, dt\text{,}\) so</p>
+<div class="displaymath">
+\begin{equation*}
+v_{\text{AVG} }[0,4] = \frac{1}{4-0}  \int_0^4 \sqrt{4-(t-2)^2} \, dt = \frac{1}{4} 2\pi = \frac{\pi}{2}\text{,}
+\end{equation*}
+</div>
+<p>which is measured in meters per minute, since the units on “4” are minutes and on “\(2\pi\)” are meters.</p>
+</li>
+<li id="li-2514">
+<p id="p-3672">Constructing a figure similar to those shown in this section on the topic of average value of a function, we find the following, which demonstrates a rectangle having the same area as the semicircle.</p>
+<div class="sidebyside" id="sidebyside-185"><div class="sbsrow" style="margin-left:30%;margin-right:30%;"><div class="sbspanel" style="width:100%;justify-content:flex-start;"><img src="images/4_3_Act3Soln.svg" width="100%" style="display: block; margin: 0 auto;" alt=""></div></div></div>
+<p id="p-3673">The height of the rectangle is the average value of \(v\text{,}\) specifically \(v_{\text{AVG} }[0,4] = \frac{\pi}{2} \approx 1.57\text{.}\)</p>
+</li>
+<li id="li-2515">
+<p id="p-3674">Knowing that average velocity is \(\frac{\pi}{2}\text{,}\) it follows from the fact that distance traveled equals average rate times time (provided velocity is always nonnegative), we have</p>
+<div class="displaymath">
+\begin{equation*}
+D = \frac{\pi}{2} \cdot 4 = 2\pi\text{.}
+\end{equation*}
+</div>
+<p>We see from (c) or (f) that we are simply considering the situation from two different perspectives: if we know the distance traveled, we can find average velocity, or if we know average velocity, we can find distance traveled.</p>
+</li>
+</ol></span></div>
+</div></article></section><section class="subsection" id="subsection-74"><h3 class="heading hide-type" alt="Subsection  Summary">
+<span class="type">Subsection</span><span class="codenumber"></span><span class="title">Summary</span>
+</h3>
+<ul id="p-3675" class="disc">
+<li id="li-2516"><p id="p-3676">Any Riemann sum of a continuous function \(f\) on an interval \([a,b]\) provides an estimate of the net signed area bounded by the function and the horizontal axis on the interval. Increasing the number of subintervals in the Riemann sum improves the accuracy of this estimate, and letting the number of subintervals increase without bound results in the values of the corresponding Riemann sums approaching the exact value of the enclosed net signed area.</p></li>
+<li id="li-2517">
+<p id="p-3677">When we take the limit of Riemann sums, we arrive at what we call the definite integral of \(f\) over the interval \([a,b]\text{.}\) In particular, the symbol \(\int_a^b f(x) \, dx\) denotes the definite integral of \(f\) over \([a,b]\text{,}\) and this quantity is defined by the equation</p>
+<div class="displaymath">
+\begin{equation*}
+\int_a^b f(x) \, dx = \lim_{n \to \infty} \sum_{i=1}^{n} f(x_i^*) \Delta x\text{,}
+\end{equation*}
+</div>
+<p>where \(\Delta x = \frac{b-a}{n}\text{,}\) \(x_i = a + i\Delta x\) (for \(i = 0, \ldots, n\)), and \(x_i^*\) satisfies \(x_{i-1} \le x_i^* \le x_i\) (for \(i = 1, \ldots, n\)).</p>
+</li>
+<li id="li-2518"><p id="p-3678">The definite integral \(\int_a^b f(x) \,dx\) measures the exact net signed area bounded by \(f\) and the horizontal axis on \([a,b]\text{;}\) in addition, the value of the definite integral is related to what we call the average value of the function on \([a,b]\text{:}\) \(f_{\text{AVG} [a,b]} = \frac{1}{b-a} \cdot \int_a^b f(x) \, dx\text{.}\) In the setting where we consider the integral of a velocity function \(v\text{,}\) \(\int_a^b v(t) \,dt\) measures the exact change in position of the moving object on \([a,b]\text{;}\) when \(v\) is nonnegative, \(\int_a^b v(t) \,dt\) is the object's distance traveled on \([a,b]\text{.}\)</p></li>
+<li id="li-2519">
+<p id="p-3679">The definite integral is a sophisticated sum, and thus has some of the same natural properties that finite sums have. Perhaps most important of these is how the definite integral respects sums and constant multiples of functions, which can be summarized by the rule</p>
+<div class="displaymath">
+\begin{equation*}
+\int_a^b [c f(x) \pm k g(x)] \,dx = c \int_a^b f(x) \,dx \pm k \int_a^b g(x) \,dx
+\end{equation*}
+</div>
+<p>where \(f\) and \(g\) are continuous functions on \([a,b]\) and \(c\) and \(k\) are arbitrary constants.</p>
+</li>
+</ul></section><section class="exercises" id="ez-4-3"><h3 class="heading hide-type" alt="Exercises  Exercises">
+<span class="type">Subsection</span><span class="codenumber"></span><span class="title">Exercises</span>
+</h3>
+<a href="sec-4-3-definite-integral.html#ez-4-3" class="permalink">¶</a><article class="exercise-like" id="ez-4-3-WW1"><h6 class="heading">
+<span class="codenumber">1</span><span class="title">Evaluating definite integrals from graphical information</span>
+</h6>
+<span class="heading"><a knowl="./knowl/webwork-114-hidden.html" knowl-id="hidden-webwork-114" alt="WeBWorK  " title="WeBWorK  ">WeBWorK Exercise</a></span><div id="hk-webwork-114" class="hidden-content tex2jax_ignore">
+<!--use 'format=debug' on 'webwork' tag to debug problem--><iframe width="100%" src="https://math-webwork2.unl.edu//webwork2/html2xml?&amp;answersSubmitted=0&amp;sourceFilePath=Library/Michigan/Chap5Sec2/Q27.pg&amp;problemSeed=123567890&amp;displayMode=MathJax&amp;courseID=OERSystem&amp;userID=anonymous&amp;course_password=anonymous&amp;outputformat=simple"></iframe><script type="text/javascript">iFrameResize({log:true,inPageLinks:true,resizeFrom:'child',checkOrigin:'False'</script>
+</div></article><article class="exercise-like" id="ez-4-3-WW2"><h6 class="heading">
+<span class="codenumber">2</span><span class="title">Estimating definite integrals from a graph</span>
+</h6>
+<span class="heading"><a knowl="./knowl/webwork-115-hidden.html" knowl-id="hidden-webwork-115" alt="WeBWorK  " title="WeBWorK  ">WeBWorK Exercise</a></span><div id="hk-webwork-115" class="hidden-content tex2jax_ignore">
+<!--use 'format=debug' on 'webwork' tag to debug problem--><iframe width="100%" src="https://math-webwork2.unl.edu//webwork2/html2xml?&amp;answersSubmitted=0&amp;sourceFilePath=Library/Michigan/Chap5Sec2/Q29.pg&amp;problemSeed=123567890&amp;displayMode=MathJax&amp;courseID=OERSystem&amp;userID=anonymous&amp;course_password=anonymous&amp;outputformat=simple"></iframe><script type="text/javascript">iFrameResize({log:true,inPageLinks:true,resizeFrom:'child',checkOrigin:'False'</script>
+</div></article><article class="exercise-like" id="ez-4-3-WW3"><h6 class="heading">
+<span class="codenumber">3</span><span class="title">Finding the average value of a linear function</span>
+</h6>
+<span class="heading"><a knowl="./knowl/webwork-116-hidden.html" knowl-id="hidden-webwork-116" alt="WeBWorK  " title="WeBWorK  ">WeBWorK Exercise</a></span><div id="hk-webwork-116" class="hidden-content tex2jax_ignore">
+<!--use 'format=debug' on 'webwork' tag to debug problem--><iframe width="100%" src="https://math-webwork2.unl.edu//webwork2/html2xml?&amp;answersSubmitted=0&amp;sourceFilePath=Library/Michigan/Chap5Sec3/Q11.pg&amp;problemSeed=123567890&amp;displayMode=MathJax&amp;courseID=OERSystem&amp;userID=anonymous&amp;course_password=anonymous&amp;outputformat=simple"></iframe><script type="text/javascript">iFrameResize({log:true,inPageLinks:true,resizeFrom:'child',checkOrigin:'False'</script>
+</div></article><article class="exercise-like" id="ez-4-3-WW4"><h6 class="heading">
+<span class="codenumber">4</span><span class="title">Finding the average value of a function given graphically</span>
+</h6>
+<span class="heading"><a knowl="./knowl/webwork-117-hidden.html" knowl-id="hidden-webwork-117" alt="WeBWorK  " title="WeBWorK  ">WeBWorK Exercise</a></span><div id="hk-webwork-117" class="hidden-content tex2jax_ignore">
+<!--use 'format=debug' on 'webwork' tag to debug problem--><iframe width="100%" src="https://math-webwork2.unl.edu//webwork2/html2xml?&amp;answersSubmitted=0&amp;sourceFilePath=Library/Michigan/Chap5Sec3/Q23.pg&amp;problemSeed=123567890&amp;displayMode=MathJax&amp;courseID=OERSystem&amp;userID=anonymous&amp;course_password=anonymous&amp;outputformat=simple"></iframe><script type="text/javascript">iFrameResize({log:true,inPageLinks:true,resizeFrom:'child',checkOrigin:'False'</script>
+</div></article><article class="exercise-like" id="ez-4-3-WW5"><h6 class="heading">
+<span class="codenumber">5</span><span class="title">Estimating a definite integral and average value from a graph</span>
+</h6>
+<span class="heading"><a knowl="./knowl/webwork-118-hidden.html" knowl-id="hidden-webwork-118" alt="WeBWorK  " title="WeBWorK  ">WeBWorK Exercise</a></span><div id="hk-webwork-118" class="hidden-content tex2jax_ignore">
+<!--use 'format=debug' on 'webwork' tag to debug problem--><iframe width="100%" src="https://math-webwork2.unl.edu//webwork2/html2xml?&amp;answersSubmitted=0&amp;sourceFilePath=Library/Michigan/Chap5Sec3/Q25.pg&amp;problemSeed=123567890&amp;displayMode=MathJax&amp;courseID=OERSystem&amp;userID=anonymous&amp;course_password=anonymous&amp;outputformat=simple"></iframe><script type="text/javascript">iFrameResize({log:true,inPageLinks:true,resizeFrom:'child',checkOrigin:'False'</script>
+</div></article><article class="exercise-like" id="ez-4-3-WW6"><h6 class="heading">
+<span class="codenumber">6</span><span class="title">Using rules to combine known integral values</span>
+</h6>
+<span class="heading"><a knowl="./knowl/webwork-119-hidden.html" knowl-id="hidden-webwork-119" alt="WeBWorK  " title="WeBWorK  ">WeBWorK Exercise</a></span><div id="hk-webwork-119" class="hidden-content tex2jax_ignore">
+<!--use 'format=debug' on 'webwork' tag to debug problem--><iframe width="100%" src="https://math-webwork2.unl.edu//webwork2/html2xml?&amp;answersSubmitted=0&amp;sourceFilePath=Library/Rochester/setIntegrals3Definite/S05.02.DefiniteIntegral.PTP18.pg&amp;problemSeed=123567890&amp;displayMode=MathJax&amp;courseID=OERSystem&amp;userID=anonymous&amp;course_password=anonymous&amp;outputformat=simple"></iframe><script type="text/javascript">iFrameResize({log:true,inPageLinks:true,resizeFrom:'child',checkOrigin:'False'</script>
+</div></article><article class="exercise-like" id="exercise-200"><h6 class="heading"><span class="codenumber">7</span></h6>
+<p id="p-3680">The velocity of an object moving along an axis is given by the piecewise linear function \(v\) that is pictured in <a knowl="./knowl/F-4-3-Ez1.html" knowl-id="xref-F-4-3-Ez1" alt="Figure 4.34 " title="Figure 4.34 ">Figure 4.34</a>. Assume that the object is moving to the right when its velocity is positive, and moving to the left when its velocity is negative. Assume that the given velocity function is valid for \(t = 0\) to \(t = 4\text{.}\)</p>
+<div class="sidebyside" id="sidebyside-186">
+<div class="sbsrow" style="margin-left:0%;margin-right:0%;">
+<div class="sbspanel" style="width:47%;justify-content:flex-start;"><ol id="p-3681" class="lower-alpha">
+<li id="li-2520"><p id="p-3682">Write an expression involving definite integrals whose value is the total change in position of the object on the interval \([0,4]\text{.}\)</p></li>
+<li id="li-2521"><p id="p-3683">Use the provided graph of \(v\) to determine the value of the total change in position on \([0,4]\text{.}\)</p></li>
+<li id="li-2522"><p id="p-3684">Write an expression involving definite integrals whose value is the total distance traveled by the object on \([0,4]\text{.}\) What is the exact value of the total distance traveled on \([0,4]\text{?}\)</p></li>
+<li id="li-2523"><p id="p-3685">What is the object's exact average velocity on \([0,4]\text{?}\)</p></li>
+<li id="li-2524"><p id="p-3686">Find an algebraic formula for the object's position function on \([0, 1.5]\) that satisfies \(s(0) = 0\text{.}\)</p></li>
+</ol></div>
+<div class="sbspanel" style="width:47%;justify-content:flex-start;"><img src="images/4_3_Ez1.svg" width="100%" style="display: block; margin: 0 auto;" alt=""></div>
+</div>
+<div class="sbsrow" style="margin-left:0%;margin-right:0%;">
+<figcaption class="sbscaption" style="width:47%;"></figcaption><figcaption class="sbscaption" style="width:47%;"><span class="type">Figure</span><span class="codenumber">4.34</span>The velocity function of a moving object.</figcaption>
+</div>
+</div></article><article class="exercise-like" id="exercise-201"><h6 class="heading"><span class="codenumber">8</span></h6>
+<p id="p-3700">Suppose that the velocity of a moving object is given by \(v(t) = t(t-1)(t-3)\text{,}\) measured in feet per second, and that this function is valid for \(0 \le t \le 4\text{.}\) </p>
+<ol class="lower-alpha">
+<li id="li-2535"><p id="p-3701">Write an expression involving definite integrals whose value is the total change in position of the object on the interval \([0,4]\text{.}\)</p></li>
+<li id="li-2536"><p id="p-3702">Use appropriate technology (such as <a class="url" href="http://gvsu.edu/s/av" target="_blank">http://gvsu.edu/s/a9</a><span class="footnote"><a knowl="" class="id-ref" refid="hk-fn-27" id="fn-27"><sup> 9 </sup></a></span><span id="hk-fn-27" class="hidden-content tex2jax_ignore"><span class="footnote">Marc Renault, Shippensburg University.</span></span>) to compute Riemann sums to estimate the object's total change in position on \([0,4]\text{.}\) Work to ensure that your estimate is accurate to two decimal places, and explain how you know this to be the case.</p></li>
+<li id="li-2537"><p id="p-3703">Write an expression involving definite integrals whose value is the total distance traveled by the object on \([0,4]\text{.}\)</p></li>
+<li id="li-2538"><p id="p-3704">Use appropriate technology to compute Riemann sums to estimate the object's total distance travelled on \([0,4]\text{.}\) Work to ensure that your estimate is accurate to two decimal places, and explain how you know this to be the case.</p></li>
+<li id="li-2539"><p id="p-3705">What is the object's average velocity on \([0,4]\text{,}\) accurate to two decimal places?</p></li>
+</ol></article><article class="exercise-like" id="exercise-202"><h6 class="heading"><span class="codenumber">9</span></h6>
+<p id="p-3721">Consider the graphs of two functions \(f\) and \(g\) that are provided in <a knowl="./knowl/F-4-3-Ez2.html" knowl-id="xref-F-4-3-Ez2" alt="Figure 4.35 " title="Figure 4.35 ">Figure 4.35</a>. Each piece of \(f\) and \(g\) is either part of a straight line or part of a circle.</p>
+<figure class="figure-like" id="F-4-3-Ez2"><img src="images/4_3_Ez2.svg" width="100%" style="display: block; margin: 0 auto;" alt=""><figcaption><span class="type">Figure</span><span class="codenumber">4.35</span>Two functions \(f\) and \(g\text{.}\)</figcaption></figure><ol id="p-3722" class="lower-alpha">
+<li id="li-2553"><p id="p-3723">Determine the exact value of \(\int_0^1 [f(x) + g(x)]\,dx\text{.}\)</p></li>
+<li id="li-2554"><p id="p-3724">Determine the exact value of \(\int_1^4 [2f(x) - 3g(x)] \, dx\text{.}\)</p></li>
+<li id="li-2555"><p id="p-3725">Find the exact average value of \(h(x) = g(x) - f(x)\) on \([0,4]\text{.}\)</p></li>
+<li id="li-2556">
+<p id="p-3726">For what constant \(c\) does the following equation hold?</p>
+<div class="displaymath">
+\begin{equation*}
+\int_0^4 c \, dx = \int_0^4 [f(x) + g(x)] \, dx
+\end{equation*}
+</div>
+</li>
+</ol></article><article class="exercise-like" id="exercise-203"><h6 class="heading"><span class="codenumber">10</span></h6>
+<p id="p-3737">Let \(f(x) = 3 - x^2\) and \(g(x) = 2x^2\text{.}\) </p>
+<ol class="lower-alpha">
+<li id="li-2565"><p id="p-3738">On the interval \([-1,1]\text{,}\) sketch a labeled graph of \(y = f(x)\) and write a definite integral whose value is the exact area bounded by \(y = f(x)\) on \([-1,1]\text{.}\)</p></li>
+<li id="li-2566"><p id="p-3739">On the interval \([-1,1]\text{,}\) sketch a labeled graph of \(y = g(x)\) and write a definite integral whose value is the exact area bounded by \(y = g(x)\) on \([-1,1]\text{.}\)</p></li>
+<li id="li-2567"><p id="p-3740">Write an expression involving a difference of definite integrals whose value is the exact area that lies between \(y = f(x)\) and \(y = g(x)\) on \([-1,1]\text{.}\)</p></li>
+<li id="li-2568"><p id="p-3741">Explain why your expression in (c) has the same value as the single integral \(\int_{-1}^1 [f(x) - g(x)] \, dx\text{.}\)</p></li>
+<li id="li-2569">
+<p id="p-3742">Explain why, in general, if \(p(x) \ge q(x)\) for all \(x\) in \([a,b]\text{,}\) the exact area between \(y = p(x)\) and \(y = q(x)\) is given by</p>
+<div class="displaymath">
+\begin{equation*}
+\int_a^b [p(x) - q(x)] \, dx\text{.}
+\end{equation*}
+</div>
+</li>
+</ol></article></section></section></div></main>
+</div>
+</body>
+</html>
