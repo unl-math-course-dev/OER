@@ -136,7 +136,7 @@ $wgGroupPermissions['*']['read'] = false;
 # End of automatically generated settings.
 # Add more configuration options below.
 
-#require_once( "$IP/extensions/CASAuth/CASAuth.php" );
+require_once( "$IP/extensions/CASAuth/CASAuth.php" );
 
 #require_once("$IP/extensions/Math/Math.php");
 
