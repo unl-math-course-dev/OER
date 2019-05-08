@@ -128,9 +128,9 @@ $wgGroupPermissions['*']['read'] = false;
 # Enabled Extensions. Most extensions are enabled by including the base extension file here
 # but check specific extension documentation for more details
 # The following extensions were automatically enabled:
-#require_once "$IP/extensions/ConfirmEdit/ConfirmEdit.php";
-#require_once "$IP/extensions/PdfHandler/PdfHandler.php";
-#require_once "$IP/extensions/WikiEditor/WikiEditor.php";
+require_once "$IP/extensions/ConfirmEdit/ConfirmEdit.php";
+require_once "$IP/extensions/PdfHandler/PdfHandler.php";
+require_once "$IP/extensions/WikiEditor/WikiEditor.php";
 
 
 # End of automatically generated settings.
