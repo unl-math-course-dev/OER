@@ -163,3 +163,5 @@ $wgGroupPermissions['bureaucrat']['suppressredirect'] = true;
 $wgRunJobsAsync = false;
 
 $wgExternalLinkTarget = '_blank';
+
+$wgShowExceptionDetails = true;
