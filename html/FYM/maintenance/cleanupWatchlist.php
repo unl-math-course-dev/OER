@@ -29,8 +29,6 @@
  * @ingroup Maintenance
  */
 
-use MediaWiki\MediaWikiServices;
-
 require_once __DIR__ . '/cleanupTable.inc';
 
 /**
@@ -38,17 +36,17 @@ require_once __DIR__ . '/cleanupTable.inc';
  *
  * @ingroup Maintenance
  */
-class CleanupWatchlist extends TableCleanup {
-	protected $defaultParams = [
+class WatchlistCleanup extends TableCleanup {
+	protected $defaultParams = array(
 		'table' => 'watchlist',
-		'index' => [ 'wl_user', 'wl_namespace', 'wl_title' ],
-		'conds' => [],
+		'index' => array( 'wl_user', 'wl_namespace', 'wl_title' ),
+		'conds' => array(),
 		'callback' => 'processRow'
-	];
+	);
 
 	public function __construct() {
 		parent::__construct();
-		$this->addDescription( 'Script to remove broken, unparseable titles in the Watchlist' );
+		$this->mDescription = "Script to remove broken, unparseable titles in the Watchlist";
 		$this->addOption( 'fix', 'Actually remove entries; without will only report.' );
 	}
 
@@ -60,17 +58,16 @@ class CleanupWatchlist extends TableCleanup {
 	}
 
 	protected function processRow( $row ) {
+		global $wgContLang;
 		$current = Title::makeTitle( $row->wl_namespace, $row->wl_title );
 		$display = $current->getPrefixedText();
-		$verified = MediaWikiServices::getInstance()->getContentLanguage()->normalize( $display );
+		$verified = $wgContLang->normalize( $display );
 		$title = Title::newFromText( $verified );
 
 		if ( $row->wl_user == 0 || is_null( $title ) || !$title->equals( $current ) ) {
-			$this->output( "invalid watch by {$row->wl_user} for "
-				. "({$row->wl_namespace}, \"{$row->wl_title}\")\n" );
+			$this->output( "invalid watch by {$row->wl_user} for ({$row->wl_namespace}, \"{$row->wl_title}\")\n" );
 			$updated = $this->removeWatch( $row );
 			$this->progress( $updated );
-
 			return;
 		}
 		$this->progress( 0 );
@@ -78,17 +75,13 @@ class CleanupWatchlist extends TableCleanup {
 
 	private function removeWatch( $row ) {
 		if ( !$this->dryrun && $this->hasOption( 'fix' ) ) {
-			$dbw = $this->getDB( DB_MASTER );
-			$dbw->delete(
-				'watchlist', [
+			$dbw = wfGetDB( DB_MASTER );
+			$dbw->delete( 'watchlist', array(
 				'wl_user' => $row->wl_user,
 				'wl_namespace' => $row->wl_namespace,
-				'wl_title' => $row->wl_title ],
-				__METHOD__
-			);
-
+				'wl_title' => $row->wl_title ),
+			__METHOD__ );
 			$this->output( "- removed\n" );
-
 			return 1;
 		} else {
 			return 0;
@@ -96,5 +89,5 @@ class CleanupWatchlist extends TableCleanup {
 	}
 }
 
-$maintClass = CleanupWatchlist::class;
+$maintClass = "WatchlistCleanup";
 require_once RUN_MAINTENANCE_IF_MAIN;

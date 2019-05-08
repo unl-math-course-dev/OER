@@ -36,13 +36,13 @@ class LanguageWa extends Language {
 	 * "<day> di <monthname>" for months starting by a consoun, and
 	 * "<day> d' <monthname>" for months starting with a vowel
 	 *
-	 * @param string $ts
-	 * @param bool $adj
-	 * @param bool $format
-	 * @param bool $tc
+	 * @param $ts string
+	 * @param $adj bool
+	 * @param $format bool
+	 * @param $tc bool
 	 * @return string
 	 */
-	public function date( $ts, $adj = false, $format = true, $tc = false ) {
+	function date( $ts, $adj = false, $format = true, $tc = false ) {
 		$ts = wfTimestamp( TS_MW, $ts );
 		if ( $adj ) {
 			$ts = $this->userAdjust( $ts, $tc );
@@ -50,6 +50,7 @@ class LanguageWa extends Language {
 		$datePreference = $this->dateFormat( $format );
 
 		# ISO (YYYY-mm-dd) format
+		#
 		# we also output this format for YMD (eg: 2001 January 15)
 		if ( $datePreference == 'ISO 8601' ) {
 			$d = substr( $ts, 0, 4 ) . '-' . substr( $ts, 4, 2 ) . '-' . substr( $ts, 6, 2 );
@@ -63,6 +64,7 @@ class LanguageWa extends Language {
 		}
 
 		# Walloon format
+		#
 		# we output this in all other cases
 		$m = substr( $ts, 4, 2 );
 		$n = substr( $ts, 6, 2 );
@@ -83,13 +85,13 @@ class LanguageWa extends Language {
 	}
 
 	/**
-	 * @param string $ts
-	 * @param bool $adj
-	 * @param bool $format
-	 * @param bool $tc
+	 * @param $ts string
+	 * @param $adj bool
+	 * @param $format bool
+	 * @param $tc bool
 	 * @return string
 	 */
-	public function timeanddate( $ts, $adj = false, $format = true, $tc = false ) {
+	function timeanddate( $ts, $adj = false, $format = true, $tc = false ) {
 		if ( $adj ) {
 			$ts = $this->userAdjust( $ts, $tc );
 		}

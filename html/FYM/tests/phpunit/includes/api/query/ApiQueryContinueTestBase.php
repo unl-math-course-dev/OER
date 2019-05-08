@@ -1,5 +1,7 @@
 <?php
 /**
+ * Created on Jan 1, 2013
+ *
  * Copyright © 2013 Yuri Astrakhan "<Firstname><Lastname>@gmail.com"
  *
  * This program is free software; you can redistribute it and/or modify
@@ -19,6 +21,9 @@
  *
  * @file
  */
+
+require_once 'ApiQueryTestBase.php';
+
 abstract class ApiQueryContinueTestBase extends ApiQueryTestBase {
 
 	/**
@@ -28,12 +33,6 @@ abstract class ApiQueryContinueTestBase extends ApiQueryTestBase {
 
 	/**
 	 * Run query() and compare against expected values
-	 * @param array $expected
-	 * @param array $params Api parameters
-	 * @param int $expectedCount Max number of iterations
-	 * @param string $id Unit test id
-	 * @param bool $continue True to use smart continue
-	 * @return array Merged results data array
 	 */
 	protected function checkC( $expected, $params, $expectedCount, $id, $continue = true ) {
 		$result = $this->query( $params, $expectedCount, $id, $continue );
@@ -42,11 +41,11 @@ abstract class ApiQueryContinueTestBase extends ApiQueryTestBase {
 
 	/**
 	 * Run query in a loop until no more values are available
-	 * @param array $params Api parameters
-	 * @param int $expectedCount Max number of iterations
-	 * @param string $id Unit test id
-	 * @param bool $useContinue True to use smart continue
-	 * @return array Merged results data array
+	 * @param array $params api parameters
+	 * @param int $expectedCount max number of iterations
+	 * @param string $id unit test id
+	 * @param boolean $useContinue true to use smart continue
+	 * @return mixed: merged results data array
 	 * @throws Exception
 	 */
 	protected function query( $params, $expectedCount, $id, $useContinue = true ) {
@@ -55,9 +54,12 @@ abstract class ApiQueryContinueTestBase extends ApiQueryTestBase {
 		} else {
 			$params['action'] = 'query';
 		}
+		if ( $useContinue && !isset( $params['continue'] ) ) {
+			$params['continue'] = '';
+		}
 		$count = 0;
-		$result = [];
-		$continue = [];
+		$result = array();
+		$continue = array();
 		do {
 			$request = array_merge( $params, $continue );
 			uksort( $request, function ( $a, $b ) {
@@ -68,7 +70,7 @@ abstract class ApiQueryContinueTestBase extends ApiQueryTestBase {
 				return strcmp( $a, $b );
 			} );
 			$reqStr = http_build_query( $request );
-			// $reqStr = str_replace( '&', ' & ', $reqStr );
+			//$reqStr = str_replace( '&', ' & ', $reqStr );
 			$this->assertLessThan( $expectedCount, $count, "$id more data: $reqStr" );
 			if ( $this->mVerbose ) {
 				print "$id (#$count): $reqStr\n";
@@ -88,7 +90,7 @@ abstract class ApiQueryContinueTestBase extends ApiQueryTestBase {
 				$continue = $data['continue'];
 				unset( $data['continue'] );
 			} else {
-				$continue = [];
+				$continue = array();
 			}
 			if ( $this->mVerbose ) {
 				$this->printResult( $data );
@@ -96,7 +98,10 @@ abstract class ApiQueryContinueTestBase extends ApiQueryTestBase {
 			$this->mergeResult( $result, $data );
 			$count++;
 			if ( empty( $continue ) ) {
-				$this->assertEquals( $expectedCount, $count, "$id finished early" );
+				// $this->assertEquals( $expectedCount, $count, "$id finished early" );
+				if ( $expectedCount > $count ) {
+					print "***** $id Finished early in $count turns. $expectedCount was expected\n";
+				}
 
 				return $result;
 			} elseif ( !$useContinue ) {
@@ -110,7 +115,7 @@ abstract class ApiQueryContinueTestBase extends ApiQueryTestBase {
 	 */
 	private function printResult( $data ) {
 		$q = $data['query'];
-		$print = [];
+		$print = array();
 		if ( isset( $q['pages'] ) ) {
 			foreach ( $q['pages'] as $p ) {
 				$m = $p['title'];
@@ -157,16 +162,12 @@ abstract class ApiQueryContinueTestBase extends ApiQueryTestBase {
 
 	/**
 	 * Recursively merge the new result returned from the query to the previous results.
-	 * @param mixed &$results
+	 * @param mixed $results
 	 * @param mixed $newResult
 	 * @param bool $numericIds If true, treat keys as ids to be merged instead of appending
 	 */
 	protected function mergeResult( &$results, $newResult, $numericIds = false ) {
-		$this->assertEquals(
-			is_array( $results ),
-			is_array( $newResult ),
-			'Type of result and data do not match'
-		);
+		$this->assertEquals( is_array( $results ), is_array( $newResult ), 'Type of result and data do not match' );
 		if ( !is_array( $results ) ) {
 			$this->assertEquals( $results, $newResult, 'Repeated result must be the same as before' );
 		} else {

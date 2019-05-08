@@ -17,13 +17,14 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA
  *
  * @file
- * @ingroup Actions
+ */
+
+/**
+ * @defgroup Actions Action done on pages
  */
 
 /**
  * An action which shows a form and does something based on the input from the form
- *
- * @ingroup Actions
  */
 abstract class FormAction extends Action {
 
@@ -31,10 +32,7 @@ abstract class FormAction extends Action {
 	 * Get an HTMLForm descriptor array
 	 * @return array
 	 */
-	protected function getFormFields() {
-		// Default to an empty form with just a submit button
-		return [];
-	}
+	abstract protected function getFormFields();
 
 	/**
 	 * Add pre- or post-text to the form
@@ -59,14 +57,6 @@ abstract class FormAction extends Action {
 	}
 
 	/**
-	 * Whether the form should use OOUI
-	 * @return bool
-	 */
-	protected function usesOOUI() {
-		return false;
-	}
-
-	/**
 	 * Get the HTMLForm to control behavior
 	 * @return HTMLForm|null
 	 */
@@ -74,48 +64,35 @@ abstract class FormAction extends Action {
 		$this->fields = $this->getFormFields();
 
 		// Give hooks a chance to alter the form, adding extra fields or text etc
-		Hooks::run( 'ActionModifyFormFields', [ $this->getName(), &$this->fields, $this->page ] );
+		wfRunHooks( 'ActionModifyFormFields', array( $this->getName(), &$this->fields, $this->page ) );
 
-		if ( $this->usesOOUI() ) {
-			$form = HTMLForm::factory( 'ooui', $this->fields, $this->getContext(), $this->getName() );
-		} else {
-			$form = new HTMLForm( $this->fields, $this->getContext(), $this->getName() );
-		}
-		$form->setSubmitCallback( [ $this, 'onSubmit' ] );
+		$form = new HTMLForm( $this->fields, $this->getContext(), $this->getName() );
+		$form->setSubmitCallback( array( $this, 'onSubmit' ) );
 
-		$title = $this->getTitle();
-		$form->setAction( $title->getLocalURL( [ 'action' => $this->getName() ] ) );
 		// Retain query parameters (uselang etc)
+		$form->addHiddenField( 'action', $this->getName() ); // Might not be the same as the query string
 		$params = array_diff_key(
 			$this->getRequest()->getQueryValues(),
-			[ 'action' => null, 'title' => null ]
+			array( 'action' => null, 'title' => null )
 		);
-		if ( $params ) {
-			$form->addHiddenField( 'redirectparams', wfArrayToCgi( $params ) );
-		}
+		$form->addHiddenField( 'redirectparams', wfArrayToCgi( $params ) );
 
 		$form->addPreText( $this->preText() );
 		$form->addPostText( $this->postText() );
 		$this->alterForm( $form );
 
 		// Give hooks a chance to alter the form, adding extra fields or text etc
-		Hooks::run( 'ActionBeforeFormDisplay', [ $this->getName(), &$form, $this->page ] );
+		wfRunHooks( 'ActionBeforeFormDisplay', array( $this->getName(), &$form, $this->page ) );
 
 		return $form;
 	}
 
 	/**
-	 * Process the form on POST submission.
-	 *
-	 * If you don't want to do anything with the form, just return false here.
-	 *
-	 * This method will be passed to the HTMLForm as a submit callback (see
-	 * HTMLForm::setSubmitCallback) and must return as documented for HTMLForm::trySubmit.
-	 *
-	 * @see HTMLForm::setSubmitCallback()
-	 * @see HTMLForm::trySubmit()
+	 * Process the form on POST submission.  If you return false from getFormFields(),
+	 * this will obviously never be reached.  If you don't want to do anything with the
+	 * form, just return false here
 	 * @param array $data
-	 * @return bool|string|array|Status Must return as documented for HTMLForm::trySubmit
+	 * @return bool|array True for success, false for didn't-try, array of errors on failure
 	 */
 	abstract public function onSubmit( $data );
 
@@ -145,7 +122,47 @@ abstract class FormAction extends Action {
 		}
 	}
 
-	public function doesWrites() {
-		return true;
+	/**
+	 * @see Action::execute()
+	 *
+	 * @param array|null $data
+	 * @param bool $captureErrors
+	 * @throws ErrorPageError|Exception
+	 * @return bool
+	 */
+	public function execute( array $data = null, $captureErrors = true ) {
+		try {
+			// Set a new context so output doesn't leak.
+			$this->context = clone $this->getContext();
+
+			// This will throw exceptions if there's a problem
+			$this->checkCanExecute( $this->getUser() );
+
+			$fields = array();
+			foreach ( $this->fields as $key => $params ) {
+				if ( isset( $data[$key] ) ) {
+					$fields[$key] = $data[$key];
+				} elseif ( isset( $params['default'] ) ) {
+					$fields[$key] = $params['default'];
+				} else {
+					$fields[$key] = null;
+				}
+			}
+			$status = $this->onSubmit( $fields );
+			if ( $status === true ) {
+				// This might do permanent stuff
+				$this->onSuccess();
+				return true;
+			} else {
+				return false;
+			}
+		}
+		catch ( ErrorPageError $e ) {
+			if ( $captureErrors ) {
+				return false;
+			} else {
+				throw $e;
+			}
+		}
 	}
 }

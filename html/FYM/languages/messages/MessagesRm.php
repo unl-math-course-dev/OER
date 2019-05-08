@@ -1,7 +1,8 @@
 <?php
 /** Romansh (rumantsch)
  *
- * To improve a translation please visit https://translatewiki.net
+ * See MessagesQqq.php for message documentation incl. usage of parameters
+ * To improve a translation please visit http://translatewiki.net
  *
  * @ingroup Language
  * @file
@@ -15,7 +16,7 @@
  * @author לערי ריינהארט
  */
 
-$namespaceNames = [
+$namespaceNames = array(
 	NS_MEDIA            => 'Multimedia',
 	NS_SPECIAL          => 'Spezial',
 	NS_TALK             => 'Discussiun',
@@ -32,11 +33,12 @@ $namespaceNames = [
 	NS_HELP_TALK        => 'Agid_discussiun',
 	NS_CATEGORY         => 'Categoria',
 	NS_CATEGORY_TALK    => 'Categoria_discussiun',
-];
+);
 
-$magicWords = [
-	'redirect'                  => [ '0', '#RENVIAMENT', '#REDIRECT' ],
-	'img_thumbnail'             => [ '1', 'miniatura', 'thumb', 'thumbnail' ],
-	'img_manualthumb'           => [ '1', 'miniatura=$1', 'thumbnail=$1', 'thumb=$1' ],
-	'img_upright'               => [ '1', 'sidretg', 'sidretg=$1', 'sidretg_$1', 'upright', 'upright=$1', 'upright $1' ],
-];
+$magicWords = array(
+	'redirect'                  => array( '0', '#RENVIAMENT', '#REDIRECT' ),
+	'img_thumbnail'             => array( '1', 'miniatura', 'thumbnail', 'thumb' ),
+	'img_manualthumb'           => array( '1', 'miniatura=$1', 'thumbnail=$1', 'thumb=$1' ),
+	'img_upright'               => array( '1', 'sidretg', 'sidretg=$1', 'sidretg_$1', 'upright', 'upright=$1', 'upright $1' ),
+);
+

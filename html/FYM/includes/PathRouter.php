@@ -27,20 +27,20 @@
  *
  * $router->add( "/wiki/$1" );
  *   - Matches /wiki/Foo style urls and extracts the title
- * $router->add( [ 'edit' => "/edit/$key" ], [ 'action' => '$key' ] );
+ * $router->add( array( 'edit' => "/edit/$key" ), array( 'action' => '$key' ) );
  *   - Matches /edit/Foo style urls and sets action=edit
  * $router->add( '/$2/$1',
- *   [ 'variant' => '$2' ],
- *   [ '$2' => [ 'zh-hant', 'zh-hans' ] ]
+ *   array( 'variant' => '$2' ),
+ *   array( '$2' => array( 'zh-hant', 'zh-hans' )
  * );
  *   - Matches /zh-hant/Foo or /zh-hans/Foo
- * $router->addStrict( "/foo/Bar", [ 'title' => 'Baz' ] );
+ * $router->addStrict( "/foo/Bar", array( 'title' => 'Baz' ) );
  *   - Matches /foo/Bar explicitly and uses "Baz" as the title
- * $router->add( '/help/$1', [ 'title' => 'Help:$1' ] );
+ * $router->add( '/help/$1', array( 'title' => 'Help:$1' ) );
  *   - Matches /help/Foo with "Help:Foo" as the title
- * $router->add( '/$1', [ 'foo' => [ 'value' => 'bar$2' ] ] );
+ * $router->add( '/$1', array( 'foo' => array( 'value' => 'bar$2' ) );
  *   - Matches /Foo and sets 'foo' to 'bar$2' without $2 being replaced
- * $router->add( '/$1', [ 'data:foo' => 'bar' ], [ 'callback' => 'functionname' ] );
+ * $router->add( '/$1', array( 'data:foo' => 'bar' ), array( 'callback' => 'functionname' ) );
  *   - Matches /Foo, adds the key 'foo' with the value 'bar' to the data array
  *     and calls functionname( &$matches, $data );
  *
@@ -56,7 +56,7 @@
  *   - The default behavior is equivalent to `array( 'title' => '$1' )`,
  *     if you don't want the title parameter you can explicitly use `array( 'title' => false )`
  *   - You can specify a value that won't have replacements in it
- *     using `'foo' => [ 'value' => 'bar' ];`
+ *     using `'foo' => array( 'value' => 'bar' );`
  *
  * Options:
  *   - The option keys $1, $2, etc... can be specified to restrict the possible values
@@ -75,17 +75,17 @@ class PathRouter {
 	/**
 	 * @var array
 	 */
-	private $patterns = [];
+	private $patterns = array();
 
 	/**
 	 * Protected helper to do the actual bulk work of adding a single pattern.
 	 * This is in a separate method so that add() can handle the difference between
 	 * a single string $path and an array() $path that contains multiple path
 	 * patterns each with an associated $key to pass on.
-	 * @param string $path
-	 * @param array $params
-	 * @param array $options
-	 * @param null|string $key
+	 * @param $path string
+	 * @param $params array
+	 * @param $options array
+	 * @param $key null|string
 	 */
 	protected function doAdd( $path, $params, $options, $key = null ) {
 		// Make sure all paths start with a /
@@ -124,9 +124,9 @@ class PathRouter {
 					// of a pattern for a little more efficiency
 					$paramArrKey = 'value';
 				}
-				$params[$paramName] = [
+				$params[$paramName] = array(
 					$paramArrKey => $paramData
-				];
+				);
 			}
 		}
 
@@ -135,17 +135,17 @@ class PathRouter {
 		foreach ( $options as $optionName => $optionData ) {
 			if ( preg_match( '/^\$\d+$/u', $optionName ) ) {
 				if ( !is_array( $optionData ) ) {
-					$options[$optionName] = [ $optionData ];
+					$options[$optionName] = array( $optionData );
 				}
 			}
 		}
 
-		$pattern = (object)[
+		$pattern = (object)array(
 			'path' => $path,
 			'params' => $params,
 			'options' => $options,
 			'key' => $key,
-		];
+		);
 		$pattern->weight = self::makeWeight( $pattern );
 		$this->patterns[] = $pattern;
 	}
@@ -157,7 +157,7 @@ class PathRouter {
 	 * @param array $params The params for this path pattern
 	 * @param array $options The options for this path pattern
 	 */
-	public function add( $path, $params = [], $options = [] ) {
+	public function add( $path, $params = array(), $options = array() ) {
 		if ( is_array( $path ) ) {
 			foreach ( $path as $key => $onePath ) {
 				$this->doAdd( $onePath, $params, $options, $key );
@@ -170,11 +170,11 @@ class PathRouter {
 	/**
 	 * Add a new path pattern to the path router with the strict option on
 	 * @see self::add
-	 * @param string|array $path
-	 * @param array $params
-	 * @param array $options
+	 * @param $path string|array
+	 * @param $params array
+	 * @param $options array
 	 */
-	public function addStrict( $path, $params = [], $options = [] ) {
+	public function addStrict( $path, $params = array(), $options = array() ) {
 		$options['strict'] = true;
 		$this->add( $path, $params, $options );
 	}
@@ -184,7 +184,7 @@ class PathRouter {
 	 * (most heavily weighted) patterns are at the start of the array.
 	 */
 	protected function sortByWeight() {
-		$weights = [];
+		$weights = array();
 		foreach ( $this->patterns as $key => $pattern ) {
 			$weights[$key] = $pattern->weight;
 		}
@@ -192,7 +192,7 @@ class PathRouter {
 	}
 
 	/**
-	 * @param object $pattern
+	 * @param $pattern object
 	 * @return float|int
 	 */
 	protected static function makeWeight( $pattern ) {
@@ -233,35 +233,13 @@ class PathRouter {
 	 * Parse a path and return the query matches for the path
 	 *
 	 * @param string $path The path to parse
-	 * @return array The array of matches for the path
+	 * @return Array The array of matches for the path
 	 */
 	public function parse( $path ) {
 		// Make sure our patterns are sorted by weight so the most specific
 		// matches are tested first
 		$this->sortByWeight();
 
-		$matches = $this->internalParse( $path );
-		if ( is_null( $matches ) ) {
-			// Try with the normalized path (T100782)
-			$path = wfRemoveDotSegments( $path );
-			$path = preg_replace( '#/+#', '/', $path );
-			$matches = $this->internalParse( $path );
-		}
-
-		// We know the difference between null (no matches) and
-		// array() (a match with no data) but our WebRequest caller
-		// expects array() even when we have no matches so return
-		// a array() when we have null
-		return is_null( $matches ) ? [] : $matches;
-	}
-
-	/**
-	 * Match a path against each defined pattern
-	 *
-	 * @param string $path
-	 * @return array|null
-	 */
-	protected function internalParse( $path ) {
 		$matches = null;
 
 		foreach ( $this->patterns as $pattern ) {
@@ -270,12 +248,17 @@ class PathRouter {
 				break;
 			}
 		}
-		return $matches;
+
+		// We know the difference between null (no matches) and
+		// array() (a match with no data) but our WebRequest caller
+		// expects array() even when we have no matches so return
+		// a array() when we have null
+		return is_null( $matches ) ? array() : $matches;
 	}
 
 	/**
-	 * @param string $path
-	 * @param object $pattern
+	 * @param $path string
+	 * @param $pattern string
 	 * @return array|null
 	 */
 	protected static function extractTitle( $path, $pattern ) {
@@ -287,8 +270,8 @@ class PathRouter {
 		$regexp = preg_replace( '#\\\\\$(\d+)#u', '(?P<par$1>.+?)', $regexp );
 		$regexp = "#^{$regexp}$#";
 
-		$matches = [];
-		$data = [];
+		$matches = array();
+		$data = array();
 
 		// Try to match the path we were asked to parse with our regexp
 		if ( preg_match( $regexp, $path, $m ) ) {
@@ -336,8 +319,13 @@ class PathRouter {
 					$value = $paramData['value'];
 				} elseif ( isset( $paramData['pattern'] ) ) {
 					// For patterns we have to make value replacements on the string
-					$value = self::expandParamValue( $m, $pattern->key ?? null,
-						$paramData['pattern'] );
+					$value = $paramData['pattern'];
+					$replacer = new PathRouterPatternReplacer;
+					$replacer->params = $m;
+					if ( isset( $pattern->key ) ) {
+						$replacer->key = $pattern->key;
+					}
+					$value = $replacer->replace( $value );
 					if ( $value === false ) {
 						// Pattern required data that wasn't available, abort
 						return null;
@@ -354,7 +342,7 @@ class PathRouter {
 
 			// If this match includes a callback, execute it
 			if ( isset( $pattern->options['callback'] ) ) {
-				call_user_func_array( $pattern->options['callback'], [ &$matches, $data ] );
+				call_user_func_array( $pattern->options['callback'], array( &$matches, $data ) );
 			}
 		} else {
 			// Our regexp didn't match, return null to signify no match.
@@ -364,43 +352,48 @@ class PathRouter {
 		return $matches;
 	}
 
+}
+
+class PathRouterPatternReplacer {
+
+	public $key, $params, $error;
+
 	/**
-	 * Replace $key etc. in param values with the matched strings from the path.
-	 *
-	 * @param array $pathMatches The match results from the path
-	 * @param string|null $key The key of the matching pattern
-	 * @param string $value The param value to be expanded
-	 * @return string|false
+	 * Replace keys inside path router patterns with text.
+	 * We do this inside of a replacement callback because after replacement we can't tell the
+	 * difference between a $1 that was not replaced and a $1 that was part of
+	 * the content a $1 was replaced with.
+	 * @param $value string
+	 * @return string
 	 */
-	protected static function expandParamValue( $pathMatches, $key, $value ) {
-		$error = false;
-
-		$replacer = function ( $m ) use ( $pathMatches, $key, &$error ) {
-			if ( $m[1] == "key" ) {
-				if ( is_null( $key ) ) {
-					$error = true;
-
-					return '';
-				}
-
-				return $key;
-			} else {
-				$d = $m[1];
-				if ( !isset( $pathMatches["par$d"] ) ) {
-					$error = true;
-
-					return '';
-				}
-
-				return rawurldecode( $pathMatches["par$d"] );
-			}
-		};
-
-		$value = preg_replace_callback( '/\$(\d+|key)/u', $replacer, $value );
-		if ( $error ) {
+	public function replace( $value ) {
+		$this->error = false;
+		$value = preg_replace_callback( '/\$(\d+|key)/u', array( $this, 'callback' ), $value );
+		if ( $this->error ) {
 			return false;
 		}
-
 		return $value;
 	}
+
+	/**
+	 * @param $m array
+	 * @return string
+	 */
+	protected function callback( $m ) {
+		if ( $m[1] == "key" ) {
+			if ( is_null( $this->key ) ) {
+				$this->error = true;
+				return '';
+			}
+			return $this->key;
+		} else {
+			$d = $m[1];
+			if ( !isset( $this->params["par$d"] ) ) {
+				$this->error = true;
+				return '';
+			}
+			return rawurldecode( $this->params["par$d"] );
+		}
+	}
+
 }

@@ -1,9 +1,6 @@
 <?php
 
-namespace MediaWiki\Tests\Maintenance;
-
-use BaseDump;
-use MediaWikiTestCase;
+require_once __DIR__ . "/../../../maintenance/backupPrefetch.inc";
 
 /**
  * Tests for BaseDump
@@ -14,7 +11,7 @@ use MediaWikiTestCase;
 class BaseDumpTest extends MediaWikiTestCase {
 
 	/**
-	 * @var BaseDump The BaseDump instance used within a test.
+	 * @var BaseDump the BaseDump instance used within a test.
 	 *
 	 * If set, this BaseDump gets automatically closed in tearDown.
 	 */
@@ -25,7 +22,7 @@ class BaseDumpTest extends MediaWikiTestCase {
 			$this->dump->close();
 		}
 
-		// T39458, parent teardown need to be done after closing the
+		// Bug 37458, parent teardown need to be done after closing the
 		// dump or it might cause some permissions errors.
 		parent::tearDown();
 	}
@@ -33,9 +30,9 @@ class BaseDumpTest extends MediaWikiTestCase {
 	/**
 	 * asserts that a prefetch yields an expected string
 	 *
-	 * @param string|null $expected The exepcted result of the prefetch
-	 * @param int $page The page number to prefetch the text for
-	 * @param int $revision The revision number to prefetch the text for
+	 * @param $expected string|null: the exepcted result of the prefetch
+	 * @param $page int: the page number to prefetch the text for
+	 * @param $revision int: the revision number to prefetch the text for
 	 */
 	private function assertPrefetchEquals( $expected, $page, $revision ) {
 		$this->assertEquals( $expected, $this->dump->prefetch( $page, $revision ),
@@ -112,8 +109,8 @@ class BaseDumpTest extends MediaWikiTestCase {
 	}
 
 	function testSequentialAcrossFiles() {
-		$fname1 = $this->setUpPrefetch( [ 1 ] );
-		$fname2 = $this->setUpPrefetch( [ 2, 4 ] );
+		$fname1 = $this->setUpPrefetch( array( 1 ) );
+		$fname2 = $this->setUpPrefetch( array( 2, 4 ) );
 		$this->dump = new BaseDump( $fname1 . ";" . $fname2 );
 
 		$this->assertPrefetchEquals( "BackupDumperTestP1Text1", 1, 1 );
@@ -123,9 +120,9 @@ class BaseDumpTest extends MediaWikiTestCase {
 	}
 
 	function testSynchronizeSkipAcrossFile() {
-		$fname1 = $this->setUpPrefetch( [ 1 ] );
-		$fname2 = $this->setUpPrefetch( [ 2 ] );
-		$fname3 = $this->setUpPrefetch( [ 4 ] );
+		$fname1 = $this->setUpPrefetch( array( 1 ) );
+		$fname2 = $this->setUpPrefetch( array( 2 ) );
+		$fname3 = $this->setUpPrefetch( array( 4 ) );
 		$this->dump = new BaseDump( $fname1 . ";" . $fname2 . ";" . $fname3 );
 
 		$this->assertPrefetchEquals( "BackupDumperTestP1Text1", 1, 1 );
@@ -133,8 +130,8 @@ class BaseDumpTest extends MediaWikiTestCase {
 	}
 
 	function testSynchronizeMissInWholeFirstFile() {
-		$fname1 = $this->setUpPrefetch( [ 1 ] );
-		$fname2 = $this->setUpPrefetch( [ 2 ] );
+		$fname1 = $this->setUpPrefetch( array( 1 ) );
+		$fname2 = $this->setUpPrefetch( array( 2 ) );
 		$this->dump = new BaseDump( $fname1 . ";" . $fname2 );
 
 		$this->assertPrefetchEquals( "BackupDumperTestP2Text1", 2, 2 );
@@ -145,16 +142,15 @@ class BaseDumpTest extends MediaWikiTestCase {
 	 *
 	 * The temporary file is removed by DumpBackup upon tearDown.
 	 *
-	 * @param array $requested_pages The indices of the page parts that should
-	 *    go into the prefetch file. 1,2,4 are available.
-	 * @return string The file name of the created temporary file
+	 * @param $requested_pages Array The indices of the page parts that should
+	 *             go into the prefetch file. 1,2,4 are available.
+	 * @return String The file name of the created temporary file
 	 */
-	private function setUpPrefetch( $requested_pages = [ 1, 2, 4 ] ) {
+	private function setUpPrefetch( $requested_pages = array( 1, 2, 4 ) ) {
 		// The file name, where we store the prepared prefetch file
 		$fname = $this->getNewTempFile();
 
 		// The header of every prefetch file
-		// phpcs:ignore Generic.Files.LineLength
 		$header = '<mediawiki xmlns="http://www.mediawiki.org/xml/export-0.7/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mediawiki.org/xml/export-0.7/ http://www.mediawiki.org/xml/export-0.7.xsd" version="0.7" xml:lang="en">
   <siteinfo>
     <sitename>wikisvn</sitename>
@@ -185,7 +181,7 @@ class BaseDumpTest extends MediaWikiTestCase {
 ';
 
 		// An array holding the pages that are available for prefetch
-		$available_pages = [];
+		$available_pages = array();
 
 		// Simple plain page
 		$available_pages[1] = '  <page>

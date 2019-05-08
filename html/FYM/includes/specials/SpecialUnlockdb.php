@@ -32,51 +32,50 @@ class SpecialUnlockdb extends FormSpecialPage {
 		parent::__construct( 'Unlockdb', 'siteadmin' );
 	}
 
-	public function doesWrites() {
-		return false;
-	}
-
 	public function requiresWrite() {
 		return false;
 	}
 
 	public function checkExecutePermissions( User $user ) {
+		global $wgReadOnlyFile;
+
 		parent::checkExecutePermissions( $user );
 		# If the lock file isn't writable, we can do sweet bugger all
-		if ( !file_exists( $this->getConfig()->get( 'ReadOnlyFile' ) ) ) {
+		if ( !file_exists( $wgReadOnlyFile ) ) {
 			throw new ErrorPageError( 'lockdb', 'databasenotlocked' );
 		}
 	}
 
 	protected function getFormFields() {
-		return [
-			'Confirm' => [
+		return array(
+			'Confirm' => array(
 				'type' => 'toggle',
 				'label-message' => 'unlockconfirm',
-			],
-		];
+			),
+		);
 	}
 
 	protected function alterForm( HTMLForm $form ) {
-		$form->setWrapperLegend( false )
-			->setHeaderText( $this->msg( 'unlockdbtext' )->parseAsBlock() )
-			->setSubmitTextMsg( 'unlockbtn' );
+		$form->setWrapperLegend( false );
+		$form->setHeaderText( $this->msg( 'unlockdbtext' )->parseAsBlock() );
+		$form->setSubmitTextMsg( 'unlockbtn' );
 	}
 
 	public function onSubmit( array $data ) {
+		global $wgReadOnlyFile;
+
 		if ( !$data['Confirm'] ) {
 			return Status::newFatal( 'locknoconfirm' );
 		}
 
-		$readOnlyFile = $this->getConfig()->get( 'ReadOnlyFile' );
-		Wikimedia\suppressWarnings();
-		$res = unlink( $readOnlyFile );
-		Wikimedia\restoreWarnings();
+		wfSuppressWarnings();
+		$res = unlink( $wgReadOnlyFile );
+		wfRestoreWarnings();
 
 		if ( $res ) {
 			return Status::newGood();
 		} else {
-			return Status::newFatal( 'filedeleteerror', $readOnlyFile );
+			return Status::newFatal( 'filedeleteerror', $wgReadOnlyFile );
 		}
 	}
 
@@ -84,10 +83,6 @@ class SpecialUnlockdb extends FormSpecialPage {
 		$out = $this->getOutput();
 		$out->addSubtitle( $this->msg( 'unlockdbsuccesssub' ) );
 		$out->addWikiMsg( 'unlockdbsuccesstext' );
-	}
-
-	protected function getDisplayFormat() {
-		return 'ooui';
 	}
 
 	protected function getGroupName() {

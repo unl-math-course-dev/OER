@@ -24,8 +24,6 @@
 
 require __DIR__ . '/Maintenance.php';
 
-use MediaWiki\MediaWikiServices;
-
 /**
  * Maintenance script to remove old objects from the parser cache.
  *
@@ -34,53 +32,42 @@ use MediaWiki\MediaWikiServices;
 class PurgeParserCache extends Maintenance {
 	public $lastProgress;
 
-	private $usleep = 0;
-
 	function __construct() {
 		parent::__construct();
 		$this->addDescription( "Remove old objects from the parser cache. " .
 			"This only works when the parser cache is in an SQL database." );
 		$this->addOption( 'expiredate', 'Delete objects expiring before this date.', false, true );
-		$this->addOption(
-			'age',
-			'Delete objects created more than this many seconds ago, assuming ' .
-				'$wgParserCacheExpireTime has remained consistent.',
-			false,
-			true );
-		$this->addOption( 'msleep', 'Milliseconds to sleep between purge chunks', false, true );
+		$this->addOption( 'age',
+			'Delete objects created more than this many seconds ago, assuming $wgParserCacheExpireTime ' .
+				'has been consistent.',
+			false, true );
 	}
 
 	function execute() {
-		global $wgParserCacheExpireTime;
-
 		$inputDate = $this->getOption( 'expiredate' );
 		$inputAge = $this->getOption( 'age' );
 		if ( $inputDate !== null ) {
 			$date = wfTimestamp( TS_MW, strtotime( $inputDate ) );
 		} elseif ( $inputAge !== null ) {
+			global $wgParserCacheExpireTime;
 			$date = wfTimestamp( TS_MW, time() + $wgParserCacheExpireTime - intval( $inputAge ) );
 		} else {
-			$this->fatalError( "Must specify either --expiredate or --age" );
-			return;
+			$this->error( "Must specify either --expiredate or --age", 1 );
 		}
-		$this->usleep = 1e3 * $this->getOption( 'msleep', 0 );
 
 		$english = Language::factory( 'en' );
-		$this->output( "Deleting objects expiring before " .
-			$english->timeanddate( $date ) . "\n" );
+		$this->output( "Deleting objects expiring before " . $english->timeanddate( $date ) . "\n" );
 
-		$pc = MediaWikiServices::getInstance()->getParserCache()->getCacheStorage();
-		$success = $pc->deleteObjectsExpiringBefore( $date, [ $this, 'showProgressAndWait' ] );
+		$pc = wfGetParserCacheStorage();
+		$success = $pc->deleteObjectsExpiringBefore( $date, array( $this, 'showProgress' ) );
 		if ( !$success ) {
-			$this->fatalError( "\nCannot purge this kind of parser cache." );
+			$this->error( "\nCannot purge this kind of parser cache.", 1 );
 		}
-		$this->showProgressAndWait( 100 );
+		$this->showProgress( 100 );
 		$this->output( "\nDone\n" );
 	}
 
-	public function showProgressAndWait( $percent ) {
-		usleep( $this->usleep ); // avoid lag; T150124
-
+	function showProgress( $percent ) {
 		$percentString = sprintf( "%.2f", $percent );
 		if ( $percentString === $this->lastProgress ) {
 			return;
@@ -90,8 +77,8 @@ class PurgeParserCache extends Maintenance {
 		$stars = floor( $percent / 2 );
 		$this->output( '[' . str_repeat( '*', $stars ) . str_repeat( '.', 50 - $stars ) . '] ' .
 			"$percentString%\r" );
+
 	}
 }
-
-$maintClass = PurgeParserCache::class;
+$maintClass = 'PurgeParserCache';
 require_once RUN_MAINTENANCE_IF_MAIN;

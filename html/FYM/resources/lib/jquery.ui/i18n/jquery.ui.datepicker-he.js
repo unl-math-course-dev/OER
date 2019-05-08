@@ -3,8 +3,8 @@
 jQuery(function($){
 	$.datepicker.regional['he'] = {
 		closeText: 'סגור',
-		prevText: '&#x3C;הקודם',
-		nextText: 'הבא&#x3E;',
+		prevText: '&#x3c;הקודם',
+		nextText: 'הבא&#x3e;',
 		currentText: 'היום',
 		monthNames: ['ינואר','פברואר','מרץ','אפריל','מאי','יוני',
 		'יולי','אוגוסט','ספטמבר','אוקטובר','נובמבר','דצמבר'],

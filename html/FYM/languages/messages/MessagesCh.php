@@ -1,14 +1,15 @@
 <?php
 /** Chamorro (Chamoru)
  *
- * To improve a translation please visit https://translatewiki.net
+ * See MessagesQqq.php for message documentation incl. usage of parameters
+ * To improve a translation please visit http://translatewiki.net
  *
  * @ingroup Language
  * @file
  *
  */
 
-$namespaceNames = [
+$namespaceNames = array(
 	NS_MEDIA            => 'Media',
 	NS_SPECIAL          => 'Espesiat',
 	NS_TALK             => 'Kombetsasion',
@@ -21,4 +22,5 @@ $namespaceNames = [
 	NS_HELP_TALK        => 'Kombetsasion_ni_ayudo',
 	NS_CATEGORY         => 'Katigoria',
 	NS_CATEGORY_TALK    => 'Kombetsasion_ni_katigoria',
-];
+);
+

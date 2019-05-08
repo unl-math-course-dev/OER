@@ -27,15 +27,11 @@
  */
 class ApiQueryStashImageInfo extends ApiQueryImageInfo {
 
-	public function __construct( ApiQuery $query, $moduleName ) {
+	public function __construct( $query, $moduleName ) {
 		parent::__construct( $query, $moduleName, 'sii' );
 	}
 
 	public function execute() {
-		if ( !$this->getUser()->isLoggedIn() ) {
-			$this->dieWithError( 'apierror-mustbeloggedin-uploadstash', 'notloggedin' );
-		}
-
 		$params = $this->extractRequestParams();
 		$modulePrefix = $this->getModulePrefix();
 
@@ -45,7 +41,9 @@ class ApiQueryStashImageInfo extends ApiQueryImageInfo {
 
 		$result = $this->getResult();
 
-		$this->requireAtLeastOneParameter( $params, 'filekey', 'sessionkey' );
+		if ( !$params['filekey'] && !$params['sessionkey'] ) {
+			$this->dieUsage( "One of filekey or sessionkey must be supplied", 'nofilekey' );
+		}
 
 		// Alias sessionkey to filekey, but give an existing filekey precedence.
 		if ( !$params['filekey'] && $params['sessionkey'] ) {
@@ -53,76 +51,92 @@ class ApiQueryStashImageInfo extends ApiQueryImageInfo {
 		}
 
 		try {
-			$stash = RepoGroup::singleton()->getLocalRepo()->getUploadStash( $this->getUser() );
+			$stash = RepoGroup::singleton()->getLocalRepo()->getUploadStash();
 
 			foreach ( $params['filekey'] as $filekey ) {
 				$file = $stash->getFile( $filekey );
 				$finalThumbParam = $this->mergeThumbParams( $file, $scale, $params['urlparam'] );
 				$imageInfo = ApiQueryImageInfo::getInfo( $file, $prop, $result, $finalThumbParam );
-				$result->addValue( [ 'query', $this->getModuleName() ], null, $imageInfo );
-				$result->addIndexedTagName( [ 'query', $this->getModuleName() ], $modulePrefix );
+				$result->addValue( array( 'query', $this->getModuleName() ), null, $imageInfo );
+				$result->setIndexedTagName_internal( array( 'query', $this->getModuleName() ), $modulePrefix );
 			}
 		// @todo Update exception handling here to understand current getFile exceptions
+		} catch ( UploadStashNotAvailableException $e ) {
+			$this->dieUsage( "Session not available: " . $e->getMessage(), "nosession" );
 		} catch ( UploadStashFileNotFoundException $e ) {
-			$this->dieWithException( $e, [ 'wrap' => 'apierror-stashedfilenotfound' ] );
+			$this->dieUsage( "File not found: " . $e->getMessage(), "invalidsessiondata" );
 		} catch ( UploadStashBadPathException $e ) {
-			$this->dieWithException( $e, [ 'wrap' => 'apierror-stashpathinvalid' ] );
+			$this->dieUsage( "Bad path: " . $e->getMessage(), "invalidsessiondata" );
 		}
 	}
 
-	private $propertyFilter = [
+	private $propertyFilter = array(
 		'user', 'userid', 'comment', 'parsedcomment',
 		'mediatype', 'archivename', 'uploadwarning',
-	];
+	);
 
 	public function getAllowedParams() {
-		return [
-			'filekey' => [
+		return array(
+			'filekey' => array(
 				ApiBase::PARAM_ISMULTI => true,
-			],
-			'sessionkey' => [
+				ApiBase::PARAM_DFLT => null
+			),
+			'sessionkey' => array(
 				ApiBase::PARAM_ISMULTI => true,
 				ApiBase::PARAM_DEPRECATED => true,
-			],
-			'prop' => [
+				ApiBase::PARAM_DFLT => null
+			),
+			'prop' => array(
 				ApiBase::PARAM_ISMULTI => true,
 				ApiBase::PARAM_DFLT => 'timestamp|url',
-				ApiBase::PARAM_TYPE => self::getPropertyNames( $this->propertyFilter ),
-				ApiBase::PARAM_HELP_MSG => 'apihelp-query+imageinfo-param-prop',
-				ApiBase::PARAM_HELP_MSG_PER_VALUE => self::getPropertyMessages( $this->propertyFilter )
-			],
-			'urlwidth' => [
+				ApiBase::PARAM_TYPE => self::getPropertyNames( $this->propertyFilter )
+			),
+			'urlwidth' => array(
 				ApiBase::PARAM_TYPE => 'integer',
-				ApiBase::PARAM_DFLT => -1,
-				ApiBase::PARAM_HELP_MSG => [
-					'apihelp-query+imageinfo-param-urlwidth',
-					ApiQueryImageInfo::TRANSFORM_LIMIT,
-				],
-			],
-			'urlheight' => [
+				ApiBase::PARAM_DFLT => -1
+			),
+			'urlheight' => array(
 				ApiBase::PARAM_TYPE => 'integer',
-				ApiBase::PARAM_DFLT => -1,
-				ApiBase::PARAM_HELP_MSG => 'apihelp-query+imageinfo-param-urlheight',
-			],
-			'urlparam' => [
+				ApiBase::PARAM_DFLT => -1
+			),
+			'urlparam' => array(
 				ApiBase::PARAM_TYPE => 'string',
 				ApiBase::PARAM_DFLT => '',
-				ApiBase::PARAM_HELP_MSG => 'apihelp-query+imageinfo-param-urlparam',
-			],
-		];
+			),
+		);
 	}
 
-	protected function getExamplesMessages() {
-		return [
-			'action=query&prop=stashimageinfo&siifilekey=124sd34rsdf567'
-				=> 'apihelp-query+stashimageinfo-example-simple',
-			'action=query&prop=stashimageinfo&siifilekey=b34edoe3|bceffd4&' .
-				'siiurlwidth=120&siiprop=url'
-				=> 'apihelp-query+stashimageinfo-example-params',
-		];
+	/**
+	 * Return the API documentation for the parameters.
+	 * @return Array parameter documentation.
+	 */
+	public function getParamDescription() {
+		$p = $this->getModulePrefix();
+
+		return array(
+			'prop' => self::getPropertyDescriptions( $this->propertyFilter, $p ),
+			'filekey' => 'Key that identifies a previous upload that was stashed temporarily.',
+			'sessionkey' => 'Alias for filekey, for backward compatibility.',
+			'urlwidth' => "If {$p}prop=url is set, a URL to an image scaled to this width will be returned.",
+			'urlheight' => "Similar to {$p}urlwidth. Cannot be used without {$p}urlwidth",
+			'urlparam' => array( "A handler specific parameter string. For example, pdf's ",
+				"might use 'page15-100px'. {$p}urlwidth must be used and be consistent with {$p}urlparam" ),
+		);
 	}
 
-	public function getHelpUrls() {
-		return 'https://www.mediawiki.org/wiki/Special:MyLanguage/API:Stashimageinfo';
+	public function getResultProperties() {
+		return ApiQueryImageInfo::getResultPropertiesFiltered( $this->propertyFilter );
+	}
+
+	public function getDescription() {
+		return 'Returns image information for stashed images.';
+	}
+
+	public function getExamples() {
+		return array(
+			'api.php?action=query&prop=stashimageinfo&siifilekey=124sd34rsdf567',
+			'api.php?action=query&prop=stashimageinfo&siifilekey=b34edoe3|bceffd4&' .
+				'siiurlwidth=120&siiprop=url',
+		);
 	}
 }

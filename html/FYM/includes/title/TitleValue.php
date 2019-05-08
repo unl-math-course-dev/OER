@@ -1,6 +1,6 @@
 <?php
 /**
- * Representation of a page title within MediaWiki.
+ * Representation of a page title within %MediaWiki.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -18,101 +18,82 @@
  * http://www.gnu.org/copyleft/gpl.html
  *
  * @file
+ * @license GPL 2+
  * @author Daniel Kinzler
  */
-use MediaWiki\Linker\LinkTarget;
-use Wikimedia\Assert\Assert;
-use Wikimedia\Assert\ParameterTypeException;
 
 /**
- * Represents a page (or page fragment) title within MediaWiki.
+ * Represents a page (or page fragment) title within %MediaWiki.
  *
  * @note In contrast to Title, this is designed to be a plain value object. That is,
  * it is immutable, does not use global state, and causes no side effects.
  *
+ * @note TitleValue represents the title of a local page (or fragment of a page).
+ * It does not represent a link, and does not support interwiki prefixes etc.
+ *
  * @see https://www.mediawiki.org/wiki/Requests_for_comment/TitleValue
- * @since 1.23
  */
-class TitleValue implements LinkTarget {
+class TitleValue {
 
 	/**
-	 * @deprecated in 1.31. This class is immutable. Use the getter for access.
 	 * @var int
 	 */
 	protected $namespace;
 
 	/**
-	 * @deprecated in 1.31. This class is immutable. Use the getter for access.
 	 * @var string
 	 */
 	protected $dbkey;
 
 	/**
-	 * @deprecated in 1.31. This class is immutable. Use the getter for access.
 	 * @var string
 	 */
 	protected $fragment;
 
 	/**
-	 * @deprecated in 1.31. This class is immutable. Use the getter for access.
-	 * @var string
-	 */
-	protected $interwiki;
-
-	/**
-	 * Text form including namespace/interwiki, initialised on demand
-	 *
-	 * Only public to share cache with TitleFormatter
-	 *
-	 * @private
-	 * @var string
-	 */
-	public $prefixedText = null;
-
-	/**
 	 * Constructs a TitleValue.
 	 *
-	 * @note TitleValue expects a valid DB key; typically, a TitleValue is constructed either
+	 * @note: TitleValue expects a valid DB key; typically, a TitleValue is constructed either
 	 * from a database entry, or by a TitleParser. We could apply "some" normalization here,
 	 * such as substituting spaces by underscores, but that would encourage the use of
 	 * un-normalized text when constructing TitleValues. For constructing a TitleValue from
 	 * user input or external sources, use a TitleParser.
 	 *
-	 * @param int $namespace The namespace ID. This is not validated.
-	 * @param string $dbkey The page title in valid DBkey form. No normalization is applied.
-	 * @param string $fragment The fragment title. Use '' to represent the whole page.
-	 *   No validation or normalization is applied.
-	 * @param string $interwiki The interwiki component
+	 * @param $namespace int The namespace ID. This is not validated.
+	 * @param $dbkey string The page title in valid DBkey form. No normalization is applied.
+	 * @param $fragment string The fragment title. Use '' to represent the whole page.
+	 *        No validation or normalization is applied.
 	 *
 	 * @throws InvalidArgumentException
 	 */
-	public function __construct( $namespace, $dbkey, $fragment = '', $interwiki = '' ) {
+	public function __construct( $namespace, $dbkey, $fragment = '' ) {
 		if ( !is_int( $namespace ) ) {
-			throw new ParameterTypeException( '$namespace', 'int' );
+			throw new InvalidArgumentException( '$namespace must be an integer' );
 		}
+
 		if ( !is_string( $dbkey ) ) {
-			throw new ParameterTypeException( '$dbkey', 'string' );
-		}
-		if ( !is_string( $fragment ) ) {
-			throw new ParameterTypeException( '$fragment', 'string' );
-		}
-		if ( !is_string( $interwiki ) ) {
-			throw new ParameterTypeException( '$interwiki', 'string' );
+			throw new InvalidArgumentException( '$dbkey must be a string' );
 		}
 
 		// Sanity check, no full validation or normalization applied here!
-		Assert::parameter( !preg_match( '/^_|[ \r\n\t]|_$/', $dbkey ), '$dbkey',
-			"invalid DB key '$dbkey'" );
-		Assert::parameter( $dbkey !== '', '$dbkey', 'should not be empty' );
+		if ( preg_match( '/^_|[ \r\n\t]|_$/', $dbkey ) ) {
+			throw new InvalidArgumentException( '$dbkey must be a valid DB key: ' . $dbkey );
+		}
+
+		if ( !is_string( $fragment ) ) {
+			throw new InvalidArgumentException( '$fragment must be a string' );
+		}
+
+		if ( $dbkey === '' ) {
+			throw new InvalidArgumentException( '$dbkey must not be empty' );
+		}
 
 		$this->namespace = $namespace;
 		$this->dbkey = $dbkey;
 		$this->fragment = $fragment;
-		$this->interwiki = $interwiki;
 	}
 
 	/**
-	 * @since 1.23
 	 * @return int
 	 */
 	public function getNamespace() {
@@ -120,16 +101,6 @@ class TitleValue implements LinkTarget {
 	}
 
 	/**
-	 * @since 1.27
-	 * @param int $ns
-	 * @return bool
-	 */
-	public function inNamespace( $ns ) {
-		return $this->namespace == $ns;
-	}
-
-	/**
-	 * @since 1.23
 	 * @return string
 	 */
 	public function getFragment() {
@@ -137,17 +108,8 @@ class TitleValue implements LinkTarget {
 	}
 
 	/**
-	 * @since 1.27
-	 * @return bool
-	 */
-	public function hasFragment() {
-		return $this->fragment !== '';
-	}
-
-	/**
 	 * Returns the title's DB key, as supplied to the constructor,
 	 * without namespace prefix or fragment.
-	 * @since 1.23
 	 *
 	 * @return string
 	 */
@@ -158,73 +120,41 @@ class TitleValue implements LinkTarget {
 	/**
 	 * Returns the title in text form,
 	 * without namespace prefix or fragment.
-	 * @since 1.23
 	 *
 	 * This is computed from the DB key by replacing any underscores with spaces.
 	 *
-	 * @note To get a title string that includes the namespace and/or fragment,
-	 *       use a TitleFormatter.
+	 * @note: To get a title string that includes the namespace and/or fragment,
+	 *        use a TitleFormatter.
 	 *
 	 * @return string
 	 */
 	public function getText() {
-		return str_replace( '_', ' ', $this->dbkey );
+		return str_replace( '_', ' ', $this->getDBkey() );
 	}
 
 	/**
 	 * Creates a new TitleValue for a different fragment of the same page.
 	 *
-	 * @since 1.27
 	 * @param string $fragment The fragment name, or "" for the entire page.
 	 *
 	 * @return TitleValue
 	 */
-	public function createFragmentTarget( $fragment ) {
-		return new TitleValue(
-			$this->namespace,
-			$this->dbkey,
-			$fragment,
-			$this->interwiki
-		);
-	}
-
-	/**
-	 * Whether it has an interwiki part
-	 *
-	 * @since 1.27
-	 * @return bool
-	 */
-	public function isExternal() {
-		return $this->interwiki !== '';
-	}
-
-	/**
-	 * Returns the interwiki part
-	 *
-	 * @since 1.27
-	 * @return string
-	 */
-	public function getInterwiki() {
-		return $this->interwiki;
+	public function createFragmentTitle( $fragment ) {
+		return new TitleValue( $this->namespace, $this->dbkey, $fragment );
 	}
 
 	/**
 	 * Returns a string representation of the title, for logging. This is purely informative
 	 * and must not be used programmatically. Use the appropriate TitleFormatter to generate
 	 * the correct string representation for a given use.
-	 * @since 1.23
 	 *
 	 * @return string
 	 */
 	public function __toString() {
 		$name = $this->namespace . ':' . $this->dbkey;
 
-		if ( $this->fragment !== '' ) {
+		if ( $this->fragment !== '' )  {
 			$name .= '#' . $this->fragment;
-		}
-
-		if ( $this->interwiki !== '' ) {
-			$name = $this->interwiki . ':' . $name;
 		}
 
 		return $name;

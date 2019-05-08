@@ -1,14 +1,15 @@
 <?php
 /** Ancient Greek (Ἀρχαία ἑλληνικὴ)
  *
- * To improve a translation please visit https://translatewiki.net
+ * See MessagesQqq.php for message documentation incl. usage of parameters
+ * To improve a translation please visit http://translatewiki.net
  *
  * @ingroup Language
  * @file
  *
  */
 
-$dateFormats = [
+$dateFormats = array(
 	'mdy time' => 'H:i',
 	'mdy date' => 'xg j, Y',
 	'mdy both' => 'H:i, xg j, Y',
@@ -20,4 +21,5 @@ $dateFormats = [
 	'ymd time' => 'H:i',
 	'ymd date' => 'Y xg j',
 	'ymd both' => 'H:i, Y xg j',
-];
+);
+

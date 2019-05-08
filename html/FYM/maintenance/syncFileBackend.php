@@ -32,7 +32,7 @@ require_once __DIR__ . '/Maintenance.php';
 class SyncFileBackend extends Maintenance {
 	public function __construct() {
 		parent::__construct();
-		$this->addDescription( 'Sync one file backend with another using the journal' );
+		$this->mDescription = "Sync one file backend with another using the journal";
 		$this->addOption( 'src', 'Name of backend to sync from', true, true );
 		$this->addOption( 'dst', 'Name of destination backend to sync', false, true );
 		$this->addOption( 'start', 'Starting journal ID', false, true );
@@ -54,7 +54,7 @@ class SyncFileBackend extends Maintenance {
 		if ( $this->hasOption( 'posdump' ) ) {
 			// Just dump the current position into the specified position dir
 			if ( !$this->hasOption( 'posdir' ) ) {
-				$this->fatalError( "Param posdir required!" );
+				$this->error( "Param posdir required!", 1 );
 			}
 			if ( $this->hasOption( 'postime' ) ) {
 				$id = (int)$src->getJournal()->getPositionAtTime( $this->getOption( 'postime' ) );
@@ -71,12 +71,11 @@ class SyncFileBackend extends Maintenance {
 			if ( $this->isQuiet() ) {
 				print $id; // give a single machine-readable number
 			}
-
 			return;
 		}
 
 		if ( !$this->hasOption( 'dst' ) ) {
-			$this->fatalError( "Param dst required!" );
+			$this->error( "Param dst required!", 1 );
 		}
 		$dst = FileBackendGroup::singleton()->get( $this->getOption( 'dst' ) );
 
@@ -105,7 +104,7 @@ class SyncFileBackend extends Maintenance {
 		}
 
 		// Periodically update the position file
-		$callback = function ( $pos ) use ( $startFromPosFile, $posFile, $start ) {
+		$callback = function( $pos ) use ( $startFromPosFile, $posFile, $start ) {
 			if ( $startFromPosFile && $pos >= $start ) { // successfully advanced
 				file_put_contents( $posFile, $pos, LOCK_EX );
 			}
@@ -142,12 +141,12 @@ class SyncFileBackend extends Maintenance {
 	 * Sync $dst backend to $src backend based on the $src logs given after $start.
 	 * Returns the journal entry ID this advanced to and handled (inclusive).
 	 *
-	 * @param FileBackend $src
-	 * @param FileBackend $dst
-	 * @param int $start Starting journal position
-	 * @param int $end Starting journal position
-	 * @param Closure $callback Callback to update any position file
-	 * @return int|bool Journal entry ID or false if there are none
+	 * @param $src FileBackend
+	 * @param $dst FileBackend
+	 * @param $start integer Starting journal position
+	 * @param $end integer Starting journal position
+	 * @param $callback Closure Callback to update any position file
+	 * @return integer|false Journal entry ID or false if there are none
 	 */
 	protected function syncBackends(
 		FileBackend $src, FileBackend $dst, $start, $end, Closure $callback
@@ -156,12 +155,11 @@ class SyncFileBackend extends Maintenance {
 		$first = true; // first batch
 
 		if ( $start > $end ) { // sanity
-			$this->fatalError( "Error: given starting ID greater than ending ID." );
+			$this->error( "Error: given starting ID greater than ending ID.", 1 );
 		}
 
-		$next = null;
 		do {
-			$limit = min( $this->getBatchSize(), $end - $start + 1 ); // don't go pass ending ID
+			$limit = min( $this->mBatchSize, $end - $start + 1 ); // don't go pass ending ID
 			$this->output( "Doing id $start to " . ( $start + $limit - 1 ) . "...\n" );
 
 			$entries = $src->getJournal()->getChangeEntries( $start, $limit, $next );
@@ -172,7 +170,7 @@ class SyncFileBackend extends Maintenance {
 			$first = false;
 
 			$lastPosInBatch = 0;
-			$pathsInBatch = []; // changed paths
+			$pathsInBatch = array(); // changed paths
 			foreach ( $entries as $entry ) {
 				if ( $entry['op'] !== 'null' ) { // null ops are just for reference
 					$pathsInBatch[$entry['path']] = 1; // remove duplicates
@@ -200,9 +198,9 @@ class SyncFileBackend extends Maintenance {
 	/**
 	 * Sync particular files of backend $src to the corresponding $dst backend files
 	 *
-	 * @param array $paths
-	 * @param FileBackend $src
-	 * @param FileBackend $dst
+	 * @param $paths Array
+	 * @param $src FileBackend
+	 * @param $dst FileBackend
 	 * @return Status
 	 */
 	protected function syncFileBatch( array $paths, FileBackend $src, FileBackend $dst ) {
@@ -223,54 +221,52 @@ class SyncFileBackend extends Maintenance {
 			return $status;
 		}
 
-		$src->preloadFileStat( [ 'srcs' => $sPaths, 'latest' => 1 ] );
-		$dst->preloadFileStat( [ 'srcs' => $dPaths, 'latest' => 1 ] );
+		$src->preloadFileStat( array( 'srcs' => $sPaths, 'latest' => 1 ) );
+		$dst->preloadFileStat( array( 'srcs' => $dPaths, 'latest' => 1 ) );
 
-		$ops = [];
-		$fsFiles = [];
+		$ops = array();
+		$fsFiles = array();
 		foreach ( $sPaths as $i => $sPath ) {
 			$dPath = $dPaths[$i]; // destination
-			$sExists = $src->fileExists( [ 'src' => $sPath, 'latest' => 1 ] );
+			$sExists = $src->fileExists( array( 'src' => $sPath, 'latest' => 1 ) );
 			if ( $sExists === true ) { // exists in source
 				if ( $this->filesAreSame( $src, $dst, $sPath, $dPath ) ) {
 					continue; // avoid local copies for non-FS backends
 				}
 				// Note: getLocalReference() is fast for FS backends
-				$fsFile = $src->getLocalReference( [ 'src' => $sPath, 'latest' => 1 ] );
+				$fsFile = $src->getLocalReference( array( 'src' => $sPath, 'latest' => 1 ) );
 				if ( !$fsFile ) {
 					$this->error( "Unable to sync '$dPath': could not get local copy." );
 					$status->fatal( 'backend-fail-internal', $src->getName() );
-
 					return $status;
 				}
 				$fsFiles[] = $fsFile; // keep TempFSFile objects alive as needed
 				// Note: prepare() is usually fast for key/value backends
-				$status->merge( $dst->prepare( [
-					'dir' => dirname( $dPath ), 'bypassReadOnly' => 1 ] ) );
+				$status->merge( $dst->prepare( array(
+					'dir' => dirname( $dPath ), 'bypassReadOnly' => 1 ) ) );
 				if ( !$status->isOK() ) {
 					return $status;
 				}
-				$ops[] = [ 'op' => 'store',
-					'src' => $fsFile->getPath(), 'dst' => $dPath, 'overwrite' => 1 ];
+				$ops[] = array( 'op' => 'store',
+					'src' => $fsFile->getPath(), 'dst' => $dPath, 'overwrite' => 1 );
 			} elseif ( $sExists === false ) { // does not exist in source
-				$ops[] = [ 'op' => 'delete', 'src' => $dPath, 'ignoreMissingSource' => 1 ];
+				$ops[] = array( 'op' => 'delete', 'src' => $dPath, 'ignoreMissingSource' => 1 );
 			} else { // error
 				$this->error( "Unable to sync '$dPath': could not stat file." );
 				$status->fatal( 'backend-fail-internal', $src->getName() );
-
 				return $status;
 			}
 		}
 
 		$t_start = microtime( true );
-		$status = $dst->doQuickOperations( $ops, [ 'bypassReadOnly' => 1 ] );
+		$status = $dst->doQuickOperations( $ops, array( 'bypassReadOnly' => 1 ) );
 		if ( !$status->isOK() ) {
 			sleep( 10 ); // wait and retry copy again
-			$status = $dst->doQuickOperations( $ops, [ 'bypassReadOnly' => 1 ] );
+			$status = $dst->doQuickOperations( $ops, array( 'bypassReadOnly' => 1 ) );
 		}
-		$elapsed_ms = floor( ( microtime( true ) - $t_start ) * 1000 );
+		$ellapsed_ms = floor( ( microtime( true ) - $t_start ) * 1000 );
 		if ( $status->isOK() && $this->getOption( 'verbose' ) ) {
-			$this->output( "Synchronized these file(s) [{$elapsed_ms}ms]:\n" .
+			$this->output( "Synchronized these file(s) [{$ellapsed_ms}ms]:\n" .
 				implode( "\n", $dPaths ) . "\n" );
 		}
 
@@ -280,9 +276,8 @@ class SyncFileBackend extends Maintenance {
 	/**
 	 * Substitute the backend name of storage paths with that of a given one
 	 *
-	 * @param array|string $paths List of paths or single string path
-	 * @param FileBackend $backend
-	 * @return array|string
+	 * @param $paths Array|string List of paths or single string path
+	 * @return Array|string
 	 */
 	protected function replaceNamePaths( $paths, FileBackend $backend ) {
 		return preg_replace(
@@ -294,14 +289,14 @@ class SyncFileBackend extends Maintenance {
 
 	protected function filesAreSame( FileBackend $src, FileBackend $dst, $sPath, $dPath ) {
 		return (
-			( $src->getFileSize( [ 'src' => $sPath ] )
-				=== $dst->getFileSize( [ 'src' => $dPath ] ) // short-circuit
-			) && ( $src->getFileSha1Base36( [ 'src' => $sPath ] )
-				=== $dst->getFileSha1Base36( [ 'src' => $dPath ] )
+			( $src->getFileSize( array( 'src' => $sPath ) )
+				=== $dst->getFileSize( array( 'src' => $dPath ) ) // short-circuit
+			) && ( $src->getFileSha1Base36( array( 'src' => $sPath ) )
+				=== $dst->getFileSha1Base36( array( 'src' => $dPath ) )
 			)
 		);
 	}
 }
 
-$maintClass = SyncFileBackend::class;
+$maintClass = "SyncFileBackend";
 require_once RUN_MAINTENANCE_IF_MAIN;

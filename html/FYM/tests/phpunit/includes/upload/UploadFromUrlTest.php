@@ -11,29 +11,29 @@ class UploadFromUrlTest extends ApiTestCase {
 	protected function setUp() {
 		parent::setUp();
 
-		$this->setMwGlobals( [
+		$this->setMwGlobals( array(
 			'wgEnableUploads' => true,
 			'wgAllowCopyUploads' => true,
-		] );
+			'wgAllowAsyncCopyUploads' => true,
+		) );
+		wfSetupSession();
 
 		if ( wfLocalFile( 'UploadFromUrlTest.png' )->exists() ) {
 			$this->deleteFile( 'UploadFromUrlTest.png' );
 		}
 	}
 
-	protected function doApiRequest( array $params, array $unused = null,
-		$appendModule = false, User $user = null, $tokenType = null
-	) {
-		global $wgRequest;
+	protected function doApiRequest( array $params, array $unused = null, $appendModule = false, User $user = null ) {
+		$sessionId = session_id();
+		session_write_close();
 
-		$req = new FauxRequest( $params, true, $wgRequest->getSession() );
+		$req = new FauxRequest( $params, true, $_SESSION );
 		$module = new ApiMain( $req, true );
 		$module->execute();
 
-		return [
-			$module->getResult()->getResultData( null, [ 'Strip' => 'all' ] ),
-			$req
-		];
+		wfSetupSession( $sessionId );
+
+		return array( $module->getResultData(), $req );
 	}
 
 	/**
@@ -55,10 +55,10 @@ class UploadFromUrlTest extends ApiTestCase {
 		$exception = false;
 
 		try {
-			$this->doApiRequest( [
+			$this->doApiRequest( array(
 				'action' => 'upload',
-			] );
-		} catch ( ApiUsageException $e ) {
+			) );
+		} catch ( UsageException $e ) {
 			$exception = true;
 			$this->assertEquals( "The token parameter must be set", $e->getMessage() );
 		}
@@ -66,25 +66,25 @@ class UploadFromUrlTest extends ApiTestCase {
 
 		$exception = false;
 		try {
-			$this->doApiRequest( [
+			$this->doApiRequest( array(
 				'action' => 'upload',
 				'token' => $token,
-			], $data );
-		} catch ( ApiUsageException $e ) {
+			), $data );
+		} catch ( UsageException $e ) {
 			$exception = true;
-			$this->assertEquals( "One of the parameters sessionkey, file, url is required",
+			$this->assertEquals( "One of the parameters sessionkey, file, url, statuskey is required",
 				$e->getMessage() );
 		}
 		$this->assertTrue( $exception, "Got exception" );
 
 		$exception = false;
 		try {
-			$this->doApiRequest( [
+			$this->doApiRequest( array(
 				'action' => 'upload',
 				'url' => 'http://www.example.com/test.png',
 				'token' => $token,
-			], $data );
-		} catch ( ApiUsageException $e ) {
+			), $data );
+		} catch ( UsageException $e ) {
 			$exception = true;
 			$this->assertEquals( "The filename parameter must be set", $e->getMessage() );
 		}
@@ -93,17 +93,78 @@ class UploadFromUrlTest extends ApiTestCase {
 		$this->user->removeGroup( 'sysop' );
 		$exception = false;
 		try {
-			$this->doApiRequest( [
+			$this->doApiRequest( array(
 				'action' => 'upload',
 				'url' => 'http://www.example.com/test.png',
 				'filename' => 'UploadFromUrlTest.png',
 				'token' => $token,
-			], $data );
-		} catch ( ApiUsageException $e ) {
+			), $data );
+		} catch ( UsageException $e ) {
 			$exception = true;
 			$this->assertEquals( "Permission denied", $e->getMessage() );
 		}
 		$this->assertTrue( $exception, "Got exception" );
+
+		$this->user->addGroup( 'sysop' );
+		$data = $this->doApiRequest( array(
+			'action' => 'upload',
+			'url' => 'http://bits.wikimedia.org/skins-1.5/common/images/poweredby_mediawiki_88x31.png',
+			'asyncdownload' => 1,
+			'filename' => 'UploadFromUrlTest.png',
+			'token' => $token,
+		), $data );
+
+		$this->assertEquals( $data[0]['upload']['result'], 'Queued', 'Queued upload' );
+
+		$job = JobQueueGroup::singleton()->pop();
+		$this->assertThat( $job, $this->isInstanceOf( 'UploadFromUrlJob' ), 'Queued upload inserted' );
+	}
+
+	/**
+	 * @depends testClearQueue
+	 */
+	public function testAsyncUpload( $data ) {
+		$token = $this->user->getEditToken();
+
+		$this->user->addGroup( 'users' );
+
+		$data = $this->doAsyncUpload( $token, true );
+		$this->assertEquals( $data[0]['upload']['result'], 'Success' );
+		$this->assertEquals( $data[0]['upload']['filename'], 'UploadFromUrlTest.png' );
+		$this->assertTrue( wfLocalFile( $data[0]['upload']['filename'] )->exists() );
+
+		$this->deleteFile( 'UploadFromUrlTest.png' );
+
+		return $data;
+	}
+
+	/**
+	 * @depends testClearQueue
+	 */
+	public function testAsyncUploadWarning( $data ) {
+		$token = $this->user->getEditToken();
+
+		$this->user->addGroup( 'users' );
+
+		$data = $this->doAsyncUpload( $token );
+
+		$this->assertEquals( $data[0]['upload']['result'], 'Warning' );
+		$this->assertTrue( isset( $data[0]['upload']['sessionkey'] ) );
+
+		$data = $this->doApiRequest( array(
+			'action' => 'upload',
+			'sessionkey' => $data[0]['upload']['sessionkey'],
+			'filename' => 'UploadFromUrlTest.png',
+			'ignorewarnings' => 1,
+			'token' => $token,
+		) );
+		$this->assertEquals( $data[0]['upload']['result'], 'Success' );
+		$this->assertEquals( $data[0]['upload']['filename'], 'UploadFromUrlTest.png' );
+		$this->assertTrue( wfLocalFile( $data[0]['upload']['filename'] )->exists() );
+
+		$this->deleteFile( 'UploadFromUrlTest.png' );
+
+		return $data;
 	}
 
 	/**
@@ -116,13 +177,13 @@ class UploadFromUrlTest extends ApiTestCase {
 		$this->assertFalse( $job, 'Starting with an empty jobqueue' );
 
 		$this->user->addGroup( 'users' );
-		$data = $this->doApiRequest( [
+		$data = $this->doApiRequest( array(
 			'action' => 'upload',
 			'filename' => 'UploadFromUrlTest.png',
-			'url' => 'http://upload.wikimedia.org/wikipedia/mediawiki/b/bc/Wiki.png',
+			'url' => 'http://bits.wikimedia.org/skins-1.5/common/images/poweredby_mediawiki_88x31.png',
 			'ignorewarnings' => true,
 			'token' => $token,
-		], $data );
+		), $data );
 
 		$job = JobQueueGroup::singleton()->pop();
 		$this->assertFalse( $job );
@@ -133,12 +194,117 @@ class UploadFromUrlTest extends ApiTestCase {
 		return $data;
 	}
 
+	public function testLeaveMessage() {
+		$token = $this->user->user->getEditToken();
+
+		$talk = $this->user->user->getTalkPage();
+		if ( $talk->exists() ) {
+			$page = WikiPage::factory( $talk );
+			$page->doDeleteArticle( '' );
+		}
+
+		$this->assertFalse( (bool)$talk->getArticleID( Title::GAID_FOR_UPDATE ), 'User talk does not exist' );
+
+		$this->doApiRequest( array(
+			'action' => 'upload',
+			'filename' => 'UploadFromUrlTest.png',
+			'url' => 'http://bits.wikimedia.org/skins-1.5/common/images/poweredby_mediawiki_88x31.png',
+			'asyncdownload' => 1,
+			'token' => $token,
+			'leavemessage' => 1,
+			'ignorewarnings' => 1,
+		) );
+
+		$job = JobQueueGroup::singleton()->pop();
+		$this->assertEquals( 'UploadFromUrlJob', get_class( $job ) );
+		$job->run();
+
+		$this->assertTrue( wfLocalFile( 'UploadFromUrlTest.png' )->exists() );
+		$this->assertTrue( (bool)$talk->getArticleID( Title::GAID_FOR_UPDATE ), 'User talk exists' );
+
+		$this->deleteFile( 'UploadFromUrlTest.png' );
+
+		$exception = false;
+		try {
+			$this->doApiRequest( array(
+				'action' => 'upload',
+				'filename' => 'UploadFromUrlTest.png',
+				'url' => 'http://bits.wikimedia.org/skins-1.5/common/images/poweredby_mediawiki_88x31.png',
+				'asyncdownload' => 1,
+				'token' => $token,
+				'leavemessage' => 1,
+			) );
+		} catch ( UsageException $e ) {
+			$exception = true;
+			$this->assertEquals( 'Using leavemessage without ignorewarnings is not supported', $e->getMessage() );
+		}
+		$this->assertTrue( $exception );
+
+		$job = JobQueueGroup::singleton()->pop();
+		$this->assertFalse( $job );
+
+		return;
+		/*
+		// Broken until using leavemessage with ignorewarnings is supported
+		$talkRev = Revision::newFromTitle( $talk );
+		$talkSize = $talkRev->getSize();
+
+		$job->run();
+
+		$this->assertFalse( wfLocalFile( 'UploadFromUrlTest.png' )->exists() );
+
+		$talkRev = Revision::newFromTitle( $talk );
+		$this->assertTrue( $talkRev->getSize() > $talkSize, 'New message left' );
+		*/
+	}
+
+	/**
+	 * Helper function to perform an async upload, execute the job and fetch
+	 * the status
+	 *
+	 * @return array The result of action=upload&statuskey=key
+	 */
+	private function doAsyncUpload( $token, $ignoreWarnings = false, $leaveMessage = false ) {
+		$params = array(
+			'action' => 'upload',
+			'filename' => 'UploadFromUrlTest.png',
+			'url' => 'http://bits.wikimedia.org/skins-1.5/common/images/poweredby_mediawiki_88x31.png',
+			'asyncdownload' => 1,
+			'token' => $token,
+		);
+		if ( $ignoreWarnings ) {
+			$params['ignorewarnings'] = 1;
+		}
+		if ( $leaveMessage ) {
+			$params['leavemessage'] = 1;
+		}
+
+		$data = $this->doApiRequest( $params );
+		$this->assertEquals( $data[0]['upload']['result'], 'Queued' );
+		$this->assertTrue( isset( $data[0]['upload']['statuskey'] ) );
+		$statusKey = $data[0]['upload']['statuskey'];
+
+		$job = JobQueueGroup::singleton()->pop();
+		$this->assertEquals( 'UploadFromUrlJob', get_class( $job ) );
+
+		$status = $job->run();
+		$this->assertTrue( $status );
+
+		$data = $this->doApiRequest( array(
+			'action' => 'upload',
+			'statuskey' => $statusKey,
+			'token' => $token,
+		) );
+
+		return $data;
+	}
+
 	protected function deleteFile( $name ) {
 		$t = Title::newFromText( $name, NS_FILE );
 		$this->assertTrue( $t->exists(), "File '$name' exists" );
 
 		if ( $t->exists() ) {
-			$file = wfFindFile( $name, [ 'ignoreRedirect' => true ] );
+			$file = wfFindFile( $name, array( 'ignoreRedirect' => true ) );
 			$empty = "";
 			FileDeleteForm::doDelete( $t, $file, $empty, "none", true );
 			$page = WikiPage::factory( $t );

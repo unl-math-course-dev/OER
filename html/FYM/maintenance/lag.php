@@ -23,8 +23,6 @@
 
 require_once __DIR__ . '/Maintenance.php';
 
-use MediaWiki\MediaWikiServices;
-
 /**
  * Maintenance script to show database lag.
  *
@@ -33,23 +31,22 @@ use MediaWiki\MediaWikiServices;
 class DatabaseLag extends Maintenance {
 	public function __construct() {
 		parent::__construct();
-		$this->addDescription( 'Shows database lag' );
+		$this->mDescription = "Shows database lag";
 		$this->addOption( 'r', "Don't exit immediately, but show the lag every 5 seconds" );
 	}
 
 	public function execute() {
-		$lb = MediaWikiServices::getInstance()->getDBLoadBalancer();
 		if ( $this->hasOption( 'r' ) ) {
+			$lb = wfGetLB();
 			echo 'time     ';
-
-			$serverCount = $lb->getServerCount();
-			for ( $i = 1; $i < $serverCount; $i++ ) {
+			for ( $i = 1; $i < $lb->getServerCount(); $i++ ) {
 				$hostname = $lb->getServerName( $i );
 				printf( "%-12s ", $hostname );
 			}
 			echo "\n";
 
 			while ( 1 ) {
+				$lb->clearLagTimeCache();
 				$lags = $lb->getLagTimes();
 				unset( $lags[0] );
 				echo gmdate( 'H:i:s' ) . ' ';
@@ -60,6 +57,7 @@ class DatabaseLag extends Maintenance {
 				sleep( 5 );
 			}
 		} else {
+			$lb = wfGetLB();
 			$lags = $lb->getLagTimes();
 			foreach ( $lags as $i => $lag ) {
 				$name = $lb->getServerName( $i );
@@ -69,5 +67,5 @@ class DatabaseLag extends Maintenance {
 	}
 }
 
-$maintClass = DatabaseLag::class;
+$maintClass = "DatabaseLag";
 require_once RUN_MAINTENANCE_IF_MAIN;

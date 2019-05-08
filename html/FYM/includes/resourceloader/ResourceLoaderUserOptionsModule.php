@@ -1,6 +1,6 @@
 <?php
 /**
- * ResourceLoader module for user preference customizations.
+ * Resource loader module for user preference customizations.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -27,34 +27,38 @@
  */
 class ResourceLoaderUserOptionsModule extends ResourceLoaderModule {
 
+	/* Protected Members */
+
+	protected $modifiedTime = array();
+
 	protected $origin = self::ORIGIN_CORE_INDIVIDUAL;
 
-	protected $targets = [ 'desktop', 'mobile' ];
+	protected $targets = array( 'desktop', 'mobile' );
+
+	/* Methods */
 
 	/**
-	 * @param ResourceLoaderContext|null $context
-	 * @return array List of module names as strings
+	 * @param $context ResourceLoaderContext
+	 * @return array|int|Mixed
 	 */
-	public function getDependencies( ResourceLoaderContext $context = null ) {
-		return [ 'user.defaults' ];
+	public function getModifiedTime( ResourceLoaderContext $context ) {
+		$hash = $context->getHash();
+		if ( !isset( $this->modifiedTime[$hash] ) ) {
+			global $wgUser;
+			$this->modifiedTime[$hash] = wfTimestamp( TS_UNIX, $wgUser->getTouched() );
+		}
+
+		return $this->modifiedTime[$hash];
 	}
 
 	/**
-	 * @return bool
-	 */
-	public function enableModuleContentVersion() {
-		return true;
-	}
-
-	/**
-	 * @param ResourceLoaderContext $context
-	 * @return string JavaScript code
+	 * @param $context ResourceLoaderContext
+	 * @return string
 	 */
 	public function getScript( ResourceLoaderContext $context ) {
-		// Use FILTER_NOMIN annotation to prevent needless minification and caching (T84960).
-		return ResourceLoader::FILTER_NOMIN . Xml::encodeJsCall(
-			'mw.user.options.set',
-			[ $context->getUserObj()->getOptions( User::GETOPTIONS_EXCLUDE_DEFAULTS ) ],
+		global $wgUser;
+		return Xml::encodeJsCall( 'mw.user.options.set',
+			array( $wgUser->getOptions() ),
 			ResourceLoader::inDebugMode()
 		);
 	}
@@ -64,14 +68,6 @@ class ResourceLoaderUserOptionsModule extends ResourceLoaderModule {
 	 */
 	public function supportsURLLoading() {
 		return false;
-	}
-
-	/**
-	 * @param ResourceLoaderContext $context
-	 * @return bool
-	 */
-	public function isKnownEmpty( ResourceLoaderContext $context ) {
-		return !$context->getUserObj()->getOptions( User::GETOPTIONS_EXCLUDE_DEFAULTS );
 	}
 
 	/**

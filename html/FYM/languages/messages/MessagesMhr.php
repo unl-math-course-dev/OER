@@ -1,7 +1,8 @@
 <?php
 /** Eastern Mari (олык марий)
  *
- * To improve a translation please visit https://translatewiki.net
+ * See MessagesQqq.php for message documentation incl. usage of parameters
+ * To improve a translation please visit http://translatewiki.net
  *
  * @ingroup Language
  * @file
@@ -18,7 +19,7 @@
 
 $fallback = 'ru';
 
-$namespaceNames = [
+$namespaceNames = array(
 	NS_SPECIAL          => 'Лӱмын_ыштыме',
 	NS_TALK             => 'Каҥашымаш',
 	NS_USER             => 'Пайдаланыше',
@@ -32,9 +33,9 @@ $namespaceNames = [
 	NS_HELP_TALK        => 'Полшык_шотышто_каҥашымаш',
 	NS_CATEGORY         => 'Категорий',
 	NS_CATEGORY_TALK    => 'Категорий_шотышто_каҥашымаш',
-];
+);
 
-$namespaceAliases = [
+$namespaceAliases = array(
 	// Fallbacks for all 'ru' namespace aliases
 	'Медиа'                              => NS_MEDIA,
 	'Служебная'                          => NS_SPECIAL,
@@ -61,33 +62,34 @@ $namespaceAliases = [
 	'Ямдылыкын_каҥашымаш'       => NS_TEMPLATE_TALK,
 	'Полшыкын_каҥашымаш'        => NS_HELP_TALK,
 	'Категорийын_каҥашымаш'     => NS_CATEGORY_TALK,
-];
+);
 
 // Remove Russian aliases
-$namespaceGenderAliases = [];
+$namespaceGenderAliases = array();
 
-$specialPageAliases = [
-	'Blankpage'                 => [ 'Пуста_лаштык' ],
-	'BrokenRedirects'           => [ 'Кӱрылтшӧ_вес_вере_колтымаш-влак' ],
-	'Categories'                => [ 'Категорий-влак' ],
-	'ComparePages'              => [ 'Лаштык-влакым_тергымаш' ],
-	'Emailuser'                 => [ 'Пайдаланышылан_серышым_колташ' ],
-	'Longpages'                 => [ 'Кужу_лаштык-влак' ],
-	'Preferences'               => [ 'Келыштарымаш' ],
-	'Recentchanges'             => [ 'Пытартыш_тӧрлатымаш-влак' ],
-	'Search'                    => [ 'Кычалмаш' ],
-	'Statistics'                => [ 'Иктешлымаш' ],
-	'Watchlist'                 => [ 'Эскерымаш_лӱмер' ],
-];
+$specialPageAliases = array(
+	'Blankpage'                 => array( 'Пуста_лаштык' ),
+	'BrokenRedirects'           => array( 'Кӱрылтшӧ__вес_вере_колтымаш-влак' ),
+	'Categories'                => array( 'Категорий-влак' ),
+	'ComparePages'              => array( 'Лаштык-влакым_тергымаш' ),
+	'Emailuser'                 => array( 'Пайдаланышылан_серышым_колташ' ),
+	'Longpages'                 => array( 'Кужу_лаштык-влак' ),
+	'Preferences'               => array( 'Келыштарымаш' ),
+	'Recentchanges'             => array( 'Пытартыш_тӧрлатымаш-влак' ),
+	'Search'                    => array( 'Кычалмаш' ),
+	'Statistics'                => array( 'Иктешлымаш' ),
+	'Watchlist'                 => array( 'Эскерымаш_лӱмер' ),
+);
 
-$magicWords = [
-	'img_right'                 => [ '1', 'справа', 'пурла', 'right' ],
-	'img_left'                  => [ '1', 'шола', 'слева', 'left' ],
-	'img_border'                => [ '1', 'чек', 'граница', 'border' ],
-	'img_sub'                   => [ '1', 'йымалне', 'под', 'sub' ],
-	'img_super'                 => [ '1', 'ӱмбалне', 'над', 'super', 'sup' ],
-	'img_top'                   => [ '1', 'кӱшычын', 'сверху', 'top' ],
-	'img_middle'                => [ '1', 'покшелне', 'посередине', 'middle' ],
-	'img_bottom'                => [ '1', 'ӱлычын', 'снизу', 'bottom' ],
-	'sitename'                  => [ '1', 'САЙТЛӰМ', 'НАЗВАНИЕ_САЙТА', 'SITENAME' ],
-];
+$magicWords = array(
+	'img_right'                 => array( '1', 'пурла', 'справа', 'right' ),
+	'img_left'                  => array( '1', 'шола', 'слева', 'left' ),
+	'img_border'                => array( '1', 'чек', 'граница', 'border' ),
+	'img_sub'                   => array( '1', 'йымалне', 'под', 'sub' ),
+	'img_super'                 => array( '1', 'ӱмбалне', 'над', 'super', 'sup' ),
+	'img_top'                   => array( '1', 'кӱшычын', 'сверху', 'top' ),
+	'img_middle'                => array( '1', 'покшелне', 'посередине', 'middle' ),
+	'img_bottom'                => array( '1', 'ӱлычын', 'снизу', 'bottom' ),
+	'sitename'                  => array( '1', 'САЙТЛӰМ', 'НАЗВАНИЕ_САЙТА', 'SITENAME' ),
+);
+

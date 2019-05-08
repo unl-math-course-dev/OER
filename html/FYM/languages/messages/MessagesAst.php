@@ -1,16 +1,15 @@
 <?php
 /** Asturian (asturianu)
  *
- * To improve a translation please visit https://translatewiki.net
+ * See MessagesQqq.php for message documentation incl. usage of parameters
+ * To improve a translation please visit http://translatewiki.net
  *
  * @ingroup Language
  * @file
  *
  */
 
-$fallback = 'es';
-
-$namespaceNames = [
+$namespaceNames = array(
 	NS_MEDIA            => 'Medios',
 	NS_SPECIAL          => 'Especial',
 	NS_TALK             => 'Alderique',
@@ -27,11 +26,11 @@ $namespaceNames = [
 	NS_HELP_TALK        => 'Ayuda_alderique',
 	NS_CATEGORY         => 'Categoría',
 	NS_CATEGORY_TALK    => 'Categoría_alderique',
-];
+);
 
-$namespaceAliases = [
+$namespaceAliases = array(
 	'Imaxe'               => NS_FILE,
-	'Imaxe_alderique'     => NS_FILE_TALK,
+	'Imaxe alderique'     => NS_FILE_TALK,
 	'Discusión'           => NS_TALK,
 	'Usuariu_discusión'   => NS_USER_TALK,
 	'$1_discusión'        => NS_PROJECT_TALK,
@@ -46,17 +45,12 @@ $namespaceAliases = [
 	'Aida'                => NS_HELP,
 	'Aida_alderique'      => NS_HELP_TALK,
 	'Categoría_discusión' => NS_CATEGORY_TALK,
-];
+);
 
-$namespaceGenderAliases = [
-	NS_USER => [ 'male' => 'Usuariu', 'female' => 'Usuaria' ],
-	NS_USER_TALK => [ 'male' => 'Usuariu_alderique', 'female' => 'Usuaria_alderique' ],
-];
+$specialPageAliases = array(
+	'Block'                     => array( 'Bloquiar', 'BloquiarIP', 'BloquiarUsuariu' ),
+	'Log'                       => array( 'Rexistru', 'Rexistros' ),
+	'Search'                    => array( 'Gueta' ),
+	'Statistics'                => array( 'Estadístiques' ),
+);
 
-$specialPageAliases = [
-	'Block'                     => [ 'Bloquiar', 'BloquiarIP', 'BloquiarUsuariu' ],
-	'Log'                       => [ 'Rexistru', 'Rexistros' ],
-	'Recentchanges'             => [ 'CambeosRecientes' ],
-	'Search'                    => [ 'Gueta' ],
-	'Statistics'                => [ 'Estadístiques' ],
-];

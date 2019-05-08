@@ -24,8 +24,6 @@
  * @ingroup Maintenance
  */
 
-use MediaWiki\MediaWikiServices;
-
 require_once __DIR__ . '/Maintenance.php';
 
 /**
@@ -39,21 +37,15 @@ class BackupReader extends Maintenance {
 	public $revCount = 0;
 	public $dryRun = false;
 	public $uploads = false;
-	protected $uploadCount = 0;
 	public $imageBasePath = false;
 	public $nsFilter = false;
 
 	function __construct() {
 		parent::__construct();
-		$gz = in_array( 'compress.zlib', stream_get_wrappers() )
-			? 'ok'
-			: '(disabled; requires PHP zlib module)';
-		$bz2 = in_array( 'compress.bzip2', stream_get_wrappers() )
-			? 'ok'
-			: '(disabled; requires PHP bzip2 module)';
+		$gz = in_array( 'compress.zlib', stream_get_wrappers() ) ? 'ok' : '(disabled; requires PHP zlib module)';
+		$bz2 = in_array( 'compress.bzip2', stream_get_wrappers() ) ? 'ok' : '(disabled; requires PHP bzip2 module)';
 
-		$this->addDescription(
-			<<<TEXT
+		$this->mDescription = <<<TEXT
 This script reads pages from an XML file as produced from Special:Export or
 dumpBackup.php, and saves them into the current wiki.
 
@@ -65,37 +57,24 @@ Compressed XML files may be read directly:
 Note that for very large data sets, importDump.php may be slow; there are
 alternate methods which can be much faster for full site restoration:
 <https://www.mediawiki.org/wiki/Manual:Importing_XML_dumps>
-TEXT
-		);
+TEXT;
 		$this->stderr = fopen( "php://stderr", "wt" );
 		$this->addOption( 'report',
 			'Report position and speed after every n pages processed', false, true );
 		$this->addOption( 'namespaces',
 			'Import only the pages from namespaces belonging to the list of ' .
 			'pipe-separated namespace names or namespace indexes', false, true );
-		$this->addOption( 'rootpage', 'Pages will be imported as subpages of the specified page',
-			false, true );
 		$this->addOption( 'dry-run', 'Parse dump without actually importing pages' );
 		$this->addOption( 'debug', 'Output extra verbose debug information' );
 		$this->addOption( 'uploads', 'Process file upload data if included (experimental)' );
-		$this->addOption(
-			'no-updates',
-			'Disable link table updates. Is faster but leaves the wiki in an inconsistent state'
-		);
+		$this->addOption( 'no-updates', 'Disable link table updates. Is faster but leaves the wiki in an inconsistent state' );
 		$this->addOption( 'image-base-path', 'Import files from a specified path', false, true );
-		$this->addOption( 'skip-to', 'Start from nth page by skipping first n-1 pages', false, true );
-		$this->addOption( 'username-prefix', 'Prefix for interwiki usernames', false, true );
-		$this->addOption( 'no-local-users',
-			'Treat all usernames as interwiki. ' .
-			'The default is to assign edits to local users where they exist.',
-			false, false
-		);
 		$this->addArg( 'file', 'Dump file to import [else use stdin]', false );
 	}
 
 	public function execute() {
 		if ( wfReadOnly() ) {
-			$this->fatalError( "Wiki is in read-only mode; you'll need to disable it for import to work." );
+			$this->error( "Wiki is in read-only mode; you'll need to disable it for import to work.", true );
 		}
 
 		$this->reportingInterval = intval( $this->getOption( 'report', 100 ) );
@@ -119,56 +98,44 @@ TEXT
 		}
 
 		$this->output( "Done!\n" );
-		$this->output( "You might want to run rebuildrecentchanges.php to regenerate RecentChanges,\n" );
-		$this->output( "and initSiteStats.php to update page and revision counts\n" );
+		$this->output( "You might want to run rebuildrecentchanges.php to regenerate RecentChanges\n" );
 	}
 
 	function setNsfilter( array $namespaces ) {
 		if ( count( $namespaces ) == 0 ) {
 			$this->nsFilter = false;
-
 			return;
 		}
-		$this->nsFilter = array_unique( array_map( [ $this, 'getNsIndex' ], $namespaces ) );
+		$this->nsFilter = array_unique( array_map( array( $this, 'getNsIndex' ), $namespaces ) );
 	}
 
 	private function getNsIndex( $namespace ) {
-		$contLang = MediaWikiServices::getInstance()->getContentLanguage();
-		$result = $contLang->getNsIndex( $namespace );
-		if ( $result !== false ) {
+		global $wgContLang;
+		if ( ( $result = $wgContLang->getNsIndex( $namespace ) ) !== false ) {
 			return $result;
 		}
 		$ns = intval( $namespace );
-		if ( strval( $ns ) === $namespace && $contLang->getNsText( $ns ) !== false ) {
+		if ( strval( $ns ) === $namespace && $wgContLang->getNsText( $ns ) !== false ) {
 			return $ns;
 		}
-		$this->fatalError( "Unknown namespace text / index specified: $namespace" );
+		$this->error( "Unknown namespace text / index specified: $namespace", true );
 	}
 
 	/**
-	 * @param Title|Revision $obj
-	 * @throws MWException
+	 * @param $obj Title|Revision
 	 * @return bool
 	 */
 	private function skippedNamespace( $obj ) {
-		$title = null;
 		if ( $obj instanceof Title ) {
-			$title = $obj;
+			$ns = $obj->getNamespace();
 		} elseif ( $obj instanceof Revision ) {
-			$title = $obj->getTitle();
+			$ns = $obj->getTitle()->getNamespace();
 		} elseif ( $obj instanceof WikiRevision ) {
-			$title = $obj->title;
+			$ns = $obj->title->getNamespace();
 		} else {
-			throw new MWException( "Cannot get namespace of object in " . __METHOD__ );
+			echo wfBacktrace();
+			$this->error( "Cannot get namespace of object in " . __METHOD__, true );
 		}
-
-		if ( is_null( $title ) ) {
-			// Probably a log entry
-			return false;
-		}
-
-		$ns = $title->getNamespace();
-
 		return is_array( $this->nsFilter ) && !in_array( $ns, $this->nsFilter );
 	}
 
@@ -177,13 +144,13 @@ TEXT
 	}
 
 	/**
-	 * @param Revision $rev
+	 * @param $rev Revision
+	 * @return mixed
 	 */
 	function handleRevision( $rev ) {
 		$title = $rev->getTitle();
 		if ( !$title ) {
 			$this->progress( "Got bogus revision with null title!" );
-
 			return;
 		}
 
@@ -200,13 +167,13 @@ TEXT
 	}
 
 	/**
-	 * @param Revision $revision
+	 * @param $revision Revision
 	 * @return bool
 	 */
 	function handleUpload( $revision ) {
 		if ( $this->uploads ) {
 			if ( $this->skippedNamespace( $revision ) ) {
-				return false;
+				return;
 			}
 			$this->uploadCount++;
 			// $this->report();
@@ -215,13 +182,10 @@ TEXT
 			if ( !$this->dryRun ) {
 				// bluuuh hack
 				// call_user_func( $this->uploadCallback, $revision );
-				$dbw = $this->getDB( DB_MASTER );
-
-				return $dbw->deadlockLoop( [ $revision, 'importUpload' ] );
+				$dbw = wfGetDB( DB_MASTER );
+				return $dbw->deadlockLoop( array( $revision, 'importUpload' ) );
 			}
 		}
-
-		return false;
 	}
 
 	function handleLogItem( $rev ) {
@@ -260,6 +224,8 @@ TEXT
 			}
 		}
 		wfWaitForSlaves();
+		// XXX: Don't let deferred jobs array get absurdly large (bug 24375)
+		DeferredUpdates::doUpdates( 'commit' );
 	}
 
 	function progress( $string ) {
@@ -276,7 +242,6 @@ TEXT
 		}
 
 		$file = fopen( $filename, 'rt' );
-
 		return $this->importFromHandle( $file );
 	}
 
@@ -285,7 +250,6 @@ TEXT
 		if ( self::posix_isatty( $file ) ) {
 			$this->maybeHelp( true );
 		}
-
 		return $this->importFromHandle( $file );
 	}
 
@@ -293,10 +257,7 @@ TEXT
 		$this->startTime = microtime( true );
 
 		$source = new ImportStreamSource( $handle );
-		$importer = new WikiImporter( $source, $this->getConfig() );
-
-		// Updating statistics require a lot of time so disable it
-		$importer->disableStatisticsUpdate();
+		$importer = new WikiImporter( $source );
 
 		if ( $this->hasOption( 'debug' ) ) {
 			$importer->setDebug( true );
@@ -304,35 +265,13 @@ TEXT
 		if ( $this->hasOption( 'no-updates' ) ) {
 			$importer->setNoUpdates( true );
 		}
-		if ( $this->hasOption( 'username-prefix' ) ) {
-			$importer->setUsernamePrefix(
-				$this->getOption( 'username-prefix' ),
-				!$this->hasOption( 'no-local-users' )
-			);
-		}
-		if ( $this->hasOption( 'rootpage' ) ) {
-			$statusRootPage = $importer->setTargetRootPage( $this->getOption( 'rootpage' ) );
-			if ( !$statusRootPage->isGood() ) {
-				// Die here so that it doesn't print "Done!"
-				$this->fatalError( $statusRootPage->getMessage()->text() );
-				return false;
-			}
-		}
-		if ( $this->hasOption( 'skip-to' ) ) {
-			$nthPage = (int)$this->getOption( 'skip-to' );
-			$importer->setPageOffset( $nthPage );
-			$this->pageCount = $nthPage - 1;
-		}
-		$importer->setPageCallback( [ $this, 'reportPage' ] );
-		$importer->setNoticeCallback( function ( $msg, $params ) {
-			echo wfMessage( $msg, $params )->text() . "\n";
-		} );
+		$importer->setPageCallback( array( &$this, 'reportPage' ) );
 		$this->importCallback = $importer->setRevisionCallback(
-			[ $this, 'handleRevision' ] );
+			array( &$this, 'handleRevision' ) );
 		$this->uploadCallback = $importer->setUploadCallback(
-			[ $this, 'handleUpload' ] );
+			array( &$this, 'handleUpload' ) );
 		$this->logItemCallback = $importer->setLogItemCallback(
-			[ $this, 'handleLogItem' ] );
+			array( &$this, 'handleLogItem' ) );
 		if ( $this->uploads ) {
 			$importer->setImportUploads( true );
 		}
@@ -348,5 +287,5 @@ TEXT
 	}
 }
 
-$maintClass = BackupReader::class;
+$maintClass = 'BackupReader';
 require_once RUN_MAINTENANCE_IF_MAIN;

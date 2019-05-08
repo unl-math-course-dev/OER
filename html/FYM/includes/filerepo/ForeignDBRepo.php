@@ -21,9 +21,6 @@
  * @ingroup FileRepo
  */
 
-use Wikimedia\Rdbms\Database;
-use Wikimedia\Rdbms\IDatabase;
-
 /**
  * A foreign repository with an accessible MediaWiki database
  *
@@ -54,13 +51,10 @@ class ForeignDBRepo extends LocalRepo {
 	/** @var bool */
 	protected $hasSharedCache;
 
-	/** @var IDatabase */
+	# Other stuff
 	protected $dbConn;
-
-	/** @var callable */
-	protected $fileFactory = [ ForeignDBFile::class, 'newFromTitle' ];
-	/** @var callable */
-	protected $fileFromRowFactory = [ ForeignDBFile::class, 'newFromRow' ];
+	protected $fileFactory = array( 'ForeignDBFile', 'newFromTitle' );
+	protected $fileFromRowFactory = array( 'ForeignDBFile', 'newFromRow' );
 
 	/**
 	 * @param array|null $info
@@ -78,42 +72,31 @@ class ForeignDBRepo extends LocalRepo {
 	}
 
 	/**
-	 * @return IDatabase
+	 * @return DatabaseBase
 	 */
 	function getMasterDB() {
 		if ( !isset( $this->dbConn ) ) {
-			$func = $this->getDBFactory();
-			$this->dbConn = $func( DB_MASTER );
+			$this->dbConn = DatabaseBase::factory( $this->dbType,
+				array(
+					'host' => $this->dbServer,
+					'user' => $this->dbUser,
+					'password' => $this->dbPassword,
+					'dbname' => $this->dbName,
+					'flags' => $this->dbFlags,
+					'tablePrefix' => $this->tablePrefix,
+					'foreign' => true,
+				)
+			);
 		}
 
 		return $this->dbConn;
 	}
 
 	/**
-	 * @return IDatabase
+	 * @return DatabaseBase
 	 */
-	function getReplicaDB() {
+	function getSlaveDB() {
 		return $this->getMasterDB();
-	}
-
-	/**
-	 * @return Closure
-	 */
-	protected function getDBFactory() {
-		$type = $this->dbType;
-		$params = [
-			'host' => $this->dbServer,
-			'user' => $this->dbUser,
-			'password' => $this->dbPassword,
-			'dbname' => $this->dbName,
-			'flags' => $this->dbFlags,
-			'tablePrefix' => $this->tablePrefix,
-			'foreign' => true,
-		];
-
-		return function ( $index ) use ( $type, $params ) {
-			return Database::factory( $type, $params );
-		};
 	}
 
 	/**
@@ -132,15 +115,16 @@ class ForeignDBRepo extends LocalRepo {
 	function getSharedCacheKey( /*...*/ ) {
 		if ( $this->hasSharedCache() ) {
 			$args = func_get_args();
+			array_unshift( $args, $this->dbName, $this->tablePrefix );
 
-			return wfForeignMemcKey( $this->dbName, $this->tablePrefix, ...$args );
+			return call_user_func_array( 'wfForeignMemcKey', $args );
 		} else {
 			return false;
 		}
 	}
 
 	protected function assertWritableRepo() {
-		throw new MWException( static::class . ': write operations are not supported.' );
+		throw new MWException( get_class( $this ) . ': write operations are not supported.' );
 	}
 
 	/**

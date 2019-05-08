@@ -1,5 +1,9 @@
 <?php
 /**
+ *
+ *
+ * Created on Sep 7, 2007
+ *
  * Copyright © 2007 Roan Kattouw "<Firstname>.<Lastname>@gmail.com"
  *
  * This program is free software; you can redistribute it and/or modify
@@ -35,50 +39,32 @@ class ApiUnblock extends ApiBase {
 		$user = $this->getUser();
 		$params = $this->extractRequestParams();
 
-		$this->requireOnlyOneParameter( $params, 'id', 'user', 'userid' );
+		if ( is_null( $params['id'] ) && is_null( $params['user'] ) ) {
+			$this->dieUsageMsg( 'unblock-notarget' );
+		}
+		if ( !is_null( $params['id'] ) && !is_null( $params['user'] ) ) {
+			$this->dieUsageMsg( 'unblock-idanduser' );
+		}
 
 		if ( !$user->isAllowed( 'block' ) ) {
-			$this->dieWithError( 'apierror-permissiondenied-unblock', 'permissiondenied' );
+			$this->dieUsageMsg( 'cantunblock' );
 		}
-		# T17810: blocked admins should have limited access here
+		# bug 15810: blocked admins should have limited access here
 		if ( $user->isBlocked() ) {
 			$status = SpecialBlock::checkUnblockSelf( $params['user'], $user );
 			if ( $status !== true ) {
-				$this->dieWithError(
-					$status,
-					null,
-					[ 'blockinfo' => ApiQueryUserInfo::getBlockInfo( $user->getBlock() ) ]
-				);
+				$this->dieUsageMsg( $status );
 			}
 		}
 
-		// Check if user can add tags
-		if ( !is_null( $params['tags'] ) ) {
-			$ableToTag = ChangeTags::canAddTagsAccompanyingChange( $params['tags'], $user );
-			if ( !$ableToTag->isOK() ) {
-				$this->dieStatus( $ableToTag );
-			}
-		}
-
-		if ( $params['userid'] !== null ) {
-			$username = User::whoIs( $params['userid'] );
-
-			if ( $username === false ) {
-				$this->dieWithError( [ 'apierror-nosuchuserid', $params['userid'] ], 'nosuchuserid' );
-			} else {
-				$params['user'] = $username;
-			}
-		}
-
-		$data = [
+		$data = array(
 			'Target' => is_null( $params['id'] ) ? $params['user'] : "#{$params['id']}",
-			'Reason' => $params['reason'],
-			'Tags' => $params['tags']
-		];
+			'Reason' => $params['reason']
+		);
 		$block = Block::newFromTarget( $data['Target'] );
 		$retval = SpecialUnblock::processUnblock( $data, $this->getContext() );
 		if ( $retval !== true ) {
-			$this->dieStatus( $this->errorArrayToStatus( $retval ) );
+			$this->dieUsageMsg( $retval[0] );
 		}
 
 		$res['id'] = $block->getId();
@@ -98,36 +84,82 @@ class ApiUnblock extends ApiBase {
 	}
 
 	public function getAllowedParams() {
-		return [
-			'id' => [
+		return array(
+			'id' => array(
 				ApiBase::PARAM_TYPE => 'integer',
-			],
+			),
 			'user' => null,
-			'userid' => [
-				ApiBase::PARAM_TYPE => 'integer'
-			],
+			'token' => null,
 			'reason' => '',
-			'tags' => [
-				ApiBase::PARAM_TYPE => 'tags',
-				ApiBase::PARAM_ISMULTI => true,
-			],
-		];
+		);
+	}
+
+	public function getParamDescription() {
+		$p = $this->getModulePrefix();
+
+		return array(
+			'id' => "ID of the block you want to unblock (obtained through list=blocks). " .
+				"Cannot be used together with {$p}user",
+			'user' => "Username, IP address or IP range you want to unblock. " .
+				"Cannot be used together with {$p}id",
+			'token' => "An unblock token previously obtained through prop=info",
+			'reason' => 'Reason for unblock',
+		);
+	}
+
+	public function getResultProperties() {
+		return array(
+			'' => array(
+				'id' => array(
+					ApiBase::PROP_TYPE => 'integer',
+					ApiBase::PROP_NULLABLE => true
+				),
+				'user' => array(
+					ApiBase::PROP_TYPE => 'string',
+					ApiBase::PROP_NULLABLE => true
+				),
+				'userid' => array(
+					ApiBase::PROP_TYPE => 'integer',
+					ApiBase::PROP_NULLABLE => true
+				),
+				'reason' => array(
+					ApiBase::PROP_TYPE => 'string',
+					ApiBase::PROP_NULLABLE => true
+				)
+			)
+		);
+	}
+
+	public function getDescription() {
+		return 'Unblock a user.';
+	}
+
+	public function getPossibleErrors() {
+		return array_merge( parent::getPossibleErrors(), array(
+			array( 'unblock-notarget' ),
+			array( 'unblock-idanduser' ),
+			array( 'cantunblock' ),
+			array( 'ipbblocked' ),
+			array( 'ipbnounblockself' ),
+		) );
 	}
 
 	public function needsToken() {
-		return 'csrf';
+		return true;
 	}
 
-	protected function getExamplesMessages() {
-		return [
-			'action=unblock&id=105'
-				=> 'apihelp-unblock-example-id',
-			'action=unblock&user=Bob&reason=Sorry%20Bob'
-				=> 'apihelp-unblock-example-user',
-		];
+	public function getTokenSalt() {
+		return '';
+	}
+
+	public function getExamples() {
+		return array(
+			'api.php?action=unblock&id=105',
+			'api.php?action=unblock&user=Bob&reason=Sorry%20Bob'
+		);
 	}
 
 	public function getHelpUrls() {
-		return 'https://www.mediawiki.org/wiki/Special:MyLanguage/API:Block';
+		return 'https://www.mediawiki.org/wiki/API:Block';
 	}
 }

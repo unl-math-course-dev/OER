@@ -36,7 +36,6 @@ class SevenZipStream {
 
 	private function stripPath( $path ) {
 		$prefix = 'mediawiki.compress.7z://';
-
 		return substr( $path, strlen( $prefix ) );
 	}
 
@@ -92,5 +91,4 @@ class SevenZipStream {
 		return fseek( $this->stream, $offset, $whence );
 	}
 }
-
-stream_wrapper_register( 'mediawiki.compress.7z', SevenZipStream::class );
+stream_wrapper_register( 'mediawiki.compress.7z', 'SevenZipStream' );

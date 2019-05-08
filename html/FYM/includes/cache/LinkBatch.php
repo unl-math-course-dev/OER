@@ -20,10 +20,6 @@
  * @file
  * @ingroup Cache
  */
-use MediaWiki\Linker\LinkTarget;
-use MediaWiki\MediaWikiServices;
-use Wikimedia\Rdbms\ResultWrapper;
-use Wikimedia\Rdbms\IDatabase;
 
 /**
  * Class representing a list of titles
@@ -35,17 +31,14 @@ class LinkBatch {
 	/**
 	 * 2-d array, first index namespace, second index dbkey, value arbitrary
 	 */
-	public $data = [];
+	public $data = array();
 
 	/**
 	 * For debugging which method is using this class.
 	 */
 	protected $caller;
 
-	/**
-	 * @param Traversable|LinkTarget[] $arr Initial items to be added to the batch
-	 */
-	public function __construct( $arr = [] ) {
+	function __construct( $arr = array() ) {
 		foreach ( $arr as $item ) {
 			$this->addObj( $item );
 		}
@@ -56,46 +49,44 @@ class LinkBatch {
 	 * class. Only used in debugging output.
 	 * @since 1.17
 	 *
-	 * @param string $caller
-	 * @return self (since 1.32)
+	 * @param $caller
 	 */
 	public function setCaller( $caller ) {
 		$this->caller = $caller;
-
-		return $this;
 	}
 
 	/**
-	 * @param LinkTarget $linkTarget
+	 * @param $title Title
 	 */
-	public function addObj( $linkTarget ) {
-		if ( is_object( $linkTarget ) ) {
-			$this->add( $linkTarget->getNamespace(), $linkTarget->getDBkey() );
+	public function addObj( $title ) {
+		if ( is_object( $title ) ) {
+			$this->add( $title->getNamespace(), $title->getDBkey() );
 		} else {
-			wfDebug( "Warning: LinkBatch::addObj got invalid LinkTarget object\n" );
+			wfDebug( "Warning: LinkBatch::addObj got invalid title object\n" );
 		}
 	}
 
 	/**
-	 * @param int $ns
-	 * @param string $dbkey
+	 * @param $ns int
+	 * @param $dbkey string
+	 * @return mixed
 	 */
 	public function add( $ns, $dbkey ) {
-		if ( $ns < 0 || $dbkey === '' ) {
-			return; // T137083
+		if ( $ns < 0 ) {
+			return;
 		}
 		if ( !array_key_exists( $ns, $this->data ) ) {
-			$this->data[$ns] = [];
+			$this->data[$ns] = array();
 		}
 
-		$this->data[$ns][strtr( $dbkey, ' ', '_' )] = 1;
+		$this->data[$ns][str_replace( ' ', '_', $dbkey )] = 1;
 	}
 
 	/**
 	 * Set the link list to a given 2-d array
 	 * First key is the namespace, second is the DB key, value arbitrary
 	 *
-	 * @param array $array
+	 * @param $array array
 	 */
 	public function setArray( $array ) {
 		$this->data = $array;
@@ -122,10 +113,10 @@ class LinkBatch {
 	/**
 	 * Do the query and add the results to the LinkCache object
 	 *
-	 * @return array Mapping PDBK to ID
+	 * @return Array mapping PDBK to ID
 	 */
 	public function execute() {
-		$linkCache = MediaWikiServices::getInstance()->getLinkCache();
+		$linkCache = LinkCache::singleton();
 
 		return $this->executeInto( $linkCache );
 	}
@@ -134,13 +125,15 @@ class LinkBatch {
 	 * Do the query and add the results to a given LinkCache object
 	 * Return an array mapping PDBK to ID
 	 *
-	 * @param LinkCache &$cache
-	 * @return array Remaining IDs
+	 * @param $cache LinkCache
+	 * @return Array remaining IDs
 	 */
 	protected function executeInto( &$cache ) {
+		wfProfileIn( __METHOD__ );
 		$res = $this->doQuery();
 		$this->doGenderQuery();
 		$ids = $this->addResultToCache( $cache, $res );
+		wfProfileOut( __METHOD__ );
 
 		return $ids;
 	}
@@ -151,35 +144,32 @@ class LinkBatch {
 	 * This function *also* stores extra fields of the title used for link
 	 * parsing to avoid extra DB queries.
 	 *
-	 * @param LinkCache $cache
-	 * @param ResultWrapper $res
-	 * @return array Array of remaining titles
+	 * @param $cache LinkCache
+	 * @param $res
+	 * @return Array of remaining titles
 	 */
 	public function addResultToCache( $cache, $res ) {
 		if ( !$res ) {
-			return [];
+			return array();
 		}
 
-		$titleFormatter = MediaWikiServices::getInstance()->getTitleFormatter();
 		// For each returned entry, add it to the list of good links, and remove it from $remaining
 
-		$ids = [];
+		$ids = array();
 		$remaining = $this->data;
 		foreach ( $res as $row ) {
-			$title = new TitleValue( (int)$row->page_namespace, $row->page_title );
+			$title = Title::makeTitle( $row->page_namespace, $row->page_title );
 			$cache->addGoodLinkObjFromRow( $title, $row );
-			$pdbk = $titleFormatter->getPrefixedDBkey( $title );
-			$ids[$pdbk] = $row->page_id;
+			$ids[$title->getPrefixedDBkey()] = $row->page_id;
 			unset( $remaining[$row->page_namespace][$row->page_title] );
 		}
 
 		// The remaining links in $data are bad links, register them as such
 		foreach ( $remaining as $ns => $dbkeys ) {
 			foreach ( $dbkeys as $dbkey => $unused ) {
-				$title = new TitleValue( (int)$ns, (string)$dbkey );
+				$title = Title::makeTitle( $ns, $dbkey );
 				$cache->addBadLinkObj( $title );
-				$pdbk = $titleFormatter->getPrefixedDBkey( $title );
-				$ids[$pdbk] = 0;
+				$ids[$title->getPrefixedDBkey()] = 0;
 			}
 		}
 
@@ -188,21 +178,19 @@ class LinkBatch {
 
 	/**
 	 * Perform the existence test query, return a ResultWrapper with page_id fields
-	 * @return bool|ResultWrapper
+	 * @return Bool|ResultWrapper
 	 */
 	public function doQuery() {
 		if ( $this->isEmpty() ) {
 			return false;
 		}
+		wfProfileIn( __METHOD__ );
 
 		// This is similar to LinkHolderArray::replaceInternal
-		$dbr = wfGetDB( DB_REPLICA );
+		$dbr = wfGetDB( DB_SLAVE );
 		$table = 'page';
-		$fields = array_merge(
-			LinkCache::getSelectFields(),
-			[ 'page_namespace', 'page_title' ]
-		);
-
+		$fields = array( 'page_id', 'page_namespace', 'page_title', 'page_len',
+			'page_is_redirect', 'page_latest' );
 		$conds = $this->constructSet( 'page', $dbr );
 
 		// Do query
@@ -211,6 +199,7 @@ class LinkBatch {
 			$caller .= " (for {$this->caller})";
 		}
 		$res = $dbr->select( $table, $fields, $conds, $caller );
+		wfProfileOut( __METHOD__ );
 
 		return $res;
 	}
@@ -218,19 +207,19 @@ class LinkBatch {
 	/**
 	 * Do (and cache) {{GENDER:...}} information for userpages in this LinkBatch
 	 *
-	 * @return bool Whether the query was successful
+	 * @return bool whether the query was successful
 	 */
 	public function doGenderQuery() {
 		if ( $this->isEmpty() ) {
 			return false;
 		}
-		$services = MediaWikiServices::getInstance();
 
-		if ( !$services->getContentLanguage()->needsGenderDistinction() ) {
+		global $wgContLang;
+		if ( !$wgContLang->needsGenderDistinction() ) {
 			return false;
 		}
 
-		$genderCache = $services->getGenderCache();
+		$genderCache = GenderCache::singleton();
 		$genderCache->doLinkBatch( $this->data, $this->caller );
 
 		return true;
@@ -239,9 +228,9 @@ class LinkBatch {
 	/**
 	 * Construct a WHERE clause which will match all the given titles.
 	 *
-	 * @param string $prefix The appropriate table's field name prefix ('page', 'pl', etc)
-	 * @param IDatabase $db DB object to use
-	 * @return string|bool String with SQL where clause fragment, or false if no items.
+	 * @param string $prefix the appropriate table's field name prefix ('page', 'pl', etc)
+	 * @param $db DatabaseBase object to use
+	 * @return mixed string with SQL where clause fragment, or false if no items.
 	 */
 	public function constructSet( $prefix, $db ) {
 		return $db->makeWhereFrom2d( $this->data, "{$prefix}_namespace", "{$prefix}_title" );

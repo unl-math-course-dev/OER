@@ -36,73 +36,71 @@ abstract class MachineReadableRCFeedFormatter implements RCFeedFormatter {
 	/**
 	 * Generates a notification that can be easily interpreted by a machine.
 	 * @see RCFeedFormatter::getLine
-	 * @param array $feed
-	 * @param RecentChange $rc
-	 * @param string|null $actionComment
-	 * @return string|null
 	 */
 	public function getLine( array $feed, RecentChange $rc, $actionComment ) {
-		global $wgCanonicalServer, $wgServerName, $wgScriptPath;
+		global $wgCanonicalServer, $wgScriptPath;
+		$attrib = $rc->getAttributes();
 
-		$packet = [
+		$packet = array(
 			// Usually, RC ID is exposed only for patrolling purposes,
 			// but there is no real reason not to expose it in other cases,
 			// and I can see how this may be potentially useful for clients.
-			'id' => $rc->getAttribute( 'rc_id' ),
-			'type' => RecentChange::parseFromRCType( $rc->getAttribute( 'rc_type' ) ),
+			'id' => $attrib['rc_id'],
+			'type' => $attrib['rc_type'],
 			'namespace' => $rc->getTitle()->getNamespace(),
 			'title' => $rc->getTitle()->getPrefixedText(),
-			'comment' => $rc->getAttribute( 'rc_comment' ),
-			'timestamp' => (int)wfTimestamp( TS_UNIX, $rc->getAttribute( 'rc_timestamp' ) ),
-			'user' => $rc->getAttribute( 'rc_user_text' ),
-			'bot' => (bool)$rc->getAttribute( 'rc_bot' ),
-		];
+			'comment' => $attrib['rc_comment'],
+			'timestamp' => (int)wfTimestamp( TS_UNIX, $attrib['rc_timestamp'] ),
+			'user' => $attrib['rc_user_text'],
+			'bot' => (bool)$attrib['rc_bot'],
+		);
 
 		if ( isset( $feed['channel'] ) ) {
 			$packet['channel'] = $feed['channel'];
 		}
 
-		$type = $rc->getAttribute( 'rc_type' );
+		$type = $attrib['rc_type'];
 		if ( $type == RC_EDIT || $type == RC_NEW ) {
 			global $wgUseRCPatrol, $wgUseNPPatrol;
 
-			$packet['minor'] = (bool)$rc->getAttribute( 'rc_minor' );
+			$packet['minor'] = $attrib['rc_minor'];
 			if ( $wgUseRCPatrol || ( $type == RC_NEW && $wgUseNPPatrol ) ) {
-				$packet['patrolled'] = (bool)$rc->getAttribute( 'rc_patrolled' );
+				$packet['patrolled'] = $attrib['rc_patrolled'];
 			}
 		}
 
 		switch ( $type ) {
 			case RC_EDIT:
-				$packet['length'] = [
-					'old' => $rc->getAttribute( 'rc_old_len' ),
-					'new' => $rc->getAttribute( 'rc_new_len' )
-				];
-				$packet['revision'] = [
-					'old' => $rc->getAttribute( 'rc_last_oldid' ),
-					'new' => $rc->getAttribute( 'rc_this_oldid' )
-				];
+				$packet['length'] = array(
+					'old' => $attrib['rc_old_len'],
+					'new' => $attrib['rc_new_len']
+				);
+				$packet['revision'] = array(
+					'old' => $attrib['rc_last_oldid'],
+					'new' => $attrib['rc_this_oldid']
+				);
 				break;
 
 			case RC_NEW:
-				$packet['length'] = [ 'old' => null, 'new' => $rc->getAttribute( 'rc_new_len' ) ];
-				$packet['revision'] = [ 'old' => null, 'new' => $rc->getAttribute( 'rc_this_oldid' ) ];
+				$packet['length'] = array( 'old' => null, 'new' => $attrib['rc_new_len'] );
+				$packet['revision'] = array( 'old' => null, 'new' => $attrib['rc_this_oldid'] );
 				break;
 
 			case RC_LOG:
-				$packet['log_id'] = $rc->getAttribute( 'rc_logid' );
-				$packet['log_type'] = $rc->getAttribute( 'rc_log_type' );
-				$packet['log_action'] = $rc->getAttribute( 'rc_log_action' );
-				if ( $rc->getAttribute( 'rc_params' ) ) {
-					$params = $rc->parseParams();
+				$packet['log_type'] = $attrib['rc_log_type'];
+				$packet['log_action'] = $attrib['rc_log_action'];
+				if ( $attrib['rc_params'] ) {
+					wfSuppressWarnings();
+					$params = unserialize( $attrib['rc_params'] );
+					wfRestoreWarnings();
 					if (
 						// If it's an actual serialised false...
-						$rc->getAttribute( 'rc_params' ) == serialize( false ) ||
+						$attrib['rc_params'] == serialize( false ) ||
 						// Or if we did not get false back when trying to unserialise
 						$params !== false
 					) {
 						// From ApiQueryLogEvents::addLogParams
-						$logParams = [];
+						$logParams = array();
 						// Keys like "4::paramname" can't be used for output so we change them to "paramname"
 						foreach ( $params as $key => $value ) {
 							if ( strpos( $key, ':' ) === false ) {
@@ -114,7 +112,7 @@ abstract class MachineReadableRCFeedFormatter implements RCFeedFormatter {
 						}
 						$packet['log_params'] = $logParams;
 					} else {
-						$packet['log_params'] = explode( "\n", $rc->getAttribute( 'rc_params' ) );
+						$packet['log_params'] = explode( "\n", $attrib['rc_params'] );
 					}
 				}
 				$packet['log_action_comment'] = $actionComment;
@@ -122,8 +120,6 @@ abstract class MachineReadableRCFeedFormatter implements RCFeedFormatter {
 		}
 
 		$packet['server_url'] = $wgCanonicalServer;
-		$packet['server_name'] = $wgServerName;
-
 		$packet['server_script_path'] = $wgScriptPath ?: '/';
 		$packet['wiki'] = wfWikiID();
 

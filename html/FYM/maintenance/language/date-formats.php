@@ -34,14 +34,14 @@ class DateFormats extends Maintenance {
 
 	public function __construct() {
 		parent::__construct();
-		$this->addDescription( 'Test various language time and date functions' );
+		$this->mDescription = "Test various language time and date functions";
 	}
 
 	public function execute() {
 		global $IP;
 		foreach ( glob( "$IP/languages/messages/Messages*.php" ) as $filename ) {
 			$base = basename( $filename );
-			$m = [];
+			$m = array();
 			if ( !preg_match( '/Messages(.*)\.php$/', $base, $m ) ) {
 				continue;
 			}
@@ -50,7 +50,7 @@ class DateFormats extends Maintenance {
 			$lang = Language::factory( $code );
 			$prefs = $lang->getDatePreferences();
 			if ( !$prefs ) {
-				$prefs = [ 'default' ];
+				$prefs = array( 'default' );
 			}
 			$this->output( "date: " );
 			foreach ( $prefs as $index => $pref ) {
@@ -78,5 +78,5 @@ class DateFormats extends Maintenance {
 	}
 }
 
-$maintClass = DateFormats::class;
+$maintClass = "DateFormats";
 require_once RUN_MAINTENANCE_IF_MAIN;

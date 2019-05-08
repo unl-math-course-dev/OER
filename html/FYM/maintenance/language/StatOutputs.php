@@ -23,13 +23,12 @@
  * @author Antoine Musso <hashar at free dot fr>
  */
 
-/** A general output object. Need to be overridden */
+/** A general output object. Need to be overriden */
 class StatsOutput {
 	function formatPercent( $subset, $total, $revert = false, $accuracy = 2 ) {
-		Wikimedia\suppressWarnings();
+		wfSuppressWarnings();
 		$return = sprintf( '%.' . $accuracy . 'f%%', 100 * $subset / $total );
-		Wikimedia\restoreWarnings();
-
+		wfRestoreWarnings();
 		return $return;
 	}
 
@@ -62,7 +61,7 @@ class WikiStatsOutput extends StatsOutput {
 			"problems, etc.), run <code>php maintenance/language/checkLanguage.php --lang=foo</code>.\n\n";
 		echo 'English (en) is excluded because it is the default localization';
 		if ( is_array( $wgDummyLanguageCodes ) ) {
-			$dummyCodes = [];
+			$dummyCodes = array();
 			foreach ( $wgDummyLanguageCodes as $dummyCode => $correctCode ) {
 				$dummyCodes[] = Language::fetchLanguageName( $dummyCode ) . ' (' . $dummyCode . ')';
 			}
@@ -92,9 +91,9 @@ class WikiStatsOutput extends StatsOutput {
 	}
 
 	function formatPercent( $subset, $total, $revert = false, $accuracy = 2 ) {
-		Wikimedia\suppressWarnings();
+		wfSuppressWarnings();
 		$v = round( 255 * $subset / $total );
-		Wikimedia\restoreWarnings();
+		wfRestoreWarnings();
 
 		if ( $revert ) {
 			# Weigh reverse with factor 20 so coloring takes effect more quickly as

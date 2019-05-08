@@ -1,7 +1,8 @@
 <?php
 /** Gan (贛語)
  *
- * To improve a translation please visit https://translatewiki.net
+ * See MessagesQqq.php for message documentation incl. usage of parameters
+ * To improve a translation please visit http://translatewiki.net
  *
  * @ingroup Language
  * @file
@@ -10,7 +11,7 @@
 
 $fallback = 'gan-hant, zh-hant, zh-hans';
 
-$namespaceNames = [
+$namespaceNames = array(
 	NS_MEDIA            => '媒體',
 	NS_SPECIAL          => '特別',
 	NS_TALK             => '談詑',
@@ -26,8 +27,9 @@ $namespaceNames = [
 	NS_HELP_TALK        => '幫助・談詑',
 	NS_CATEGORY         => '分類',
 	NS_CATEGORY_TALK    => '分類・談詑',
-];
+);
 
-$namespaceAliases = [
+$namespaceAliases = array(
 	'$1_談詑' => NS_PROJECT_TALK,
-];
+);
+

@@ -37,7 +37,7 @@ class ChangePassword extends Maintenance {
 		$this->addOption( "user", "The username to operate on", false, true );
 		$this->addOption( "userid", "The user id to operate on", false, true );
 		$this->addOption( "password", "The password to use", true, true );
-		$this->addDescription( "Change a user's password" );
+		$this->mDescription = "Change a user's password";
 	}
 
 	public function execute() {
@@ -46,28 +46,20 @@ class ChangePassword extends Maintenance {
 		} elseif ( $this->hasOption( "userid" ) ) {
 			$user = User::newFromId( $this->getOption( 'userid' ) );
 		} else {
-			$this->fatalError( "A \"user\" or \"userid\" must be set to change the password for" );
+			$this->error( "A \"user\" or \"userid\" must be set to change the password for", true );
 		}
 		if ( !$user || !$user->getId() ) {
-			$this->fatalError( "No such user: " . $this->getOption( 'user' ) );
+			$this->error( "No such user: " . $this->getOption( 'user' ), true );
 		}
-		$password = $this->getOption( 'password' );
 		try {
-			$status = $user->changeAuthenticationData( [
-				'username' => $user->getName(),
-				'password' => $password,
-				'retype' => $password,
-			] );
-			if ( !$status->isGood() ) {
-				throw new PasswordError( $status->getWikiText( null, null, 'en' ) );
-			}
+			$user->setPassword( $this->getOption( 'password' ) );
 			$user->saveSettings();
 			$this->output( "Password set for " . $user->getName() . "\n" );
 		} catch ( PasswordError $pwe ) {
-			$this->fatalError( $pwe->getText() );
+			$this->error( $pwe->getText(), true );
 		}
 	}
 }
 
-$maintClass = ChangePassword::class;
+$maintClass = "ChangePassword";
 require_once RUN_MAINTENANCE_IF_MAIN;

@@ -1,7 +1,7 @@
 --
 -- patch-categorylinksindex.sql
 --
--- Per task T12280 / https://phabricator.wikimedia.org/T12280
+-- Per bug 10280 / http://bugzilla.wikimedia.org/show_bug.cgi?id=10280
 --
 -- Improve enum continuation performance of the what pages belong to a category query
 --

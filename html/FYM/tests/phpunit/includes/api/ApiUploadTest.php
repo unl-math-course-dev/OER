@@ -1,58 +1,62 @@
 <?php
+
 /**
- * n.b. Ensure that you can write to the images/ directory as the
- * user that will run tests.
- *
- * Note for reviewers: this intentionally duplicates functionality already in
- * "ApiSetup" and so on. This framework works better IMO and has less
- * strangeness (such as test cases inheriting from "ApiSetup"...) (and in the
- * case of the other Upload tests, this flat out just actually works... )
- *
- * @todo Port the other Upload tests, and other API tests to this framework
- *
- * @todo Broken test, reports false errors from time to time.
- * See https://phabricator.wikimedia.org/T28169
- *
- * @todo This is pretty sucky... needs to be prettified.
- *
  * @group API
  * @group Database
  * @group medium
- * @group Broken
- *
- * @covers ApiUpload
  */
-class ApiUploadTest extends ApiUploadTestCase {
+
+/**
+ * n.b. Ensure that you can write to the images/ directory as the
+ * user that will run tests.
+ */
+
+// Note for reviewers: this intentionally duplicates functionality already in "ApiSetup" and so on.
+// This framework works better IMO and has less strangeness (such as test cases inheriting from "ApiSetup"...)
+// (and in the case of the other Upload tests, this flat out just actually works... )
+
+// TODO: port the other Upload tests, and other API tests to this framework
+
+require_once 'ApiTestCaseUpload.php';
+
+/**
+ * @group Database
+ * @group Broken
+ * Broken test, reports false errors from time to time.
+ * See https://bugzilla.wikimedia.org/26169
+ *
+ * This is pretty sucky... needs to be prettified.
+ */
+class ApiUploadTest extends ApiTestCaseUpload {
 	/**
 	 * Testing login
 	 * XXX this is a funny way of getting session context
 	 */
 	public function testLogin() {
 		$user = self::$users['uploader'];
-		$userName = $user->getUser()->getName();
-		$password = $user->getPassword();
 
-		$params = [
+		$params = array(
 			'action' => 'login',
-			'lgname' => $userName,
-			'lgpassword' => $password
-		];
+			'lgname' => $user->username,
+			'lgpassword' => $user->password
+		);
 		list( $result, , $session ) = $this->doApiRequest( $params );
 		$this->assertArrayHasKey( "login", $result );
 		$this->assertArrayHasKey( "result", $result['login'] );
 		$this->assertEquals( "NeedToken", $result['login']['result'] );
 		$token = $result['login']['token'];
 
-		$params = [
+		$params = array(
 			'action' => 'login',
 			'lgtoken' => $token,
-			'lgname' => $userName,
-			'lgpassword' => $password
-		];
+			'lgname' => $user->username,
+			'lgpassword' => $user->password
+		);
 		list( $result, , $session ) = $this->doApiRequest( $params, $session );
 		$this->assertArrayHasKey( "login", $result );
 		$this->assertArrayHasKey( "result", $result['login'] );
 		$this->assertEquals( "Success", $result['login']['result'] );
+		$this->assertArrayHasKey( 'lgtoken', $result['login'] );
 
 		$this->assertNotEmpty( $session, 'API Login must return a session' );
 
@@ -65,12 +69,12 @@ class ApiUploadTest extends ApiUploadTestCase {
 	public function testUploadRequiresToken( $session ) {
 		$exception = false;
 		try {
-			$this->doApiRequest( [
+			$this->doApiRequest( array(
 				'action' => 'upload'
-			] );
-		} catch ( ApiUsageException $e ) {
+			) );
+		} catch ( UsageException $e ) {
 			$exception = true;
-			$this->assertContains( 'The "token" parameter must be set', $e->getMessage() );
+			$this->assertEquals( "The token parameter must be set", $e->getMessage() );
 		}
 		$this->assertTrue( $exception, "Got exception" );
 	}
@@ -81,15 +85,13 @@ class ApiUploadTest extends ApiUploadTestCase {
 	public function testUploadMissingParams( $session ) {
 		$exception = false;
 		try {
-			$this->doApiRequestWithToken( [
+			$this->doApiRequestWithToken( array(
 				'action' => 'upload',
-			], $session, self::$users['uploader']->getUser() );
-		} catch ( ApiUsageException $e ) {
+			), $session, self::$users['uploader']->user );
+		} catch ( UsageException $e ) {
 			$exception = true;
-			$this->assertEquals(
-				'One of the parameters "filekey", "file" and "url" is required.',
-				$e->getMessage()
-			);
+			$this->assertEquals( "One of the parameters filekey, file, url, statuskey is required",
+				$e->getMessage() );
 		}
 		$this->assertTrue( $exception, "Got exception" );
 	}
@@ -103,7 +105,7 @@ class ApiUploadTest extends ApiUploadTestCase {
 
 		try {
 			$randomImageGenerator = new RandomImageGenerator();
-			$filePaths = $randomImageGenerator->writeImages( 1, $extension, $this->getNewTempDirectory() );
+			$filePaths = $randomImageGenerator->writeImages( 1, $extension, wfTempDir() );
 		} catch ( Exception $e ) {
 			$this->markTestIncomplete( $e->getMessage() );
 		}
@@ -120,19 +122,19 @@ class ApiUploadTest extends ApiUploadTestCase {
 			$this->markTestIncomplete( "Couldn't upload file!\n" );
 		}
 
-		$params = [
+		$params = array(
 			'action' => 'upload',
 			'filename' => $fileName,
 			'file' => 'dummy content',
 			'comment' => 'dummy comment',
 			'text' => "This is the page text for $fileName",
-		];
+		);
 
 		$exception = false;
 		try {
 			list( $result, , ) = $this->doApiRequestWithToken( $params, $session,
-				self::$users['uploader']->getUser() );
-		} catch ( ApiUsageException $e ) {
+				self::$users['uploader']->user );
+		} catch ( UsageException $e ) {
 			$exception = true;
 		}
 		$this->assertTrue( isset( $result['upload'] ) );
@@ -142,7 +144,8 @@ class ApiUploadTest extends ApiUploadTestCase {
 		$this->assertFalse( $exception );
 
 		// clean up
-		$this->deleteFileByFileName( $fileName );
+		$this->deleteFileByFilename( $fileName );
+		unlink( $filePath );
 	}
 
 	/**
@@ -151,7 +154,7 @@ class ApiUploadTest extends ApiUploadTestCase {
 	public function testUploadZeroLength( $session ) {
 		$mimeType = 'image/png';
 
-		$filePath = $this->getNewTempFile();
+		$filePath = tempnam( wfTempDir(), "" );
 		$fileName = "apiTestUploadZeroLength.png";
 
 		$this->deleteFileByFileName( $fileName );
@@ -160,25 +163,26 @@ class ApiUploadTest extends ApiUploadTestCase {
 			$this->markTestIncomplete( "Couldn't upload file!\n" );
 		}
 
-		$params = [
+		$params = array(
 			'action' => 'upload',
 			'filename' => $fileName,
 			'file' => 'dummy content',
 			'comment' => 'dummy comment',
 			'text' => "This is the page text for $fileName",
-		];
+		);
 
 		$exception = false;
 		try {
-			$this->doApiRequestWithToken( $params, $session, self::$users['uploader']->getUser() );
-		} catch ( ApiUsageException $e ) {
+			$this->doApiRequestWithToken( $params, $session, self::$users['uploader']->user );
+		} catch ( UsageException $e ) {
 			$this->assertContains( 'The file you submitted was empty', $e->getMessage() );
 			$exception = true;
 		}
 		$this->assertTrue( $exception );
 
 		// clean up
-		$this->deleteFileByFileName( $fileName );
+		$this->deleteFileByFilename( $fileName );
+		unlink( $filePath );
 	}
 
 	/**
@@ -190,7 +194,7 @@ class ApiUploadTest extends ApiUploadTestCase {
 
 		try {
 			$randomImageGenerator = new RandomImageGenerator();
-			$filePaths = $randomImageGenerator->writeImages( 2, $extension, $this->getNewTempDirectory() );
+			$filePaths = $randomImageGenerator->writeImages( 2, $extension, wfTempDir() );
 		} catch ( Exception $e ) {
 			$this->markTestIncomplete( $e->getMessage() );
 		}
@@ -203,13 +207,13 @@ class ApiUploadTest extends ApiUploadTestCase {
 		$this->deleteFileByFileName( $fileName );
 
 		// we reuse these params
-		$params = [
+		$params = array(
 			'action' => 'upload',
 			'filename' => $fileName,
 			'file' => 'dummy content',
 			'comment' => 'dummy comment',
 			'text' => "This is the page text for $fileName",
-		];
+		);
 
 		// first upload .... should succeed
 
@@ -220,8 +224,8 @@ class ApiUploadTest extends ApiUploadTestCase {
 		$exception = false;
 		try {
 			list( $result, , $session ) = $this->doApiRequestWithToken( $params, $session,
-				self::$users['uploader']->getUser() );
-		} catch ( ApiUsageException $e ) {
+				self::$users['uploader']->user );
+		} catch ( UsageException $e ) {
 			$exception = true;
 		}
 		$this->assertTrue( isset( $result['upload'] ) );
@@ -237,8 +241,8 @@ class ApiUploadTest extends ApiUploadTestCase {
 		$exception = false;
 		try {
 			list( $result, , ) = $this->doApiRequestWithToken( $params, $session,
-				self::$users['uploader']->getUser() ); // FIXME: leaks a temporary file
-		} catch ( ApiUsageException $e ) {
+				self::$users['uploader']->user ); // FIXME: leaks a temporary file
+		} catch ( UsageException $e ) {
 			$exception = true;
 		}
 		$this->assertTrue( isset( $result['upload'] ) );
@@ -248,7 +252,9 @@ class ApiUploadTest extends ApiUploadTestCase {
 		$this->assertFalse( $exception );
 
 		// clean up
-		$this->deleteFileByFileName( $fileName );
+		$this->deleteFileByFilename( $fileName );
+		unlink( $filePaths[0] );
+		unlink( $filePaths[1] );
 	}
 
 	/**
@@ -260,7 +266,7 @@ class ApiUploadTest extends ApiUploadTestCase {
 
 		try {
 			$randomImageGenerator = new RandomImageGenerator();
-			$filePaths = $randomImageGenerator->writeImages( 1, $extension, $this->getNewTempDirectory() );
+			$filePaths = $randomImageGenerator->writeImages( 1, $extension, wfTempDir() );
 		} catch ( Exception $e ) {
 			$this->markTestIncomplete( $e->getMessage() );
 		}
@@ -276,13 +282,13 @@ class ApiUploadTest extends ApiUploadTestCase {
 
 		// first upload .... should succeed
 
-		$params = [
+		$params = array(
 			'action' => 'upload',
 			'filename' => $fileNames[0],
 			'file' => 'dummy content',
 			'comment' => 'dummy comment',
 			'text' => "This is the page text for " . $fileNames[0],
-		];
+		);
 
 		if ( !$this->fakeUploadFile( 'file', $fileNames[0], $mimeType, $filePaths[0] ) ) {
 			$this->markTestIncomplete( "Couldn't upload file!\n" );
@@ -291,8 +297,8 @@ class ApiUploadTest extends ApiUploadTestCase {
 		$exception = false;
 		try {
 			list( $result, , $session ) = $this->doApiRequestWithToken( $params, $session,
-				self::$users['uploader']->getUser() );
-		} catch ( ApiUsageException $e ) {
+				self::$users['uploader']->user );
+		} catch ( UsageException $e ) {
 			$exception = true;
 		}
 		$this->assertTrue( isset( $result['upload'] ) );
@@ -305,19 +311,19 @@ class ApiUploadTest extends ApiUploadTestCase {
 			$this->markTestIncomplete( "Couldn't upload file!\n" );
 		}
 
-		$params = [
+		$params = array(
 			'action' => 'upload',
 			'filename' => $fileNames[1],
 			'file' => 'dummy content',
 			'comment' => 'dummy comment',
 			'text' => "This is the page text for " . $fileNames[1],
-		];
+		);
 
 		$exception = false;
 		try {
 			list( $result ) = $this->doApiRequestWithToken( $params, $session,
-				self::$users['uploader']->getUser() ); // FIXME: leaks a temporary file
-		} catch ( ApiUsageException $e ) {
+				self::$users['uploader']->user ); // FIXME: leaks a temporary file
+		} catch ( UsageException $e ) {
 			$exception = true;
 		}
 		$this->assertTrue( isset( $result['upload'] ) );
@@ -327,24 +333,25 @@ class ApiUploadTest extends ApiUploadTestCase {
 		$this->assertFalse( $exception );
 
 		// clean up
-		$this->deleteFileByFileName( $fileNames[0] );
-		$this->deleteFileByFileName( $fileNames[1] );
+		$this->deleteFileByFilename( $fileNames[0] );
+		$this->deleteFileByFilename( $fileNames[1] );
+		unlink( $filePaths[0] );
 	}
 
 	/**
 	 * @depends testLogin
 	 */
 	public function testUploadStash( $session ) {
-		$this->setMwGlobals( [
-			'wgUser' => self::$users['uploader']->getUser(), // @todo FIXME: still used somewhere
-		] );
+		$this->setMwGlobals( array(
+			'wgUser' => self::$users['uploader']->user, // @todo FIXME: still used somewhere
+		) );
 
 		$extension = 'png';
 		$mimeType = 'image/png';
 
 		try {
 			$randomImageGenerator = new RandomImageGenerator();
-			$filePaths = $randomImageGenerator->writeImages( 1, $extension, $this->getNewTempDirectory() );
+			$filePaths = $randomImageGenerator->writeImages( 1, $extension, wfTempDir() );
 		} catch ( Exception $e ) {
 			$this->markTestIncomplete( $e->getMessage() );
 		}
@@ -361,20 +368,20 @@ class ApiUploadTest extends ApiUploadTestCase {
 			$this->markTestIncomplete( "Couldn't upload file!\n" );
 		}
 
-		$params = [
+		$params = array(
 			'action' => 'upload',
 			'stash' => 1,
 			'filename' => $fileName,
 			'file' => 'dummy content',
 			'comment' => 'dummy comment',
 			'text' => "This is the page text for $fileName",
-		];
+		);
 
 		$exception = false;
 		try {
 			list( $result, , $session ) = $this->doApiRequestWithToken( $params, $session,
-				self::$users['uploader']->getUser() ); // FIXME: leaks a temporary file
-		} catch ( ApiUsageException $e ) {
+				self::$users['uploader']->user ); // FIXME: leaks a temporary file
+		} catch ( UsageException $e ) {
 			$exception = true;
 		}
 		$this->assertFalse( $exception );
@@ -390,49 +397,50 @@ class ApiUploadTest extends ApiUploadTestCase {
 		// XXX ...but how to test this, with a fake WebRequest with the session?
 
 		// now we should try to release the file from stash
-		$params = [
+		$params = array(
 			'action' => 'upload',
 			'filekey' => $filekey,
 			'filename' => $fileName,
 			'comment' => 'dummy comment',
 			'text' => "This is the page text for $fileName, altered",
-		];
+		);
 
 		$this->clearFakeUploads();
 		$exception = false;
 		try {
 			list( $result ) = $this->doApiRequestWithToken( $params, $session,
-				self::$users['uploader']->getUser() );
-		} catch ( ApiUsageException $e ) {
+				self::$users['uploader']->user );
+		} catch ( UsageException $e ) {
 			$exception = true;
 		}
 		$this->assertTrue( isset( $result['upload'] ) );
 		$this->assertEquals( 'Success', $result['upload']['result'] );
-		$this->assertFalse( $exception, "No ApiUsageException exception." );
+		$this->assertFalse( $exception, "No UsageException exception." );
 
 		// clean up
-		$this->deleteFileByFileName( $fileName );
+		$this->deleteFileByFilename( $fileName );
+		unlink( $filePath );
 	}
 
 	/**
 	 * @depends testLogin
 	 */
 	public function testUploadChunks( $session ) {
-		$this->setMwGlobals( [
-			// @todo FIXME: still used somewhere
-			'wgUser' => self::$users['uploader']->getUser(),
-		] );
+		$this->setMwGlobals( array(
+			'wgUser' => self::$users['uploader']->user, // @todo FIXME: still used somewhere
+		) );
 
 		$chunkSize = 1048576;
 		// Download a large image file
-		// (using RandomImageGenerator for large files is not stable)
-		// @todo Don't download files from wikimedia.org
+		// ( using RandomImageGenerator for large files is not stable )
 		$mimeType = 'image/jpeg';
-		$url = 'http://upload.wikimedia.org/wikipedia/commons/'
-			. 'e/ed/Oberaargletscher_from_Oberaar%2C_2010_07.JPG';
-		$filePath = $this->getNewTempDirectory() . '/Oberaargletscher_from_Oberaar.jpg';
+		$url = 'http://upload.wikimedia.org/wikipedia/commons/e/ed/Oberaargletscher_from_Oberaar%2C_2010_07.JPG';
+		$filePath = wfTempDir() . '/Oberaargletscher_from_Oberaar.jpg';
 		try {
-			copy( $url, $filePath );
+			// Only download if the file is not avaliable in the temp location:
+			if ( !is_file( $filePath ) ) {
+				copy( $url, $filePath );
+			}
 		} catch ( Exception $e ) {
 			$this->markTestIncomplete( $e->getMessage() );
 		}
@@ -444,31 +452,25 @@ class ApiUploadTest extends ApiUploadTestCase {
 		$this->deleteFileByContent( $filePath );
 
 		// Base upload params:
-		$params = [
+		$params = array(
 			'action' => 'upload',
 			'stash' => 1,
 			'filename' => $fileName,
 			'filesize' => $fileSize,
 			'offset' => 0,
-		];
+		);
 
 		// Upload chunks
 		$chunkSessionKey = false;
 		$resultOffset = 0;
 		// Open the file:
-		Wikimedia\suppressWarnings();
-		$handle = fopen( $filePath, "r" );
-		Wikimedia\restoreWarnings();
-
+		$handle = @fopen( $filePath, "r" );
 		if ( $handle === false ) {
 			$this->markTestIncomplete( "could not open file: $filePath" );
 		}
-
 		while ( !feof( $handle ) ) {
 			// Get the current chunk
-			Wikimedia\suppressWarnings();
-			$chunkData = fread( $handle, $chunkSize );
-			Wikimedia\restoreWarnings();
+			$chunkData = @fread( $handle, $chunkSize );
 
 			// Upload the current chunk into the $_FILE object:
 			$this->fakeUploadChunk( 'chunk', 'blob', $mimeType, $chunkData );
@@ -478,8 +480,8 @@ class ApiUploadTest extends ApiUploadTestCase {
 				// Upload fist chunk ( and get the session key )
 				try {
 					list( $result, , $session ) = $this->doApiRequestWithToken( $params, $session,
-						self::$users['uploader']->getUser() );
-				} catch ( ApiUsageException $e ) {
+						self::$users['uploader']->user );
+				} catch ( UsageException $e ) {
 					$this->markTestIncomplete( $e->getMessage() );
 				}
 				// Make sure we got a valid chunk continue:
@@ -498,16 +500,15 @@ class ApiUploadTest extends ApiUploadTestCase {
 			}
 			// Filekey set to chunk session
 			$params['filekey'] = $chunkSessionKey;
-			// Update the offset ( always add chunkSize for subquent chunks
-			// should be in-sync with $result['upload']['offset'] )
+			// Update the offset ( always add chunkSize for subquent chunks should be in-sync with $result['upload']['offset'] )
 			$params['offset'] += $chunkSize;
 			// Make sure param offset is insync with resultOffset:
 			$this->assertEquals( $resultOffset, $params['offset'] );
 			// Upload current chunk
 			try {
 				list( $result, , $session ) = $this->doApiRequestWithToken( $params, $session,
-					self::$users['uploader']->getUser() );
-			} catch ( ApiUsageException $e ) {
+					self::$users['uploader']->user );
+			} catch ( UsageException $e ) {
 				$this->markTestIncomplete( $e->getMessage() );
 			}
 			// Make sure we got a valid chunk continue:
@@ -527,27 +528,26 @@ class ApiUploadTest extends ApiUploadTestCase {
 		fclose( $handle );
 
 		// Check that we got a valid file result:
-		wfDebug( __METHOD__
-			. " hohoh filesize {$fileSize} info {$result['upload']['imageinfo']['size']}\n\n" );
+		wfDebug( __METHOD__ . " hohoh filesize {$fileSize} info {$result['upload']['imageinfo']['size']}\n\n" );
 		$this->assertEquals( $fileSize, $result['upload']['imageinfo']['size'] );
 		$this->assertEquals( $mimeType, $result['upload']['imageinfo']['mime'] );
 		$this->assertTrue( isset( $result['upload']['filekey'] ) );
 		$filekey = $result['upload']['filekey'];
 
 		// Now we should try to release the file from stash
-		$params = [
+		$params = array(
 			'action' => 'upload',
 			'filekey' => $filekey,
 			'filename' => $fileName,
 			'comment' => 'dummy comment',
 			'text' => "This is the page text for $fileName, altered",
-		];
+		);
 		$this->clearFakeUploads();
 		$exception = false;
 		try {
 			list( $result ) = $this->doApiRequestWithToken( $params, $session,
-				self::$users['uploader']->getUser() );
-		} catch ( ApiUsageException $e ) {
+				self::$users['uploader']->user );
+		} catch ( UsageException $e ) {
 			$exception = true;
 		}
 		$this->assertTrue( isset( $result['upload'] ) );
@@ -555,6 +555,8 @@ class ApiUploadTest extends ApiUploadTestCase {
 		$this->assertFalse( $exception );
 
 		// clean up
-		$this->deleteFileByFileName( $fileName );
+		$this->deleteFileByFilename( $fileName );
+		// don't remove downloaded temporary file for fast subquent tests.
+		//unlink( $filePath );
 	}
 }

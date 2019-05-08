@@ -1,14 +1,15 @@
 <?php
 /** Bhojpuri (भोजपुरी)
  *
- * To improve a translation please visit https://translatewiki.net
+ * See MessagesQqq.php for message documentation incl. usage of parameters
+ * To improve a translation please visit http://translatewiki.net
  *
  * @ingroup Language
  * @file
  *
  */
 
-$namespaceNames = [
+$namespaceNames = array(
 	NS_MEDIA            => 'मीडिया',
 	NS_SPECIAL          => 'विशेष',
 	NS_TALK             => 'वार्तालाप',
@@ -25,41 +26,18 @@ $namespaceNames = [
 	NS_HELP_TALK        => 'मदद_वार्ता',
 	NS_CATEGORY         => 'श्रेणी',
 	NS_CATEGORY_TALK    => 'श्रेणी_वार्ता',
-];
+);
 
-$specialPageAliases = [
-	'Activeusers'               => [ 'सक्रिय_सदस्य' ],
-	'Allmessages'               => [ 'सारा_संदेस' ],
-	'Allpages'                  => [ 'सारा_पन्ना' ],
-	'Ancientpages'              => [ 'पुरान_पन्ना' ],
-	'Badtitle'                  => [ 'खराब_टाइटिल' ],
-	'Blankpage'                 => [ 'खाली_पन्ना' ],
-	'Categories'                => [ 'श्रेणी_सब' ],
-	'Contributions'             => [ 'योगदान' ],
-	'Export'                    => [ 'निर्यात' ],
-	'Import'                    => [ 'आयात' ],
-	'Log'                       => [ 'लॉग' ],
-	'Lonelypages'               => [ 'असंयुक्त' ],
-	'Longpages'                 => [ 'लम्बा_पन्ना' ],
-	'Mypage'                    => [ 'हमार_पन्ना' ],
-	'Mytalk'                    => [ 'हमार_बात' ],
-	'Newpages'                  => [ 'नया_पन्ना' ],
-	'Recentchangeslinked'       => [ 'तुरंत_भइल_परिवर्तन' ],
-	'Shortpages'                => [ 'छोटा_पन्ना' ],
-	'Specialpages'              => [ 'ख़ाश_पन्ना' ],
-	'TrackingCategories'        => [ 'बिनावर्गीकृत_श्रेणी' ],
-	'Uncategorizedpages'        => [ 'बिनावर्गीकृत' ],
-];
+$digitTransformTable = array(
+	'0' => '०', # &#x0966;
+	'1' => '१', # &#x0967;
+	'2' => '२', # &#x0968;
+	'3' => '३', # &#x0969;
+	'4' => '४', # &#x096a;
+	'5' => '५', # &#x096b;
+	'6' => '६', # &#x096c;
+	'7' => '७', # &#x096d;
+	'8' => '८', # &#x096e;
+	'9' => '९', # &#x096f;
+);
 
-$digitTransformTable = [
-	'0' => '०', # U+0966
-	'1' => '१', # U+0967
-	'2' => '२', # U+0968
-	'3' => '३', # U+0969
-	'4' => '४', # U+096A
-	'5' => '५', # U+096B
-	'6' => '६', # U+096C
-	'7' => '७', # U+096D
-	'8' => '८', # U+096E
-	'9' => '९', # U+096F
-];

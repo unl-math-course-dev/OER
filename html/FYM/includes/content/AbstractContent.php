@@ -43,7 +43,7 @@ abstract class AbstractContent implements Content {
 	protected $model_id;
 
 	/**
-	 * @param string|null $modelId
+	 * @param string $modelId
 	 *
 	 * @since 1.21
 	 */
@@ -55,7 +55,6 @@ abstract class AbstractContent implements Content {
 	 * @since 1.21
 	 *
 	 * @see Content::getModel
-	 * @return string
 	 */
 	public function getModel() {
 		return $this->model_id;
@@ -83,7 +82,6 @@ abstract class AbstractContent implements Content {
 	 * @since 1.21
 	 *
 	 * @see Content::getContentHandler
-	 * @return ContentHandler
 	 */
 	public function getContentHandler() {
 		return ContentHandler::getForContent( $this );
@@ -93,7 +91,6 @@ abstract class AbstractContent implements Content {
 	 * @since 1.21
 	 *
 	 * @see Content::getDefaultFormat
-	 * @return string
 	 */
 	public function getDefaultFormat() {
 		return $this->getContentHandler()->getDefaultFormat();
@@ -103,7 +100,6 @@ abstract class AbstractContent implements Content {
 	 * @since 1.21
 	 *
 	 * @see Content::getSupportedFormats
-	 * @return string[]
 	 */
 	public function getSupportedFormats() {
 		return $this->getContentHandler()->getSupportedFormats();
@@ -145,7 +141,7 @@ abstract class AbstractContent implements Content {
 	/**
 	 * @since 1.21
 	 *
-	 * @param string|null $format
+	 * @param string $format
 	 *
 	 * @return string
 	 *
@@ -182,7 +178,7 @@ abstract class AbstractContent implements Content {
 	/**
 	 * @since 1.21
 	 *
-	 * @param Content|null $that
+	 * @param Content $that
 	 *
 	 * @return bool
 	 *
@@ -208,39 +204,32 @@ abstract class AbstractContent implements Content {
 	 * Returns a list of DataUpdate objects for recording information about this
 	 * Content in some secondary data store.
 	 *
-	 * This default implementation returns a LinksUpdate object and calls the
-	 * SecondaryDataUpdates hook.
+	 * This default implementation calls
+	 * $this->getParserOutput( $content, $title, null, null, false ),
+	 * and then calls getSecondaryDataUpdates( $title, $recursive ) on the
+	 * resulting ParserOutput object.
 	 *
 	 * Subclasses may override this to determine the secondary data updates more
 	 * efficiently, preferably without the need to generate a parser output object.
-	 * They should however make sure to call SecondaryDataUpdates to give extensions
-	 * a chance to inject additional updates.
 	 *
 	 * @since 1.21
 	 *
 	 * @param Title $title
-	 * @param Content|null $old
+	 * @param Content $old
 	 * @param bool $recursive
-	 * @param ParserOutput|null $parserOutput
+	 * @param ParserOutput $parserOutput
 	 *
 	 * @return DataUpdate[]
 	 *
 	 * @see Content::getSecondaryDataUpdates()
 	 */
 	public function getSecondaryDataUpdates( Title $title, Content $old = null,
-		$recursive = true, ParserOutput $parserOutput = null
-	) {
+		$recursive = true, ParserOutput $parserOutput = null ) {
 		if ( $parserOutput === null ) {
 			$parserOutput = $this->getParserOutput( $title, null, null, false );
 		}
 
-		$updates = [
-			new LinksUpdate( $title, $parserOutput, $recursive )
-		];
-
-		Hooks::run( 'SecondaryDataUpdates', [ $title, $old, $recursive, $parserOutput, &$updates ] );
-
-		return $updates;
+		return $parserOutput->getSecondaryDataUpdates( $title, $recursive );
 	}
 
 	/**
@@ -258,7 +247,7 @@ abstract class AbstractContent implements Content {
 		}
 		// recursive check to follow double redirects
 		$recurse = $wgMaxRedirects;
-		$titles = [ $title ];
+		$titles = array( $title );
 		while ( --$recurse > 0 ) {
 			if ( $title->isRedirect() ) {
 				$page = WikiPage::factory( $title );
@@ -285,7 +274,7 @@ abstract class AbstractContent implements Content {
 	 *
 	 * @since 1.21
 	 *
-	 * @return Title|null
+	 * @return null
 	 *
 	 * @see Content::getRedirectTarget
 	 */
@@ -338,7 +327,6 @@ abstract class AbstractContent implements Content {
 	/**
 	 * @since 1.21
 	 *
-	 * @param string|int $sectionId
 	 * @return null
 	 *
 	 * @see Content::getSection
@@ -350,23 +338,17 @@ abstract class AbstractContent implements Content {
 	/**
 	 * @since 1.21
 	 *
-	 * @param string|int|null|bool $sectionId
-	 * @param Content $with
-	 * @param string $sectionTitle
 	 * @return null
 	 *
 	 * @see Content::replaceSection
 	 */
-	public function replaceSection( $sectionId, Content $with, $sectionTitle = '' ) {
+	public function replaceSection( $section, Content $with, $sectionTitle = '' ) {
 		return null;
 	}
 
 	/**
 	 * @since 1.21
 	 *
-	 * @param Title $title
-	 * @param User $user
-	 * @param ParserOptions $popts
 	 * @return Content $this
 	 *
 	 * @see Content::preSaveTransform
@@ -378,7 +360,6 @@ abstract class AbstractContent implements Content {
 	/**
 	 * @since 1.21
 	 *
-	 * @param string $header
 	 * @return Content $this
 	 *
 	 * @see Content::addSectionHeader
@@ -390,29 +371,22 @@ abstract class AbstractContent implements Content {
 	/**
 	 * @since 1.21
 	 *
-	 * @param Title $title
-	 * @param ParserOptions $popts
-	 * @param array $params
 	 * @return Content $this
 	 *
 	 * @see Content::preloadTransform
 	 */
-	public function preloadTransform( Title $title, ParserOptions $popts, $params = [] ) {
+	public function preloadTransform( Title $title, ParserOptions $popts, $params = array() ) {
 		return $this;
 	}
 
 	/**
 	 * @since 1.21
 	 *
-	 * @param WikiPage $page
-	 * @param int $flags
-	 * @param int $parentRevId
-	 * @param User $user
 	 * @return Status
 	 *
 	 * @see Content::prepareSave
 	 */
-	public function prepareSave( WikiPage $page, $flags, $parentRevId, User $user ) {
+	public function prepareSave( WikiPage $page, $flags, $baseRevId, User $user ) {
 		if ( $this->isValid() ) {
 			return Status::newGood();
 		} else {
@@ -424,16 +398,16 @@ abstract class AbstractContent implements Content {
 	 * @since 1.21
 	 *
 	 * @param WikiPage $page
-	 * @param ParserOutput|null $parserOutput
+	 * @param ParserOutput $parserOutput
 	 *
-	 * @return DeferrableUpdate[]
+	 * @return LinksDeletionUpdate[]
 	 *
 	 * @see Content::getDeletionUpdates
 	 */
 	public function getDeletionUpdates( WikiPage $page, ParserOutput $parserOutput = null ) {
-		return [
+		return array(
 			new LinksDeletionUpdate( $page ),
-		];
+		);
 	}
 
 	/**
@@ -465,89 +439,15 @@ abstract class AbstractContent implements Content {
 	 */
 	public function convert( $toModel, $lossy = '' ) {
 		if ( $this->getModel() === $toModel ) {
-			// nothing to do, shorten out.
+			//nothing to do, shorten out.
 			return $this;
 		}
 
 		$lossy = ( $lossy === 'lossy' ); // string flag, convert to boolean for convenience
 		$result = false;
 
-		Hooks::run( 'ConvertContent', [ $this, $toModel, $lossy, &$result ] );
+		wfRunHooks( 'ConvertContent', array( $this, $toModel, $lossy, &$result ) );
 
 		return $result;
-	}
-
-	/**
-	 * Returns a ParserOutput object containing information derived from this content.
-	 * Most importantly, unless $generateHtml was false, the return value contains an
-	 * HTML representation of the content.
-	 *
-	 * Subclasses that want to control the parser output may override this, but it is
-	 * preferred to override fillParserOutput() instead.
-	 *
-	 * Subclasses that override getParserOutput() itself should take care to call the
-	 * ContentGetParserOutput hook.
-	 *
-	 * @since 1.24
-	 *
-	 * @param Title $title Context title for parsing
-	 * @param int|null $revId Revision ID (for {{REVISIONID}})
-	 * @param ParserOptions|null $options
-	 * @param bool $generateHtml Whether or not to generate HTML
-	 *
-	 * @return ParserOutput Containing information derived from this content.
-	 */
-	public function getParserOutput( Title $title, $revId = null,
-		ParserOptions $options = null, $generateHtml = true
-	) {
-		if ( $options === null ) {
-			$options = ParserOptions::newCanonical( 'canonical' );
-		}
-
-		$po = new ParserOutput();
-		$options->registerWatcher( [ $po, 'recordOption' ] );
-
-		if ( Hooks::run( 'ContentGetParserOutput',
-			[ $this, $title, $revId, $options, $generateHtml, &$po ] )
-		) {
-			// Save and restore the old value, just in case something is reusing
-			// the ParserOptions object in some weird way.
-			$oldRedir = $options->getRedirectTarget();
-			$options->setRedirectTarget( $this->getRedirectTarget() );
-			$this->fillParserOutput( $title, $revId, $options, $generateHtml, $po );
-			$options->setRedirectTarget( $oldRedir );
-		}
-
-		Hooks::run( 'ContentAlterParserOutput', [ $this, $title, $po ] );
-		$options->registerWatcher( null );
-
-		return $po;
-	}
-
-	/**
-	 * Fills the provided ParserOutput with information derived from the content.
-	 * Unless $generateHtml was false, this includes an HTML representation of the content.
-	 *
-	 * This is called by getParserOutput() after consulting the ContentGetParserOutput hook.
-	 * Subclasses are expected to override this method (or getParserOutput(), if need be).
-	 * Subclasses of TextContent should generally override getHtml() instead.
-	 *
-	 * This placeholder implementation always throws an exception.
-	 *
-	 * @since 1.24
-	 *
-	 * @param Title $title Context title for parsing
-	 * @param int|null $revId Revision ID (for {{REVISIONID}})
-	 * @param ParserOptions $options
-	 * @param bool $generateHtml Whether or not to generate HTML
-	 * @param ParserOutput &$output The output object to fill (reference).
-	 *
-	 * @throws MWException
-	 */
-	protected function fillParserOutput( Title $title, $revId,
-		ParserOptions $options, $generateHtml, ParserOutput &$output
-	) {
-		// Don't make abstract, so subclasses that override getParserOutput() directly don't fail.
-		throw new MWException( 'Subclasses of AbstractContent must override fillParserOutput!' );
 	}
 }

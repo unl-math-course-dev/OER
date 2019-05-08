@@ -1,50 +1,64 @@
-/*!
+/**
  * JavaScript for History action
  */
-$( function () {
+jQuery( function ( $ ) {
 	var	$historyCompareForm = $( '#mw-history-compare' ),
 		$historySubmitter,
 		$lis = $( '#pagehistory > li' );
 
 	/**
-	 * @ignore
 	 * @context {Element} input
-	 * @param {jQuery.Event} e
-	 * @return {boolean} False to cancel the default event
+	 * @param e {jQuery.Event}
 	 */
 	function updateDiffRadios() {
-		var nextState = 'before',
-			$li,
-			$inputs,
-			$oldidRadio,
-			$diffRadio;
+		var diffLi = false, // the li where the diff radio is checked
+			oldLi = false; // the li where the oldid radio is checked
 
 		if ( !$lis.length ) {
 			return true;
 		}
 
-		$lis.each( function () {
-			$li = $( this );
-			$inputs = $li.find( 'input[type="radio"]' );
-			$oldidRadio = $inputs.filter( '[name="oldid"]' ).eq( 0 );
-			$diffRadio = $inputs.filter( '[name="diff"]' ).eq( 0 );
-
-			$li.removeClass( 'selected between before after' );
+		$lis
+		.removeClass( 'selected' )
+		.each( function () {
+			var	$li = $( this ),
+				$inputs = $li.find( 'input[type="radio"]' ),
+				$oldidRadio = $inputs.filter( '[name="oldid"]' ).eq( 0 ),
+				$diffRadio = $inputs.filter( '[name="diff"]' ).eq( 0 );
 
 			if ( !$oldidRadio.length || !$diffRadio.length ) {
 				return true;
 			}
 
 			if ( $oldidRadio.prop( 'checked' ) ) {
-				$li.addClass( 'selected after' );
-				nextState = 'after';
+				oldLi = true;
+				$li.addClass( 'selected' );
+				$oldidRadio.css( 'visibility', 'visible' );
+				$diffRadio.css( 'visibility', 'hidden' );
+
 			} else if ( $diffRadio.prop( 'checked' ) ) {
-				$li.addClass( 'selected ' + nextState );
-				nextState = 'between';
+				diffLi = true;
+				$li.addClass( 'selected' );
+				$oldidRadio.css( 'visibility', 'hidden' );
+				$diffRadio.css( 'visibility', 'visible' );
+
+			// This list item has neither checked
 			} else {
-				// This list item has neither checked
-				// apply the appropriate class following the previous item.
-				$li.addClass( nextState );
+				// We're below the selected radios
+				if ( diffLi && oldLi ) {
+					$oldidRadio.css( 'visibility', 'visible' );
+					$diffRadio.css( 'visibility', 'hidden' );
+
+				// We're between the selected radios
+				} else if ( diffLi ) {
+					$diffRadio.css( 'visibility', 'visible' );
+					$oldidRadio.css( 'visibility', 'visible' );
+
+				// We're above the selected radios
+				} else {
+					$diffRadio.css( 'visibility', 'visible' );
+					$oldidRadio.css( 'visibility', 'hidden' );
+				}
 			}
 		} );
 
@@ -85,8 +99,7 @@ $( function () {
 				$copyForm.find( 'input[name^="ids["]:checked' ).prop( 'checked', false );
 
 			// Remove diff=&oldid=, change action=historysubmit to revisiondelete, remove revisiondelete
-			} else if ( $historySubmitter.hasClass( 'mw-history-revisiondelete-button' ) ||
-					$historySubmitter.hasClass( 'mw-history-editchangetags-button' ) ) {
+			} else if ( $historySubmitter.hasClass( 'mw-history-revisiondelete-button' ) ) {
 				$copyRadios.remove();
 				$copyAction.val( $historySubmitter.attr( 'name' ) );
 				$copyForm.find( ':submit' ).remove();
@@ -96,7 +109,8 @@ $( function () {
 			// Also remove potentially conflicting id attributes that we don't need anyway
 			$copyForm
 				.css( 'display', 'none' )
-				.find( '[id]' ).removeAttr( 'id' )
+				.find( '[id]' )
+					.removeAttr( 'id' )
 				.end()
 				.insertAfter( $historyCompareForm )
 				.submit();

@@ -2,6 +2,10 @@
 /**
  * Clean up broken, unparseable upload filenames.
  *
+ * Usage: php cleanupImages.php [--fix]
+ * Options:
+ *   --fix  Actually clean up titles; otherwise just checks for them
+ *
  * Copyright © 2005-2006 Brion Vibber <brion@pobox.com>
  * https://www.mediawiki.org/
  *
@@ -25,8 +29,6 @@
  * @ingroup Maintenance
  */
 
-use MediaWiki\MediaWikiServices;
-
 require_once __DIR__ . '/cleanupTable.inc';
 
 /**
@@ -34,25 +36,26 @@ require_once __DIR__ . '/cleanupTable.inc';
  *
  * @ingroup Maintenance
  */
-class CleanupImages extends TableCleanup {
-	protected $defaultParams = [
+class ImageCleanup extends TableCleanup {
+	protected $defaultParams = array(
 		'table' => 'image',
-		'conds' => [],
+		'conds' => array(),
 		'index' => 'img_name',
 		'callback' => 'processRow',
-	];
+	);
 
 	public function __construct() {
 		parent::__construct();
-		$this->addDescription( 'Script to clean up broken, unparseable upload filenames' );
+		$this->mDescription = "Script to clean up broken, unparseable upload filenames";
 	}
 
 	protected function processRow( $row ) {
+		global $wgContLang;
+
 		$source = $row->img_name;
 		if ( $source == '' ) {
 			// Ye olde empty rows. Just kill them.
 			$this->killRow( $source );
-
 			return $this->progress( 1 );
 		}
 
@@ -64,13 +67,11 @@ class CleanupImages extends TableCleanup {
 		// We also have some HTML entities there
 		$cleaned = Sanitizer::decodeCharReferences( $cleaned );
 
-		$contLang = MediaWikiServices::getInstance()->getContentLanguage();
-
 		// Some are old latin-1
-		$cleaned = $contLang->checkTitleEncoding( $cleaned );
+		$cleaned = $wgContLang->checkTitleEncoding( $cleaned );
 
 		// Many of remainder look like non-normalized unicode
-		$cleaned = $contLang->normalize( $cleaned );
+		$cleaned = $wgContLang->normalize( $cleaned );
 
 		$title = Title::makeTitleSafe( NS_FILE, $cleaned );
 
@@ -81,7 +82,6 @@ class CleanupImages extends TableCleanup {
 				return $this->progress( 0 );
 			}
 			$this->pokeFile( $source, $safe );
-
 			return $this->progress( 1 );
 		}
 
@@ -89,7 +89,6 @@ class CleanupImages extends TableCleanup {
 			$munged = $title->getDBkey();
 			$this->output( "page $source ($munged) doesn't match self.\n" );
 			$this->pokeFile( $source, $munged );
-
 			return $this->progress( 1 );
 		}
 
@@ -97,16 +96,16 @@ class CleanupImages extends TableCleanup {
 	}
 
 	/**
-	 * @param string $name
+	 * @param $name string
 	 */
 	private function killRow( $name ) {
 		if ( $this->dryrun ) {
 			$this->output( "DRY RUN: would delete bogus row '$name'\n" );
 		} else {
 			$this->output( "deleting bogus row '$name'\n" );
-			$db = $this->getDB( DB_MASTER );
+			$db = wfGetDB( DB_MASTER );
 			$db->delete( 'image',
-				[ 'img_name' => $name ],
+				array( 'img_name' => $name ),
 				__METHOD__ );
 		}
 	}
@@ -115,21 +114,15 @@ class CleanupImages extends TableCleanup {
 		if ( !isset( $this->repo ) ) {
 			$this->repo = RepoGroup::singleton()->getLocalRepo();
 		}
-
 		return $this->repo->getRootDirectory() . '/' . $this->repo->getHashPath( $name ) . $name;
 	}
 
 	private function imageExists( $name, $db ) {
-		return $db->selectField( 'image', '1', [ 'img_name' => $name ], __METHOD__ );
+		return $db->selectField( 'image', '1', array( 'img_name' => $name ), __METHOD__ );
 	}
 
 	private function pageExists( $name, $db ) {
-		return $db->selectField(
-			'page',
-			'1',
-			[ 'page_namespace' => NS_FILE, 'page_title' => $name ],
-			__METHOD__
-		);
+		return $db->selectField( 'page', '1', array( 'page_namespace' => NS_FILE, 'page_title' => $name ), __METHOD__ );
 	}
 
 	private function pokeFile( $orig, $new ) {
@@ -137,23 +130,22 @@ class CleanupImages extends TableCleanup {
 		if ( !file_exists( $path ) ) {
 			$this->output( "missing file: $path\n" );
 			$this->killRow( $orig );
-
 			return;
 		}
 
-		$db = $this->getDB( DB_MASTER );
+		$db = wfGetDB( DB_MASTER );
 
 		/*
 		 * To prevent key collisions in the update() statements below,
 		 * if the target title exists in the image table, or if both the
 		 * original and target titles exist in the page table, append
 		 * increasing version numbers until the target title exists in
-		 * neither.  (See also T18916.)
+		 * neither.  (See also bug 16916.)
 		 */
 		$version = 0;
 		$final = $new;
 		$conflict = ( $this->imageExists( $final, $db ) ||
-			( $this->pageExists( $orig, $db ) && $this->pageExists( $final, $db ) ) );
+				( $this->pageExists( $orig, $db ) && $this->pageExists( $final, $db ) ) );
 
 		while ( $conflict ) {
 			$this->output( "Rename conflicts with '$final'...\n" );
@@ -169,33 +161,32 @@ class CleanupImages extends TableCleanup {
 		} else {
 			$this->output( "renaming $path to $finalPath\n" );
 			// @todo FIXME: Should this use File::move()?
-			$this->beginTransaction( $db, __METHOD__ );
+			$db->begin( __METHOD__ );
 			$db->update( 'image',
-				[ 'img_name' => $final ],
-				[ 'img_name' => $orig ],
+				array( 'img_name' => $final ),
+				array( 'img_name' => $orig ),
 				__METHOD__ );
 			$db->update( 'oldimage',
-				[ 'oi_name' => $final ],
-				[ 'oi_name' => $orig ],
+				array( 'oi_name' => $final ),
+				array( 'oi_name' => $orig ),
 				__METHOD__ );
 			$db->update( 'page',
-				[ 'page_title' => $final ],
-				[ 'page_title' => $orig, 'page_namespace' => NS_FILE ],
+				array( 'page_title' => $final ),
+				array( 'page_title' => $orig, 'page_namespace' => NS_FILE ),
 				__METHOD__ );
 			$dir = dirname( $finalPath );
 			if ( !file_exists( $dir ) ) {
 				if ( !wfMkdirParents( $dir, null, __METHOD__ ) ) {
 					$this->output( "RENAME FAILED, COULD NOT CREATE $dir" );
-					$this->rollbackTransaction( $db, __METHOD__ );
-
+					$db->rollback( __METHOD__ );
 					return;
 				}
 			}
 			if ( rename( $path, $finalPath ) ) {
-				$this->commitTransaction( $db, __METHOD__ );
+				$db->commit( __METHOD__ );
 			} else {
 				$this->error( "RENAME FAILED" );
-				$this->rollbackTransaction( $db, __METHOD__ );
+				$db->rollback( __METHOD__ );
 			}
 		}
 	}
@@ -208,13 +199,12 @@ class CleanupImages extends TableCleanup {
 	private function buildSafeTitle( $name ) {
 		$x = preg_replace_callback(
 			'/([^' . Title::legalChars() . ']|~)/',
-			[ $this, 'hexChar' ],
+			array( $this, 'hexChar' ),
 			$name );
 
 		$test = Title::makeTitleSafe( NS_FILE, $x );
 		if ( is_null( $test ) || $test->getDBkey() !== $x ) {
 			$this->error( "Unable to generate safe title from '$name', got '$x'" );
-
 			return false;
 		}
 
@@ -222,5 +212,5 @@ class CleanupImages extends TableCleanup {
 	}
 }
 
-$maintClass = CleanupImages::class;
+$maintClass = "ImageCleanup";
 require_once RUN_MAINTENANCE_IF_MAIN;

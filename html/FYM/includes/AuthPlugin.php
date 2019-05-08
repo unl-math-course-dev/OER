@@ -32,8 +32,6 @@
  * accounts authenticate externally, or use it only as a fallback; also
  * you can transparently create internal wiki accounts the first time
  * someone logs in who can be authenticated externally.
- *
- * @deprecated since 1.27
  */
 class AuthPlugin {
 	/**
@@ -73,8 +71,8 @@ class AuthPlugin {
 	/**
 	 * Modify options in the login template.
 	 *
-	 * @param BaseTemplate &$template
-	 * @param string &$type 'signup' or 'login'. Added in 1.16.
+	 * @param UserLoginTemplate $template
+	 * @param string $type 'signup' or 'login'. Added in 1.16.
 	 */
 	public function modifyUITemplate( &$template, &$type ) {
 		# Override this!
@@ -96,7 +94,11 @@ class AuthPlugin {
 	 * @return string
 	 */
 	public function getDomain() {
-		return $this->domain ?? 'invaliddomain';
+		if ( isset( $this->domain ) ) {
+			return $this->domain;
+		} else {
+			return 'invaliddomain';
+		}
 	}
 
 	/**
@@ -118,9 +120,7 @@ class AuthPlugin {
 	 * The User object is passed by reference so it can be modified; don't
 	 * forget the & on your function declaration.
 	 *
-	 * @deprecated since 1.26, use the UserLoggedIn hook instead. And assigning
-	 *  a different User object to $user is no longer supported.
-	 * @param User &$user
+	 * @param User $user
 	 * @return bool
 	 */
 	public function updateUser( &$user ) {
@@ -155,11 +155,11 @@ class AuthPlugin {
 	 * @return bool
 	 */
 	public function allowPropChange( $prop = '' ) {
-		if ( $prop == 'realname' && is_callable( [ $this, 'allowRealNameChange' ] ) ) {
+		if ( $prop == 'realname' && is_callable( array( $this, 'allowRealNameChange' ) ) ) {
 			return $this->allowRealNameChange();
-		} elseif ( $prop == 'emailaddress' && is_callable( [ $this, 'allowEmailChange' ] ) ) {
+		} elseif ( $prop == 'emailaddress' && is_callable( array( $this, 'allowEmailChange' ) ) ) {
 			return $this->allowEmailChange();
-		} elseif ( $prop == 'nickname' && is_callable( [ $this, 'allowNickChange' ] ) ) {
+		} elseif ( $prop == 'nickname' && is_callable( array( $this, 'allowNickChange' ) ) ) {
 			return $this->allowNickChange();
 		} else {
 			return true;
@@ -204,9 +204,8 @@ class AuthPlugin {
 	 * Update user information in the external authentication database.
 	 * Return true if successful.
 	 *
-	 * @deprecated since 1.26, use the UserSaveSettings hook instead.
-	 * @param User $user
-	 * @return bool
+	 * @param $user User object.
+	 * @return Boolean
 	 */
 	public function updateExternalDB( $user ) {
 		return true;
@@ -216,13 +215,12 @@ class AuthPlugin {
 	 * Update user groups in the external authentication database.
 	 * Return true if successful.
 	 *
-	 * @deprecated since 1.26, use the UserGroupsChanged hook instead.
 	 * @param User $user
 	 * @param array $addgroups Groups to add.
 	 * @param array $delgroups Groups to remove.
 	 * @return bool
 	 */
-	public function updateExternalDBGroups( $user, $addgroups, $delgroups = [] ) {
+	public function updateExternalDBGroups( $user, $addgroups, $delgroups = array() ) {
 		return true;
 	}
 
@@ -280,9 +278,7 @@ class AuthPlugin {
 	 * The User object is passed by reference so it can be modified; don't
 	 * forget the & on your function declaration.
 	 *
-	 * @deprecated since 1.26, use the UserLoggedIn hook instead. And assigning
-	 *  a different User object to $user is no longer supported.
-	 * @param User &$user
+	 * @param User $user
 	 * @param bool $autocreate True if user is being autocreated on login
 	 */
 	public function initUser( &$user, $autocreate = false ) {
@@ -302,7 +298,7 @@ class AuthPlugin {
 	/**
 	 * Get an instance of a User object
 	 *
-	 * @param User &$user
+	 * @param User $user
 	 *
 	 * @return AuthPluginUser
 	 */
@@ -316,13 +312,10 @@ class AuthPlugin {
 	 * @return array
 	 */
 	public function domainList() {
-		return [];
+		return array();
 	}
 }
 
-/**
- * @deprecated since 1.27
- */
 class AuthPluginUser {
 	function __construct( $user ) {
 		# Override this!
@@ -333,30 +326,16 @@ class AuthPluginUser {
 		return -1;
 	}
 
-	/**
-	 * Indicate whether the user is locked
-	 * @deprecated since 1.26, use the UserIsLocked hook instead.
-	 * @return bool
-	 */
 	public function isLocked() {
 		# Override this!
 		return false;
 	}
 
-	/**
-	 * Indicate whether the user is hidden
-	 * @deprecated since 1.26, use the UserIsHidden hook instead.
-	 * @return bool
-	 */
 	public function isHidden() {
 		# Override this!
 		return false;
 	}
 
-	/**
-	 * @deprecated since 1.28, use SessionManager::invalidateSessionForUser() instead.
-	 * @return bool
-	 */
 	public function resetAuthToken() {
 		# Override this!
 		return true;

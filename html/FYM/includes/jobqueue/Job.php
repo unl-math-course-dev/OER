@@ -23,7 +23,8 @@
 
 /**
  * Class to both describe a background job and handle jobs.
- * To push jobs onto queues, use JobQueueGroup::singleton()->push();
+ * The queue aspects of this class are now deprecated.
+ * Using the class to push jobs onto queues is deprecated (use JobSpecification).
  *
  * @ingroup JobQueue
  */
@@ -31,11 +32,11 @@ abstract class Job implements IJobSpecification {
 	/** @var string */
 	public $command;
 
-	/** @var array Array of job parameters */
+	/** @var array|bool Array of job parameters or false if none */
 	public $params;
 
 	/** @var array Additional queue metadata */
-	public $metadata = [];
+	public $metadata = array();
 
 	/** @var Title */
 	protected $title;
@@ -46,14 +47,9 @@ abstract class Job implements IJobSpecification {
 	/** @var string Text for error that occurred last */
 	protected $error;
 
-	/** @var callable[] */
-	protected $teardownCallbacks = [];
-
-	/** @var int Bitfield of JOB_* class constants */
-	protected $executionFlags = 0;
-
-	/** @var int Job must not be wrapped in the usual explicit LBFactory transaction round */
-	const JOB_NO_EXPLICIT_TRX_ROUND = 1;
+	/*-------------------------------------------------------------------------
+	 * Abstract functions
+	 *------------------------------------------------------------------------*/
 
 	/**
 	 * Run the job
@@ -61,65 +57,99 @@ abstract class Job implements IJobSpecification {
 	 */
 	abstract public function run();
 
+	/*-------------------------------------------------------------------------
+	 * Static functions
+	 *------------------------------------------------------------------------*/
+
 	/**
 	 * Create the appropriate object to handle a specific job
 	 *
 	 * @param string $command Job command
 	 * @param Title $title Associated title
-	 * @param array $params Job parameters
+	 * @param array|bool $params Job parameters
 	 * @throws MWException
 	 * @return Job
 	 */
-	public static function factory( $command, Title $title, $params = [] ) {
+	public static function factory( $command, Title $title, $params = false ) {
 		global $wgJobClasses;
-
 		if ( isset( $wgJobClasses[$command] ) ) {
-			$handler = $wgJobClasses[$command];
+			$class = $wgJobClasses[$command];
 
-			if ( is_callable( $handler ) ) {
-				$job = call_user_func( $handler, $title, $params );
-			} elseif ( class_exists( $handler ) ) {
-				$job = new $handler( $title, $params );
-			} else {
-				$job = null;
-			}
-
-			if ( $job instanceof Job ) {
-				$job->command = $command;
-				return $job;
-			} else {
-				throw new InvalidArgumentException( "Cannot instantiate job '$command': bad spec!" );
-			}
+			return new $class( $title, $params );
 		}
-
-		throw new InvalidArgumentException( "Invalid job command '{$command}'" );
+		throw new MWException( "Invalid job command `{$command}`" );
 	}
 
 	/**
-	 * @param string $command
-	 * @param Title $title
-	 * @param array|bool $params Can not be === true
+	 * Batch-insert a group of jobs into the queue.
+	 * This will be wrapped in a transaction with a forced commit.
+	 *
+	 * This may add duplicate at insert time, but they will be
+	 * removed later on, when the first one is popped.
+	 *
+	 * @param array $jobs of Job objects
+	 * @return bool
+	 * @deprecated since 1.21
+	 */
+	public static function batchInsert( $jobs ) {
+		return JobQueueGroup::singleton()->push( $jobs );
+	}
+
+	/**
+	 * Insert a group of jobs into the queue.
+	 *
+	 * Same as batchInsert() but does not commit and can thus
+	 * be rolled-back as part of a larger transaction. However,
+	 * large batches of jobs can cause slave lag.
+	 *
+	 * @param array $jobs of Job objects
+	 * @return bool
+	 * @deprecated since 1.21
+	 */
+	public static function safeBatchInsert( $jobs ) {
+		return JobQueueGroup::singleton()->push( $jobs, JobQueue::QOS_ATOMIC );
+	}
+
+	/**
+	 * Pop a job of a certain type.  This tries less hard than pop() to
+	 * actually find a job; it may be adversely affected by concurrent job
+	 * runners.
+	 *
+	 * @param $type string
+	 * @return Job|bool Returns false if there are no jobs
+	 * @deprecated since 1.21
+	 */
+	public static function pop_type( $type ) {
+		return JobQueueGroup::singleton()->get( $type )->pop();
+	}
+
+	/**
+	 * Pop a job off the front of the queue.
+	 * This is subject to $wgJobTypesExcludedFromDefaultQueue.
+	 *
+	 * @return Job|bool False if there are no jobs
+	 * @deprecated since 1.21
+	 */
+	public static function pop() {
+		return JobQueueGroup::singleton()->pop();
+	}
+
+	/*-------------------------------------------------------------------------
+	 * Non-static functions
+	 *------------------------------------------------------------------------*/
+
+	/**
+	 * @param $command
+	 * @param $title
+	 * @param $params array|bool
 	 */
 	public function __construct( $command, $title, $params = false ) {
 		$this->command = $command;
 		$this->title = $title;
-		$this->params = is_array( $params ) ? $params : []; // sanity
+		$this->params = $params;
 
 		// expensive jobs may set this to true
 		$this->removeDuplicates = false;
-
-		if ( !isset( $this->params['requestId'] ) ) {
-			$this->params['requestId'] = WebRequest::getRequestId();
-		}
-	}
-
-	/**
-	 * @param int $flag JOB_* class constant
-	 * @return bool
-	 * @since 1.31
-	 */
-	public function hasExecutionFlag( $flag ) {
-		return ( $this->executionFlags && $flag ) === $flag;
 	}
 
 	/**
@@ -154,43 +184,7 @@ abstract class Job implements IJobSpecification {
 	}
 
 	/**
-	 * @return int|null UNIX timestamp of when the job was queued, or null
-	 * @since 1.26
-	 */
-	public function getQueuedTimestamp() {
-		return isset( $this->metadata['timestamp'] )
-			? wfTimestampOrNull( TS_UNIX, $this->metadata['timestamp'] )
-			: null;
-	}
-
-	/**
-	 * @return string|null Id of the request that created this job. Follows
-	 *  jobs recursively, allowing to track the id of the request that started a
-	 *  job when jobs insert jobs which insert other jobs.
-	 * @since 1.27
-	 */
-	public function getRequestId() {
-		return $this->params['requestId'] ?? null;
-	}
-
-	/**
-	 * @return int|null UNIX timestamp of when the job was runnable, or null
-	 * @since 1.26
-	 */
-	public function getReadyTimestamp() {
-		return $this->getReleaseTimestamp() ?: $this->getQueuedTimestamp();
-	}
-
-	/**
-	 * Whether the queue should reject insertion of this job if a duplicate exists
-	 *
-	 * This can be used to avoid duplicated effort or combined with delayed jobs to
-	 * coalesce updates into larger batches. Claimed jobs are never treated as
-	 * duplicates of new jobs, and some queues may allow a few duplicates due to
-	 * network partitions and fail-over. Thus, additional locking is needed to
-	 * enforce mutual exclusion if this is really needed.
-	 *
-	 * @return bool
+	 * @return bool Whether only one of each identical set of jobs should be run
 	 */
 	public function ignoreDuplicates() {
 		return $this->removeDuplicates;
@@ -205,7 +199,7 @@ abstract class Job implements IJobSpecification {
 	}
 
 	/**
-	 * @return int Number of actually "work items" handled in this job
+	 * @return integer Number of actually "work items" handled in this job
 	 * @see $wgJobBackoffThrottling
 	 * @since 1.23
 	 */
@@ -223,52 +217,36 @@ abstract class Job implements IJobSpecification {
 	 * @since 1.21
 	 */
 	public function getDeduplicationInfo() {
-		$info = [
+		$info = array(
 			'type' => $this->getType(),
 			'namespace' => $this->getTitle()->getNamespace(),
 			'title' => $this->getTitle()->getDBkey(),
 			'params' => $this->getParams()
-		];
+		);
 		if ( is_array( $info['params'] ) ) {
 			// Identical jobs with different "root" jobs should count as duplicates
 			unset( $info['params']['rootJobSignature'] );
 			unset( $info['params']['rootJobTimestamp'] );
 			// Likewise for jobs with different delay times
 			unset( $info['params']['jobReleaseTimestamp'] );
-			// Identical jobs from different requests should count as duplicates
-			unset( $info['params']['requestId'] );
-			// Queues pack and hash this array, so normalize the order
-			ksort( $info['params'] );
 		}
 
 		return $info;
 	}
 
 	/**
-	 * Get "root job" parameters for a task
-	 *
-	 * This is used to no-op redundant jobs, including child jobs of jobs,
-	 * as long as the children inherit the root job parameters. When a job
-	 * with root job parameters and "rootJobIsSelf" set is pushed, the
-	 * deduplicateRootJob() method is automatically called on it. If the
-	 * root job is only virtual and not actually pushed (e.g. the sub-jobs
-	 * are inserted directly), then call deduplicateRootJob() directly.
-	 *
 	 * @see JobQueue::deduplicateRootJob()
-	 *
 	 * @param string $key A key that identifies the task
 	 * @return array Map of:
-	 *   - rootJobIsSelf    : true
 	 *   - rootJobSignature : hash (e.g. SHA1) that identifies the task
 	 *   - rootJobTimestamp : TS_MW timestamp of this instance of the task
 	 * @since 1.21
 	 */
 	public static function newRootJobParams( $key ) {
-		return [
-			'rootJobIsSelf'    => true,
+		return array(
 			'rootJobSignature' => sha1( $key ),
 			'rootJobTimestamp' => wfTimestampNow()
-		];
+		);
 	}
 
 	/**
@@ -277,10 +255,14 @@ abstract class Job implements IJobSpecification {
 	 * @since 1.21
 	 */
 	public function getRootJobParams() {
-		return [
-			'rootJobSignature' => $this->params['rootJobSignature'] ?? null,
-			'rootJobTimestamp' => $this->params['rootJobTimestamp'] ?? null
-		];
+		return array(
+			'rootJobSignature' => isset( $this->params['rootJobSignature'] )
+				? $this->params['rootJobSignature']
+				: null,
+			'rootJobTimestamp' => isset( $this->params['rootJobTimestamp'] )
+				? $this->params['rootJobTimestamp']
+				: null
+		);
 	}
 
 	/**
@@ -294,32 +276,12 @@ abstract class Job implements IJobSpecification {
 	}
 
 	/**
-	 * @see JobQueue::deduplicateRootJob()
-	 * @return bool Whether this is job is a root job
+	 * Insert a single job into the queue.
+	 * @return bool true on success
+	 * @deprecated since 1.21
 	 */
-	public function isRootJob() {
-		return $this->hasRootJobParams() && !empty( $this->params['rootJobIsSelf'] );
-	}
-
-	/**
-	 * @param callable $callback A function with one parameter, the success status, which will be
-	 *   false if the job failed or it succeeded but the DB changes could not be committed or
-	 *   any deferred updates threw an exception. (This parameter was added in 1.28.)
-	 * @since 1.27
-	 */
-	protected function addTeardownCallback( $callback ) {
-		$this->teardownCallbacks[] = $callback;
-	}
-
-	/**
-	 * Do any final cleanup after run(), deferred updates, and all DB commits happen
-	 * @param bool $status Whether the job, its deferred updates, and DB commit all succeeded
-	 * @since 1.27
-	 */
-	public function teardown( $status ) {
-		foreach ( $this->teardownCallbacks as $callback ) {
-			call_user_func( $callback, $status );
-		}
+	public function insert() {
+		return JobQueueGroup::singleton()->push( $this );
 	}
 
 	/**
@@ -333,52 +295,29 @@ abstract class Job implements IJobSpecification {
 					$paramString .= ' ';
 				}
 				if ( is_array( $value ) ) {
-					$filteredValue = [];
-					foreach ( $value as $k => $v ) {
-						$json = FormatJson::encode( $v );
-						if ( $json === false || mb_strlen( $json ) > 512 ) {
-							$filteredValue[$k] = gettype( $v ) . '(...)';
-						} else {
-							$filteredValue[$k] = $v;
-						}
-					}
-					if ( count( $filteredValue ) <= 10 ) {
-						$value = FormatJson::encode( $filteredValue );
-					} else {
-						$value = "array(" . count( $value ) . ")";
-					}
+					$value = "array(" . count( $value ) . ")";
 				} elseif ( is_object( $value ) && !method_exists( $value, '__toString' ) ) {
 					$value = "object(" . get_class( $value ) . ")";
 				}
-
-				$flatValue = (string)$value;
+				$value = (string)$value;
 				if ( mb_strlen( $value ) > 1024 ) {
-					$flatValue = "string(" . mb_strlen( $value ) . ")";
+					$value = "string(" . mb_strlen( $value ) . ")";
 				}
 
-				$paramString .= "$key={$flatValue}";
+				$paramString .= "$key=$value";
 			}
 		}
 
-		$metaString = '';
-		foreach ( $this->metadata as $key => $value ) {
-			if ( is_scalar( $value ) && mb_strlen( $value ) < 1024 ) {
-				$metaString .= ( $metaString ? ",$key=$value" : "$key=$value" );
-			}
-		}
-
-		$s = $this->command;
 		if ( is_object( $this->title ) ) {
-			$s .= " {$this->title->getPrefixedDBkey()}";
-		}
-		if ( $paramString != '' ) {
-			$s .= " $paramString";
-		}
-		if ( $metaString != '' ) {
-			$s .= " ($metaString)";
-		}
+			$s = "{$this->command} " . $this->title->getPrefixedDBkey();
+			if ( $paramString !== '' ) {
+				$s .= ' ' . $paramString;
+			}
 
-		return $s;
+			return $s;
+		} else {
+			return "{$this->command} $paramString";
+		}
 	}
 
 	protected function setLastError( $error ) {

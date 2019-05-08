@@ -30,9 +30,9 @@ abstract class MediaTransformOutput {
 	/** @var array Associative array mapping optional supplementary image files
 	 *  from pixel density (eg 1.5 or 2) to additional URLs.
 	 */
-	public $responsiveUrls = [];
+	public $responsiveUrls = array();
 
-	/** @var File */
+	/** @var File object */
 	protected $file;
 
 	/** @var int Image width */
@@ -47,13 +47,13 @@ abstract class MediaTransformOutput {
 	/** @var bool|string */
 	protected $page;
 
-	/** @var bool|string Filesystem path to the thumb */
+	/** @var bool|string Filesystem path to the thumb  */
 	protected $path;
 
 	/** @var bool|string Language code, false if not set */
 	protected $lang;
 
-	/** @var bool|string Permanent storage path */
+	/** @var bool|string Permanent storage path  */
 	protected $storagePath = false;
 
 	/**
@@ -71,7 +71,7 @@ abstract class MediaTransformOutput {
 	}
 
 	/**
-	 * @return File
+	 * @return File file
 	 */
 	public function getFile() {
 		return $this->file;
@@ -80,14 +80,14 @@ abstract class MediaTransformOutput {
 	/**
 	 * Get the final extension of the thumbnail.
 	 * Returns false for scripted transformations.
-	 * @return string|bool
+	 * @return string|false
 	 */
 	public function getExtension() {
 		return $this->path ? FileBackend::extensionFromPath( $this->path ) : false;
 	}
 
 	/**
-	 * @return string|bool The thumbnail URL
+	 * @return string|false The thumbnail URL
 	 */
 	public function getUrl() {
 		return $this->url;
@@ -106,9 +106,6 @@ abstract class MediaTransformOutput {
 	 */
 	public function setStoragePath( $storagePath ) {
 		$this->storagePath = $storagePath;
-		if ( $this->path === false ) {
-			$this->path = $storagePath;
-		}
 	}
 
 	/**
@@ -131,7 +128,7 @@ abstract class MediaTransformOutput {
 	 *
 	 * @return string
 	 */
-	abstract public function toHtml( $options = [] );
+	abstract public function toHtml( $options = array() );
 
 	/**
 	 * This will be overridden to return true in error classes
@@ -143,12 +140,9 @@ abstract class MediaTransformOutput {
 
 	/**
 	 * Check if an output thumbnail file actually exists.
-	 *
 	 * This will return false if there was an error, the
 	 * thumbnail is to be handled client-side only, or if
 	 * transformation was deferred via TRANSFORM_LATER.
-	 * This file may exist as a new file in /tmp, a file
-	 * in permanent storage, or even refer to the original.
 	 *
 	 * @return bool
 	 */
@@ -182,7 +176,7 @@ abstract class MediaTransformOutput {
 		} elseif ( FileBackend::isStoragePath( $this->path ) ) {
 			$be = $this->file->getRepo()->getBackend();
 			// The temp file will be process cached by FileBackend
-			$fsFile = $be->getLocalReference( [ 'src' => $this->path ] );
+			$fsFile = $be->getLocalReference( array( 'src' => $this->path ) );
 
 			return $fsFile ? $fsFile->getPath() : false;
 		} else {
@@ -194,30 +188,18 @@ abstract class MediaTransformOutput {
 	 * Stream the file if there were no errors
 	 *
 	 * @param array $headers Additional HTTP headers to send on success
-	 * @return Status
-	 * @since 1.27
-	 */
-	public function streamFileWithStatus( $headers = [] ) {
-		if ( !$this->path ) {
-			return Status::newFatal( 'backend-fail-stream', '<no path>' );
-		} elseif ( FileBackend::isStoragePath( $this->path ) ) {
-			$be = $this->file->getRepo()->getBackend();
-			return $be->streamFile( [ 'src' => $this->path, 'headers' => $headers ] );
-		} else { // FS-file
-			$success = StreamFile::stream( $this->getLocalCopyPath(), $headers );
-			return $success ? Status::newGood() : Status::newFatal( 'backend-fail-stream', $this->path );
-		}
-	}
-
-	/**
-	 * Stream the file if there were no errors
-	 *
-	 * @deprecated since 1.26, use streamFileWithStatus
-	 * @param array $headers Additional HTTP headers to send on success
 	 * @return bool Success
 	 */
-	public function streamFile( $headers = [] ) {
-		$this->streamFileWithStatus( $headers )->isOK();
+	public function streamFile( $headers = array() ) {
+		if ( !$this->path ) {
+			return false;
+		} elseif ( FileBackend::isStoragePath( $this->path ) ) {
+			$be = $this->file->getRepo()->getBackend();
+
+			return $be->streamFile( array( 'src' => $this->path, 'headers' => $headers ) )->isOK();
+		} else { // FS-file
+			return StreamFile::stream( $this->getLocalCopyPath(), $headers );
+		}
 	}
 
 	/**
@@ -236,15 +218,15 @@ abstract class MediaTransformOutput {
 	}
 
 	/**
-	 * @param string|null $title
+	 * @param $title string
 	 * @param string|array $params Query parameters to add
 	 * @return array
 	 */
-	public function getDescLinkAttribs( $title = null, $params = [] ) {
+	public function getDescLinkAttribs( $title = null, $params = array() ) {
 		if ( is_array( $params ) ) {
 			$query = $params;
 		} else {
-			$query = [];
+			$query = array();
 		}
 		if ( $this->page && $this->page !== 1 ) {
 			$query['page'] = $this->page;
@@ -257,10 +239,10 @@ abstract class MediaTransformOutput {
 			$query = $params . '&' . wfArrayToCgi( $query );
 		}
 
-		$attribs = [
+		$attribs = array(
 			'href' => $this->file->getTitle()->getLocalURL( $query ),
 			'class' => 'image',
-		];
+		);
 		if ( $title ) {
 			$attribs['title'] = $title;
 		}
@@ -287,25 +269,25 @@ class ThumbnailImage extends MediaTransformOutput {
 	 * @param string|bool $path Filesystem path to the thumb
 	 * @param array $parameters Associative array of parameters
 	 */
-	function __construct( $file, $url, $path = false, $parameters = [] ) {
+	function __construct( $file, $url, $path = false, $parameters = array() ) {
 		# Previous parameters:
 		#   $file, $url, $width, $height, $path = false, $page = false
 
-		$defaults = [
+		$defaults = array(
 			'page' => false,
 			'lang' => false
-		];
+		);
 
 		if ( is_array( $parameters ) ) {
 			$actualParams = $parameters + $defaults;
 		} else {
 			# Using old format, should convert. Later a warning could be added here.
 			$numArgs = func_num_args();
-			$actualParams = [
+			$actualParams = array(
 				'width' => $path,
 				'height' => $parameters,
 				'page' => ( $numArgs > 5 ) ? func_get_arg( 5 ) : false
-			] + $defaults;
+			) + $defaults;
 			$path = ( $numArgs > 4 ) ? func_get_arg( 4 ) : false;
 		}
 
@@ -355,22 +337,17 @@ class ThumbnailImage extends MediaTransformOutput {
 	 * @throws MWException
 	 * @return string
 	 */
-	function toHtml( $options = [] ) {
+	function toHtml( $options = array() ) {
 		if ( count( func_get_args() ) == 2 ) {
 			throw new MWException( __METHOD__ . ' called in the old style' );
 		}
 
-		$alt = $options['alt'] ?? '';
+		$alt = empty( $options['alt'] ) ? '' : $options['alt'];
 
-		$query = $options['desc-query'] ?? '';
-
-		$attribs = [
-			'alt' => $alt,
-			'src' => $this->url,
-		];
+		$query = empty( $options['desc-query'] ) ? '' : $options['desc-query'];
 
 		if ( !empty( $options['custom-url-link'] ) ) {
-			$linkAttribs = [ 'href' => $options['custom-url-link'] ];
+			$linkAttribs = array( 'href' => $options['custom-url-link'] );
 			if ( !empty( $options['title'] ) ) {
 				$linkAttribs['title'] = $options['title'];
 			}
@@ -385,23 +362,25 @@ class ThumbnailImage extends MediaTransformOutput {
 		} elseif ( !empty( $options['custom-title-link'] ) ) {
 			/** @var Title $title */
 			$title = $options['custom-title-link'];
-			$linkAttribs = [
+			$linkAttribs = array(
 				'href' => $title->getLinkURL(),
 				'title' => empty( $options['title'] ) ? $title->getFullText() : $options['title']
-			];
+			);
 		} elseif ( !empty( $options['desc-link'] ) ) {
 			$linkAttribs = $this->getDescLinkAttribs(
 				empty( $options['title'] ) ? null : $options['title'],
 				$query
 			);
 		} elseif ( !empty( $options['file-link'] ) ) {
-			$linkAttribs = [ 'href' => $this->file->getUrl() ];
+			$linkAttribs = array( 'href' => $this->file->getURL() );
 		} else {
 			$linkAttribs = false;
-			if ( !empty( $options['title'] ) ) {
-				$attribs['title'] = $options['title'];
-			}
 		}
+
+		$attribs = array(
+			'alt' => $alt,
+			'src' => $this->url,
+		);
 
 		if ( empty( $options['no-dimensions'] ) ) {
 			$attribs['width'] = $this->width;
@@ -421,13 +400,11 @@ class ThumbnailImage extends MediaTransformOutput {
 		}
 
 		// Additional densities for responsive images, if specified.
-		// If any of these urls is the same as src url, it'll be excluded.
-		$responsiveUrls = array_diff( $this->responsiveUrls, [ $this->url ] );
-		if ( !empty( $responsiveUrls ) ) {
-			$attribs['srcset'] = Html::srcSet( $responsiveUrls );
+		if ( !empty( $this->responsiveUrls ) ) {
+			$attribs['srcset'] = Html::srcSet( $this->responsiveUrls );
 		}
 
-		Hooks::run( 'ThumbnailBeforeProduceHTML', [ $this, &$attribs, &$linkAttribs ] );
+		wfRunHooks( 'ThumbnailBeforeProduceHTML', array( $this, &$attribs, &$linkAttribs ) );
 
 		return $this->linkWrap( $linkAttribs, Xml::element( 'img', $attribs ) );
 	}
@@ -439,43 +416,42 @@ class ThumbnailImage extends MediaTransformOutput {
  * @ingroup Media
  */
 class MediaTransformError extends MediaTransformOutput {
-	/** @var Message */
-	private $msg;
+	/** @var string HTML formatted version of the error */
+	private $htmlMsg;
+
+	/** @var string Plain text formatted version of the error */
+	private $textMsg;
 
 	function __construct( $msg, $width, $height /*, ... */ ) {
 		$args = array_slice( func_get_args(), 3 );
-		$this->msg = wfMessage( $msg )->params( $args );
+		$htmlArgs = array_map( 'htmlspecialchars', $args );
+		$htmlArgs = array_map( 'nl2br', $htmlArgs );
+
+		$this->htmlMsg = wfMessage( $msg )->rawParams( $htmlArgs )->escaped();
+		$this->textMsg = wfMessage( $msg )->rawParams( $htmlArgs )->text();
 		$this->width = intval( $width );
 		$this->height = intval( $height );
 		$this->url = false;
 		$this->path = false;
 	}
 
-	function toHtml( $options = [] ) {
+	function toHtml( $options = array() ) {
 		return "<div class=\"MediaTransformError\" style=\"" .
 			"width: {$this->width}px; height: {$this->height}px; display:inline-block;\">" .
-			$this->getHtmlMsg() .
+			$this->htmlMsg .
 			"</div>";
 	}
 
 	function toText() {
-		return $this->msg->text();
+		return $this->textMsg;
 	}
 
 	function getHtmlMsg() {
-		return $this->msg->escaped();
-	}
-
-	function getMsg() {
-		return $this->msg;
+		return $this->htmlMsg;
 	}
 
 	function isError() {
 		return true;
-	}
-
-	function getHttpStatusCode() {
-		return 500;
 	}
 }
 
@@ -487,38 +463,8 @@ class MediaTransformError extends MediaTransformOutput {
 class TransformParameterError extends MediaTransformError {
 	function __construct( $params ) {
 		parent::__construct( 'thumbnail_error',
-			max( $params['width'] ?? 0, 120 ),
-			max( $params['height'] ?? 0, 120 ),
-			wfMessage( 'thumbnail_invalid_params' )
-		);
-	}
-
-	function getHttpStatusCode() {
-		return 400;
-	}
-}
-
-/**
- * Shortcut class for parameter file size errors
- *
- * @ingroup Media
- * @since 1.25
- */
-class TransformTooBigImageAreaError extends MediaTransformError {
-	function __construct( $params, $maxImageArea ) {
-		$msg = wfMessage( 'thumbnail_toobigimagearea' );
-		$msg->params(
-			$msg->getLanguage()->formatComputingNumbers( $maxImageArea, 1000, "size-$1pixel" )
-		);
-
-		parent::__construct( 'thumbnail_error',
-			max( $params['width'] ?? 0, 120 ),
-			max( $params['height'] ?? 0, 120 ),
-			$msg
-		);
-	}
-
-	function getHttpStatusCode() {
-		return 400;
+			max( isset( $params['width'] ) ? $params['width'] : 0, 120 ),
+			max( isset( $params['height'] ) ? $params['height'] : 0, 120 ),
+			wfMessage( 'thumbnail_invalid_params' )->text() );
 	}
 }

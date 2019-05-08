@@ -1,7 +1,8 @@
 <?php
 /** Bishnupria Manipuri (বিষ্ণুপ্রিয়া মণিপুরী)
  *
- * To improve a translation please visit https://translatewiki.net
+ * See MessagesQqq.php for message documentation incl. usage of parameters
+ * To improve a translation please visit http://translatewiki.net
  *
  * @ingroup Language
  * @file
@@ -10,7 +11,7 @@
 
 $fallback = 'bn';
 
-$namespaceNames = [
+$namespaceNames = array(
 	NS_MEDIA            => 'মিডিয়া',
 	NS_SPECIAL          => 'বিশেষ',
 	NS_TALK             => 'য়্যারী',
@@ -27,9 +28,9 @@ $namespaceNames = [
 	NS_HELP_TALK        => 'পাংলাকর_য়্যারী',
 	NS_CATEGORY         => 'থাক',
 	NS_CATEGORY_TALK    => 'থাকর_য়্যারী',
-];
+);
 
-$digitTransformTable = [
+$digitTransformTable = array(
 	'0' => '০',
 	'1' => '১',
 	'2' => '২',
@@ -40,4 +41,5 @@ $digitTransformTable = [
 	'7' => '৭',
 	'8' => '৮',
 	'9' => '৯'
-];
+);
+

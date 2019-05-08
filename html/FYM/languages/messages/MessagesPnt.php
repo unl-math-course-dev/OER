@@ -1,7 +1,8 @@
 <?php
 /** Pontic (Ποντιακά)
  *
- * To improve a translation please visit https://translatewiki.net
+ * See MessagesQqq.php for message documentation incl. usage of parameters
+ * To improve a translation please visit http://translatewiki.net
  *
  * @ingroup Language
  * @file
@@ -16,9 +17,7 @@
  * @author ZaDiak
  */
 
-$fallback = 'el';
-
-$namespaceNames = [
+$namespaceNames = array(
 	NS_MEDIA            => 'Μέσον',
 	NS_SPECIAL          => 'Ειδικόν',
 	NS_TALK             => 'Καλάτσεμαν',
@@ -35,23 +34,26 @@ $namespaceNames = [
 	NS_HELP_TALK        => 'Καλάτσεμαν_βοήθειας',
 	NS_CATEGORY         => 'Κατηγορίαν',
 	NS_CATEGORY_TALK    => 'Καλάτσεμαν_κατηγορίας',
-];
+);
 
-$namespaceAliases = [
+$namespaceAliases = array(
 	'Εικόναν' => NS_FILE,
 	'Καλάτσεμαν_εικόνας' => NS_FILE_TALK,
-];
+);
 
-$datePreferences = [
+$datePreferences = array(
 	'default',
 	'pnt',
 	'ISO 8601',
-];
+);
 
 $defaultDateFormat = 'pnt';
 
-$dateFormats = [
+
+
+$dateFormats = array(
 	'pnt time' => 'H:i',
 	'pnt date' => 'j xg Y',
 	'pnt both' => 'H:i, j xg Y',
-];
+);
+

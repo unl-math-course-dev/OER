@@ -20,7 +20,6 @@
  * @file
  * @ingroup Ajax
  */
-use MediaWiki\MediaWikiServices;
 
 /**
  * Handle responses for Ajax requests (send headers, print
@@ -49,7 +48,7 @@ class AjaxResponse {
 
 	/**
 	 * Date for the HTTP header Last-modified
-	 * @var string|bool $mLastModified
+	 * @var string|false $mLastModified
 	 */
 	private $mLastModified;
 
@@ -72,22 +71,15 @@ class AjaxResponse {
 	private $mText;
 
 	/**
-	 * @var Config
+	 * @param $text string|null
 	 */
-	private $mConfig;
-
-	/**
-	 * @param string|null $text
-	 * @param Config|null $config
-	 */
-	function __construct( $text = null, Config $config = null ) {
+	function __construct( $text = null ) {
 		$this->mCacheDuration = null;
 		$this->mVary = null;
-		$this->mConfig = $config ?: MediaWikiServices::getInstance()->getMainConfig();
 
 		$this->mDisabled = false;
 		$this->mText = '';
-		$this->mResponseCode = 200;
+		$this->mResponseCode = '200 OK';
 		$this->mLastModified = false;
 		$this->mContentType = 'application/x-wiki';
 
@@ -98,7 +90,7 @@ class AjaxResponse {
 
 	/**
 	 * Set the number of seconds to get the response cached by a proxy
-	 * @param int $duration
+	 * @param $duration int
 	 */
 	function setCacheDuration( $duration ) {
 		$this->mCacheDuration = $duration;
@@ -106,7 +98,7 @@ class AjaxResponse {
 
 	/**
 	 * Set the HTTP Vary header
-	 * @param string $vary
+	 * @param $vary string
 	 */
 	function setVary( $vary ) {
 		$this->mVary = $vary;
@@ -114,7 +106,7 @@ class AjaxResponse {
 
 	/**
 	 * Set the HTTP response code
-	 * @param string $code
+	 * @param $code string
 	 */
 	function setResponseCode( $code ) {
 		$this->mResponseCode = $code;
@@ -122,7 +114,7 @@ class AjaxResponse {
 
 	/**
 	 * Set the HTTP header Content-Type
-	 * @param string $type
+	 * @param $type string
 	 */
 	function setContentType( $type ) {
 		$this->mContentType = $type;
@@ -137,10 +129,10 @@ class AjaxResponse {
 
 	/**
 	 * Add content to the response
-	 * @param string $text
+	 * @param $text string
 	 */
 	function addText( $text ) {
-		if ( !$this->mDisabled && $text ) {
+		if ( ! $this->mDisabled && $text ) {
 			$this->mText .= $text;
 		}
 	}
@@ -149,7 +141,7 @@ class AjaxResponse {
 	 * Output text
 	 */
 	function printText() {
-		if ( !$this->mDisabled ) {
+		if ( ! $this->mDisabled ) {
 			print $this->mText;
 		}
 	}
@@ -158,34 +150,32 @@ class AjaxResponse {
 	 * Construct the header and output it
 	 */
 	function sendHeaders() {
+		global $wgUseSquid, $wgUseESI;
+
 		if ( $this->mResponseCode ) {
-			// For back-compat, it is supported that mResponseCode be a string like " 200 OK"
-			// (with leading space and the status message after). Cast response code to an integer
-			// to take advantage of PHP's conversion rules which will turn "  200 OK" into 200.
-			// https://secure.php.net/manual/en/language.types.string.php#language.types.string.conversion
-			$n = intval( trim( $this->mResponseCode ) );
-			HttpStatus::header( $n );
+			$n = preg_replace( '/^ *(\d+)/', '\1', $this->mResponseCode );
+			header( "Status: " . $this->mResponseCode, true, (int)$n );
 		}
 
-		header( "Content-Type: " . $this->mContentType );
+		header ( "Content-Type: " . $this->mContentType );
 
 		if ( $this->mLastModified ) {
-			header( "Last-Modified: " . $this->mLastModified );
+			header ( "Last-Modified: " . $this->mLastModified );
 		} else {
-			header( "Last-Modified: " . gmdate( "D, d M Y H:i:s" ) . " GMT" );
+			header ( "Last-Modified: " . gmdate( "D, d M Y H:i:s" ) . " GMT" );
 		}
 
 		if ( $this->mCacheDuration ) {
-			# If CDN caches are configured, tell them to cache the response,
-			# and tell the client to always check with the CDN. Otherwise,
+			# If squid caches are configured, tell them to cache the response,
+			# and tell the client to always check with the squid. Otherwise,
 			# tell the client to use a cached copy, without a way to purge it.
 
-			if ( $this->mConfig->get( 'UseSquid' ) ) {
+			if ( $wgUseSquid ) {
 				# Expect explicit purge of the proxy cache, but require end user agents
 				# to revalidate against the proxy on each visit.
-				# Surrogate-Control controls our CDN, Cache-Control downstream caches
+				# Surrogate-Control controls our Squid, Cache-Control downstream caches
 
-				if ( $this->mConfig->get( 'UseESI' ) ) {
+				if ( $wgUseESI ) {
 					header( 'Surrogate-Control: max-age=' . $this->mCacheDuration . ', content="ESI/1.0"' );
 					header( 'Cache-Control: s-maxage=0, must-revalidate, max-age=0' );
 				} else {
@@ -194,20 +184,20 @@ class AjaxResponse {
 
 			} else {
 				# Let the client do the caching. Cache is not purged.
-				header( "Expires: " . gmdate( "D, d M Y H:i:s", time() + $this->mCacheDuration ) . " GMT" );
-				header( "Cache-Control: s-maxage={$this->mCacheDuration}," .
+				header ( "Expires: " . gmdate( "D, d M Y H:i:s", time() + $this->mCacheDuration ) . " GMT" );
+				header ( "Cache-Control: s-maxage={$this->mCacheDuration}," .
 					"public,max-age={$this->mCacheDuration}" );
 			}
 
 		} else {
 			# always expired, always modified
-			header( "Expires: Mon, 26 Jul 1997 05:00:00 GMT" );    // Date in the past
-			header( "Cache-Control: no-cache, must-revalidate" );  // HTTP/1.1
-			header( "Pragma: no-cache" );                          // HTTP/1.0
+			header ( "Expires: Mon, 26 Jul 1997 05:00:00 GMT" );    // Date in the past
+			header ( "Cache-Control: no-cache, must-revalidate" );  // HTTP/1.1
+			header ( "Pragma: no-cache" );                          // HTTP/1.0
 		}
 
 		if ( $this->mVary ) {
-			header( "Vary: " . $this->mVary );
+			header ( "Vary: " . $this->mVary );
 		}
 	}
 
@@ -216,7 +206,7 @@ class AjaxResponse {
 	 * possible. If successful, the AjaxResponse is disabled so that
 	 * any future call to AjaxResponse::printText() have no effect.
 	 *
-	 * @param string $timestamp
+	 * @param $timestamp string
 	 * @return bool Returns true if the response code was set to 304 Not Modified.
 	 */
 	function checkLastModified( $timestamp ) {
@@ -224,12 +214,12 @@ class AjaxResponse {
 		$fname = 'AjaxResponse::checkLastModified';
 
 		if ( !$timestamp || $timestamp == '19700101000000' ) {
-			wfDebug( "$fname: CACHE DISABLED, NO TIMESTAMP", 'private' );
+			wfDebug( "$fname: CACHE DISABLED, NO TIMESTAMP\n", 'log' );
 			return false;
 		}
 
 		if ( !$wgCachePages ) {
-			wfDebug( "$fname: CACHE DISABLED", 'private' );
+			wfDebug( "$fname: CACHE DISABLED\n", 'log' );
 			return false;
 		}
 
@@ -242,55 +232,57 @@ class AjaxResponse {
 			# this breaks strtotime().
 			$modsince = preg_replace( '/;.*$/', '', $_SERVER["HTTP_IF_MODIFIED_SINCE"] );
 			$modsinceTime = strtotime( $modsince );
-			$ismodsince = wfTimestamp( TS_MW, $modsinceTime ?: 1 );
-			wfDebug( "$fname: -- client send If-Modified-Since: $modsince", 'private' );
-			wfDebug( "$fname: --  we might send Last-Modified : $lastmod", 'private' );
+			$ismodsince = wfTimestamp( TS_MW, $modsinceTime ? $modsinceTime : 1 );
+			wfDebug( "$fname: -- client send If-Modified-Since: " . $modsince . "\n", 'log' );
+			wfDebug( "$fname: --  we might send Last-Modified : $lastmod\n", 'log' );
 
 			if ( ( $ismodsince >= $timestamp )
 				&& $wgUser->validateCache( $ismodsince ) &&
 				$ismodsince >= $wgCacheEpoch
 			) {
 				ini_set( 'zlib.output_compression', 0 );
-				$this->setResponseCode( 304 );
+				$this->setResponseCode( "304 Not Modified" );
 				$this->disable();
 				$this->mLastModified = $lastmod;
 
 				wfDebug( "$fname: CACHED client: $ismodsince ; user: {$wgUser->getTouched()} ; " .
-					"page: $timestamp ; site $wgCacheEpoch", 'private' );
+					"page: $timestamp ; site $wgCacheEpoch\n", 'log' );
 
 				return true;
 			} else {
 				wfDebug( "$fname: READY  client: $ismodsince ; user: {$wgUser->getTouched()} ; " .
-					"page: $timestamp ; site $wgCacheEpoch", 'private' );
+					"page: $timestamp ; site $wgCacheEpoch\n", 'log' );
 				$this->mLastModified = $lastmod;
 			}
 		} else {
-			wfDebug( "$fname: client did not send If-Modified-Since header", 'private' );
+			wfDebug( "$fname: client did not send If-Modified-Since header\n", 'log' );
 			$this->mLastModified = $lastmod;
 		}
 		return false;
 	}
 
 	/**
-	 * @param string $mckey
-	 * @param int $touched
+	 * @param $mckey string
+	 * @param $touched int
 	 * @return bool
 	 */
 	function loadFromMemcached( $mckey, $touched ) {
+		global $wgMemc;
+
 		if ( !$touched ) {
 			return false;
 		}
 
-		$mcvalue = ObjectCache::getMainWANInstance()->get( $mckey );
+		$mcvalue = $wgMemc->get( $mckey );
 		if ( $mcvalue ) {
 			# Check to see if the value has been invalidated
 			if ( $touched <= $mcvalue['timestamp'] ) {
-				wfDebug( "Got $mckey from cache" );
+				wfDebug( "Got $mckey from cache\n" );
 				$this->mText = $mcvalue['value'];
 
 				return true;
 			} else {
-				wfDebug( "$mckey has expired" );
+				wfDebug( "$mckey has expired\n" );
 			}
 		}
 
@@ -298,16 +290,18 @@ class AjaxResponse {
 	}
 
 	/**
-	 * @param string $mckey
-	 * @param int $expiry
+	 * @param $mckey string
+	 * @param $expiry int
 	 * @return bool
 	 */
 	function storeInMemcached( $mckey, $expiry = 86400 ) {
-		ObjectCache::getMainWANInstance()->set( $mckey,
-			[
+		global $wgMemc;
+
+		$wgMemc->set( $mckey,
+			array(
 				'timestamp' => wfTimestampNow(),
 				'value' => $this->mText
-			], $expiry
+			), $expiry
 		);
 
 		return true;

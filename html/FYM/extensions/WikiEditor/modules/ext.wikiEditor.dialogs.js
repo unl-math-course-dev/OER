@@ -1,7 +1,11 @@
 /*
  * JavaScript for WikiEditor Dialogs
  */
-jQuery( function ( $ ) {
+jQuery( document ).ready( function ( $ ) {
+	if ( !$.wikiEditor.isSupported( $.wikiEditor.modules.dialogs ) ) {
+		return;
+	}
+
 	// Replace icons
 	$.wikiEditor.modules.dialogs.config.replaceIcons( $( '#wpTextbox1' ) );
 

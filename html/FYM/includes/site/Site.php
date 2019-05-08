@@ -23,10 +23,11 @@
  * @file
  * @ingroup Site
  *
- * @license GPL-2.0-or-later
+ * @license GNU GPL v2+
  * @author Jeroen De Dauw < jeroendedauw@gmail.com >
  */
 class Site implements Serializable {
+
 	const TYPE_UNKNOWN = 'unknown';
 	const TYPE_MEDIAWIKI = 'mediawiki';
 
@@ -91,21 +92,21 @@ class Site implements Serializable {
 	 *
 	 * @var array[]
 	 */
-	protected $localIds = [];
+	protected $localIds = array();
 
 	/**
 	 * @since 1.21
 	 *
 	 * @var array
 	 */
-	protected $extraData = [];
+	protected $extraData = array();
 
 	/**
 	 * @since 1.21
 	 *
 	 * @var array
 	 */
-	protected $extraConfig = [];
+	protected $extraConfig = array();
 
 	/**
 	 * @since 1.21
@@ -122,6 +123,8 @@ class Site implements Serializable {
 	protected $internalId = null;
 
 	/**
+	 * Constructor.
+	 *
 	 * @since 1.21
 	 *
 	 * @param string $type
@@ -170,7 +173,7 @@ class Site implements Serializable {
 	}
 
 	/**
-	 * Gets the group of the site (ie wikipedia).
+	 * Gets the type of the site (ie wikipedia).
 	 *
 	 * @since 1.21
 	 *
@@ -181,7 +184,7 @@ class Site implements Serializable {
 	}
 
 	/**
-	 * Sets the group of the site (ie wikipedia).
+	 * Sets the type of the site (ie wikipedia).
 	 *
 	 * @since 1.21
 	 *
@@ -231,7 +234,7 @@ class Site implements Serializable {
 	 *
 	 * @since 1.21
 	 *
-	 * @return bool
+	 * @return boolean
 	 */
 	public function shouldForward() {
 		return $this->forward;
@@ -243,7 +246,7 @@ class Site implements Serializable {
 	 *
 	 * @since 1.21
 	 *
-	 * @param bool $shouldForward
+	 * @param boolean $shouldForward
 	 *
 	 * @throws MWException
 	 */
@@ -333,16 +336,15 @@ class Site implements Serializable {
 	 */
 	public function getLinkPath() {
 		$type = $this->getLinkPathType();
-		return $type === null ? null : $this->getPath( $type );
+		return $type === null ? null: $this->getPath( $type );
 	}
 
 	/**
-	 * Returns the main path type, that is the type of the path that should
-	 * generally be used to construct links to the target site.
+	 * Returns the main path type, that is the type of the path that should generally be used to construct links
+	 * to the target site.
 	 *
-	 * This default implementation returns Site::PATH_LINK as the default path
-	 * type. Subclasses can override this to define a different default path
-	 * type, or return false to disable site links.
+	 * This default implementation returns Site::PATH_LINK as the default path type. Subclasses can override this
+	 * to define a different default path type, or return false to disable site links.
 	 *
 	 * @since 1.21
 	 *
@@ -363,9 +365,9 @@ class Site implements Serializable {
 	 *
 	 * @since 1.21
 	 *
-	 * @param bool|string $pageName
+	 * @param bool|String $pageName
 	 *
-	 * @return string|bool
+	 * @return string|boolean false
 	 */
 	public function getPageUrl( $pageName = false ) {
 		$url = $this->getLinkPath();
@@ -382,10 +384,8 @@ class Site implements Serializable {
 	}
 
 	/**
-	 * Attempt to normalize the page name in some fashion.
-	 * May return false to indicate various kinds of failure.
-	 *
-	 * This implementation returns $pageName without changes.
+	 * Returns $pageName without changes.
+	 * Subclasses may override this to apply some kind of normalization.
 	 *
 	 * @see Site::normalizePageName
 	 *
@@ -393,7 +393,7 @@ class Site implements Serializable {
 	 *
 	 * @param string $pageName
 	 *
-	 * @return string|false
+	 * @return string
 	 */
 	public function normalizePageName( $pageName ) {
 		return $pageName;
@@ -463,9 +463,6 @@ class Site implements Serializable {
 	 * @param string $languageCode
 	 */
 	public function setLanguageCode( $languageCode ) {
-		if ( !Language::isValidCode( $languageCode ) ) {
-			throw new InvalidArgumentException( "$languageCode is not a valid language code." );
-		}
 		$this->languageCode = $languageCode;
 	}
 
@@ -502,11 +499,11 @@ class Site implements Serializable {
 	 */
 	public function addLocalId( $type, $identifier ) {
 		if ( $this->localIds === false ) {
-			$this->localIds = [];
+			$this->localIds = array();
 		}
 
 		if ( !array_key_exists( $type, $this->localIds ) ) {
-			$this->localIds[$type] = [];
+			$this->localIds[$type] = array();
 		}
 
 		if ( !in_array( $identifier, $this->localIds[$type] ) ) {
@@ -544,9 +541,7 @@ class Site implements Serializable {
 	 * @return string[]
 	 */
 	public function getInterwikiIds() {
-		return array_key_exists( self::ID_INTERWIKI, $this->localIds )
-			? $this->localIds[self::ID_INTERWIKI]
-			: [];
+		return array_key_exists( self::ID_INTERWIKI, $this->localIds ) ? $this->localIds[self::ID_INTERWIKI] : array();
 	}
 
 	/**
@@ -558,9 +553,7 @@ class Site implements Serializable {
 	 * @return string[]
 	 */
 	public function getNavigationIds() {
-		return array_key_exists( self::ID_EQUIVALENT, $this->localIds )
-			? $this->localIds[self::ID_EQUIVALENT] :
-			[];
+		return array_key_exists( self::ID_EQUIVALENT, $this->localIds ) ? $this->localIds[self::ID_EQUIVALENT] : array();
 	}
 
 	/**
@@ -591,7 +584,7 @@ class Site implements Serializable {
 		}
 
 		if ( !array_key_exists( 'paths', $this->extraData ) ) {
-			$this->extraData['paths'] = [];
+			$this->extraData['paths'] = array();
 		}
 
 		$this->extraData['paths'][$pathType] = $fullUrl;
@@ -620,7 +613,7 @@ class Site implements Serializable {
 	 * @return string[]
 	 */
 	public function getAllPaths() {
-		return array_key_exists( 'paths', $this->extraData ) ? $this->extraData['paths'] : [];
+		return array_key_exists( 'paths', $this->extraData ) ? $this->extraData['paths'] : array();
 	}
 
 	/**
@@ -661,7 +654,7 @@ class Site implements Serializable {
 	 * @return string
 	 */
 	public function serialize() {
-		$fields = [
+		$fields = array(
 			'globalid' => $this->globalId,
 			'type' => $this->type,
 			'group' => $this->group,
@@ -673,7 +666,7 @@ class Site implements Serializable {
 			'forward' => $this->forward,
 			'internalid' => $this->internalId,
 
-		];
+		);
 
 		return serialize( $fields );
 	}
@@ -700,4 +693,10 @@ class Site implements Serializable {
 		$this->setForward( $fields['forward'] );
 		$this->setInternalId( $fields['internalid'] );
 	}
+
 }
+
+/**
+ * @deprecated
+ */
+class SiteObject extends Site {}

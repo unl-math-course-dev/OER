@@ -1,7 +1,8 @@
 <?php
 /** Udmurt (удмурт)
  *
- * To improve a translation please visit https://translatewiki.net
+ * See MessagesQqq.php for message documentation incl. usage of parameters
+ * To improve a translation please visit http://translatewiki.net
  *
  * @ingroup Language
  * @file
@@ -15,7 +16,7 @@
 
 $fallback = 'ru';
 
-$namespaceNames = [
+$namespaceNames = array(
 	NS_MEDIA            => 'Медиа',
 	NS_SPECIAL          => 'Панель',
 	NS_TALK             => 'Вераськон',
@@ -32,16 +33,18 @@ $namespaceNames = [
 	NS_HELP_TALK        => 'Валэктон_сярысь_вераськон',
 	NS_CATEGORY         => 'Категория',
 	NS_CATEGORY_TALK    => 'Категория_сярысь_вераськон',
-];
+);
 
-$namespaceAliases = [
+$namespaceAliases = array(
 	'Суред'                  => NS_FILE,
 	'Суред_сярысь_вераськон' => NS_FILE_TALK,
-];
+);
 
 // Remove Russian aliases
-$namespaceGenderAliases = [];
+$namespaceGenderAliases = array();
 
-$linkTrail = '/^([a-zа-яёӝӟӥӧӵ]+)(.*)$/sDu';
+$linkTrail = '/^([a-zа-яёӝӟӥӧӵ“»]+)(.*)$/sDu';
+$linkPrefixCharset = '„«';
 $fallback8bitEncoding = 'windows-1251';
-$separatorTransformTable = [ ',' => "\u{00A0}", '.' => ',' ];
+$separatorTransformTable = array( ',' => "\xc2\xa0", '.' => ',' );
+

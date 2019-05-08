@@ -1,6 +1,6 @@
 <?php
 /**
- * ResourceLoader module for site customizations.
+ * Resource loader module for site customizations.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -27,26 +27,40 @@
  */
 class ResourceLoaderSiteModule extends ResourceLoaderWikiModule {
 
+	/* Protected Methods */
+
 	/**
-	 * Get list of pages used by this module
+	 * Gets list of pages used by this module
 	 *
-	 * @param ResourceLoaderContext $context
-	 * @return array List of pages
+	 * @param $context ResourceLoaderContext
+	 *
+	 * @return Array: List of pages
 	 */
 	protected function getPages( ResourceLoaderContext $context ) {
-		$pages = [];
-		if ( $this->getConfig()->get( 'UseSiteJs' ) ) {
-			$pages['MediaWiki:Common.js'] = [ 'type' => 'script' ];
-			$pages['MediaWiki:' . ucfirst( $context->getSkin() ) . '.js'] = [ 'type' => 'script' ];
+		global $wgUseSiteJs, $wgUseSiteCss;
+
+		$pages = array();
+		if ( $wgUseSiteJs ) {
+			$pages['MediaWiki:Common.js'] = array( 'type' => 'script' );
+			$pages['MediaWiki:' . ucfirst( $context->getSkin() ) . '.js'] = array( 'type' => 'script' );
 		}
+		if ( $wgUseSiteCss ) {
+			$pages['MediaWiki:Common.css'] = array( 'type' => 'style' );
+			$pages['MediaWiki:' . ucfirst( $context->getSkin() ) . '.css'] = array( 'type' => 'style' );
+
+		}
+		$pages['MediaWiki:Print.css'] = array( 'type' => 'style', 'media' => 'print' );
 		return $pages;
 	}
 
+	/* Methods */
+
 	/**
-	 * @param ResourceLoaderContext|null $context
-	 * @return array
+	 * Gets group name
+	 *
+	 * @return String: Name of group
 	 */
-	public function getDependencies( ResourceLoaderContext $context = null ) {
-		return [ 'site.styles' ];
+	public function getGroup() {
+		return 'site';
 	}
 }

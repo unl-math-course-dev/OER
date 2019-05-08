@@ -1,6 +1,6 @@
 <?php
 /**
- * ResourceLoader request result caching in the file system.
+ * Resource loader request result caching in the file system.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -22,7 +22,7 @@
  */
 
 /**
- * ResourceLoader request result caching in the file system.
+ * Resource loader request result caching in the file system.
  *
  * @ingroup Cache
  */
@@ -34,15 +34,13 @@ class ResourceFileCache extends FileCacheBase {
 
 	/**
 	 * Construct an ResourceFileCache from a context
-	 * @param ResourceLoaderContext $context
+	 * @param $context ResourceLoaderContext
 	 * @return ResourceFileCache
 	 */
 	public static function newFromContext( ResourceLoaderContext $context ) {
 		$cache = new self();
 
-		if ( $context->getImage() ) {
-			$cache->mType = 'image';
-		} elseif ( $context->getOnly() === 'styles' ) {
+		if ( $context->getOnly() === 'styles' ) {
 			$cache->mType = 'css';
 		} else {
 			$cache->mType = 'js';
@@ -60,7 +58,7 @@ class ResourceFileCache extends FileCacheBase {
 	/**
 	 * Check if an RL request can be cached.
 	 * Caller is responsible for checking if any modules are private.
-	 * @param ResourceLoaderContext $context
+	 * @param $context ResourceLoaderContext
 	 * @return bool
 	 */
 	public static function useFileCache( ResourceLoaderContext $context ) {
@@ -71,18 +69,15 @@ class ResourceFileCache extends FileCacheBase {
 		// Get all query values
 		$queryVals = $context->getRequest()->getValues();
 		foreach ( $queryVals as $query => $val ) {
-			if ( in_array( $query, [ 'modules', 'image', 'variant', 'version', '*' ] ) ) {
-				// Use file cache regardless of the value of this parameter
+			if ( $query === 'modules' || $query === 'version' || $query === '*' ) {
 				continue; // note: &* added as IE fix
 			} elseif ( $query === 'skin' && $val === $wgDefaultSkin ) {
 				continue;
 			} elseif ( $query === 'lang' && $val === $wgLanguageCode ) {
 				continue;
-			} elseif ( $query === 'only' && in_array( $val, [ 'styles', 'scripts' ] ) ) {
+			} elseif ( $query === 'only' && in_array( $val, array( 'styles', 'scripts' ) ) ) {
 				continue;
 			} elseif ( $query === 'debug' && $val === 'false' ) {
-				continue;
-			} elseif ( $query === 'format' && $val === 'rasterized' ) {
 				continue;
 			}
 

@@ -21,7 +21,7 @@
  * @ingroup Maintenance
  */
 
-require_once __DIR__ . '/Maintenance.php';
+require_once dirname( __FILE__ ) . '/Maintenance.php';
 
 /**
  * Maintenance script to populate the fa_sha1 field.
@@ -32,7 +32,7 @@ require_once __DIR__ . '/Maintenance.php';
 class PopulateFilearchiveSha1 extends LoggedUpdateMaintenance {
 	public function __construct() {
 		parent::__construct();
-		$this->addDescription( 'Populate the fa_sha1 field from fa_storage_key' );
+		$this->mDescription = "Populate the fa_sha1 field from fa_storage_key";
 	}
 
 	protected function getUpdateKey() {
@@ -45,29 +45,28 @@ class PopulateFilearchiveSha1 extends LoggedUpdateMaintenance {
 
 	public function doDBUpdates() {
 		$startTime = microtime( true );
-		$dbw = $this->getDB( DB_MASTER );
+		$dbw = wfGetDB( DB_MASTER );
 		$table = 'filearchive';
-		$conds = [ 'fa_sha1' => '', 'fa_storage_key IS NOT NULL' ];
+		$conds = array( 'fa_sha1' => '', 'fa_storage_key IS NOT NULL' );
 
 		if ( !$dbw->fieldExists( $table, 'fa_sha1', __METHOD__ ) ) {
 			$this->output( "fa_sha1 column does not exist\n\n", true );
-
 			return false;
 		}
 
 		$this->output( "Populating fa_sha1 field from fa_storage_key\n" );
-		$endId = $dbw->selectField( $table, 'MAX(fa_id)', '', __METHOD__ );
+		$endId = $dbw->selectField( $table, 'MAX(fa_id)', false, __METHOD__ );
 
-		$batchSize = $this->getBatchSize();
+		$batchSize = $this->mBatchSize;
 		$done = 0;
 
 		do {
 			$res = $dbw->select(
 				$table,
-				[ 'fa_id', 'fa_storage_key' ],
+				array( 'fa_id', 'fa_storage_key' ),
 				$conds,
 				__METHOD__,
-				[ 'LIMIT' => $batchSize ]
+				array( 'LIMIT' => $batchSize )
 			);
 
 			$i = 0;
@@ -78,8 +77,8 @@ class PopulateFilearchiveSha1 extends LoggedUpdateMaintenance {
 				}
 				$sha1 = LocalRepo::getHashFromKey( $row->fa_storage_key );
 				$dbw->update( $table,
-					[ 'fa_sha1' => $sha1 ],
-					[ 'fa_id' => $row->fa_id ],
+					array( 'fa_sha1' => $sha1 ),
+					array( 'fa_id' => $row->fa_id ),
 					__METHOD__
 				);
 				$lastId = $row->fa_id;
@@ -91,7 +90,7 @@ class PopulateFilearchiveSha1 extends LoggedUpdateMaintenance {
 				break;
 			}
 
-			// print status and let replica DBs catch up
+			// print status and let slaves catch up
 			$this->output( sprintf(
 				"id %d done (up to %d), %5.3f%%  \r", $lastId, $endId, $lastId / $endId * 100 ) );
 			wfWaitForSlaves();
@@ -104,5 +103,5 @@ class PopulateFilearchiveSha1 extends LoggedUpdateMaintenance {
 	}
 }
 
-$maintClass = PopulateFilearchiveSha1::class;
+$maintClass = "PopulateFilearchiveSha1";
 require_once RUN_MAINTENANCE_IF_MAIN;

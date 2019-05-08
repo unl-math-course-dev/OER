@@ -32,15 +32,16 @@ class CheckLanguageCLI {
 	protected $wikiCode = 'en';
 	protected $checkAll = false;
 	protected $output = 'plain';
-	protected $checks = [];
+	protected $checks = array();
 	protected $L = null;
 
-	protected $results = [];
+	protected $results = array();
 
 	private $includeExif = false;
 
 	/**
-	 * @param array $options Options for script.
+	 * Constructor.
+	 * @param $options array Options for script.
 	 */
 	public function __construct( array $options ) {
 		if ( isset( $options['help'] ) ) {
@@ -96,12 +97,12 @@ class CheckLanguageCLI {
 	 * @return array A list of the default checks.
 	 */
 	protected function defaultChecks() {
-		return [
+		return array(
 			'untranslated', 'duplicate', 'obsolete', 'variables', 'empty', 'plural',
 			'whitespace', 'xhtml', 'chars', 'links', 'unbalanced', 'namespace',
 			'projecttalk', 'magic', 'magic-old', 'magic-over', 'magic-case',
 			'special', 'special-old',
-		];
+		);
 	}
 
 	/**
@@ -109,21 +110,21 @@ class CheckLanguageCLI {
 	 * @return array A list of the non-message checks.
 	 */
 	protected function nonMessageChecks() {
-		return [
+		return array(
 			'namespace', 'projecttalk', 'magic', 'magic-old', 'magic-over',
 			'magic-case', 'special', 'special-old',
-		];
+		);
 	}
 
 	/**
 	 * Get the checks that can easily be treated by non-speakers of the language.
-	 * @return array A list of the easy checks.
+	 * @return Array A list of the easy checks.
 	 */
 	protected function easyChecks() {
-		return [
+		return array(
 			'duplicate', 'obsolete', 'empty', 'whitespace', 'xhtml', 'chars', 'magic-old',
 			'magic-over', 'magic-case', 'special-old',
-		];
+		);
 	}
 
 	/**
@@ -131,7 +132,7 @@ class CheckLanguageCLI {
 	 * @return array An array of all check names mapped to their function names.
 	 */
 	protected function getChecks() {
-		return [
+		return array(
 			'untranslated' => 'getUntranslatedMessages',
 			'duplicate' => 'getDuplicateMessages',
 			'obsolete' => 'getObsoleteMessages',
@@ -151,7 +152,7 @@ class CheckLanguageCLI {
 			'magic-case' => 'getCaseMismatchMagicWords',
 			'special' => 'getUntraslatedSpecialPages',
 			'special-old' => 'getObsoleteSpecialPages',
-		];
+		);
 	}
 
 	/**
@@ -161,16 +162,16 @@ class CheckLanguageCLI {
 	 * for checked code.
 	 */
 	protected function getTotalCount() {
-		return [
-			'namespace' => [ 'getNamespaceNames', 'en' ],
+		return array(
+			'namespace' => array( 'getNamespaceNames', 'en' ),
 			'projecttalk' => null,
-			'magic' => [ 'getMagicWords', 'en' ],
-			'magic-old' => [ 'getMagicWords', null ],
-			'magic-over' => [ 'getMagicWords', null ],
-			'magic-case' => [ 'getMagicWords', null ],
-			'special' => [ 'getSpecialPageAliases', 'en' ],
-			'special-old' => [ 'getSpecialPageAliases', null ],
-		];
+			'magic' => array( 'getMagicWords', 'en' ),
+			'magic-old' => array( 'getMagicWords', null ),
+			'magic-over' => array( 'getMagicWords', null ),
+			'magic-case' => array( 'getMagicWords', null ),
+			'special' => array( 'getSpecialPageAliases', 'en' ),
+			'special-old' => array( 'getSpecialPageAliases', null ),
+		);
 	}
 
 	/**
@@ -178,7 +179,7 @@ class CheckLanguageCLI {
 	 * @return array An array of all check names mapped to their descriptions.
 	 */
 	protected function getDescriptions() {
-		return [
+		return array(
 			'untranslated' => '$1 message(s) of $2 are not translated to $3, but exist in en:',
 			'duplicate' => '$1 message(s) of $2 are translated the same in en and $3:',
 			'obsolete' =>
@@ -202,7 +203,7 @@ class CheckLanguageCLI {
 				'$1 magic word(s) of $2 in $3 change the case-sensitivity of the original en word:',
 			'special' => '$1 special page alias(es) of $2 are not translated to $3, but exist in en:',
 			'special-old' => '$1 special page alias(es) of $2 do not exist in en, but exist in $3:',
-		];
+		);
 	}
 
 	/**
@@ -291,9 +292,9 @@ ENDS;
 	 * Execute the checks.
 	 */
 	protected function doChecks() {
-		$ignoredCodes = [ 'en', 'enRTL' ];
+		$ignoredCodes = array( 'en', 'enRTL' );
 
-		$this->results = [];
+		$this->results = array();
 		# Check the language
 		if ( $this->checkAll ) {
 			foreach ( $this->L->getLanguages() as $language ) {
@@ -332,12 +333,13 @@ ENDS;
 			return $blacklist;
 		}
 
-		// phpcs:ignore MediaWiki.NamingConventions.ValidGlobalName.wgPrefix
+		// @codingStandardsIgnoreStart Ignore that globals should have a "wg" prefix.
 		global $checkBlacklist;
+		// @codingStandardsIgnoreEnd
 
 		$blacklist = $checkBlacklist;
 
-		Hooks::run( 'LocalisationChecksBlacklist', [ &$blacklist ] );
+		wfRunHooks( 'LocalisationChecksBlacklist', array( &$blacklist ) );
 
 		return $blacklist;
 	}
@@ -376,13 +378,13 @@ ENDS;
 
 	/**
 	 * Check a language.
-	 * @param string $code The language code.
+	 * @param $code string The language code.
 	 * @throws MWException
 	 * @return array The results.
 	 */
 	protected function checkLanguage( $code ) {
 		# Syntax check only
-		$results = [];
+		$results = array();
 		if ( $this->level === 0 ) {
 			$this->L->getMessages( $code );
 
@@ -392,11 +394,11 @@ ENDS;
 		$checkFunctions = $this->getChecks();
 		foreach ( $this->checks as $check ) {
 			if ( $this->isCheckBlacklisted( $check, $code, false ) ) {
-				$results[$check] = [];
+				$results[$check] = array();
 				continue;
 			}
 
-			$callback = [ $this->L, $checkFunctions[$check] ];
+			$callback = array( $this->L, $checkFunctions[$check] );
 			if ( !is_callable( $callback ) ) {
 				throw new MWException( "Unkown check $check." );
 			}
@@ -408,8 +410,8 @@ ENDS;
 
 	/**
 	 * Format a message key.
-	 * @param string $key The message key.
-	 * @param string $code The language code.
+	 * @param $key string The message key.
+	 * @param $code string The language code.
 	 * @return string The formatted message key.
 	 */
 	protected function formatKey( $key, $code ) {
@@ -441,14 +443,14 @@ ENDS;
 					} elseif ( in_array( $check, $this->nonMessageChecks() ) ) {
 						$totalCount = $this->getTotalCount();
 						$totalCount = $totalCount[$check];
-						$callback = [ $this->L, $totalCount[0] ];
+						$callback = array( $this->L, $totalCount[0] );
 						$callCode = $totalCount[1] ? $totalCount[1] : $code;
 						$total = count( call_user_func( $callback, $callCode ) );
 					} else {
 						$total = $translated;
 					}
-					$search = [ '$1', '$2', '$3' ];
-					$replace = [ $count, $total, $code ];
+					$search = array( '$1', '$2', '$3' );
+					$replace = array( $count, $total, $code );
 					$descriptions = $this->getDescriptions();
 					echo "\n" . str_replace( $search, $replace, $descriptions[$check] ) . "\n";
 					if ( $this->level == 1 ) {
@@ -479,9 +481,9 @@ ENDS;
 			implode( ' !! ', array_diff( $this->checks, $this->nonMessageChecks() ) );
 		foreach ( $this->results as $code => $results ) {
 			$detailTextForLang = "==$code==\n";
-			$numbers = [];
+			$numbers = array();
 			$problems = 0;
-			$detailTextForLangChecks = [];
+			$detailTextForLangChecks = array();
 			foreach ( $results as $check => $messages ) {
 				if ( in_array( $check, $this->nonMessageChecks() ) ) {
 					continue;
@@ -489,7 +491,7 @@ ENDS;
 				$count = count( $messages );
 				if ( $count ) {
 					$problems += $count;
-					$messageDetails = [];
+					$messageDetails = array();
 					foreach ( $messages as $key => $details ) {
 						$displayKey = $this->formatKey( $key, $code );
 						$messageDetails[] = $displayKey;
@@ -516,7 +518,7 @@ ENDS;
 		$tableRows = implode( "\n|-\n", $rows );
 
 		$version = SpecialVersion::getVersion( 'nodb' );
-		// phpcs:disable Generic.Files.LineLength
+		// @codingStandardsIgnoreStart Long line.
 		echo <<<EOL
 '''Check results are for:''' <code>$version</code>
 
@@ -528,7 +530,7 @@ $tableRows
 $detailText
 
 EOL;
-		// phpcs:enable
+		// @codingStandardsIgnoreEnd
 	}
 
 	/**
@@ -555,8 +557,9 @@ class CheckExtensionsCLI extends CheckLanguageCLI {
 	private $extensions;
 
 	/**
-	 * @param array $options Options for script.
-	 * @param string $extension The extension name (or names).
+	 * Constructor.
+	 * @param $options array Options for script.
+	 * @param $extension string The extension name (or names).
 	 */
 	public function __construct( array $options, $extension ) {
 		if ( isset( $options['help'] ) ) {
@@ -603,7 +606,7 @@ class CheckExtensionsCLI extends CheckLanguageCLI {
 			$this->checks[] = 'duplicate';
 		}
 
-		$this->extensions = [];
+		$this->extensions = array();
 		$extensions = new PremadeMediawikiExtensionGroups();
 		$extensions->addAll();
 		if ( $extension == 'all' ) {
@@ -643,10 +646,10 @@ class CheckExtensionsCLI extends CheckLanguageCLI {
 	 * @return array A list of the default checks.
 	 */
 	protected function defaultChecks() {
-		return [
+		return array(
 			'untranslated', 'duplicate', 'obsolete', 'variables', 'empty', 'plural',
 			'whitespace', 'xhtml', 'chars', 'links', 'unbalanced',
-		];
+		);
 	}
 
 	/**
@@ -654,17 +657,17 @@ class CheckExtensionsCLI extends CheckLanguageCLI {
 	 * @return array A list of the non-message checks.
 	 */
 	protected function nonMessageChecks() {
-		return [];
+		return array();
 	}
 
 	/**
 	 * Get the checks that can easily be treated by non-speakers of the language.
-	 * @return array A list of the easy checks.
+	 * @return arrayA list of the easy checks.
 	 */
 	protected function easyChecks() {
-		return [
+		return array(
 			'duplicate', 'obsolete', 'empty', 'whitespace', 'xhtml', 'chars',
-		];
+		);
 	}
 
 	/**
@@ -730,13 +733,13 @@ ENDS;
 
 	/**
 	 * Check a language and show the results.
-	 * @param string $code The language code.
+	 * @param $code string The language code.
 	 * @throws MWException
 	 */
 	protected function checkLanguage( $code ) {
 		foreach ( $this->extensions as $extension ) {
 			$this->L = $extension;
-			$this->results = [];
+			$this->results = array();
 			$this->results[$code] = parent::checkLanguage( $code );
 
 			if ( !$this->isEmpty() ) {
@@ -763,19 +766,19 @@ ENDS;
 
 // Blacklist some checks for some languages or some messages
 // Possible keys of the sub arrays are: 'check', 'code' and 'message'.
-$checkBlacklist = [
-	[
+$checkBlacklist = array(
+	array(
 		'check' => 'plural',
-		'code' => [ 'az', 'bo', 'cdo', 'dz', 'id', 'fa', 'gan', 'gan-hans',
+		'code' => array( 'az', 'bo', 'cdo', 'dz', 'id', 'fa', 'gan', 'gan-hans',
 			'gan-hant', 'gn', 'hak', 'hu', 'ja', 'jv', 'ka', 'kk-arab',
 			'kk-cyrl', 'kk-latn', 'km', 'kn', 'ko', 'lzh', 'mn', 'ms',
 			'my', 'sah', 'sq', 'tet', 'th', 'to', 'tr', 'vi', 'wuu', 'xmf',
 			'yo', 'yue', 'zh', 'zh-classical', 'zh-cn', 'zh-hans',
 			'zh-hant', 'zh-hk', 'zh-sg', 'zh-tw', 'zh-yue'
-		],
-	],
-	[
+		),
+	),
+	array(
 		'check' => 'chars',
-		'code' => [ 'my' ],
-	],
-];
+		'code' => array( 'my' ),
+	),
+);

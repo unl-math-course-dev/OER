@@ -1,91 +1,41 @@
 <?php
-use MediaWiki\Logger\LoggerFactory;
-use MediaWiki\MediaWikiServices;
-use Psr\Log\LoggerInterface;
-use Wikimedia\Rdbms\LoadBalancer;
 
 /**
  * @covers MediaWikiTestCase
- * @group MediaWikiTestCaseTest
- *
- * @author Addshore
+ * @author Adam Shorland
  */
 class MediaWikiTestCaseTest extends MediaWikiTestCase {
 
-	private static $startGlobals = [
-		'MediaWikiTestCaseTestGLOBAL-ExistingString' => 'foo',
-		'MediaWikiTestCaseTestGLOBAL-ExistingStringEmpty' => '',
-		'MediaWikiTestCaseTestGLOBAL-ExistingArray' => [ 1, 'foo' => 'bar' ],
-		'MediaWikiTestCaseTestGLOBAL-ExistingArrayEmpty' => [],
-	];
+	const GLOBAL_KEY_EXISTING = 'MediaWikiTestCaseTestGLOBAL-Existing';
+	const GLOBAL_KEY_NONEXISTING = 'MediaWikiTestCaseTestGLOBAL-NONExisting';
 
 	public static function setUpBeforeClass() {
 		parent::setUpBeforeClass();
-		foreach ( self::$startGlobals as $key => $value ) {
-			$GLOBALS[$key] = $value;
-		}
+		$GLOBALS[self::GLOBAL_KEY_EXISTING] = 'foo';
 	}
 
 	public static function tearDownAfterClass() {
 		parent::tearDownAfterClass();
-		foreach ( self::$startGlobals as $key => $value ) {
-			unset( $GLOBALS[$key] );
-		}
-	}
-
-	public function provideExistingKeysAndNewValues() {
-		$providedArray = [];
-		foreach ( array_keys( self::$startGlobals ) as $key ) {
-			$providedArray[] = [ $key, 'newValue' ];
-			$providedArray[] = [ $key, [ 'newValue' ] ];
-		}
-		return $providedArray;
+		unset( $GLOBALS[self::GLOBAL_KEY_EXISTING] );
 	}
 
 	/**
-	 * @dataProvider provideExistingKeysAndNewValues
-	 *
 	 * @covers MediaWikiTestCase::setMwGlobals
 	 * @covers MediaWikiTestCase::tearDown
 	 */
-	public function testSetGlobalsAreRestoredOnTearDown( $globalKey, $newValue ) {
-		$this->setMwGlobals( $globalKey, $newValue );
+	public function testSetGlobalsAreRestoredOnTearDown() {
+		$this->setMwGlobals( self::GLOBAL_KEY_EXISTING, 'bar' );
 		$this->assertEquals(
-			$newValue,
-			$GLOBALS[$globalKey],
+			'bar',
+			$GLOBALS[self::GLOBAL_KEY_EXISTING],
 			'Global failed to correctly set'
 		);
 
 		$this->tearDown();
 
 		$this->assertEquals(
-			self::$startGlobals[$globalKey],
-			$GLOBALS[$globalKey],
-			'Global failed to be restored on tearDown'
-		);
-	}
-
-	/**
-	 * @dataProvider provideExistingKeysAndNewValues
-	 *
-	 * @covers MediaWikiTestCase::stashMwGlobals
-	 * @covers MediaWikiTestCase::tearDown
-	 */
-	public function testStashedGlobalsAreRestoredOnTearDown( $globalKey, $newValue ) {
-		$this->hideDeprecated( 'MediaWikiTestCase::stashMwGlobals' );
-		$this->stashMwGlobals( $globalKey );
-		$GLOBALS[$globalKey] = $newValue;
-		$this->assertEquals(
-			$newValue,
-			$GLOBALS[$globalKey],
-			'Global failed to correctly set'
-		);
-
-		$this->tearDown();
-
-		$this->assertEquals(
-			self::$startGlobals[$globalKey],
-			$GLOBALS[$globalKey],
+			'foo',
+			$GLOBALS[self::GLOBAL_KEY_EXISTING],
 			'Global failed to be restored on tearDown'
 		);
 	}
@@ -94,83 +44,34 @@ class MediaWikiTestCaseTest extends MediaWikiTestCase {
 	 * @covers MediaWikiTestCase::stashMwGlobals
 	 * @covers MediaWikiTestCase::tearDown
 	 */
-	public function testSetNonExistentGlobalsAreUnsetOnTearDown() {
-		$globalKey = 'abcdefg1234567';
-		$this->setMwGlobals( $globalKey, true );
-		$this->assertTrue(
-			$GLOBALS[$globalKey],
+	public function testStashedGlobalsAreRestoredOnTearDown() {
+		$this->stashMwGlobals( self::GLOBAL_KEY_EXISTING );
+		$GLOBALS[self::GLOBAL_KEY_EXISTING] = 'bar';
+		$this->assertEquals(
+			'bar',
+			$GLOBALS[self::GLOBAL_KEY_EXISTING],
 			'Global failed to correctly set'
 		);
 
 		$this->tearDown();
 
-		$this->assertFalse(
-			isset( $GLOBALS[$globalKey] ),
-			'Global failed to be correctly unset'
+		$this->assertEquals(
+			'foo',
+			$GLOBALS[self::GLOBAL_KEY_EXISTING],
+			'Global failed to be restored on tearDown'
 		);
 	}
 
-	public function testOverrideMwServices() {
-		$initialServices = MediaWikiServices::getInstance();
-
-		$this->overrideMwServices();
-		$this->assertNotSame( $initialServices, MediaWikiServices::getInstance() );
-	}
-
-	public function testSetService() {
-		$initialServices = MediaWikiServices::getInstance();
-		$initialService = $initialServices->getDBLoadBalancer();
-		$mockService = $this->getMockBuilder( LoadBalancer::class )
-			->disableOriginalConstructor()->getMock();
-
-		$this->setService( 'DBLoadBalancer', $mockService );
-		$this->assertNotSame(
-			$initialService,
-			MediaWikiServices::getInstance()->getDBLoadBalancer()
+	/**
+	 * @covers MediaWikiTestCase::stashMwGlobals
+	 */
+	public function testExceptionThrownWhenStashingNonExistentGlobals() {
+		$this->setExpectedException(
+			'Exception',
+			'Global with key ' . self::GLOBAL_KEY_NONEXISTING . ' doesn\'t exist and cant be stashed'
 		);
-		$this->assertSame( $mockService, MediaWikiServices::getInstance()->getDBLoadBalancer() );
+
+		$this->stashMwGlobals( self::GLOBAL_KEY_NONEXISTING );
 	}
 
-	/**
-	 * @covers MediaWikiTestCase::setLogger
-	 * @covers MediaWikiTestCase::restoreLoggers
-	 */
-	public function testLoggersAreRestoredOnTearDown_replacingExistingLogger() {
-		$logger1 = LoggerFactory::getInstance( 'foo' );
-		$this->setLogger( 'foo', $this->createMock( LoggerInterface::class ) );
-		$logger2 = LoggerFactory::getInstance( 'foo' );
-		$this->tearDown();
-		$logger3 = LoggerFactory::getInstance( 'foo' );
-
-		$this->assertSame( $logger1, $logger3 );
-		$this->assertNotSame( $logger1, $logger2 );
-	}
-
-	/**
-	 * @covers MediaWikiTestCase::setLogger
-	 * @covers MediaWikiTestCase::restoreLoggers
-	 */
-	public function testLoggersAreRestoredOnTearDown_replacingNonExistingLogger() {
-		$this->setLogger( 'foo', $this->createMock( LoggerInterface::class ) );
-		$logger1 = LoggerFactory::getInstance( 'foo' );
-		$this->tearDown();
-		$logger2 = LoggerFactory::getInstance( 'foo' );
-
-		$this->assertNotSame( $logger1, $logger2 );
-		$this->assertInstanceOf( \Psr\Log\LoggerInterface::class, $logger2 );
-	}
-
-	/**
-	 * @covers MediaWikiTestCase::setLogger
-	 * @covers MediaWikiTestCase::restoreLoggers
-	 */
-	public function testLoggersAreRestoredOnTearDown_replacingSameLoggerTwice() {
-		$logger1 = LoggerFactory::getInstance( 'baz' );
-		$this->setLogger( 'foo', $this->createMock( LoggerInterface::class ) );
-		$this->setLogger( 'foo', $this->createMock( LoggerInterface::class ) );
-		$this->tearDown();
-		$logger2 = LoggerFactory::getInstance( 'baz' );
-
-		$this->assertSame( $logger1, $logger2 );
-	}
 }

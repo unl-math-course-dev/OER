@@ -1,7 +1,8 @@
 <?php
 /** лакку (лакку)
  *
- * To improve a translation please visit https://translatewiki.net
+ * See MessagesQqq.php for message documentation incl. usage of parameters
+ * To improve a translation please visit http://translatewiki.net
  *
  * @ingroup Language
  * @file
@@ -11,15 +12,15 @@
 
 $fallback = 'ru';
 
-$separatorTransformTable = [
-	',' => "\u{00A0}", # nbsp
+$separatorTransformTable = array(
+	',' => "\xc2\xa0", # nbsp
 	'.' => ','
-];
+);
 
 $fallback8bitEncoding = 'windows-1251';
 $linkPrefixExtension = true;
 
-$namespaceNames = [
+$namespaceNames = array(
 	NS_MEDIA            => 'Медиа',
 	NS_SPECIAL          => 'Къуллугъирал_лажин',
 	NS_TALK             => 'Ихтилат',
@@ -36,9 +37,10 @@ $namespaceNames = [
 	NS_HELP_TALK        => 'Кумаграясса_ихтилат',
 	NS_CATEGORY         => 'Категория',
 	NS_CATEGORY_TALK    => 'Категориялиясса_ихтилат',
-];
+);
 
 // Remove Russian aliases
-$namespaceGenderAliases = [];
+$namespaceGenderAliases = array();
 
 $linkTrail = '/^([a-zабвгдеёжзийклмнопрстуфхцчшщъыьэюяӀ1“»]+)(.*)$/sDu';
+

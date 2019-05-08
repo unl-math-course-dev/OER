@@ -6,7 +6,7 @@
  * @author Jeroen De Dauw <jeroendedauw at gmail dot com>
  */
 
-( function ( $ ) {
+( function ( $, mw ) {
 	'use strict';
 
 	$( document ).ready( function () {
@@ -21,10 +21,5 @@
 		$( '#togglenone' ).click( function () {
 			selectPages( false );
 		} );
-		$( '#toggleinvert' ).click( function () {
-			$( 'input[type="checkbox"]' ).each( function () {
-				$( this ).prop( 'checked', !$( this ).is( ':checked' ) );
-			} );
-		} );
 	} );
-}( jQuery ) );
+} ) ( window.jQuery, window.mediaWiki );

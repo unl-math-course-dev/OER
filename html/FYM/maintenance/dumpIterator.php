@@ -40,7 +40,7 @@ abstract class DumpIterator extends Maintenance {
 
 	public function __construct() {
 		parent::__construct();
-		$this->addDescription( 'Does something with a dump' );
+		$this->mDescription = "Does something with a dump";
 		$this->addOption( 'file', 'File with text to run.', false, true );
 		$this->addOption( 'dump', 'XML dump to execute all revisions.', false, true );
 		$this->addOption( 'from', 'Article from XML dump to start from.', false, true );
@@ -48,20 +48,17 @@ abstract class DumpIterator extends Maintenance {
 
 	public function execute() {
 		if ( !( $this->hasOption( 'file' ) ^ $this->hasOption( 'dump' ) ) ) {
-			$this->fatalError( "You must provide a file or dump" );
+			$this->error( "You must provide a file or dump", true );
 		}
 
 		$this->checkOptions();
 
 		if ( $this->hasOption( 'file' ) ) {
-			$revision = new WikiRevision( $this->getConfig() );
+			$revision = new WikiRevision;
 
 			$revision->setText( file_get_contents( $this->getOption( 'file' ) ) );
-			$revision->setTitle( Title::newFromText(
-				rawurldecode( basename( $this->getOption( 'file' ), '.txt' ) )
-			) );
+			$revision->setTitle( Title::newFromText( rawurldecode( basename( $this->getOption( 'file' ), '.txt' ) ) ) );
 			$this->handleRevision( $revision );
-
 			return;
 		}
 
@@ -70,16 +67,12 @@ abstract class DumpIterator extends Maintenance {
 		if ( $this->getOption( 'dump' ) == '-' ) {
 			$source = new ImportStreamSource( $this->getStdin() );
 		} else {
-			$this->fatalError( "Sorry, I don't support dump filenames yet. "
-				. "Use - and provide it on stdin on the meantime." );
+			$this->error( "Sorry, I don't support dump filenames yet. Use - and provide it on stdin on the meantime.", true );
 		}
-		$importer = new WikiImporter( $source, $this->getConfig() );
+		$importer = new WikiImporter( $source );
 
 		$importer->setRevisionCallback(
-			[ $this, 'handleRevision' ] );
-		$importer->setNoticeCallback( function ( $msg, $params ) {
-			echo wfMessage( $msg, $params )->text() . "\n";
-		} );
+			array( &$this, 'handleRevision' ) );
 
 		$this->from = $this->getOption( 'from', null );
 		$this->count = 0;
@@ -93,9 +86,8 @@ abstract class DumpIterator extends Maintenance {
 			$this->error( round( $this->count / $delta, 2 ) . " pages/sec" );
 		}
 
-		# Perform the memory_get_peak_usage() when all the other data has been
-		# output so there's no damage if it dies. It is only available since
-		# 5.2.0 (since 5.2.1 if you haven't compiled with --enable-memory-limit)
+		# Perform the memory_get_peak_usage() when all the other data has been output so there's no damage if it dies.
+		# It is only available since 5.2.0 (since 5.2.1 if you haven't compiled with --enable-memory-limit)
 		$this->error( "Memory peak usage of " . memory_get_peak_usage() . " bytes\n" );
 	}
 
@@ -105,7 +97,7 @@ abstract class DumpIterator extends Maintenance {
 		if ( $this->getDbType() == Maintenance::DB_NONE ) {
 			global $wgUseDatabaseMessages, $wgLocalisationCacheConf, $wgHooks;
 			$wgUseDatabaseMessages = false;
-			$wgLocalisationCacheConf['storeClass'] = LCStoreNull::class;
+			$wgLocalisationCacheConf['storeClass'] = 'LCStoreNull';
 			$wgHooks['InterwikiLoadPrefix'][] = 'DumpIterator::disableInterwikis';
 		}
 	}
@@ -120,13 +112,12 @@ abstract class DumpIterator extends Maintenance {
 	/**
 	 * Callback function for each revision, child classes should override
 	 * processRevision instead.
-	 * @param WikiRevision $rev
+	 * @param $rev Revision
 	 */
 	public function handleRevision( $rev ) {
 		$title = $rev->getTitle();
 		if ( !$title ) {
 			$this->error( "Got bogus revision with null title!" );
-
 			return;
 		}
 
@@ -146,10 +137,12 @@ abstract class DumpIterator extends Maintenance {
 
 	/* Stub function for processing additional options */
 	public function checkOptions() {
+		return;
 	}
 
 	/* Stub function for giving data about what was computed */
 	public function conclusions() {
+		return;
 	}
 
 	/* Core function which does whatever the maintenance script is designed to do */
@@ -165,7 +158,7 @@ class SearchDump extends DumpIterator {
 
 	public function __construct() {
 		parent::__construct();
-		$this->addDescription( 'Runs a regex in the revisions from a dump' );
+		$this->mDescription = "Runs a regex in the revisions from a dump";
 		$this->addOption( 'regex', 'Searching regex', true, true );
 	}
 
@@ -174,7 +167,7 @@ class SearchDump extends DumpIterator {
 	}
 
 	/**
-	 * @param Revision $rev
+	 * @param $rev Revision
 	 */
 	public function processRevision( $rev ) {
 		if ( preg_match( $this->getOption( 'regex' ), $rev->getContent()->getTextForSearchIndex() ) ) {
@@ -183,5 +176,5 @@ class SearchDump extends DumpIterator {
 	}
 }
 
-$maintClass = SearchDump::class;
+$maintClass = "SearchDump";
 require_once RUN_MAINTENANCE_IF_MAIN;

@@ -21,22 +21,16 @@
  * @ingroup SpecialPage
  */
 
-use MediaWiki\MediaWikiServices;
-
 /**
  * A form to make the database readonly (eg for maintenance purposes).
  *
  * @ingroup SpecialPage
  */
 class SpecialLockdb extends FormSpecialPage {
-	protected $reason = '';
+	var $reason = '';
 
 	public function __construct() {
 		parent::__construct( 'Lockdb', 'siteadmin' );
-	}
-
-	public function doesWrites() {
-		return false;
 	}
 
 	public function requiresWrite() {
@@ -44,45 +38,46 @@ class SpecialLockdb extends FormSpecialPage {
 	}
 
 	public function checkExecutePermissions( User $user ) {
+		global $wgReadOnlyFile;
+
 		parent::checkExecutePermissions( $user );
 		# If the lock file isn't writable, we can do sweet bugger all
-		if ( !is_writable( dirname( $this->getConfig()->get( 'ReadOnlyFile' ) ) ) ) {
+		if ( !is_writable( dirname( $wgReadOnlyFile ) ) ) {
 			throw new ErrorPageError( 'lockdb', 'lockfilenotwritable' );
-		}
-		if ( file_exists( $this->getConfig()->get( 'ReadOnlyFile' ) ) ) {
-			throw new ErrorPageError( 'lockdb', 'databaselocked' );
 		}
 	}
 
 	protected function getFormFields() {
-		return [
-			'Reason' => [
+		return array(
+			'Reason' => array(
 				'type' => 'textarea',
 				'rows' => 4,
 				'vertical-label' => true,
 				'label-message' => 'enterlockreason',
-			],
-			'Confirm' => [
+			),
+			'Confirm' => array(
 				'type' => 'toggle',
 				'label-message' => 'lockconfirm',
-			],
-		];
+			),
+		);
 	}
 
 	protected function alterForm( HTMLForm $form ) {
-		$form->setWrapperLegend( false )
-			->setHeaderText( $this->msg( 'lockdbtext' )->parseAsBlock() )
-			->setSubmitTextMsg( 'lockbtn' );
+		$form->setWrapperLegend( false );
+		$form->setHeaderText( $this->msg( 'lockdbtext' )->parseAsBlock() );
+		$form->setSubmitTextMsg( 'lockbtn' );
 	}
 
 	public function onSubmit( array $data ) {
+		global $wgContLang, $wgReadOnlyFile;
+
 		if ( !$data['Confirm'] ) {
 			return Status::newFatal( 'locknoconfirm' );
 		}
 
-		Wikimedia\suppressWarnings();
-		$fp = fopen( $this->getConfig()->get( 'ReadOnlyFile' ), 'w' );
-		Wikimedia\restoreWarnings();
+		wfSuppressWarnings();
+		$fp = fopen( $wgReadOnlyFile, 'w' );
+		wfRestoreWarnings();
 
 		if ( false === $fp ) {
 			# This used to show a file not found error, but the likeliest reason for fopen()
@@ -92,11 +87,10 @@ class SpecialLockdb extends FormSpecialPage {
 		}
 		fwrite( $fp, $data['Reason'] );
 		$timestamp = wfTimestampNow();
-		$contLang = MediaWikiServices::getInstance()->getContentLanguage();
 		fwrite( $fp, "\n<p>" . $this->msg( 'lockedbyandtime',
 			$this->getUser()->getName(),
-			$contLang->date( $timestamp, false, false ),
-			$contLang->time( $timestamp, false, false )
+			$wgContLang->date( $timestamp, false, false ),
+			$wgContLang->time( $timestamp, false, false )
 		)->inContentLanguage()->text() . "</p>\n" );
 		fclose( $fp );
 
@@ -107,10 +101,6 @@ class SpecialLockdb extends FormSpecialPage {
 		$out = $this->getOutput();
 		$out->addSubtitle( $this->msg( 'lockdbsuccesssub' ) );
 		$out->addWikiMsg( 'lockdbsuccesstext' );
-	}
-
-	protected function getDisplayFormat() {
-		return 'ooui';
 	}
 
 	protected function getGroupName() {

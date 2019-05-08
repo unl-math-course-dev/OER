@@ -32,7 +32,7 @@ require_once __DIR__ . '/Maintenance.php';
 class DeleteOldRevisions extends Maintenance {
 	public function __construct() {
 		parent::__construct();
-		$this->addDescription( 'Delete old (non-current) revisions from the database' );
+		$this->mDescription = "Delete old (non-current) revisions from the database";
 		$this->addOption( 'delete', 'Actually perform the deletion' );
 		$this->addOption( 'page_id', 'List of page ids to work on', false );
 	}
@@ -42,13 +42,14 @@ class DeleteOldRevisions extends Maintenance {
 		$this->doDelete( $this->hasOption( 'delete' ), $this->mArgs );
 	}
 
-	function doDelete( $delete = false, $args = [] ) {
-		# Data should come off the master, wrapped in a transaction
-		$dbw = $this->getDB( DB_MASTER );
-		$this->beginTransaction( $dbw, __METHOD__ );
+	function doDelete( $delete = false, $args = array() ) {
 
-		$pageConds = [];
-		$revConds = [];
+		# Data should come off the master, wrapped in a transaction
+		$dbw = wfGetDB( DB_MASTER );
+		$dbw->begin( __METHOD__ );
+
+		$pageConds = array();
+		$revConds = array();
 
 		# If a list of page_ids was provided, limit results to that set of page_ids
 		if ( count( $args ) > 0 ) {
@@ -60,7 +61,7 @@ class DeleteOldRevisions extends Maintenance {
 		# Get "active" revisions from the page table
 		$this->output( "Searching for active revisions..." );
 		$res = $dbw->select( 'page', 'page_latest', $pageConds, __METHOD__ );
-		$latestRevs = [];
+		$latestRevs = array();
 		foreach ( $res as $row ) {
 			$latestRevs[] = $row->page_latest;
 		}
@@ -72,7 +73,7 @@ class DeleteOldRevisions extends Maintenance {
 			$revConds[] = 'rev_id NOT IN (' . $dbw->makeList( $latestRevs ) . ')';
 		}
 		$res = $dbw->select( 'revision', 'rev_id', $revConds, __METHOD__ );
-		$oldRevs = [];
+		$oldRevs = array();
 		foreach ( $res as $row ) {
 			$oldRevs[] = $row->rev_id;
 		}
@@ -85,19 +86,18 @@ class DeleteOldRevisions extends Maintenance {
 		# Delete as appropriate
 		if ( $delete && $count ) {
 			$this->output( "Deleting..." );
-			$dbw->delete( 'revision', [ 'rev_id' => $oldRevs ], __METHOD__ );
-			$dbw->delete( 'ip_changes', [ 'ipc_rev_id' => $oldRevs ], __METHOD__ );
+			$dbw->delete( 'revision', array( 'rev_id' => $oldRevs ), __METHOD__ );
 			$this->output( "done.\n" );
 		}
 
 		# This bit's done
 		# Purge redundant text records
-		$this->commitTransaction( $dbw, __METHOD__ );
+		$dbw->commit( __METHOD__ );
 		if ( $delete ) {
 			$this->purgeRedundantText( true );
 		}
 	}
 }
 
-$maintClass = DeleteOldRevisions::class;
+$maintClass = "DeleteOldRevisions";
 require_once RUN_MAINTENANCE_IF_MAIN;

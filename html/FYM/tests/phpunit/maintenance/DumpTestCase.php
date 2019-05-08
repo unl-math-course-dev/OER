@@ -1,15 +1,5 @@
 <?php
 
-namespace MediaWiki\Tests\Maintenance;
-
-use ContentHandler;
-use ExecutableFinder;
-use MediaWikiLangTestCase;
-use Page;
-use User;
-use XMLReader;
-use MWException;
-
 /**
  * Base TestCase for dumps
  */
@@ -24,74 +14,45 @@ abstract class DumpTestCase extends MediaWikiLangTestCase {
 	 * exception and store it until we are in setUp and may finally rethrow
 	 * the exception without crashing the test suite.
 	 *
-	 * @var \Exception|null
+	 * @var Exception|null
 	 */
 	protected $exceptionFromAddDBData = null;
 
 	/**
-	 * Holds the XMLReader used for analyzing an XML dump
+	 * Holds the xmlreader used for analyzing an xml dump
 	 *
 	 * @var XMLReader|null
 	 */
 	protected $xml = null;
 
-	/** @var bool|null Whether the 'gzip' utility is available */
-	protected static $hasGzip = null;
-
-	/**
-	 * Skip the test if 'gzip' is not in $PATH.
-	 *
-	 * @return bool
-	 */
-	protected function checkHasGzip() {
-		if ( self::$hasGzip === null ) {
-			self::$hasGzip = ( ExecutableFinder::findInDefaultPaths( 'gzip' ) !== false );
-		}
-
-		if ( !self::$hasGzip ) {
-			$this->markTestSkipped( "Skip test, requires the gzip utility in PATH" );
-		}
-
-		return self::$hasGzip;
-	}
-
 	/**
 	 * Adds a revision to a page, while returning the resuting revision's id
 	 *
-	 * @param Page $page Page to add the revision to
-	 * @param string $text Revisions text
-	 * @param string $summary Revisions summary
-	 * @param string $model The model ID (defaults to wikitext)
+	 * @param $page WikiPage: page to add the revision to
+	 * @param $text string: revisions text
+	 * @param $text string: revisions summare
 	 *
-	 * @throws MWException
-	 * @return array
+	 * @throws MWExcepion
 	 */
-	protected function addRevision( Page $page, $text, $summary, $model = CONTENT_MODEL_WIKITEXT ) {
-		$status = $page->doEditContent(
-			ContentHandler::makeContent( $text, $page->getTitle(), $model ),
-			$summary
-		);
-
+	protected function addRevision( Page $page, $text, $summary ) {
+		$status = $page->doEditContent( ContentHandler::makeContent( $text, $page->getTitle() ), $summary );
 		if ( $status->isGood() ) {
 			$value = $status->getValue();
 			$revision = $value['revision'];
 			$revision_id = $revision->getId();
 			$text_id = $revision->getTextId();
-
 			if ( ( $revision_id > 0 ) && ( $text_id > 0 ) ) {
-				return [ $revision_id, $text_id ];
+				return array( $revision_id, $text_id );
 			}
 		}
-
-		throw new MWException( "Could not determine revision id ("
-			. $status->getWikiText( false, false, 'en' ) . ")" );
+		throw new MWException( "Could not determine revision id (" . $status->getWikiText() . ")" );
 	}
 
 	/**
 	 * gunzips the given file and stores the result in the original file name
 	 *
-	 * @param string $fname Filename to read the gzipped data from and stored
-	 *   the gunzipped data into
+	 * @param $fname string: filename to read the gzipped data from and stored
+	 *             the gunzipped data into
 	 */
 	protected function gunzip( $fname ) {
 		$gzipped_contents = file_get_contents( $fname );
@@ -133,7 +94,7 @@ abstract class DumpTestCase extends MediaWikiLangTestCase {
 		// expectOutput[...] functions. However, the PHPUnit shipped prediactes
 		// do not allow to check /each/ line of the output using /readable/ REs.
 		// So we ...
-
+		//
 		// 1. ... add a dummy output checking to make PHPUnit not complain
 		//    about unchecked test output
 		$this->expectOutputRegex( '//' );
@@ -144,20 +105,17 @@ abstract class DumpTestCase extends MediaWikiLangTestCase {
 		$this->assertEquals( '', array_pop( $lines ), "Output ends in LF" );
 		$timestamp_re = "[0-9]{4}-[01][0-9]-[0-3][0-9] [0-2][0-9]:[0-5][0-9]:[0-6][0-9]";
 		foreach ( $lines as $line ) {
-			$this->assertRegExp(
-				"/$timestamp_re: .* \(ID [0-9]+\) [0-9]* pages .*, [0-9]* revs .*, ETA/",
-				$line
-			);
+			$this->assertRegExp( "/$timestamp_re: .* \(ID [0-9]+\) [0-9]* pages .*, [0-9]* revs .*, ETA/", $line );
 		}
 	}
 
 	/**
 	 * Step the current XML reader until node end of given name is found.
 	 *
-	 * @param string $name Name of the closing element to look for
-	 *   (e.g.: "mediawiki" when looking for </mediawiki>)
+	 * @param $name string: name of the closing element to look for
+	 *           (e.g.: "mediawiki" when looking for </mediawiki>)
 	 *
-	 * @return bool True if the end node could be found. false otherwise.
+	 * @return bool: true if the end node could be found. false otherwise.
 	 */
 	protected function skipToNodeEnd( $name ) {
 		while ( $this->xml->read() ) {
@@ -175,11 +133,11 @@ abstract class DumpTestCase extends MediaWikiLangTestCase {
 	 * Step the current XML reader to the first element start after the node
 	 * end of a given name.
 	 *
-	 * @param string $name Name of the closing element to look for
-	 *   (e.g.: "mediawiki" when looking for </mediawiki>)
+	 * @param $name string: name of the closing element to look for
+	 *           (e.g.: "mediawiki" when looking for </mediawiki>)
 	 *
-	 * @return bool True if new element after the closing of $name could be
-	 *   found. false otherwise.
+	 * @return bool: true iff new element after the closing of $name could be
+	 *           found. false otherwise.
 	 */
 	protected function skipPastNodeEnd( $name ) {
 		$this->assertTrue( $this->skipToNodeEnd( $name ),
@@ -196,9 +154,9 @@ abstract class DumpTestCase extends MediaWikiLangTestCase {
 	/**
 	 * Opens an XML file to analyze and optionally skips past siteinfo.
 	 *
-	 * @param string $fname Name of file to analyze
-	 * @param bool $skip_siteinfo (optional) If true, step the xml reader
-	 *   to the first element after </siteinfo>
+	 * @param $fname string: name of file to analyze
+	 * @param $skip_siteinfo bool: (optional) If true, step the xml reader
+	 *           to the first element after </siteinfo>
 	 */
 	protected function assertDumpStart( $fname, $skip_siteinfo = true ) {
 		$this->xml = new XMLReader();
@@ -214,8 +172,8 @@ abstract class DumpTestCase extends MediaWikiLangTestCase {
 	 * Asserts that the xml reader is at the final closing tag of an xml file and
 	 * closes the reader.
 	 *
-	 * @param string $name (optional) the name of the final tag
-	 *   (e.g.: "mediawiki" for </mediawiki>)
+	 * @param $tag string: (optional) the name of the final tag
+	 *           (e.g.: "mediawiki" for </mediawiki>)
 	 */
 	protected function assertDumpEnd( $name = "mediawiki" ) {
 		$this->assertNodeEnd( $name, false );
@@ -242,9 +200,9 @@ abstract class DumpTestCase extends MediaWikiLangTestCase {
 	 * Asserts that the xml reader is at an element of given name, and optionally
 	 * skips past it.
 	 *
-	 * @param string $name The name of the element to check for
-	 *   (e.g.: "mediawiki" for <mediawiki>)
-	 * @param bool $skip (optional) if true, skip past the found element
+	 * @param $name string: the name of the element to check for
+	 *           (e.g.: "mediawiki" for <mediawiki>)
+	 * @param $skip bool: (optional) if true, skip past the found element
 	 */
 	protected function assertNodeStart( $name, $skip = true ) {
 		$this->assertEquals( $name, $this->xml->name, "Node name" );
@@ -258,9 +216,9 @@ abstract class DumpTestCase extends MediaWikiLangTestCase {
 	 * Asserts that the xml reader is at an closing element of given name, and optionally
 	 * skips past it.
 	 *
-	 * @param string $name The name of the closing element to check for
-	 *   (e.g.: "mediawiki" for </mediawiki>)
-	 * @param bool $skip (optional) if true, skip past the found element
+	 * @param $name string: the name of the closing element to check for
+	 *           (e.g.: "mediawiki" for </mediawiki>)
+	 * @param $skip bool: (optional) if true, skip past the found element
 	 */
 	protected function assertNodeEnd( $name, $skip = true ) {
 		$this->assertEquals( $name, $this->xml->name, "Node name" );
@@ -274,12 +232,12 @@ abstract class DumpTestCase extends MediaWikiLangTestCase {
 	 * Asserts that the xml reader is at an element of given tag that contains a given text,
 	 * and skips over the element.
 	 *
-	 * @param string $name The name of the element to check for
-	 *   (e.g.: "mediawiki" for <mediawiki>...</mediawiki>)
-	 * @param string|bool $text If string, check if it equals the elements text.
-	 *   If false, ignore the element's text
-	 * @param bool $skip_ws (optional) if true, skip past white spaces that trail the
-	 *   closing element.
+	 * @param $name string: the name of the element to check for
+	 *           (e.g.: "mediawiki" for <mediawiki>...</mediawiki>)
+	 * @param $text string|false: If string, check if it equals the elements text.
+	 *           If false, ignore the element's text
+	 * @param $skip_ws bool: (optional) if true, skip past white spaces that trail the
+	 *           closing element.
 	 */
 	protected function assertTextNode( $name, $text, $skip_ws = true ) {
 		$this->assertNodeStart( $name );
@@ -303,11 +261,12 @@ abstract class DumpTestCase extends MediaWikiLangTestCase {
 	 * title, ns, and id tags. Hence after this function, the xml reader is at the first
 	 * revision of the current page.
 	 *
-	 * @param int $id Id of the page to assert
-	 * @param int $ns Number of namespage to assert
-	 * @param string $name Title of the current page
+	 * @param $id int: id of the page to assert
+	 * @param $ns int: number of namespage to assert
+	 * @param $name string: title of the current page
 	 */
 	protected function assertPageStart( $id, $ns, $name ) {
+
 		$this->assertNodeStart( "page" );
 		$this->skipWhitespace();
 
@@ -329,19 +288,18 @@ abstract class DumpTestCase extends MediaWikiLangTestCase {
 	 * Asserts that the xml reader is at a revision and checks its representation before
 	 * skipping over it.
 	 *
-	 * @param int $id Id of the revision
-	 * @param string $summary Summary of the revision
-	 * @param int $text_id Id of the revision's text
-	 * @param int $text_bytes Number of bytes in the revision's text
-	 * @param string $text_sha1 The base36 SHA-1 of the revision's text
-	 * @param string|bool $text (optional) The revision's string, or false to check for a
+	 * @param $id int: id of the revision
+	 * @param $summary string: summary of the revision
+	 * @param $text_id int: id of the revision's text
+	 * @param $text_bytes int: # of bytes in the revision's text
+	 * @param $text_sha1 string: the base36 SHA-1 of the revision's text
+	 * @param $text string|false: (optional) The revision's string, or false to check for a
 	 *            revision stub
-	 * @param int|bool $parentid (optional) id of the parent revision
-	 * @param string $model The expected content model id (default: CONTENT_MODEL_WIKITEXT)
-	 * @param string $format The expected format model id (default: CONTENT_FORMAT_WIKITEXT)
+	 * @param $model String: the expected content model id (default: CONTENT_MODEL_WIKITEXT)
+	 * @param $format String: the expected format model id (default: CONTENT_FORMAT_WIKITEXT)
+	 * @param $parentid int|false: (optional) id of the parent revision
 	 */
-	protected function assertRevision( $id, $summary, $text_id, $text_bytes,
-		$text_sha1, $text = false, $parentid = false,
+	protected function assertRevision( $id, $summary, $text_id, $text_bytes, $text_sha1, $text = false, $parentid = false,
 		$model = CONTENT_MODEL_WIKITEXT, $format = CONTENT_FORMAT_WIKITEXT
 	) {
 		$this->assertNodeStart( "revision" );
@@ -362,12 +320,6 @@ abstract class DumpTestCase extends MediaWikiLangTestCase {
 		$this->assertTextNode( "comment", $summary );
 		$this->skipWhitespace();
 
-		$this->assertTextNode( "model", $model );
-		$this->skipWhitespace();
-
-		$this->assertTextNode( "format", $format );
-		$this->skipWhitespace();
-
 		if ( $this->xml->name == "text" ) {
 			// note: <text> tag may occur here or at the very end.
 			$text_found = true;
@@ -377,6 +329,12 @@ abstract class DumpTestCase extends MediaWikiLangTestCase {
 		}
 
 		$this->assertTextNode( "sha1", $text_sha1 );
+
+		$this->assertTextNode( "model", $model );
+		$this->skipWhitespace();
+
+		$this->assertTextNode( "format", $format );
+		$this->skipWhitespace();
 
 		if ( !$text_found ) {
 			$this->assertText( $id, $text_id, $text_bytes, $text );
@@ -402,6 +360,7 @@ abstract class DumpTestCase extends MediaWikiLangTestCase {
 			if ( ( $this->xml->nodeType == XMLReader::END_ELEMENT )
 				&& ( $this->xml->name == "text" )
 			) {
+
 				$this->xml->read();
 			}
 			$this->skipWhitespace();

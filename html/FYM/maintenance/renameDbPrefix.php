@@ -50,7 +50,7 @@ class RenameDbPrefix extends Maintenance {
 		} else {
 			// Use nice safe, sane, prefixes
 			preg_match( '/^[a-zA-Z]+_$/', $this->getOption( 'old' ), $m );
-			$old = $m[0] ?? false;
+			$old = isset( $m[0] ) ? $m[0] : false;
 		}
 		// Allow for no new prefix
 		if ( $this->getOption( 'new', 0 ) === '0' ) {
@@ -58,11 +58,11 @@ class RenameDbPrefix extends Maintenance {
 		} else {
 			// Use nice safe, sane, prefixes
 			preg_match( '/^[a-zA-Z]+_$/', $this->getOption( 'new' ), $m );
-			$new = $m[0] ?? false;
+			$new = isset( $m[0] ) ? $m[0] : false;
 		}
 
 		if ( $old === false || $new === false ) {
-			$this->fatalError( "Invalid prefix!" );
+			$this->error( "Invalid prefix!", true );
 		}
 		if ( $old === $new ) {
 			$this->output( "Same prefix. Nothing to rename!\n", true );
@@ -71,7 +71,7 @@ class RenameDbPrefix extends Maintenance {
 		$this->output( "Renaming DB prefix for tables of $wgDBname from '$old' to '$new'\n" );
 		$count = 0;
 
-		$dbw = $this->getDB( DB_MASTER );
+		$dbw = wfGetDB( DB_MASTER );
 		$res = $dbw->query( "SHOW TABLES " . $dbw->buildLike( $old, $dbw->anyString() ) );
 		foreach ( $res as $row ) {
 			// XXX: odd syntax. MySQL outputs an oddly cased "Tables of X"
@@ -90,5 +90,5 @@ class RenameDbPrefix extends Maintenance {
 	}
 }
 
-$maintClass = RenameDbPrefix::class;
+$maintClass = "RenameDbPrefix";
 require_once RUN_MAINTENANCE_IF_MAIN;

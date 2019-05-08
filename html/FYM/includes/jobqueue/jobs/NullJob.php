@@ -18,7 +18,7 @@
  * http://www.gnu.org/copyleft/gpl.html
  *
  * @file
- * @ingroup JobQueue
+ * @ingroup Cache
  */
 
 /**
@@ -31,7 +31,7 @@
  * @code
  * $ php maintenance/eval.php
  * > $queue = JobQueueGroup::singleton();
- * > $job = new NullJob( Title::newMainPage(), [ 'lives' => 10 ] );
+ * > $job = new NullJob( Title::newMainPage(), array( 'lives' => 10 ) );
  * > $queue->push( $job );
  * @endcode
  * You can then confirm the job has been enqueued by using the showJobs.php
@@ -47,9 +47,9 @@
 class NullJob extends Job {
 	/**
 	 * @param Title $title
-	 * @param array $params Job parameters (lives, usleep)
+	 * @param array $params job parameters (lives, usleep)
 	 */
-	function __construct( Title $title, array $params ) {
+	function __construct( $title, $params ) {
 		parent::__construct( 'null', $title, $params );
 		if ( !isset( $this->params['lives'] ) ) {
 			$this->params['lives'] = 1;

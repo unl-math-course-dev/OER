@@ -34,13 +34,13 @@ class LangMemUsage extends Maintenance {
 
 	public function __construct() {
 		parent::__construct();
-		$this->addDescription( "Dumb program that tries to get the memory usage\n" .
-			"for each language file" );
+		$this->mDescription = "Dumb program that tries to get the memory usage\n" .
+			"for each language file";
 	}
 
 	public function execute() {
 		if ( !function_exists( 'memory_get_usage' ) ) {
-			$this->fatalError( "You must compile PHP with --enable-memory-limit" );
+			$this->error( "You must compile PHP with --enable-memory-limit", true );
 		}
 
 		$langtool = new Languages();
@@ -61,5 +61,5 @@ class LangMemUsage extends Maintenance {
 	}
 }
 
-$maintClass = LangMemUsage::class;
+$maintClass = "LangMemUsage";
 require_once RUN_MAINTENANCE_IF_MAIN;

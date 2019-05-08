@@ -1,5 +1,9 @@
 <?php
 /**
+ *
+ *
+ * Created on Sep 25, 2008
+ *
  * Copyright © 2008 Roan Kattouw "<Firstname>.<Lastname>@gmail.com"
  *
  * This program is free software; you can redistribute it and/or modify
@@ -33,22 +37,26 @@
 class ApiDisabled extends ApiBase {
 
 	public function execute() {
-		$this->dieWithError( [ 'apierror-moduledisabled', $this->getModuleName() ] );
+		$this->dieUsage( "The \"{$this->getModuleName()}\" module has been disabled.", 'moduledisabled' );
 	}
 
 	public function isReadMode() {
 		return false;
 	}
 
-	protected function getDescriptionMessage() {
-		return 'apihelp-disabled-summary';
+	public function getAllowedParams() {
+		return array();
 	}
 
-	protected function getSummaryMessage() {
-		return 'apihelp-disabled-summary';
+	public function getParamDescription() {
+		return array();
 	}
 
-	protected function getExtendedDescription() {
-		return 'apihelp-disabled-extended-description';
+	public function getDescription() {
+		return 'This module has been disabled.';
+	}
+
+	public function getExamples() {
+		return array();
 	}
 }

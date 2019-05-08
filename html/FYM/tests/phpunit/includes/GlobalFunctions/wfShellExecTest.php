@@ -5,7 +5,7 @@
  * @covers ::wfShellExec
  */
 class WfShellExecTest extends MediaWikiTestCase {
-	public function testT69870() {
+	public function testBug67870() {
 		$command = wfIsWindows()
 			// 333 = 331 + CRLF
 			? ( 'for /l %i in (1, 1, 1001) do @echo ' . str_repeat( '*', 331 ) )

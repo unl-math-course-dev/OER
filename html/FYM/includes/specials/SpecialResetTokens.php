@@ -25,17 +25,12 @@
  * Let users reset tokens like the watchlist token.
  *
  * @ingroup SpecialPage
- * @deprecated since 1.26
  */
 class SpecialResetTokens extends FormSpecialPage {
 	private $tokensList;
 
 	public function __construct() {
 		parent::__construct( 'ResetTokens' );
-	}
-
-	public function doesWrites() {
-		return true;
 	}
 
 	/**
@@ -45,15 +40,16 @@ class SpecialResetTokens extends FormSpecialPage {
 	 * @return array
 	 */
 	protected function getTokensList() {
-		if ( !isset( $this->tokensList ) ) {
-			$tokens = [
-				[ 'preference' => 'watchlisttoken', 'label-message' => 'resettokens-watchlist-token' ],
-			];
-			Hooks::run( 'SpecialResetTokensTokens', [ &$tokens ] );
+		global $wgHiddenPrefs;
 
-			$hiddenPrefs = $this->getConfig()->get( 'HiddenPrefs' );
-			$tokens = array_filter( $tokens, function ( $tok ) use ( $hiddenPrefs ) {
-				return !in_array( $tok['preference'], $hiddenPrefs );
+		if ( !isset( $this->tokensList ) ) {
+			$tokens = array(
+				array( 'preference' => 'watchlisttoken', 'label-message' => 'resettokens-watchlist-token' ),
+			);
+			wfRunHooks( 'SpecialResetTokensTokens', array( &$tokens ) );
+
+			$tokens = array_filter( $tokens, function ( $tok ) use ( $wgHiddenPrefs ) {
+				return !in_array( $tok['preference'], $wgHiddenPrefs );
 			} );
 
 			$this->tokensList = $tokens;
@@ -74,7 +70,7 @@ class SpecialResetTokens extends FormSpecialPage {
 
 	public function onSuccess() {
 		$this->getOutput()->wrapWikiMsg(
-			Html::successBox( '$1' ),
+			"<div class='successbox'>\n$1\n</div>",
 			'resettokens-done'
 		);
 	}
@@ -82,14 +78,13 @@ class SpecialResetTokens extends FormSpecialPage {
 	/**
 	 * Display appropriate message if there's nothing to do.
 	 * The submit button is also suppressed in this case (see alterForm()).
-	 * @return array
 	 */
 	protected function getFormFields() {
 		$user = $this->getUser();
 		$tokens = $this->getTokensList();
 
 		if ( $tokens ) {
-			$tokensForForm = [];
+			$tokensForForm = array();
 			foreach ( $tokens as $tok ) {
 				$label = $this->msg( 'resettokens-token-label' )
 					->rawParams( $this->msg( $tok['label-message'] )->parse() )
@@ -98,39 +93,33 @@ class SpecialResetTokens extends FormSpecialPage {
 				$tokensForForm[$label] = $tok['preference'];
 			}
 
-			$desc = [
+			$desc = array(
 				'label-message' => 'resettokens-tokens',
 				'type' => 'multiselect',
 				'options' => $tokensForForm,
-			];
+			);
 		} else {
-			$desc = [
+			$desc = array(
 				'label-message' => 'resettokens-no-tokens',
 				'type' => 'info',
-			];
+			);
 		}
 
-		return [
+		return array(
 			'tokens' => $desc,
-		];
+		);
 	}
 
 	/**
 	 * Suppress the submit button if there's nothing to do;
 	 * provide additional message on it otherwise.
-	 * @param HTMLForm $form
 	 */
 	protected function alterForm( HTMLForm $form ) {
-		$form->setSubmitDestructive();
 		if ( $this->getTokensList() ) {
 			$form->setSubmitTextMsg( 'resettokens-resetbutton' );
 		} else {
 			$form->suppressDefaultSubmit();
 		}
-	}
-
-	protected function getDisplayFormat() {
-		return 'ooui';
 	}
 
 	public function onSubmit( array $formData ) {

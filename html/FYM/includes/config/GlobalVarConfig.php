@@ -46,20 +46,17 @@ class GlobalVarConfig implements Config {
 	}
 
 	/**
-	 * @inheritDoc
+	 * @see Config::get
 	 */
 	public function get( $name ) {
-		if ( !$this->has( $name ) ) {
-			throw new ConfigException( __METHOD__ . ": undefined option: '$name'" );
-		}
 		return $this->getWithPrefix( $this->prefix, $name );
 	}
 
 	/**
-	 * @inheritDoc
+	 * @see Config::set
 	 */
-	public function has( $name ) {
-		return $this->hasWithPrefix( $this->prefix, $name );
+	public function set( $name, $value ) {
+		$this->setWithPrefix( $this->prefix, $name, $value );
 	}
 
 	/**
@@ -67,21 +64,25 @@ class GlobalVarConfig implements Config {
 	 *
 	 * @param string $prefix Prefix to use on the variable, if one.
 	 * @param string $name Variable name without prefix
+	 * @throws ConfigException
 	 * @return mixed
 	 */
 	protected function getWithPrefix( $prefix, $name ) {
-		return $GLOBALS[$prefix . $name];
+		$var = $prefix . $name;
+		if ( !array_key_exists( $var, $GLOBALS ) ) {
+			throw new ConfigException( __METHOD__ . ": undefined variable: '$var'" );
+		}
+		return $GLOBALS[ $var ];
 	}
 
 	/**
-	 * Check if a variable with a given prefix is set
+	 * Get a variable with a given prefix, if not the defaults.
 	 *
 	 * @param string $prefix Prefix to use on the variable
 	 * @param string $name Variable name without prefix
-	 * @return bool
+	 * @param mixed $value value to set
 	 */
-	protected function hasWithPrefix( $prefix, $name ) {
-		$var = $prefix . $name;
-		return array_key_exists( $var, $GLOBALS );
+	protected function setWithPrefix( $prefix, $name, $value ) {
+		$GLOBALS[ $prefix . $name ] = $value;
 	}
 }

@@ -1,7 +1,8 @@
 <?php
 /** Abkhazian (Аҧсшәа)
  *
- * To improve a translation please visit https://translatewiki.net
+ * See MessagesQqq.php for message documentation incl. usage of parameters
+ * To improve a translation please visit http://translatewiki.net
  *
  * @ingroup Language
  * @file
@@ -10,7 +11,7 @@
 
 $fallback = 'ru';
 
-$namespaceNames = [
+$namespaceNames = array(
 	NS_MEDIA            => 'Амедиа',
 	NS_SPECIAL          => 'Цастәи',
 	NS_TALK             => 'Ахцәажәара',
@@ -27,9 +28,9 @@ $namespaceNames = [
 	NS_HELP_TALK        => 'Ацхыраара_ахцәажәара',
 	NS_CATEGORY         => 'Акатегориа',
 	NS_CATEGORY_TALK    => 'Акатегориа_ахцәажәара',
-];
+);
 
-$namespaceAliases = [
+$namespaceAliases = array(
 	'Иалахә'             => NS_USER,
 
 	// Backward compat. Fallbacks from 'ru'.
@@ -49,29 +50,28 @@ $namespaceAliases = [
 	'Обсуждение_справки'   => NS_HELP_TALK,
 	'Категория'            => NS_CATEGORY,
 	'Обсуждение_категории' => NS_CATEGORY_TALK
-];
+);
 
 // Remove Russian aliases
-$namespaceGenderAliases = [];
+$namespaceGenderAliases = array();
 
-$specialPageAliases = [
-	'Categories'                => [ 'Акатегориақәа' ],
-	'Mycontributions'           => [ 'Архиарақәа' ],
-	'Mypage'                    => [ 'Садаҟьа' ],
-	'Mytalk'                    => [ 'Сахцәажәара' ],
-	'Newimages'                 => [ 'АфаилқәаҾыц' ],
-	'Newpages'                  => [ 'АдаҟьақәаҾыц' ],
-	'Randompage'                => [ 'Машәырлатәи' ],
-	'Recentchanges'             => [ 'АрҽеираҾыцқәа' ],
-	'Search'                    => [ 'Аҧшаара' ],
-	'Specialpages'              => [ 'ЦастәиАдаҟьақәа' ],
-	'Upload'                    => [ 'Аҭагалара' ],
-];
+$specialPageAliases = array(
+	'Categories'                => array( 'Акатегориақәа' ),
+	'Mycontributions'           => array( 'Архиарақәа' ),
+	'Mypage'                    => array( 'Садаҟьа' ),
+	'Mytalk'                    => array( 'Сахцәажәара' ),
+	'Newimages'                 => array( 'АфаилқәаҾыц' ),
+	'Newpages'                  => array( 'АдаҟьақәаҾыц' ),
+	'Randompage'                => array( 'Машәырлатәи' ),
+	'Recentchanges'             => array( 'АрҽеираҾыцқәа' ),
+	'Search'                    => array( 'Аҧшаара' ),
+	'Specialpages'              => array( 'ЦастәиАдаҟьақәа' ),
+	'Upload'                    => array( 'Аҭагалара' ),
+);
 
-$magicWords = [
-	'language'                  => [ '0', '#АБЫЗШӘА:', '#ЯЗЫК:', '#LANGUAGE:' ],
-	'special'                   => [ '0', 'цастәи', 'служебная', 'special' ],
-	'index'                     => [ '1', '__АИНДЕКС__', '__ИНДЕКС__', '__INDEX__' ],
-];
+$magicWords = array(
+	'language'                  => array( '0', '#АБЫЗШӘА:', '#ЯЗЫК:', '#LANGUAGE:' ),
+	'special'                   => array( '0', 'цастәи', 'служебная', 'special' ),
+	'index'                     => array( '1', '__АИНДЕКС__', '__ИНДЕКС__', '__INDEX__' ),
+);
 
-$linkTrail = '/^([a-zабвгҕдежзӡикқҟлмнопҧрстҭуфхҳцҵчҷҽҿшыҩџьә]+)(.*)$/sDu';

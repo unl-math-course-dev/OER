@@ -1,65 +1,49 @@
 <?php
 
-class UIDGeneratorTest extends PHPUnit\Framework\TestCase {
-
-	use MediaWikiCoversValidator;
+class UIDGeneratorTest extends MediaWikiTestCase {
 
 	protected function tearDown() {
-		// T46850
+		// Bug: 44850
 		UIDGenerator::unitTestTearDown();
 		parent::tearDown();
 	}
 
 	/**
-	 * Test that generated UIDs have the expected properties
-	 *
 	 * @dataProvider provider_testTimestampedUID
-	 * @covers UIDGenerator::newTimestampedUID88
-	 * @covers UIDGenerator::getTimestampedID88
 	 * @covers UIDGenerator::newTimestampedUID128
-	 * @covers UIDGenerator::getTimestampedID128
+	 * @covers UIDGenerator::newTimestampedUID88
 	 */
 	public function testTimestampedUID( $method, $digitlen, $bits, $tbits, $hostbits ) {
-		$id = call_user_func( [ UIDGenerator::class, $method ] );
+		$id = call_user_func( array( 'UIDGenerator', $method ) );
 		$this->assertEquals( true, ctype_digit( $id ), "UID made of digit characters" );
 		$this->assertLessThanOrEqual( $digitlen, strlen( $id ),
 			"UID has the right number of digits" );
-		$this->assertLessThanOrEqual( $bits, strlen( Wikimedia\base_convert( $id, 10, 2 ) ),
+		$this->assertLessThanOrEqual( $bits, strlen( wfBaseConvert( $id, 10, 2 ) ),
 			"UID has the right number of bits" );
 
-		$ids = [];
+		$ids = array();
 		for ( $i = 0; $i < 300; $i++ ) {
-			$ids[] = call_user_func( [ UIDGenerator::class, $method ] );
+			$ids[] = call_user_func( array( 'UIDGenerator', $method ) );
 		}
 
 		$lastId = array_shift( $ids );
 
-		$this->assertSame( array_unique( $ids ), $ids, "All generated IDs are unique." );
+		$this->assertArrayEquals( array_unique( $ids ), $ids, "All generated IDs are unique." );
 
 		foreach ( $ids as $id ) {
-			// Convert string to binary and pad to full length so we can
-			// extract segments
-			$id_bin = Wikimedia\base_convert( $id, 10, 2, $bits );
-			$lastId_bin = Wikimedia\base_convert( $lastId, 10, 2, $bits );
-
-			$timestamp_bin = substr( $id_bin, 0, $tbits );
-			$last_timestamp_bin = substr( $lastId_bin, 0, $tbits );
+			$id_bin = wfBaseConvert( $id, 10, 2 );
+			$lastId_bin = wfBaseConvert( $lastId, 10, 2 );
 
 			$this->assertGreaterThanOrEqual(
-				$last_timestamp_bin,
-				$timestamp_bin,
-				"timestamp ($timestamp_bin) of current ID ($id_bin) >= timestamp ($last_timestamp_bin) " .
-					"of prior one ($lastId_bin)" );
-
-			$hostbits_bin = substr( $id_bin, -$hostbits );
-			$last_hostbits_bin = substr( $lastId_bin, -$hostbits );
+				substr( $id_bin, 0, $tbits ),
+				substr( $lastId_bin, 0, $tbits ),
+				"New ID timestamp ($id_bin) >= prior one ($lastId_bin)." );
 
 			if ( $hostbits ) {
 				$this->assertEquals(
-					$hostbits_bin,
-					$last_hostbits_bin,
-					"Host ID ($hostbits_bin) of current ID ($id_bin) is same as host ID ($last_hostbits_bin) " .
-						"of prior one ($lastId_bin)." );
+					substr( $id_bin, 0, -$hostbits ),
+					substr( $lastId_bin, 0, -$hostbits ),
+					"Host ID of ($id_bin) is same as prior one ($lastId_bin)." );
 			}
 
 			$lastId = $id;
@@ -71,54 +55,23 @@ class UIDGeneratorTest extends PHPUnit\Framework\TestCase {
 	 * NOTE: When adding a new method name here please update the covers tags for the tests!
 	 */
 	public static function provider_testTimestampedUID() {
-		return [
-			[ 'newTimestampedUID128', 39, 128, 46, 48 ],
-			[ 'newTimestampedUID128', 39, 128, 46, 48 ],
-			[ 'newTimestampedUID88', 27, 88, 46, 32 ],
-		];
-	}
-
-	/**
-	 * @covers UIDGenerator::newUUIDv1
-	 * @covers UIDGenerator::getUUIDv1
-	 */
-	public function testUUIDv1() {
-		$ids = [];
-		for ( $i = 0; $i < 100; $i++ ) {
-			$id = UIDGenerator::newUUIDv1();
-			$this->assertEquals( true,
-				preg_match( '!^[0-9a-f]{8}-[0-9a-f]{4}-1[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$!', $id ),
-				"UID $id has the right format" );
-			$ids[] = $id;
-
-			$id = UIDGenerator::newRawUUIDv1();
-			$this->assertEquals( true,
-				preg_match( '!^[0-9a-f]{12}1[0-9a-f]{3}[89ab][0-9a-f]{15}$!', $id ),
-				"UID $id has the right format" );
-
-			$id = UIDGenerator::newRawUUIDv1();
-			$this->assertEquals( true,
-				preg_match( '!^[0-9a-f]{12}1[0-9a-f]{3}[89ab][0-9a-f]{15}$!', $id ),
-				"UID $id has the right format" );
-		}
-
-		$this->assertEquals( array_unique( $ids ), $ids, "All generated IDs are unique." );
+		return array(
+			array( 'newTimestampedUID128', 39, 128, 46, 48 ),
+			array( 'newTimestampedUID128', 39, 128, 46, 48 ),
+			array( 'newTimestampedUID88', 27, 88, 46, 32 ),
+		);
 	}
 
 	/**
 	 * @covers UIDGenerator::newUUIDv4
 	 */
 	public function testUUIDv4() {
-		$ids = [];
 		for ( $i = 0; $i < 100; $i++ ) {
 			$id = UIDGenerator::newUUIDv4();
-			$ids[] = $id;
 			$this->assertEquals( true,
 				preg_match( '!^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$!', $id ),
 				"UID $id has the right format" );
 		}
-
-		$this->assertEquals( array_unique( $ids ), $ids, 'All generated IDs are unique.' );
 	}
 
 	/**
@@ -152,21 +105,20 @@ class UIDGeneratorTest extends PHPUnit\Framework\TestCase {
 		$id1 = UIDGenerator::newSequentialPerNodeID( 'test', 32 );
 		$id2 = UIDGenerator::newSequentialPerNodeID( 'test', 32 );
 
-		$this->assertInternalType( 'float', $id1, "ID returned as float" );
-		$this->assertInternalType( 'float', $id2, "ID returned as float" );
+		$this->assertType( 'float', $id1, "ID returned as float" );
+		$this->assertType( 'float', $id2, "ID returned as float" );
 		$this->assertGreaterThan( 0, $id1, "ID greater than 1" );
 		$this->assertGreaterThan( $id1, $id2, "IDs increasing in value" );
 	}
 
 	/**
 	 * @covers UIDGenerator::newSequentialPerNodeIDs
-	 * @covers UIDGenerator::getSequentialPerNodeIDs
 	 */
 	public function testNewSequentialIDs() {
 		$ids = UIDGenerator::newSequentialPerNodeIDs( 'test', 32, 5 );
 		$lastId = null;
 		foreach ( $ids as $id ) {
-			$this->assertInternalType( 'float', $id, "ID returned as float" );
+			$this->assertType( 'float', $id, "ID returned as float" );
 			$this->assertGreaterThan( 0, $id, "ID greater than 1" );
 			if ( $lastId ) {
 				$this->assertGreaterThan( $lastId, $id, "IDs increasing in value" );

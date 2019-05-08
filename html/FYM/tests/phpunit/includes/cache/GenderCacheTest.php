@@ -1,5 +1,4 @@
 <?php
-use MediaWiki\MediaWikiServices;
 
 /**
  * @group Database
@@ -7,30 +6,40 @@ use MediaWiki\MediaWikiServices;
  */
 class GenderCacheTest extends MediaWikiLangTestCase {
 
-	/** @var string[] User key => username */
-	private static $nameMap;
+	protected function setUp() {
+		global $wgDefaultUserOptions;
+		parent::setUp();
+		//ensure the correct default gender
+		$wgDefaultUserOptions['gender'] = 'unknown';
+	}
 
-	function addDBDataOnce() {
-		// ensure the correct default gender
-		$this->mergeMwGlobalArrayValue( 'wgDefaultUserOptions', [ 'gender' => 'unknown' ] );
+	function addDBData() {
+		$user = User::newFromName( 'UTMale' );
+		if ( $user->getID() == 0 ) {
+			$user->addToDatabase();
+			$user->setPassword( 'UTMalePassword' );
+		}
+		//ensure the right gender
+		$user->setOption( 'gender', 'male' );
+		$user->saveSettings();
 
-		$male = $this->getMutableTestUser()->getUser();
-		$male->setOption( 'gender', 'male' );
-		$male->saveSettings();
+		$user = User::newFromName( 'UTFemale' );
+		if ( $user->getID() == 0 ) {
+			$user->addToDatabase();
+			$user->setPassword( 'UTFemalePassword' );
+		}
+		//ensure the right gender
+		$user->setOption( 'gender', 'female' );
+		$user->saveSettings();
 
-		$female = $this->getMutableTestUser()->getUser();
-		$female->setOption( 'gender', 'female' );
-		$female->saveSettings();
-
-		$default = $this->getMutableTestUser()->getUser();
-		$default->setOption( 'gender', null );
-		$default->saveSettings();
-
-		self::$nameMap = [
-			'UTMale'          => $male->getName(),
-			'UTFemale'        => $female->getName(),
-			'UTDefaultGender' => $default->getName()
-		];
+		$user = User::newFromName( 'UTDefaultGender' );
+		if ( $user->getID() == 0 ) {
+			$user->addToDatabase();
+			$user->setPassword( 'UTDefaultGenderPassword' );
+		}
+		//ensure the default gender
+		$user->setOption( 'gender', null );
+		$user->saveSettings();
 	}
 
 	/**
@@ -39,9 +48,8 @@ class GenderCacheTest extends MediaWikiLangTestCase {
 	 * @dataProvider provideUserGenders
 	 * @covers GenderCache::getGenderOf
 	 */
-	public function testUserName( $userKey, $expectedGender ) {
-		$genderCache = MediaWikiServices::getInstance()->getGenderCache();
-		$username = self::$nameMap[$userKey] ?? $userKey;
+	public function testUserName( $username, $expectedGender ) {
+		$genderCache = GenderCache::singleton();
 		$gender = $genderCache->getGenderOf( $username );
 		$this->assertEquals( $gender, $expectedGender, "GenderCache normal" );
 	}
@@ -52,36 +60,45 @@ class GenderCacheTest extends MediaWikiLangTestCase {
 	 * @dataProvider provideUserGenders
 	 * @covers GenderCache::getGenderOf
 	 */
-	public function testUserObjects( $userKey, $expectedGender ) {
-		$username = self::$nameMap[$userKey] ?? $userKey;
-		$genderCache = MediaWikiServices::getInstance()->getGenderCache();
-		$gender = $genderCache->getGenderOf( $username );
+	public function testUserObjects( $username, $expectedGender ) {
+		$genderCache = GenderCache::singleton();
+		$user = User::newFromName( $username );
+		$gender = $genderCache->getGenderOf( $user );
 		$this->assertEquals( $gender, $expectedGender, "GenderCache normal" );
 	}
 
 	public static function provideUserGenders() {
-		return [
-			[ 'UTMale', 'male' ],
-			[ 'UTFemale', 'female' ],
-			[ 'UTDefaultGender', 'unknown' ],
-			[ 'UTNotExist', 'unknown' ],
-			// some not valid user
-			[ '127.0.0.1', 'unknown' ],
-			[ 'user@test', 'unknown' ],
-		];
+		return array(
+			array( 'UTMale', 'male' ),
+			array( 'UTFemale', 'female' ),
+			array( 'UTDefaultGender', 'unknown' ),
+			array( 'UTNotExist', 'unknown' ),
+			//some not valid user
+			array( '127.0.0.1', 'unknown' ),
+			array( 'user@test', 'unknown' ),
+		);
 	}
 
 	/**
 	 * test strip of subpages to avoid unnecessary queries
 	 * against the never existing username
 	 *
-	 * @dataProvider provideUserGenders
+	 * @dataProvider provideStripSubpages
 	 * @covers GenderCache::getGenderOf
 	 */
-	public function testStripSubpages( $userKey, $expectedGender ) {
-		$username = self::$nameMap[$userKey] ?? $userKey;
-		$genderCache = MediaWikiServices::getInstance()->getGenderCache();
-		$gender = $genderCache->getGenderOf( "$username/subpage" );
+	public function testStripSubpages( $pageWithSubpage, $expectedGender ) {
+		$genderCache = GenderCache::singleton();
+		$gender = $genderCache->getGenderOf( $pageWithSubpage );
 		$this->assertEquals( $gender, $expectedGender, "GenderCache must strip of subpages" );
+	}
+
+	public static function provideStripSubpages() {
+		return array(
+			array( 'UTMale/subpage', 'male' ),
+			array( 'UTFemale/subpage', 'female' ),
+			array( 'UTDefaultGender/subpage', 'unknown' ),
+			array( 'UTNotExist/subpage', 'unknown' ),
+			array( '127.0.0.1/subpage', 'unknown' ),
+		);
 	}
 }

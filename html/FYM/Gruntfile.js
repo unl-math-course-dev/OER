@@ -1,63 +1,47 @@
-/* eslint-env node */
-
+/*jshint node:true */
 module.exports = function ( grunt ) {
+	grunt.loadNpmTasks( 'grunt-contrib-copy' );
+	grunt.loadNpmTasks( 'grunt-contrib-jshint' );
+	grunt.loadNpmTasks( 'grunt-contrib-watch' );
+	grunt.loadNpmTasks( 'grunt-jscs-checker' );
+	grunt.loadNpmTasks( 'grunt-karma' );
 
 	var wgServer = process.env.MW_SERVER,
 		wgScriptPath = process.env.MW_SCRIPT_PATH,
 		karmaProxy = {};
 
-	grunt.loadNpmTasks( 'grunt-banana-checker' );
-	grunt.loadNpmTasks( 'grunt-contrib-copy' );
-	grunt.loadNpmTasks( 'grunt-contrib-watch' );
-	grunt.loadNpmTasks( 'grunt-eslint' );
-	grunt.loadNpmTasks( 'grunt-jsonlint' );
-	grunt.loadNpmTasks( 'grunt-karma' );
-	grunt.loadNpmTasks( 'grunt-stylelint' );
-
-	karmaProxy[ wgScriptPath ] = {
-		target: wgServer + wgScriptPath,
-		changeOrigin: true
-	};
+	karmaProxy[wgScriptPath] = wgServer + wgScriptPath;
 
 	grunt.initConfig( {
-		eslint: {
-			all: [
-				'**/*.js',
-				'!docs/**',
-				'!node_modules/**',
-				'!resources/lib/**',
-				'!resources/src/jquery.tipsy/**',
-				'!resources/src/mediawiki.libs.jpegmeta/**',
-				// Third-party code of PHPUnit coverage report
-				'!tests/coverage/**',
-				'!vendor/**',
-				// Explicitly say "**/*.js" here in case of symlinks
-				'!extensions/**/*.js',
-				'!skins/**/*.js'
-			]
-		},
-		jsonlint: {
-			all: [
-				'**/*.json',
-				'!{docs/js,extensions,node_modules,skins,vendor}/**'
-			]
-		},
-		banana: {
+		pkg: grunt.file.readJSON( 'package.json' ),
+		jshint: {
 			options: {
-				disallowBlankTranslations: false
+				jshintrc: '.jshintrc'
 			},
-			core: 'languages/i18n/',
-			api: 'includes/api/i18n/',
-			installer: 'includes/installer/i18n/'
+			all: [ '*.js', '{includes,languages,resources,skins,tests}/**/*.js' ]
 		},
-		stylelint: {
-			src: '{resources/src,mw-config}/**/*.{css,less}'
+		jscs: {
+			// Known issues:
+			// - https://github.com/mdevils/node-jscs/issues/277
+			// - https://github.com/mdevils/node-jscs/issues/278
+			all: [
+				'<%= jshint.all %>',
+				// Auto-generated file with JSON (double quotes)
+				'!tests/qunit/data/mediawiki.jqueryMsg.data.js'
+
+			// Exclude all files ignored by jshint
+			].concat( grunt.file.read( '.jshintignore' ).split( '\n' ).reduce( function ( patterns, pattern ) {
+				// Filter out empty lines
+				if ( pattern.length && pattern[0] !== '#' ) {
+					patterns.push( '!' + pattern );
+				}
+				return patterns;
+			}, [] ) )
 		},
 		watch: {
 			files: [
-				'.{stylelintrc,eslintrc.json}',
-				'**/*',
-				'!{docs,extensions,node_modules,skins,vendor}/**'
+				'.{jshintrc,jscs.json,jshintignore,csslintrc}',
+				'<%= jshint.all %>'
 			],
 			tasks: 'test'
 		},
@@ -70,25 +54,18 @@ module.exports = function ( grunt ) {
 					included: true,
 					served: false
 				} ],
-				logLevel: 'DEBUG',
 				frameworks: [ 'qunit' ],
-				reporters: [ 'mocha' ],
+				reporters: [ 'dots' ],
 				singleRun: true,
 				autoWatch: false,
 				// Some tests in extensions don't yield for more than the default 10s (T89075)
-				browserNoActivityTimeout: 60 * 1000,
-				// Karma requires Same-Origin (or CORS) by default since v1.1.1
-				// for better stacktraces. But we load the first request from wgServer
-				crossOriginAttribute: false
+				browserNoActivityTimeout: 60 * 1000
 			},
 			main: {
 				browsers: [ 'Chrome' ]
 			},
-			chromium: {
-				browsers: [ 'Chromium' ]
-			},
-			firefox: {
-				browsers: [ 'Firefox' ]
+			more: {
+				browsers: [ 'Chrome', 'Firefox' ]
 			}
 		},
 		copy: {
@@ -111,14 +88,14 @@ module.exports = function ( grunt ) {
 		}
 		if ( !process.env.MW_SCRIPT_PATH ) {
 			grunt.log.error( 'Environment variable MW_SCRIPT_PATH must be set.\n' +
-				'Set this like $wgScriptPath, e.g. "/w"' );
+				'Set this like $wgScriptPath, e.g. "/w"');
 		}
 		return !!( process.env.MW_SERVER && process.env.MW_SCRIPT_PATH );
 	} );
 
-	grunt.registerTask( 'lint', [ 'eslint', 'banana', 'stylelint' ] );
+	grunt.registerTask( 'lint', ['jshint', 'jscs'] );
 	grunt.registerTask( 'qunit', [ 'assert-mw-env', 'karma:main' ] );
 
-	grunt.registerTask( 'test', [ 'lint' ] );
+	grunt.registerTask( 'test', ['lint'] );
 	grunt.registerTask( 'default', 'test' );
 };

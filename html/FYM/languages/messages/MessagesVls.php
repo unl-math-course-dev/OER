@@ -1,7 +1,8 @@
 <?php
 /** West-Vlams (West-Vlams)
  *
- * To improve a translation please visit https://translatewiki.net
+ * See MessagesQqq.php for message documentation incl. usage of parameters
+ * To improve a translation please visit http://translatewiki.net
  *
  * @ingroup Language
  * @file
@@ -13,7 +14,7 @@
 
 $fallback = 'nl';
 
-$namespaceNames = [
+$namespaceNames = array(
 	NS_MEDIA            => 'Media',
 	NS_SPECIAL          => 'Specioal',
 	NS_TALK             => 'Discuusje',
@@ -30,4 +31,5 @@ $namespaceNames = [
 	NS_HELP_TALK        => 'Discuusje_ulpe',
 	NS_CATEGORY         => 'Categorie',
 	NS_CATEGORY_TALK    => 'Discuusje_categorie',
-];
+);
+

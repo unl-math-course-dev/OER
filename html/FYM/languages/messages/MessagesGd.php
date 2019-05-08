@@ -1,14 +1,15 @@
 <?php
 /** Scottish Gaelic (Gàidhlig)
  *
- * To improve a translation please visit https://translatewiki.net
+ * See MessagesQqq.php for message documentation incl. usage of parameters
+ * To improve a translation please visit http://translatewiki.net
  *
  * @ingroup Language
  * @file
  *
  */
 
-$namespaceNames = [
+$namespaceNames = array(
 	NS_MEDIA            => 'Meadhan',
 	NS_SPECIAL          => 'Sònraichte',
 	NS_TALK             => 'Deasbaireachd',
@@ -25,4 +26,5 @@ $namespaceNames = [
 	NS_HELP_TALK        => 'Deasbaireachd_na_cobharach',
 	NS_CATEGORY         => 'Roinn-seòrsa',
 	NS_CATEGORY_TALK    => 'Deasbaireachd_na_roinn-seòrsa',
-];
+);
+

@@ -31,7 +31,7 @@ require_once __DIR__ . '/Maintenance.php';
 class PurgeList extends Maintenance {
 	public function __construct() {
 		parent::__construct();
-		$this->addDescription( 'Send purge requests for listed pages to squid' );
+		$this->mDescription = "Send purge requests for listed pages to squid";
 		$this->addOption( 'purge', 'Whether to update page_touched.', false, false );
 		$this->addOption( 'namespace', 'Namespace number', false, true );
 		$this->addOption( 'all', 'Purge all pages', false, false );
@@ -56,7 +56,7 @@ class PurgeList extends Maintenance {
 	 */
 	private function doPurge() {
 		$stdin = $this->getStdin();
-		$urls = [];
+		$urls = array();
 
 		while ( !feof( $stdin ) ) {
 			$page = trim( fgets( $stdin ) );
@@ -82,32 +82,30 @@ class PurgeList extends Maintenance {
 
 	/**
 	 * Purge a namespace or all pages
-	 *
-	 * @param int|bool $namespace
 	 */
 	private function purgeNamespace( $namespace = false ) {
-		$dbr = $this->getDB( DB_REPLICA );
+		$dbr = wfGetDB( DB_SLAVE );
 		$startId = 0;
 		if ( $namespace === false ) {
-			$conds = [];
+			$conds = array();
 		} else {
-			$conds = [ 'page_namespace' => $namespace ];
+			$conds = array( 'page_namespace' => $namespace );
 		}
 		while ( true ) {
 			$res = $dbr->select( 'page',
-				[ 'page_id', 'page_namespace', 'page_title' ],
-				$conds + [ 'page_id > ' . $dbr->addQuotes( $startId ) ],
+				array( 'page_id', 'page_namespace', 'page_title' ),
+				$conds + array( 'page_id > ' . $dbr->addQuotes( $startId ) ),
 				__METHOD__,
-				[
-					'LIMIT' => $this->getBatchSize(),
+				array(
+					'LIMIT' => $this->mBatchSize,
 					'ORDER BY' => 'page_id'
 
-				]
+				)
 			);
 			if ( !$res->numRows() ) {
 				break;
 			}
-			$urls = [];
+			$urls = array();
 			foreach ( $res as $row ) {
 				$title = Title::makeTitle( $row->page_namespace, $row->page_title );
 				$url = $title->getInternalURL();
@@ -120,7 +118,7 @@ class PurgeList extends Maintenance {
 
 	/**
 	 * Helper to purge an array of $urls
-	 * @param array $urls List of URLS to purge from squids
+	 * @param $urls array List of URLS to purge from squids
 	 */
 	private function sendPurgeRequest( $urls ) {
 		if ( $this->hasOption( 'delay' ) ) {
@@ -129,7 +127,7 @@ class PurgeList extends Maintenance {
 				if ( $this->hasOption( 'verbose' ) ) {
 					$this->output( $url . "\n" );
 				}
-				$u = new CdnCacheUpdate( [ $url ] );
+				$u = new SquidUpdate( array( $url ) );
 				$u->doUpdate();
 				usleep( $delay * 1e6 );
 			}
@@ -137,11 +135,12 @@ class PurgeList extends Maintenance {
 			if ( $this->hasOption( 'verbose' ) ) {
 				$this->output( implode( "\n", $urls ) . "\n" );
 			}
-			$u = new CdnCacheUpdate( $urls );
+			$u = new SquidUpdate( $urls );
 			$u->doUpdate();
 		}
 	}
+
 }
 
-$maintClass = PurgeList::class;
+$maintClass = "PurgeList";
 require_once RUN_MAINTENANCE_IF_MAIN;

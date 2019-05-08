@@ -22,9 +22,6 @@
  * @author Rob Church <robchur@gmail.com>
  */
 
-use Wikimedia\Rdbms\IResultWrapper;
-use Wikimedia\Rdbms\IDatabase;
-
 /**
  * Special page lists templates with a large number of
  * transclusion links, i.e. "most used" templates
@@ -39,7 +36,7 @@ class MostlinkedTemplatesPage extends QueryPage {
 	/**
 	 * Is this report expensive, i.e should it be cached?
 	 *
-	 * @return bool
+	 * @return Boolean
 	 */
 	public function isExpensive() {
 		return true;
@@ -48,7 +45,7 @@ class MostlinkedTemplatesPage extends QueryPage {
 	/**
 	 * Is there a feed available?
 	 *
-	 * @return bool
+	 * @return Boolean
 	 */
 	public function isSyndicated() {
 		return false;
@@ -57,32 +54,43 @@ class MostlinkedTemplatesPage extends QueryPage {
 	/**
 	 * Sort the results in descending order?
 	 *
-	 * @return bool
+	 * @return Boolean
 	 */
 	public function sortDescending() {
 		return true;
 	}
 
 	public function getQueryInfo() {
-		return [
-			'tables' => [ 'templatelinks' ],
-			'fields' => [
+		return array(
+			'tables' => array( 'templatelinks' ),
+			'fields' => array(
 				'namespace' => 'tl_namespace',
 				'title' => 'tl_title',
 				'value' => 'COUNT(*)'
-			],
-			'options' => [ 'GROUP BY' => [ 'tl_namespace', 'tl_title' ] ]
-		];
+			),
+			'conds' => array( 'tl_namespace' => NS_TEMPLATE ),
+			'options' => array( 'GROUP BY' => array( 'tl_namespace', 'tl_title' ) )
+		);
 	}
 
 	/**
 	 * Pre-cache page existence to speed up link generation
 	 *
-	 * @param IDatabase $db
-	 * @param IResultWrapper $res
+	 * @param $db DatabaseBase connection
+	 * @param ResultWrapper $res
 	 */
 	public function preprocessResults( $db, $res ) {
-		$this->executeLBFromResultWrapper( $res );
+		if ( !$res->numRows() ) {
+			return;
+		}
+
+		$batch = new LinkBatch();
+		foreach ( $res as $row ) {
+			$batch->add( $row->namespace, $row->title );
+		}
+		$batch->execute();
+
+		$res->seek( 0 );
 	}
 
 	/**
@@ -97,7 +105,7 @@ class MostlinkedTemplatesPage extends QueryPage {
 		if ( !$title ) {
 			return Html::element(
 				'span',
-				[ 'class' => 'mw-invalidtitle' ],
+				array( 'class' => 'mw-invalidtitle' ),
 				Linker::getInvalidTitleDescription(
 					$this->getContext(),
 					$result->namespace,
@@ -107,7 +115,7 @@ class MostlinkedTemplatesPage extends QueryPage {
 		}
 
 		return $this->getLanguage()->specialList(
-			$this->getLinkRenderer()->makeLink( $title ),
+			Linker::link( $title ),
 			$this->makeWlhLink( $title, $result )
 		);
 	}
@@ -117,13 +125,13 @@ class MostlinkedTemplatesPage extends QueryPage {
 	 *
 	 * @param Title $title Title to make the link for
 	 * @param object $result Result row
-	 * @return string
+	 * @return String
 	 */
 	private function makeWlhLink( $title, $result ) {
 		$wlh = SpecialPage::getTitleFor( 'Whatlinkshere', $title->getPrefixedText() );
-		$label = $this->msg( 'ntransclusions' )->numParams( $result->value )->text();
+		$label = $this->msg( 'ntransclusions' )->numParams( $result->value )->escaped();
 
-		return $this->getLinkRenderer()->makeLink( $wlh, $label );
+		return Linker::link( $wlh, $label );
 	}
 
 	protected function getGroupName() {

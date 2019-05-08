@@ -1,4 +1,4 @@
-( function () {
+( function ( mw ) {
 	/**
 	 * Base language object with methods related to language support, attempting to mirror some of the
 	 * functionality of the Language class in MediaWiki:
@@ -12,16 +12,15 @@
 	 */
 	mw.language = {
 		/**
-		 * Language-related data (keyed by language, contains instances of mw.Map).
-		 *
-		 * Exported dynamically by the ResourceLoaderLanguageDataModule class in PHP.
+		 * Language-related data (keyed by language, contains instances of mw.Map). Loaded dynamically
+		 * (see ResourceLoaderLanguageDataModule in PHP docs, aka mediawiki.language.data module).
 		 *
 		 * To set data:
 		 *
 		 *     // Override, extend or create the language data object of 'nl'
 		 *     mw.language.setData( 'nl', 'myKey', 'My value' );
 		 *
-		 *     // Set multiple key/values pairs at once
+		 *     // Set multiple values at once
 		 *     mw.language.setData( 'nl', { foo: 'X', bar: 'Y' } );
 		 *
 		 * To get GrammarForms data for language 'nl':
@@ -32,13 +31,9 @@
 		 *
 		 *  - `digitTransformTable`
 		 *  - `separatorTransformTable`
-		 *  - `minimumGroupingDigits`
 		 *  - `grammarForms`
 		 *  - `pluralRules`
 		 *  - `digitGroupingPattern`
-		 *  - `fallbackLanguages`
-		 *  - `bcp47Map`
-		 *  - `languageNames`
 		 *
 		 * @property
 		 */
@@ -52,14 +47,13 @@
 		 *
 		 * @param {string} langCode
 		 * @param {string} dataKey
-		 * @return {Mixed} Value stored in the mw.Map (or `undefined` if there is no map for the
-		 *  specified langCode)
+		 * @return {Mixed} Value stored in the mw.Map (or `undefined` if there is no map for the specified
+		 *  langCode).
 		 */
 		getData: function ( langCode, dataKey ) {
 			var langData = mw.language.data;
-			langCode = langCode.toLowerCase();
-			if ( langData && langData[ langCode ] instanceof mw.Map ) {
-				return langData[ langCode ].get( dataKey );
+			if ( langData && langData[langCode] instanceof mw.Map ) {
+				return langData[langCode].get( dataKey );
 			}
 			return undefined;
 		},
@@ -70,21 +64,16 @@
 		 * Creates the data mw.Map if there isn't one for the specified language already.
 		 *
 		 * @param {string} langCode
-		 * @param {string|Object} dataKey Key or object of key/values
-		 * @param {Mixed} [value] Value for dataKey, omit if dataKey is an object
+		 * @param {string|Object} dataKey Key or object of key/values.
+		 * @param {Mixed} value Value for dataKey, ignored if dataKey is an object.
 		 */
 		setData: function ( langCode, dataKey, value ) {
 			var langData = mw.language.data;
-			langCode = langCode.toLowerCase();
-			if ( !( langData[ langCode ] instanceof mw.Map ) ) {
-				langData[ langCode ] = new mw.Map();
+			if ( !( langData[langCode] instanceof mw.Map ) ) {
+				langData[langCode] = new mw.Map();
 			}
-			if ( arguments.length > 2 ) {
-				langData[ langCode ].set( dataKey, value );
-			} else {
-				langData[ langCode ].set( dataKey );
-			}
+			langData[langCode].set( dataKey, value );
 		}
 	};
 
-}() );
+}( mediaWiki ) );

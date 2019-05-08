@@ -21,8 +21,6 @@
  * @ingroup SpecialPage
  */
 
-use MediaWiki\MediaWikiServices;
-
 /**
  * A special page that lists special pages
  *
@@ -47,13 +45,13 @@ class SpecialSpecialpages extends UnlistedSpecialPage {
 			return;
 		}
 
-		$this->addHelpLink( 'Help:Special pages' );
 		$this->outputPageList( $groups );
 	}
 
 	private function getPageGroups() {
-		$pages = MediaWikiServices::getInstance()->getSpecialPageFactory()->
-			getUsablePages( $this->getUser() );
+		global $wgSortSpecialPages;
+
+		$pages = SpecialPageFactory::getUsablePages( $this->getUser() );
 
 		if ( !count( $pages ) ) {
 			# Yeah, that was pointless. Thanks for coming.
@@ -61,25 +59,27 @@ class SpecialSpecialpages extends UnlistedSpecialPage {
 		}
 
 		/** Put them into a sortable array */
-		$groups = [];
+		$groups = array();
 		/** @var SpecialPage $page */
 		foreach ( $pages as $page ) {
 			if ( $page->isListed() ) {
 				$group = $page->getFinalGroupName();
 				if ( !isset( $groups[$group] ) ) {
-					$groups[$group] = [];
+					$groups[$group] = array();
 				}
-				$groups[$group][$page->getDescription()] = [
+				$groups[$group][$page->getDescription()] = array(
 					$page->getPageTitle(),
 					$page->isRestricted(),
 					$page->isCached()
-				];
+				);
 			}
 		}
 
 		/** Sort */
-		foreach ( $groups as $group => $sortedPages ) {
-			ksort( $groups[$group] );
+		if ( $wgSortSpecialPages ) {
+			foreach ( $groups as $group => $sortedPages ) {
+				ksort( $groups[$group] );
+			}
 		}
 
 		/** Always move "other" to end */
@@ -99,18 +99,27 @@ class SpecialSpecialpages extends UnlistedSpecialPage {
 		$includesCachedPages = false;
 
 		foreach ( $groups as $group => $sortedPages ) {
+			$total = count( $sortedPages );
+			$middle = ceil( $total / 2 );
+			$count = 0;
+
 			$out->wrapWikiMsg(
 				"<h2 class=\"mw-specialpagesgroup\" id=\"mw-specialpagesgroup-$group\">$1</h2>\n",
 				"specialpages-group-$group"
 			);
 			$out->addHTML(
-				Html::openElement( 'div', [ 'class' => 'mw-specialpages-list' ] )
-				. '<ul>'
+				Html::openElement(
+					'table',
+					array( 'style' => 'width:100%;', 'class' => 'mw-specialpages-table' )
+				) . "\n" .
+				Html::openElement( 'tr' ) . "\n" .
+				Html::openElement( 'td', array( 'style' => 'width:30%;vertical-align:top' ) ) . "\n" .
+				Html::openElement( 'ul' ) . "\n"
 			);
 			foreach ( $sortedPages as $desc => $specialpage ) {
 				list( $title, $restricted, $cached ) = $specialpage;
 
-				$pageClasses = [];
+				$pageClasses = array();
 				if ( $cached ) {
 					$includesCachedPages = true;
 					$pageClasses[] = 'mw-specialpagecached';
@@ -120,42 +129,33 @@ class SpecialSpecialpages extends UnlistedSpecialPage {
 					$pageClasses[] = 'mw-specialpagerestricted';
 				}
 
-				$link = $this->getLinkRenderer()->makeKnownLink( $title, $desc );
+				$link = Linker::linkKnown( $title, htmlspecialchars( $desc ) );
 				$out->addHTML( Html::rawElement(
 						'li',
-						[ 'class' => implode( ' ', $pageClasses ) ],
+						array( 'class' => implode( ' ', $pageClasses ) ),
 						$link
 					) . "\n" );
+
+				# Split up the larger groups
+				$count++;
+				if ( $total > 3 && $count == $middle ) {
+					$out->addHTML(
+						Html::closeElement( 'ul' ) . Html::closeElement( 'td' ) .
+						Html::element( 'td', array( 'style' => 'width:10%' ), '' ) .
+						Html::openElement( 'td', array( 'style' => 'width:30%' ) ) . Html::openElement( 'ul' ) . "\n"
+					);
+				}
 			}
 			$out->addHTML(
-				Html::closeElement( 'ul' ) .
-				Html::closeElement( 'div' )
+				Html::closeElement( 'ul' ) . Html::closeElement( 'td' ) .
+				Html::element( 'td', array( 'style' => 'width:30%' ), '' ) .
+				Html::closeElement( 'tr' ) . Html::closeElement( 'table' ) . "\n"
 			);
 		}
 
-		// add legend
-		$notes = [];
-		if ( $includesRestrictedPages ) {
-			$restricedMsg = $this->msg( 'specialpages-note-restricted' );
-			if ( !$restricedMsg->isDisabled() ) {
-				$notes[] = $restricedMsg->plain();
-			}
-		}
-		if ( $includesCachedPages ) {
-			$cachedMsg = $this->msg( 'specialpages-note-cached' );
-			if ( !$cachedMsg->isDisabled() ) {
-				$notes[] = $cachedMsg->plain();
-			}
-		}
-		if ( $notes !== [] ) {
-			$out->wrapWikiMsg(
-				"<h2 class=\"mw-specialpages-note-top\">$1</h2>", 'specialpages-note-top'
-			);
-			$out->addWikiText(
-				"<div class=\"mw-specialpages-notes\">\n" .
-				implode( "\n", $notes ) .
-				"\n</div>"
-			);
+		if ( $includesRestrictedPages || $includesCachedPages ) {
+			$out->wrapWikiMsg( "<h2 class=\"mw-specialpages-note-top\">$1</h2>", 'specialpages-note-top' );
+			$out->wrapWikiMsg( "<div class=\"mw-specialpages-notes\">\n$1\n</div>", 'specialpages-note' );
 		}
 	}
 }

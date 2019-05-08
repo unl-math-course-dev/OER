@@ -21,8 +21,6 @@
  * @ingroup SpecialPage
  */
 
-use MediaWiki\MediaWikiServices;
-
 /**
  * Implements Special:Ancientpages
  *
@@ -34,7 +32,7 @@ class AncientPagesPage extends QueryPage {
 		parent::__construct( $name );
 	}
 
-	public function isExpensive() {
+	function isExpensive() {
 		return true;
 	}
 
@@ -42,45 +40,28 @@ class AncientPagesPage extends QueryPage {
 		return false;
 	}
 
-	public function getQueryInfo() {
-		$tables = [ 'page', 'revision' ];
-		$conds = [
-			'page_namespace' => MWNamespace::getContentNamespaces(),
-			'page_is_redirect' => 0
-		];
-		$joinConds = [
-			'revision' => [
-				'INNER JOIN', [
-					'page_latest = rev_id'
-				]
-			],
-		];
-
-		// Allow extensions to modify the query
-		Hooks::run( 'AncientPagesQuery', [ &$tables, &$conds, &$joinConds ] );
-
-		return [
-			'tables' => $tables,
-			'fields' => [
+	function getQueryInfo() {
+		return array(
+			'tables' => array( 'page', 'revision' ),
+			'fields' => array(
 				'namespace' => 'page_namespace',
 				'title' => 'page_title',
 				'value' => 'rev_timestamp'
-			],
-			'conds' => $conds,
-			'join_conds' => $joinConds
-		];
+			),
+			'conds' => array(
+				'page_namespace' => MWNamespace::getContentNamespaces(),
+				'page_is_redirect' => 0,
+				'page_latest=rev_id'
+			)
+		);
 	}
 
-	public function usesTimestamps() {
+	function usesTimestamps() {
 		return true;
 	}
 
 	function sortDescending() {
 		return false;
-	}
-
-	public function preprocessResults( $db, $res ) {
-		$this->executeLBFromResultWrapper( $res );
 	}
 
 	/**
@@ -89,13 +70,13 @@ class AncientPagesPage extends QueryPage {
 	 * @return string
 	 */
 	function formatResult( $skin, $result ) {
+		global $wgContLang;
+
 		$d = $this->getLanguage()->userTimeAndDate( $result->value, $this->getUser() );
 		$title = Title::makeTitle( $result->namespace, $result->title );
-		$linkRenderer = $this->getLinkRenderer();
-		$link = $linkRenderer->makeKnownLink(
+		$link = Linker::linkKnown(
 			$title,
-			new HtmlArmor( MediaWikiServices::getInstance()->getContentLanguage()->
-				convert( htmlspecialchars( $title->getPrefixedText() ) ) )
+			htmlspecialchars( $wgContLang->convert( $title->getPrefixedText() ) )
 		);
 
 		return $this->getLanguage()->specialList( $link, htmlspecialchars( $d ) );

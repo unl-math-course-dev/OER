@@ -1,5 +1,9 @@
 <?php
 /**
+ *
+ *
+ * Created on Sep 27, 2008
+ *
  * Copyright © 2008 Roan Kattouw "<Firstname>.<Lastname>@gmail.com"
  *
  * This program is free software; you can redistribute it and/or modify
@@ -27,7 +31,7 @@
  */
 class ApiQueryDuplicateFiles extends ApiQueryGeneratorBase {
 
-	public function __construct( ApiQuery $query, $moduleName ) {
+	public function __construct( $query, $moduleName ) {
 		parent::__construct( $query, $moduleName, 'df' );
 	}
 
@@ -48,7 +52,7 @@ class ApiQueryDuplicateFiles extends ApiQueryGeneratorBase {
 	 */
 	private function run( $resultPageSet = null ) {
 		$params = $this->extractRequestParams();
-		$namespaces = $this->getPageSet()->getGoodAndMissingTitlesByNamespace();
+		$namespaces = $this->getPageSet()->getAllTitlesByNamespace();
 		if ( empty( $namespaces[NS_FILE] ) ) {
 			return;
 		}
@@ -83,16 +87,16 @@ class ApiQueryDuplicateFiles extends ApiQueryGeneratorBase {
 
 		$fit = true;
 		$count = 0;
-		$titles = [];
+		$titles = array();
 
-		$sha1s = [];
+		$sha1s = array();
 		foreach ( $files as $file ) {
-			/** @var File $file */
+			/** @var $file File */
 			$sha1s[$file->getName()] = $file->getSha1();
 		}
 
 		// find all files with the hashes, result format is:
-		// [ hash => [ dup1, dup2 ], hash1 => ... ]
+		// array( hash => array( dup1, dup2 ), hash1 => ... )
 		$filesToFindBySha1s = array_unique( array_values( $sha1s ) );
 		if ( $params['localonly'] ) {
 			$filesBySha1s = RepoGroup::singleton()->getLocalRepo()->findBySha1s( $filesToFindBySha1s );
@@ -103,25 +107,25 @@ class ApiQueryDuplicateFiles extends ApiQueryGeneratorBase {
 		// iterate over $images to handle continue param correct
 		foreach ( $images as $image => $pageId ) {
 			if ( !isset( $sha1s[$image] ) ) {
-				continue; // file does not exist
+				continue; //file does not exist
 			}
 			$sha1 = $sha1s[$image];
 			$dupFiles = $filesBySha1s[$sha1];
 			if ( $params['dir'] == 'descending' ) {
 				$dupFiles = array_reverse( $dupFiles );
 			}
-			/** @var File $dupFile */
+			/** @var $dupFile File */
 			foreach ( $dupFiles as $dupFile ) {
 				$dupName = $dupFile->getName();
 				if ( $image == $dupName && $dupFile->isLocal() ) {
-					continue; // ignore the local file itself
+					continue; //ignore the local file itself
 				}
 				if ( $skipUntilThisDup !== false && $dupName < $skipUntilThisDup ) {
-					continue; // skip to pos after the image from continue param
+					continue; //skip to pos after the image from continue param
 				}
 				$skipUntilThisDup = false;
 				if ( ++$count > $params['limit'] ) {
-					$fit = false; // break outer loop
+					$fit = false; //break outer loop
 					// We're one over limit which shows that
 					// there are additional images to be had. Stop here...
 					$this->setContinueEnumParameter( 'continue', $image . '|' . $dupName );
@@ -130,12 +134,14 @@ class ApiQueryDuplicateFiles extends ApiQueryGeneratorBase {
 				if ( !is_null( $resultPageSet ) ) {
 					$titles[] = $dupFile->getTitle();
 				} else {
-					$r = [
+					$r = array(
 						'name' => $dupName,
 						'user' => $dupFile->getUser( 'text' ),
-						'timestamp' => wfTimestamp( TS_ISO_8601, $dupFile->getTimestamp() ),
-						'shared' => !$dupFile->isLocal(),
-					];
+						'timestamp' => wfTimestamp( TS_ISO_8601, $dupFile->getTimestamp() )
+					);
+					if ( !$dupFile->isLocal() ) {
+						$r['shared'] = '';
+					}
 					$fit = $this->addPageSubItem( $pageId, $r );
 					if ( !$fit ) {
 						$this->setContinueEnumParameter( 'continue', $image . '|' . $dupName );
@@ -153,38 +159,58 @@ class ApiQueryDuplicateFiles extends ApiQueryGeneratorBase {
 	}
 
 	public function getAllowedParams() {
-		return [
-			'limit' => [
+		return array(
+			'limit' => array(
 				ApiBase::PARAM_DFLT => 10,
 				ApiBase::PARAM_TYPE => 'limit',
 				ApiBase::PARAM_MIN => 1,
 				ApiBase::PARAM_MAX => ApiBase::LIMIT_BIG1,
 				ApiBase::PARAM_MAX2 => ApiBase::LIMIT_BIG2
-			],
-			'continue' => [
-				ApiBase::PARAM_HELP_MSG => 'api-help-param-continue',
-			],
-			'dir' => [
+			),
+			'continue' => null,
+			'dir' => array(
 				ApiBase::PARAM_DFLT => 'ascending',
-				ApiBase::PARAM_TYPE => [
+				ApiBase::PARAM_TYPE => array(
 					'ascending',
 					'descending'
-				]
-			],
+				)
+			),
 			'localonly' => false,
-		];
+		);
 	}
 
-	protected function getExamplesMessages() {
-		return [
-			'action=query&titles=File:Albert_Einstein_Head.jpg&prop=duplicatefiles'
-				=> 'apihelp-query+duplicatefiles-example-simple',
-			'action=query&generator=allimages&prop=duplicatefiles'
-				=> 'apihelp-query+duplicatefiles-example-generated',
-		];
+	public function getParamDescription() {
+		return array(
+			'limit' => 'How many duplicate files to return',
+			'continue' => 'When more results are available, use this to continue',
+			'dir' => 'The direction in which to list',
+			'localonly' => 'Look only for files in the local repository',
+		);
+	}
+
+	public function getResultProperties() {
+		return array(
+			'' => array(
+				'name' => 'string',
+				'user' => 'string',
+				'timestamp' => 'timestamp',
+				'shared' => 'boolean',
+			)
+		);
+	}
+
+	public function getDescription() {
+		return 'List all files that are duplicates of the given file(s) based on hash values.';
+	}
+
+	public function getExamples() {
+		return array(
+			'api.php?action=query&titles=File:Albert_Einstein_Head.jpg&prop=duplicatefiles',
+			'api.php?action=query&generator=allimages&prop=duplicatefiles',
+		);
 	}
 
 	public function getHelpUrls() {
-		return 'https://www.mediawiki.org/wiki/Special:MyLanguage/API:Duplicatefiles';
+		return 'https://www.mediawiki.org/wiki/API:Properties#duplicatefiles_.2F_df';
 	}
 }

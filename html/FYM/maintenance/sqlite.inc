@@ -21,9 +21,6 @@
  * @ingroup Maintenance
  */
 
-use Wikimedia\Rdbms\DatabaseSqlite;
-use Wikimedia\Rdbms\DBError;
-
 /**
  * This class contains code common to different SQLite-related maintenance scripts
  *
@@ -43,26 +40,26 @@ class Sqlite {
 	 * Checks given files for correctness of SQL syntax. MySQL DDL will be converted to
 	 * SQLite-compatible during processing.
 	 * Will throw exceptions on SQL errors
-	 * @param array|string $files
+	 * @param $files
 	 * @throws MWException
-	 * @return bool True if no error or error string in case of errors
+	 * @return mixed true if no error or error string in case of errors
 	 */
 	public static function checkSqlSyntax( $files ) {
-		if ( !self::isPresent() ) {
+		if ( !Sqlite::isPresent() ) {
 			throw new MWException( "Can't check SQL syntax: SQLite not found" );
 		}
 		if ( !is_array( $files ) ) {
-			$files = [ $files ];
+			$files = array( $files );
 		}
 
-		$allowedTypes = array_flip( [
+		$allowedTypes = array_flip( array(
 			'integer',
 			'real',
 			'text',
 			'blob', // NULL type is omitted intentionally
-		] );
+		) );
 
-		$db = DatabaseSqlite::newStandaloneInstance( ':memory:' );
+		$db = new DatabaseSqliteStandalone( ':memory:' );
 		try {
 			foreach ( $files as $file ) {
 				$err = $db->sourceFile( $file );
@@ -81,7 +78,6 @@ class Sqlite {
 				foreach ( $columns as $col ) {
 					if ( !isset( $allowedTypes[strtolower( $col->type )] ) ) {
 						$db->close();
-
 						return "Table {$table->name} has column {$col->name} with non-native type '{$col->type}'";
 					}
 				}
@@ -90,7 +86,6 @@ class Sqlite {
 			return $e->getMessage();
 		}
 		$db->close();
-
 		return true;
 	}
-}
+};

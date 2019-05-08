@@ -1,7 +1,8 @@
 <?php
 /** Neapolitan (Napulitano)
  *
- * To improve a translation please visit https://translatewiki.net
+ * See MessagesQqq.php for message documentation incl. usage of parameters
+ * To improve a translation please visit http://translatewiki.net
  *
  * @ingroup Language
  * @file
@@ -18,7 +19,7 @@
 
 $fallback = 'it';
 
-$namespaceNames = [
+$namespaceNames = array(
 	NS_MEDIA            => 'Media',
 	NS_SPECIAL          => 'Speciàle',
 	NS_TALK             => 'Chiàcchiera',
@@ -35,9 +36,9 @@ $namespaceNames = [
 	NS_HELP_TALK        => 'Ajùto_chiàcchiera',
 	NS_CATEGORY         => 'Categurìa',
 	NS_CATEGORY_TALK    => 'Categurìa_chiàcchiera',
-];
+);
 
-$namespaceAliases = [
+$namespaceAliases = array(
 	'Speciale' => NS_SPECIAL,
 	'Discussione' => NS_TALK,
 	'Utente' => NS_USER,
@@ -52,4 +53,5 @@ $namespaceAliases = [
 	'Discussioni_aiuto' => NS_HELP_TALK,
 	'Categoria' => NS_CATEGORY,
 	'Discussioni_categoria' => NS_CATEGORY_TALK,
-];
+);
+

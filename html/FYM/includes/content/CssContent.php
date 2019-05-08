@@ -33,16 +33,10 @@
 class CssContent extends TextContent {
 
 	/**
-	 * @var bool|Title|null
-	 */
-	private $redirectTarget = false;
-
-	/**
 	 * @param string $text CSS code.
-	 * @param string $modelId the content content model
 	 */
-	public function __construct( $text, $modelId = CONTENT_MODEL_CSS ) {
-		parent::__construct( $text, $modelId );
+	public function __construct( $text ) {
+		parent::__construct( $text, CONTENT_MODEL_CSS );
 	}
 
 	/**
@@ -64,7 +58,7 @@ class CssContent extends TextContent {
 		$text = $this->getNativeData();
 		$pst = $wgParser->preSaveTransform( $text, $title, $user, $popts );
 
-		return new static( $pst );
+		return new CssContent( $pst );
 	}
 
 	/**
@@ -73,49 +67,10 @@ class CssContent extends TextContent {
 	protected function getHtml() {
 		$html = "";
 		$html .= "<pre class=\"mw-code mw-css\" dir=\"ltr\">\n";
-		$html .= htmlspecialchars( $this->getNativeData() );
+		$html .= $this->getHighlightHtml();
 		$html .= "\n</pre>\n";
 
 		return $html;
-	}
-
-	/**
-	 * @param Title $target
-	 * @return CssContent
-	 */
-	public function updateRedirect( Title $target ) {
-		if ( !$this->isRedirect() ) {
-			return $this;
-		}
-
-		return $this->getContentHandler()->makeRedirectContent( $target );
-	}
-
-	/**
-	 * @return Title|null
-	 */
-	public function getRedirectTarget() {
-		if ( $this->redirectTarget !== false ) {
-			return $this->redirectTarget;
-		}
-		$this->redirectTarget = null;
-		$text = $this->getNativeData();
-		if ( strpos( $text, '/* #REDIRECT */' ) === 0 ) {
-			// Extract the title from the url
-			preg_match( '/title=(.*?)&action=raw/', $text, $matches );
-			if ( isset( $matches[1] ) ) {
-				$title = Title::newFromText( urldecode( $matches[1] ) );
-				if ( $title ) {
-					// Have a title, check that the current content equals what
-					// the redirect content should be
-					if ( $this->equals( $this->getContentHandler()->makeRedirectContent( $title ) ) ) {
-						$this->redirectTarget = $title;
-					}
-				}
-			}
-		}
-
-		return $this->redirectTarget;
 	}
 
 }

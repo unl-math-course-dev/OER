@@ -1,9 +1,10 @@
 <?php
 /**
- * @file
- *
  * @copyright Copyright © 2013, Antoine Musso
  * @copyright Copyright © 2013, Wikimedia Foundation Inc.
+ * @license GNU GPL v2
+ *
+ * @file
  */
 
 /**
@@ -12,22 +13,26 @@
  * @since 1.22
  */
 class ParserTestResult {
-	/** The test info array */
-	public $test;
+	/**
+	 * Description of the parser test.
+	 *
+	 * This is usually the text used to describe a parser test in the .txt
+	 * files.  It is initialized on a construction and you most probably
+	 * never want to change it.
+	 */
+	public $description;
 	/** Text that was expected */
 	public $expected;
 	/** Actual text rendered */
 	public $actual;
 
 	/**
-	 * @param array $test The test info array from TestIterator
-	 * @param string $expected The normalized expected output
-	 * @param string $actual The actual output
+	 * @param $description string A short text describing the parser test
+	 *        usually the text in the parser test .txt file.  The description
+	 *        is later available using the property $description.
 	 */
-	public function __construct( $test, $expected, $actual ) {
-		$this->test = $test;
-		$this->expected = $expected;
-		$this->actual = $actual;
+	public function __construct( $description ) {
+		$this->description = $description;
 	}
 
 	/**
@@ -36,9 +41,5 @@ class ParserTestResult {
 	 */
 	public function isSuccess() {
 		return $this->expected === $this->actual;
-	}
-
-	public function getDescription() {
-		return $this->test['desc'];
 	}
 }

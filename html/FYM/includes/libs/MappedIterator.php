@@ -18,6 +18,7 @@
  * http://www.gnu.org/copyleft/gpl.html
  *
  * @file
+ * @author Aaron Schulz
  */
 
 /**
@@ -31,7 +32,7 @@ class MappedIterator extends FilterIterator {
 	/** @var callable */
 	protected $aCallback;
 	/** @var array */
-	protected $cache = [];
+	protected $cache = array();
 
 	protected $rewound = false; // boolean; whether rewind() has been called
 
@@ -50,7 +51,7 @@ class MappedIterator extends FilterIterator {
 	 * @param array $options Options map (includes "accept") (since 1.22)
 	 * @throws UnexpectedValueException
 	 */
-	public function __construct( $iter, $vCallback, array $options = [] ) {
+	public function __construct( $iter, $vCallback, array $options = array() ) {
 		if ( is_array( $iter ) ) {
 			$baseIterator = new ArrayIterator( $iter );
 		} elseif ( $iter instanceof Iterator ) {
@@ -60,17 +61,17 @@ class MappedIterator extends FilterIterator {
 		}
 		parent::__construct( $baseIterator );
 		$this->vCallback = $vCallback;
-		$this->aCallback = $options['accept'] ?? null;
+		$this->aCallback = isset( $options['accept'] ) ? $options['accept'] : null;
 	}
 
 	public function next() {
-		$this->cache = [];
+		$this->cache = array();
 		parent::next();
 	}
 
 	public function rewind() {
 		$this->rewound = true;
-		$this->cache = [];
+		$this->cache = array();
 		parent::rewind();
 	}
 

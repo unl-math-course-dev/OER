@@ -1,31 +1,10 @@
 /*
  * Number-related utilities for mediawiki.language.
  */
-( function () {
+( function ( mw, $ ) {
 	/**
 	 * @class mw.language
 	 */
-
-	/**
-	 * Replicate a string 'n' times.
-	 *
-	 * @private
-	 * @param {string} str The string to replicate
-	 * @param {number} num Number of times to replicate the string
-	 * @return {string}
-	 */
-	function replicate( str, num ) {
-		var buf = [];
-
-		if ( num <= 0 || !str ) {
-			return '';
-		}
-
-		while ( num-- ) {
-			buf.push( str );
-		}
-		return buf.join( '' );
-	}
 
 	/**
 	 * Pad a string to guarantee that it is at least `size` length by
@@ -44,16 +23,35 @@
 	 * @return {string}
 	 */
 	function pad( text, size, ch, end ) {
-		var out, padStr;
-
 		if ( !ch ) {
 			ch = '0';
 		}
 
-		out = String( text );
-		padStr = replicate( ch, Math.ceil( ( size - out.length ) / ch.length ) );
+		var out = String( text ),
+			padStr = replicate( ch, Math.ceil( ( size - out.length ) / ch.length ) );
 
 		return end ? out + padStr : padStr + out;
+	}
+
+	/**
+	 * Efficiently replicate a string `n` times.
+	 *
+	 * @private
+	 * @param {string} str The string to replicate
+	 * @param {number} num Number of times to replicate the string
+	 * @return {string}
+	 */
+	function replicate( str, num ) {
+		if ( num <= 0 || !str ) {
+			return '';
+		}
+
+		var buf = [];
+		while (num) {
+			buf.push( str );
+			str += str;
+		}
+		return buf.join( '' );
 	}
 
 	/**
@@ -66,13 +64,21 @@
 	 * @private
 	 * @param {number} value the number to be formatted, ignores sign
 	 * @param {string} pattern the number portion of a pattern (e.g. `#,##0.00`)
-	 * @param {Object} [options] If provided, all option keys must be present:
+	 * @param {Object} [options] If provided, both option keys must be present:
 	 * @param {string} options.decimal The decimal separator. Defaults to: `'.'`.
 	 * @param {string} options.group The group separator. Defaults to: `','`.
-	 * @param {number|null} options.minimumGroupingDigits
 	 * @return {string}
 	 */
 	function commafyNumber( value, pattern, options ) {
+		options = options || {
+			group: ',',
+			decimal: '.'
+		};
+
+		if ( isNaN( value) ) {
+			return value;
+		}
+
 		var padLength,
 			patternDigits,
 			index,
@@ -80,111 +86,74 @@
 			off,
 			remainder,
 			patternParts = pattern.split( '.' ),
-			maxPlaces = ( patternParts[ 1 ] || [] ).length,
+			maxPlaces = ( patternParts[1] || [] ).length,
 			valueParts = String( Math.abs( value ) ).split( '.' ),
-			fractional = valueParts[ 1 ] || '',
+			fractional = valueParts[1] || '',
 			groupSize = 0,
 			groupSize2 = 0,
 			pieces = [];
 
-		options = options || {
-			group: ',',
-			decimal: '.'
-		};
-
-		if ( isNaN( value ) ) {
-			return value;
-		}
-
-		if ( patternParts[ 1 ] ) {
+		if ( patternParts[1] ) {
 			// Pad fractional with trailing zeros
-			padLength = ( patternParts[ 1 ] && patternParts[ 1 ].lastIndexOf( '0' ) + 1 );
+			padLength = ( patternParts[1] && patternParts[1].lastIndexOf( '0' ) + 1 );
 
 			if ( padLength > fractional.length ) {
-				valueParts[ 1 ] = pad( fractional, padLength, '0', true );
+				valueParts[1] = pad( fractional, padLength, '0', true );
 			}
 
 			// Truncate fractional
 			if ( maxPlaces < fractional.length ) {
-				valueParts[ 1 ] = fractional.slice( 0, maxPlaces );
+				valueParts[1] = fractional.substr( 0, maxPlaces );
 			}
 		} else {
-			if ( valueParts[ 1 ] ) {
+			if ( valueParts[1] ) {
 				valueParts.pop();
 			}
 		}
 
 		// Pad whole with leading zeros
-		patternDigits = patternParts[ 0 ].replace( ',', '' );
+		patternDigits = patternParts[0].replace( ',', '' );
 
 		padLength = patternDigits.indexOf( '0' );
 
 		if ( padLength !== -1 ) {
 			padLength = patternDigits.length - padLength;
 
-			if ( padLength > valueParts[ 0 ].length ) {
-				valueParts[ 0 ] = pad( valueParts[ 0 ], padLength );
+			if ( padLength > valueParts[0].length ) {
+				valueParts[0] = pad( valueParts[0], padLength );
 			}
 
 			// Truncate whole
 			if ( patternDigits.indexOf( '#' ) === -1 ) {
-				valueParts[ 0 ] = valueParts[ 0 ].slice( valueParts[ 0 ].length - padLength );
+				valueParts[0] = valueParts[0].substr( valueParts[0].length - padLength );
 			}
 		}
 
 		// Add group separators
-		index = patternParts[ 0 ].lastIndexOf( ',' );
+		index = patternParts[0].lastIndexOf( ',' );
 
 		if ( index !== -1 ) {
-			groupSize = patternParts[ 0 ].length - index - 1;
-			remainder = patternParts[ 0 ].slice( 0, index );
+			groupSize = patternParts[0].length - index - 1;
+			remainder = patternParts[0].substr( 0, index );
 			index = remainder.lastIndexOf( ',' );
 			if ( index !== -1 ) {
 				groupSize2 = remainder.length - index - 1;
 			}
 		}
 
-		if (
-			options.minimumGroupingDigits === null ||
-			valueParts[ 0 ].length >= groupSize + options.minimumGroupingDigits
-		) {
-			for ( whole = valueParts[ 0 ]; whole; ) {
-				off = groupSize ? whole.length - groupSize : 0;
-				pieces.push( ( off > 0 ) ? whole.slice( off ) : whole );
-				whole = ( off > 0 ) ? whole.slice( 0, off ) : '';
+		for ( whole = valueParts[0]; whole; ) {
+			off = whole.length - groupSize;
 
-				if ( groupSize2 ) {
-					groupSize = groupSize2;
-					groupSize2 = null;
-				}
+			pieces.push( ( off > 0 ) ? whole.substr( off ) : whole );
+			whole = ( off > 0 ) ? whole.slice( 0, off ) : '';
+
+			if ( groupSize2 ) {
+				groupSize = groupSize2;
 			}
-			valueParts[ 0 ] = pieces.reverse().join( options.group );
 		}
+		valueParts[0] = pieces.reverse().join( options.group );
 
 		return valueParts.join( options.decimal );
-	}
-
-	/**
-	 * Helper function to flip transformation tables.
-	 *
-	 * @param {...Object} Transformation tables
-	 * @return {Object}
-	 */
-	function flipTransform() {
-		var i, key, table, flipped = {};
-
-		// Ensure we strip thousand separators. This might be overwritten.
-		flipped[ ',' ] = '';
-
-		for ( i = 0; i < arguments.length; i++ ) {
-			table = arguments[ i ];
-			for ( key in table ) {
-				// The thousand separator should be deleted
-				flipped[ table[ key ] ] = key === ',' ? '' : key;
-			}
-		}
-
-		return flipped;
 	}
 
 	$.extend( mw.language, {
@@ -197,62 +166,46 @@
 		 * @return {number|string} Formatted number
 		 */
 		convertNumber: function ( num, integer ) {
-			var transformTable, digitTransformTable, separatorTransformTable,
-				i, numberString, convertedNumber, pattern, minimumGroupingDigits;
+			var i, tmp, transformTable, numberString, convertedNumber, pattern;
 
-			// Quick shortcut for plain numbers
-			if ( integer && parseInt( num, 10 ) === num ) {
+			pattern = mw.language.getData( mw.config.get( 'wgUserLanguage' ),
+				'digitGroupingPattern' ) || '#,##0.###';
+
+			// Set the target transform table:
+			transformTable = mw.language.getDigitTransformTable();
+
+			if ( !transformTable ) {
 				return num;
 			}
 
-			// Load the transformation tables (can be empty)
-			digitTransformTable = mw.language.getDigitTransformTable();
-			separatorTransformTable = mw.language.getSeparatorTransformTable();
-
+			// Check if the 'restore' to Latin number flag is set:
 			if ( integer ) {
-				// Reverse the digit transformation tables if we are doing unformatting
-				transformTable = flipTransform( separatorTransformTable, digitTransformTable );
-				numberString = String( num );
-			} else {
-				// This check being here means that digits can still be unformatted
-				// even if we do not produce them. This seems sane behavior.
-				if ( mw.config.get( 'wgTranslateNumerals' ) ) {
-					transformTable = digitTransformTable;
+				if ( parseInt( num, 10 ) === num ) {
+					return num;
 				}
-
-				// Commaying is more complex, so we handle it here separately.
-				// When unformatting, we just use separatorTransformTable.
-				pattern = mw.language.getData( mw.config.get( 'wgUserLanguage' ),
-					'digitGroupingPattern' ) || '#,##0.###';
-				minimumGroupingDigits = mw.language.getData( mw.config.get( 'wgUserLanguage' ),
-					'minimumGroupingDigits' ) || null;
-				numberString = mw.language.commafy( num, pattern, minimumGroupingDigits );
-			}
-
-			if ( transformTable ) {
-				convertedNumber = '';
-				for ( i = 0; i < numberString.length; i++ ) {
-					if ( Object.prototype.hasOwnProperty.call( transformTable, numberString[ i ] ) ) {
-						convertedNumber += transformTable[ numberString[ i ] ];
-					} else {
-						convertedNumber += numberString[ i ];
-					}
+				tmp = [];
+				for ( i in transformTable ) {
+					tmp[ transformTable[ i ] ] = i;
 				}
+				transformTable = tmp;
+				numberString = num + '';
 			} else {
-				convertedNumber = numberString;
+				numberString = mw.language.commafy( num, pattern );
 			}
 
-			if ( integer ) {
-				// Parse string to integer. This loses decimals!
-				convertedNumber = parseInt( convertedNumber, 10 );
+			convertedNumber = '';
+			for ( i = 0; i < numberString.length; i++ ) {
+				if ( transformTable[ numberString[i] ] ) {
+					convertedNumber += transformTable[numberString[i]];
+				} else {
+					convertedNumber += numberString[i];
+				}
 			}
-
-			return convertedNumber;
+			return integer ? parseInt( convertedNumber, 10 ) : convertedNumber;
 		},
 
 		/**
-		 * Get the digit transform table for current UI language.
-		 *
+		 * Get the  digit transform table for current UI language.
 		 * @return {Object|Array}
 		 */
 		getDigitTransformTable: function () {
@@ -261,8 +214,7 @@
 		},
 
 		/**
-		 * Get the separator transform table for current UI language.
-		 *
+		 * Get the  separator transform table for current UI language.
 		 * @return {Object|Array}
 		 */
 		getSeparatorTransformTable: function () {
@@ -273,33 +225,30 @@
 		/**
 		 * Apply pattern to format value as a string.
 		 *
-		 * Using patterns from [Unicode TR35](https://www.unicode.org/reports/tr35/#Number_Format_Patterns).
+		 * Using patterns from [Unicode TR35](http://www.unicode.org/reports/tr35/#Number_Format_Patterns).
 		 *
 		 * @param {number} value
 		 * @param {string} pattern Pattern string as described by Unicode TR35
-		 * @param {number|null} [minimumGroupingDigits=null]
 		 * @throws {Error} If unable to find a number expression in `pattern`.
 		 * @return {string}
 		 */
-		commafy: function ( value, pattern, minimumGroupingDigits ) {
+		commafy: function ( value, pattern ) {
 			var numberPattern,
 				transformTable = mw.language.getSeparatorTransformTable(),
-				group = transformTable[ ',' ] || ',',
+				group = transformTable[','] || ',',
 				numberPatternRE = /[#0,]*[#0](?:\.0*#*)?/, // not precise, but good enough
-				decimal = transformTable[ '.' ] || '.',
+				decimal = transformTable['.'] || '.',
 				patternList = pattern.split( ';' ),
-				positivePattern = patternList[ 0 ];
+				positivePattern = patternList[0];
 
-			pattern = patternList[ ( value < 0 ) ? 1 : 0 ] || ( '-' + positivePattern );
+			pattern = patternList[ ( value < 0 ) ? 1 : 0] || ( '-' + positivePattern );
 			numberPattern = positivePattern.match( numberPatternRE );
-			minimumGroupingDigits = minimumGroupingDigits !== undefined ? minimumGroupingDigits : null;
 
 			if ( !numberPattern ) {
 				throw new Error( 'unable to find a number expression in pattern: ' + pattern );
 			}
 
-			return pattern.replace( numberPatternRE, commafyNumber( value, numberPattern[ 0 ], {
-				minimumGroupingDigits: minimumGroupingDigits,
+			return pattern.replace( numberPatternRE, commafyNumber( value, numberPattern[0], {
 				decimal: decimal,
 				group: group
 			} ) );
@@ -307,4 +256,4 @@
 
 	} );
 
-}() );
+}( mediaWiki, jQuery ) );

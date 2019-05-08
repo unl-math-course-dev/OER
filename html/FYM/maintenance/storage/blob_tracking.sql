@@ -54,3 +54,4 @@ CREATE TABLE /*$wgDBprefix*/blob_orphans (
 
 	PRIMARY KEY (bo_cluster, bo_blob_id)
 ) /*$wgDBTableOptions*/;
+

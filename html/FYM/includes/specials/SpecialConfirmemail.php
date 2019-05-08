@@ -1,6 +1,6 @@
 <?php
 /**
- * Implements Special:Confirmemail
+ * Implements Special:Confirmemail and Special:Invalidateemail
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -34,26 +34,18 @@ class EmailConfirmation extends UnlistedSpecialPage {
 		parent::__construct( 'Confirmemail', 'editmyprivateinfo' );
 	}
 
-	public function doesWrites() {
-		return true;
-	}
-
 	/**
 	 * Main execution point
 	 *
 	 * @param null|string $code Confirmation code passed to the page
-	 * @throws PermissionsError
-	 * @throws ReadOnlyError
-	 * @throws UserNotLoggedIn
 	 */
 	function execute( $code ) {
-		// Ignore things like master queries/connections on GET requests.
-		// It's very convenient to just allow formless link usage.
-		$trxProfiler = Profiler::instance()->getTransactionProfiler();
-
 		$this->setHeaders();
+
 		$this->checkReadOnly();
 		$this->checkPermissions();
+
+		$this->requireLogin( 'confirmemail_needlogin' );
 
 		// This could also let someone check the current email address, so
 		// require both permissions.
@@ -62,16 +54,13 @@ class EmailConfirmation extends UnlistedSpecialPage {
 		}
 
 		if ( $code === null || $code === '' ) {
-			$this->requireLogin( 'confirmemail_needlogin' );
 			if ( Sanitizer::validateEmail( $this->getUser()->getEmail() ) ) {
 				$this->showRequestForm();
 			} else {
 				$this->getOutput()->addWikiMsg( 'confirmemail_noemail' );
 			}
 		} else {
-			$old = $trxProfiler->setSilenced( true );
 			$this->attemptConfirm( $code );
-			$trxProfiler->setSilenced( $old );
 		}
 	}
 
@@ -82,37 +71,16 @@ class EmailConfirmation extends UnlistedSpecialPage {
 		$user = $this->getUser();
 		$out = $this->getOutput();
 
-		if ( !$user->isEmailConfirmed() ) {
-			$descriptor = [];
-			if ( $user->isEmailConfirmationPending() ) {
-				$descriptor += [
-					'pending' => [
-						'type' => 'info',
-						'raw' => true,
-						'default' => "<div class=\"error mw-confirmemail-pending\">\n" .
-							$this->msg( 'confirmemail_pending' )->escaped() .
-							"\n</div>",
-					],
-				];
-			}
-
-			$out->addWikiMsg( 'confirmemail_text' );
-			$form = HTMLForm::factory( 'ooui', $descriptor, $this->getContext() );
-			$form
-				->setMethod( 'post' )
-				->setAction( $this->getPageTitle()->getLocalURL() )
-				->setSubmitTextMsg( 'confirmemail_send' )
-				->setSubmitCallback( [ $this, 'submitSend' ] );
-
-			$retval = $form->show();
-
-			if ( $retval === true ) {
-				// should never happen, but if so, don't let the user without any message
+		if ( $this->getRequest()->wasPosted() &&
+			$user->matchEditToken( $this->getRequest()->getText( 'token' ) )
+		) {
+			$status = $user->sendConfirmationMail();
+			if ( $status->isGood() ) {
 				$out->addWikiMsg( 'confirmemail_sent' );
-			} elseif ( $retval instanceof Status && $retval->isGood() ) {
-				$out->addWikiText( $retval->getValue() );
+			} else {
+				$out->addWikiText( $status->getWikiText( 'confirmemail_sendfailed' ) );
 			}
-		} else {
+		} elseif ( $user->isEmailConfirmed() ) {
 			// date and time are separate parameters to facilitate localisation.
 			// $time is kept for backward compat reasons.
 			// 'emailauthenticated' is also used in SpecialPreferences.php
@@ -122,22 +90,23 @@ class EmailConfirmation extends UnlistedSpecialPage {
 			$d = $lang->userDate( $emailAuthenticated, $user );
 			$t = $lang->userTime( $emailAuthenticated, $user );
 			$out->addWikiMsg( 'emailauthenticated', $time, $d, $t );
-		}
-	}
-
-	/**
-	 * Callback for HTMLForm send confirmation mail.
-	 *
-	 * @return Status Status object with the result
-	 */
-	public function submitSend() {
-		$status = $this->getUser()->sendConfirmationMail();
-		if ( $status->isGood() ) {
-			return Status::newGood( $this->msg( 'confirmemail_sent' )->text() );
 		} else {
-			return Status::newFatal( new RawMessage(
-				$status->getWikiText( 'confirmemail_sendfailed' )
-			) );
+			if ( $user->isEmailConfirmationPending() ) {
+				$out->wrapWikiMsg(
+					"<div class=\"error mw-confirmemail-pending\">\n$1\n</div>",
+					'confirmemail_pending'
+				);
+			}
+
+			$out->addWikiMsg( 'confirmemail_text' );
+			$form = Html::openElement(
+				'form',
+				array( 'method' => 'post', 'action' => $this->getPageTitle()->getLocalURL() )
+			) . "\n";
+			$form .= Html::hidden( 'token', $user->getEditToken() ) . "\n";
+			$form .= Xml::submitButton( $this->msg( 'confirmemail_send' )->text() ) . "\n";
+			$form .= Html::closeElement( 'form' ) . "\n";
+			$out->addHTML( $form );
 		}
 	}
 
@@ -147,8 +116,8 @@ class EmailConfirmation extends UnlistedSpecialPage {
 	 *
 	 * @param string $code Confirmation code
 	 */
-	private function attemptConfirm( $code ) {
-		$user = User::newFromConfirmationCode( $code, User::READ_LATEST );
+	function attemptConfirm( $code ) {
+		$user = User::newFromConfirmationCode( $code );
 		if ( !is_object( $user ) ) {
 			$this->getOutput()->addWikiMsg( 'confirmemail_invalid' );
 
@@ -163,6 +132,48 @@ class EmailConfirmation extends UnlistedSpecialPage {
 		if ( !$this->getUser()->isLoggedIn() ) {
 			$title = SpecialPage::getTitleFor( 'Userlogin' );
 			$this->getOutput()->returnToMain( true, $title );
+		}
+	}
+}
+
+/**
+ * Special page allows users to cancel an email confirmation using the e-mail
+ * confirmation code
+ *
+ * @ingroup SpecialPage
+ */
+class EmailInvalidation extends UnlistedSpecialPage {
+	public function __construct() {
+		parent::__construct( 'Invalidateemail', 'editmyprivateinfo' );
+	}
+
+	function execute( $code ) {
+		$this->setHeaders();
+		$this->checkReadOnly();
+		$this->checkPermissions();
+		$this->attemptInvalidate( $code );
+	}
+
+	/**
+	 * Attempt to invalidate the user's email address and show success or failure
+	 * as needed; if successful, link to main page
+	 *
+	 * @param string $code Confirmation code
+	 */
+	function attemptInvalidate( $code ) {
+		$user = User::newFromConfirmationCode( $code );
+		if ( !is_object( $user ) ) {
+			$this->getOutput()->addWikiMsg( 'confirmemail_invalid' );
+
+			return;
+		}
+
+		$user->invalidateEmail();
+		$user->saveSettings();
+		$this->getOutput()->addWikiMsg( 'confirmemail_invalidated' );
+
+		if ( !$this->getUser()->isLoggedIn() ) {
+			$this->getOutput()->returnToMain();
 		}
 	}
 }

@@ -1,5 +1,7 @@
 <?php
 /**
+ * Request-dependant objects containers.
+ *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 2 of the License, or
@@ -22,43 +24,20 @@
  */
 
 /**
- * Interface for objects which can provide a MediaWiki context on request
- *
- * Context objects contain request-dependent objects that manage the core
- * web request/response logic for essentially all requests to MediaWiki.
- * The contained objects include:
- *   a) Key objects that depend (for construction/loading) on the HTTP request
- *   b) Key objects used for response building and PHP session state control
- *   c) Performance metric deltas accumulated from request execution
- *   d) The site configuration object
- * All of the objects are useful for the vast majority of MediaWiki requests.
- * The site configuration object is included on grounds of extreme
- * utility, even though it should not actually depend on the web request.
- *
- * More specifically, the scope of the context includes:
- *   a) Objects that represent the HTTP request/response and PHP session state
- *   b) Object representing the MediaWiki user (as determined by the HTTP request)
- *   c) Primary MediaWiki output builder objects (OutputPage, user skin object)
- *   d) The language object for the user/request
- *   e) The title and wiki page objects requested via URL (if any)
- *   f) Performance metric deltas accumulated from request execution
- *   g) The site configuration object
- *
- * This class is not intended as a service-locator nor a service singleton.
- * Objects that only depend on site configuration do not belong here (aside
- * from Config itself). Objects that represent persistent data stores do not
- * belong here either. Session state changes should only be propagated on
- * shutdown by separate persistence handler objects, for example.
+ * Interface for objects which can provide a context on request.
  */
-interface IContextSource extends MessageLocalizer {
-
+interface IContextSource {
 	/**
+	 * Get the WebRequest object
+	 *
 	 * @return WebRequest
 	 */
 	public function getRequest();
 
 	/**
-	 * @return Title|null
+	 * Get the Title object
+	 *
+	 * @return Title
 	 */
 	public function getTitle();
 
@@ -84,22 +63,38 @@ interface IContextSource extends MessageLocalizer {
 	public function getWikiPage();
 
 	/**
+	 * Get the OutputPage object
+	 *
 	 * @return OutputPage
 	 */
 	public function getOutput();
 
 	/**
+	 * Get the User object
+	 *
 	 * @return User
 	 */
 	public function getUser();
 
 	/**
+	 * Get the Language object
+	 *
+	 * @deprecated since 1.19 Use getLanguage instead
+	 * @return Language
+	 */
+	public function getLang();
+
+	/**
+	 * Get the Language object
+	 *
 	 * @return Language
 	 * @since 1.19
 	 */
 	public function getLanguage();
 
 	/**
+	 * Get the Skin object
+	 *
 	 * @return Skin
 	 */
 	public function getSkin();
@@ -113,24 +108,17 @@ interface IContextSource extends MessageLocalizer {
 	public function getConfig();
 
 	/**
-	 * @deprecated since 1.27 use a StatsdDataFactory from MediaWikiServices (preferably injected)
+	 * Get a Message object with context set
 	 *
-	 * @since 1.25
-	 * @return IBufferingStatsdDataFactory
+	 * @return Message
 	 */
-	public function getStats();
-
-	/**
-	 * @since 1.27
-	 * @return Timing
-	 */
-	public function getTiming();
+	public function msg();
 
 	/**
 	 * Export the resolved user IP, HTTP headers, user ID, and session ID.
 	 * The result will be reasonably sized to allow for serialization.
 	 *
-	 * @return array
+	 * @return Array
 	 * @since 1.21
 	 */
 	public function exportSession();

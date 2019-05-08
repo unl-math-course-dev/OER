@@ -35,48 +35,47 @@ require_once __DIR__ . '/Maintenance.php';
 class FixDoubleRedirects extends Maintenance {
 	public function __construct() {
 		parent::__construct();
-		$this->addDescription( 'Script to fix double redirects' );
+		$this->mDescription = "Script to fix double redirects";
 		$this->addOption( 'async', 'Don\'t fix anything directly, just queue the jobs' );
 		$this->addOption( 'title', 'Fix only redirects pointing to this page', false, true );
 		$this->addOption( 'dry-run', 'Perform a dry run, fix nothing' );
 	}
 
 	public function execute() {
-		$async = $this->hasOption( 'async' );
-		$dryrun = $this->hasOption( 'dry-run' );
+		$async = $this->getOption( 'async', false );
+		$dryrun = $this->getOption( 'dry-run', false );
+		$title = $this->getOption( 'title' );
 
-		if ( $this->hasOption( 'title' ) ) {
-			$title = Title::newFromText( $this->getOption( 'title' ) );
+		if ( isset( $title ) ) {
+			$title = Title::newFromText( $title );
 			if ( !$title || !$title->isRedirect() ) {
-				$this->fatalError( $title->getPrefixedText() . " is not a redirect!\n" );
+				$this->error( $title->getPrefixedText() . " is not a redirect!\n", true );
 			}
-		} else {
-			$title = null;
 		}
 
-		$dbr = $this->getDB( DB_REPLICA );
+		$dbr = wfGetDB( DB_SLAVE );
 
 		// See also SpecialDoubleRedirects
-		$tables = [
+		$tables = array(
 			'redirect',
 			'pa' => 'page',
 			'pb' => 'page',
-		];
-		$fields = [
+		);
+		$fields = array(
 			'pa.page_namespace AS pa_namespace',
 			'pa.page_title AS pa_title',
 			'pb.page_namespace AS pb_namespace',
 			'pb.page_title AS pb_title',
-		];
-		$conds = [
+		);
+		$conds = array(
 			'rd_from = pa.page_id',
 			'rd_namespace = pb.page_namespace',
 			'rd_title = pb.page_title',
-			'rd_interwiki IS NULL OR rd_interwiki = ' . $dbr->addQuotes( '' ), // T42352
+			'rd_interwiki IS NULL OR rd_interwiki = ' . $dbr->addQuotes( '' ), // bug 40352
 			'pb.page_is_redirect' => 1,
-		];
+		);
 
-		if ( $title != null ) {
+		if ( isset( $title ) ) {
 			$conds['pb.page_namespace'] = $title->getNamespace();
 			$conds['pb.page_title'] = $title->getDBkey();
 		}
@@ -86,36 +85,35 @@ class FixDoubleRedirects extends Maintenance {
 
 		if ( !$res->numRows() ) {
 			$this->output( "No double redirects found.\n" );
-
 			return;
 		}
 
-		$jobs = [];
+		$jobs = array();
 		$processedTitles = "\n";
 		$n = 0;
 		foreach ( $res as $row ) {
 			$titleA = Title::makeTitle( $row->pa_namespace, $row->pa_title );
 			$titleB = Title::makeTitle( $row->pb_namespace, $row->pb_title );
+			RequestContext::getMain()->setTitle( $titleA );
 
 			$processedTitles .= "* [[$titleA]]\n";
 
-			$job = new DoubleRedirectJob( $titleA, [
+			$job = new DoubleRedirectJob( $titleA, array(
 				'reason' => 'maintenance',
 				'redirTitle' => $titleB->getPrefixedDBkey()
-			] );
+			) );
 
 			if ( !$async ) {
 				$success = ( $dryrun ? true : $job->run() );
 				if ( !$success ) {
-					$this->error( "Error fixing " . $titleA->getPrefixedText()
-						. ": " . $job->getLastError() . "\n" );
+					$this->error( "Error fixing " . $titleA->getPrefixedText() . ": " . $job->getLastError() . "\n" );
 				}
 			} else {
 				$jobs[] = $job;
 				// @todo FIXME: Hardcoded constant 10000 copied from DoubleRedirectJob class
 				if ( count( $jobs ) > 10000 ) {
 					$this->queueJobs( $jobs, $dryrun );
-					$jobs = [];
+					$jobs = array();
 				}
 			}
 
@@ -132,9 +130,9 @@ class FixDoubleRedirects extends Maintenance {
 
 	protected function queueJobs( $jobs, $dryrun = false ) {
 		$this->output( "Queuing batch of " . count( $jobs ) . " double redirects.\n" );
-		JobQueueGroup::singleton()->push( $dryrun ? [] : $jobs );
+		JobQueueGroup::singleton()->push( $dryrun ? array() : $jobs );
 	}
 }
 
-$maintClass = FixDoubleRedirects::class;
+$maintClass = "FixDoubleRedirects";
 require_once RUN_MAINTENANCE_IF_MAIN;

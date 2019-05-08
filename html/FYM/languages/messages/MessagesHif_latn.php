@@ -1,14 +1,15 @@
 <?php
 /** Fiji Hindi (Latin script) (Fiji Hindi)
  *
- * To improve a translation please visit https://translatewiki.net
+ * See MessagesQqq.php for message documentation incl. usage of parameters
+ * To improve a translation please visit http://translatewiki.net
  *
  * @ingroup Language
  * @file
  *
  */
 
-$namespaceNames = [
+$namespaceNames = array(
 	NS_MEDIA            => 'saadhan',
 	NS_SPECIAL          => 'khaas',
 	NS_TALK             => 'baat',
@@ -23,4 +24,5 @@ $namespaceNames = [
 	NS_HELP_TALK        => 'madat_ke_baat',
 	NS_CATEGORY         => 'vibhag',
 	NS_CATEGORY_TALK    => 'voibhag_ke_baat',
-];
+);
+

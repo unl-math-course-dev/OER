@@ -4,29 +4,27 @@
  * @group API
  * @group Database
  * @group medium
- *
- * @covers ApiQueryAllPages
  */
 class ApiQueryAllPagesTest extends ApiTestCase {
+
+	protected function setUp() {
+		parent::setUp();
+		$this->doLogin();
+	}
+
 	/**
-	 * Test T27702
-	 * Prefixes of API search requests are not handled with case sensitivity and may result
-	 * in wrong search results
+	 * @todo give this test a real name explaining what is being tested here
 	 */
-	public function testPrefixNormalizationSearchBug() {
+	public function testBug25702() {
 		$title = Title::newFromText( 'Category:Template:xyz' );
 		$page = WikiPage::factory( $title );
+		$page->doEdit( 'Some text', 'inserting content' );
 
-		$page->doEditContent(
-			ContentHandler::makeContent( 'Some text', $page->getTitle() ),
-			'inserting content'
-		);
-
-		$result = $this->doApiRequest( [
+		$result = $this->doApiRequest( array(
 			'action' => 'query',
 			'list' => 'allpages',
 			'apnamespace' => NS_CATEGORY,
-			'apprefix' => 'Template:x' ] );
+			'apprefix' => 'Template:x' ) );
 
 		$this->assertArrayHasKey( 'query', $result[0] );
 		$this->assertArrayHasKey( 'allpages', $result[0]['query'] );

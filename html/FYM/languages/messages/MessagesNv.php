@@ -1,7 +1,8 @@
 <?php
 /** Navajo (Diné bizaad)
  *
- * To improve a translation please visit https://translatewiki.net
+ * See MessagesQqq.php for message documentation incl. usage of parameters
+ * To improve a translation please visit http://translatewiki.net
  *
  * @ingroup Language
  * @file
@@ -11,7 +12,7 @@
  * @author לערי ריינהארט
  */
 
-$namespaceNames = [
+$namespaceNames = array(
 	NS_MEDIA            => 'Media',
 	NS_SPECIAL          => 'Special',
 	NS_TALK             => 'Naaltsoos_baa_yáshtiʼ',
@@ -28,6 +29,7 @@ $namespaceNames = [
 	NS_HELP_TALK        => 'Anáʼálwoʼ_baa_yáshtiʼ',
 	NS_CATEGORY         => 'Tʼááłáhági_átʼéego',
 	NS_CATEGORY_TALK    => 'Tʼááłáhági_átʼéego_baa_yáshtiʼ',
-];
+);
 
 $datePreferences = false;
+

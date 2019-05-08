@@ -1,53 +1,39 @@
-/*!
+/**
  * Live edit preview.
  */
-( function () {
+( function ( mw, $ ) {
 
 	/**
-	 * @ignore
 	 * @param {jQuery.Event} e
 	 */
 	function doLivePreview( e ) {
-		var isDiff, api, parseRequest, diffRequest, postData, copySelectors, section, summary,
-			$wikiPreview, $wikiDiff, $editform, $textbox, $copyElements, $spinner, $errorBox;
+		var $wikiPreview, $editform, copySelectors, $copyElements, $spinner,
+			targetUrl, postData, $previewDataHolder;
 
-		isDiff = ( e.target.name === 'wpDiff' );
-		$wikiPreview = $( '#wikiPreview' );
-		$wikiDiff = $( '#wikiDiff' );
-		$editform = $( '#editform' );
-		$textbox = $editform.find( '#wpTextbox1' );
-
-		summary = OO.ui.infuse( $( '#wpSummaryWidget' ) );
-
-		$spinner = $( '.mw-spinner-preview' );
-		$errorBox = $( '.errorbox' );
-		section = $editform.find( '[name="wpSection"]' ).val();
-
-		if ( $textbox.length === 0 ) {
-			return;
-		}
-		// Show changes for a new section is not yet supported
-		if ( isDiff && section === 'new' ) {
-			return;
-		}
 		e.preventDefault();
 
-		// Remove any previously displayed errors
-		$errorBox.remove();
+		// Deprecated: Use mw.hook instead
+		$( mw ).trigger( 'LivePreviewPrepare' );
+
+		$wikiPreview = $( '#wikiPreview' );
+		$editform = $( '#editform' );
+
 		// Show #wikiPreview if it's hidden to be able to scroll to it
 		// (if it is hidden, it's also empty, so nothing changes in the rendering)
 		$wikiPreview.show();
 
 		// Jump to where the preview will appear
-		$wikiPreview[ 0 ].scrollIntoView();
+		$wikiPreview[0].scrollIntoView();
 
+		// List of selectors matching elements that we will
+		// update from from the ajax-loaded preview page.
 		copySelectors = [
 			// Main
-			'.mw-indicators',
 			'#firstHeading',
 			'#wikiPreview',
 			'#wikiDiff',
 			'#catlinks',
+			'.hiddencats',
 			'#p-lang',
 			// Editing-related
 			'.templatesUsed',
@@ -59,225 +45,82 @@
 		// Not shown during normal preview, to be removed if present
 		$( '.mw-newarticletext' ).remove();
 
-		if ( $spinner.length === 0 ) {
-			$spinner = $.createSpinner( {
-				size: 'large',
-				type: 'block'
-			} )
-				.addClass( 'mw-spinner-preview' )
-				.css( 'margin-top', '1em' );
-			$wikiPreview.before( $spinner );
-		} else {
-			$spinner.show();
-		}
+		$spinner = $.createSpinner( {
+			size: 'large',
+			type: 'block'
+		} );
+		$wikiPreview.before( $spinner );
+		$spinner.css( {
+			marginTop: $spinner.height()
+		} );
 
 		// Can't use fadeTo because it calls show(), and we might want to keep some elements hidden
 		// (e.g. empty #catlinks)
 		$copyElements.animate( { opacity: 0.4 }, 'fast' );
 
-		api = new mw.Api();
-		postData = {
-			formatversion: 2,
-			action: 'parse',
-			title: mw.config.get( 'wgPageName' ),
-			summary: summary.getValue(),
-			prop: ''
-		};
+		$previewDataHolder = $( '<div>' );
+		targetUrl = $editform.attr( 'action' );
+		targetUrl += targetUrl.indexOf( '?' ) !== -1 ? '&' : '?';
+		targetUrl += $.param( {
+			debug: mw.config.get( 'debug' ),
+			uselang: mw.config.get( 'wgUserLanguage' ),
+			useskin: mw.config.get( 'skin' )
+		} );
 
-		if ( isDiff ) {
-			$wikiPreview.hide();
+		// Gather all the data from the form
+		postData = $editform.formToArray();
+		postData.push( {
+			name: e.target.name,
+			value: ''
+		} );
 
-			if ( postData.summary ) {
-				parseRequest = api.post( postData );
-			}
+		// Load new preview data.
+		// TODO: This should use the action=parse API instead of loading the entire page,
+		// although that requires figuring out how to convert that raw data into proper HTML.
+		$previewDataHolder.load( targetUrl + ' ' + copySelectors.join( ',' ), postData, function () {
+			var i, $from, $next, $parent;
 
-			diffRequest = api.post( {
-				formatversion: 2,
-				action: 'query',
-				prop: 'revisions',
-				titles: mw.config.get( 'wgPageName' ),
-				rvdifftotext: $textbox.textSelection( 'getContents' ),
-				rvdifftotextpst: true,
-				rvprop: '',
-				rvsection: section === '' ? undefined : section,
-				uselang: mw.config.get( 'wgUserLanguage' )
-			} );
+			// Copy the contents of the specified elements from the loaded page to the real page.
+			// Also copy their class attributes.
+			for ( i = 0; i < copySelectors.length; i++ ) {
+				$from = $previewDataHolder.find( copySelectors[i] );
 
-			// Wait for the summary before showing the diff so the page doesn't jump twice
-			$.when( diffRequest, parseRequest ).done( function ( response ) {
-				var diffHtml;
-				try {
-					diffHtml = response[ 0 ].query.pages[ 0 ]
-						.revisions[ 0 ].diff.body;
-					$wikiDiff.find( 'table.diff tbody' ).html( diffHtml );
-					mw.hook( 'wikipage.diff' ).fire( $wikiDiff.find( 'table.diff' ) );
-				} catch ( err ) {
-					// "result.blah is undefined" error, ignore
-					mw.log.warn( err );
-				}
-				$wikiDiff.show();
-			} );
-		} else {
-			$wikiDiff.hide();
+				if ( copySelectors[i] === '#wikiPreview' ) {
+					$next = $wikiPreview.next();
+					// If there is no next node, use parent instead.
+					// Only query parent if needed, false otherwise.
+					$parent = !$next.length && $wikiPreview.parent();
 
-			$.extend( postData, {
-				prop: 'text|indicators|displaytitle|modules|jsconfigvars|categorieshtml|templates|langlinks|limitreporthtml',
-				text: $textbox.textSelection( 'getContents' ),
-				pst: true,
-				preview: true,
-				sectionpreview: section !== '',
-				disableeditsection: true,
-				useskin: mw.config.get( 'skin' ),
-				uselang: mw.config.get( 'wgUserLanguage' )
-			} );
-			if ( section === 'new' ) {
-				postData.section = 'new';
-				postData.sectiontitle = postData.summary;
-			}
-
-			parseRequest = api.post( postData );
-			parseRequest.done( function ( response ) {
-				var newList, $displaytitle, $content, $parent, $list;
-				if ( response.parse.jsconfigvars ) {
-					mw.config.set( response.parse.jsconfigvars );
-				}
-				if ( response.parse.modules ) {
-					mw.loader.load( response.parse.modules.concat(
-						response.parse.modulescripts,
-						response.parse.modulestyles
-					) );
-				}
-
-				newList = [];
-				// eslint-disable-next-line no-restricted-properties
-				$.each( response.parse.indicators, function ( name, indicator ) {
-					newList.push(
-						$( '<div>' )
-							.addClass( 'mw-indicator' )
-							.attr( 'id', mw.util.escapeIdForAttribute( 'mw-indicator-' + name ) )
-							.html( indicator )
-							.get( 0 ),
-						// Add a whitespace between the <div>s because
-						// they get displayed with display: inline-block
-						document.createTextNode( '\n' )
-					);
-				} );
-				$( '.mw-indicators' ).empty().append( newList );
-
-				if ( response.parse.displaytitle ) {
-					$displaytitle = $( $.parseHTML( response.parse.displaytitle ) );
-					$( '#firstHeading' ).msg(
-						mw.config.get( 'wgEditMessage', 'editing' ),
-						$displaytitle
-					);
-					document.title = mw.msg(
-						'pagetitle',
-						mw.msg(
-							mw.config.get( 'wgEditMessage', 'editing' ),
-							$displaytitle.text()
-						)
-					);
-				}
-				if ( response.parse.categorieshtml ) {
-					$content = $( $.parseHTML( response.parse.categorieshtml ) );
-					mw.hook( 'wikipage.categories' ).fire( $content );
-					$( '.catlinks[data-mw="interface"]' ).replaceWith( $content );
-				}
-				if ( response.parse.templates ) {
-					newList = response.parse.templates.map( function ( template ) {
-						return $( '<li>' )
-							.append( $( '<a>' )
-								.attr( {
-									href: mw.util.getUrl( template.title ),
-									'class': ( template.exists ? '' : 'new' )
-								} )
-								.text( template.title )
-							);
-					} );
-
-					$editform.find( '.templatesUsed .mw-editfooter-list' ).detach().empty().append( newList ).appendTo( '.templatesUsed' );
-				}
-				if ( response.parse.limitreporthtml ) {
-					$( '.limitreport' ).html( response.parse.limitreporthtml );
-				}
-				if ( response.parse.langlinks && mw.config.get( 'skin' ) === 'vector' ) {
-					newList = response.parse.langlinks.map( function ( langlink ) {
-						var bcp47 = mw.language.bcp47( langlink.lang );
-						return $( '<li>' )
-							.addClass( 'interlanguage-link interwiki-' + langlink.lang )
-							.append( $( '<a>' )
-								.attr( {
-									href: langlink.url,
-									title: langlink.title + ' - ' + langlink.langname,
-									lang: bcp47,
-									hreflang: bcp47
-								} )
-								.text( langlink.autonym )
-							);
-					} );
-					$list = $( '#p-lang ul' );
-					$parent = $list.parent();
-					$list.detach().empty().append( newList ).prependTo( $parent );
-				}
-
-				if ( response.parse.text ) {
-					$content = $wikiPreview.children( '.mw-content-ltr,.mw-content-rtl' );
-					$content
+					$wikiPreview
 						.detach()
-						.html( response.parse.text );
+						.empty()
+						.append( $from.contents() )
+						.attr( 'class', $from.attr( 'class' ) );
 
-					mw.hook( 'wikipage.content' ).fire( $content );
+					mw.hook( 'wikipage.content' ).fire( $wikiPreview );
 
 					// Reattach
-					$wikiPreview.append( $content );
+					if ( $parent ) {
+						$parent.append( $wikiPreview );
+					} else {
+						$next.before( $wikiPreview );
+					}
 
-					$wikiPreview.show();
+				} else {
+					$( copySelectors[i] )
+						.empty()
+						.append( $from.contents() )
+						.attr( 'class', $from.attr( 'class' ) );
 				}
-			} );
-		}
-		$.when( parseRequest, diffRequest ).done( function ( parseResp ) {
-			var parse = parseResp && parseResp[ 0 ].parse,
-				isSubject = ( section === 'new' ),
-				summaryMsg = isSubject ? 'subject-preview' : 'summary-preview',
-				$summaryPreview = $editform.find( '.mw-summary-preview' ).empty();
-			if ( parse && parse.parsedsummary ) {
-				$summaryPreview.append(
-					mw.message( summaryMsg ).parse(),
-					' ',
-					$( '<span>' ).addClass( 'comment' ).html(
-						// There is no equivalent to rawParams
-						mw.message( 'parentheses' ).escaped()
-							// .replace() use $ as start of a pattern.
-							// $$ is the pattern for '$'.
-							// The inner .replace() duplicates any $ and
-							// the outer .replace() simplifies the $$.
-							.replace( '$1', parse.parsedsummary.replace( /\$/g, '$$$$' ) )
-					)
-				);
 			}
-			mw.hook( 'wikipage.editform' ).fire( $editform );
-		} ).always( function () {
-			$spinner.hide();
+
+			// Deprecated: Use mw.hook instead
+			$( mw ).trigger( 'LivePreviewDone', [copySelectors] );
+
+			$spinner.remove();
 			$copyElements.animate( {
 				opacity: 1
 			}, 'fast' );
-		} ).fail( function ( code, result ) {
-			// This just shows the error for whatever request failed first
-			var errorMsg = 'API error: ' + code;
-			if ( code === 'http' ) {
-				errorMsg = 'HTTP error: ';
-				if ( result.exception ) {
-					errorMsg += result.exception;
-				} else {
-					errorMsg += result.textStatus;
-				}
-			}
-			$errorBox = $( '<div>' )
-				.addClass( 'errorbox' )
-				.html( '<strong>' + mw.message( 'previewerrortext' ).escaped() + '</strong><br>' )
-				.append( document.createTextNode( errorMsg ) );
-			$wikiDiff.hide();
-			$wikiPreview.hide().before( $errorBox );
 		} );
 	}
 
@@ -294,39 +137,28 @@
 		// have to fish and (hopefully) put them in the right place (since skins
 		// can change where they are output).
 
-		if ( !document.getElementById( 'p-lang' ) && document.getElementById( 'p-tb' ) && mw.config.get( 'skin' ) === 'vector' ) {
-			$( '.portal:last' ).after(
-				$( '<div>' ).attr( {
-					'class': 'portal',
-					id: 'p-lang',
-					role: 'navigation',
-					'aria-labelledby': 'p-lang-label'
-				} )
-					.append( $( '<h3>' ).attr( 'id', 'p-lang-label' ).text( mw.msg( 'otherlanguages' ) ) )
-					.append( $( '<div>' ).addClass( 'body' ).append( '<ul>' ) )
+		if ( !document.getElementById( 'p-lang' ) && document.getElementById( 'p-tb' ) ) {
+			$( '#p-tb' ).after(
+				$( '<div>' ).attr( 'id', 'p-lang' )
 			);
 		}
 
 		if ( !$( '.mw-summary-preview' ).length ) {
-			$( '#wpSummaryWidget' ).after(
+			$( '.editCheckboxes' ).before(
 				$( '<div>' ).addClass( 'mw-summary-preview' )
 			);
 		}
 
 		if ( !document.getElementById( 'wikiDiff' ) && document.getElementById( 'wikiPreview' ) ) {
 			$( '#wikiPreview' ).after(
-				$( '<div>' )
-					.hide()
-					.attr( 'id', 'wikiDiff' )
-					.html( '<table class="diff"><col class="diff-marker"/><col class="diff-content"/>' +
-						'<col class="diff-marker"/><col class="diff-content"/><tbody/></table>' )
+				$( '<div>' ).attr( 'id', 'wikiDiff' )
 			);
 		}
 
 		// This should be moved down to '#editform', but is kept on the body for now
 		// because the LiquidThreads extension is re-using this module with only half
-		// the EditPage (doesn't include #editform presumably, T57463).
+		// the EditPage (doesn't include #editform presumably, bug 55463).
 		$( document.body ).on( 'click', '#wpPreview, #wpDiff', doLivePreview );
 	} );
 
-}() );
+}( mediaWiki, jQuery ) );

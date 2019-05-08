@@ -1,39 +1,40 @@
-( function () {
-	QUnit.module( 'mediawiki.toc', QUnit.newMwEnvironment( {
-		setup: function () {
-			// Prevent live cookies from interferring with the test
-			this.stub( $, 'cookie' ).returns( null );
+( function ( mw, $ ) {
+	QUnit.module( 'mediawiki.toc', QUnit.newMwEnvironment() );
+
+	QUnit.asyncTest( 'toggleToc', 4, function ( assert ) {
+		var tocHtml, $toggleLink, $tocList;
+
+		function actionC() {
+			QUnit.start();
 		}
-	} ) );
 
-	QUnit.test( 'toggleToc', function ( assert ) {
-		var tocHtml, $toc, $toggleLink, $tocList;
+		function actionB() {
+			assert.strictEqual( $tocList.is( ':hidden' ), true, 'Return boolean true if the TOC is now visible.' );
+			$toggleLink.click();
+			$tocList.promise().done( actionC );
+		}
 
-		assert.strictEqual( $( '.toc' ).length, 0, 'There is no table of contents on the page at the beginning' );
+		function actionA() {
+			assert.strictEqual( $tocList.is( ':hidden' ), false, 'Return boolean false if the TOC is now hidden.' );
+			$toggleLink.click();
+			$tocList.promise().done( actionB );
+		}
+
+		assert.strictEqual( $( '#toc' ).length, 0, 'Return 0 if there is no table of contents on the page.' );
 
 		tocHtml = '<div id="toc" class="toc">' +
-			'<div class="toctitle" lang="en" dir="ltr">' +
+			'<div id="toctitle">' +
 			'<h2>Contents</h2>' +
 			'</div>' +
 			'<ul><li></li></ul>' +
 			'</div>';
-		$toc = $( tocHtml );
-		$( '#qunit-fixture' ).append( $toc );
+		$( tocHtml ).appendTo( '#qunit-fixture' );
 		mw.hook( 'wikipage.content' ).fire( $( '#qunit-fixture' ) );
+		$tocList = $( '#toc ul:first' );
+		$toggleLink = $( '#togglelink' );
 
-		$tocList = $toc.find( 'ul:first' );
-		$toggleLink = $toc.find( '.togglelink' );
+		assert.strictEqual( $toggleLink.length, 1, 'Toggle link is appended to the page.' );
 
-		assert.strictEqual( $toggleLink.length, 1, 'Toggle link is added to the table of contents' );
-
-		assert.strictEqual( $tocList.is( ':hidden' ), false, 'The table of contents is now visible' );
-
-		$toggleLink.click();
-		return $tocList.promise().then( function () {
-			assert.strictEqual( $tocList.is( ':hidden' ), true, 'The table of contents is now hidden' );
-
-			$toggleLink.click();
-			return $tocList.promise();
-		} );
+		actionA();
 	} );
-}() );
+}( mediaWiki, jQuery ) );

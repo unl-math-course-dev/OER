@@ -16,13 +16,13 @@
 /*
  * @example QUnit
  * <code>
-	QUnit.test( 'Output matches PHP parser', function ( assert ) {
+	QUnit.test( 'Output matches PHP parser', mw.libs.phpParserData.tests.length, function ( assert ) {
 		mw.messages.set( mw.libs.phpParserData.messages );
 		$.each( mw.libs.phpParserData.tests, function ( i, test ) {
 			QUnit.stop();
 			getMwLanguage( test.lang, function ( langClass ) {
-				var parser = new mw.jqueryMsg.Parser( { language: langClass } );
-				assert.strictEqual(
+				var parser = new mw.jqueryMsg.parser( { language: langClass } );
+				assert.equal(
 					parser.parse( test.key, test.args ).html(),
 					test.result,
 					test.name
@@ -50,7 +50,7 @@
 				}, 'Language class should be loaded', 1000 );
 				runs( function () {
 					console.log( test.lang, 'running tests' );
-					var parser = new mw.jqueryMsg.Parser( { language: langClass } );
+					var parser = new mw.jqueryMsg.parser( { language: langClass } );
 					expect(
 						parser.parse( test.key, test.args ).html()
 					).toEqual( test.result );
@@ -65,22 +65,22 @@ require __DIR__ . '/../../../maintenance/Maintenance.php';
 
 class GenerateJqueryMsgData extends Maintenance {
 
-	public static $keyToTestArgs = [
-		'undelete_short' => [
-			[ 0 ],
-			[ 1 ],
-			[ 2 ],
-			[ 5 ],
-			[ 21 ],
-			[ 101 ]
-		],
-		'category-subcat-count' => [
-			[ 0, 10 ],
-			[ 1, 1 ],
-			[ 1, 2 ],
-			[ 3, 30 ]
-		]
-	];
+	static $keyToTestArgs = array(
+		'undelete_short' => array(
+			array( 0 ),
+			array( 1 ),
+			array( 2 ),
+			array( 5 ),
+			array( 21 ),
+			array( 101 )
+		),
+		'category-subcat-count' => array(
+			array( 0, 10 ),
+			array( 1, 1 ),
+			array( 1, 2 ),
+			array( 3, 30 )
+		)
+	);
 
 	public function __construct() {
 		parent::__construct();
@@ -94,9 +94,9 @@ class GenerateJqueryMsgData extends Maintenance {
 	}
 
 	private function getMessagesAndTests() {
-		$messages = [];
-		$tests = [];
-		foreach ( [ 'en', 'fr', 'ar', 'jp', 'zh' ] as $languageCode ) {
+		$messages = array();
+		$tests = array();
+		foreach ( array( 'en', 'fr', 'ar', 'jp', 'zh' ) as $languageCode ) {
 			foreach ( self::$keyToTestArgs as $key => $testArgs ) {
 				foreach ( $testArgs as $args ) {
 					// Get the raw message, without any transformations.
@@ -109,31 +109,32 @@ class GenerateJqueryMsgData extends Maintenance {
 					// fake multiple languages by flattening them together.
 					$langKey = $languageCode . '_' . $key;
 					$messages[$langKey] = $template;
-					$tests[] = [
-						'name' => $languageCode . ' ' . $key . ' ' . implode( ',', $args ),
+					$tests[] = array(
+						'name' => $languageCode . ' ' . $key . ' ' . join( ',', $args ),
 						'key' => $langKey,
 						'args' => $args,
 						'result' => $result,
 						'lang' => $languageCode
-					];
+					);
 				}
 			}
 		}
-		return [ $messages, $tests ];
+		return array( $messages, $tests );
 	}
 
 	private function writeJavascriptFile( $messages, $tests, $dataSpecFile ) {
-		$phpParserData = [
+		$phpParserData = array(
 			'messages' => $messages,
 			'tests' => $tests,
-		];
+		);
 
 		$output =
 			"// This file stores the output from the PHP parser for various messages, arguments,\n"
 				. "// languages, and parser modes. Intended for use by a unit test framework by looping\n"
 				. "// through the object and comparing its parser return value with the 'result' property.\n"
 				. '// Last generated with ' . basename( __FILE__ ) . ' at ' . gmdate( 'r' ) . "\n"
-				. "/* eslint-disable */\n"
+				// This file will contain unquoted JSON strings as javascript native object literals,
+				// flip the quotemark convention for this file.
 				. "\n"
 				. 'mediaWiki.libs.phpParserData = ' . FormatJson::encode( $phpParserData, true ) . ";\n";
 

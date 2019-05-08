@@ -30,30 +30,16 @@
  * @ingroup SpecialPage
  */
 class SpecialMypage extends RedirectSpecialArticle {
-	public function __construct() {
+	function __construct() {
 		parent::__construct( 'Mypage' );
 	}
 
-	/**
-	 * @param string|null $subpage
-	 * @return Title
-	 */
-	public function getRedirect( $subpage ) {
-		if ( $subpage === null || $subpage === '' ) {
+	function getRedirect( $subpage ) {
+		if ( strval( $subpage ) !== '' ) {
+			return Title::makeTitle( NS_USER, $this->getUser()->getName() . '/' . $subpage );
+		} else {
 			return Title::makeTitle( NS_USER, $this->getUser()->getName() );
 		}
-
-		return Title::makeTitle( NS_USER, $this->getUser()->getName() . '/' . $subpage );
-	}
-
-	/**
-	 * Target identifies a specific User. See T109724.
-	 *
-	 * @since 1.27
-	 * @return bool
-	 */
-	public function personallyIdentifiableTarget() {
-		return true;
 	}
 }
 
@@ -63,30 +49,16 @@ class SpecialMypage extends RedirectSpecialArticle {
  * @ingroup SpecialPage
  */
 class SpecialMytalk extends RedirectSpecialArticle {
-	public function __construct() {
+	function __construct() {
 		parent::__construct( 'Mytalk' );
 	}
 
-	/**
-	 * @param string|null $subpage
-	 * @return Title
-	 */
-	public function getRedirect( $subpage ) {
-		if ( $subpage === null || $subpage === '' ) {
+	function getRedirect( $subpage ) {
+		if ( strval( $subpage ) !== '' ) {
+			return Title::makeTitle( NS_USER_TALK, $this->getUser()->getName() . '/' . $subpage );
+		} else {
 			return Title::makeTitle( NS_USER_TALK, $this->getUser()->getName() );
 		}
-
-		return Title::makeTitle( NS_USER_TALK, $this->getUser()->getName() . '/' . $subpage );
-	}
-
-	/**
-	 * Target identifies a specific User. See T109724.
-	 *
-	 * @since 1.27
-	 * @return bool
-	 */
-	public function personallyIdentifiableTarget() {
-		return true;
 	}
 }
 
@@ -96,29 +68,14 @@ class SpecialMytalk extends RedirectSpecialArticle {
  * @ingroup SpecialPage
  */
 class SpecialMycontributions extends RedirectSpecialPage {
-	public function __construct() {
+	function __construct() {
 		parent::__construct( 'Mycontributions' );
-		$this->mAllowedRedirectParams = [ 'limit', 'namespace', 'tagfilter',
-			'offset', 'dir', 'year', 'month', 'feed', 'deletedOnly',
-			'nsInvert', 'associated', 'newOnly', 'topOnly' ];
+		$this->mAllowedRedirectParams = array( 'limit', 'namespace', 'tagfilter',
+			'offset', 'dir', 'year', 'month', 'feed' );
 	}
 
-	/**
-	 * @param string|null $subpage
-	 * @return Title
-	 */
-	public function getRedirect( $subpage ) {
+	function getRedirect( $subpage ) {
 		return SpecialPage::getTitleFor( 'Contributions', $this->getUser()->getName() );
-	}
-
-	/**
-	 * Target identifies a specific User. See T109724.
-	 *
-	 * @since 1.27
-	 * @return bool
-	 */
-	public function personallyIdentifiableTarget() {
-		return true;
 	}
 }
 
@@ -128,27 +85,13 @@ class SpecialMycontributions extends RedirectSpecialPage {
  * @ingroup SpecialPage
  */
 class SpecialMyuploads extends RedirectSpecialPage {
-	public function __construct() {
+	function __construct() {
 		parent::__construct( 'Myuploads' );
-		$this->mAllowedRedirectParams = [ 'limit', 'ilshowall', 'ilsearch' ];
+		$this->mAllowedRedirectParams = array( 'limit', 'ilshowall', 'ilsearch' );
 	}
 
-	/**
-	 * @param string|null $subpage
-	 * @return Title
-	 */
-	public function getRedirect( $subpage ) {
+	function getRedirect( $subpage ) {
 		return SpecialPage::getTitleFor( 'Listfiles', $this->getUser()->getName() );
-	}
-
-	/**
-	 * Target identifies a specific User. See T109724.
-	 *
-	 * @since 1.27
-	 * @return bool
-	 */
-	public function personallyIdentifiableTarget() {
-		return true;
 	}
 }
 
@@ -158,28 +101,14 @@ class SpecialMyuploads extends RedirectSpecialPage {
  * @ingroup SpecialPage
  */
 class SpecialAllMyUploads extends RedirectSpecialPage {
-	public function __construct() {
+	function __construct() {
 		parent::__construct( 'AllMyUploads' );
-		$this->mAllowedRedirectParams = [ 'limit', 'ilsearch' ];
+		$this->mAllowedRedirectParams = array( 'limit', 'ilsearch' );
 	}
 
-	/**
-	 * @param string|null $subpage
-	 * @return Title
-	 */
-	public function getRedirect( $subpage ) {
+	function getRedirect( $subpage ) {
 		$this->mAddedRedirectParams['ilshowall'] = 1;
 
 		return SpecialPage::getTitleFor( 'Listfiles', $this->getUser()->getName() );
-	}
-
-	/**
-	 * Target identifies a specific User. See T109724.
-	 *
-	 * @since 1.27
-	 * @return bool
-	 */
-	public function personallyIdentifiableTarget() {
-		return true;
 	}
 }

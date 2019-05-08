@@ -5,23 +5,28 @@
  * @group Database
  * @group medium
  * @todo This test suite is severly broken and need a full review
- *
- * @covers ApiWatch
  */
 class ApiWatchTest extends ApiTestCase {
+	protected function setUp() {
+		parent::setUp();
+		$this->doLogin();
+	}
+
 	function getTokens() {
 		return $this->getTokenList( self::$users['sysop'] );
 	}
 
+	/**
+	 */
 	public function testWatchEdit() {
 		$tokens = $this->getTokens();
 
-		$data = $this->doApiRequest( [
+		$data = $this->doApiRequest( array(
 			'action' => 'edit',
 			'title' => 'Help:UTPage', // Help namespace is hopefully wikitext
 			'text' => 'new text',
 			'token' => $tokens['edittoken'],
-			'watchlist' => 'watch' ] );
+			'watchlist' => 'watch' ) );
 		$this->assertArrayHasKey( 'edit', $data[0] );
 		$this->assertArrayHasKey( 'result', $data[0]['edit'] );
 		$this->assertEquals( 'Success', $data[0]['edit']['result'] );
@@ -35,25 +40,25 @@ class ApiWatchTest extends ApiTestCase {
 	public function testWatchClear() {
 		$tokens = $this->getTokens();
 
-		$data = $this->doApiRequest( [
+		$data = $this->doApiRequest( array(
 			'action' => 'query',
 			'wllimit' => 'max',
-			'list' => 'watchlist' ] );
+			'list' => 'watchlist' ) );
 
 		if ( isset( $data[0]['query']['watchlist'] ) ) {
 			$wl = $data[0]['query']['watchlist'];
 
 			foreach ( $wl as $page ) {
-				$data = $this->doApiRequest( [
+				$data = $this->doApiRequest( array(
 					'action' => 'watch',
 					'title' => $page['title'],
 					'unwatch' => true,
-					'token' => $tokens['watchtoken'] ] );
+					'token' => $tokens['watchtoken'] ) );
 			}
 		}
-		$data = $this->doApiRequest( [
+		$data = $this->doApiRequest( array(
 			'action' => 'query',
-			'list' => 'watchlist' ], $data );
+			'list' => 'watchlist' ), $data );
 		$this->assertArrayHasKey( 'query', $data[0] );
 		$this->assertArrayHasKey( 'watchlist', $data[0]['query'] );
 		foreach ( $data[0]['query']['watchlist'] as $index => $item ) {
@@ -69,15 +74,17 @@ class ApiWatchTest extends ApiTestCase {
 		return $data;
 	}
 
+	/**
+	 */
 	public function testWatchProtect() {
 		$tokens = $this->getTokens();
 
-		$data = $this->doApiRequest( [
+		$data = $this->doApiRequest( array(
 			'action' => 'protect',
 			'token' => $tokens['protecttoken'],
 			'title' => 'Help:UTPage',
 			'protections' => 'edit=sysop',
-			'watchlist' => 'unwatch' ] );
+			'watchlist' => 'unwatch' ) );
 
 		$this->assertArrayHasKey( 'protect', $data[0] );
 		$this->assertArrayHasKey( 'protections', $data[0]['protect'] );
@@ -85,18 +92,20 @@ class ApiWatchTest extends ApiTestCase {
 		$this->assertArrayHasKey( 'edit', $data[0]['protect']['protections'][0] );
 	}
 
+	/**
+	 */
 	public function testGetRollbackToken() {
 		$this->getTokens();
 
 		if ( !Title::newFromText( 'Help:UTPage' )->exists() ) {
-			$this->markTestSkipped( "The article [[Help:UTPage]] does not exist" ); // TODO: just create it?
+			$this->markTestSkipped( "The article [[Help:UTPage]] does not exist" ); //TODO: just create it?
 		}
 
-		$data = $this->doApiRequest( [
+		$data = $this->doApiRequest( array(
 			'action' => 'query',
 			'prop' => 'revisions',
 			'titles' => 'Help:UTPage',
-			'rvtoken' => 'rollback' ] );
+			'rvtoken' => 'rollback' ) );
 
 		$this->assertArrayHasKey( 'query', $data[0] );
 		$this->assertArrayHasKey( 'pages', $data[0]['query'] );
@@ -128,20 +137,20 @@ class ApiWatchTest extends ApiTestCase {
 		$revinfo = $pageinfo['revisions'][0];
 
 		try {
-			$data = $this->doApiRequest( [
+			$data = $this->doApiRequest( array(
 				'action' => 'rollback',
 				'title' => 'Help:UTPage',
 				'user' => $revinfo['user'],
 				'token' => $pageinfo['rollbacktoken'],
-				'watchlist' => 'watch' ] );
+				'watchlist' => 'watch' ) );
 
 			$this->assertArrayHasKey( 'rollback', $data[0] );
 			$this->assertArrayHasKey( 'title', $data[0]['rollback'] );
-		} catch ( ApiUsageException $ue ) {
-			if ( self::apiExceptionHasCode( $ue, 'onlyauthor' ) ) {
+		} catch ( UsageException $ue ) {
+			if ( $ue->getCodeString() == 'onlyauthor' ) {
 				$this->markTestIncomplete( "Only one author to 'Help:UTPage', cannot test rollback" );
 			} else {
-				$this->fail( "Received error '" . $ue->getMessage() . "'" );
+				$this->fail( "Received error '" . $ue->getCodeString() . "'" );
 			}
 		}
 	}

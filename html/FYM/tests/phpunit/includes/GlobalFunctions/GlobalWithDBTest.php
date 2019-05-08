@@ -1,7 +1,6 @@
 <?php
 
 /**
- * @group GlobalFunctions
  * @group Database
  */
 class GlobalWithDBTest extends MediaWikiTestCase {
@@ -16,17 +15,17 @@ class GlobalWithDBTest extends MediaWikiTestCase {
 	public static function provideWfIsBadImageList() {
 		$blacklist = '* [[File:Bad.jpg]] except [[Nasty page]]';
 
-		return [
-			[ 'Bad.jpg', false, $blacklist, true,
-				'Called on a bad image' ],
-			[ 'Bad.jpg', Title::makeTitle( NS_MAIN, 'A page' ), $blacklist, true,
-				'Called on a bad image' ],
-			[ 'NotBad.jpg', false, $blacklist, false,
-				'Called on a non-bad image' ],
-			[ 'Bad.jpg', Title::makeTitle( NS_MAIN, 'Nasty page' ), $blacklist, false,
-				'Called on a bad image but is on a whitelisted page' ],
-			[ 'File:Bad.jpg', false, $blacklist, false,
-				'Called on a bad image with File:' ],
-		];
+		return array(
+			array( 'Bad.jpg', false, $blacklist, true,
+				'Called on a bad image' ),
+			array( 'Bad.jpg', Title::makeTitle( NS_MAIN, 'A page' ), $blacklist, true,
+				'Called on a bad image' ),
+			array( 'NotBad.jpg', false, $blacklist, false,
+				'Called on a non-bad image' ),
+			array( 'Bad.jpg', Title::makeTitle( NS_MAIN, 'Nasty page' ), $blacklist, false,
+				'Called on a bad image but is on a whitelisted page' ),
+			array( 'File:Bad.jpg', false, $blacklist, false,
+				'Called on a bad image with File:' ),
+		);
 	}
 }

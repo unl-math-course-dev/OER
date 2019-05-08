@@ -19,18 +19,15 @@
  *
  * @file
  * @ingroup FileJournal
+ * @author Aaron Schulz
  */
-
-use MediaWiki\MediaWikiServices;
-use Wikimedia\Rdbms\IDatabase;
-use Wikimedia\Rdbms\DBError;
 
 /**
  * Version of FileJournal that logs to a DB table
  * @since 1.20
  */
 class DBFileJournal extends FileJournal {
-	/** @var IDatabase */
+	/** @var DatabaseBase */
 	protected $dbw;
 
 	protected $wiki = false; // string; wiki DB name
@@ -51,10 +48,10 @@ class DBFileJournal extends FileJournal {
 	 * @see FileJournal::logChangeBatch()
 	 * @param array $entries
 	 * @param string $batchId
-	 * @return StatusValue
+	 * @return Status
 	 */
 	protected function doLogChangeBatch( array $entries, $batchId ) {
-		$status = StatusValue::newGood();
+		$status = Status::newGood();
 
 		try {
 			$dbw = $this->getMasterDB();
@@ -66,16 +63,16 @@ class DBFileJournal extends FileJournal {
 
 		$now = wfTimestamp( TS_UNIX );
 
-		$data = [];
+		$data = array();
 		foreach ( $entries as $entry ) {
-			$data[] = [
+			$data[] = array(
 				'fj_batch_uuid' => $batchId,
 				'fj_backend' => $this->backend,
 				'fj_op' => $entry['op'],
 				'fj_path' => $entry['path'],
 				'fj_new_sha1' => $entry['newSha1'],
 				'fj_timestamp' => $dbw->timestamp( $now )
-			];
+			);
 		}
 
 		try {
@@ -100,7 +97,7 @@ class DBFileJournal extends FileJournal {
 		$dbw = $this->getMasterDB();
 
 		return $dbw->selectField( 'filejournal', 'MAX(fj_id)',
-			[ 'fj_backend' => $this->backend ],
+			array( 'fj_backend' => $this->backend ),
 			__METHOD__
 		);
 	}
@@ -116,33 +113,33 @@ class DBFileJournal extends FileJournal {
 		$encTimestamp = $dbw->addQuotes( $dbw->timestamp( $time ) );
 
 		return $dbw->selectField( 'filejournal', 'fj_id',
-			[ 'fj_backend' => $this->backend, "fj_timestamp <= $encTimestamp" ],
+			array( 'fj_backend' => $this->backend, "fj_timestamp <= $encTimestamp" ),
 			__METHOD__,
-			[ 'ORDER BY' => 'fj_timestamp DESC' ]
+			array( 'ORDER BY' => 'fj_timestamp DESC' )
 		);
 	}
 
 	/**
 	 * @see FileJournal::doGetChangeEntries()
-	 * @param int|null $start
+	 * @param int $start
 	 * @param int $limit
-	 * @return array[]
+	 * @return array
 	 */
 	protected function doGetChangeEntries( $start, $limit ) {
 		$dbw = $this->getMasterDB();
 
 		$res = $dbw->select( 'filejournal', '*',
-			[
+			array(
 				'fj_backend' => $this->backend,
-				'fj_id >= ' . $dbw->addQuotes( (int)$start ) ], // $start may be 0
+				'fj_id >= ' . $dbw->addQuotes( (int)$start ) ), // $start may be 0
 			__METHOD__,
-			array_merge( [ 'ORDER BY' => 'fj_id ASC' ],
-				$limit ? [ 'LIMIT' => $limit ] : [] )
+			array_merge( array( 'ORDER BY' => 'fj_id ASC' ),
+				$limit ? array( 'LIMIT' => $limit ) : array() )
 		);
 
-		$entries = [];
+		$entries = array();
 		foreach ( $res as $row ) {
-			$item = [];
+			$item = array();
 			foreach ( (array)$row as $key => $value ) {
 				$item[substr( $key, 3 )] = $value; // "fj_op" => "op"
 			}
@@ -154,11 +151,11 @@ class DBFileJournal extends FileJournal {
 
 	/**
 	 * @see FileJournal::purgeOldLogs()
-	 * @return StatusValue
+	 * @return Status
 	 * @throws DBError
 	 */
 	protected function doPurgeOldLogs() {
-		$status = StatusValue::newGood();
+		$status = Status::newGood();
 		if ( $this->ttlDays <= 0 ) {
 			return $status; // nothing to do
 		}
@@ -167,7 +164,7 @@ class DBFileJournal extends FileJournal {
 		$dbCutoff = $dbw->timestamp( time() - 86400 * $this->ttlDays );
 
 		$dbw->delete( 'filejournal',
-			[ 'fj_timestamp < ' . $dbw->addQuotes( $dbCutoff ) ],
+			array( 'fj_timestamp < ' . $dbw->addQuotes( $dbCutoff ) ),
 			__METHOD__
 		);
 
@@ -177,14 +174,14 @@ class DBFileJournal extends FileJournal {
 	/**
 	 * Get a master connection to the logging DB
 	 *
-	 * @return IDatabase
+	 * @return DatabaseBase
 	 * @throws DBError
 	 */
 	protected function getMasterDB() {
 		if ( !$this->dbw ) {
 			// Get a separate connection in autocommit mode
-			$lb = MediaWikiServices::getInstance()->getDBLoadBalancerFactory()->newMainLB();
-			$this->dbw = $lb->getConnection( DB_MASTER, [], $this->wiki );
+			$lb = wfGetLBFactory()->newMainLB();
+			$this->dbw = $lb->getConnection( DB_MASTER, array(), $this->wiki );
 			$this->dbw->clearFlag( DBO_TRX );
 		}
 

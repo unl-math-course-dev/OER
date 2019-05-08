@@ -1,6 +1,5 @@
 <?php
 /**
- * @group GlobalFunctions
  * @covers ::wfAssembleUrl
  */
 class WfAssembleUrlTest extends MediaWikiTestCase {
@@ -22,54 +21,54 @@ class WfAssembleUrlTest extends MediaWikiTestCase {
 	 * @return array
 	 */
 	public static function provideURLParts() {
-		$schemes = [
-			'' => [],
-			'//' => [
+		$schemes = array(
+			'' => array(),
+			'//' => array(
 				'delimiter' => '//',
-			],
-			'http://' => [
+			),
+			'http://' => array(
 				'scheme' => 'http',
 				'delimiter' => '://',
-			],
-		];
+			),
+		);
 
-		$hosts = [
-			'' => [],
-			'example.com' => [
+		$hosts = array(
+			'' => array(),
+			'example.com' => array(
 				'host' => 'example.com',
-			],
-			'example.com:123' => [
-				'host' => 'example.com',
-				'port' => 123,
-			],
-			'id@example.com' => [
-				'user' => 'id',
-				'host' => 'example.com',
-			],
-			'id@example.com:123' => [
-				'user' => 'id',
+			),
+			'example.com:123' => array(
 				'host' => 'example.com',
 				'port' => 123,
-			],
-			'id:key@example.com' => [
+			),
+			'id@example.com' => array(
+				'user' => 'id',
+				'host' => 'example.com',
+			),
+			'id@example.com:123' => array(
+				'user' => 'id',
+				'host' => 'example.com',
+				'port' => 123,
+			),
+			'id:key@example.com' => array(
 				'user' => 'id',
 				'pass' => 'key',
 				'host' => 'example.com',
-			],
-			'id:key@example.com:123' => [
+			),
+			'id:key@example.com:123' => array(
 				'user' => 'id',
 				'pass' => 'key',
 				'host' => 'example.com',
 				'port' => 123,
-			],
-		];
+			),
+		);
 
-		$cases = [];
+		$cases = array();
 		foreach ( $schemes as $scheme => $schemeParts ) {
 			foreach ( $hosts as $host => $hostParts ) {
-				foreach ( [ '', '/path' ] as $path ) {
-					foreach ( [ '', 'query' ] as $query ) {
-						foreach ( [ '', 'fragment' ] as $fragment ) {
+				foreach ( array( '', '/path' ) as $path ) {
+					foreach ( array( '', 'query' ) as $query ) {
+						foreach ( array( '', 'fragment' ) as $fragment ) {
 							$parts = array_merge(
 								$schemeParts,
 								$hostParts
@@ -90,10 +89,10 @@ class WfAssembleUrlTest extends MediaWikiTestCase {
 								$url .= '#' . $fragment;
 							}
 
-							$cases[] = [
+							$cases[] = array(
 								$parts,
 								$url,
-							];
+							);
 						}
 					}
 				}
@@ -102,10 +101,10 @@ class WfAssembleUrlTest extends MediaWikiTestCase {
 
 		$complexURL = 'http://id:key@example.org:321' .
 			'/over/there?name=ferret&foo=bar#nose';
-		$cases[] = [
+		$cases[] = array(
 			wfParseUrl( $complexURL ),
 			$complexURL,
-		];
+		);
 
 		return $cases;
 	}

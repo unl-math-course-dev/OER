@@ -21,9 +21,6 @@
  * @ingroup Deployment
  */
 
-use Wikimedia\Rdbms\Database;
-use Wikimedia\Rdbms\DBConnectionError;
-
 /**
  * Class for setting up the MediaWiki database using Oracle.
  *
@@ -32,22 +29,21 @@ use Wikimedia\Rdbms\DBConnectionError;
  */
 class OracleInstaller extends DatabaseInstaller {
 
-	protected $globalNames = [
+	protected $globalNames = array(
 		'wgDBserver',
 		'wgDBname',
 		'wgDBuser',
 		'wgDBpassword',
 		'wgDBprefix',
-	];
+	);
 
-	protected $internalDefaults = [
+	protected $internalDefaults = array(
 		'_OracleDefTS' => 'USERS',
 		'_OracleTempTS' => 'TEMP',
 		'_InstallUser' => 'SYSTEM',
-	];
+	);
 
-	public static $minimumVersion = '9.0.1'; // 9iR1
-	protected static $notMiniumumVerisonMessage = 'config-oracle-old';
+	public $minimumVersion = '9.0.1'; // 9iR1
 
 	protected $connError = null;
 
@@ -67,17 +63,17 @@ class OracleInstaller extends DatabaseInstaller {
 		return $this->getTextBox(
 			'wgDBserver',
 			'config-db-host-oracle',
-			[],
+			array(),
 			$this->parent->getHelpBox( 'config-db-host-oracle-help' )
 		) .
 			Html::openElement( 'fieldset' ) .
-			Html::element( 'legend', [], wfMessage( 'config-db-wiki-settings' )->text() ) .
+			Html::element( 'legend', array(), wfMessage( 'config-db-wiki-settings' )->text() ) .
 			$this->getTextBox( 'wgDBprefix', 'config-db-prefix' ) .
 			$this->getTextBox( '_OracleDefTS', 'config-oracle-def-ts' ) .
 			$this->getTextBox(
 				'_OracleTempTS',
 				'config-oracle-temp-ts',
-				[],
+				array(),
 				$this->parent->getHelpBox( 'config-db-oracle-help' )
 			) .
 			Html::closeElement( 'fieldset' ) .
@@ -95,12 +91,12 @@ class OracleInstaller extends DatabaseInstaller {
 
 	public function submitConnectForm() {
 		// Get variables from the request
-		$newValues = $this->setVarsFromRequest( [
+		$newValues = $this->setVarsFromRequest( array(
 			'wgDBserver',
 			'wgDBprefix',
 			'wgDBuser',
 			'wgDBpassword'
-		] );
+		) );
 		$this->parent->setVar( 'wgDBname', $this->getVar( 'wgDBuser' ) );
 
 		// Validate them
@@ -154,41 +150,49 @@ class OracleInstaller extends DatabaseInstaller {
 		}
 
 		/**
-		 * @var Database $conn
+		 * @var $conn DatabaseBase
 		 */
 		$conn = $status->value;
 
 		// Check version
-		$status->merge( static::meetsMinimumRequirement( $conn->getServerVersion() ) );
+		$version = $conn->getServerVersion();
+		if ( version_compare( $version, $this->minimumVersion ) < 0 ) {
+			return Status::newFatal( 'config-oracle-old', $this->minimumVersion, $version );
+		}
 
 		return $status;
 	}
 
 	public function openConnection() {
-		return $this->doOpenConnection();
+		$status = Status::newGood();
+		try {
+			$db = new DatabaseOracle(
+				$this->getVar( 'wgDBserver' ),
+				$this->getVar( '_InstallUser' ),
+				$this->getVar( '_InstallPassword' ),
+				$this->getVar( '_InstallDBname' ),
+				0,
+				$this->getVar( 'wgDBprefix' )
+			);
+			$status->value = $db;
+		} catch ( DBConnectionError $e ) {
+			$this->connError = $e->db->lastErrno();
+			$status->fatal( 'config-connection-error', $e->getMessage() );
+		}
+
+		return $status;
 	}
 
 	public function openSYSDBAConnection() {
-		return $this->doOpenConnection( DatabaseOracle::DBO_SYSDBA );
-	}
-
-	/**
-	 * @param int $flags
-	 * @return Status Status with DatabaseOracle or null as the value
-	 */
-	private function doOpenConnection( $flags = 0 ) {
 		$status = Status::newGood();
 		try {
-			$db = Database::factory(
-				'oracle',
-				[
-					'host' => $this->getVar( 'wgDBserver' ),
-					'user' => $this->getVar( '_InstallUser' ),
-					'password' => $this->getVar( '_InstallPassword' ),
-					'dbname' => $this->getVar( '_InstallDBname' ),
-					'tablePrefix' => $this->getVar( 'wgDBprefix' ),
-					'flags' => $flags
-				]
+			$db = new DatabaseOracle(
+				$this->getVar( 'wgDBserver' ),
+				$this->getVar( '_InstallUser' ),
+				$this->getVar( '_InstallPassword' ),
+				$this->getVar( '_InstallDBname' ),
+				DBO_SYSDBA,
+				$this->getVar( 'wgDBprefix' )
 			);
 			$status->value = $db;
 		} catch ( DBConnectionError $e ) {
@@ -210,10 +214,10 @@ class OracleInstaller extends DatabaseInstaller {
 
 	public function preInstall() {
 		# Add our user callback to installSteps, right before the tables are created.
-		$callback = [
+		$callback = array(
 			'name' => 'user',
-			'callback' => [ $this, 'setupUser' ]
-		];
+			'callback' => array( $this, 'setupUser' )
+		);
 		$this->parent->addInstallStep( $callback, 'database' );
 	}
 
@@ -289,7 +293,7 @@ class OracleInstaller extends DatabaseInstaller {
 	}
 
 	public function getSchemaVars() {
-		$varNames = [
+		$varNames = array(
 			# These variables are used by maintenance/oracle/user.sql
 			'_OracleDefTS',
 			'_OracleTempTS',
@@ -298,8 +302,8 @@ class OracleInstaller extends DatabaseInstaller {
 
 			# These are used by tables.sql
 			'wgDBprefix',
-		];
-		$vars = [];
+		);
+		$vars = array();
 		foreach ( $varNames as $name ) {
 			$vars[$name] = $this->getVar( $name );
 		}
@@ -330,11 +334,11 @@ class OracleInstaller extends DatabaseInstaller {
 	 * @return bool Whether the connection string is valid.
 	 */
 	public static function checkConnectStringFormat( $connect_string ) {
-		// phpcs:disable Generic.Files.LineLength
+		// @@codingStandardsIgnoreStart Long lines with regular expressions.
 		// @todo Very long regular expression. Make more readable?
 		$isValid = preg_match( '/^[[:alpha:]][\w\-]*(?:\.[[:alpha:]][\w\-]*){0,2}$/', $connect_string ); // TNS name
 		$isValid |= preg_match( '/^(?:\/\/)?[\w\-\.]+(?::[\d]+)?(?:\/(?:[\w\-\.]+(?::(pooled|dedicated|shared))?)?(?:\/[\w\-\.]+)?)?$/', $connect_string ); // EZConnect
-		// phpcs:enable
+		// @@codingStandardsIgnoreEnd
 		return (bool)$isValid;
 	}
 }

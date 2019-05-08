@@ -1,3 +1,3 @@
 -- Hopefully temporary index.
--- For https://phabricator.wikimedia.org/T23279
+-- For https://bugzilla.wikimedia.org/show_bug.cgi?id=21279
 CREATE INDEX /*i*/ar_revid ON /*$wgDBprefix*/archive ( ar_rev_id );

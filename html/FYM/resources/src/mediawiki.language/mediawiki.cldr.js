@@ -1,4 +1,4 @@
-( function () {
+( function ( mw ) {
 	'use strict';
 
 	/**
@@ -19,9 +19,9 @@
 		 * @return {number} plural form index
 		 */
 		getPluralForm: function ( number, pluralRules ) {
-			var i, pluralRuleParser = require( 'mediawiki.libs.pluralruleparser' );
+			var i;
 			for ( i = 0; i < pluralRules.length; i++ ) {
-				if ( pluralRuleParser( pluralRules[ i ], number ) ) {
+				if ( mw.libs.pluralRuleParser( pluralRules[i], number ) ) {
 					break;
 				}
 			}
@@ -29,4 +29,4 @@
 		}
 	};
 
-}() );
+}( mediaWiki ) );

@@ -5,290 +5,261 @@
  * @file
  * @ingroup Extensions
  */
+// @codingStandardsIgnoreFile
 
-$specialPageAliases = [];
+$specialPageAliases = array();
 
 /** English (English) */
-$specialPageAliases['en'] = [
-	'Interwiki' => [ 'Interwiki' ],
-];
+$specialPageAliases['en'] = array(
+	'Interwiki' => array( 'Interwiki' ),
+);
 
 /** Arabic (العربية) */
-$specialPageAliases['ar'] = [
-	'Interwiki' => [ 'إنترويكي' ],
-];
+$specialPageAliases['ar'] = array(
+	'Interwiki' => array( 'إنترويكي' ),
+);
 
-/** Egyptian Arabic (مصرى) */
-$specialPageAliases['arz'] = [
-	'Interwiki' => [ 'إنترويكى' ],
-];
+/** Egyptian Spoken Arabic (مصرى) */
+$specialPageAliases['arz'] = array(
+	'Interwiki' => array( 'إنترويكى' ),
+);
 
 /** Assamese (অসমীয়া) */
-$specialPageAliases['as'] = [
-	'Interwiki' => [ 'আন্তঃৱিকি' ],
-];
-
-/** Avaric (авар) */
-$specialPageAliases['av'] = [
-	'Interwiki' => [ 'Интервики' ],
-];
+$specialPageAliases['as'] = array(
+	'Interwiki' => array( 'আন্তঃৱিকি' ),
+);
 
 /** Bulgarian (български) */
-$specialPageAliases['bg'] = [
-	'Interwiki' => [ 'Междууикита' ],
-];
-
-/** Western Balochi (بلوچی رخشانی) */
-$specialPageAliases['bgn'] = [
-	'Interwiki' => [ 'مانجین_ویکی' ],
-];
-
-/** Bengali (বাংলা) */
-$specialPageAliases['bn'] = [
-	'Interwiki' => [ 'আন্তঃউইকি' ],
-];
+$specialPageAliases['bg'] = array(
+	'Interwiki' => array( 'Междууикита' ),
+);
 
 /** Breton (brezhoneg) */
-$specialPageAliases['br'] = [
-	'Interwiki' => [ 'Etrewiki' ],
-];
+$specialPageAliases['br'] = array(
+	'Interwiki' => array( 'Etrewiki' ),
+);
 
 /** Bosnian (bosanski) */
-$specialPageAliases['bs'] = [
-	'Interwiki' => [ 'Medjuwiki' ],
-];
+$specialPageAliases['bs'] = array(
+	'Interwiki' => array( 'Medjuwiki' ),
+);
 
 /** Min Dong Chinese (Mìng-dĕ̤ng-ngṳ̄) */
-$specialPageAliases['cdo'] = [
-	'Interwiki' => [ '跨維基' ],
-];
+$specialPageAliases['cdo'] = array(
+	'Interwiki' => array( '跨維基' ),
+);
 
 /** Chechen (нохчийн) */
-$specialPageAliases['ce'] = [
-	'Interwiki' => [ 'Юкъарвикаш' ],
-];
+$specialPageAliases['ce'] = array(
+	'Interwiki' => array( 'Юкъарвики' ),
+);
 
-/** Central Kurdish (کوردیی ناوەندی) */
-$specialPageAliases['ckb'] = [
-	'Interwiki' => [ 'نێوانویکی' ],
-];
+/** Sorani Kurdish (کوردی) */
+$specialPageAliases['ckb'] = array(
+	'Interwiki' => array( 'نێوانویکی' ),
+);
 
 /** German (Deutsch) */
-$specialPageAliases['de'] = [
-	'Interwiki' => [ 'Interwikitabelle', 'Interwiki-Tabelle' ],
-];
+$specialPageAliases['de'] = array(
+	'Interwiki' => array( 'Interwikitabelle', 'Interwiki-Tabelle' ),
+);
 
 /** Zazaki (Zazaki) */
-$specialPageAliases['diq'] = [
-	'Interwiki' => [ 'İnterwiki' ],
-];
+$specialPageAliases['diq'] = array(
+	'Interwiki' => array( 'İnterwiki' ),
+);
 
 /** Esperanto (Esperanto) */
-$specialPageAliases['eo'] = [
-	'Interwiki' => [ 'Intervikia_ligilo' ],
-];
+$specialPageAliases['eo'] = array(
+	'Interwiki' => array( 'Intervikia_ligilo' ),
+);
 
 /** Spanish (español) */
-$specialPageAliases['es'] = [
-	'Interwiki' => [ 'Enlaces_interligüísticos' ],
-];
+$specialPageAliases['es'] = array(
+	'Interwiki' => array( 'Enlaces_interligüísticos' ),
+);
 
 /** Estonian (eesti) */
-$specialPageAliases['et'] = [
-	'Interwiki' => [ 'Interviki' ],
-];
+$specialPageAliases['et'] = array(
+	'Interwiki' => array( 'Interviki' ),
+);
 
 /** Persian (فارسی) */
-$specialPageAliases['fa'] = [
-	'Interwiki' => [ 'میان‌ویکی' ],
-];
+$specialPageAliases['fa'] = array(
+	'Interwiki' => array( 'میان‌ویکی' ),
+);
 
-/** Arpitan (arpetan) */
-$specialPageAliases['frp'] = [
-	'Interwiki' => [ 'Entèrvouiqui' ],
-];
+/** Franco-Provençal (arpetan) */
+$specialPageAliases['frp'] = array(
+	'Interwiki' => array( 'Entèrvouiqui' ),
+);
 
 /** Gagauz (Gagauz) */
-$specialPageAliases['gag'] = [
-	'Interwiki' => [ 'İnterviki' ],
-];
+$specialPageAliases['gag'] = array(
+	'Interwiki' => array( 'İnterviki' ),
+);
 
 /** Galician (galego) */
-$specialPageAliases['gl'] = [
-	'Interwiki' => [ 'Interwikis' ],
-];
+$specialPageAliases['gl'] = array(
+	'Interwiki' => array( 'Interwikis' ),
+);
 
 /** Hawaiian (Hawai`i) */
-$specialPageAliases['haw'] = [
-	'Interwiki' => [ 'Waenawiki' ],
-];
+$specialPageAliases['haw'] = array(
+	'Interwiki' => array( 'Waenawiki' ),
+);
 
 /** Hebrew (עברית) */
-$specialPageAliases['he'] = [
-	'Interwiki' => [ 'בינוויקי' ],
-];
+$specialPageAliases['he'] = array(
+	'Interwiki' => array( 'בינוויקי' ),
+);
 
 /** Haitian (Kreyòl ayisyen) */
-$specialPageAliases['ht'] = [
-	'Interwiki' => [ 'Entèwiki' ],
-];
+$specialPageAliases['ht'] = array(
+	'Interwiki' => array( 'Entèwiki' ),
+);
 
 /** Hungarian (magyar) */
-$specialPageAliases['hu'] = [
-	'Interwiki' => [ 'Wikiközi_hivatkozások' ],
-];
+$specialPageAliases['hu'] = array(
+	'Interwiki' => array( 'Wikiközi_hivatkozások' ),
+);
 
 /** Indonesian (Bahasa Indonesia) */
-$specialPageAliases['id'] = [
-	'Interwiki' => [ 'Interwiki' ],
-];
+$specialPageAliases['id'] = array(
+	'Interwiki' => array( 'Interwiki' ),
+);
 
 /** Japanese (日本語) */
-$specialPageAliases['ja'] = [
-	'Interwiki' => [ 'インターウィキ' ],
-];
+$specialPageAliases['ja'] = array(
+	'Interwiki' => array( 'インターウィキ' ),
+);
 
 /** Georgian (ქართული) */
-$specialPageAliases['ka'] = [
-	'Interwiki' => [ 'ინტერვიკი' ],
-];
+$specialPageAliases['ka'] = array(
+	'Interwiki' => array( 'ინტერვიკი' ),
+);
 
 /** Khmer (ភាសាខ្មែរ) */
-$specialPageAliases['km'] = [
-	'Interwiki' => [ 'អន្តរវិគី' ],
-];
+$specialPageAliases['km'] = array(
+	'Interwiki' => array( 'អន្តរវិគី' ),
+);
 
 /** Korean (한국어) */
-$specialPageAliases['ko'] = [
-	'Interwiki' => [ '인터위키' ],
-];
+$specialPageAliases['ko'] = array(
+	'Interwiki' => array( '인터위키' ),
+);
 
 /** Colognian (Ripoarisch) */
-$specialPageAliases['ksh'] = [
-	'Interwiki' => [ 'EngerWiki', 'Engerwiki' ],
-];
+$specialPageAliases['ksh'] = array(
+	'Interwiki' => array( 'EngerWiki', 'Engerwiki' ),
+);
 
 /** Cornish (kernowek) */
-$specialPageAliases['kw'] = [
-	'Interwiki' => [ 'Yntrawiki' ],
-];
+$specialPageAliases['kw'] = array(
+	'Interwiki' => array( 'Yntrawiki' ),
+);
 
 /** Latin (Latina) */
-$specialPageAliases['la'] = [
-	'Interwiki' => [ 'Intervici' ],
-];
+$specialPageAliases['la'] = array(
+	'Interwiki' => array( 'Intervici' ),
+);
 
 /** Ladino (Ladino) */
-$specialPageAliases['lad'] = [
-	'Interwiki' => [ 'Interviki' ],
-];
-
-/** Northern Luri (لۊری شومالی) */
-$specialPageAliases['lrc'] = [
-	'Interwiki' => [ 'مینجا_ڤیکی' ],
-];
+$specialPageAliases['lad'] = array(
+	'Interwiki' => array( 'Interviki' ),
+);
 
 /** Macedonian (македонски) */
-$specialPageAliases['mk'] = [
-	'Interwiki' => [ 'Меѓувики' ],
-];
+$specialPageAliases['mk'] = array(
+	'Interwiki' => array( 'Меѓувики' ),
+);
 
 /** Malayalam (മലയാളം) */
-$specialPageAliases['ml'] = [
-	'Interwiki' => [ 'അന്തർ‌വിക്കി' ],
-];
+$specialPageAliases['ml'] = array(
+	'Interwiki' => array( 'അന്തർ‌വിക്കി' ),
+);
 
 /** Marathi (मराठी) */
-$specialPageAliases['mr'] = [
-	'Interwiki' => [ 'आंतरविकि' ],
-];
+$specialPageAliases['mr'] = array(
+	'Interwiki' => array( 'आंतरविकि' ),
+);
 
 /** Punjabi (ਪੰਜਾਬੀ) */
-$specialPageAliases['pa'] = [
-	'Interwiki' => [ 'ਇੰਟਰਵਿਕੀ' ],
-];
+$specialPageAliases['pa'] = array(
+	'Interwiki' => array( 'ਇੰਟਰਵਿਕੀ' ),
+);
 
 /** Portuguese (português) */
-$specialPageAliases['pt'] = [
-	'Interwiki' => [ 'Interwikis' ],
-];
+$specialPageAliases['pt'] = array(
+	'Interwiki' => array( 'Interwikis' ),
+);
 
 /** Russian (русский) */
-$specialPageAliases['ru'] = [
-	'Interwiki' => [ 'Интервики' ],
-];
+$specialPageAliases['ru'] = array(
+	'Interwiki' => array( 'Интервики' ),
+);
 
 /** Sanskrit (संस्कृतम्) */
-$specialPageAliases['sa'] = [
-	'Interwiki' => [ 'आंन्तरविकि' ],
-];
-
-/** Serbian (Cyrillic script) (српски (ћирилица)‎) */
-$specialPageAliases['sr-ec'] = [
-	'Interwiki' => [ 'Међувики' ],
-];
-
-/** Serbian (Latin script) (srpski (latinica)‎) */
-$specialPageAliases['sr-el'] = [
-	'Interwiki' => [ 'Međuviki' ],
-];
+$specialPageAliases['sa'] = array(
+	'Interwiki' => array( 'आंन्तरविकि' ),
+);
 
 /** Swahili (Kiswahili) */
-$specialPageAliases['sw'] = [
-	'Interwiki' => [ 'Viungovyawiki' ],
-];
+$specialPageAliases['sw'] = array(
+	'Interwiki' => array( 'Viungovyawiki' ),
+);
 
 /** Telugu (తెలుగు) */
-$specialPageAliases['te'] = [
-	'Interwiki' => [ 'అంతర్వికీ' ],
-];
+$specialPageAliases['te'] = array(
+	'Interwiki' => array( 'అంతర్వికీ' ),
+);
 
 /** Tagalog (Tagalog) */
-$specialPageAliases['tl'] = [
-	'Interwiki' => [ 'Kawing-wiki' ],
-];
+$specialPageAliases['tl'] = array(
+	'Interwiki' => array( 'Kawing-wiki' ),
+);
 
 /** Turkish (Türkçe) */
-$specialPageAliases['tr'] = [
-	'Interwiki' => [ 'İnterviki' ],
-];
+$specialPageAliases['tr'] = array(
+	'Interwiki' => array( 'İnterviki' ),
+);
 
 /** Tatar (Cyrillic script) (татарча) */
-$specialPageAliases['tt-cyrl'] = [
-	'Interwiki' => [ 'Интервики' ],
-];
+$specialPageAliases['tt-cyrl'] = array(
+	'Interwiki' => array( 'Интервики' ),
+);
 
 /** Ukrainian (українська) */
-$specialPageAliases['uk'] = [
-	'Interwiki' => [ 'Інтервікі', 'Интервики' ],
-];
+$specialPageAliases['uk'] = array(
+	'Interwiki' => array( 'Інтервікі' ),
+);
 
 /** Urdu (اردو) */
-$specialPageAliases['ur'] = [
-	'Interwiki' => [ 'بین_الویکی' ],
-];
+$specialPageAliases['ur'] = array(
+	'Interwiki' => array( 'بین_الویکی' ),
+);
 
 /** Vietnamese (Tiếng Việt) */
-$specialPageAliases['vi'] = [
-	'Interwiki' => [ 'Liên_wiki' ],
-];
+$specialPageAliases['vi'] = array(
+	'Interwiki' => array( 'Liên_wiki' ),
+);
 
 /** Yiddish (ייִדיש) */
-$specialPageAliases['yi'] = [
-	'Interwiki' => [ 'אינטערוויקי' ],
-];
+$specialPageAliases['yi'] = array(
+	'Interwiki' => array( 'אינטערוויקי' ),
+);
 
 /** Cantonese (粵語) */
-$specialPageAliases['yue'] = [
-	'Interwiki' => [ '其他維基連接' ],
-];
+$specialPageAliases['yue'] = array(
+	'Interwiki' => array( '其他維基連接' ),
+);
 
 /** Simplified Chinese (中文（简体）‎) */
-$specialPageAliases['zh-hans'] = [
-	'Interwiki' => [ '跨wiki', '跨维基' ],
-];
+$specialPageAliases['zh-hans'] = array(
+	'Interwiki' => array( '跨wiki', '跨维基' ),
+);
 
 /** Traditional Chinese (中文（繁體）‎) */
-$specialPageAliases['zh-hant'] = [
-	'Interwiki' => [ '跨Wiki', '跨維基' ],
-];
+$specialPageAliases['zh-hant'] = array(
+	'Interwiki' => array( '跨wiki', '跨維基' ),
+);

@@ -34,7 +34,7 @@ class UnusedtemplatesPage extends QueryPage {
 		parent::__construct( $name );
 	}
 
-	public function isExpensive() {
+	function isExpensive() {
 		return true;
 	}
 
@@ -46,23 +46,23 @@ class UnusedtemplatesPage extends QueryPage {
 		return false;
 	}
 
-	public function getQueryInfo() {
-		return [
-			'tables' => [ 'page', 'templatelinks' ],
-			'fields' => [
+	function getQueryInfo() {
+		return array(
+			'tables' => array( 'page', 'templatelinks' ),
+			'fields' => array(
 				'namespace' => 'page_namespace',
 				'title' => 'page_title',
 				'value' => 'page_title'
-			],
-			'conds' => [
+			),
+			'conds' => array(
 				'page_namespace' => NS_TEMPLATE,
 				'tl_from IS NULL',
 				'page_is_redirect' => 0
-			],
-			'join_conds' => [ 'templatelinks' => [
-				'LEFT JOIN', [ 'tl_title = page_title',
-					'tl_namespace = page_namespace' ] ] ]
-		];
+			),
+			'join_conds' => array( 'templatelinks' => array(
+				'LEFT JOIN', array( 'tl_title = page_title',
+					'tl_namespace = page_namespace' ) ) )
+		);
 	}
 
 	/**
@@ -71,17 +71,16 @@ class UnusedtemplatesPage extends QueryPage {
 	 * @return string
 	 */
 	function formatResult( $skin, $result ) {
-		$linkRenderer = $this->getLinkRenderer();
 		$title = Title::makeTitle( NS_TEMPLATE, $result->title );
-		$pageLink = $linkRenderer->makeKnownLink(
+		$pageLink = Linker::linkKnown(
 			$title,
 			null,
-			[],
-			[ 'redirect' => 'no' ]
+			array(),
+			array( 'redirect' => 'no' )
 		);
-		$wlhLink = $linkRenderer->makeKnownLink(
+		$wlhLink = Linker::linkKnown(
 			SpecialPage::getTitleFor( 'Whatlinkshere', $title->getPrefixedText() ),
-			$this->msg( 'unusedtemplateswlh' )->text()
+			$this->msg( 'unusedtemplateswlh' )->escaped()
 		);
 
 		return $this->getLanguage()->specialList( $pageLink, $wlhLink );

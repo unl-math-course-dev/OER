@@ -21,9 +21,6 @@
  * @ingroup SpecialPage
  */
 
-use Wikimedia\Rdbms\IResultWrapper;
-use Wikimedia\Rdbms\IDatabase;
-
 /**
  * A special page listing redirects to non existent page. Those should be
  * fixed to point to an existing page.
@@ -31,11 +28,12 @@ use Wikimedia\Rdbms\IDatabase;
  * @ingroup SpecialPage
  */
 class BrokenRedirectsPage extends QueryPage {
+
 	function __construct( $name = 'BrokenRedirects' ) {
 		parent::__construct( $name );
 	}
 
-	public function isExpensive() {
+	function isExpensive() {
 		return true;
 	}
 
@@ -51,48 +49,47 @@ class BrokenRedirectsPage extends QueryPage {
 		return $this->msg( 'brokenredirectstext' )->parseAsBlock();
 	}
 
-	public function getQueryInfo() {
-		$dbr = wfGetDB( DB_REPLICA );
+	function getQueryInfo() {
+		$dbr = wfGetDB( DB_SLAVE );
 
-		return [
-			'tables' => [
+		return array(
+			'tables' => array(
 				'redirect',
 				'p1' => 'page',
 				'p2' => 'page',
-			],
-			'fields' => [
+			),
+			'fields' => array(
 				'namespace' => 'p1.page_namespace',
 				'title' => 'p1.page_title',
 				'value' => 'p1.page_title',
 				'rd_namespace',
 				'rd_title',
-				'rd_fragment',
-			],
-			'conds' => [
+			),
+			'conds' => array(
 				// Exclude pages that don't exist locally as wiki pages,
 				// but aren't "broken" either.
 				// Special pages and interwiki links
 				'rd_namespace >= 0',
 				'rd_interwiki IS NULL OR rd_interwiki = ' . $dbr->addQuotes( '' ),
 				'p2.page_namespace IS NULL',
-			],
-			'join_conds' => [
-				'p1' => [ 'JOIN', [
+			),
+			'join_conds' => array(
+				'p1' => array( 'JOIN', array(
 					'rd_from=p1.page_id',
-				] ],
-				'p2' => [ 'LEFT JOIN', [
+				) ),
+				'p2' => array( 'LEFT JOIN', array(
 					'rd_namespace=p2.page_namespace',
 					'rd_title=p2.page_title'
-				] ],
-			],
-		];
+				) ),
+			),
+		);
 	}
 
 	/**
 	 * @return array
 	 */
 	function getOrderFields() {
-		return [ 'rd_namespace', 'rd_title', 'rd_from' ];
+		return array( 'rd_namespace', 'rd_title', 'rd_from' );
 	}
 
 	/**
@@ -103,7 +100,7 @@ class BrokenRedirectsPage extends QueryPage {
 	function formatResult( $skin, $result ) {
 		$fromObj = Title::makeTitle( $result->namespace, $result->title );
 		if ( isset( $result->rd_title ) ) {
-			$toObj = Title::makeTitle( $result->rd_namespace, $result->rd_title, $result->rd_fragment );
+			$toObj = Title::makeTitle( $result->rd_namespace, $result->rd_title );
 		} else {
 			$blinks = $fromObj->getBrokenLinksFrom(); # TODO: check for redirect, not for links
 			if ( $blinks ) {
@@ -113,64 +110,48 @@ class BrokenRedirectsPage extends QueryPage {
 			}
 		}
 
-		$linkRenderer = $this->getLinkRenderer();
 		// $toObj may very easily be false if the $result list is cached
 		if ( !is_object( $toObj ) ) {
-			return '<del>' . $linkRenderer->makeLink( $fromObj ) . '</del>';
+			return '<del>' . Linker::link( $fromObj ) . '</del>';
 		}
 
-		$from = $linkRenderer->makeKnownLink(
+		$from = Linker::linkKnown(
 			$fromObj,
 			null,
-			[],
-			[ 'redirect' => 'no' ]
+			array(),
+			array( 'redirect' => 'no' )
 		);
-		$links = [];
-		// if the page is editable, add an edit link
-		if (
-			// check user permissions
-			$this->getUser()->isAllowed( 'edit' ) &&
-			// check, if the content model is editable through action=edit
-			ContentHandler::getForTitle( $fromObj )->supportsDirectEditing()
-		) {
-			$links[] = $linkRenderer->makeKnownLink(
-				$fromObj,
-				$this->msg( 'brokenredirects-edit' )->text(),
-				[],
-				[ 'action' => 'edit' ]
-			);
-		}
-		$to = $linkRenderer->makeBrokenLink( $toObj, $toObj->getFullText() );
+		$links = array();
+		$links[] = Linker::linkKnown(
+			$fromObj,
+			$this->msg( 'brokenredirects-edit' )->escaped(),
+			array(),
+			array( 'action' => 'edit' )
+		);
+		$to = Linker::link(
+			$toObj,
+			null,
+			array(),
+			array(),
+			array( 'broken' )
+		);
 		$arr = $this->getLanguage()->getArrow();
 
 		$out = $from . $this->msg( 'word-separator' )->escaped();
 
 		if ( $this->getUser()->isAllowed( 'delete' ) ) {
-			$links[] = $linkRenderer->makeKnownLink(
+			$links[] = Linker::linkKnown(
 				$fromObj,
-				$this->msg( 'brokenredirects-delete' )->text(),
-				[],
-				[ 'action' => 'delete' ]
+				$this->msg( 'brokenredirects-delete' )->escaped(),
+				array(),
+				array( 'action' => 'delete' )
 			);
 		}
 
-		if ( $links ) {
-			$out .= $this->msg( 'parentheses' )->rawParams( $this->getLanguage()
-				->pipeList( $links ) )->escaped();
-		}
+		$out .= $this->msg( 'parentheses' )->rawParams( $this->getLanguage()->pipeList( $links ) )->escaped();
 		$out .= " {$arr} {$to}";
 
 		return $out;
-	}
-
-	/**
-	 * Cache page content model for performance
-	 *
-	 * @param IDatabase $db
-	 * @param IResultWrapper $res
-	 */
-	function preprocessResults( $db, $res ) {
-		$this->executeLBFromResultWrapper( $res );
 	}
 
 	protected function getGroupName() {

@@ -21,10 +21,6 @@
  * @ingroup FileRepo
  */
 
-use MediaWiki\MediaWikiServices;
-use Wikimedia\Rdbms\IDatabase;
-use Wikimedia\Rdbms\LoadBalancer;
-
 /**
  * A foreign repository with a MediaWiki database accessible via the configured LBFactory
  *
@@ -41,13 +37,10 @@ class ForeignDBViaLBRepo extends LocalRepo {
 	protected $tablePrefix;
 
 	/** @var array */
-	protected $fileFactory = [ ForeignDBFile::class, 'newFromTitle' ];
+	protected $fileFactory = array( 'ForeignDBFile', 'newFromTitle' );
 
 	/** @var array */
-	protected $fileFromRowFactory = [ ForeignDBFile::class, 'newFromRow' ];
-
-	/** @var bool */
-	protected $hasSharedCache;
+	protected $fileFromRowFactory = array( 'ForeignDBFile', 'newFromRow' );
 
 	/**
 	 * @param array|null $info
@@ -60,34 +53,17 @@ class ForeignDBViaLBRepo extends LocalRepo {
 	}
 
 	/**
-	 * @return IDatabase
+	 * @return DatabaseBase
 	 */
 	function getMasterDB() {
-		return $this->getDBLoadBalancer()->getConnectionRef( DB_MASTER, [], $this->wiki );
+		return wfGetDB( DB_MASTER, array(), $this->wiki );
 	}
 
 	/**
-	 * @return IDatabase
+	 * @return DatabaseBase
 	 */
-	function getReplicaDB() {
-		return $this->getDBLoadBalancer()->getConnectionRef( DB_REPLICA, [], $this->wiki );
-	}
-
-	/**
-	 * @return Closure
-	 */
-	protected function getDBFactory() {
-		return function ( $index ) {
-			return $this->getDBLoadBalancer()->getConnectionRef( $index, [], $this->wiki );
-		};
-	}
-
-	/**
-	 * @return LoadBalancer
-	 */
-	protected function getDBLoadBalancer() {
-		$lbFactory = MediaWikiServices::getInstance()->getDBLoadBalancerFactory();
-		return $lbFactory->getMainLB( $this->wiki );
+	function getSlaveDB() {
+		return wfGetDB( DB_SLAVE, array(), $this->wiki );
 	}
 
 	function hasSharedCache() {
@@ -112,7 +88,7 @@ class ForeignDBViaLBRepo extends LocalRepo {
 	}
 
 	protected function assertWritableRepo() {
-		throw new MWException( static::class . ': write operations are not supported.' );
+		throw new MWException( get_class( $this ) . ': write operations are not supported.' );
 	}
 
 	public function getInfo() {

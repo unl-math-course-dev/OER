@@ -1,17 +1,18 @@
 <?php
 /** Kannada (ಕನ್ನಡ)
  *
- * To improve a translation please visit https://translatewiki.net
+ * See MessagesQqq.php for message documentation incl. usage of parameters
+ * To improve a translation please visit http://translatewiki.net
  *
  * @ingroup Language
  * @file
  *
  * @author Akoppad
- * @author Ashwath Mattur <ashwatham@gmail.com> https://en.wikipedia.org/wiki/User:Ashwatham
+ * @author Ashwath Mattur <ashwatham@gmail.com> http://en.wikipedia.org/wiki/User:Ashwatham
  * @author Dimension10
  * @author Dipin
  * @author HPN
- * @author Hari Prasad Nadig <hpnadig@gmail.com> https://en.wikipedia.org/wiki/User:Hpnadig
+ * @author Hari Prasad Nadig <hpnadig@gmail.com> http://en.wikipedia.org/wiki/User:Hpnadig
  * @author Kaganer
  * @author Ktkaushik
  * @author M G Harish
@@ -29,7 +30,7 @@
  * @author לערי ריינהארט
  */
 
-$namespaceNames = [
+$namespaceNames = array(
 	NS_MEDIA            => 'ಮೀಡಿಯ',
 	NS_SPECIAL          => 'ವಿಶೇಷ',
 	NS_TALK             => 'ಚರ್ಚೆಪುಟ',
@@ -46,19 +47,20 @@ $namespaceNames = [
 	NS_HELP_TALK        => 'ಸಹಾಯ_ಚರ್ಚೆ',
 	NS_CATEGORY         => 'ವರ್ಗ',
 	NS_CATEGORY_TALK    => 'ವರ್ಗ_ಚರ್ಚೆ',
-];
+);
 
-$digitTransformTable = [
-	'0' => '೦', # U+0CE6
-	'1' => '೧', # U+0CE7
-	'2' => '೨', # U+0CE8
-	'3' => '೩', # U+0CE9
-	'4' => '೪', # U+0CEA
-	'5' => '೫', # U+0CEB
-	'6' => '೬', # U+0CEC
-	'7' => '೭', # U+0CED
-	'8' => '೮', # U+0CEE
-	'9' => '೯', # U+0CEF
-];
+$digitTransformTable = array(
+	'0' => '೦', # &#x0ce6;
+	'1' => '೧', # &#x0ce7;
+	'2' => '೨', # &#x0ce8;
+	'3' => '೩', # &#x0ce9;
+	'4' => '೪', # &#x0cea;
+	'5' => '೫', # &#x0ceb;
+	'6' => '೬', # &#x0cec;
+	'7' => '೭', # &#x0ced;
+	'8' => '೮', # &#x0cee;
+	'9' => '೯', # &#x0cef;
+);
 
 $digitGroupingPattern = "##,##,###";
+

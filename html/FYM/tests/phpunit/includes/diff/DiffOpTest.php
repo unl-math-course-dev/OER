@@ -1,6 +1,11 @@
 <?php
+
+//Load our FakeDiffOp
+require_once __DIR__ . DIRECTORY_SEPARATOR . 'FakeDiffOp.php';
+
 /**
- * @author Addshore
+ * @licence GNU GPL v2+
+ * @author Adam Shorland
  *
  * @group Diff
  */
@@ -20,8 +25,8 @@ class DiffOpTest extends MediaWikiTestCase {
 	 */
 	public function testGetOrig() {
 		$obj = new FakeDiffOp();
-		$obj->orig = [ 'foo' ];
-		$this->assertEquals( [ 'foo' ], $obj->getOrig() );
+		$obj->orig = array( 'foo' );
+		$this->assertEquals( array( 'foo' ), $obj->getOrig() );
 	}
 
 	/**
@@ -29,8 +34,8 @@ class DiffOpTest extends MediaWikiTestCase {
 	 */
 	public function testGetClosing() {
 		$obj = new FakeDiffOp();
-		$obj->closing = [ 'foo' ];
-		$this->assertEquals( [ 'foo' ], $obj->getClosing() );
+		$obj->closing = array( 'foo' );
+		$this->assertEquals( array( 'foo' ), $obj->getClosing() );
 	}
 
 	/**
@@ -38,7 +43,7 @@ class DiffOpTest extends MediaWikiTestCase {
 	 */
 	public function testGetClosingWithParameter() {
 		$obj = new FakeDiffOp();
-		$obj->closing = [ 'foo', 'bar', 'baz' ];
+		$obj->closing = array( 'foo', 'bar', 'baz' );
 		$this->assertEquals( 'foo', $obj->getClosing( 0 ) );
 		$this->assertEquals( 'bar', $obj->getClosing( 1 ) );
 		$this->assertEquals( 'baz', $obj->getClosing( 2 ) );
@@ -51,7 +56,7 @@ class DiffOpTest extends MediaWikiTestCase {
 	public function testNorig() {
 		$obj = new FakeDiffOp();
 		$this->assertEquals( 0, $obj->norig() );
-		$obj->orig = [ 'foo' ];
+		$obj->orig = array( 'foo' );
 		$this->assertEquals( 1, $obj->norig() );
 	}
 
@@ -61,7 +66,7 @@ class DiffOpTest extends MediaWikiTestCase {
 	public function testNclosing() {
 		$obj = new FakeDiffOp();
 		$this->assertEquals( 0, $obj->nclosing() );
-		$obj->closing = [ 'foo' ];
+		$obj->closing = array( 'foo' );
 		$this->assertEquals( 1, $obj->nclosing() );
 	}
 

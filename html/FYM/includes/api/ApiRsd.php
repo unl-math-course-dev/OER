@@ -3,6 +3,8 @@
 /**
  * API for MediaWiki 1.17+
  *
+ * Created on October 26, 2010
+ *
  * Copyright © 2010 Bryan Tong Minh and Brion Vibber
  *
  * This program is free software; you can redistribute it and/or modify
@@ -35,15 +37,12 @@ class ApiRsd extends ApiBase {
 		$result->addValue( null, 'version', '1.0' );
 		$result->addValue( null, 'xmlns', 'http://archipelago.phrasewise.com/rsd' );
 
-		$service = [
-			'apis' => $this->formatRsdApiList(),
-			'engineName' => 'MediaWiki',
-			'engineLink' => 'https://www.mediawiki.org/',
-			'homePageLink' => Title::newMainPage()->getCanonicalURL(),
-		];
+		$service = array( 'apis' => $this->formatRsdApiList() );
+		ApiResult::setContent( $service, 'MediaWiki', 'engineName' );
+		ApiResult::setContent( $service, 'https://www.mediawiki.org/', 'engineLink' );
+		ApiResult::setContent( $service, Title::newMainPage()->getCanonicalURL(), 'homePageLink' );
 
-		ApiResult::setSubelementsList( $service, [ 'engineName', 'engineLink', 'homePageLink' ] );
-		ApiResult::setIndexedTagName( $service['apis'], 'api' );
+		$result->setIndexedTagName( $service['apis'], 'api' );
 
 		$result->addValue( null, 'service', $service );
 	}
@@ -52,15 +51,22 @@ class ApiRsd extends ApiBase {
 		return new ApiFormatXmlRsd( $this->getMain(), 'xml' );
 	}
 
-	protected function getExamplesMessages() {
-		return [
-			'action=rsd'
-				=> 'apihelp-rsd-example-simple',
-		];
+	public function getAllowedParams() {
+		return array();
 	}
 
-	public function isReadMode() {
-		return false;
+	public function getParamDescription() {
+		return array();
+	}
+
+	public function getDescription() {
+		return 'Export an RSD (Really Simple Discovery) schema.';
+	}
+
+	public function getExamples() {
+		return array(
+			'api.php?action=rsd'
+		);
 	}
 
 	/**
@@ -73,7 +79,7 @@ class ApiRsd extends ApiBase {
 	 * compatible APIs, by hooking 'ApiRsdServiceApis' and adding more
 	 * elements to the array.
 	 *
-	 * See https://cyber.harvard.edu/blogs/gems/tech/rsd.html for
+	 * See http://cyber.law.harvard.edu/blogs/gems/tech/rsd.html for
 	 * the base RSD spec, and check WordPress and StatusNet sites for
 	 * in-production examples listing several blogging and micrblogging
 	 * APIs.
@@ -81,26 +87,26 @@ class ApiRsd extends ApiBase {
 	 * @return array
 	 */
 	protected function getRsdApiList() {
-		$apis = [
-			'MediaWiki' => [
+		$apis = array(
+			'MediaWiki' => array(
 				// The API link is required for all RSD API entries.
 				'apiLink' => wfExpandUrl( wfScript( 'api' ), PROTO_CURRENT ),
 
 				// Docs link is optional, but recommended.
-				'docs' => 'https://www.mediawiki.org/wiki/Special:MyLanguage/API',
+				'docs' => 'https://www.mediawiki.org/wiki/API',
 
 				// Some APIs may need a blog ID, but it may be left blank.
 				'blogID' => '',
 
 				// Additional settings are optional.
-				'settings' => [
+				'settings' => array(
 					// Change this to true in the future as an aid to
 					// machine discovery of OAuth for API access.
 					'OAuth' => false,
-				]
-			],
-		];
-		Hooks::run( 'ApiRsdServiceApis', [ &$apis ] );
+				)
+			),
+		);
+		wfRunHooks( 'ApiRsdServiceApis', array( &$apis ) );
 
 		return $apis;
 	}
@@ -114,18 +120,17 @@ class ApiRsd extends ApiBase {
 	protected function formatRsdApiList() {
 		$apis = $this->getRsdApiList();
 
-		$outputData = [];
+		$outputData = array();
 		foreach ( $apis as $name => $info ) {
-			$data = [
+			$data = array(
 				'name' => $name,
 				'preferred' => wfBoolToStr( $name == 'MediaWiki' ),
 				'apiLink' => $info['apiLink'],
-				'blogID' => $info['blogID'] ?? '',
-			];
-			$settings = [];
+				'blogID' => isset( $info['blogID'] ) ? $info['blogID'] : '',
+			);
+			$settings = array();
 			if ( isset( $info['docs'] ) ) {
-				$settings['docs'] = $info['docs'];
-				ApiResult::setSubelementsList( $settings, 'docs' );
+				ApiResult::setContent( $settings, $info['docs'], 'docs' );
 			}
 			if ( isset( $info['settings'] ) ) {
 				foreach ( $info['settings'] as $setting => $val ) {
@@ -134,13 +139,13 @@ class ApiRsd extends ApiBase {
 					} else {
 						$xmlVal = $val;
 					}
-					$setting = [ 'name' => $setting ];
-					ApiResult::setContentValue( $setting, 'value', $xmlVal );
+					$setting = array( 'name' => $setting );
+					ApiResult::setContent( $setting, $xmlVal );
 					$settings[] = $setting;
 				}
 			}
 			if ( count( $settings ) ) {
-				ApiResult::setIndexedTagName( $settings, 'setting' );
+				$this->getResult()->setIndexedTagName( $settings, 'setting' );
 				$data['settings'] = $settings;
 			}
 			$outputData[] = $data;
@@ -151,17 +156,12 @@ class ApiRsd extends ApiBase {
 }
 
 class ApiFormatXmlRsd extends ApiFormatXml {
-	public function __construct( ApiMain $main, $format ) {
+	public function __construct( $main, $format ) {
 		parent::__construct( $main, $format );
 		$this->setRootElement( 'rsd' );
 	}
 
 	public function getMimeType() {
 		return 'application/rsd+xml';
-	}
-
-	public static function recXmlPrint( $name, $value, $indent, $attributes = [] ) {
-		unset( $attributes['_idx'] );
-		return parent::recXmlPrint( $name, $value, $indent, $attributes );
 	}
 }

@@ -1,7 +1,8 @@
 <?php
 /** Veps (vepsän kel’)
  *
- * To improve a translation please visit https://translatewiki.net
+ * See MessagesQqq.php for message documentation incl. usage of parameters
+ * To improve a translation please visit http://translatewiki.net
  *
  * @ingroup Language
  * @file
@@ -16,7 +17,7 @@
 
 $fallback = 'et';
 
-$namespaceNames = [
+$namespaceNames = array(
 	NS_MEDIA            => 'Media',
 	NS_SPECIAL          => 'Specialine',
 	NS_TALK             => 'Lodu',
@@ -33,55 +34,56 @@ $namespaceNames = [
 	NS_HELP_TALK        => 'Lodu_abus',
 	NS_CATEGORY         => 'Kategorii',
 	NS_CATEGORY_TALK    => 'Lodu_kategorijas',
-];
+);
 
-$specialPageAliases = [
-	'Allmessages'               => [ 'KaikTedotused' ],
-	'Allpages'                  => [ 'KaikLehtesed' ],
-	'Ancientpages'              => [ 'VanhadLehtpoled' ],
-	'BrokenRedirects'           => [ 'RebitadudLäbikosketused' ],
-	'Categories'                => [ 'Kategorijad' ],
-	'Contributions'             => [ 'Tond' ],
-	'CreateAccount'             => [ 'SätaRegistracii' ],
-	'DoubleRedirects'           => [ 'KaksitadudLäbikosketused' ],
-	'Export'                    => [ 'Eksport' ],
-	'Listusers'                 => [ 'KävutajidenNimikirjutez' ],
-	'Lonelypages'               => [ 'ÜksjäižedLehtpoled', 'ArmotomadLehtesed' ],
-	'Longpages'                 => [ 'Pit\'kädLehtpoled' ],
-	'Mycontributions'           => [ 'MinunTond' ],
-	'Mypage'                    => [ 'MinunLehtpol\'' ],
-	'Mytalk'                    => [ 'MinunLodu' ],
-	'Newimages'                 => [ 'UdedFailad' ],
-	'Newpages'                  => [ 'UdedLehtpoled' ],
-	'Preferences'               => [ 'Järgendused' ],
-	'Protectedpages'            => [ 'KaitudLehtpoled' ],
-	'Protectedtitles'           => [ 'KaitudPälkirjutesed' ],
-	'Recentchanges'             => [ 'TantoižedToižetused' ],
-	'Search'                    => [ 'Ectä' ],
-	'Shortpages'                => [ 'LühüdadLehtpoled' ],
-	'Specialpages'              => [ 'SpecialižedLehtpoled' ],
-	'Statistics'                => [ 'Statistikad' ],
-	'Upload'                    => [ 'Jügutoitta' ],
-	'Userlogin'                 => [ 'KävutajanTulendnimi' ],
-	'Userlogout'                => [ 'KävutajanLäntend' ],
-	'Version'                   => [ 'Versii' ],
-	'Wantedfiles'               => [ 'VarastadudFailad' ],
-	'Watchlist'                 => [ 'KaclendNimikirjutez' ],
-];
+$specialPageAliases = array(
+	'Allmessages'               => array( 'KaikTedotused' ),
+	'Allpages'                  => array( 'KaikLehtesed' ),
+	'Ancientpages'              => array( 'VanhadLehtpoled' ),
+	'BrokenRedirects'           => array( 'RebitadudLäbikosketused' ),
+	'Categories'                => array( 'Kategorijad' ),
+	'Contributions'             => array( 'Tond' ),
+	'CreateAccount'             => array( 'SätaRegistracii' ),
+	'DoubleRedirects'           => array( 'KaksitadudLäbikosketused' ),
+	'Export'                    => array( 'Eksport' ),
+	'Listusers'                 => array( 'KävutajidenNimikirjutez' ),
+	'Lonelypages'               => array( 'ÜksjäižedLehtpoled', 'ArmotomadLehtesed' ),
+	'Longpages'                 => array( 'Pit\'kädLehtpoled' ),
+	'Mycontributions'           => array( 'MinunTond' ),
+	'Mypage'                    => array( 'MinunLehtpol\'' ),
+	'Mytalk'                    => array( 'MinunLodu' ),
+	'Newimages'                 => array( 'UdedFailad' ),
+	'Newpages'                  => array( 'UdedLehtpoled' ),
+	'Preferences'               => array( 'Järgendused' ),
+	'Protectedpages'            => array( 'KaitudLehtpoled' ),
+	'Protectedtitles'           => array( 'KaitudPälkirjutesed' ),
+	'Recentchanges'             => array( 'TantoižedToižetused' ),
+	'Search'                    => array( 'Ectä' ),
+	'Shortpages'                => array( 'LühüdadLehtpoled' ),
+	'Specialpages'              => array( 'SpecialižedLehtpoled' ),
+	'Statistics'                => array( 'Statistikad' ),
+	'Upload'                    => array( 'Jügutoitta' ),
+	'Userlogin'                 => array( 'KävutajanTulendnimi' ),
+	'Userlogout'                => array( 'KävutajanLäntend' ),
+	'Version'                   => array( 'Versii' ),
+	'Wantedfiles'               => array( 'VarastadudFailad' ),
+	'Watchlist'                 => array( 'KaclendNimikirjutez' ),
+);
 
-$magicWords = [
-	'img_right'                 => [ '1', 'oiged', 'paremal', 'right' ],
-	'img_left'                  => [ '1', 'hura', 'vasakul', 'left' ],
-	'img_none'                  => [ '1', 'eile', 'tühi', 'none' ],
-	'img_width'                 => [ '1', '$1piks', '$1px' ],
-	'img_border'                => [ '1', 'röun', 'ääris', 'border' ],
-	'img_top'                   => [ '1', 'üläh', 'top' ],
-	'img_middle'                => [ '1', 'kesk', 'middle' ],
-	'img_bottom'                => [ '1', 'ala', 'bottom' ],
-	'sitename'                  => [ '1', 'SAITANNIMI', 'KOHANIMI', 'SITENAME' ],
-	'grammar'                   => [ '0', 'GRAMMATIK:', 'GRAMMAR:' ],
-	'gender'                    => [ '0', 'SUGU:', 'GENDER:' ],
-	'plural'                    => [ '0', 'ÄILUGU:', 'PLURAL:' ],
-	'fullurl'                   => [ '0', 'TÄUZ\'URL:', 'KOGUURL:', 'FULLURL:' ],
-	'index'                     => [ '1', '__INDEKS__', 'INDEKSIGA', '__INDEX__' ],
-];
+$magicWords = array(
+	'img_right'                 => array( '1', 'oiged', 'paremal', 'right' ),
+	'img_left'                  => array( '1', 'hura', 'vasakul', 'left' ),
+	'img_none'                  => array( '1', 'eile', 'tühi', 'none' ),
+	'img_width'                 => array( '1', '$1piks', '$1px' ),
+	'img_border'                => array( '1', 'röun', 'ääris', 'border' ),
+	'img_top'                   => array( '1', 'üläh', 'top' ),
+	'img_middle'                => array( '1', 'kesk', 'middle' ),
+	'img_bottom'                => array( '1', 'ala', 'bottom' ),
+	'sitename'                  => array( '1', 'SAITANNIMI', 'KOHANIMI', 'SITENAME' ),
+	'grammar'                   => array( '0', 'GRAMMATIK:', 'GRAMMAR:' ),
+	'gender'                    => array( '0', 'SUGU:', 'GENDER:' ),
+	'plural'                    => array( '0', 'ÄILUGU:', 'PLURAL:' ),
+	'fullurl'                   => array( '0', 'TÄUZ\'URL:', 'KOGUURL:', 'FULLURL:' ),
+	'index'                     => array( '1', '__INDEKS__', 'INDEKSIGA', '__INDEX__' ),
+);
+

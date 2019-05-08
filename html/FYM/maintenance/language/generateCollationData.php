@@ -48,7 +48,7 @@ class GenerateCollationData extends Maintenance {
 	 * Important tertiary weights from UTS #10 section 7.2
 	 */
 	const NORMAL_UPPERCASE = 0x08;
-	const NORMAL_HIRAGANA = 0x0E;
+	const NORMAL_HIRAGANA = 0X0E;
 
 	public function __construct() {
 		parent::__construct();
@@ -67,11 +67,11 @@ class GenerateCollationData extends Maintenance {
 
 		// As of January 2013, these links work for all versions of Unicode
 		// between 5.1 and 6.2, inclusive.
-		$allkeysURL = "https://www.unicode.org/Public/UCA/<Unicode version>/allkeys.txt";
-		$ucdallURL = "https://www.unicode.org/Public/<Unicode version>/ucdxml/ucd.all.grouped.zip";
+		$allkeysURL = "http://www.unicode.org/Public/UCA/<Unicode version>/allkeys.txt";
+		$ucdallURL = "http://www.unicode.org/Public/<Unicode version>/ucdxml/ucd.all.grouped.zip";
 
 		if ( !$allkeysPresent || !$ucdallPresent ) {
-			$icuVersion = INTL_ICU_VERSION;
+			$icuVersion = IcuCollation::getICUVersion();
 			$unicodeVersion = IcuCollation::getUnicodeVersionForICU();
 
 			$error = "";
@@ -88,7 +88,16 @@ class GenerateCollationData extends Maintenance {
 			}
 
 			$versionKnown = false;
-			if ( version_compare( $icuVersion, "4.0", "<" ) ) {
+			if ( !$icuVersion ) {
+				// Unknown version - either very old intl,
+				// or PHP < 5.3.7 which does not expose this information
+				$error .= "As MediaWiki could not determine the version of ICU library used by your PHP's "
+					. "intl extension it can't suggest which file version to download. "
+					. "This can be caused by running a very old version of intl or PHP < 5.3.7. "
+					. "If you are sure everything is all right, find out the ICU version "
+					. "by running phpinfo(), check what is the Unicode version it is using "
+					. "at http://site.icu-project.org/download, then try finding appropriate data file(s) at:";
+			} elseif ( version_compare( $icuVersion, "4.0", "<" ) ) {
 				// Extra old version
 				$error .= "You are using outdated version of ICU ($icuVersion), intended for "
 					. ( $unicodeVersion ? "Unicode $unicodeVersion" : "an unknown version of Unicode" )
@@ -122,14 +131,16 @@ class GenerateCollationData extends Maintenance {
 				$error .= "* $ucdallURL\n";
 			}
 
-			$this->fatalError( $error );
+			$this->error( $error );
+			exit( 1 );
 		}
 
 		$debugOutFileName = $this->getOption( 'debug-output' );
 		if ( $debugOutFileName ) {
 			$this->debugOutFile = fopen( $debugOutFileName, 'w' );
 			if ( !$this->debugOutFile ) {
-				$this->fatalError( "Unable to open debug output file for writing" );
+				$this->error( "Unable to open debug output file for writing" );
+				exit( 1 );
 			}
 		}
 		$this->loadUcd();
@@ -138,7 +149,7 @@ class GenerateCollationData extends Maintenance {
 
 	function loadUcd() {
 		$uxr = new UcdXmlReader( "{$this->dataDir}/ucd.all.grouped.xml" );
-		$uxr->readChars( [ $this, 'charCallback' ] );
+		$uxr->readChars( array( $this, 'charCallback' ) );
 	}
 
 	function charCallback( $data ) {
@@ -194,10 +205,17 @@ class GenerateCollationData extends Maintenance {
 	function generateFirstChars() {
 		$file = fopen( "{$this->dataDir}/allkeys.txt", 'r' );
 		if ( !$file ) {
-			$this->fatalError( "Unable to open allkeys.txt" );
+			$this->error( "Unable to open allkeys.txt" );
+			exit( 1 );
+		}
+		global $IP;
+		$outFile = fopen( "$IP/serialized/first-letters-root.ser", 'w' );
+		if ( !$outFile ) {
+			$this->error( "Unable to open output file first-letters-root.ser" );
+			exit( 1 );
 		}
 
-		$goodTertiaryChars = [];
+		$goodTertiaryChars = array();
 
 		// For each character with an entry in allkeys.txt, overwrite the implicit
 		// entry in $this->weights that came from the UCD.
@@ -239,10 +257,10 @@ class GenerateCollationData extends Maintenance {
 		fclose( $file );
 
 		// Identify groups of characters with the same primary weight
-		$this->groups = [];
+		$this->groups = array();
 		asort( $this->weights, SORT_STRING );
 		$prevWeight = reset( $this->weights );
-		$group = [];
+		$group = array();
 		foreach ( $this->weights as $cp => $weight ) {
 			if ( $weight !== $prevWeight ) {
 				$this->groups[$prevWeight] = $group;
@@ -250,7 +268,7 @@ class GenerateCollationData extends Maintenance {
 				if ( isset( $this->groups[$weight] ) ) {
 					$group = $this->groups[$weight];
 				} else {
-					$group = [];
+					$group = array();
 				}
 			}
 			$group[] = $cp;
@@ -263,7 +281,7 @@ class GenerateCollationData extends Maintenance {
 		// character has a longer primary weight sequence with an initial
 		// portion equal to the first character, then remove the second
 		// character. This avoids having characters like U+A732 (double A)
-		// polluting the basic Latin sort area.
+		// polluting the basic latin sort area.
 
 		foreach ( $this->groups as $weight => $group ) {
 			if ( preg_match( '/(\.[0-9A-F]*)\./', $weight, $m ) ) {
@@ -276,15 +294,15 @@ class GenerateCollationData extends Maintenance {
 		ksort( $this->groups, SORT_STRING );
 
 		// Identify the header character in each group
-		$headerChars = [];
+		$headerChars = array();
 		$prevChar = "\000";
 		$tertiaryCollator = new Collator( 'root' );
 		$primaryCollator = new Collator( 'root' );
 		$primaryCollator->setStrength( Collator::PRIMARY );
 		$numOutOfOrder = 0;
 		foreach ( $this->groups as $weight => $group ) {
-			$uncomposedChars = [];
-			$goodChars = [];
+			$uncomposedChars = array();
+			$goodChars = array();
 			foreach ( $group as $cp ) {
 				if ( isset( $goodTertiaryChars[$cp] ) ) {
 					$goodChars[] = $cp;
@@ -305,28 +323,27 @@ class GenerateCollationData extends Maintenance {
 			$tertiaryCollator->sort( $x );
 			$cp = $x[0];
 
-			$char = UtfNormal\Utils::codepointToUtf8( $cp );
+			$char = codepointToUtf8( $cp );
 			$headerChars[] = $char;
 			if ( $primaryCollator->compare( $char, $prevChar ) <= 0 ) {
 				$numOutOfOrder++;
+				/*
+				printf( "Out of order: U+%05X > U+%05X\n",
+					utf8ToCodepoint( $prevChar ),
+					utf8ToCodepoint( $char ) );
+				 */
 			}
 			$prevChar = $char;
 
 			if ( $this->debugOutFile ) {
 				fwrite( $this->debugOutFile, sprintf( "%05X %s %s (%s)\n", $cp, $weight, $char,
-					implode( ' ', array_map( 'UtfNormal\Utils::codepointToUtf8', $group ) ) ) );
+					implode( ' ', array_map( 'codepointToUtf8', $group ) ) ) );
 			}
 		}
 
 		print "Out of order: $numOutOfOrder / " . count( $headerChars ) . "\n";
 
-		global $IP;
-		$writer = new StaticArrayWriter();
-		file_put_contents(
-			"$IP/includes/collation/data/first-letters-root.php",
-			$writer->create( $headerChars, 'File created by generateCollationData.php' )
-		);
-		echo "first-letters-root: file written.\n";
+		fwrite( $outFile, serialize( $headerChars ) );
 	}
 }
 
@@ -335,7 +352,7 @@ class UcdXmlReader {
 	public $callback;
 	public $groupAttrs;
 	public $xml;
-	public $blocks = [];
+	public $blocks = array();
 	public $currentBlock;
 
 	function __construct( $fileName ) {
@@ -359,7 +376,7 @@ class UcdXmlReader {
 				}
 			} elseif ( $xml->nodeType === XMLReader::END_ELEMENT ) {
 				if ( $xml->name === 'group' ) {
-					$this->groupAttrs = [];
+					$this->groupAttrs = array();
 				}
 			}
 		}
@@ -384,7 +401,7 @@ class UcdXmlReader {
 	 * @return array
 	 */
 	protected function readAttributes() {
-		$attrs = [];
+		$attrs = array();
 		while ( $this->xml->moveToNextAttribute() ) {
 			$attrs[$this->xml->name] = $this->xml->value;
 		}
@@ -405,7 +422,7 @@ class UcdXmlReader {
 
 		for ( $cp = $first; $cp <= $last; $cp++ ) {
 			$hexCp = sprintf( "%04X", $cp );
-			foreach ( [ 'na', 'na1' ] as $nameProp ) {
+			foreach ( array( 'na', 'na1' ) as $nameProp ) {
 				if ( isset( $attrs[$nameProp] ) ) {
 					$attrs[$nameProp] = str_replace( '#', $hexCp, $attrs[$nameProp] );
 				}
@@ -441,7 +458,7 @@ class UcdXmlReader {
 					$attrs = $this->readAttributes();
 					$first = hexdec( $attrs['first-cp'] );
 					$last = hexdec( $attrs['last-cp'] );
-					$this->blocks[$attrs['name']] = [ $first, $last ];
+					$this->blocks[$attrs['name']] = array( $first, $last );
 				}
 			}
 		}
@@ -451,5 +468,5 @@ class UcdXmlReader {
 	}
 }
 
-$maintClass = GenerateCollationData::class;
+$maintClass = 'GenerateCollationData';
 require_once RUN_MAINTENANCE_IF_MAIN;

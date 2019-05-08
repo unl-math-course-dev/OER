@@ -25,24 +25,25 @@
  * two-part external storage URLs. Used for represent efficient concatenated
  * storage, and migration-related pointer objects.
  */
-interface HistoryBlob {
+interface HistoryBlob
+{
 	/**
 	 * Adds an item of text, returns a stub object which points to the item.
 	 * You must call setLocation() on the stub object before storing it to the
 	 * database
 	 *
-	 * @param string $text
+	 * @param $text string
 	 *
-	 * @return string The key for getItem()
+	 * @return String: the key for getItem()
 	 */
 	function addItem( $text );
 
 	/**
 	 * Get item by key, or false if the key is not present
 	 *
-	 * @param string $key
+	 * @param $key string
 	 *
-	 * @return string|bool
+	 * @return String or false
 	 */
 	function getItem( $key );
 
@@ -54,14 +55,14 @@ interface HistoryBlob {
 	 *
 	 * Default text is not required for two-part external storage URLs.
 	 *
-	 * @param string $text
+	 * @param $text string
 	 */
 	function setText( $text );
 
 	/**
 	 * Get default text. This is called from Revision::getRevisionText()
 	 *
-	 * @return string
+	 * @return String
 	 */
 	function getText();
 }
@@ -70,21 +71,24 @@ interface HistoryBlob {
  * Concatenated gzip (CGZ) storage
  * Improves compression ratio by concatenating like objects before gzipping
  */
-class ConcatenatedGzipHistoryBlob implements HistoryBlob {
-	public $mVersion = 0, $mCompressed = false, $mItems = [], $mDefaultHash = '';
+class ConcatenatedGzipHistoryBlob implements HistoryBlob
+{
+	public $mVersion = 0, $mCompressed = false, $mItems = array(), $mDefaultHash = '';
 	public $mSize = 0;
 	public $mMaxSize = 10000000;
 	public $mMaxCount = 100;
 
+	/**
+	 * Constructor
+	 */
 	public function __construct() {
 		if ( !function_exists( 'gzdeflate' ) ) {
-			throw new MWException( "Need zlib support to read or write this "
-				. "kind of history object (ConcatenatedGzipHistoryBlob)\n" );
+			throw new MWException( "Need zlib support to read or write this kind of history object (ConcatenatedGzipHistoryBlob)\n" );
 		}
 	}
 
 	/**
-	 * @param string $text
+	 * @param $text string
 	 * @return string
 	 */
 	public function addItem( $text ) {
@@ -98,7 +102,7 @@ class ConcatenatedGzipHistoryBlob implements HistoryBlob {
 	}
 
 	/**
-	 * @param string $hash
+	 * @param $hash string
 	 * @return array|bool
 	 */
 	public function getItem( $hash ) {
@@ -111,7 +115,7 @@ class ConcatenatedGzipHistoryBlob implements HistoryBlob {
 	}
 
 	/**
-	 * @param string $text
+	 * @param $text string
 	 * @return void
 	 */
 	public function setText( $text ) {
@@ -130,7 +134,7 @@ class ConcatenatedGzipHistoryBlob implements HistoryBlob {
 	/**
 	 * Remove an item
 	 *
-	 * @param string $hash
+	 * @param $hash string
 	 */
 	public function removeItem( $hash ) {
 		$this->mSize -= strlen( $this->mItems[$hash] );
@@ -162,7 +166,7 @@ class ConcatenatedGzipHistoryBlob implements HistoryBlob {
 	 */
 	function __sleep() {
 		$this->compress();
-		return [ 'mVersion', 'mCompressed', 'mItems', 'mDefaultHash' ];
+		return array( 'mVersion', 'mCompressed', 'mItems', 'mDefaultHash' );
 	}
 
 	function __wakeup() {
@@ -186,25 +190,18 @@ class ConcatenatedGzipHistoryBlob implements HistoryBlob {
  */
 class HistoryBlobStub {
 	/**
-	 * @var array One-step cache variable to hold base blobs; operations that
-	 * pull multiple revisions may often pull multiple times from the same
-	 * blob. By keeping the last-used one open, we avoid redundant
-	 * unserialization and decompression overhead.
+	 * One-step cache variable to hold base blobs; operations that
+	 * pull multiple revisions may often pull multiple times from
+	 * the same blob. By keeping the last-used one open, we avoid
+	 * redundant unserialization and decompression overhead.
 	 */
-	protected static $blobCache = [];
+	protected static $blobCache = array();
 
-	/** @var int */
-	public $mOldId;
-
-	/** @var string */
-	public $mHash;
-
-	/** @var string */
-	public $mRef;
+	var $mOldId, $mHash, $mRef;
 
 	/**
-	 * @param string $hash The content hash of the text
-	 * @param int $oldid The old_id for the CGZ object
+	 * @param string $hash the content hash of the text
+	 * @param $oldid Integer the old_id for the CGZ object
 	 */
 	function __construct( $hash = '', $oldid = 0 ) {
 		$this->mHash = $hash;
@@ -213,7 +210,6 @@ class HistoryBlobStub {
 	/**
 	 * Sets the location (old_id) of the main object to which this object
 	 * points
-	 * @param int $id
 	 */
 	function setLocation( $id ) {
 		$this->mOldId = $id;
@@ -221,7 +217,6 @@ class HistoryBlobStub {
 
 	/**
 	 * Sets the location (old_id) of the referring object
-	 * @param string $id
 	 */
 	function setReferrer( $id ) {
 		$this->mRef = $id;
@@ -229,30 +224,23 @@ class HistoryBlobStub {
 
 	/**
 	 * Gets the location of the referring object
-	 * @return string
 	 */
 	function getReferrer() {
 		return $this->mRef;
 	}
 
 	/**
-	 * @return string|false
+	 * @return string
 	 */
 	function getText() {
 		if ( isset( self::$blobCache[$this->mOldId] ) ) {
 			$obj = self::$blobCache[$this->mOldId];
 		} else {
-			$dbr = wfGetDB( DB_REPLICA );
-			$row = $dbr->selectRow(
-				'text',
-				[ 'old_flags', 'old_text' ],
-				[ 'old_id' => $this->mOldId ]
-			);
-
+			$dbr = wfGetDB( DB_SLAVE );
+			$row = $dbr->selectRow( 'text', array( 'old_flags', 'old_text' ), array( 'old_id' => $this->mOldId ) );
 			if ( !$row ) {
 				return false;
 			}
-
 			$flags = explode( ',', $row->old_flags );
 			if ( in_array( 'external', $flags ) ) {
 				$url = $row->old_text;
@@ -260,10 +248,9 @@ class HistoryBlobStub {
 				if ( !isset( $parts[1] ) || $parts[1] == '' ) {
 					return false;
 				}
-				$row->old_text = ExternalStore::fetchFromURL( $url );
+				$row->old_text = ExternalStore::fetchFromUrl( $url );
 
 			}
-
 			if ( !in_array( 'object', $flags ) ) {
 				return false;
 			}
@@ -284,9 +271,8 @@ class HistoryBlobStub {
 			// Save this item for reference; if pulling many
 			// items in a row we'll likely use it again.
 			$obj->uncompress();
-			self::$blobCache = [ $this->mOldId => $obj ];
+			self::$blobCache = array( $this->mOldId => $obj );
 		}
-
 		return $obj->getItem( $this->mHash );
 	}
 
@@ -309,11 +295,10 @@ class HistoryBlobStub {
  * on conversion if $wgLegacySchemaConversion is set to true.
  */
 class HistoryBlobCurStub {
-	/** @var int */
-	public $mCurId;
+	var $mCurId;
 
 	/**
-	 * @param int $curid The cur_id pointed to
+	 * @param $curid Integer: the cur_id pointed to
 	 */
 	function __construct( $curid = 0 ) {
 		$this->mCurId = $curid;
@@ -323,7 +308,7 @@ class HistoryBlobCurStub {
 	 * Sets the location (cur_id) of the main object to which this object
 	 * points
 	 *
-	 * @param int $id
+	 * @param $id int
 	 */
 	function setLocation( $id ) {
 		$this->mCurId = $id;
@@ -333,8 +318,8 @@ class HistoryBlobCurStub {
 	 * @return string|bool
 	 */
 	function getText() {
-		$dbr = wfGetDB( DB_REPLICA );
-		$row = $dbr->selectRow( 'cur', [ 'cur_text' ], [ 'cur_id' => $this->mCurId ] );
+		$dbr = wfGetDB( DB_SLAVE );
+		$row = $dbr->selectRow( 'cur', array( 'cur_text' ), array( 'cur_id' => $this->mCurId ) );
 		if ( !$row ) {
 			return false;
 		}
@@ -347,43 +332,50 @@ class HistoryBlobCurStub {
  * Requires xdiff 1.5+ and zlib
  */
 class DiffHistoryBlob implements HistoryBlob {
-	/** @var array Uncompressed item cache */
-	public $mItems = [];
+	/** Uncompressed item cache */
+	var $mItems = array();
 
-	/** @var int Total uncompressed size */
-	public $mSize = 0;
+	/** Total uncompressed size */
+	var $mSize = 0;
 
 	/**
-	 * @var array Array of diffs. If a diff D from A to B is notated D = B - A,
-	 * and Z is an empty string:
+	 * Array of diffs. If a diff D from A to B is notated D = B - A, and Z is
+	 * an empty string:
 	 *
 	 *              { item[map[i]] - item[map[i-1]]   where i > 0
 	 *    diff[i] = {
 	 *              { item[map[i]] - Z                where i = 0
 	 */
-	public $mDiffs;
+	var $mDiffs;
 
-	/** @var array The diff map, see above */
-	public $mDiffMap;
-
-	/** @var int The key for getText()
-	 */
-	public $mDefaultKey;
-
-	/** @var string Compressed storage */
-	public $mCompressed;
-
-	/** @var bool True if the object is locked against further writes */
-	public $mFrozen = false;
+	/** The diff map, see above */
+	var $mDiffMap;
 
 	/**
-	 * @var int The maximum uncompressed size before the object becomes sad
+	 * The key for getText()
+	 */
+	var $mDefaultKey;
+
+	/**
+	 * Compressed storage
+	 */
+	var $mCompressed;
+
+	/**
+	 * True if the object is locked against further writes
+	 */
+	var $mFrozen = false;
+
+	/**
+	 * The maximum uncompressed size before the object becomes sad
 	 * Should be less than max_allowed_packet
 	 */
-	public $mMaxSize = 10000000;
+	var $mMaxSize = 10000000;
 
-	/** @var int The maximum number of text items before the object becomes sad */
-	public $mMaxCount = 100;
+	/**
+	 * The maximum number of text items before the object becomes sad
+	 */
+	var $mMaxCount = 100;
 
 	/** Constants from xdiff.h */
 	const XDL_BDOP_INS = 1;
@@ -398,7 +390,7 @@ class DiffHistoryBlob implements HistoryBlob {
 
 	/**
 	 * @throws MWException
-	 * @param string $text
+	 * @param $text string
 	 * @return int
 	 */
 	function addItem( $text ) {
@@ -413,7 +405,7 @@ class DiffHistoryBlob implements HistoryBlob {
 	}
 
 	/**
-	 * @param string $key
+	 * @param $key string
 	 * @return string
 	 */
 	function getItem( $key ) {
@@ -421,7 +413,7 @@ class DiffHistoryBlob implements HistoryBlob {
 	}
 
 	/**
-	 * @param string $text
+	 * @param $text string
 	 */
 	function setText( $text ) {
 		$this->mDefaultKey = $this->addItem( $text );
@@ -451,22 +443,21 @@ class DiffHistoryBlob implements HistoryBlob {
 		}
 
 		// Create two diff sequences: one for main text and one for small text
-		$sequences = [
-			'small' => [
+		$sequences = array(
+			'small' => array(
 				'tail' => '',
-				'diffs' => [],
-				'map' => [],
-			],
-			'main' => [
+				'diffs' => array(),
+				'map' => array(),
+			),
+			'main' => array(
 				'tail' => '',
-				'diffs' => [],
-				'map' => [],
-			],
-		];
+				'diffs' => array(),
+				'map' => array(),
+			),
+		);
 		$smallFactor = 0.5;
 
-		$mItemsCount = count( $this->mItems );
-		for ( $i = 0; $i < $mItemsCount; $i++ ) {
+		for ( $i = 0; $i < count( $this->mItems ); $i++ ) {
 			$text = $this->mItems[$i];
 			if ( $i == 0 ) {
 				$seqName = 'main';
@@ -489,8 +480,8 @@ class DiffHistoryBlob implements HistoryBlob {
 
 		// Knit the sequences together
 		$tail = '';
-		$this->mDiffs = [];
-		$this->mDiffMap = [];
+		$this->mDiffs = array();
+		$this->mDiffMap = array();
 		foreach ( $sequences as $seq ) {
 			if ( !count( $seq['diffs'] ) ) {
 				continue;
@@ -502,8 +493,7 @@ class DiffHistoryBlob implements HistoryBlob {
 				$this->mDiffs[] = $this->diff( $tail, $head );
 			}
 			$this->mDiffMap[] = $seq['map'][0];
-			$diffsCount = count( $seq['diffs'] );
-			for ( $i = 1; $i < $diffsCount; $i++ ) {
+			for ( $i = 1; $i < count( $seq['diffs'] ); $i++ ) {
 				$this->mDiffs[] = $seq['diffs'][$i];
 				$this->mDiffMap[] = $seq['map'][$i];
 			}
@@ -512,29 +502,29 @@ class DiffHistoryBlob implements HistoryBlob {
 	}
 
 	/**
-	 * @param string $t1
-	 * @param string $t2
+	 * @param $t1
+	 * @param $t2
 	 * @return string
 	 */
 	function diff( $t1, $t2 ) {
 		# Need to do a null concatenation with warnings off, due to bugs in the current version of xdiff
 		# "String is not zero-terminated"
-		Wikimedia\suppressWarnings();
+		wfSuppressWarnings();
 		$diff = xdiff_string_rabdiff( $t1, $t2 ) . '';
-		Wikimedia\restoreWarnings();
+		wfRestoreWarnings();
 		return $diff;
 	}
 
 	/**
-	 * @param string $base
-	 * @param string $diff
+	 * @param $base
+	 * @param $diff
 	 * @return bool|string
 	 */
 	function patch( $base, $diff ) {
 		if ( function_exists( 'xdiff_string_bpatch' ) ) {
-			Wikimedia\suppressWarnings();
+			wfSuppressWarnings();
 			$text = xdiff_string_bpatch( $base, $diff ) . '';
-			Wikimedia\restoreWarnings();
+			wfRestoreWarnings();
 			return $text;
 		}
 
@@ -560,26 +550,26 @@ class DiffHistoryBlob implements HistoryBlob {
 			$op = $x['op'];
 			++$p;
 			switch ( $op ) {
-				case self::XDL_BDOP_INS:
-					$x = unpack( 'Csize', substr( $diff, $p, 1 ) );
-					$p++;
-					$out .= substr( $diff, $p, $x['size'] );
-					$p += $x['size'];
-					break;
-				case self::XDL_BDOP_INSB:
-					$x = unpack( 'Vcsize', substr( $diff, $p, 4 ) );
-					$p += 4;
-					$out .= substr( $diff, $p, $x['csize'] );
-					$p += $x['csize'];
-					break;
-				case self::XDL_BDOP_CPY:
-					$x = unpack( 'Voff/Vcsize', substr( $diff, $p, 8 ) );
-					$p += 8;
-					$out .= substr( $base, $x['off'], $x['csize'] );
-					break;
-				default:
-					wfDebug( __METHOD__ . ": invalid op\n" );
-					return false;
+			case self::XDL_BDOP_INS:
+				$x = unpack( 'Csize', substr( $diff, $p, 1 ) );
+				$p++;
+				$out .= substr( $diff, $p, $x['size'] );
+				$p += $x['size'];
+				break;
+			case self::XDL_BDOP_INSB:
+				$x = unpack( 'Vcsize', substr( $diff, $p, 4 ) );
+				$p += 4;
+				$out .= substr( $diff, $p, $x['csize'] );
+				$p += $x['csize'];
+				break;
+			case self::XDL_BDOP_CPY:
+				$x = unpack( 'Voff/Vcsize', substr( $diff, $p, 8 ) );
+				$p += 8;
+				$out .= substr( $base, $x['off'], $x['csize'] );
+				break;
+			default:
+				wfDebug( __METHOD__ . ": invalid op\n" );
+				return false;
 			}
 		}
 		return $out;
@@ -587,10 +577,10 @@ class DiffHistoryBlob implements HistoryBlob {
 
 	/**
 	 * Compute a binary "Adler-32" checksum as defined by LibXDiff, i.e. with
-	 * the bytes backwards and initialised with 0 instead of 1. See T36428.
+	 * the bytes backwards and initialised with 0 instead of 1. See bug 34428.
 	 *
 	 * @param string $s
-	 * @return string|bool False if the hash extension is not available
+	 * @return string|bool: false if the hash extension is not available
 	 */
 	function xdiffAdler32( $s ) {
 		if ( !function_exists( 'hash' ) ) {
@@ -613,8 +603,7 @@ class DiffHistoryBlob implements HistoryBlob {
 			return;
 		}
 		$tail = '';
-		$mDiffsCount = count( $this->mDiffs );
-		for ( $diffKey = 0; $diffKey < $mDiffsCount; $diffKey++ ) {
+		for ( $diffKey = 0; $diffKey < count( $this->mDiffs ); $diffKey++ ) {
 			$textKey = $this->mDiffMap[$diffKey];
 			$text = $this->patch( $tail, $this->mDiffs[$diffKey] );
 			$this->mItems[$textKey] = $text;
@@ -641,16 +630,16 @@ class DiffHistoryBlob implements HistoryBlob {
 				$map .= $i - $prev;
 				$prev = $i;
 			}
-			$info = [
+			$info = array(
 				'diffs' => $this->mDiffs,
 				'map' => $map
-			];
+			);
 		}
 		if ( isset( $this->mDefaultKey ) ) {
 			$info['default'] = $this->mDefaultKey;
 		}
 		$this->mCompressed = gzdeflate( serialize( $info ) );
-		return [ 'mCompressed' ];
+		return array( 'mCompressed' );
 	}
 
 	function __wakeup() {
@@ -678,7 +667,7 @@ class DiffHistoryBlob implements HistoryBlob {
 			// New format
 			$map = explode( ',', $info['map'] );
 			$cur = 0;
-			$this->mDiffMap = [];
+			$this->mDiffMap = array();
 			foreach ( $map as $i ) {
 				$cur += $i;
 				$this->mDiffMap[] = $cur;
@@ -698,16 +687,4 @@ class DiffHistoryBlob implements HistoryBlob {
 			&& count( $this->mItems ) < $this->mMaxCount;
 	}
 
-}
-
-// phpcs:ignore Generic.CodeAnalysis.UnconditionalIfStatement.Found
-if ( false ) {
-	// Blobs generated by MediaWiki < 1.5 on PHP 4 were serialized with the
-	// class name coerced to lowercase. We can improve efficiency by adding
-	// autoload entries for the lowercase variants of these classes (T166759).
-	// The code below is never executed, but it is picked up by the AutoloadGenerator
-	// parser, which scans for class_alias() calls.
-	class_alias( ConcatenatedGzipHistoryBlob::class, 'concatenatedgziphistoryblob' );
-	class_alias( HistoryBlobCurStub::class, 'historyblobcurstub' );
-	class_alias( HistoryBlobStub::class, 'historyblobstub' );
 }

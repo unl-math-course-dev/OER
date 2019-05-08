@@ -19,7 +19,7 @@
  *
  * @file
  * @author Niklas Laxström
- * @license GPL-2.0-or-later
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License 2.0 or later
  * @since 1.22
  */
 
@@ -31,17 +31,9 @@
 class DeleteLogFormatter extends LogFormatter {
 	protected function getMessageKey() {
 		$key = parent::getMessageKey();
-		if ( in_array( $this->entry->getSubtype(), [ 'event', 'revision' ] ) ) {
+		if ( in_array( $this->entry->getSubtype(), array( 'event', 'revision' ) ) ) {
 			if ( count( $this->getMessageParameters() ) < 5 ) {
-				// Messages: logentry-delete-event-legacy, logentry-delete-revision-legacy,
-				// logentry-suppress-event-legacy, logentry-suppress-revision-legacy
 				return "$key-legacy";
-			}
-		} elseif ( $this->entry->getSubtype() === 'restore' ) {
-			$rawParams = $this->entry->getParameters();
-			if ( !isset( $rawParams[':assoc:count'] ) ) {
-				// Message: logentry-delete-restore-nocount
-				return $key . '-nocount';
 			}
 		}
 
@@ -55,31 +47,28 @@ class DeleteLogFormatter extends LogFormatter {
 
 		$params = parent::getMessageParameters();
 		$subtype = $this->entry->getSubtype();
-		if ( in_array( $subtype, [ 'event', 'revision' ] ) ) {
+		if ( in_array( $subtype, array( 'event', 'revision' ) ) ) {
 			// $params[3] here is 'revision' or 'archive' for page revisions, 'oldimage' or
 			// 'filearchive' for file versions, or a comma-separated list of log_ids for log
 			// entries. $subtype here is 'revision' for page revisions and file
 			// versions, or 'event' for log entries.
-			if (
-				( $subtype === 'event' && count( $params ) === 6 )
-				|| (
-					$subtype === 'revision' && isset( $params[3] )
-					&& in_array( $params[3], [ 'revision', 'archive', 'oldimage', 'filearchive' ] )
+			if ( ( $subtype === 'event' && count( $params ) === 6 )
+				|| ( $subtype === 'revision' && isset( $params[3] )
+					&& ( $params[3] === 'revision' || $params[3] === 'oldimage'
+						|| $params[3] === 'archive' || $params[3] === 'filearchive' )
 				)
 			) {
-				// See RevDelList::getLogParams()/RevDelLogList::getLogParams()
 				$paramStart = $subtype === 'revision' ? 4 : 3;
 
 				$old = $this->parseBitField( $params[$paramStart + 1] );
 				$new = $this->parseBitField( $params[$paramStart + 2] );
 				list( $hid, $unhid, $extra ) = RevisionDeleter::getChanges( $new, $old );
-				$changes = [];
+				$changes = array();
 				// messages used: revdelete-content-hid, revdelete-summary-hid, revdelete-uname-hid
 				foreach ( $hid as $v ) {
 					$changes[] = $this->msg( "$v-hid" )->plain();
 				}
-				// messages used: revdelete-content-unhid, revdelete-summary-unhid,
-				// revdelete-uname-unhid
+				// messages used: revdelete-content-unhid, revdelete-summary-unhid, revdelete-uname-unhid
 				foreach ( $unhid as $v ) {
 					$changes[] = $this->msg( "$v-unhid" )->plain();
 				}
@@ -90,29 +79,14 @@ class DeleteLogFormatter extends LogFormatter {
 
 				$newParams = array_slice( $params, 0, 3 );
 				$newParams[3] = $changeText;
-				$ids = is_array( $params[$paramStart] )
-					? $params[$paramStart]
-					: explode( ',', $params[$paramStart] );
-				$newParams[4] = $this->context->getLanguage()->formatNum( count( $ids ) );
+				$count = count( explode( ',', $params[$paramStart] ) );
+				$newParams[4] = $this->context->getLanguage()->formatNum( $count );
 
 				$this->parsedParametersDeleteLog = $newParams;
 				return $this->parsedParametersDeleteLog;
 			} else {
 				$this->parsedParametersDeleteLog = array_slice( $params, 0, 3 );
 				return $this->parsedParametersDeleteLog;
-			}
-		} elseif ( $subtype === 'restore' ) {
-			$rawParams = $this->entry->getParameters();
-			if ( isset( $rawParams[':assoc:count'] ) ) {
-				$countList = [];
-				foreach ( $rawParams[':assoc:count'] as $type => $count ) {
-					if ( $count ) {
-						// Messages: restore-count-revisions, restore-count-files
-						$countList[] = $this->context->msg( 'restore-count-' . $type )
-							->numParams( $count )->plain();
-					}
-				}
-				$params[3] = $this->context->getLanguage()->listToText( $countList );
 			}
 		}
 
@@ -133,7 +107,6 @@ class DeleteLogFormatter extends LogFormatter {
 
 	public function getActionLinks() {
 		$user = $this->context->getUser();
-		$linkRenderer = $this->getLinkRenderer();
 		if ( !$user->isAllowed( 'deletedhistory' )
 			|| $this->entry->isDeleted( LogPage::DELETED_ACTION )
 		) {
@@ -142,17 +115,16 @@ class DeleteLogFormatter extends LogFormatter {
 
 		switch ( $this->entry->getSubtype() ) {
 			case 'delete': // Show undelete link
-			case 'delete_redir':
 				if ( $user->isAllowed( 'undelete' ) ) {
 					$message = 'undeletelink';
 				} else {
 					$message = 'undeleteviewlink';
 				}
-				$revert = $linkRenderer->makeKnownLink(
+				$revert = Linker::linkKnown(
 					SpecialPage::getTitleFor( 'Undelete' ),
-					$this->msg( $message )->text(),
-					[],
-					[ 'target' => $this->entry->getTarget()->getPrefixedDBkey() ]
+					$this->msg( $message )->escaped(),
+					array(),
+					array( 'target' => $this->entry->getTarget()->getPrefixedDBkey() )
 				);
 
 				return $this->msg( 'parentheses' )->rawParams( $revert )->escaped();
@@ -165,51 +137,49 @@ class DeleteLogFormatter extends LogFormatter {
 
 				// Different revision types use different URL params...
 				$key = $params[3];
-				// This is a array or CSV of the IDs
-				$ids = is_array( $params[4] )
-					? $params[4]
-					: explode( ',', $params[4] );
+				// This is a CSV of the IDs
+				$ids = explode( ',', $params[4] );
 
-				$links = [];
+				$links = array();
 
 				// If there's only one item, we can show a diff link
 				if ( count( $ids ) == 1 ) {
 					// Live revision diffs...
 					if ( $key == 'oldid' || $key == 'revision' ) {
-						$links[] = $linkRenderer->makeKnownLink(
+						$links[] = Linker::linkKnown(
 							$this->entry->getTarget(),
-							$this->msg( 'diff' )->text(),
-							[],
-							[
+							$this->msg( 'diff' )->escaped(),
+							array(),
+							array(
 								'diff' => intval( $ids[0] ),
 								'unhide' => 1
-							]
+							)
 						);
 						// Deleted revision diffs...
 					} elseif ( $key == 'artimestamp' || $key == 'archive' ) {
-						$links[] = $linkRenderer->makeKnownLink(
+						$links[] = Linker::linkKnown(
 							SpecialPage::getTitleFor( 'Undelete' ),
-							$this->msg( 'diff' )->text(),
-							[],
-							[
+							$this->msg( 'diff' )->escaped(),
+							array(),
+							array(
 								'target' => $this->entry->getTarget()->getPrefixedDBkey(),
 								'diff' => 'prev',
 								'timestamp' => $ids[0]
-							]
+							)
 						);
 					}
 				}
 
 				// View/modify link...
-				$links[] = $linkRenderer->makeKnownLink(
+				$links[] = Linker::linkKnown(
 					SpecialPage::getTitleFor( 'Revisiondelete' ),
-					$this->msg( 'revdel-restore' )->text(),
-					[],
-					[
+					$this->msg( 'revdel-restore' )->escaped(),
+					array(),
+					array(
 						'target' => $this->entry->getTarget()->getPrefixedText(),
 						'type' => $key,
 						'ids' => implode( ',', $ids ),
-					]
+					)
 				);
 
 				return $this->msg( 'parentheses' )->rawParams(
@@ -222,92 +192,21 @@ class DeleteLogFormatter extends LogFormatter {
 				}
 				// This is a CSV of the IDs
 				$query = $params[3];
-				if ( is_array( $query ) ) {
-					$query = implode( ',', $query );
-				}
 				// Link to each hidden object ID, $params[1] is the url param
-				$revert = $linkRenderer->makeKnownLink(
+				$revert = Linker::linkKnown(
 					SpecialPage::getTitleFor( 'Revisiondelete' ),
-					$this->msg( 'revdel-restore' )->text(),
-					[],
-					[
+					$this->msg( 'revdel-restore' )->escaped(),
+					array(),
+					array(
 						'target' => $this->entry->getTarget()->getPrefixedText(),
 						'type' => 'logging',
 						'ids' => $query
-					]
+					)
 				);
 
 				return $this->msg( 'parentheses' )->rawParams( $revert )->escaped();
 			default:
 				return '';
 		}
-	}
-
-	protected function getParametersForApi() {
-		$entry = $this->entry;
-		$params = [];
-
-		$subtype = $this->entry->getSubtype();
-		if ( in_array( $subtype, [ 'event', 'revision' ] ) ) {
-			$rawParams = $entry->getParameters();
-			if ( $subtype === 'event' ) {
-				array_unshift( $rawParams, 'logging' );
-			}
-
-			static $map = [
-				'4::type',
-				'5::ids',
-				'6::ofield',
-				'7::nfield',
-				'4::ids' => '5::ids',
-				'5::ofield' => '6::ofield',
-				'6::nfield' => '7::nfield',
-			];
-			foreach ( $map as $index => $key ) {
-				if ( isset( $rawParams[$index] ) ) {
-					$rawParams[$key] = $rawParams[$index];
-					unset( $rawParams[$index] );
-				}
-			}
-
-			$old = $this->parseBitField( $rawParams['6::ofield'] );
-			$new = $this->parseBitField( $rawParams['7::nfield'] );
-			if ( !is_array( $rawParams['5::ids'] ) ) {
-				$rawParams['5::ids'] = explode( ',', $rawParams['5::ids'] );
-			}
-
-			$params = [
-				'::type' => $rawParams['4::type'],
-				':array:ids' => $rawParams['5::ids'],
-				':assoc:old' => [ 'bitmask' => $old ],
-				':assoc:new' => [ 'bitmask' => $new ],
-			];
-
-			static $fields = [
-				Revision::DELETED_TEXT => 'content',
-				Revision::DELETED_COMMENT => 'comment',
-				Revision::DELETED_USER => 'user',
-				Revision::DELETED_RESTRICTED => 'restricted',
-			];
-			foreach ( $fields as $bit => $key ) {
-				$params[':assoc:old'][$key] = (bool)( $old & $bit );
-				$params[':assoc:new'][$key] = (bool)( $new & $bit );
-			}
-		} elseif ( $subtype === 'restore' ) {
-			$rawParams = $entry->getParameters();
-			if ( isset( $rawParams[':assoc:count'] ) ) {
-				$params[':assoc:count'] = $rawParams[':assoc:count'];
-			}
-		}
-
-		return $params;
-	}
-
-	public function formatParametersForApi() {
-		$ret = parent::formatParametersForApi();
-		if ( isset( $ret['ids'] ) ) {
-			ApiResult::setIndexedTagName( $ret['ids'], 'id' );
-		}
-		return $ret;
 	}
 }

@@ -26,8 +26,8 @@
  *
  * @ingroup Language
  */
-// phpcs:ignore Squiz.Classes.ValidClassName.NotCamelCaps
 class LanguageZh_hans extends Language {
+
 	/**
 	 * @return bool
 	 */
@@ -40,7 +40,7 @@ class LanguageZh_hans extends Language {
 	 * for now just treat each character as a word.
 	 * @todo FIXME: Only do this for Han characters...
 	 *
-	 * @param string $string
+	 * @param $string string
 	 *
 	 * @return string
 	 */
@@ -51,15 +51,18 @@ class LanguageZh_hans extends Language {
 	}
 
 	/**
-	 * @param string $s
+	 * @param $s
 	 * @return string
 	 */
 	function normalizeForSearch( $s ) {
+		wfProfileIn( __METHOD__ );
+
 		// Double-width roman characters
 		$s = parent::normalizeForSearch( $s );
 		$s = trim( $s );
 		$s = $this->segmentByWord( $s );
 
+		wfProfileOut( __METHOD__ );
 		return $s;
 	}
 
@@ -68,19 +71,19 @@ class LanguageZh_hans extends Language {
 	 *
 	 * @since 1.21
 	 *
-	 * @param int $seconds The amount of seconds.
+	 * @param integer $seconds The amount of seconds.
 	 * @param array $chosenIntervals The intervals to enable.
 	 *
 	 * @return string
 	 */
-	public function formatDuration( $seconds, array $chosenIntervals = [] ) {
+	public function formatDuration( $seconds, array $chosenIntervals = array() ) {
 		if ( empty( $chosenIntervals ) ) {
-			$chosenIntervals = [ 'centuries', 'years', 'days', 'hours', 'minutes', 'seconds' ];
+			$chosenIntervals = array( 'centuries', 'years', 'days', 'hours', 'minutes', 'seconds' );
 		}
 
 		$intervals = $this->getDurationIntervals( $seconds, $chosenIntervals );
 
-		$segments = [];
+		$segments = array();
 
 		foreach ( $intervals as $intervalName => $intervalValue ) {
 			// Messages: duration-seconds, duration-minutes, duration-hours, duration-days, duration-weeks,

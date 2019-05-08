@@ -38,14 +38,15 @@ class TableDiffFormatter extends DiffFormatter {
 	}
 
 	/**
+	 * @static
 	 * @param string $msg
 	 *
 	 * @return mixed
 	 */
 	public static function escapeWhiteSpace( $msg ) {
-		$msg = preg_replace( '/^ /m', "\u{00A0} ", $msg );
-		$msg = preg_replace( '/ $/m', " \u{00A0}", $msg );
-		$msg = preg_replace( '/  /', "\u{00A0} ", $msg );
+		$msg = preg_replace( '/^ /m', '&#160; ', $msg );
+		$msg = preg_replace( '/ $/m', ' &#160;', $msg );
+		$msg = preg_replace( '/  /', '&#160; ', $msg );
 
 		return $msg;
 	}
@@ -59,16 +60,8 @@ class TableDiffFormatter extends DiffFormatter {
 	 * @return string
 	 */
 	protected function blockHeader( $xbeg, $xlen, $ybeg, $ylen ) {
-		// '<!--LINE \d+ -->' get replaced by a localised line number
-		// in DifferenceEngine::localiseLineNumbers
-		$r = '<tr><td colspan="2" class="diff-lineno" id="mw-diff-left-l' .
-			$xbeg .
-			'" ><!--LINE ' .
-			$xbeg .
-			"--></td>\n" .
-			'<td colspan="2" class="diff-lineno"><!--LINE ' .
-			$ybeg .
-			"--></td></tr>\n";
+		$r = '<tr><td colspan="2" class="diff-lineno"><!--LINE ' . $xbeg . "--></td>\n" .
+			'<td colspan="2" class="diff-lineno"><!--LINE ' . $ybeg . "--></td></tr>\n";
 
 		return $r;
 	}
@@ -79,7 +72,7 @@ class TableDiffFormatter extends DiffFormatter {
 	 * @param string $header
 	 */
 	protected function startBlock( $header ) {
-		$this->writeOutput( $header );
+		echo $header;
 	}
 
 	protected function endBlock() {
@@ -123,7 +116,7 @@ class TableDiffFormatter extends DiffFormatter {
 	 * @return string
 	 */
 	protected function contextLine( $line ) {
-		return $this->wrapLine( "\u{00A0}", 'diff-context', $line );
+		return $this->wrapLine( '&#160;', 'diff-context', $line );
 	}
 
 	/**
@@ -146,7 +139,7 @@ class TableDiffFormatter extends DiffFormatter {
 	 * @return string
 	 */
 	protected function emptyLine() {
-		return "<td colspan=\"2\">\u{00A0}</td>";
+		return '<td colspan="2">&#160;</td>';
 	}
 
 	/**
@@ -156,9 +149,9 @@ class TableDiffFormatter extends DiffFormatter {
 	 */
 	protected function added( $lines ) {
 		foreach ( $lines as $line ) {
-			$this->writeOutput( '<tr>' . $this->emptyLine() .
+			echo '<tr>' . $this->emptyLine() .
 				$this->addedLine( '<ins class="diffchange">' .
-					htmlspecialchars( $line ) . '</ins>' ) . "</tr>\n" );
+					htmlspecialchars( $line ) . '</ins>' ) . "</tr>\n";
 		}
 	}
 
@@ -169,9 +162,9 @@ class TableDiffFormatter extends DiffFormatter {
 	 */
 	protected function deleted( $lines ) {
 		foreach ( $lines as $line ) {
-			$this->writeOutput( '<tr>' . $this->deletedLine( '<del class="diffchange">' .
+			echo '<tr>' . $this->deletedLine( '<del class="diffchange">' .
 					htmlspecialchars( $line ) . '</del>' ) .
-				$this->emptyLine() . "</tr>\n" );
+				$this->emptyLine() . "</tr>\n";
 		}
 	}
 
@@ -182,9 +175,9 @@ class TableDiffFormatter extends DiffFormatter {
 	 */
 	protected function context( $lines ) {
 		foreach ( $lines as $line ) {
-			$this->writeOutput( '<tr>' .
+			echo '<tr>' .
 				$this->contextLine( htmlspecialchars( $line ) ) .
-				$this->contextLine( htmlspecialchars( $line ) ) . "</tr>\n" );
+				$this->contextLine( htmlspecialchars( $line ) ) . "</tr>\n";
 		}
 	}
 
@@ -195,6 +188,8 @@ class TableDiffFormatter extends DiffFormatter {
 	 * @param string[] $closing
 	 */
 	protected function changed( $orig, $closing ) {
+		wfProfileIn( __METHOD__ );
+
 		$diff = new WordLevelDiff( $orig, $closing );
 		$del = $diff->orig();
 		$add = $diff->closing();
@@ -202,14 +197,16 @@ class TableDiffFormatter extends DiffFormatter {
 		# Notice that WordLevelDiff returns HTML-escaped output.
 		# Hence, we will be calling addedLine/deletedLine without HTML-escaping.
 
-		$ndel = count( $del );
-		$nadd = count( $add );
-		$n = max( $ndel, $nadd );
-		for ( $i = 0; $i < $n; $i++ ) {
-			$delLine = $i < $ndel ? $this->deletedLine( $del[$i] ) : $this->emptyLine();
-			$addLine = $i < $nadd ? $this->addedLine( $add[$i] ) : $this->emptyLine();
-			$this->writeOutput( "<tr>{$delLine}{$addLine}</tr>\n" );
+		while ( $line = array_shift( $del ) ) {
+			$aline = array_shift( $add );
+			echo '<tr>' . $this->deletedLine( $line ) .
+				$this->addedLine( $aline ) . "</tr>\n";
 		}
+		foreach ( $add as $line ) { # If any leftovers
+			echo '<tr>' . $this->emptyLine() .
+				$this->addedLine( $line ) . "</tr>\n";
+		}
+		wfProfileOut( __METHOD__ );
 	}
 
 }

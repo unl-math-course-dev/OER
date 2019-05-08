@@ -31,80 +31,66 @@ require_once __DIR__ . '/Benchmarker.php';
  *
  * @ingroup Maintenance
  */
-class BenchIfSwitch extends Benchmarker {
+class bench_if_switch extends Benchmarker {
+
 	public function __construct() {
 		parent::__construct();
-		$this->addDescription( 'Benchmark if elseif... versus switch case.' );
+		$this->mDescription = "Benchmark if elseif... versus switch case.";
 	}
 
 	public function execute() {
-		$this->bench( [
-			[ 'function' => [ $this, 'doElseIf' ] ],
-			[ 'function' => [ $this, 'doSwitch' ] ],
-		] );
+		$this->bench( array(
+			array( 'function' => array( $this, 'doElseIf' ) ),
+			array( 'function' => array( $this, 'doSwitch' ) ),
+		));
+		print $this->getFormattedResults();
 	}
 
 	// bench function 1
-	protected function doElseIf() {
+	function doElseIf() {
 		$a = 'z';
-		if ( $a == 'a' ) {
-		} elseif ( $a == 'b' ) {
-		} elseif ( $a == 'c' ) {
-		} elseif ( $a == 'd' ) {
-		} elseif ( $a == 'e' ) {
-		} elseif ( $a == 'f' ) {
-		} elseif ( $a == 'g' ) {
-		} elseif ( $a == 'h' ) {
-		} elseif ( $a == 'i' ) {
-		} elseif ( $a == 'j' ) {
-		} elseif ( $a == 'k' ) {
-		} elseif ( $a == 'l' ) {
-		} elseif ( $a == 'm' ) {
-		} elseif ( $a == 'n' ) {
-		} elseif ( $a == 'o' ) {
-		} elseif ( $a == 'p' ) {
-		} else {
-		}
+		if( $a == 'a') {}
+		elseif( $a == 'b') {}
+		elseif( $a == 'c') {}
+		elseif( $a == 'd') {}
+		elseif( $a == 'e') {}
+		elseif( $a == 'f') {}
+		elseif( $a == 'g') {}
+		elseif( $a == 'h') {}
+		elseif( $a == 'i') {}
+		elseif( $a == 'j') {}
+		elseif( $a == 'k') {}
+		elseif( $a == 'l') {}
+		elseif( $a == 'm') {}
+		elseif( $a == 'n') {}
+		elseif( $a == 'o') {}
+		elseif( $a == 'p') {}
+		else {}
 	}
 
 	// bench function 2
-	protected function doSwitch() {
+	function doSwitch() {
 		$a = 'z';
-		switch ( $a ) {
-			case 'b':
-				break;
-			case 'c':
-				break;
-			case 'd':
-				break;
-			case 'e':
-				break;
-			case 'f':
-				break;
-			case 'g':
-				break;
-			case 'h':
-				break;
-			case 'i':
-				break;
-			case 'j':
-				break;
-			case 'k':
-				break;
-			case 'l':
-				break;
-			case 'm':
-				break;
-			case 'n':
-				break;
-			case 'o':
-				break;
-			case 'p':
-				break;
+		switch( $a ) {
+			case 'b': break;
+			case 'c': break;
+			case 'd': break;
+			case 'e': break;
+			case 'f': break;
+			case 'g': break;
+			case 'h': break;
+			case 'i': break;
+			case 'j': break;
+			case 'k': break;
+			case 'l': break;
+			case 'm': break;
+			case 'n': break;
+			case 'o': break;
+			case 'p': break;
 			default:
 		}
 	}
 }
 
-$maintClass = BenchIfSwitch::class;
+$maintClass = 'bench_if_switch';
 require_once RUN_MAINTENANCE_IF_MAIN;

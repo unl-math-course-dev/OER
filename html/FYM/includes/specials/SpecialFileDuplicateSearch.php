@@ -1,6 +1,4 @@
 <?php
-use MediaWiki\MediaWikiServices;
-
 /**
  * Implements Special:FileDuplicateSearch
  *
@@ -50,18 +48,18 @@ class FileDuplicateSearchPage extends QueryPage {
 		return false;
 	}
 
-	public function isCached() {
+	function isCached() {
 		return false;
 	}
 
 	function linkParameters() {
-		return [ 'filename' => $this->filename ];
+		return array( 'filename' => $this->filename );
 	}
 
 	/**
 	 * Fetch dupes from all connected file repositories.
 	 *
-	 * @return array Array of File objects
+	 * @return array of File objects
 	 */
 	function getDupes() {
 		return RepoGroup::singleton()->findBySha1( $this->hash );
@@ -69,10 +67,10 @@ class FileDuplicateSearchPage extends QueryPage {
 
 	/**
 	 *
-	 * @param array $dupes Array of File objects
+	 * @param array $dupes of File objects
 	 */
 	function showList( $dupes ) {
-		$html = [];
+		$html = array();
 		$html[] = $this->openList( 0 );
 
 		foreach ( $dupes as $dupe ) {
@@ -81,29 +79,29 @@ class FileDuplicateSearchPage extends QueryPage {
 		}
 		$html[] = $this->closeList();
 
-		$this->getOutput()->addHTML( implode( "\n", $html ) );
+		$this->getOutput()->addHtml( implode( "\n", $html ) );
 	}
 
-	public function getQueryInfo() {
-		$imgQuery = LocalFile::getQueryInfo();
-		return [
-			'tables' => $imgQuery['tables'],
-			'fields' => [
+	function getQueryInfo() {
+		return array(
+			'tables' => array( 'image' ),
+			'fields' => array(
 				'title' => 'img_name',
 				'value' => 'img_sha1',
-				'img_user_text' => $imgQuery['fields']['img_user_text'],
+				'img_user_text',
 				'img_timestamp'
-			],
-			'conds' => [ 'img_sha1' => $this->hash ],
-			'join_conds' => $imgQuery['joins'],
-		];
+			),
+			'conds' => array( 'img_sha1' => $this->hash )
+		);
 	}
 
-	public function execute( $par ) {
+	function execute( $par ) {
+		global $wgScript;
+
 		$this->setHeaders();
 		$this->outputHeader();
 
-		$this->filename = $par ?? $this->getRequest()->getText( 'filename' );
+		$this->filename = isset( $par ) ? $par : $this->getRequest()->getText( 'filename' );
 		$this->file = null;
 		$this->hash = '';
 		$title = Title::newFromText( $this->filename, NS_FILE );
@@ -114,35 +112,32 @@ class FileDuplicateSearchPage extends QueryPage {
 		$out = $this->getOutput();
 
 		# Create the input form
-		$formFields = [
-			'filename' => [
-				'type' => 'text',
-				'name' => 'filename',
-				'label-message' => 'fileduplicatesearch-filename',
-				'id' => 'filename',
-				'size' => 50,
-				'default' => $this->filename,
-			],
-		];
-		$hiddenFields = [
-			'title' => $this->getPageTitle()->getPrefixedDBkey(),
-		];
-		$htmlForm = HTMLForm::factory( 'ooui', $formFields, $this->getContext() );
-		$htmlForm->addHiddenFields( $hiddenFields );
-		$htmlForm->setAction( wfScript() );
-		$htmlForm->setMethod( 'get' );
-		$htmlForm->setSubmitTextMsg( $this->msg( 'fileduplicatesearch-submit' ) );
-
-		// The form should be visible always, even if it was submitted (e.g. to perform another action).
-		// To bypass the callback validation of HTMLForm, use prepareForm() and displayForm().
-		$htmlForm->prepareForm()->displayForm( false );
+		$out->addHTML(
+			Html::openElement(
+				'form',
+				array( 'id' => 'fileduplicatesearch', 'method' => 'get', 'action' => $wgScript )
+			) . "\n" .
+				Html::hidden( 'title', $this->getPageTitle()->getPrefixedDBkey() ) . "\n" .
+				Html::openElement( 'fieldset' ) . "\n" .
+				Html::element( 'legend', null, $this->msg( 'fileduplicatesearch-legend' )->text() ) . "\n" .
+				Xml::inputLabel(
+					$this->msg( 'fileduplicatesearch-filename' )->text(),
+					'filename',
+					'filename',
+					50,
+					$this->filename
+				) . "\n" .
+				Xml::submitButton( $this->msg( 'fileduplicatesearch-submit' )->text() ) . "\n" .
+				Html::closeElement( 'fieldset' ) . "\n" .
+				Html::closeElement( 'form' )
+		);
 
 		if ( $this->file ) {
 			$this->hash = $this->file->getSha1();
 		} elseif ( $this->filename !== '' ) {
 			$out->wrapWikiMsg(
 				"<p class='mw-fileduplicatesearch-noresults'>\n$1\n</p>",
-				[ 'fileduplicatesearch-noresults', wfEscapeWikiText( $this->filename ) ]
+				array( 'fileduplicatesearch-noresults', wfEscapeWikiText( $this->filename ) )
 			);
 		}
 
@@ -150,11 +145,10 @@ class FileDuplicateSearchPage extends QueryPage {
 			# Show a thumbnail of the file
 			$img = $this->file;
 			if ( $img ) {
-				$thumb = $img->transform( [ 'width' => 120, 'height' => 120 ] );
+				$thumb = $img->transform( array( 'width' => 120, 'height' => 120 ) );
 				if ( $thumb ) {
-					$out->addModuleStyles( 'mediawiki.special' );
 					$out->addHTML( '<div id="mw-fileduplicatesearch-icon">' .
-						$thumb->toHtml( [ 'desc-link' => false ] ) . '<br />' .
+						$thumb->toHtml( array( 'desc-link' => false ) ) . '<br />' .
 						$this->msg( 'fileduplicatesearch-info' )->numParams(
 							$img->getWidth(), $img->getHeight() )->params(
 								$this->getLanguage()->formatSize( $img->getSize() ),
@@ -170,13 +164,13 @@ class FileDuplicateSearchPage extends QueryPage {
 			if ( $numRows == 1 ) {
 				$out->wrapWikiMsg(
 					"<p class='mw-fileduplicatesearch-result-1'>\n$1\n</p>",
-					[ 'fileduplicatesearch-result-1', wfEscapeWikiText( $this->filename ) ]
+					array( 'fileduplicatesearch-result-1', wfEscapeWikiText( $this->filename ) )
 				);
 			} elseif ( $numRows ) {
 				$out->wrapWikiMsg(
 					"<p class='mw-fileduplicatesearch-result-n'>\n$1\n</p>",
-					[ 'fileduplicatesearch-result-n', wfEscapeWikiText( $this->filename ),
-						$this->getLanguage()->formatNum( $numRows - 1 ) ]
+					array( 'fileduplicatesearch-result-n', wfEscapeWikiText( $this->filename ),
+						$this->getLanguage()->formatNum( $numRows - 1 ) )
 				);
 			}
 
@@ -204,23 +198,23 @@ class FileDuplicateSearchPage extends QueryPage {
 	 *
 	 * @param Skin $skin
 	 * @param File $result
-	 * @return string HTML
+	 * @return string
 	 */
 	function formatResult( $skin, $result ) {
-		$linkRenderer = $this->getLinkRenderer();
+		global $wgContLang;
+
 		$nt = $result->getTitle();
-		$text = MediaWikiServices::getInstance()->getContentLanguage()->convert(
-			htmlspecialchars( $nt->getText() )
-		);
-		$plink = $linkRenderer->makeLink(
-			$nt,
-			new HtmlArmor( $text )
+		$text = $wgContLang->convert( $nt->getText() );
+		$plink = Linker::link(
+			Title::newFromText( $nt->getPrefixedText() ),
+			$text
 		);
 
 		$userText = $result->getUser( 'text' );
 		if ( $result->isLocal() ) {
 			$userId = $result->getUser( 'id' );
 			$user = Linker::userLink( $userId, $userText );
+			$user .= $this->getContext()->msg( 'word-separator' )->plain();
 			$user .= '<span style="white-space: nowrap;">';
 			$user .= Linker::userToolLinks( $userId, $userText );
 			$user .= '</span>';
@@ -228,36 +222,9 @@ class FileDuplicateSearchPage extends QueryPage {
 			$user = htmlspecialchars( $userText );
 		}
 
-		$time = htmlspecialchars( $this->getLanguage()->userTimeAndDate(
-			$result->getTimestamp(), $this->getUser() ) );
+		$time = $this->getLanguage()->userTimeAndDate( $result->getTimestamp(), $this->getUser() );
 
 		return "$plink . . $user . . $time";
-	}
-
-	/**
-	 * Return an array of subpages beginning with $search that this special page will accept.
-	 *
-	 * @param string $search Prefix to search for
-	 * @param int $limit Maximum number of results to return (usually 10)
-	 * @param int $offset Number of results to skip (usually 0)
-	 * @return string[] Matching subpages
-	 */
-	public function prefixSearchSubpages( $search, $limit, $offset ) {
-		$title = Title::newFromText( $search, NS_FILE );
-		if ( !$title || $title->getNamespace() !== NS_FILE ) {
-			// No prefix suggestion outside of file namespace
-			return [];
-		}
-		$searchEngine = MediaWikiServices::getInstance()->newSearchEngine();
-		$searchEngine->setLimitOffset( $limit, $offset );
-		// Autocomplete subpage the same as a normal search, but just for files
-		$searchEngine->setNamespaces( [ NS_FILE ] );
-		$result = $searchEngine->defaultPrefixSearch( $search );
-
-		return array_map( function ( Title $t ) {
-			// Remove namespace in search suggestion
-			return $t->getText();
-		}, $result );
 	}
 
 	protected function getGroupName() {

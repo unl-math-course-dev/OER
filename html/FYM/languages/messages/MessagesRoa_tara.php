@@ -1,7 +1,8 @@
 <?php
 /** tarandíne (tarandíne)
  *
- * To improve a translation please visit https://translatewiki.net
+ * See MessagesQqq.php for message documentation incl. usage of parameters
+ * To improve a translation please visit http://translatewiki.net
  *
  * @ingroup Language
  * @file
@@ -12,14 +13,13 @@
  * @author Reder
  */
 
-$fallback = 'it';
+$specialPageAliases = array(
+	'Allmessages'               => array( 'TutteLeMessagge' ),
+	'Preferences'               => array( 'Preferenze' ),
+	'Recentchanges'             => array( 'UrtemeCangiaminde' ),
+	'Statistics'                => array( 'Statisteche' ),
+	'Upload'                    => array( 'Carecaminde' ),
+	'Version'                   => array( 'Versione' ),
+	'Watchlist'                 => array( 'PàggeneCondrollete' ),
+);
 
-$specialPageAliases = [
-	'Allmessages'               => [ 'TutteLeMessagge' ],
-	'Preferences'               => [ 'Preferenze' ],
-	'Recentchanges'             => [ 'UrtemeCangiaminde' ],
-	'Statistics'                => [ 'Statisteche' ],
-	'Upload'                    => [ 'Carecaminde' ],
-	'Version'                   => [ 'Versione' ],
-	'Watchlist'                 => [ 'PàggeneCondrollete' ],
-];

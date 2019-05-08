@@ -31,38 +31,39 @@ require_once __DIR__ . '/Benchmarker.php';
  *
  * @ingroup Benchmark
  */
-class BenchWfIsWindows extends Benchmarker {
+class bench_wfIsWindows extends Benchmarker {
+
 	public function __construct() {
 		parent::__construct();
-		$this->addDescription( 'Benchmark for wfIsWindows.' );
+		$this->mDescription = "Benchmark for wfIsWindows.";
 	}
 
 	public function execute() {
-		$this->bench( [
-			[ 'function' => [ $this, 'wfIsWindows' ] ],
-			[ 'function' => [ $this, 'wfIsWindowsCached' ] ],
-		] );
+		$this->bench( array(
+			array( 'function' => array( $this, 'wfIsWindows' ) ),
+			array( 'function' => array( $this, 'wfIsWindowsCached' ) ),
+		));
+		print $this->getFormattedResults();
 	}
 
-	protected static function is_win() {
+	static function is_win() {
 		return substr( php_uname(), 0, 7 ) == 'Windows';
 	}
 
 	// bench function 1
-	protected function wfIsWindows() {
+	function wfIsWindows() {
 		return self::is_win();
 	}
 
 	// bench function 2
-	protected function wfIsWindowsCached() {
+	function wfIsWindowsCached() {
 		static $isWindows = null;
-		if ( $isWindows == null ) {
+		if( $isWindows == null ) {
 			$isWindows = self::is_win();
 		}
-
 		return $isWindows;
 	}
 }
 
-$maintClass = BenchWfIsWindows::class;
+$maintClass = 'bench_wfIsWindows';
 require_once RUN_MAINTENANCE_IF_MAIN;

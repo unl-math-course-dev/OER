@@ -37,11 +37,11 @@ interface Config {
 	public function get( $name );
 
 	/**
-	 * Check whether a configuration option is set for the given name
+	 * Set a configuration variable such a "Sitename" to something like "My Wiki"
 	 *
 	 * @param string $name Name of configuration option
-	 * @return bool
-	 * @since 1.24
+	 * @param mixed $value Value to set
+	 * @throws ConfigException
 	 */
-	public function has( $name );
+	public function set( $name, $value );
 }

@@ -33,11 +33,11 @@ require_once __DIR__ . '/Maintenance.php';
  *
  * @ingroup Maintenance
  */
-class CleanupUploadStash extends Maintenance {
+class UploadStashCleanup extends Maintenance {
 
 	public function __construct() {
 		parent::__construct();
-		$this->addDescription( 'Clean up abandoned files in temporary uploaded file stash' );
+		$this->mDescription = "Clean up abandoned files in temporary uploaded file stash";
 		$this->setBatchSize( 50 );
 	}
 
@@ -47,7 +47,7 @@ class CleanupUploadStash extends Maintenance {
 		$repo = RepoGroup::singleton()->getLocalRepo();
 		$tempRepo = $repo->getTempRepo();
 
-		$dbr = $repo->getReplicaDB();
+		$dbr = $repo->getSlaveDb();
 
 		// how far back should this look for files to delete?
 		$cutoff = time() - $wgUploadStashMaxAge;
@@ -65,7 +65,7 @@ class CleanupUploadStash extends Maintenance {
 			$this->output( "No stashed files to cleanup according to the DB.\n" );
 		} else {
 			// finish the read before starting writes.
-			$keys = [];
+			$keys = array();
 			foreach ( $res as $row ) {
 				array_push( $keys, $row->us_key );
 			}
@@ -87,7 +87,6 @@ class CleanupUploadStash extends Maintenance {
 					$this->output( "Failed removing stashed upload with key: $key ($type)\n" );
 				}
 				if ( $i % 100 == 0 ) {
-					wfWaitForSlaves();
 					$this->output( "$i\n" );
 				}
 			}
@@ -96,17 +95,17 @@ class CleanupUploadStash extends Maintenance {
 
 		// Delete all the corresponding thumbnails...
 		$dir = $tempRepo->getZonePath( 'thumb' );
-		$iterator = $tempRepo->getBackend()->getFileList( [ 'dir' => $dir, 'adviseStat' => 1 ] );
+		$iterator = $tempRepo->getBackend()->getFileList( array( 'dir' => $dir, 'adviseStat' => 1 ) );
 		$this->output( "Deleting old thumbnails...\n" );
 		$i = 0;
-		$batch = []; // operation batch
+		$batch = array(); // operation batch
 		foreach ( $iterator as $file ) {
 			if ( wfTimestamp( TS_UNIX, $tempRepo->getFileTimestamp( "$dir/$file" ) ) < $cutoff ) {
-				$batch[] = [ 'op' => 'delete', 'src' => "$dir/$file" ];
-				if ( count( $batch ) >= $this->getBatchSize() ) {
+				$batch[] = array( 'op' => 'delete', 'src' => "$dir/$file" );
+				if ( count( $batch ) >= $this->mBatchSize ) {
 					$this->doOperations( $tempRepo, $batch );
 					$i += count( $batch );
-					$batch = [];
+					$batch = array();
 					$this->output( "$i\n" );
 				}
 			}
@@ -119,20 +118,20 @@ class CleanupUploadStash extends Maintenance {
 
 		// Apparently lots of stash files are not registered in the DB...
 		$dir = $tempRepo->getZonePath( 'public' );
-		$iterator = $tempRepo->getBackend()->getFileList( [ 'dir' => $dir, 'adviseStat' => 1 ] );
+		$iterator = $tempRepo->getBackend()->getFileList( array( 'dir' => $dir, 'adviseStat' => 1 ) );
 		$this->output( "Deleting orphaned temp files...\n" );
 		if ( strpos( $dir, '/local-temp' ) === false ) { // sanity check
-			$this->fatalError( "Temp repo is not using the temp container." );
+			$this->error( "Temp repo is not using the temp container.", 1 ); // die
 		}
 		$i = 0;
-		$batch = []; // operation batch
+		$batch = array(); // operation batch
 		foreach ( $iterator as $file ) {
 			if ( wfTimestamp( TS_UNIX, $tempRepo->getFileTimestamp( "$dir/$file" ) ) < $cutoff ) {
-				$batch[] = [ 'op' => 'delete', 'src' => "$dir/$file" ];
-				if ( count( $batch ) >= $this->getBatchSize() ) {
+				$batch[] = array( 'op' => 'delete', 'src' => "$dir/$file" );
+				if ( count( $batch ) >= $this->mBatchSize ) {
 					$this->doOperations( $tempRepo, $batch );
 					$i += count( $batch );
-					$batch = [];
+					$batch = array();
 					$this->output( "$i\n" );
 				}
 			}
@@ -152,5 +151,5 @@ class CleanupUploadStash extends Maintenance {
 	}
 }
 
-$maintClass = CleanupUploadStash::class;
+$maintClass = "UploadStashCleanup";
 require_once RUN_MAINTENANCE_IF_MAIN;

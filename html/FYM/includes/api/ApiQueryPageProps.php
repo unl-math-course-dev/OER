@@ -1,5 +1,9 @@
 <?php
 /**
+ *
+ *
+ * Created on Aug 7, 2010
+ *
  * Copyright © 2010 soxred93, Bryan Tong Minh
  *
  * This program is free software; you can redistribute it and/or modify
@@ -29,47 +33,70 @@ class ApiQueryPageProps extends ApiQueryBase {
 
 	private $params;
 
-	public function __construct( ApiQuery $query, $moduleName ) {
+	public function __construct( $query, $moduleName ) {
 		parent::__construct( $query, $moduleName, 'pp' );
 	}
 
 	public function execute() {
 		# Only operate on existing pages
 		$pages = $this->getPageSet()->getGoodTitles();
-
-		$this->params = $this->extractRequestParams();
-		if ( $this->params['continue'] ) {
-			$continueValue = intval( $this->params['continue'] );
-			$this->dieContinueUsageIf( strval( $continueValue ) !== $this->params['continue'] );
-			$filteredPages = [];
-			foreach ( $pages as $id => $page ) {
-				if ( $id >= $continueValue ) {
-					$filteredPages[$id] = $page;
-				}
-			}
-			$pages = $filteredPages;
-		}
-
 		if ( !count( $pages ) ) {
 			# Nothing to do
 			return;
 		}
 
-		$pageProps = PageProps::getInstance();
-		$result = $this->getResult();
-		if ( $this->params['prop'] ) {
-			$propnames = $this->params['prop'];
-			$properties = $pageProps->getProperties( $pages, $propnames );
-		} else {
-			$properties = $pageProps->getAllProperties( $pages );
+		$this->params = $this->extractRequestParams();
+
+		$this->addTables( 'page_props' );
+		$this->addFields( array( 'pp_page', 'pp_propname', 'pp_value' ) );
+		$this->addWhereFld( 'pp_page', array_keys( $pages ) );
+
+		if ( $this->params['continue'] ) {
+			$this->addWhere( 'pp_page >=' . intval( $this->params['continue'] ) );
 		}
 
-		ksort( $properties );
+		if ( $this->params['prop'] ) {
+			$this->addWhereFld( 'pp_propname', $this->params['prop'] );
+		}
 
-		foreach ( $properties as $page => $props ) {
-			if ( !$this->addPageProps( $result, $page, $props ) ) {
-				break;
+		# Force a sort order to ensure that properties are grouped by page
+		# But only if pp_page is not constant in the WHERE clause.
+		if ( count( $pages ) > 1 ) {
+			$this->addOption( 'ORDER BY', 'pp_page' );
+		}
+
+		$res = $this->select( __METHOD__ );
+		$currentPage = 0; # Id of the page currently processed
+		$props = array();
+		$result = $this->getResult();
+
+		foreach ( $res as $row ) {
+			if ( $currentPage != $row->pp_page ) {
+				# Different page than previous row, so add the properties to
+				# the result and save the new page id
+
+				if ( $currentPage ) {
+					if ( !$this->addPageProps( $result, $currentPage, $props ) ) {
+						# addPageProps() indicated that the result did not fit
+						# so stop adding data. Reset props so that it doesn't
+						# get added again after loop exit
+
+						$props = array();
+						break;
+					}
+
+					$props = array();
+				}
+
+				$currentPage = $row->pp_page;
 			}
+
+			$props[$row->pp_propname] = $row->pp_value;
+		}
+
+		if ( count( $props ) ) {
+			# Add any remaining properties to the results
+			$this->addPageProps( $result, $currentPage, $props );
 		}
 	}
 
@@ -77,14 +104,13 @@ class ApiQueryPageProps extends ApiQueryBase {
 	 * Add page properties to an ApiResult, adding a continue
 	 * parameter if it doesn't fit.
 	 *
-	 * @param ApiResult $result
-	 * @param int $page
-	 * @param array $props
+	 * @param $result ApiResult
+	 * @param $page int
+	 * @param $props array
 	 * @return bool True if it fits in the result
 	 */
 	private function addPageProps( $result, $page, $props ) {
-		ApiResult::setArrayType( $props, 'assoc' );
-		$fit = $result->addValue( [ 'query', 'pages', $page ], 'pageprops', $props );
+		$fit = $result->addValue( array( 'query', 'pages', $page ), 'pageprops', $props );
 
 		if ( !$fit ) {
 			$this->setContinueEnumParameter( 'continue', $page );
@@ -98,24 +124,33 @@ class ApiQueryPageProps extends ApiQueryBase {
 	}
 
 	public function getAllowedParams() {
-		return [
-			'continue' => [
-				ApiBase::PARAM_HELP_MSG => 'api-help-param-continue',
-			],
-			'prop' => [
+		return array(
+			'continue' => null,
+			'prop' => array(
 				ApiBase::PARAM_ISMULTI => true,
-			],
-		];
+			),
+		);
 	}
 
-	protected function getExamplesMessages() {
-		return [
-			'action=query&prop=pageprops&titles=Main%20Page|MediaWiki'
-				=> 'apihelp-query+pageprops-example-simple',
-		];
+	public function getParamDescription() {
+		return array(
+			'continue' => 'When more results are available, use this to continue',
+			'prop' => 'Only list these props. Useful for checking whether a ' .
+				'certain page uses a certain page prop',
+		);
+	}
+
+	public function getDescription() {
+		return 'Get various properties defined in the page content.';
+	}
+
+	public function getExamples() {
+		return array(
+			'api.php?action=query&prop=pageprops&titles=Category:Foo',
+		);
 	}
 
 	public function getHelpUrls() {
-		return 'https://www.mediawiki.org/wiki/Special:MyLanguage/API:Pageprops';
+		return 'https://www.mediawiki.org/wiki/API:Properties#pageprops_.2F_pp';
 	}
 }

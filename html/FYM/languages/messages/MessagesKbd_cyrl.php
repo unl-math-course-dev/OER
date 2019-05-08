@@ -1,16 +1,17 @@
 <?php
 /** Адыгэбзэ (Адыгэбзэ)
  *
- * To improve a translation please visit https://translatewiki.net
+ * See MessagesQqq.php for message documentation incl. usage of parameters
+ * To improve a translation please visit http://translatewiki.net
  *
  * @ingroup Language
  * @file
  *
  */
 
-# $fallback = 'ru'; // T29785
+# $fallback = 'ru'; // bug 27785
 
-$namespaceNames = [
+$namespaceNames = array(
 	NS_MEDIA            => 'Медиа',
 	NS_SPECIAL          => 'Служебная',
 	NS_TALK             => 'Тепсэлъэхьыгъуэ',
@@ -27,9 +28,9 @@ $namespaceNames = [
 	NS_HELP_TALK        => 'ДэӀэпыкъуэгъуэ_тепсэлъэхьыгъуэ',
 	NS_CATEGORY         => 'Категориэ',
 	NS_CATEGORY_TALK    => 'Категориэ_тепсэлъэхьыгъуэ',
-];
+);
 
-$namespaceAliases = [
+$namespaceAliases = array(
 	# Russian namespaces
 	'Обсуждение'                         => NS_TALK,
 	'Участник'                           => NS_USER,
@@ -42,7 +43,8 @@ $namespaceAliases = [
 	'Обсуждение_справки'                 => NS_HELP_TALK,
 	'Категория'                          => NS_CATEGORY,
 	'Обсуждение_категории'               => NS_CATEGORY_TALK,
-];
+);
 
 // Remove Russian gender aliases
-$namespaceGenderAliases = [];
+$namespaceGenderAliases = array();
+

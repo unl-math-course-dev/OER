@@ -33,73 +33,57 @@ require_once __DIR__ . '/Maintenance.php';
 class DeleteDefaultMessages extends Maintenance {
 	public function __construct() {
 		parent::__construct();
-		$this->addDescription( 'Deletes all pages in the MediaWiki namespace' .
-			' which were last edited by "MediaWiki default"' );
-		$this->addOption( 'dry-run', 'Perform a dry run, delete nothing' );
+		$this->mDescription = "Deletes all pages in the MediaWiki namespace" .
+								" which were last edited by \"MediaWiki default\"";
 	}
 
 	public function execute() {
 		global $wgUser;
 
 		$this->output( "Checking existence of old default messages..." );
-		$dbr = $this->getDB( DB_REPLICA );
-
-		$actorQuery = ActorMigration::newMigration()
-			->getWhere( $dbr, 'rev_user', User::newFromName( 'MediaWiki default' ) );
-		$res = $dbr->select(
-			[ 'page', 'revision' ] + $actorQuery['tables'],
-			[ 'page_namespace', 'page_title' ],
-			[
+		$dbr = wfGetDB( DB_SLAVE );
+		$res = $dbr->select( array( 'page', 'revision' ),
+			array( 'page_namespace', 'page_title' ),
+			array(
 				'page_namespace' => NS_MEDIAWIKI,
-				$actorQuery['conds'],
-			],
-			__METHOD__,
-			[],
-			[ 'revision' => [ 'JOIN', 'page_latest=rev_id' ] ] + $actorQuery['joins']
+				'page_latest=rev_id',
+				'rev_user_text' => 'MediaWiki default',
+			)
 		);
 
 		if ( $dbr->numRows( $res ) == 0 ) {
-			// No more messages left
+			# No more messages left
 			$this->output( "done.\n" );
 			return;
 		}
 
-		$dryrun = $this->hasOption( 'dry-run' );
-		if ( $dryrun ) {
-			foreach ( $res as $row ) {
-				$title = Title::makeTitle( $row->page_namespace, $row->page_title );
-				$this->output( "\n* [[$title]]" );
-			}
-			$this->output( "\n\nRun again without --dry-run to delete these pages.\n" );
-			return;
-		}
-
-		// Deletions will be made by $user temporarly added to the bot group
-		// in order to hide it in RecentChanges.
+		# Deletions will be made by $user temporarly added to the bot group
+		# in order to hide it in RecentChanges.
 		$user = User::newFromName( 'MediaWiki default' );
 		if ( !$user ) {
-			$this->fatalError( "Invalid username" );
+			$this->error( "Invalid username", true );
 		}
 		$user->addGroup( 'bot' );
 		$wgUser = $user;
 
-		// Handle deletion
+		# Handle deletion
 		$this->output( "\n...deleting old default messages (this may take a long time!)...", 'msg' );
-		$dbw = $this->getDB( DB_MASTER );
+		$dbw = wfGetDB( DB_MASTER );
 
 		foreach ( $res as $row ) {
 			wfWaitForSlaves();
 			$dbw->ping();
 			$title = Title::makeTitle( $row->page_namespace, $row->page_title );
 			$page = WikiPage::factory( $title );
+			$dbw->begin( __METHOD__ );
 			$error = ''; // Passed by ref
-			// FIXME: Deletion failures should be reported, not silently ignored.
-			$page->doDeleteArticle( 'No longer required', false, 0, true, $error, $user );
+			$page->doDeleteArticle( 'No longer required', false, 0, false, $error, $user );
+			$dbw->commit( __METHOD__ );
 		}
 
 		$this->output( "done!\n", 'msg' );
 	}
 }
 
-$maintClass = DeleteDefaultMessages::class;
+$maintClass = "DeleteDefaultMessages";
 require_once RUN_MAINTENANCE_IF_MAIN;

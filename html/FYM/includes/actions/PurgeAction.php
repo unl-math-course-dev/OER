@@ -21,7 +21,10 @@
  */
 
 /**
- * User-requested page cache purging
+ * User-requested page cache purging.
+ *
+ * For users with 'purge', this will directly trigger the cache purging and
+ * for users without that right, it will show a confirmation form.
  *
  * @ingroup Actions
  */
@@ -41,29 +44,34 @@ class PurgeAction extends FormAction {
 		return '';
 	}
 
+	/**
+	 * Just get an empty form with a single submit button
+	 * @return array
+	 */
+	protected function getFormFields() {
+		return array();
+	}
+
 	public function onSubmit( $data ) {
 		return $this->page->doPurge();
 	}
 
+	/**
+	 * purge is slightly weird because it can be either formed or formless depending
+	 * on user permissions
+	 */
 	public function show() {
 		$this->setHeaders();
 
 		// This will throw exceptions if there's a problem
 		$this->checkCanExecute( $this->getUser() );
 
-		$user = $this->getUser();
-
-		if ( $user->pingLimiter( 'purge' ) ) {
-			// TODO: Display actionthrottledtext
-			return;
-		}
-
-		if ( $this->getRequest()->wasPosted() ) {
+		if ( $this->getUser()->isAllowed( 'purge' ) ) {
 			$this->redirectParams = wfArrayToCgi( array_diff_key(
 				$this->getRequest()->getQueryValues(),
-				[ 'title' => null, 'action' => null ]
+				array( 'title' => null, 'action' => null )
 			) );
-			if ( $this->onSubmit( [] ) ) {
+			if ( $this->onSubmit( array() ) ) {
 				$this->onSuccess();
 			}
 		} else {
@@ -75,24 +83,12 @@ class PurgeAction extends FormAction {
 		}
 	}
 
-	protected function usesOOUI() {
-		return true;
-	}
-
-	protected function getFormFields() {
-		return [
-			'intro' => [
-				'type' => 'info',
-				'vertical-label' => true,
-				'raw' => true,
-				'default' => $this->msg( 'confirm-purge-top' )->parse()
-			]
-		];
-	}
-
 	protected function alterForm( HTMLForm $form ) {
-		$form->setWrapperLegendMsg( 'confirm-purge-title' );
 		$form->setSubmitTextMsg( 'confirm_purge_button' );
+	}
+
+	protected function preText() {
+		return $this->msg( 'confirm-purge-top' )->parse();
 	}
 
 	protected function postText() {
@@ -101,9 +97,5 @@ class PurgeAction extends FormAction {
 
 	public function onSuccess() {
 		$this->getOutput()->redirect( $this->getTitle()->getFullURL( $this->redirectParams ) );
-	}
-
-	public function doesWrites() {
-		return true;
 	}
 }

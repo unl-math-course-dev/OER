@@ -1,17 +1,6 @@
 <?php
 /**
- * Simple interface for displaying request profile data stored in
- * the wikis' primary database.
- *
- * See also https://www.mediawiki.org/wiki/Manual:Profiling.
- *
- * To add profiling information to the database:
- *
- * - set $wgProfiler['class'] in LocalSetings.php to a Profiler class other than ProfilerStub.
- * - set $wgProfiler['output'] to 'db' to force the profiler to save its the
- *   information in the database.
- * - apply the maintenance/archives/patch-profiling.sql patch to the database.
- * - set $wgEnableProfileInfo to true.
+ * Show profiling data.
  *
  * Copyright 2005 Kate Turner.
  *
@@ -36,12 +25,9 @@
  * @file
  */
 
-// This endpoint is supposed to be independent of request cookies and other
-// details of the session. Enforce this constraint with respect to session use.
-define( 'MW_NO_SESSION', 1 );
-
 ini_set( 'zlib.output_compression', 'off' );
 
+$wgEnableProfileInfo = $wgProfileToDatabase = false;
 require __DIR__ . '/includes/WebStart.php';
 
 header( 'Content-Type: text/html; charset=utf-8' );
@@ -50,7 +36,7 @@ header( 'Content-Type: text/html; charset=utf-8' );
 <!DOCTYPE html>
 <html>
 <head>
-	<meta charset="UTF-8" />
+	<meta charset="UTF-8">
 	<title>Profiling data</title>
 	<style>
 		/* noc.wikimedia.org/base.css */
@@ -159,47 +145,45 @@ if ( !$wgEnableProfileInfo ) {
 	exit( 1 );
 }
 
-$dbr = wfGetDB( DB_REPLICA );
+$dbr = wfGetDB( DB_SLAVE );
 
 if ( !$dbr->tableExists( 'profiling' ) ) {
 	echo '<p>No <code>profiling</code> table exists, so we can\'t show you anything.</p>'
-		. '<p>If you want to log profiling data, enable <code>$wgProfiler[\'output\'] = \'db\'</code>'
-		. ' in LocalSettings.php and run <code>maintenance/update.php</code> to'
+		. '<p>If you want to log profiling data, enable <code>$wgProfileToDatabase</code>'
+		. ' in your LocalSettings.php and run <code>maintenance/update.php</code> to'
 		. ' create the profiling table.'
 		. '</body></html>';
 	exit( 1 );
 }
 
-$expand = [];
+$expand = array();
 if ( isset( $_REQUEST['expand'] ) ) {
 	foreach ( explode( ',', $_REQUEST['expand'] ) as $f ) {
 		$expand[$f] = true;
 	}
 }
 
-// phpcs:ignore Squiz.Classes.ValidClassName.NotCamelCaps
 class profile_point {
+	var $name;
+	var $count;
+	var $time;
+	var $children;
 
-	public $name;
-	public $count;
-	public $time;
-	public $children;
+	static $totaltime, $totalmemory, $totalcount;
 
-	public static $totaltime, $totalmemory, $totalcount;
-
-	public function __construct( $name, $count, $time, $memory ) {
+	function __construct( $name, $count, $time, $memory ) {
 		$this->name = $name;
 		$this->count = $count;
 		$this->time = $time;
 		$this->memory = $memory;
-		$this->children = [];
+		$this->children = array();
 	}
 
-	public function add_child( $child ) {
+	function add_child( $child ) {
 		$this->children[] = $child;
 	}
 
-	public function display( $expand, $indent = 0.0 ) {
+	function display( $expand, $indent = 0.0 ) {
 		usort( $this->children, 'compare_point' );
 
 		$ex = isset( $expand[$this->name()] );
@@ -208,16 +192,16 @@ class profile_point {
 
 		if ( !$ex ) {
 			if ( count( $this->children ) ) {
-				$url = getEscapedProfileUrl( false, false, $expand + [ $this->name() => true ] );
+				$url = getEscapedProfileUrl( false, false, $expand + array( $this->name() => true ) );
 				$extet = " <a id=\"{$anchor}\" href=\"{$url}#{$anchor}\">[+]</a>";
 			} else {
 				$extet = '';
 			}
 		} else {
-			$e = [];
+			$e = array();
 			foreach ( $expand as $name => $ep ) {
 				if ( $name != $this->name() ) {
-					$e += [ $name => $ep ];
+					$e += array( $name => $ep );
 				}
 			}
 			$url = getEscapedProfileUrl( false, false, $e );
@@ -230,7 +214,6 @@ class profile_point {
 				<?php echo htmlspecialchars( str_replace( ',', ', ', $this->name() ) ) . $extet ?>
 			</div>
 		</th>
-		<?php // phpcs:disable Generic.Files.LineLength,Generic.PHP.NoSilencedErrors ?>
 		<td class="mw-profileinfo-timep"><?php echo @wfPercent( $this->time() / self::$totaltime * 100 ); ?></td>
 		<td class="mw-profileinfo-memoryp"><?php echo @wfPercent( $this->memory() / self::$totalmemory * 100 ); ?></td>
 		<td class="mw-profileinfo-count"><?php echo $this->count(); ?></td>
@@ -239,7 +222,6 @@ class profile_point {
 		<td class="mw-profileinfo-mpc"><?php echo round( sprintf( '%.2f', $this->memoryPerCall() / 1024 ), 2 ); ?></td>
 		<td class="mw-profileinfo-tpr"><?php echo @round( sprintf( '%.2f', $this->time() / self::$totalcount ), 2 ); ?></td>
 		<td class="mw-profileinfo-mpr"><?php echo @round( sprintf( '%.2f', $this->memory() / self::$totalcount / 1024 ), 2 ); ?></td>
-		<?php // phpcs:enable ?>
 	</tr>
 		<?php
 		if ( $ex ) {
@@ -249,94 +231,79 @@ class profile_point {
 		}
 	}
 
-	public function name() {
+	function name() {
 		return $this->name;
 	}
 
-	public function count() {
+	function count() {
 		return $this->count;
 	}
 
-	public function time() {
+	function time() {
 		return $this->time;
 	}
 
-	public function memory() {
+	function memory() {
 		return $this->memory;
 	}
 
-	public function timePerCall() {
-		// phpcs:ignore Generic.PHP.NoSilencedErrors.Discouraged
+	function timePerCall() {
 		return @( $this->time / $this->count );
 	}
 
-	public function memoryPerCall() {
-		// phpcs:ignore Generic.PHP.NoSilencedErrors.Discouraged
+	function memoryPerCall() {
 		return @( $this->memory / $this->count );
 	}
 
-	public function callsPerRequest() {
-		// phpcs:ignore Generic.PHP.NoSilencedErrors.Discouraged
+	function callsPerRequest() {
 		return @( $this->count / self::$totalcount );
 	}
 
-	public function timePerRequest() {
-		// phpcs:ignore Generic.PHP.NoSilencedErrors.Discouraged
+	function timePerRequest() {
 		return @( $this->time / self::$totalcount );
 	}
 
-	public function memoryPerRequest() {
-		// phpcs:ignore Generic.PHP.NoSilencedErrors.Discouraged
+	function memoryPerRequest() {
 		return @( $this->memory / self::$totalcount );
 	}
 
-	public function fmttime() {
+	function fmttime() {
 		return sprintf( '%5.02f', $this->time );
 	}
-}
+};
 
 function compare_point( profile_point $a, profile_point $b ) {
-	// phpcs:ignore MediaWiki.NamingConventions.ValidGlobalName.wgPrefix
 	global $sort;
-
 	switch ( $sort ) {
-		// Sorted ascending:
 		case 'name':
 			return strcmp( $a->name(), $b->name() );
-		// Sorted descending:
 		case 'time':
-			return $b->time() <=> $a->time();
+			return $a->time() > $b->time() ? -1 : 1;
 		case 'memory':
-			return $b->memory() <=> $a->memory();
+			return $a->memory() > $b->memory() ? -1 : 1;
 		case 'count':
-			return $b->count() <=> $a->count();
+			return $a->count() > $b->count() ? -1 : 1;
 		case 'time_per_call':
-			return $b->timePerCall() <=> $a->timePerCall();
+			return $a->timePerCall() > $b->timePerCall() ? -1 : 1;
 		case 'memory_per_call':
-			return $b->memoryPerCall() <=> $a->memoryPerCall();
+			return $a->memoryPerCall() > $b->memoryPerCall() ? -1 : 1;
 		case 'calls_per_req':
-			return $b->callsPerRequest() <=> $a->callsPerRequest();
+			return $a->callsPerRequest() > $b->callsPerRequest() ? -1 : 1;
 		case 'time_per_req':
-			return $b->timePerRequest() <=> $a->timePerRequest();
+			return $a->timePerRequest() > $b->timePerRequest() ? -1 : 1;
 		case 'memory_per_req':
-			return $b->memoryPerRequest() <=> $a->memoryPerRequest();
+			return $a->memoryPerRequest() > $b->memoryPerRequest() ? -1 : 1;
 	}
 }
 
-$sorts = [ 'time', 'memory', 'count', 'calls_per_req', 'name',
-	'time_per_call', 'memory_per_call', 'time_per_req', 'memory_per_req' ];
+$sorts = array( 'time', 'memory', 'count', 'calls_per_req', 'name',
+	'time_per_call', 'memory_per_call', 'time_per_req', 'memory_per_req' );
 $sort = 'time';
 if ( isset( $_REQUEST['sort'] ) && in_array( $_REQUEST['sort'], $sorts ) ) {
 	$sort = $_REQUEST['sort'];
 }
 
-$res = $dbr->select(
-	'profiling',
-	'*',
-	[],
-	'profileinfo.php',
-	[ 'ORDER BY' => 'pf_name ASC' ]
-);
+$res = $dbr->select( 'profiling', '*', array(), 'profileinfo.php', array( 'ORDER BY' => 'pf_name ASC' ) );
 
 if ( isset( $_REQUEST['filter'] ) ) {
 	$filter = $_REQUEST['filter'];
@@ -349,9 +316,7 @@ if ( isset( $_REQUEST['filter'] ) ) {
 	<p>
 		<input type="text" name="filter" value="<?php echo htmlspecialchars( $filter ); ?>">
 		<input type="hidden" name="sort" value="<?php echo htmlspecialchars( $sort ); ?>">
-		<input type="hidden" name="expand" value="<?php
-			echo htmlspecialchars( implode( ",", array_keys( $expand ) ) );
-		?>">
+		<input type="hidden" name="expand" value="<?php echo htmlspecialchars( implode( ",", array_keys( $expand ) ) ); ?>">
 		<input type="submit" value="Filter">
 	</p>
 </form>
@@ -359,33 +324,15 @@ if ( isset( $_REQUEST['filter'] ) ) {
 <table class="mw-profileinfo-table table table-striped table-hover">
 	<thead>
 	<tr>
-		<th><a href="<?php
-			echo getEscapedProfileUrl( false, 'name' );
-		?>">Name</a></th>
-		<th><a href="<?php
-			echo getEscapedProfileUrl( false, 'time' );
-		?>">Time (%)</a></th>
-		<th><a href="<?php
-			echo getEscapedProfileUrl( false, 'memory' );
-		?>">Memory (%)</a></th>
-		<th><a href="<?php
-			echo getEscapedProfileUrl( false, 'count' );
-		?>">Count</a></th>
-		<th><a href="<?php
-			echo getEscapedProfileUrl( false, 'calls_per_req' );
-		?>">Calls/req</a></th>
-		<th><a href="<?php
-			echo getEscapedProfileUrl( false, 'time_per_call' );
-		?>">ms/call</a></th>
-		<th><a href="<?php
-			echo getEscapedProfileUrl( false, 'memory_per_call' );
-		?>">kb/call</a></th>
-		<th><a href="<?php
-			echo getEscapedProfileUrl( false, 'time_per_req' );
-		?>">ms/req</a></th>
-		<th><a href="<?php
-			echo getEscapedProfileUrl( false, 'memory_per_req' );
-		?>">kb/req</a></th>
+		<th><a href="<?php echo getEscapedProfileUrl( false, 'name' ); ?>">Name</a></th>
+		<th><a href="<?php echo getEscapedProfileUrl( false, 'time' ); ?>">Time (%)</a></th>
+		<th><a href="<?php echo getEscapedProfileUrl( false, 'memory' ); ?>">Memory (%)</a></th>
+		<th><a href="<?php echo getEscapedProfileUrl( false, 'count' ); ?>">Count</a></th>
+		<th><a href="<?php echo getEscapedProfileUrl( false, 'calls_per_req' ); ?>">Calls/req</a></th>
+		<th><a href="<?php echo getEscapedProfileUrl( false, 'time_per_call' ); ?>">ms/call</a></th>
+		<th><a href="<?php echo getEscapedProfileUrl( false, 'memory_per_call' ); ?>">kb/call</a></th>
+		<th><a href="<?php echo getEscapedProfileUrl( false, 'time_per_req' ); ?>">ms/req</a></th>
+		<th><a href="<?php echo getEscapedProfileUrl( false, 'memory_per_req' ); ?>">kb/req</a></th>
 	</tr>
 	</thead>
 	<tbody>
@@ -395,7 +342,6 @@ if ( isset( $_REQUEST['filter'] ) ) {
 	profile_point::$totalmemory = 0.0;
 
 	function getEscapedProfileUrl( $_filter = false, $_sort = false, $_expand = false ) {
-		// phpcs:ignore MediaWiki.NamingConventions.ValidGlobalName.wgPrefix
 		global $filter, $sort, $expand;
 
 		if ( $_expand === false ) {
@@ -404,22 +350,22 @@ if ( isset( $_REQUEST['filter'] ) ) {
 
 		return htmlspecialchars(
 			'?' .
-				wfArrayToCgi( [
-					'filter' => $_filter ?: $filter,
-					'sort' => $_sort ?: $sort,
+				wfArrayToCgi( array(
+					'filter' => $_filter ? $_filter : $filter,
+					'sort' => $_sort ? $_sort : $sort,
 					'expand' => implode( ',', array_keys( $_expand ) )
-				] )
+				) )
 		);
 	}
 
-	$points = [];
-	$queries = [];
+	$points = array();
+	$queries = array();
 	$sqltotal = 0.0;
 
 	$last = false;
 	foreach ( $res as $o ) {
 		$next = new profile_point( $o->pf_name, $o->pf_count, $o->pf_time, $o->pf_memory );
-		if ( $next->name() == '-total' || $next->name() == 'main()' ) {
+		if ( $next->name() == '-total' ) {
 			profile_point::$totaltime = $next->time();
 			profile_point::$totalcount = $next->count();
 			profile_point::$totalmemory = $next->memory();
@@ -445,8 +391,7 @@ if ( isset( $_REQUEST['filter'] ) ) {
 	}
 	$points[] = $s;
 
-	// phpcs:ignore Generic.PHP.NoSilencedErrors.Discouraged
-	@usort( $points, 'compare_point' );
+	usort( $points, 'compare_point' );
 
 	foreach ( $points as $point ) {
 		if ( strlen( $filter ) && !strstr( $point->name(), $filter ) ) {
@@ -458,7 +403,7 @@ if ( isset( $_REQUEST['filter'] ) ) {
 	?>
 	</tbody>
 </table>
-<hr />
+<hr>
 <p>Total time: <code><?php printf( '%5.02f', profile_point::$totaltime ); ?></code></p>
 
 <p>Total memory: <code><?php printf( '%5.02f', profile_point::$totalmemory / 1024 ); ?></code></p>

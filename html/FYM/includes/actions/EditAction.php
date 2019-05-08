@@ -1,6 +1,6 @@
 <?php
 /**
- * action=edit handler
+ * action=edit / action=submit handler
  *
  * Copyright © 2012 Timo Tijhof
  *
@@ -26,7 +26,8 @@
 /**
  * Page edition handler
  *
- * This is a wrapper that will call the EditPage class or a custom editor from an extension.
+ * This is a wrapper that will call the EditPage class, or ExternalEdit
+ * if $wgUseExternalEditor is set to true and requested by the user.
  *
  * @ingroup Actions
  */
@@ -41,27 +42,35 @@ class EditAction extends FormlessAction {
 	}
 
 	public function show() {
-		$this->useTransactionalTimeLimit();
-
-		$out = $this->getOutput();
-		$out->setRobotPolicy( 'noindex,nofollow' );
-		if ( $this->getContext()->getConfig()->get( 'UseMediaWikiUIEverywhere' ) ) {
-			$out->addModuleStyles( [
-				'mediawiki.ui.input',
-				'mediawiki.ui.checkbox',
-			] );
-		}
 		$page = $this->page;
 		$user = $this->getUser();
 
-		if ( Hooks::run( 'CustomEditor', [ $page, $user ] ) ) {
+		if ( wfRunHooks( 'CustomEditor', array( $page, $user ) ) ) {
 			$editor = new EditPage( $page );
-			$editor->setContextTitle( $this->getTitle() );
 			$editor->edit();
 		}
 	}
+}
 
-	public function doesWrites() {
-		return true;
+/**
+ * Edit submission handler
+ *
+ * This is the same as EditAction; except that it sets the session cookie.
+ *
+ * @ingroup Actions
+ */
+class SubmitAction extends EditAction {
+
+	public function getName() {
+		return 'submit';
+	}
+
+	public function show() {
+		if ( session_id() == '' ) {
+			// Send a cookie so anons get talk message notifications
+			wfSetupSession();
+		}
+
+		parent::show();
 	}
 }

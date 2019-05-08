@@ -34,7 +34,7 @@ class PruneFileCache extends Maintenance {
 
 	public function __construct() {
 		parent::__construct();
-		$this->addDescription( 'Build file cache for content pages' );
+		$this->mDescription = "Build file cache for content pages";
 		$this->addOption( 'agedays', 'How many days old files must be in order to delete', true, true );
 		$this->addOption( 'subdir', 'Prune one $wgFileCacheDirectory subdirectory name', false, true );
 	}
@@ -43,25 +43,25 @@ class PruneFileCache extends Maintenance {
 		global $wgUseFileCache, $wgFileCacheDirectory;
 
 		if ( !$wgUseFileCache ) {
-			$this->fatalError( "Nothing to do -- \$wgUseFileCache is disabled." );
+			$this->error( "Nothing to do -- \$wgUseFileCache is disabled.", true );
 		}
 
 		$age = $this->getOption( 'agedays' );
 		if ( !ctype_digit( $age ) ) {
-			$this->fatalError( "Non-integer 'age' parameter given." );
+			$this->error( "Non-integer 'age' parameter given.", true );
 		}
 		// Delete items with a TS older than this
 		$this->minSurviveTimestamp = time() - ( 86400 * $age );
 
 		$dir = $wgFileCacheDirectory;
 		if ( !is_dir( $dir ) ) {
-			$this->fatalError( "Nothing to do -- \$wgFileCacheDirectory directory not found." );
+			$this->error( "Nothing to do -- \$wgFileCacheDirectory directory not found.", true );
 		}
 
 		$subDir = $this->getOption( 'subdir' );
 		if ( $subDir !== null ) {
 			if ( !is_dir( "$dir/$subDir" ) ) {
-				$this->fatalError( "The specified subdirectory `$subDir` does not exist." );
+				$this->error( "The specified subdirectory `$subDir` does not exist.", true );
 			}
 			$this->output( "Pruning `$dir/$subDir` directory...\n" );
 			$this->prune_directory( "$dir/$subDir", 'report' );
@@ -75,8 +75,8 @@ class PruneFileCache extends Maintenance {
 	}
 
 	/**
-	 * @param string $dir
-	 * @param string|bool $report Use 'report' to report the directories being scanned
+	 * @param $dir string
+	 * @param $report string|bool Use 'report' to report the directories being scanned
 	 */
 	protected function prune_directory( $dir, $report = false ) {
 		$tsNow = time();
@@ -107,5 +107,5 @@ class PruneFileCache extends Maintenance {
 	}
 }
 
-$maintClass = PruneFileCache::class;
+$maintClass = "PruneFileCache";
 require_once RUN_MAINTENANCE_IF_MAIN;

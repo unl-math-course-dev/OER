@@ -30,12 +30,12 @@
 class LanguageMy extends Language {
 
 	/**
-	 * @param string $_
+	 * @param $_ string
 	 * @return string
 	 */
 	function commafy( $_ ) {
 		/* NO-op. Cannot use
-		 * $separatorTransformTable = [ ',' => '' ]
+		 * $separatorTransformTable = array( ',' => '' )
 		 * That would break when parsing and doing strstr '' => 'foo';
 		 */
 		return $_;

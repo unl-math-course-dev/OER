@@ -35,28 +35,28 @@ class CheckUsernames extends Maintenance {
 
 	public function __construct() {
 		parent::__construct();
-		$this->addDescription( 'Verify that database usernames are actually valid' );
+		$this->mDescription = "Verify that database usernames are actually valid";
 		$this->setBatchSize( 1000 );
 	}
 
 	function execute() {
-		$dbr = $this->getDB( DB_REPLICA );
+		$dbr = wfGetDB( DB_SLAVE );
 
 		$maxUserId = 0;
 		do {
 			$res = $dbr->select( 'user',
-				[ 'user_id', 'user_name' ],
-				[ 'user_id > ' . $maxUserId ],
+				array( 'user_id', 'user_name' ),
+				array( 'user_id > ' . $maxUserId ),
 				__METHOD__,
-				[
+				array(
 					'ORDER BY' => 'user_id',
-					'LIMIT' => $this->getBatchSize(),
-				]
+					'LIMIT' => $this->mBatchSize,
+				)
 			);
 
 			foreach ( $res as $row ) {
-				if ( !User::isValidUserName( $row->user_name ) ) {
-					$this->output( sprintf( "Found: %6d: '%s'\n", $row->user_id, $row->user_name ) );
+				if ( ! User::isValidUserName( $row->user_name ) ) {
+					$this->error( sprintf( "%s: %6d: '%s'\n", wfWikiID(), $row->user_id, $row->user_name ) );
 					wfDebugLog( 'checkUsernames', $row->user_name );
 				}
 			}
@@ -65,5 +65,5 @@ class CheckUsernames extends Maintenance {
 	}
 }
 
-$maintClass = CheckUsernames::class;
+$maintClass = "CheckUsernames";
 require_once RUN_MAINTENANCE_IF_MAIN;

@@ -19,6 +19,7 @@
  *
  * @file
  * @ingroup ExternalStorage
+ * @author Aaron Schulz
  */
 
 /**
@@ -28,14 +29,13 @@
  * @since 1.21
  */
 abstract class ExternalStoreMedium {
-	/** @var array */
-	protected $params = [];
+	/** @var Array */
+	protected $params = array();
 
 	/**
-	 * @param array $params Usage context options:
-	 *   - wiki: the domain ID of the wiki this is being used for [optional]
+	 * @param array $params Options
 	 */
-	public function __construct( array $params = [] ) {
+	public function __construct( array $params = array() ) {
 		$this->params = $params;
 	}
 
@@ -55,7 +55,7 @@ abstract class ExternalStoreMedium {
 	 * @return array Map from the url to the text stored. Unfound data is not represented
 	 */
 	public function batchFetchFromURLs( array $urls ) {
-		$retval = [];
+		$retval = array();
 		foreach ( $urls as $url ) {
 			$data = $this->fetchFromURL( $url );
 			// Dont return when false to allow for simpler implementations.
@@ -71,21 +71,10 @@ abstract class ExternalStoreMedium {
 	/**
 	 * Insert a data item into a given location
 	 *
-	 * @param string $location The location name
-	 * @param string $data The data item
+	 * @param string $location the location name
+	 * @param string $data the data item
 	 * @return string|bool The URL of the stored data item, or false on error
 	 * @throws MWException
 	 */
 	abstract public function store( $location, $data );
-
-	/**
-	 * Check if a given location is read-only
-	 *
-	 * @param string $location The location name
-	 * @return bool Whether this location is read-only
-	 * @since 1.31
-	 */
-	public function isReadOnly( $location ) {
-		return false;
-	}
 }

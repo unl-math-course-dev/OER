@@ -1,5 +1,8 @@
 <?php
 /**
+ * Packed overlay image gallery. All images adjusted to be same height and
+ * image caption being placed over top of image.
+ *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 2 of the License, or
@@ -18,10 +21,6 @@
  * @file
  */
 
-/**
- * Packed overlay image gallery. All images adjusted to be same height and
- * image caption being placed over top of image.
- */
 class PackedOverlayImageGallery extends PackedImageGallery {
 	/**
 	 * Add the wrapper html around the thumb's caption
@@ -32,6 +31,7 @@ class PackedOverlayImageGallery extends PackedImageGallery {
 	 * @return string
 	 */
 	protected function wrapGalleryText( $galleryText, $thumb ) {
+
 		// If we have no text, do not output anything to avoid
 		// ugly white overlay.
 		if ( trim( $galleryText ) === '' ) {
@@ -40,7 +40,7 @@ class PackedOverlayImageGallery extends PackedImageGallery {
 
 		# ATTENTION: The newline after <div class="gallerytext"> is needed to
 		# accommodate htmltidy which in version 4.8.6 generated crackpot HTML
-		# in its absence, see: https://phabricator.wikimedia.org/T3765
+		# in its absence, see: http://bugzilla.wikimedia.org/show_bug.cgi?id=1765
 		# -Ævar
 
 		$thumbWidth = $this->getGBWidth( $thumb ) - $this->getThumbPadding() - $this->getGBPadding();
@@ -50,7 +50,7 @@ class PackedOverlayImageGallery extends PackedImageGallery {
 
 		return "\n\t\t\t" . $outerWrapper . '<div class="gallerytext">' . "\n"
 			. $galleryText
-			. "\n\t\t\t</div></div>";
+			. "\n\t\t\t</div>";
 	}
 }
 

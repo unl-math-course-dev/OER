@@ -1,42 +1,55 @@
 /*
  * Javascript for module editWarning
  */
-( function () {
-	'use strict';
-
+( function ( mw, $ ) {
 	$( function () {
-		var allowCloseWindow,
-			$textBox = $( '#wpTextbox1' ),
-			$summary = $( '#wpSummary' ),
-			$both = $textBox.add( $summary );
-
 		// Check if EditWarning is enabled and if we need it
-		if ( !mw.user.options.get( 'useeditwarning' ) ) {
+		if ( $( '#wpTextbox1' ).length === 0 ) {
 			return true;
 		}
-
-		// Save the original value of the text fields
-		$both.each( function ( index, element ) {
-			var $element = $( element );
-			$element.data( 'origtext', $element.textSelection( 'getContents' ) );
+		// Get the original values of some form elements
+		$( '#wpTextbox1, #wpSummary' ).each( function () {
+			$( this ).data( 'origtext', $( this ).val() );
 		} );
+		var savedWindowOnBeforeUnload;
+		$( window )
+			.on( 'beforeunload.editwarning', function () {
+				var retval;
 
-		allowCloseWindow = mw.confirmCloseWindow( {
-			test: function () {
-				// We use .textSelection, because editors might not have updated the form yet.
-				return mw.config.get( 'wgAction' ) === 'submit' ||
-					$textBox.data( 'origtext' ) !== $textBox.textSelection( 'getContents' ) ||
-					$summary.data( 'origtext' ) !== $summary.textSelection( 'getContents' );
-			},
+				// Check if the current values of some form elements are the same as
+				// the original values
+				if (
+					mw.config.get( 'wgAction' ) === 'submit' ||
+						$( '#wpTextbox1' ).data( 'origtext' ) !== $( '#wpTextbox1' ).val() ||
+						$( '#wpSummary' ).data( 'origtext' ) !== $( '#wpSummary' ).val()
+				) {
+					// Return our message
+					retval = mw.msg( 'editwarning-warning' );
+				}
 
-			message: mw.msg( 'editwarning-warning' ),
-			namespace: 'editwarning'
-		} );
+				// Unset the onbeforeunload handler so we don't break page caching in Firefox
+				savedWindowOnBeforeUnload = window.onbeforeunload;
+				window.onbeforeunload = null;
+				if ( retval !== undefined ) {
+					// ...but if the user chooses not to leave the page, we need to rebind it
+					setTimeout( function () {
+						window.onbeforeunload = savedWindowOnBeforeUnload;
+					}, 1 );
+					return retval;
+				}
+			} )
+			.on( 'pageshow.editwarning', function () {
+				// Re-add onbeforeunload handler
+				if ( !window.onbeforeunload ) {
+					window.onbeforeunload = savedWindowOnBeforeUnload;
+				}
+			} );
 
 		// Add form submission handler
 		$( '#editform' ).submit( function () {
-			allowCloseWindow.release();
+			// Unbind our handlers
+			$( window ).off( '.editwarning' );
 		} );
 	} );
 
-}() );
+}( mediaWiki, jQuery ) );

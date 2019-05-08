@@ -1,14 +1,15 @@
 <?php
 /** Igbo (Igbo)
  *
- * To improve a translation please visit https://translatewiki.net
+ * See MessagesQqq.php for message documentation incl. usage of parameters
+ * To improve a translation please visit http://translatewiki.net
  *
  * @ingroup Language
  * @file
  *
  */
 
-$namespaceNames = [
+$namespaceNames = array(
 	NS_MEDIA            => 'Midia',
 	NS_SPECIAL          => 'Ihü_kárírí',
 	NS_TALK             => 'Okwu',
@@ -25,9 +26,9 @@ $namespaceNames = [
 	NS_HELP_TALK        => 'Okwu_nkwadọ',
 	NS_CATEGORY         => 'Òtù',
 	NS_CATEGORY_TALK    => 'Okwu_òtù',
-];
+);
 
-$namespaceAliases = [
+$namespaceAliases = array(
 	'Nká'                  => NS_MEDIA,
 	'Ọ\'bànifé'            => NS_USER,
 	'Okwu_ọ\'bànifé'       => NS_USER_TALK,
@@ -39,33 +40,34 @@ $namespaceAliases = [
 	'Okwu_nkwádọ'          => NS_HELP_TALK,
 	'Ébéonọr'              => NS_CATEGORY,
 	'Okwu_ébéonọr'         => NS_CATEGORY_TALK,
-];
+);
 
-$specialPageAliases = [
-	'Allpages'                  => [ 'IhüNílé' ],
-	'Blankpage'                 => [ 'HịcháIhü' ],
-	'Export'                    => [ 'MēKọFùtá' ],
-	'Filepath'                  => [ 'UzọrAkwúkwóOrünotu' ],
-	'Import'                    => [ 'BàÍfé' ],
-	'Mypage'                    => [ 'IhüNkèm' ],
-	'Mytalk'                    => [ 'OkwuNkèm' ],
-	'Preferences'               => [ 'Ọtúm_dọsẹrẹ_ihem' ],
-	'Specialpages'              => [ 'IhüKá' ],
-	'Undelete'                  => [ 'Ábàkàshịkwàlà' ],
-	'Upload'                    => [ 'TinyéIheNélú' ],
-	'Userlogin'                 => [ 'Ọ\'bàniféÍBànyé' ],
-	'Userlogout'                => [ 'Ọ\'bàniféÍFụtá' ],
-];
+$specialPageAliases = array(
+	'Allpages'                  => array( 'IhüNílé' ),
+	'Blankpage'                 => array( 'HịcháIhü' ),
+	'Export'                    => array( 'MēKọFùtá' ),
+	'Filepath'                  => array( 'UzọrAkwúkwóOrünotu' ),
+	'Import'                    => array( 'BàÍfé' ),
+	'Mypage'                    => array( 'IhüNkèm' ),
+	'Mytalk'                    => array( 'OkwuNkèm' ),
+	'Preferences'               => array( 'Ọtúm_dọsẹrẹ_ihem' ),
+	'Specialpages'              => array( 'IhüKá' ),
+	'Undelete'                  => array( 'Ábàkàshịkwàlà' ),
+	'Upload'                    => array( 'TinyéIheNélú' ),
+	'Userlogin'                 => array( 'Ọ\'bàniféÍBànyé' ),
+	'Userlogout'                => array( 'Ọ\'bàniféÍFụtá' ),
+);
 
-$magicWords = [
-	'redirect'                  => [ '0', '#KÚFÙ', '#REDIRECT' ],
-	'fullpagename'              => [ '1', 'ÁHÀNÍLÉNKÈIHÜ', 'FULLPAGENAME' ],
-	'msg'                       => [ '0', 'OZI:', 'MSG:' ],
-	'img_right'                 => [ '1', 'áká_ịkẹngạ', 'right' ],
-	'img_left'                  => [ '1', 'áká_èkpè', 'left' ],
-	'img_top'                   => [ '1', 'élú', 'top' ],
-	'img_middle'                => [ '1', 'ẹtítì', 'middle' ],
-	'img_text_bottom'           => [ '1', 'okpúrù-ede', 'text-bottom' ],
-	'displaytitle'              => [ '1', 'ZIÍSHÍ', 'DISPLAYTITLE' ],
-	'pagesize'                  => [ '1', 'ÀSÁIHÜ', 'PAGESIZE' ],
-];
+$magicWords = array(
+	'redirect'                  => array( '0', '#KÚFÙ', '#REDIRECT' ),
+	'fullpagename'              => array( '1', 'ÁHÀNÍLÉNKÈIHÜ', 'FULLPAGENAME' ),
+	'msg'                       => array( '0', 'OZI:', 'MSG:' ),
+	'img_right'                 => array( '1', 'áká_ịkẹngạ', 'right' ),
+	'img_left'                  => array( '1', 'áká_èkpè', 'left' ),
+	'img_top'                   => array( '1', 'élú', 'top' ),
+	'img_middle'                => array( '1', 'ẹtítì', 'middle' ),
+	'img_text_bottom'           => array( '1', 'okpúrù-ede', 'text-bottom' ),
+	'displaytitle'              => array( '1', 'ZIÍSHÍ', 'DISPLAYTITLE' ),
+	'pagesize'                  => array( '1', 'ÀSÁIHÜ', 'PAGESIZE' ),
+);
+

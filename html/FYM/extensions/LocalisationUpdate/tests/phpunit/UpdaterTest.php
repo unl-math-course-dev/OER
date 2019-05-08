@@ -2,21 +2,12 @@
 /**
  * @file
  * @author Niklas Laxström
- * @license GPL-2.0-or-later
+ * @license GPL-2.0+
  */
 
-namespace LocalisationUpdate;
-
-use PHPUnit4And6Compat;
-
-/**
- * @covers \LocalisationUpdate\Updater
- */
-class UpdaterTest extends \PHPUnit\Framework\TestCase {
-	use PHPUnit4And6Compat;
-
+class LU_UpdaterTest extends MediaWikiTestCase {
 	public function testIsDirectory() {
-		$updater = new Updater();
+		$updater = new LU_Updater();
 
 		$this->assertTrue(
 			$updater->isDirectory( '/IP/extensions/Translate/i18n/*.json' ),
@@ -30,14 +21,14 @@ class UpdaterTest extends \PHPUnit\Framework\TestCase {
 	}
 
 	public function testExpandRemotePath() {
-		$updater = new Updater();
-		$repos = [ 'main' => 'file:///repos/%NAME%/%SOME-VAR%' ];
+		$updater = new LU_Updater();
+		$repos = array( 'main' => 'file:///repos/%NAME%/%SOME-VAR%' );
 
-		$info = [
+		$info = array(
 			'repo' => 'main',
 			'name' => 'product',
 			'some-var' => 'file',
-		];
+		);
 		$this->assertEquals(
 			'file:///repos/product/file',
 			$updater->expandRemotePath( $info, $repos ),
@@ -46,18 +37,18 @@ class UpdaterTest extends \PHPUnit\Framework\TestCase {
 	}
 
 	public function testReadMessages() {
-		$updater = $updater = new Updater();
+		$updater = $updater = new LU_Updater();
 
-		$input = [ 'file' => 'Hello World!' ];
-		$output = [ 'en' => [ 'key' => $input['file'] ] ];
+		$input = array( 'file' => 'Hello World!' );
+		$output = array( 'en' => array( 'key' => $input['file'] ) );
 
-		$reader = $this->getMock( 'LocalisationUpdate\Reader' );
+		$reader = $this->getMock( 'LU_Reader' );
 		$reader
 			->expects( $this->once() )
 			->method( 'parse' )
 			->will( $this->returnValue( $output ) );
 
-		$factory = $this->getMock( 'LocalisationUpdate\ReaderFactory' );
+		$factory = $this->getMock( 'LU_ReaderFactory' );
 		$factory
 			->expects( $this->once() )
 			->method( 'getReader' )
@@ -68,21 +59,21 @@ class UpdaterTest extends \PHPUnit\Framework\TestCase {
 	}
 
 	public function testFindChangedTranslations() {
-		$updater = $updater = new Updater();
+		$updater = $updater = new LU_Updater();
 
-		$origin = [
+		$origin = array(
 			'A' => '1',
 			'C' => '3',
 			'D' => '4',
-		];
-		$remote = [
+		);
+		$remote = array(
 			'A' => '1', // No change key
 			'B' => '2', // New key
 			'C' => '33', // Changed key
 			'D' => '44', // Blacklisted key
-		];
-		$blacklist = [ 'D' => 0 ];
-		$expected = [ 'B' => '2', 'C' => '33' ];
+		);
+		$blacklist = array( 'D' => 0 );
+		$expected = array( 'B' => '2', 'C' => '33' );
 		$observed = $updater->findChangedTranslations( $origin, $remote, $blacklist );
 		$this->assertEquals( $expected, $observed, 'Changed and new keys returned' );
 	}

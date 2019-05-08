@@ -1,25 +1,26 @@
 <?php
 /** Church Slavic (словѣньскъ / ⰔⰎⰑⰂⰡⰐⰠⰔⰍⰟ)
  *
- * To improve a translation please visit https://translatewiki.net
+ * See MessagesQqq.php for message documentation incl. usage of parameters
+ * To improve a translation please visit http://translatewiki.net
  *
  * @ingroup Language
  * @file
  *
  */
 
-$specialPageAliases = [
-	'Allpages'                  => [ 'Вьсѩ_страницѧ' ],
-	'Categories'                => [ 'Катигорїѩ' ],
-	'Contributions'             => [ 'Добродѣꙗниꙗ' ],
-	'Preferences'               => [ 'Строи' ],
-	'Recentchanges'             => [ 'Послѣдьнѩ_мѣнꙑ' ],
-	'Search'                    => [ 'Исканиѥ' ],
-	'Statistics'                => [ 'Статїстїка' ],
-	'Upload'                    => [ 'Положєниѥ_дѣла' ],
-];
+$specialPageAliases = array(
+	'Allpages'                  => array( 'Вьсѩ_страницѧ' ),
+	'Categories'                => array( 'Катигорїѩ' ),
+	'Contributions'             => array( 'Добродѣꙗниꙗ' ),
+	'Preferences'               => array( 'Строи' ),
+	'Recentchanges'             => array( 'Послѣдьнѩ_мѣнꙑ' ),
+	'Search'                    => array( 'Исканиѥ' ),
+	'Statistics'                => array( 'Статїстїка' ),
+	'Upload'                    => array( 'Положєниѥ_дѣла' ),
+);
 
-$namespaceNames = [
+$namespaceNames = array(
 	NS_MEDIA            => 'Срѣдьства',
 	NS_SPECIAL          => 'Нарочьна',
 	NS_TALK             => 'Бєсѣда',
@@ -36,9 +37,9 @@ $namespaceNames = [
 	NS_HELP_TALK        => 'Помощи_бєсѣда',
 	NS_CATEGORY         => 'Катигорїꙗ',
 	NS_CATEGORY_TALK    => 'Катигорїѩ_бєсѣда',
-];
+);
 
-$namespaceAliases = [
+$namespaceAliases = array(
 	'Срѣдьства'                      => NS_MEDIA,
 	'Нарочьна'                       => NS_SPECIAL,
 	'Бесѣда'                         => NS_TALK,
@@ -56,23 +57,23 @@ $namespaceAliases = [
 	'Помощи_бесѣда'                  => NS_HELP_TALK,
 	'Катигорї'                      => NS_CATEGORY,
 	'Катигорїѩ_бесѣда'               => NS_CATEGORY_TALK,
-];
+);
 
-$magicWords = [
-	'redirect'                  => [ '0', '#ПРѢНАПРАВЛЄНИѤ', '#REDIRECT' ],
-	'language'                  => [ '0', '#ѨꙀꙐКЪ:', '#LANGUAGE:' ],
-];
+$magicWords = array(
+	'redirect'                  => array( '0', '#ПРѢНАПРАВЛЄНИѤ', '#REDIRECT' ),
+	'language'                  => array( '0', '#ѨꙀꙐКЪ:', '#LANGUAGE:' ),
+);
 
-$separatorTransformTable = [
+$separatorTransformTable = array(
 	',' => ".",
 	'.' => ','
-];
+);
 
 $linkPrefixExtension = true;
 
 $defaultDateFormat = 'mdy';
 
-$dateFormats = [
+$dateFormats = array(
 	'mdy time' => 'H:i',
 	'mdy date' => 'xg j числа, Y',
 	'mdy both' => 'H:i, xg j числа, Y',
@@ -88,7 +89,8 @@ $dateFormats = [
 	'ISO 8601 time' => 'xnH:xni:xns',
 	'ISO 8601 date' => 'xnY-xnm-xnd',
 	'ISO 8601 both' => 'xnY-xnm-xnd"T"xnH:xni:xns',
-];
+);
 
 $linkTrail = '/^([a-zабвгдеєжѕзїіıићклмнопсстѹфхѡѿцчшщъыьѣюѥѧѩѫѭѯѱѳѷѵґѓђёјйљњќуўџэ҄я“»]+)(.*)$/sDu';
 $linkPrefixCharset = '„«';
+

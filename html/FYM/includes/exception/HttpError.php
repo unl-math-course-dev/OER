@@ -18,8 +18,6 @@
  * @file
  */
 
-use MediaWiki\Logger\LoggerFactory;
-
 /**
  * Show an error that looks like an HTTP server error.
  * Replacement for wfHttpError().
@@ -31,28 +29,17 @@ class HttpError extends MWException {
 	private $httpCode, $header, $content;
 
 	/**
-	 * @param int $httpCode HTTP status code to send to the client
-	 * @param string|Message $content Content of the message
-	 * @param string|Message|null $header Content of the header (\<title\> and \<h1\>)
+	 * Constructor
+	 *
+	 * @param $httpCode Integer: HTTP status code to send to the client
+	 * @param string|Message $content content of the message
+	 * @param string|Message $header content of the header (\<title\> and \<h1\>)
 	 */
 	public function __construct( $httpCode, $content, $header = null ) {
 		parent::__construct( $content );
 		$this->httpCode = (int)$httpCode;
 		$this->header = $header;
 		$this->content = $content;
-	}
-
-	/**
-	 * We don't want the default exception logging as we got our own logging set
-	 * up in self::report.
-	 *
-	 * @see MWException::isLoggable
-	 *
-	 * @since 1.24
-	 * @return bool
-	 */
-	public function isLoggable() {
-		return false;
 	}
 
 	/**
@@ -65,40 +52,17 @@ class HttpError extends MWException {
 	}
 
 	/**
-	 * Report and log the HTTP error.
+	 * Report the HTTP error.
 	 * Sends the appropriate HTTP status code and outputs an
 	 * HTML page with an error message.
 	 */
 	public function report() {
-		$this->doLog();
+		$httpMessage = HttpStatus::getMessage( $this->httpCode );
 
-		HttpStatus::header( $this->httpCode );
+		header( "Status: {$this->httpCode} {$httpMessage}", true, $this->httpCode );
 		header( 'Content-type: text/html; charset=utf-8' );
 
 		print $this->getHTML();
-	}
-
-	private function doLog() {
-		$logger = LoggerFactory::getInstance( 'HttpError' );
-		$content = $this->content;
-
-		if ( $content instanceof Message ) {
-			$content = $content->text();
-		}
-
-		$context = [
-			'file' => $this->getFile(),
-			'line' => $this->getLine(),
-			'http_code' => $this->httpCode,
-		];
-
-		$logMsg = "$content ({http_code}) from {file}:{line}";
-
-		if ( $this->getStatusCode() < 500 ) {
-			$logger->info( $logMsg, $context );
-		} else {
-			$logger->error( $logMsg, $context );
-		}
 	}
 
 	/**
@@ -109,21 +73,21 @@ class HttpError extends MWException {
 	 */
 	public function getHTML() {
 		if ( $this->header === null ) {
-			$titleHtml = htmlspecialchars( HttpStatus::getMessage( $this->httpCode ) );
+			$header = HttpStatus::getMessage( $this->httpCode );
 		} elseif ( $this->header instanceof Message ) {
-			$titleHtml = $this->header->escaped();
+			$header = $this->header->escaped();
 		} else {
-			$titleHtml = htmlspecialchars( $this->header );
+			$header = htmlspecialchars( $this->header );
 		}
 
 		if ( $this->content instanceof Message ) {
-			$contentHtml = $this->content->escaped();
+			$content = $this->content->escaped();
 		} else {
-			$contentHtml = nl2br( htmlspecialchars( $this->content ) );
+			$content = htmlspecialchars( $this->content );
 		}
 
 		return "<!DOCTYPE html>\n" .
-		"<html><head><title>$titleHtml</title></head>\n" .
-		"<body><h1>$titleHtml</h1><p>$contentHtml</p></body></html>\n";
+		"<html><head><title>$header</title></head>\n" .
+		"<body><h1>$header</h1><p>$content</p></body></html>\n";
 	}
 }

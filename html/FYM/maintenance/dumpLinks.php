@@ -40,26 +40,26 @@ require_once __DIR__ . '/Maintenance.php';
 class DumpLinks extends Maintenance {
 	public function __construct() {
 		parent::__construct();
-		$this->addDescription( 'Quick demo hack to generate a plaintext link dump' );
+		$this->mDescription = "Quick demo hack to generate a plaintext link dump";
 	}
 
 	public function execute() {
-		$dbr = $this->getDB( DB_REPLICA );
-		$result = $dbr->select( [ 'pagelinks', 'page' ],
-			[
+		$dbr = wfGetDB( DB_SLAVE );
+		$result = $dbr->select( array( 'pagelinks', 'page' ),
+			array(
 				'page_id',
 				'page_namespace',
 				'page_title',
 				'pl_namespace',
-				'pl_title' ],
-			[ 'page_id=pl_from' ],
+				'pl_title' ),
+			array( 'page_id=pl_from' ),
 			__METHOD__,
-			[ 'ORDER BY' => 'page_id' ] );
+			array( 'ORDER BY' => 'page_id' ) );
 
 		$lastPage = null;
 		foreach ( $result as $row ) {
 			if ( $lastPage != $row->page_id ) {
-				if ( $lastPage !== null ) {
+				if ( isset( $lastPage ) ) {
 					$this->output( "\n" );
 				}
 				$page = Title::makeTitle( $row->page_namespace, $row->page_title );
@@ -69,11 +69,11 @@ class DumpLinks extends Maintenance {
 			$link = Title::makeTitle( $row->pl_namespace, $row->pl_title );
 			$this->output( " " . $link->getPrefixedURL() );
 		}
-		if ( $lastPage !== null ) {
+		if ( isset( $lastPage ) ) {
 			$this->output( "\n" );
 		}
 	}
 }
 
-$maintClass = DumpLinks::class;
+$maintClass = "DumpLinks";
 require_once RUN_MAINTENANCE_IF_MAIN;

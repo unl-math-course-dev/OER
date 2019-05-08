@@ -41,12 +41,7 @@ class DeleteAction extends FormlessAction {
 	}
 
 	public function show() {
-		$this->useTransactionalTimeLimit();
-		$this->addHelpLink( 'Help:Sysop deleting and undeleting' );
-		$this->page->delete();
-	}
 
-	public function doesWrites() {
-		return true;
+		$this->page->delete();
 	}
 }

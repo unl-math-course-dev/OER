@@ -31,16 +31,16 @@ abstract class ImageHandler extends MediaHandler {
 	 * @param File $file
 	 * @return bool
 	 */
-	public function canRender( $file ) {
+	function canRender( $file ) {
 		return ( $file->getWidth() && $file->getHeight() );
 	}
 
-	public function getParamMap() {
-		return [ 'img_width' => 'width' ];
+	function getParamMap() {
+		return array( 'img_width' => 'width' );
 	}
 
-	public function validateParam( $name, $value ) {
-		if ( in_array( $name, [ 'width', 'height' ] ) ) {
+	function validateParam( $name, $value ) {
+		if ( in_array( $name, array( 'width', 'height' ) ) ) {
 			if ( $value <= 0 ) {
 				return false;
 			} else {
@@ -51,36 +51,36 @@ abstract class ImageHandler extends MediaHandler {
 		}
 	}
 
-	public function makeParamString( $params ) {
+	function makeParamString( $params ) {
 		if ( isset( $params['physicalWidth'] ) ) {
 			$width = $params['physicalWidth'];
 		} elseif ( isset( $params['width'] ) ) {
 			$width = $params['width'];
 		} else {
-			throw new MediaTransformInvalidParametersException( 'No width specified to ' . __METHOD__ );
+			throw new MWException( 'No width specified to ' . __METHOD__ );
 		}
 
 		# Removed for ProofreadPage
-		# $width = intval( $width );
+		#$width = intval( $width );
 		return "{$width}px";
 	}
 
-	public function parseParamString( $str ) {
+	function parseParamString( $str ) {
 		$m = false;
 		if ( preg_match( '/^(\d+)px$/', $str, $m ) ) {
-			return [ 'width' => $m[1] ];
+			return array( 'width' => $m[1] );
 		} else {
 			return false;
 		}
 	}
 
 	function getScriptParams( $params ) {
-		return [ 'width' => $params['width'] ];
+		return array( 'width' => $params['width'] );
 	}
 
 	/**
 	 * @param File $image
-	 * @param array &$params
+	 * @param array $params
 	 * @return bool
 	 */
 	function normaliseParams( $image, &$params ) {
@@ -152,8 +152,8 @@ abstract class ImageHandler extends MediaHandler {
 	/**
 	 * Validate thumbnail parameters and fill in the correct height
 	 *
-	 * @param int &$width Specified width (input/output)
-	 * @param int &$height Height (output only)
+	 * @param int $width Specified width (input/output)
+	 * @param int $height Height (output only)
 	 * @param int $srcWidth Width of the source image
 	 * @param int $srcHeight Height of the source image
 	 * @param string $mimeType Unused
@@ -201,9 +201,9 @@ abstract class ImageHandler extends MediaHandler {
 	}
 
 	function getImageSize( $image, $path ) {
-		Wikimedia\suppressWarnings();
+		wfSuppressWarnings();
 		$gis = getimagesize( $path );
-		Wikimedia\restoreWarnings();
+		wfRestoreWarnings();
 
 		return $gis;
 	}
@@ -245,11 +245,11 @@ abstract class ImageHandler extends MediaHandler {
 		if ( $pages === false || $pages <= 1 ) {
 			$msg = wfMessage( 'file-info-size' )->numParams( $file->getWidth(),
 				$file->getHeight() )->params( $size,
-					'<span class="mime-type">' . $file->getMimeType() . '</span>' )->parse();
+					$file->getMimeType() )->parse();
 		} else {
 			$msg = wfMessage( 'file-info-size-pages' )->numParams( $file->getWidth(),
 				$file->getHeight() )->params( $size,
-					'<span class="mime-type">' . $file->getMimeType() . '</span>' )->numParams( $pages )->parse();
+					$file->getMimeType() )->numParams( $pages )->parse();
 		}
 
 		return $msg;
@@ -268,21 +268,5 @@ abstract class ImageHandler extends MediaHandler {
 			return wfMessage( 'widthheight' )
 				->numParams( $file->getWidth(), $file->getHeight() )->text();
 		}
-	}
-
-	public function sanitizeParamsForBucketing( $params ) {
-		$params = parent::sanitizeParamsForBucketing( $params );
-
-		// We unset the height parameters in order to let normaliseParams recalculate them
-		// Otherwise there might be a height discrepancy
-		if ( isset( $params['height'] ) ) {
-			unset( $params['height'] );
-		}
-
-		if ( isset( $params['physicalHeight'] ) ) {
-			unset( $params['physicalHeight'] );
-		}
-
-		return $params;
 	}
 }

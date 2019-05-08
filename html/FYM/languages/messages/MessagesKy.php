@@ -1,7 +1,8 @@
 <?php
 /** Kyrgyz (Кыргызча)
  *
- * To improve a translation please visit https://translatewiki.net
+ * See MessagesQqq.php for message documentation incl. usage of parameters
+ * To improve a translation please visit http://translatewiki.net
  *
  * @ingroup Language
  * @file
@@ -19,7 +20,7 @@
  * @author Викиней
  */
 
-$namespaceNames = [
+$namespaceNames = array(
 	NS_MEDIA            => 'Медиа',
 	NS_SPECIAL          => 'Атайын',
 	NS_TALK             => 'Баарлашуу',
@@ -31,4 +32,5 @@ $namespaceNames = [
 	NS_TEMPLATE         => 'Калып',
 	NS_HELP             => 'Жардам',
 	NS_CATEGORY         => 'Категория',
-];
+);
+

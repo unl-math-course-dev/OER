@@ -24,15 +24,13 @@
  * @ingroup Test
  * @group GenericArrayObject
  *
+ * @licence GNU GPL v2+
  * @author Jeroen De Dauw < jeroendedauw@gmail.com >
  */
-abstract class GenericArrayObjectTest extends PHPUnit\Framework\TestCase {
-
-	use MediaWikiCoversValidator;
+abstract class GenericArrayObjectTest extends MediaWikiTestCase {
 
 	/**
-	 * Returns objects that can serve as elements in the concrete
-	 * GenericArrayObject deriving class being tested.
+	 * Returns objects that can serve as elements in the concrete GenericArrayObject deriving class being tested.
 	 *
 	 * @since 1.20
 	 *
@@ -57,7 +55,7 @@ abstract class GenericArrayObjectTest extends PHPUnit\Framework\TestCase {
 	 * @return array
 	 */
 	public function instanceProvider() {
-		$instances = [];
+		$instances = array();
 
 		foreach ( $this->elementInstancesProvider() as $elementInstances ) {
 			$instances[] = $this->getNew( $elementInstances[0] );
@@ -73,7 +71,7 @@ abstract class GenericArrayObjectTest extends PHPUnit\Framework\TestCase {
 	 *
 	 * @return GenericArrayObject
 	 */
-	protected function getNew( array $elements = [] ) {
+	protected function getNew( array $elements = array() ) {
 		$class = $this->getInstanceClass();
 
 		return new $class( $elements );
@@ -106,7 +104,7 @@ abstract class GenericArrayObjectTest extends PHPUnit\Framework\TestCase {
 	public function testIsEmpty( array $elements ) {
 		$arrayObject = $this->getNew( $elements );
 
-		$this->assertEquals( $elements === [], $arrayObject->isEmpty() );
+		$this->assertEquals( $elements === array(), $arrayObject->isEmpty() );
 	}
 
 	/**
@@ -172,7 +170,9 @@ abstract class GenericArrayObjectTest extends PHPUnit\Framework\TestCase {
 	/**
 	 * @since 1.20
 	 *
-	 * @param callable $function
+	 * @param callback $function
+	 *
+	 * @covers GenericArrayObject::getObjectType
 	 */
 	protected function checkTypeChecks( $function ) {
 		$excption = null;
@@ -180,7 +180,7 @@ abstract class GenericArrayObjectTest extends PHPUnit\Framework\TestCase {
 
 		$elementClass = $list->getObjectType();
 
-		foreach ( [ 42, 'foo', [], new stdClass(), 4.2 ] as $element ) {
+		foreach ( array( 42, 'foo', array(), new stdClass(), 4.2 ) as $element ) {
 			$validValid = $element instanceof $elementClass;
 
 			try {
@@ -204,11 +204,11 @@ abstract class GenericArrayObjectTest extends PHPUnit\Framework\TestCase {
 	 * @since 1.20
 	 *
 	 * @param array $elements
-	 * @covers GenericArrayObject::getObjectType
+	 *
 	 * @covers GenericArrayObject::offsetSet
 	 */
 	public function testOffsetSet( array $elements ) {
-		if ( $elements === [] ) {
+		if ( $elements === array() ) {
 			$this->assertTrue( true );
 
 			return;

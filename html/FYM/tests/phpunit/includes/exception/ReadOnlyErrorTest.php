@@ -2,7 +2,7 @@
 
 /**
  * @covers ReadOnlyError
- * @author Addshore
+ * @author Adam Shorland
  */
 class ReadOnlyErrorTest extends MediaWikiTestCase {
 
@@ -10,7 +10,7 @@ class ReadOnlyErrorTest extends MediaWikiTestCase {
 		$e = new ReadOnlyError();
 		$this->assertEquals( 'readonly', $e->title );
 		$this->assertEquals( 'readonlytext', $e->msg );
-		$this->assertEquals( wfReadOnlyReason() ?: [], $e->params );
+		$this->assertEquals( wfReadOnlyReason() ?: array(), $e->params );
 	}
 
 }

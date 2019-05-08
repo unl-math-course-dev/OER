@@ -1,45 +1,29 @@
-( function () {
+( function ( mw ) {
 	QUnit.module( 'mediawiki.api.parse', QUnit.newMwEnvironment( {
 		setup: function () {
+			this.clock = this.sandbox.useFakeTimers();
 			this.server = this.sandbox.useFakeServer();
-			this.server.respondImmediately = true;
+		},
+		teardown: function () {
+			this.clock.tick( 1 );
 		}
 	} ) );
 
-	QUnit.test( '.parse( string )', function ( assert ) {
-		this.server.respondWith( /action=parse.*&text='''Hello(\+|%20)world'''/, [ 200,
-			{ 'Content-Type': 'application/json' },
-			'{ "parse": { "text": "<p><b>Hello world</b></p>" } }'
-		] );
+	QUnit.test( 'Hello world', function ( assert ) {
+		QUnit.expect( 1 );
 
-		return new mw.Api().parse( '\'\'\'Hello world\'\'\'' ).done( function ( html ) {
-			assert.strictEqual( html, '<p><b>Hello world</b></p>', 'Parse wikitext by string' );
+		var api = new mw.Api();
+
+		api.parse( '\'\'\'Hello world\'\'\'' ).done( function ( html ) {
+			assert.equal( html, '<p><b>Hello world</b></p>' );
 		} );
-	} );
 
-	QUnit.test( '.parse( Object.toString )', function ( assert ) {
-		this.server.respondWith( /action=parse.*&text='''Hello(\+|%20)world'''/, [ 200,
-			{ 'Content-Type': 'application/json' },
-			'{ "parse": { "text": "<p><b>Hello world</b></p>" } }'
-		] );
-
-		return new mw.Api().parse( {
-			toString: function () {
-				return '\'\'\'Hello world\'\'\'';
-			}
-		} ).done( function ( html ) {
-			assert.strictEqual( html, '<p><b>Hello world</b></p>', 'Parse wikitext by toString object' );
+		this.server.respondWith( /action=parse.*&text='''Hello\+world'''/, function ( request ) {
+			request.respond( 200, { 'Content-Type': 'application/json' },
+				'{ "parse": { "text": { "*": "<p><b>Hello world</b></p>" } } }'
+			);
 		} );
-	} );
 
-	QUnit.test( '.parse( mw.Title )', function ( assert ) {
-		this.server.respondWith( /action=parse.*&page=Earth/, [ 200,
-			{ 'Content-Type': 'application/json' },
-			'{ "parse": { "text": "<p><b>Earth</b> is a planet.</p>" } }'
-		] );
-
-		return new mw.Api().parse( new mw.Title( 'Earth' ) ).done( function ( html ) {
-			assert.strictEqual( html, '<p><b>Earth</b> is a planet.</p>', 'Parse page by Title object' );
-		} );
+		this.server.respond();
 	} );
-}() );
+}( mediaWiki ) );

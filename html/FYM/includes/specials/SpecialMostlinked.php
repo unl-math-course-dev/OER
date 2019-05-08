@@ -25,9 +25,6 @@
  * @author Rob Church <robchur@gmail.com>
  */
 
-use Wikimedia\Rdbms\IResultWrapper;
-use Wikimedia\Rdbms\IDatabase;
-
 /**
  * A special page to show pages ordered by the number of pages linking to them.
  *
@@ -38,7 +35,7 @@ class MostlinkedPage extends QueryPage {
 		parent::__construct( $name );
 	}
 
-	public function isExpensive() {
+	function isExpensive() {
 		return true;
 	}
 
@@ -46,56 +43,64 @@ class MostlinkedPage extends QueryPage {
 		return false;
 	}
 
-	public function getQueryInfo() {
-		return [
-			'tables' => [ 'pagelinks', 'page' ],
-			'fields' => [
+	function getQueryInfo() {
+		return array(
+			'tables' => array( 'pagelinks', 'page' ),
+			'fields' => array(
 				'namespace' => 'pl_namespace',
 				'title' => 'pl_title',
 				'value' => 'COUNT(*)',
 				'page_namespace'
-			],
-			'options' => [
+			),
+			'options' => array(
 				'HAVING' => 'COUNT(*) > 1',
-				'GROUP BY' => [
+				'GROUP BY' => array(
 					'pl_namespace', 'pl_title',
 					'page_namespace'
-				]
-			],
-			'join_conds' => [
-				'page' => [
+				)
+			),
+			'join_conds' => array(
+				'page' => array(
 					'LEFT JOIN',
-					[
+					array(
 						'page_namespace = pl_namespace',
 						'page_title = pl_title'
-					]
-				]
-			]
-		];
+					)
+				)
+			)
+		);
 	}
 
 	/**
 	 * Pre-fill the link cache
 	 *
-	 * @param IDatabase $db
-	 * @param IResultWrapper $res
+	 * @param DatabaseBase $db
+	 * @param ResultWrapper $res
 	 */
 	function preprocessResults( $db, $res ) {
-		$this->executeLBFromResultWrapper( $res );
+		if ( $res->numRows() > 0 ) {
+			$linkBatch = new LinkBatch();
+
+			foreach ( $res as $row ) {
+				$linkBatch->add( $row->namespace, $row->title );
+			}
+
+			$res->seek( 0 );
+			$linkBatch->execute();
+		}
 	}
 
 	/**
 	 * Make a link to "what links here" for the specified title
 	 *
-	 * @param Title $title Title being queried
-	 * @param string $caption Text to display on the link
-	 * @return string
+	 * @param $title Title being queried
+	 * @param string $caption text to display on the link
+	 * @return String
 	 */
 	function makeWlhLink( $title, $caption ) {
 		$wlh = SpecialPage::getTitleFor( 'Whatlinkshere', $title->getPrefixedDBkey() );
 
-		$linkRenderer = $this->getLinkRenderer();
-		return $linkRenderer->makeKnownLink( $wlh, $caption );
+		return Linker::linkKnown( $wlh, $caption );
 	}
 
 	/**
@@ -111,7 +116,7 @@ class MostlinkedPage extends QueryPage {
 		if ( !$title ) {
 			return Html::element(
 				'span',
-				[ 'class' => 'mw-invalidtitle' ],
+				array( 'class' => 'mw-invalidtitle' ),
 				Linker::getInvalidTitleDescription(
 					$this->getContext(),
 					$result->namespace,
@@ -119,11 +124,10 @@ class MostlinkedPage extends QueryPage {
 			);
 		}
 
-		$linkRenderer = $this->getLinkRenderer();
-		$link = $linkRenderer->makeLink( $title );
+		$link = Linker::link( $title );
 		$wlh = $this->makeWlhLink(
 			$title,
-			$this->msg( 'nlinks' )->numParams( $result->value )->text()
+			$this->msg( 'nlinks' )->numParams( $result->value )->escaped()
 		);
 
 		return $this->getLanguage()->specialList( $link, $wlh );

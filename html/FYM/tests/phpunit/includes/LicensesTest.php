@@ -11,7 +11,7 @@ class LicensesTest extends MediaWikiTestCase {
 ** GFDL|Debian disagrees
 ";
 
-		$lc = new Licenses( [
+		$lc = new Licenses( array(
 			'fieldname' => 'FooField',
 			'type' => 'select',
 			'section' => 'description',
@@ -19,7 +19,7 @@ class LicensesTest extends MediaWikiTestCase {
 			'label' => 'A label text', # Note can't test label-message because $wgOut is not defined
 			'name' => 'AnotherName',
 			'licenses' => $str,
-		] );
-		$this->assertThat( $lc, $this->isInstanceOf( Licenses::class ) );
+		) );
+		$this->assertThat( $lc, $this->isInstanceOf( 'Licenses' ) );
 	}
 }

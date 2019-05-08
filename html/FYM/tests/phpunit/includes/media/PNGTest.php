@@ -1,15 +1,29 @@
 <?php
-
-/**
- * @group Media
- */
-class PNGHandlerTest extends MediaWikiMediaTestCase {
+class PNGHandlerTest extends MediaWikiTestCase {
 
 	/** @var PNGHandler */
 	protected $handler;
+	/** @var FSRepo */
+	protected $repo;
+	/** @var FSFileBackend */
+	protected $backend;
+	/** @var string */
+	protected $filePath;
 
 	protected function setUp() {
 		parent::setUp();
+
+		$this->filePath = __DIR__ . '/../../data/media';
+		$this->backend = new FSFileBackend( array(
+			'name' => 'localtesting',
+			'wikiId' => wfWikiId(),
+			'containerPaths' => array( 'data' => $this->filePath )
+		) );
+		$this->repo = new FSRepo( array(
+			'name' => 'temp',
+			'url' => 'http://localhost/thumbtest',
+			'backend' => $this->backend
+		) );
 		$this->handler = new PNGHandler();
 	}
 
@@ -22,8 +36,8 @@ class PNGHandlerTest extends MediaWikiMediaTestCase {
 	}
 
 	/**
-	 * @param string $filename Basename of the file to check
-	 * @param bool $expected Expected result.
+	 * @param $filename String basename of the file to check
+	 * @param $expected boolean Expected result.
 	 * @dataProvider provideIsAnimated
 	 * @covers PNGHandler::isAnimatedImage
 	 */
@@ -34,15 +48,15 @@ class PNGHandlerTest extends MediaWikiMediaTestCase {
 	}
 
 	public static function provideIsAnimated() {
-		return [
-			[ 'Animated_PNG_example_bouncing_beach_ball.png', true ],
-			[ '1bit-png.png', false ],
-		];
+		return array(
+			array( 'Animated_PNG_example_bouncing_beach_ball.png', true ),
+			array( '1bit-png.png', false ),
+		);
 	}
 
 	/**
-	 * @param string $filename
-	 * @param int $expected Total image area
+	 * @param $filename String
+	 * @param $expected Integer Total image area
 	 * @dataProvider provideGetImageArea
 	 * @covers PNGHandler::getImageArea
 	 */
@@ -53,17 +67,17 @@ class PNGHandlerTest extends MediaWikiMediaTestCase {
 	}
 
 	public static function provideGetImageArea() {
-		return [
-			[ '1bit-png.png', 2500 ],
-			[ 'greyscale-png.png', 2500 ],
-			[ 'Png-native-test.png', 126000 ],
-			[ 'Animated_PNG_example_bouncing_beach_ball.png', 10000 ],
-		];
+		return array(
+			array( '1bit-png.png', 2500 ),
+			array( 'greyscale-png.png', 2500 ),
+			array( 'Png-native-test.png', 126000 ),
+			array( 'Animated_PNG_example_bouncing_beach_ball.png', 10000 ),
+		);
 	}
 
 	/**
-	 * @param string $metadata Serialized metadata
-	 * @param int $expected One of the class constants of PNGHandler
+	 * @param $metadata String Serialized metadata
+	 * @param $expected Integer One of the class constants of PNGHandler
 	 * @dataProvider provideIsMetadataValid
 	 * @covers PNGHandler::isMetadataValid
 	 */
@@ -73,51 +87,38 @@ class PNGHandlerTest extends MediaWikiMediaTestCase {
 	}
 
 	public static function provideIsMetadataValid() {
-		// phpcs:disable Generic.Files.LineLength
-		return [
-			[ PNGHandler::BROKEN_FILE, PNGHandler::METADATA_GOOD ],
-			[ '', PNGHandler::METADATA_BAD ],
-			[ null, PNGHandler::METADATA_BAD ],
-			[ 'Something invalid!', PNGHandler::METADATA_BAD ],
-			[
-				'a:6:{s:10:"frameCount";i:0;s:9:"loopCount";i:1;s:8:"duration";d:0;s:8:"bitDepth";i:8;s:9:"colorType";s:10:"truecolour";s:8:"metadata";a:1:{s:15:"_MW_PNG_VERSION";i:1;}}',
-				PNGHandler::METADATA_GOOD
-			],
-		];
-		// phpcs:enable
+		return array(
+			array( PNGHandler::BROKEN_FILE, PNGHandler::METADATA_GOOD ),
+			array( '', PNGHandler::METADATA_BAD ),
+			array( null, PNGHandler::METADATA_BAD ),
+			array( 'Something invalid!', PNGHandler::METADATA_BAD ),
+			array( 'a:6:{s:10:"frameCount";i:0;s:9:"loopCount";i:1;s:8:"duration";d:0;s:8:"bitDepth";i:8;s:9:"colorType";s:10:"truecolour";s:8:"metadata";a:1:{s:15:"_MW_PNG_VERSION";i:1;}}', PNGHandler::METADATA_GOOD ),
+		);
 	}
 
 	/**
-	 * @param string $filename
-	 * @param string $expected Serialized array
+	 * @param $filename String
+	 * @param $expected String Serialized array
 	 * @dataProvider provideGetMetadata
 	 * @covers PNGHandler::getMetadata
 	 */
 	public function testGetMetadata( $filename, $expected ) {
 		$file = $this->dataFile( $filename, 'image/png' );
 		$actual = $this->handler->getMetadata( $file, "$this->filePath/$filename" );
-// 		$this->assertEquals( unserialize( $expected ), unserialize( $actual ) );
+//		$this->assertEquals( unserialize( $expected ), unserialize( $actual ) );
 		$this->assertEquals( ( $expected ), ( $actual ) );
 	}
 
 	public static function provideGetMetadata() {
-		// phpcs:disable Generic.Files.LineLength
-		return [
-			[
-				'rgb-na-png.png',
-				'a:6:{s:10:"frameCount";i:0;s:9:"loopCount";i:1;s:8:"duration";d:0;s:8:"bitDepth";i:8;s:9:"colorType";s:10:"truecolour";s:8:"metadata";a:1:{s:15:"_MW_PNG_VERSION";i:1;}}'
-			],
-			[
-				'xmp.png',
-				'a:6:{s:10:"frameCount";i:0;s:9:"loopCount";i:1;s:8:"duration";d:0;s:8:"bitDepth";i:1;s:9:"colorType";s:14:"index-coloured";s:8:"metadata";a:2:{s:12:"SerialNumber";s:9:"123456789";s:15:"_MW_PNG_VERSION";i:1;}}'
-			],
-		];
-		// phpcs:enable
+		return array(
+			array( 'rgb-na-png.png', 'a:6:{s:10:"frameCount";i:0;s:9:"loopCount";i:1;s:8:"duration";d:0;s:8:"bitDepth";i:8;s:9:"colorType";s:10:"truecolour";s:8:"metadata";a:1:{s:15:"_MW_PNG_VERSION";i:1;}}' ),
+			array( 'xmp.png', 'a:6:{s:10:"frameCount";i:0;s:9:"loopCount";i:1;s:8:"duration";d:0;s:8:"bitDepth";i:1;s:9:"colorType";s:14:"index-coloured";s:8:"metadata";a:2:{s:12:"SerialNumber";s:9:"123456789";s:15:"_MW_PNG_VERSION";i:1;}}' ),
+		);
 	}
 
 	/**
-	 * @param string $filename
-	 * @param array $expected Expected standard metadata
+	 * @param $filename String
+	 * @param $expected Array Expected standard metadata
 	 * @dataProvider provideGetIndependentMetaArray
 	 * @covers PNGHandler::getCommonMetaArray
 	 */
@@ -127,35 +128,19 @@ class PNGHandlerTest extends MediaWikiMediaTestCase {
 		$this->assertEquals( $expected, $actual );
 	}
 
-	public static function provideGetIndependentMetaArray() {
-		return [
-			[ 'rgb-na-png.png', [] ],
-			[ 'xmp.png',
-				[
+	public function provideGetIndependentMetaArray() {
+		return array(
+			array( 'rgb-na-png.png', array() ),
+			array( 'xmp.png',
+				array(
 					'SerialNumber' => '123456789',
-				]
-			],
-		];
+				)
+			),
+		);
 	}
 
-	/**
-	 * @param string $filename
-	 * @param float $expectedLength
-	 * @dataProvider provideGetLength
-	 * @covers PNGHandler::getLength
-	 */
-	public function testGetLength( $filename, $expectedLength ) {
-		$file = $this->dataFile( $filename, 'image/png' );
-		$actualLength = $file->getLength();
-		$this->assertEquals( $expectedLength, $actualLength, '', 0.00001 );
-	}
-
-	public function provideGetLength() {
-		return [
-			[ 'Animated_PNG_example_bouncing_beach_ball.png', 1.5 ],
-			[ 'Png-native-test.png', 0.0 ],
-			[ 'greyscale-png.png', 0.0 ],
-			[ '1bit-png.png', 0.0 ],
-		];
+	private function dataFile( $name, $type ) {
+		return new UnregisteredLocalFile( false, $this->repo,
+			"mwstore://localtesting/data/$name", $type );
 	}
 }

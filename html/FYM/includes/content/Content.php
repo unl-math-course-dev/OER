@@ -48,7 +48,7 @@ interface Content {
 	/**
 	 * @since 1.21
 	 *
-	 * @return string|bool The wikitext to include when another page includes this
+	 * @return string|false The wikitext to include when another page includes this
 	 * content, or false if the content is not includable in a wikitext page.
 	 *
 	 * @todo Allow native handling, bypassing wikitext representation, like
@@ -86,7 +86,7 @@ interface Content {
 	public function getNativeData();
 
 	/**
-	 * Returns the content's nominal size in "bogo-bytes".
+	 * Returns the content's nominal size in bogo-bytes.
 	 *
 	 * @return int
 	 */
@@ -162,7 +162,7 @@ interface Content {
 	 *
 	 * @since 1.21
 	 *
-	 * @param string|null $format The desired serialization format, or null for the default format.
+	 * @param string $format The desired serialization format, or null for the default format.
 	 *
 	 * @return string Serialized form of this Content object.
 	 */
@@ -210,7 +210,7 @@ interface Content {
 	 *
 	 * @since 1.21
 	 *
-	 * @param Content|null $that The Content object to compare to.
+	 * @param Content $that The Content object to compare to.
 	 *
 	 * @return bool True if this Content object is equal to $that, false otherwise.
 	 */
@@ -243,7 +243,7 @@ interface Content {
 	 *
 	 * @since 1.21
 	 *
-	 * @param bool|null $hasLinks If it is known whether this content contains
+	 * @param bool $hasLinks If it is known whether this content contains
 	 *    links, provide this information here, to avoid redundant parsing to
 	 *    find out.
 	 *
@@ -262,8 +262,8 @@ interface Content {
 	 *       may call ParserOutput::recordOption() on the output object.
 	 *
 	 * @param Title $title The page title to use as a context for rendering.
-	 * @param int|null $revId Optional revision ID being rendered.
-	 * @param ParserOptions|null $options Any parser options.
+	 * @param int $revId Optional revision ID being rendered.
+	 * @param ParserOptions $options Any parser options.
 	 * @param bool $generateHtml Whether to generate HTML (default: true). If false,
 	 *        the result of calling getText() on the ParserOutput object returned by
 	 *        this method is undefined.
@@ -284,19 +284,21 @@ interface Content {
 	 * made to replace information about the old content with information about
 	 * the new content.
 	 *
-	 * @deprecated since 1.32, call and override
-	 *   ContentHandler::getSecondaryDataUpdates instead.
+	 * This default implementation calls
+	 * $this->getParserOutput( $content, $title, null, null, false ),
+	 * and then calls getSecondaryDataUpdates( $title, $recursive ) on the
+	 * resulting ParserOutput object.
 	 *
-	 * @note Implementations should call the SecondaryDataUpdates hook, like
-	 *   AbstractContent does.
+	 * Subclasses may implement this to determine the necessary updates more
+	 * efficiently, or make use of information about the old content.
 	 *
 	 * @param Title $title The context for determining the necessary updates
-	 * @param Content|null $old An optional Content object representing the
+	 * @param Content $old An optional Content object representing the
 	 *    previous content, i.e. the content being replaced by this Content
 	 *    object.
 	 * @param bool $recursive Whether to include recursive updates (default:
 	 *    false).
-	 * @param ParserOutput|null $parserOutput Optional ParserOutput object.
+	 * @param ParserOutput $parserOutput Optional ParserOutput object.
 	 *    Provide if you have one handy, to avoid re-parsing of the content.
 	 *
 	 * @return DataUpdate[] A list of DataUpdate objects for putting information
@@ -376,9 +378,10 @@ interface Content {
 	 *
 	 * @since 1.21
 	 *
-	 * @param string|int $sectionId Section identifier as a number or string
-	 * (e.g. 0, 1 or 'T-1'). The ID "0" retrieves the section before the first heading, "1" the
-	 * text between the first heading (included) and the second heading (excluded), etc.
+	 * @param string $sectionId The section's ID, given as a numeric string.
+	 *    The ID "0" retrieves the section before the first heading, "1" the
+	 *    text between the first heading (included) and the second heading
+	 *    (excluded), etc.
 	 *
 	 * @return Content|bool|null The section, or false if no such section
 	 *    exist, or null if sections are not supported.
@@ -391,15 +394,13 @@ interface Content {
 	 *
 	 * @since 1.21
 	 *
-	 * @param string|int|null|bool $sectionId Section identifier as a number or string
-	 * (e.g. 0, 1 or 'T-1'), null/false or an empty string for the whole page
-	 * or 'new' for a new section.
+	 * @param mixed $section Null/false or a section number (0, 1, 2, T1, T2...), or "new"
 	 * @param Content $with New content of the section
 	 * @param string $sectionTitle New section's subject, only if $section is 'new'
 	 *
 	 * @return string|null Complete article text, or null if error
 	 */
-	public function replaceSection( $sectionId, Content $with, $sectionTitle = '' );
+	public function replaceSection( $section, Content $with, $sectionTitle = '' );
 
 	/**
 	 * Returns a Content object with pre-save transformations applied (or this
@@ -440,7 +441,7 @@ interface Content {
 	 *
 	 * @return Content
 	 */
-	public function preloadTransform( Title $title, ParserOptions $parserOptions, $params = [] );
+	public function preloadTransform( Title $title, ParserOptions $parserOptions, $params = array() );
 
 	/**
 	 * Prepare Content for saving. Called before Content is saved by WikiPage::doEditContent() and in
@@ -459,7 +460,7 @@ interface Content {
 	 *
 	 * @param WikiPage $page The page to be saved.
 	 * @param int $flags Bitfield for use with EDIT_XXX constants, see WikiPage::doEditContent()
-	 * @param int $parentRevId The ID of the current revision
+	 * @param int $baseRevId The ID of the current revision
 	 * @param User $user
 	 *
 	 * @return Status A status object indicating whether the content was
@@ -468,7 +469,7 @@ interface Content {
 	 *
 	 * @see WikiPage::doEditContent()
 	 */
-	public function prepareSave( WikiPage $page, $flags, $parentRevId, User $user );
+	public function prepareSave( WikiPage $page, $flags, $baseRevId, User $user );
 
 	/**
 	 * Returns a list of updates to perform when this content is deleted.
@@ -476,15 +477,13 @@ interface Content {
 	 * the current state of the database.
 	 *
 	 * @since 1.21
-	 * @deprecated since 1.32, call and override
-	 *   ContentHandler::getDeletionUpdates instead.
 	 *
-	 * @param WikiPage $page The page the content was deleted from.
-	 * @param ParserOutput|null $parserOutput Optional parser output object
+	 * @param WikiPage $page The deleted page
+	 * @param ParserOutput $parserOutput Optional parser output object
 	 *    for efficient access to meta-information about the content object.
 	 *    Provide if you have one handy.
 	 *
-	 * @return DeferrableUpdate[] A list of DeferrableUpdate instances that will clean up the
+	 * @return DataUpdate[] A list of DataUpdate instances that will clean up the
 	 *    database after deletion.
 	 */
 	public function getDeletionUpdates( WikiPage $page,

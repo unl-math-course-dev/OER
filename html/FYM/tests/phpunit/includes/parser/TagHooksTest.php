@@ -1,70 +1,34 @@
 <?php
 
-use MediaWiki\MediaWikiServices;
-
 /**
- * @group Database
  * @group Parser
- *
- * @covers Parser
- * @covers BlockLevelPass
- * @covers StripState
- *
- * @covers Preprocessor_DOM
- * @covers PPDStack
- * @covers PPDStackElement
- * @covers PPDPart
- * @covers PPFrame_DOM
- * @covers PPTemplateFrame_DOM
- * @covers PPCustomFrame_DOM
- * @covers PPNode_DOM
- *
- * @covers Preprocessor_Hash
- * @covers PPDStack_Hash
- * @covers PPDStackElement_Hash
- * @covers PPDPart_Hash
- * @covers PPFrame_Hash
- * @covers PPTemplateFrame_Hash
- * @covers PPCustomFrame_Hash
- * @covers PPNode_Hash_Tree
- * @covers PPNode_Hash_Text
- * @covers PPNode_Hash_Array
- * @covers PPNode_Hash_Attr
  */
-class TagHooksTest extends MediaWikiTestCase {
+class TagHookTest extends MediaWikiTestCase {
 	public static function provideValidNames() {
-		return [
-			[ 'foo' ],
-			[ 'foo-bar' ],
-			[ 'foo_bar' ],
-			[ 'FOO-BAR' ],
-			[ 'foo bar' ]
-		];
+		return array( array( 'foo' ), array( 'foo-bar' ), array( 'foo_bar' ), array( 'FOO-BAR' ), array( 'foo bar' ) );
 	}
 
 	public static function provideBadNames() {
-		return [ [ "foo<bar" ], [ "foo>bar" ], [ "foo\nbar" ], [ "foo\rbar" ] ];
+		return array( array( "foo<bar" ), array( "foo>bar" ), array( "foo\nbar" ), array( "foo\rbar" ) );
 	}
 
-	private function getParserOptions() {
-		$popt = ParserOptions::newFromUserAndLang( new User,
-			MediaWikiServices::getInstance()->getContentLanguage() );
-		return $popt;
+	protected function setUp() {
+		parent::setUp();
+
+		$this->setMwGlobals( 'wgAlwaysUseTidy', false );
 	}
 
 	/**
 	 * @dataProvider provideValidNames
+	 * @covers Parser::setHook
 	 */
 	public function testTagHooks( $tag ) {
-		$parser = MediaWikiServices::getInstance()->getParserFactory()->create();
+		global $wgParserConf, $wgContLang;
+		$parser = new Parser( $wgParserConf );
 
-		$parser->setHook( $tag, [ $this, 'tagCallback' ] );
-		$parserOutput = $parser->parse(
-			"Foo<$tag>Bar</$tag>Baz",
-			Title::newFromText( 'Test' ),
-			$this->getParserOptions()
-		);
-		$this->assertEquals( "<p>FooOneBaz\n</p>", $parserOutput->getText( [ 'unwrap' => true ] ) );
+		$parser->setHook( $tag, array( $this, 'tagCallback' ) );
+		$parserOutput = $parser->parse( "Foo<$tag>Bar</$tag>Baz", Title::newFromText( 'Test' ), ParserOptions::newFromUserAndLang( new User, $wgContLang ) );
+		$this->assertEquals( "<p>FooOneBaz\n</p>", $parserOutput->getText() );
 
 		$parser->mPreprocessor = null; # Break the Parser <-> Preprocessor cycle
 	}
@@ -72,32 +36,28 @@ class TagHooksTest extends MediaWikiTestCase {
 	/**
 	 * @dataProvider provideBadNames
 	 * @expectedException MWException
+	 * @covers Parser::setHook
 	 */
 	public function testBadTagHooks( $tag ) {
-		$parser = MediaWikiServices::getInstance()->getParserFactory()->create();
+		global $wgParserConf, $wgContLang;
+		$parser = new Parser( $wgParserConf );
 
-		$parser->setHook( $tag, [ $this, 'tagCallback' ] );
-		$parser->parse(
-			"Foo<$tag>Bar</$tag>Baz",
-			Title::newFromText( 'Test' ),
-			$this->getParserOptions()
-		);
+		$parser->setHook( $tag, array( $this, 'tagCallback' ) );
+		$parser->parse( "Foo<$tag>Bar</$tag>Baz", Title::newFromText( 'Test' ), ParserOptions::newFromUserAndLang( new User, $wgContLang ) );
 		$this->fail( 'Exception not thrown.' );
 	}
 
 	/**
 	 * @dataProvider provideValidNames
+	 * @covers Parser::setFunctionTagHook
 	 */
 	public function testFunctionTagHooks( $tag ) {
-		$parser = MediaWikiServices::getInstance()->getParserFactory()->create();
+		global $wgParserConf, $wgContLang;
+		$parser = new Parser( $wgParserConf );
 
-		$parser->setFunctionTagHook( $tag, [ $this, 'functionTagCallback' ], 0 );
-		$parserOutput = $parser->parse(
-			"Foo<$tag>Bar</$tag>Baz",
-			Title::newFromText( 'Test' ),
-			$this->getParserOptions()
-		);
-		$this->assertEquals( "<p>FooOneBaz\n</p>", $parserOutput->getText( [ 'unwrap' => true ] ) );
+		$parser->setFunctionTagHook( $tag, array( $this, 'functionTagCallback' ), 0 );
+		$parserOutput = $parser->parse( "Foo<$tag>Bar</$tag>Baz", Title::newFromText( 'Test' ), ParserOptions::newFromUserAndLang( new User, $wgContLang ) );
+		$this->assertEquals( "<p>FooOneBaz\n</p>", $parserOutput->getText() );
 
 		$parser->mPreprocessor = null; # Break the Parser <-> Preprocessor cycle
 	}
@@ -105,20 +65,14 @@ class TagHooksTest extends MediaWikiTestCase {
 	/**
 	 * @dataProvider provideBadNames
 	 * @expectedException MWException
+	 * @covers Parser::setFunctionTagHook
 	 */
 	public function testBadFunctionTagHooks( $tag ) {
-		$parser = MediaWikiServices::getInstance()->getParserFactory()->create();
+		global $wgParserConf, $wgContLang;
+		$parser = new Parser( $wgParserConf );
 
-		$parser->setFunctionTagHook(
-			$tag,
-			[ $this, 'functionTagCallback' ],
-			Parser::SFH_OBJECT_ARGS
-		);
-		$parser->parse(
-			"Foo<$tag>Bar</$tag>Baz",
-			Title::newFromText( 'Test' ),
-			$this->getParserOptions()
-		);
+		$parser->setFunctionTagHook( $tag, array( $this, 'functionTagCallback' ), SFH_OBJECT_ARGS );
+		$parser->parse( "Foo<$tag>Bar</$tag>Baz", Title::newFromText( 'Test' ), ParserOptions::newFromUserAndLang( new User, $wgContLang ) );
 		$this->fail( 'Exception not thrown.' );
 	}
 

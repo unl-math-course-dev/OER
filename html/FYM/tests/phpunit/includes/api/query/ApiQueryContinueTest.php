@@ -18,6 +18,8 @@
  * http://www.gnu.org/copyleft/gpl.html
  */
 
+require_once 'ApiQueryContinueTestBase.php';
+
 /**
  * These tests validate the new continue functionality of the api query module by
  * doing multiple requests with varying parameters, merging the results, and checking
@@ -33,10 +35,9 @@ class ApiQueryContinueTest extends ApiQueryContinueTestBase {
 
 	/**
 	 * Create a set of pages. These must not change, otherwise the tests might give wrong results.
-	 *
-*@see MediaWikiTestCase::addDBDataOnce()
+	 * @see MediaWikiTestCase::addDBData()
 	 */
-	function addDBDataOnce() {
+	function addDBData() {
 		try {
 			$this->editPage( 'Template:AQCT-T1', '**Template:AQCT-T1**' );
 			$this->editPage( 'Template:AQCT-T2', '**Template:AQCT-T2**' );
@@ -56,19 +57,18 @@ class ApiQueryContinueTest extends ApiQueryContinueTestBase {
 
 	/**
 	 * Test smart continue - list=allpages
-	 * @group medium
+	 * @medium
 	 */
 	public function test1List() {
 		$this->mVerbose = false;
 		$mk = function ( $l ) {
-			return [
+			return array(
 				'list' => 'allpages',
 				'apprefix' => 'AQCT-',
 				'aplimit' => "$l",
-			];
+			);
 		};
-		$data = $this->query( $mk( 99 ), 1, '1L', false ) +
-			[ 'batchcomplete' => true ];
+		$data = $this->query( $mk( 99 ), 1, '1L', false );
 
 		// 1 list
 		$this->checkC( $data, $mk( 1 ), 5, '1L-1' );
@@ -80,23 +80,22 @@ class ApiQueryContinueTest extends ApiQueryContinueTestBase {
 
 	/**
 	 * Test smart continue - list=allpages|alltransclusions
-	 * @group medium
+	 * @medium
 	 */
 	public function test2Lists() {
 		$this->mVerbose = false;
 		$mk = function ( $l1, $l2 ) {
-			return [
+			return array(
 				'list' => 'allpages|alltransclusions',
 				'apprefix' => 'AQCT-',
 				'atprefix' => 'AQCT-',
 				'atunique' => '',
 				'aplimit' => "$l1",
 				'atlimit' => "$l2",
-			];
+			);
 		};
 		// 2 lists
-		$data = $this->query( $mk( 99, 99 ), 1, '2L', false ) +
-			[ 'batchcomplete' => true ];
+		$data = $this->query( $mk( 99, 99 ), 1, '2L', false );
 		$this->checkC( $data, $mk( 1, 1 ), 5, '2L-11' );
 		$this->checkC( $data, $mk( 2, 2 ), 3, '2L-22' );
 		$this->checkC( $data, $mk( 3, 3 ), 2, '2L-33' );
@@ -106,22 +105,21 @@ class ApiQueryContinueTest extends ApiQueryContinueTestBase {
 
 	/**
 	 * Test smart continue - generator=allpages, prop=links
-	 * @group medium
+	 * @medium
 	 */
 	public function testGen1Prop() {
 		$this->mVerbose = false;
 		$mk = function ( $g, $p ) {
-			return [
+			return array(
 				'generator' => 'allpages',
 				'gapprefix' => 'AQCT-',
 				'gaplimit' => "$g",
 				'prop' => 'links',
 				'pllimit' => "$p",
-			];
+			);
 		};
 		// generator + 1 prop
-		$data = $this->query( $mk( 99, 99 ), 1, 'G1P', false ) +
-			[ 'batchcomplete' => true ];
+		$data = $this->query( $mk( 99, 99 ), 1, 'G1P', false );
 		$this->checkC( $data, $mk( 1, 1 ), 11, 'G1P-11' );
 		$this->checkC( $data, $mk( 2, 2 ), 6, 'G1P-22' );
 		$this->checkC( $data, $mk( 3, 3 ), 4, 'G1P-33' );
@@ -131,23 +129,22 @@ class ApiQueryContinueTest extends ApiQueryContinueTestBase {
 
 	/**
 	 * Test smart continue - generator=allpages, prop=links|templates
-	 * @group medium
+	 * @medium
 	 */
 	public function testGen2Prop() {
 		$this->mVerbose = false;
 		$mk = function ( $g, $p1, $p2 ) {
-			return [
+			return array(
 				'generator' => 'allpages',
 				'gapprefix' => 'AQCT-',
 				'gaplimit' => "$g",
 				'prop' => 'links|templates',
 				'pllimit' => "$p1",
 				'tllimit' => "$p2",
-			];
+			);
 		};
 		// generator + 2 props
-		$data = $this->query( $mk( 99, 99, 99 ), 1, 'G2P', false ) +
-			[ 'batchcomplete' => true ];
+		$data = $this->query( $mk( 99, 99, 99 ), 1, 'G2P', false );
 		$this->checkC( $data, $mk( 1, 1, 1 ), 16, 'G2P-111' );
 		$this->checkC( $data, $mk( 2, 2, 2 ), 9, 'G2P-222' );
 		$this->checkC( $data, $mk( 3, 3, 3 ), 6, 'G2P-333' );
@@ -162,12 +159,12 @@ class ApiQueryContinueTest extends ApiQueryContinueTestBase {
 
 	/**
 	 * Test smart continue - generator=allpages, prop=links, list=alltransclusions
-	 * @group medium
+	 * @medium
 	 */
 	public function testGen1Prop1List() {
 		$this->mVerbose = false;
 		$mk = function ( $g, $p, $l ) {
-			return [
+			return array(
 				'generator' => 'allpages',
 				'gapprefix' => 'AQCT-',
 				'gaplimit' => "$g",
@@ -177,11 +174,10 @@ class ApiQueryContinueTest extends ApiQueryContinueTestBase {
 				'atprefix' => 'AQCT-',
 				'atunique' => '',
 				'atlimit' => "$l",
-			];
+			);
 		};
 		// generator + 1 prop + 1 list
-		$data = $this->query( $mk( 99, 99, 99 ), 1, 'G1P1L', false ) +
-			[ 'batchcomplete' => true ];
+		$data = $this->query( $mk( 99, 99, 99 ), 1, 'G1P1L', false );
 		$this->checkC( $data, $mk( 1, 1, 1 ), 11, 'G1P1L-111' );
 		$this->checkC( $data, $mk( 2, 2, 2 ), 6, 'G1P1L-222' );
 		$this->checkC( $data, $mk( 3, 3, 3 ), 4, 'G1P1L-333' );
@@ -194,12 +190,12 @@ class ApiQueryContinueTest extends ApiQueryContinueTestBase {
 	/**
 	 * Test smart continue - generator=allpages, prop=links|templates,
 	 *                       list=alllinks|alltransclusions, meta=siteinfo
-	 * @group medium
+	 * @medium
 	 */
 	public function testGen2Prop2List1Meta() {
 		$this->mVerbose = false;
 		$mk = function ( $g, $p1, $p2, $l1, $l2 ) {
-			return [
+			return array(
 				'generator' => 'allpages',
 				'gapprefix' => 'AQCT-',
 				'gaplimit' => "$g",
@@ -215,11 +211,10 @@ class ApiQueryContinueTest extends ApiQueryContinueTestBase {
 				'atlimit' => "$l2",
 				'meta' => 'siteinfo',
 				'siprop' => 'namespaces',
-			];
+			);
 		};
 		// generator + 1 prop + 1 list
-		$data = $this->query( $mk( 99, 99, 99, 99, 99 ), 1, 'G2P2L1M', false ) +
-			[ 'batchcomplete' => true ];
+		$data = $this->query( $mk( 99, 99, 99, 99, 99 ), 1, 'G2P2L1M', false );
 		$this->checkC( $data, $mk( 1, 1, 1, 1, 1 ), 16, 'G2P2L1M-11111' );
 		$this->checkC( $data, $mk( 2, 2, 2, 2, 2 ), 9, 'G2P2L1M-22222' );
 		$this->checkC( $data, $mk( 3, 3, 3, 3, 3 ), 6, 'G2P2L1M-33333' );
@@ -233,12 +228,12 @@ class ApiQueryContinueTest extends ApiQueryContinueTestBase {
 
 	/**
 	 * Test smart continue - generator=templates, prop=templates
-	 * @group medium
+	 * @medium
 	 */
 	public function testSameGenAndProp() {
 		$this->mVerbose = false;
 		$mk = function ( $g, $gDir, $p, $pDir ) {
-			return [
+			return array(
 				'titles' => 'AQCT-1',
 				'generator' => 'templates',
 				'gtllimit' => "$g",
@@ -246,11 +241,10 @@ class ApiQueryContinueTest extends ApiQueryContinueTestBase {
 				'prop' => 'templates',
 				'tllimit' => "$p",
 				'tldir' => $pDir ? 'ascending' : 'descending',
-			];
+			);
 		};
 		// generator + 1 prop
-		$data = $this->query( $mk( 99, true, 99, true ), 1, 'G=P', false ) +
-			[ 'batchcomplete' => true ];
+		$data = $this->query( $mk( 99, true, 99, true ), 1, 'G=P', false );
 
 		$this->checkC( $data, $mk( 1, true, 1, true ), 4, 'G=P-1t1t' );
 		$this->checkC( $data, $mk( 2, true, 2, true ), 2, 'G=P-2t2t' );
@@ -279,12 +273,12 @@ class ApiQueryContinueTest extends ApiQueryContinueTestBase {
 
 	/**
 	 * Test smart continue - generator=allpages, list=allpages
-	 * @group medium
+	 * @medium
 	 */
 	public function testSameGenList() {
 		$this->mVerbose = false;
 		$mk = function ( $g, $gDir, $l, $pDir ) {
-			return [
+			return array(
 				'generator' => 'allpages',
 				'gapprefix' => 'AQCT-',
 				'gaplimit' => "$g",
@@ -293,11 +287,10 @@ class ApiQueryContinueTest extends ApiQueryContinueTestBase {
 				'apprefix' => 'AQCT-',
 				'aplimit' => "$l",
 				'apdir' => $pDir ? 'ascending' : 'descending',
-			];
+			);
 		};
 		// generator + 1 list
-		$data = $this->query( $mk( 99, true, 99, true ), 1, 'G=L', false ) +
-			[ 'batchcomplete' => true ];
+		$data = $this->query( $mk( 99, true, 99, true ), 1, 'G=L', false );
 
 		$this->checkC( $data, $mk( 1, true, 1, true ), 5, 'G=L-1t1t' );
 		$this->checkC( $data, $mk( 2, true, 2, true ), 3, 'G=L-2t2t' );

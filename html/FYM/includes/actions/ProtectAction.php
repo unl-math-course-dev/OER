@@ -41,18 +41,26 @@ class ProtectAction extends FormlessAction {
 	}
 
 	public function show() {
-		if ( $this->getContext()->getConfig()->get( 'UseMediaWikiUIEverywhere' ) ) {
-			$out = $this->getOutput();
-			$out->addModuleStyles( [
-				'mediawiki.ui.input',
-				'mediawiki.ui.checkbox',
-			] );
-		}
 
 		$this->page->protect();
 	}
+}
 
-	public function doesWrites() {
-		return true;
+/**
+ * Handle page unprotection
+ *
+ * This is a wrapper that will call Article::unprotect().
+ *
+ * @ingroup Actions
+ */
+class UnprotectAction extends ProtectAction {
+
+	public function getName() {
+		return 'unprotect';
+	}
+
+	public function show() {
+
+		$this->page->unprotect();
 	}
 }

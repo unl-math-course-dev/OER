@@ -28,20 +28,11 @@
 class IRCColourfulRCFeedFormatter implements RCFeedFormatter {
 	/**
 	 * @see RCFeedFormatter::getLine
-	 * @param array $feed
-	 * @param RecentChange $rc
-	 * @param string|null $actionComment
-	 * @return string|null
 	 */
 	public function getLine( array $feed, RecentChange $rc, $actionComment ) {
 		global $wgUseRCPatrol, $wgUseNPPatrol, $wgLocalInterwikis,
 			$wgCanonicalServer, $wgScript;
 		$attribs = $rc->getAttributes();
-		if ( $attribs['rc_type'] == RC_CATEGORIZE ) {
-			// Don't send RC_CATEGORIZE events to IRC feed (T127360)
-			return null;
-		}
-
 		if ( $attribs['rc_type'] == RC_LOG ) {
 			// Don't use SpecialPage::getTitleFor, backwards compatibility with
 			// IRC API which expects "Log".
@@ -65,7 +56,7 @@ class IRCColourfulRCFeedFormatter implements RCFeedFormatter {
 				$query .= '&rcid=' . $attribs['rc_id'];
 			}
 			// HACK: We need this hook for WMF's secure server setup
-			Hooks::run( 'IRCLineURL', [ &$url, &$query, $rc ] );
+			wfRunHooks( 'IRCLineURL', array( &$url, &$query, $rc ) );
 			$url .= $query;
 		}
 
@@ -86,24 +77,15 @@ class IRCColourfulRCFeedFormatter implements RCFeedFormatter {
 
 		if ( $attribs['rc_type'] == RC_LOG ) {
 			$targetText = $rc->getTitle()->getPrefixedText();
-			$comment = self::cleanupForIRC( str_replace(
-				"[[$targetText]]",
-				"[[\00302$targetText\00310]]",
-				$actionComment
-			) );
+			$comment = self::cleanupForIRC( str_replace( "[[$targetText]]", "[[\00302$targetText\00310]]", $actionComment ) );
 			$flag = $attribs['rc_log_action'];
 		} else {
-			$comment = self::cleanupForIRC(
-				CommentStore::getStore()->getComment( 'rc_comment', $attribs )->text
-			);
+			$comment = self::cleanupForIRC( $attribs['rc_comment'] );
 			$flag = '';
-			if ( !$attribs['rc_patrolled']
-				&& ( $wgUseRCPatrol || $attribs['rc_type'] == RC_NEW && $wgUseNPPatrol )
-			) {
+			if ( !$attribs['rc_patrolled'] && ( $wgUseRCPatrol || $attribs['rc_type'] == RC_NEW && $wgUseNPPatrol ) ) {
 				$flag .= '!';
 			}
-			$flag .= ( $attribs['rc_type'] == RC_NEW ? "N" : "" )
-				. ( $attribs['rc_minor'] ? "M" : "" ) . ( $attribs['rc_bot'] ? "B" : "" );
+			$flag .= ( $attribs['rc_type'] == RC_NEW ? "N" : "" ) . ( $attribs['rc_minor'] ? "M" : "" ) . ( $attribs['rc_bot'] ? "B" : "" );
 		}
 
 		if ( $feed['add_interwiki_prefix'] === true && $wgLocalInterwikis ) {
@@ -134,10 +116,10 @@ class IRCColourfulRCFeedFormatter implements RCFeedFormatter {
 	 * @return string
 	 */
 	public static function cleanupForIRC( $text ) {
-		return str_replace(
-			[ "\n", "\r" ],
-			[ " ", "" ],
-			Sanitizer::decodeCharReferences( $text )
-		);
+		return Sanitizer::decodeCharReferences( str_replace(
+			array( "\n", "\r" ),
+			array( " ", "" ),
+			$text
+		) );
 	}
 }

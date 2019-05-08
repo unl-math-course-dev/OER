@@ -31,7 +31,7 @@ require_once __DIR__ . '/Maintenance.php';
 class Protect extends Maintenance {
 	public function __construct() {
 		parent::__construct();
-		$this->addDescription( 'Protect or unprotect a page from the command line.' );
+		$this->mDescription = "Protect or unprotect a page from the command line.";
 		$this->addOption( 'unprotect', 'Removes protection' );
 		$this->addOption( 'semiprotect', 'Adds semi-protection' );
 		$this->addOption( 'cascade', 'Add cascading protection' );
@@ -41,8 +41,8 @@ class Protect extends Maintenance {
 	}
 
 	public function execute() {
-		$userName = $this->getOption( 'user', false );
-		$reason = $this->getOption( 'reason', '' );
+		$userName = $this->getOption( 'u', 'Maintenance script' );
+		$reason = $this->getOption( 'r', '' );
 
 		$cascade = $this->hasOption( 'cascade' );
 
@@ -53,24 +53,20 @@ class Protect extends Maintenance {
 			$protection = "";
 		}
 
-		if ( $userName === false ) {
-			$user = User::newSystemUser( 'Maintenance script', [ 'steal' => true ] );
-		} else {
-			$user = User::newFromName( $userName );
-		}
+		$user = User::newFromName( $userName );
 		if ( !$user ) {
-			$this->fatalError( "Invalid username" );
+			$this->error( "Invalid username", true );
 		}
 
 		// @todo FIXME: This is reset 7 lines down.
-		$restrictions = [ 'edit' => $protection, 'move' => $protection ];
+		$restrictions = array( 'edit' => $protection, 'move' => $protection );
 
 		$t = Title::newFromText( $this->getArg() );
 		if ( !$t ) {
-			$this->fatalError( "Invalid title" );
+			$this->error( "Invalid title", true );
 		}
 
-		$restrictions = [];
+		$restrictions = array();
 		foreach ( $t->getRestrictionTypes() as $type ) {
 			$restrictions[$type] = $protection;
 		}
@@ -79,7 +75,7 @@ class Protect extends Maintenance {
 		$this->output( "Updating protection status... " );
 
 		$page = WikiPage::factory( $t );
-		$status = $page->doUpdateRestrictions( $restrictions, [], $cascade, $reason, $user );
+		$status = $page->doUpdateRestrictions( $restrictions, array(), $cascade, $reason, $user );
 
 		if ( $status->isOK() ) {
 			$this->output( "done\n" );
@@ -89,5 +85,5 @@ class Protect extends Maintenance {
 	}
 }
 
-$maintClass = Protect::class;
+$maintClass = "Protect";
 require_once RUN_MAINTENANCE_IF_MAIN;

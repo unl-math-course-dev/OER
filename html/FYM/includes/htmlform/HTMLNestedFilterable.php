@@ -2,10 +2,10 @@
 
 interface HTMLNestedFilterable {
 	/**
-	 * Support for separating multi-option preferences into multiple preferences
+	 * Support for seperating multi-option preferences into multiple preferences
 	 * Due to lack of array support.
 	 *
-	 * @param array $data
+	 * @param $data array
 	 */
-	public function filterDataForSubmit( $data );
+	function filterDataForSubmit( $data );
 }

@@ -24,10 +24,6 @@
  * @author Ævar Arnfjörð Bjarmason <avarab@gmail.com>
  */
 
-use MediaWiki\MediaWikiServices;
-use Wikimedia\Rdbms\IResultWrapper;
-use Wikimedia\Rdbms\IDatabase;
-
 /**
  * A querypage to show categories ordered in descending order by the pages in them
  *
@@ -42,14 +38,14 @@ class MostlinkedCategoriesPage extends QueryPage {
 		return false;
 	}
 
-	public function getQueryInfo() {
-		return [
-			'tables' => [ 'category' ],
-			'fields' => [ 'title' => 'cat_title',
+	function getQueryInfo() {
+		return array(
+			'tables' => array( 'category' ),
+			'fields' => array( 'title' => 'cat_title',
 				'namespace' => NS_CATEGORY,
-				'value' => 'cat_pages' ],
-			'conds' => [ 'cat_pages > 0' ],
-		];
+				'value' => 'cat_pages' ),
+			'conds' => array( 'cat_pages > 0' ),
+		);
 	}
 
 	function sortDescending() {
@@ -59,11 +55,22 @@ class MostlinkedCategoriesPage extends QueryPage {
 	/**
 	 * Fetch user page links and cache their existence
 	 *
-	 * @param IDatabase $db
-	 * @param IResultWrapper $res
+	 * @param DatabaseBase $db
+	 * @param ResultWrapper $res
 	 */
 	function preprocessResults( $db, $res ) {
-		$this->executeLBFromResultWrapper( $res );
+		if ( !$res->numRows() ) {
+			return;
+		}
+
+		$batch = new LinkBatch;
+		foreach ( $res as $row ) {
+			$batch->add( NS_CATEGORY, $row->title );
+		}
+		$batch->execute();
+
+		// Back to start for display
+		$res->seek( 0 );
 	}
 
 	/**
@@ -72,11 +79,13 @@ class MostlinkedCategoriesPage extends QueryPage {
 	 * @return string
 	 */
 	function formatResult( $skin, $result ) {
+		global $wgContLang;
+
 		$nt = Title::makeTitleSafe( NS_CATEGORY, $result->title );
 		if ( !$nt ) {
 			return Html::element(
 				'span',
-				[ 'class' => 'mw-invalidtitle' ],
+				array( 'class' => 'mw-invalidtitle' ),
 				Linker::getInvalidTitleDescription(
 					$this->getContext(),
 					NS_CATEGORY,
@@ -84,9 +93,8 @@ class MostlinkedCategoriesPage extends QueryPage {
 			);
 		}
 
-		$text = MediaWikiServices::getInstance()->getContentLanguage()
-			->convert( htmlspecialchars( $nt->getText() ) );
-		$plink = $this->getLinkRenderer()->makeLink( $nt, new HtmlArmor( $text ) );
+		$text = $wgContLang->convert( $nt->getText() );
+		$plink = Linker::link( $nt, htmlspecialchars( $text ) );
 		$nlinks = $this->msg( 'nmembers' )->numParams( $result->value )->escaped();
 
 		return $this->getLanguage()->specialList( $plink, $nlinks );

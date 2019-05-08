@@ -1,7 +1,8 @@
 <?php
 /** Lingala (lingála)
  *
- * To improve a translation please visit https://translatewiki.net
+ * See MessagesQqq.php for message documentation incl. usage of parameters
+ * To improve a translation please visit http://translatewiki.net
  *
  * @ingroup Language
  * @file
@@ -14,9 +15,10 @@
 $fallback = 'fr';
 
 // Remove French aliases
-$namespaceGenderAliases = [];
+$namespaceGenderAliases = array();
 
 $linkPrefixExtension = true;
 
-# Same as the French (T10485)
-$separatorTransformTable = [ ',' => "\u{00A0}", '.' => ',' ];
+# Same as the French (bug 8485)
+$separatorTransformTable = array( ',' => "\xc2\xa0", '.' => ',' );
+

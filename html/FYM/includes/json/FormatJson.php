@@ -38,7 +38,7 @@ class FormatJson {
 	 * HTML and XML.
 	 *
 	 * @warning Do not use this option for JSON that could end up in inline scripts.
-	 * - HTML 5.2, §4.12.1.3 Restrictions for contents of script elements
+	 * - HTML5, §4.3.1.2 Restrictions for contents of script elements
 	 * - XML 1.0 (5th Ed.), §2.4 Character Data and Markup
 	 *
 	 * @since 1.22
@@ -52,29 +52,18 @@ class FormatJson {
 	 *
 	 * @since 1.22
 	 */
-	const ALL_OK = self::UTF8_OK | self::XMLMETA_OK;
+	const ALL_OK = 3;
 
 	/**
-	 * If set, treat JSON objects '{...}' as associative arrays. Without this option,
-	 * JSON objects will be converted to stdClass.
+	 * Regex that matches whitespace inside empty arrays and objects.
 	 *
-	 * @since 1.24
-	 */
-	const FORCE_ASSOC = 0x100;
-
-	/**
-	 * If set, attempt to fix invalid JSON.
+	 * This doesn't affect regular strings inside the JSON because those can't
+	 * have a real line break (\n) in them, at this point they are already escaped
+	 * as the string "\n" which this doesn't match.
 	 *
-	 * @since 1.24
+	 * @private
 	 */
-	const TRY_FIXING = 0x200;
-
-	/**
-	 * If set, strip comments from input before parsing as JSON.
-	 *
-	 * @since 1.25
-	 */
-	const STRIP_COMMENTS = 0x400;
+	const WS_CLEANUP_REGEX = '/(?<=[\[{])\n\s*+(?=[\]}])/';
 
 	/**
 	 * Characters problematic in JavaScript.
@@ -82,18 +71,18 @@ class FormatJson {
 	 * @note These are listed in ECMA-262 (5.1 Ed.), §7.3 Line Terminators along with U+000A (LF)
 	 *       and U+000D (CR). However, PHP already escapes LF and CR according to RFC 4627.
 	 */
-	private static $badChars = [
-		"\u{2028}", // U+2028 LINE SEPARATOR
-		"\u{2029}", // U+2029 PARAGRAPH SEPARATOR
-	];
+	private static $badChars = array(
+		"\xe2\x80\xa8", // U+2028 LINE SEPARATOR
+		"\xe2\x80\xa9", // U+2029 PARAGRAPH SEPARATOR
+	);
 
 	/**
 	 * Escape sequences for characters listed in FormatJson::$badChars.
 	 */
-	private static $badCharsEscaped = [
+	private static $badCharsEscaped = array(
 		'\u2028', // U+2028 LINE SEPARATOR
 		'\u2029', // U+2029 PARAGRAPH SEPARATOR
-	];
+	);
 
 	/**
 	 * Returns the JSON representation of a value.
@@ -110,13 +99,43 @@ class FormatJson {
 	 *   readability, using that string for indentation. If true, use the default indent
 	 *   string (four spaces).
 	 * @param int $escaping Bitfield consisting of _OK class constants
-	 * @return string|false String if successful; false upon failure
+	 * @return string|bool: String if successful; false upon failure
 	 */
 	public static function encode( $value, $pretty = false, $escaping = 0 ) {
 		if ( !is_string( $pretty ) ) {
 			$pretty = $pretty ? '    ' : false;
 		}
 
+		if ( defined( 'JSON_UNESCAPED_UNICODE' ) ) {
+			return self::encode54( $value, $pretty, $escaping );
+		}
+
+		return self::encode53( $value, $pretty, $escaping );
+	}
+
+	/**
+	 * Decodes a JSON string.
+	 *
+	 * @param string $value The JSON string being decoded
+	 * @param bool $assoc When true, returned objects will be converted into associative arrays.
+	 *
+	 * @return mixed The value encoded in JSON in appropriate PHP type.
+	 * `null` is returned if the JSON cannot be decoded or if the encoded data is deeper than
+	 * the recursion limit.
+	 */
+	public static function decode( $value, $assoc = false ) {
+		return json_decode( $value, $assoc );
+	}
+
+	/**
+	 * JSON encoder wrapper for PHP >= 5.4, which supports useful encoding options.
+	 *
+	 * @param mixed $value
+	 * @param string|bool $pretty
+	 * @param int $escaping
+	 * @return string|bool
+	 */
+	private static function encode54( $value, $pretty, $escaping ) {
 		// PHP escapes '/' to prevent breaking out of inline script blocks using '</script>',
 		// which is hardly useful when '<' and '>' are escaped (and inadequate), and such
 		// escaping negatively impacts the human readability of URLs and similar strings.
@@ -129,16 +148,21 @@ class FormatJson {
 			return false;
 		}
 
-		if ( $pretty !== false && $pretty !== '    ' ) {
-			// Change the four-space indent to a tab indent
-			$json = str_replace( "\n    ", "\n\t", $json );
-			while ( strpos( $json, "\t    " ) !== false ) {
-				$json = str_replace( "\t    ", "\t\t", $json );
-			}
+		if ( $pretty !== false ) {
+			// Remove whitespace inside empty arrays/objects; different JSON encoders
+			// vary on this, and we want our output to be consistent across implementations.
+			$json = preg_replace( self::WS_CLEANUP_REGEX, '', $json );
+			if ( $pretty !== '    ' ) {
+				// Change the four-space indent to a tab indent
+				$json = str_replace( "\n    ", "\n\t", $json );
+				while ( strpos( $json, "\t    " ) !== false ) {
+					$json = str_replace( "\t    ", "\t\t", $json );
+				}
 
-			if ( $pretty !== "\t" ) {
-				// Change the tab indent to the provided indent
-				$json = str_replace( "\t", $pretty, $json );
+				if ( $pretty !== "\t" ) {
+					// Change the tab indent to the provided indent
+					$json = str_replace( "\t", $pretty, $json );
+				}
 			}
 		}
 		if ( $escaping & self::UTF8_OK ) {
@@ -149,167 +173,86 @@ class FormatJson {
 	}
 
 	/**
-	 * Decodes a JSON string. It is recommended to use FormatJson::parse(),
-	 * which returns more comprehensive result in case of an error, and has
-	 * more parsing options.
+	 * JSON encoder wrapper for PHP 5.3, which lacks native support for some encoding options.
+	 * Therefore, the missing options are implemented here purely in PHP code.
 	 *
-	 * @param string $value The JSON string being decoded
-	 * @param bool $assoc When true, returned objects will be converted into associative arrays.
-	 *
-	 * @return mixed The value encoded in JSON in appropriate PHP type.
-	 * `null` is returned if $value represented `null`, if $value could not be decoded,
-	 * or if the encoded data was deeper than the recursion limit.
-	 * Use FormatJson::parse() to distinguish between types of `null` and to get proper error code.
+	 * @param mixed $value
+	 * @param string|bool $pretty
+	 * @param int $escaping
+	 * @return string|bool
 	 */
-	public static function decode( $value, $assoc = false ) {
-		return json_decode( $value, $assoc );
+	private static function encode53( $value, $pretty, $escaping ) {
+		$options = ( $escaping & self::XMLMETA_OK ) ? 0 : ( JSON_HEX_TAG | JSON_HEX_AMP );
+		$json = json_encode( $value, $options );
+		if ( $json === false ) {
+			return false;
+		}
+
+		// Emulate JSON_UNESCAPED_SLASHES. Because the JSON contains no unescaped slashes
+		// (only escaped slashes), a simple string replacement works fine.
+		$json = str_replace( '\/', '/', $json );
+
+		if ( $escaping & self::UTF8_OK ) {
+			// JSON hex escape sequences follow the format \uDDDD, where DDDD is four hex digits
+			// indicating the equivalent UTF-16 code unit's value. To most efficiently unescape
+			// them, we exploit the JSON extension's built-in decoder.
+			// * We escape the input a second time, so any such sequence becomes \\uDDDD.
+			// * To avoid interpreting escape sequences that were in the original input,
+			//   each double-escaped backslash (\\\\) is replaced with \\\u005c.
+			// * We strip one of the backslashes from each of the escape sequences to unescape.
+			// * Then the JSON decoder can perform the actual unescaping.
+			$json = str_replace( "\\\\\\\\", "\\\\\\u005c", addcslashes( $json, '\"' ) );
+			$json = json_decode( preg_replace( "/\\\\\\\\u(?!00[0-7])/", "\\\\u", "\"$json\"" ) );
+			$json = str_replace( self::$badChars, self::$badCharsEscaped, $json );
+		}
+
+		if ( $pretty !== false ) {
+			return self::prettyPrint( $json, $pretty );
+		}
+
+		return $json;
 	}
 
 	/**
-	 * Decodes a JSON string.
-	 * Unlike FormatJson::decode(), if $value represents null value, it will be
-	 * properly decoded as valid.
-	 *
-	 * @param string $value The JSON string being decoded
-	 * @param int $options A bit field that allows FORCE_ASSOC, TRY_FIXING,
-	 * STRIP_COMMENTS
-	 * @return Status If valid JSON, the value is available in $result->getValue()
-	 */
-	public static function parse( $value, $options = 0 ) {
-		if ( $options & self::STRIP_COMMENTS ) {
-			$value = self::stripComments( $value );
-		}
-		$assoc = ( $options & self::FORCE_ASSOC ) !== 0;
-		$result = json_decode( $value, $assoc );
-		$code = json_last_error();
-
-		if ( $code === JSON_ERROR_SYNTAX && ( $options & self::TRY_FIXING ) !== 0 ) {
-			// The most common error is the trailing comma in a list or an object.
-			// We cannot simply replace /,\s*[}\]]/ because it could be inside a string value.
-			// But we could use the fact that JSON does not allow multi-line string values,
-			// And remove trailing commas if they are et the end of a line.
-			// JSON only allows 4 control characters: [ \t\r\n].  So we must not use '\s' for matching.
-			// Regex match   ,]<any non-quote chars>\n   or   ,\n]   with optional spaces/tabs.
-			$count = 0;
-			$value =
-				preg_replace( '/,([ \t]*[}\]][^"\r\n]*([\r\n]|$)|[ \t]*[\r\n][ \t\r\n]*[}\]])/', '$1',
-					$value, -1, $count );
-			if ( $count > 0 ) {
-				$result = json_decode( $value, $assoc );
-				if ( JSON_ERROR_NONE === json_last_error() ) {
-					// Report warning
-					$st = Status::newGood( $result );
-					$st->warning( wfMessage( 'json-warn-trailing-comma' )->numParams( $count ) );
-					return $st;
-				}
-			}
-		}
-
-		switch ( $code ) {
-			case JSON_ERROR_NONE:
-				return Status::newGood( $result );
-			default:
-				return Status::newFatal( wfMessage( 'json-error-unknown' )->numParams( $code ) );
-			case JSON_ERROR_DEPTH:
-				$msg = 'json-error-depth';
-				break;
-			case JSON_ERROR_STATE_MISMATCH:
-				$msg = 'json-error-state-mismatch';
-				break;
-			case JSON_ERROR_CTRL_CHAR:
-				$msg = 'json-error-ctrl-char';
-				break;
-			case JSON_ERROR_SYNTAX:
-				$msg = 'json-error-syntax';
-				break;
-			case JSON_ERROR_UTF8:
-				$msg = 'json-error-utf8';
-				break;
-			case JSON_ERROR_RECURSION:
-				$msg = 'json-error-recursion';
-				break;
-			case JSON_ERROR_INF_OR_NAN:
-				$msg = 'json-error-inf-or-nan';
-				break;
-			case JSON_ERROR_UNSUPPORTED_TYPE:
-				$msg = 'json-error-unsupported-type';
-				break;
-		}
-		return Status::newFatal( $msg );
-	}
-
-	/**
-	 * Remove multiline and single line comments from an otherwise valid JSON
-	 * input string. This can be used as a preprocessor, to allow JSON
-	 * formatted configuration files to contain comments.
+	 * Adds non-significant whitespace to an existing JSON representation of an object.
+	 * Only needed for PHP < 5.4, which lacks the JSON_PRETTY_PRINT option.
 	 *
 	 * @param string $json
-	 * @return string JSON with comments removed
+	 * @param string $indentString
+	 * @return string
 	 */
-	public static function stripComments( $json ) {
-		// Ensure we have a string
-		$str = (string)$json;
-		$buffer = '';
-		$maxLen = strlen( $str );
-		$mark = 0;
-
-		$inString = false;
-		$inComment = false;
-		$multiline = false;
-
-		for ( $idx = 0; $idx < $maxLen; $idx++ ) {
-			switch ( $str[$idx] ) {
+	private static function prettyPrint( $json, $indentString ) {
+		$buf = '';
+		$indent = 0;
+		$json = strtr( $json, array( '\\\\' => '\\\\', '\"' => "\x01" ) );
+		for ( $i = 0, $n = strlen( $json ); $i < $n; $i += $skip ) {
+			$skip = 1;
+			switch ( $json[$i] ) {
+				case ':':
+					$buf .= ': ';
+					break;
+				case '[':
+				case '{':
+					++$indent;
+					// falls through
+				case ',':
+					$buf .= $json[$i] . "\n" . str_repeat( $indentString, $indent );
+					break;
+				case ']':
+				case '}':
+					$buf .= "\n" . str_repeat( $indentString, --$indent ) . $json[$i];
+					break;
 				case '"':
-					$lookBehind = ( $idx - 1 >= 0 ) ? $str[$idx - 1] : '';
-					if ( !$inComment && $lookBehind !== '\\' ) {
-						// Either started or ended a string
-						$inString = !$inString;
-					}
+					$skip = strcspn( $json, '"', $i + 1 ) + 2;
+					$buf .= substr( $json, $i, $skip );
 					break;
-
-				case '/':
-					$lookAhead = ( $idx + 1 < $maxLen ) ? $str[$idx + 1] : '';
-					$lookBehind = ( $idx - 1 >= 0 ) ? $str[$idx - 1] : '';
-					if ( $inString ) {
-						break;
-
-					} elseif ( !$inComment &&
-						( $lookAhead === '/' || $lookAhead === '*' )
-					) {
-						// Transition into a comment
-						// Add characters seen to buffer
-						$buffer .= substr( $str, $mark, $idx - $mark );
-						// Consume the look ahead character
-						$idx++;
-						// Track state
-						$inComment = true;
-						$multiline = $lookAhead === '*';
-
-					} elseif ( $multiline && $lookBehind === '*' ) {
-						// Found the end of the current comment
-						$mark = $idx + 1;
-						$inComment = false;
-						$multiline = false;
-					}
-					break;
-
-				case "\n":
-					if ( $inComment && !$multiline ) {
-						// Found the end of the current comment
-						$mark = $idx + 1;
-						$inComment = false;
-					}
-					break;
+				default:
+					$skip = strcspn( $json, ',]}"', $i + 1 ) + 1;
+					$buf .= substr( $json, $i, $skip );
 			}
 		}
-		if ( $inComment ) {
-			// Comment ends with input
-			// Technically we should check to ensure that we aren't in
-			// a multiline comment that hasn't been properly ended, but this
-			// is a strip filter, not a validating parser.
-			$mark = $maxLen;
-		}
-		// Add final chunk to buffer before returning
-		return $buffer . substr( $str, $mark, $maxLen - $mark );
+		$buf = preg_replace( self::WS_CLEANUP_REGEX, '', $buf );
+
+		return str_replace( "\x01", '\"', $buf );
 	}
 }

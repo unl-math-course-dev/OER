@@ -1,12 +1,4 @@
 <?php
-
-namespace MediaWiki\Tests\Maintenance;
-
-use DumpBackup;
-use Title;
-use WikiExporter;
-use WikiPage;
-
 /**
  * Tests for page dumps of BackupDumper
  *
@@ -18,8 +10,8 @@ class BackupDumperPageTest extends DumpTestCase {
 
 	// We'll add several pages, revision and texts. The following variables hold the
 	// corresponding ids.
-	private $pageId1, $pageId2, $pageId3, $pageId4;
-	private $pageTitle1, $pageTitle2, $pageTitle3, $pageTitle4;
+	private $pageId1, $pageId2, $pageId3, $pageId4, $pageId5;
+	private $pageTitle1, $pageTitle2, $pageTitle3, $pageTitle4, $pageTitle5;
 	private $revId1_1, $textId1_1;
 	private $revId2_1, $textId2_1, $revId2_2, $textId2_2;
 	private $revId2_3, $textId2_3, $revId2_4, $textId2_4;
@@ -29,11 +21,13 @@ class BackupDumperPageTest extends DumpTestCase {
 
 	function addDBData() {
 		// be sure, titles created here using english namespace names
-		$this->setContentLang( 'en' );
+		$this->setMwGlobals( array(
+			'wgLanguageCode' => 'en',
+			'wgContLang' => Language::factory( 'en' ),
+		) );
 
 		$this->tablesUsed[] = 'page';
 		$this->tablesUsed[] = 'revision';
-		$this->tablesUsed[] = 'ip_changes';
 		$this->tablesUsed[] = 'text';
 
 		try {
@@ -96,23 +90,22 @@ class BackupDumperPageTest extends DumpTestCase {
 		// class), we have to assert, that the page id are consecutively
 		// increasing
 		$this->assertEquals(
-			[ $this->pageId2, $this->pageId3, $this->pageId4 ],
-			[ $this->pageId1 + 1, $this->pageId2 + 1, $this->pageId3 + 1 ],
+			array( $this->pageId2, $this->pageId3, $this->pageId4 ),
+			array( $this->pageId1 + 1, $this->pageId2 + 1, $this->pageId3 + 1 ),
 			"Page ids increasing without holes" );
 	}
 
 	function testFullTextPlain() {
 		// Preparing the dump
 		$fname = $this->getNewTempFile();
-
-		$dumper = new DumpBackup();
-		$dumper->loadWithArgv( [ '--full', '--quiet', '--output', 'file:' . $fname ] );
+		$dumper = new BackupDumper( array( "--output=file:" . $fname ) );
 		$dumper->startId = $this->pageId1;
 		$dumper->endId = $this->pageId4 + 1;
-		$dumper->setDB( $this->db );
+		$dumper->reporting = false;
+		$dumper->setDb( $this->db );
 
 		// Performing the dump
-		$dumper->execute();
+		$dumper->dump( WikiExporter::FULL, WikiExporter::TEXT );
 
 		// Checking the dumped data
 		$this->assertDumpStart( $fname );
@@ -144,11 +137,7 @@ class BackupDumperPageTest extends DumpTestCase {
 		// -> Page is marked deleted. Hence not visible
 
 		// Page 4
-		$this->assertPageStart(
-			$this->pageId4,
-			$this->talk_namespace,
-			$this->pageTitle4->getPrefixedText()
-		);
+		$this->assertPageStart( $this->pageId4, $this->talk_namespace, $this->pageTitle4->getPrefixedText() );
 		$this->assertRevision( $this->revId4_1, "Talk BackupDumperTestP1 Summary1",
 			$this->textId4_1, 35, "nktofwzd0tl192k3zfepmlzxoax1lpe",
 			"Talk about BackupDumperTestP1 Text1" );
@@ -160,15 +149,14 @@ class BackupDumperPageTest extends DumpTestCase {
 	function testFullStubPlain() {
 		// Preparing the dump
 		$fname = $this->getNewTempFile();
-
-		$dumper = new DumpBackup();
-		$dumper->loadWithArgv( [ '--full', '--quiet', '--output', 'file:' . $fname, '--stub' ] );
+		$dumper = new BackupDumper( array( "--output=file:" . $fname ) );
 		$dumper->startId = $this->pageId1;
 		$dumper->endId = $this->pageId4 + 1;
-		$dumper->setDB( $this->db );
+		$dumper->reporting = false;
+		$dumper->setDb( $this->db );
 
 		// Performing the dump
-		$dumper->execute();
+		$dumper->dump( WikiExporter::FULL, WikiExporter::STUB );
 
 		// Checking the dumped data
 		$this->assertDumpStart( $fname );
@@ -195,11 +183,7 @@ class BackupDumperPageTest extends DumpTestCase {
 		// -> Page is marked deleted. Hence not visible
 
 		// Page 4
-		$this->assertPageStart(
-			$this->pageId4,
-			$this->talk_namespace,
-			$this->pageTitle4->getPrefixedText()
-		);
+		$this->assertPageStart( $this->pageId4, $this->talk_namespace, $this->pageTitle4->getPrefixedText() );
 		$this->assertRevision( $this->revId4_1, "Talk BackupDumperTestP1 Summary1",
 			$this->textId4_1, 35, "nktofwzd0tl192k3zfepmlzxoax1lpe" );
 		$this->assertPageEnd();
@@ -210,12 +194,11 @@ class BackupDumperPageTest extends DumpTestCase {
 	function testCurrentStubPlain() {
 		// Preparing the dump
 		$fname = $this->getNewTempFile();
-
-		$dumper = new DumpBackup( [ '--output', 'file:' . $fname ] );
+		$dumper = new BackupDumper( array( "--output=file:" . $fname ) );
 		$dumper->startId = $this->pageId1;
 		$dumper->endId = $this->pageId4 + 1;
 		$dumper->reporting = false;
-		$dumper->setDB( $this->db );
+		$dumper->setDb( $this->db );
 
 		// Performing the dump
 		$dumper->dump( WikiExporter::CURRENT, WikiExporter::STUB );
@@ -239,11 +222,7 @@ class BackupDumperPageTest extends DumpTestCase {
 		// -> Page is marked deleted. Hence not visible
 
 		// Page 4
-		$this->assertPageStart(
-			$this->pageId4,
-			$this->talk_namespace,
-			$this->pageTitle4->getPrefixedText()
-		);
+		$this->assertPageStart( $this->pageId4, $this->talk_namespace, $this->pageTitle4->getPrefixedText() );
 		$this->assertRevision( $this->revId4_1, "Talk BackupDumperTestP1 Summary1",
 			$this->textId4_1, 35, "nktofwzd0tl192k3zfepmlzxoax1lpe" );
 		$this->assertPageEnd();
@@ -256,12 +235,11 @@ class BackupDumperPageTest extends DumpTestCase {
 
 		// Preparing the dump
 		$fname = $this->getNewTempFile();
-
-		$dumper = new DumpBackup( [ '--output', 'gzip:' . $fname ] );
+		$dumper = new BackupDumper( array( "--output=gzip:" . $fname ) );
 		$dumper->startId = $this->pageId1;
 		$dumper->endId = $this->pageId4 + 1;
 		$dumper->reporting = false;
-		$dumper->setDB( $this->db );
+		$dumper->setDb( $this->db );
 
 		// Performing the dump
 		$dumper->dump( WikiExporter::CURRENT, WikiExporter::STUB );
@@ -286,11 +264,7 @@ class BackupDumperPageTest extends DumpTestCase {
 		// -> Page is marked deleted. Hence not visible
 
 		// Page 4
-		$this->assertPageStart(
-			$this->pageId4,
-			$this->talk_namespace,
-			$this->pageTitle4->getPrefixedText()
-		);
+		$this->assertPageStart( $this->pageId4, $this->talk_namespace, $this->pageTitle4->getPrefixedText() );
 		$this->assertRevision( $this->revId4_1, "Talk BackupDumperTestP1 Summary1",
 			$this->textId4_1, 35, "nktofwzd0tl192k3zfepmlzxoax1lpe" );
 		$this->assertPageEnd();
@@ -298,32 +272,31 @@ class BackupDumperPageTest extends DumpTestCase {
 		$this->assertDumpEnd();
 	}
 
-	/**
-	 * xmldumps-backup typically performs a single dump that that writes
-	 * out three files
-	 * - gzipped stubs of everything (meta-history)
-	 * - gzipped stubs of latest revisions of all pages (meta-current)
-	 * - gzipped stubs of latest revisions of all pages of namespage 0
-	 *   (articles)
-	 *
-	 * We reproduce such a setup with our mini fixture, although we omit
-	 * chunks, and all the other gimmicks of xmldumps-backup.
-	 */
 	function testXmlDumpsBackupUseCase() {
+		// xmldumps-backup typically performs a single dump that that writes
+		// out three files
+		// * gzipped stubs of everything (meta-history)
+		// * gzipped stubs of latest revisions of all pages (meta-current)
+		// * gzipped stubs of latest revisions of all pages of namespage 0
+		//   (articles)
+		//
+		// We reproduce such a setup with our mini fixture, although we omit
+		// chunks, and all the other gimmicks of xmldumps-backup.
+		//
 		$this->checkHasGzip();
 
 		$fnameMetaHistory = $this->getNewTempFile();
 		$fnameMetaCurrent = $this->getNewTempFile();
 		$fnameArticles = $this->getNewTempFile();
 
-		$dumper = new DumpBackup( [ "--full", "--stub", "--output=gzip:" . $fnameMetaHistory,
+		$dumper = new BackupDumper( array( "--output=gzip:" . $fnameMetaHistory,
 			"--output=gzip:" . $fnameMetaCurrent, "--filter=latest",
 			"--output=gzip:" . $fnameArticles, "--filter=latest",
 			"--filter=notalk", "--filter=namespace:!NS_USER",
-			"--reporting=1000" ] );
+			"--reporting=1000" ) );
 		$dumper->startId = $this->pageId1;
 		$dumper->endId = $this->pageId4 + 1;
-		$dumper->setDB( $this->db );
+		$dumper->setDb( $this->db );
 
 		// xmldumps-backup uses reporting. We will not check the exact reported
 		// message, as they are dependent on the processing power of the used
@@ -366,11 +339,7 @@ class BackupDumperPageTest extends DumpTestCase {
 		// -> Page is marked deleted. Hence not visible
 
 		// Page 4
-		$this->assertPageStart(
-			$this->pageId4,
-			$this->talk_namespace,
-			$this->pageTitle4->getPrefixedText()
-		);
+		$this->assertPageStart( $this->pageId4, $this->talk_namespace, $this->pageTitle4->getPrefixedText() );
 		$this->assertRevision( $this->revId4_1, "Talk BackupDumperTestP1 Summary1",
 			$this->textId4_1, 35, "nktofwzd0tl192k3zfepmlzxoax1lpe" );
 		$this->assertPageEnd();
@@ -398,11 +367,7 @@ class BackupDumperPageTest extends DumpTestCase {
 		// -> Page is marked deleted. Hence not visible
 
 		// Page 4
-		$this->assertPageStart(
-			$this->pageId4,
-			$this->talk_namespace,
-			$this->pageTitle4->getPrefixedText()
-		);
+		$this->assertPageStart( $this->pageId4, $this->talk_namespace, $this->pageTitle4->getPrefixedText() );
 		$this->assertRevision( $this->revId4_1, "Talk BackupDumperTestP1 Summary1",
 			$this->textId4_1, 35, "nktofwzd0tl192k3zfepmlzxoax1lpe" );
 		$this->assertPageEnd();

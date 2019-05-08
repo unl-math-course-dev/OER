@@ -21,13 +21,15 @@
  * @ingroup Language
  */
 
+require_once __DIR__ . '/../LanguageConverter.php';
+
 /**
- * Converts Tajiki to Latin orthography
+ * Converts Tajiki to latin orthography
  *
  * @ingroup Language
  */
 class TgConverter extends LanguageConverter {
-	private $table = [
+	private $table = array(
 		'а' => 'a',
 		'б' => 'b',
 		'в' => 'v',
@@ -101,13 +103,13 @@ class TgConverter extends LanguageConverter {
 		'Ҳ' => 'H',
 		'Ҷ' => 'Ç',
 		'Ц' => 'Ts',
-	];
+	);
 
 	function loadDefaultTables() {
-		$this->mTables = [
+		$this->mTables = array(
 			'tg-latn' => new ReplacementArray( $this->table ),
 			'tg' => new ReplacementArray()
-		];
+		);
 	}
 
 }
@@ -120,7 +122,7 @@ class TgConverter extends LanguageConverter {
 class LanguageTg extends Language {
 	function __construct() {
 		parent::__construct();
-		$variants = [ 'tg', 'tg-latn' ];
+		$variants = array( 'tg', 'tg-latn' );
 		$this->mConverter = new TgConverter( $this, 'tg', $variants );
 	}
 }

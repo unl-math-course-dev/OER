@@ -29,7 +29,7 @@
  * Wrapper allowing us to handle a system message as a Content object.
  * Note that this is generally *not* used to represent content from the
  * MediaWiki namespace, and that there is no MessageContentHandler.
- * MessageContent is just intended as glue for wrapping a message programmatically.
+ * MessageContent is just intended as glue for wrapping a message programatically.
  *
  * @ingroup Content
  */
@@ -42,7 +42,7 @@ class MessageContent extends AbstractContent {
 
 	/**
 	 * @param Message|string $msg A Message object, or a message key.
-	 * @param string[]|null $params An optional array of message parameters.
+	 * @param string[] $params An optional array of message parameters.
 	 */
 	public function __construct( $msg, $params = null ) {
 		# XXX: messages may be wikitext, html or plain text! and maybe even something else entirely.
@@ -83,7 +83,7 @@ class MessageContent extends AbstractContent {
 	 * @return Message The message object.
 	 */
 	public function getNativeData() {
-		// NOTE: Message objects are mutable. Cloning here makes MessageContent immutable.
+		//NOTE: Message objects are mutable. Cloning here makes MessageContent immutable.
 		return clone $this->mMessage;
 	}
 
@@ -106,7 +106,7 @@ class MessageContent extends AbstractContent {
 	}
 
 	/**
-	 * @param int $maxlength Maximum length of the summary text, defaults to 250.
+	 * @param int $maxLength Maximum length of the summary text, defaults to 250.
 	 *
 	 * @return string The summary text.
 	 *
@@ -126,7 +126,7 @@ class MessageContent extends AbstractContent {
 	}
 
 	/**
-	 * @return Content A copy of this object
+	 * @return Content. A copy of this object
 	 *
 	 * @see Content::copy
 	 */
@@ -136,7 +136,7 @@ class MessageContent extends AbstractContent {
 	}
 
 	/**
-	 * @param bool|null $hasLinks
+	 * @param bool $hasLinks
 	 *
 	 * @return bool Always false.
 	 *
@@ -148,8 +148,8 @@ class MessageContent extends AbstractContent {
 
 	/**
 	 * @param Title $title Unused.
-	 * @param int|null $revId Unused.
-	 * @param ParserOptions|null $options Unused.
+	 * @param int $revId Unused.
+	 * @param ParserOptions $options Unused.
 	 * @param bool $generateHtml Whether to generate HTML (default: true).
 	 *
 	 * @return ParserOutput
@@ -165,8 +165,6 @@ class MessageContent extends AbstractContent {
 		}
 
 		$po = new ParserOutput( $html );
-		// Message objects are in the user language.
-		$po->recordOption( 'userlang' );
 
 		return $po;
 	}

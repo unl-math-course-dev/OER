@@ -33,23 +33,24 @@ require_once __DIR__ . '/Maintenance.php';
  * @ingroup Maintenance
  */
 class AttachLatest extends Maintenance {
+
 	public function __construct() {
 		parent::__construct();
 		$this->addOption( "fix", "Actually fix the entries, will dry run otherwise" );
 		$this->addOption( "regenerate-all",
 			"Regenerate the page_latest field for all records in table page" );
-		$this->addDescription( 'Fix page_latest entries in the page table' );
+		$this->mDescription = "Fix page_latest entries in the page table";
 	}
 
 	public function execute() {
 		$this->output( "Looking for pages with page_latest set to 0...\n" );
-		$dbw = $this->getDB( DB_MASTER );
-		$conds = [ 'page_latest' => 0 ];
+		$dbw = wfGetDB( DB_MASTER );
+		$conds = array( 'page_latest' => 0 );
 		if ( $this->hasOption( 'regenerate-all' ) ) {
 			$conds = '';
 		}
 		$result = $dbw->select( 'page',
-			[ 'page_id', 'page_namespace', 'page_title' ],
+			array( 'page_id', 'page_namespace', 'page_title' ),
 			$conds,
 			__METHOD__ );
 
@@ -60,7 +61,7 @@ class AttachLatest extends Maintenance {
 			$name = $title->getPrefixedText();
 			$latestTime = $dbw->selectField( 'revision',
 				'MAX(rev_timestamp)',
-				[ 'rev_page' => $pageId ],
+				array( 'rev_page' => $pageId ),
 				__METHOD__ );
 			if ( !$latestTime ) {
 				$this->output( wfWikiID() . " $pageId [[$name]] can't find latest rev time?!\n" );
@@ -69,8 +70,7 @@ class AttachLatest extends Maintenance {
 
 			$revision = Revision::loadFromTimestamp( $dbw, $title, $latestTime );
 			if ( is_null( $revision ) ) {
-				$this->output( wfWikiID()
-					. " $pageId [[$name]] latest time $latestTime, can't find revision id\n" );
+				$this->output( wfWikiID() . " $pageId [[$name]] latest time $latestTime, can't find revision id\n" );
 				continue;
 			}
 			$id = $revision->getId();
@@ -88,5 +88,5 @@ class AttachLatest extends Maintenance {
 	}
 }
 
-$maintClass = AttachLatest::class;
+$maintClass = "AttachLatest";
 require_once RUN_MAINTENANCE_IF_MAIN;

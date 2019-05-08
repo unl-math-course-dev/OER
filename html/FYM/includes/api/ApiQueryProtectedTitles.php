@@ -1,5 +1,9 @@
 <?php
 /**
+ *
+ *
+ * Created on Feb 13, 2009
+ *
  * Copyright © 2009 Roan Kattouw "<Firstname>.<Lastname>@gmail.com"
  *
  * This program is free software; you can redistribute it and/or modify
@@ -27,7 +31,7 @@
  */
 class ApiQueryProtectedTitles extends ApiQueryGeneratorBase {
 
-	public function __construct( ApiQuery $query, $moduleName ) {
+	public function __construct( $query, $moduleName ) {
 		parent::__construct( $query, $moduleName, 'pt' );
 	}
 
@@ -40,27 +44,20 @@ class ApiQueryProtectedTitles extends ApiQueryGeneratorBase {
 	}
 
 	/**
-	 * @param ApiPageSet $resultPageSet
+	 * @param $resultPageSet ApiPageSet
 	 * @return void
 	 */
 	private function run( $resultPageSet = null ) {
 		$params = $this->extractRequestParams();
 
 		$this->addTables( 'protected_titles' );
-		$this->addFields( [ 'pt_namespace', 'pt_title', 'pt_timestamp' ] );
+		$this->addFields( array( 'pt_namespace', 'pt_title', 'pt_timestamp' ) );
 
 		$prop = array_flip( $params['prop'] );
 		$this->addFieldsIf( 'pt_user', isset( $prop['user'] ) || isset( $prop['userid'] ) );
+		$this->addFieldsIf( 'pt_reason', isset( $prop['comment'] ) || isset( $prop['parsedcomment'] ) );
 		$this->addFieldsIf( 'pt_expiry', isset( $prop['expiry'] ) );
 		$this->addFieldsIf( 'pt_create_perm', isset( $prop['level'] ) );
-
-		if ( isset( $prop['comment'] ) || isset( $prop['parsedcomment'] ) ) {
-			$commentStore = CommentStore::getStore();
-			$commentQuery = $commentStore->getJoin( 'pt_reason' );
-			$this->addTables( $commentQuery['tables'] );
-			$this->addFields( $commentQuery['fields'] );
-			$this->addJoinConds( $commentQuery['joins'] );
-		}
 
 		$this->addTimestampWhereRange( 'pt_timestamp', $params['dir'], $params['start'], $params['end'] );
 		$this->addWhereFld( 'pt_namespace', $params['namespace'] );
@@ -90,9 +87,9 @@ class ApiQueryProtectedTitles extends ApiQueryGeneratorBase {
 		if ( isset( $prop['user'] ) ) {
 			$this->addTables( 'user' );
 			$this->addFields( 'user_name' );
-			$this->addJoinConds( [ 'user' => [ 'LEFT JOIN',
+			$this->addJoinConds( array( 'user' => array( 'LEFT JOIN',
 				'user_id=pt_user'
-			] ] );
+			) ) );
 		}
 
 		$this->addOption( 'LIMIT', $params['limit'] + 1 );
@@ -101,7 +98,7 @@ class ApiQueryProtectedTitles extends ApiQueryGeneratorBase {
 		$count = 0;
 		$result = $this->getResult();
 
-		$titles = [];
+		$titles = array();
 
 		foreach ( $res as $row ) {
 			if ( ++$count > $params['limit'] ) {
@@ -115,7 +112,7 @@ class ApiQueryProtectedTitles extends ApiQueryGeneratorBase {
 
 			$title = Title::makeTitle( $row->pt_namespace, $row->pt_title );
 			if ( is_null( $resultPageSet ) ) {
-				$vals = [];
+				$vals = array();
 				ApiQueryBase::addTitleInfo( $vals, $title );
 				if ( isset( $prop['timestamp'] ) ) {
 					$vals['timestamp'] = wfTimestamp( TS_ISO_8601, $row->pt_timestamp );
@@ -126,28 +123,27 @@ class ApiQueryProtectedTitles extends ApiQueryGeneratorBase {
 				}
 
 				if ( isset( $prop['userid'] ) || /*B/C*/isset( $prop['user'] ) ) {
-					$vals['userid'] = (int)$row->pt_user;
+					$vals['userid'] = $row->pt_user;
 				}
 
 				if ( isset( $prop['comment'] ) ) {
-					$vals['comment'] = $commentStore->getComment( 'pt_reason', $row )->text;
+					$vals['comment'] = $row->pt_reason;
 				}
 
 				if ( isset( $prop['parsedcomment'] ) ) {
-					$vals['parsedcomment'] = Linker::formatComment(
-						$commentStore->getComment( 'pt_reason', $row )->text, $titles
-					);
+					$vals['parsedcomment'] = Linker::formatComment( $row->pt_reason, $title );
 				}
 
 				if ( isset( $prop['expiry'] ) ) {
-					$vals['expiry'] = ApiResult::formatExpiry( $row->pt_expiry );
+					global $wgContLang;
+					$vals['expiry'] = $wgContLang->formatExpiry( $row->pt_expiry, TS_ISO_8601 );
 				}
 
 				if ( isset( $prop['level'] ) ) {
 					$vals['level'] = $row->pt_create_perm;
 				}
 
-				$fit = $result->addValue( [ 'query', $this->getModuleName() ], null, $vals );
+				$fit = $result->addValue( array( 'query', $this->getModuleName() ), null, $vals );
 				if ( !$fit ) {
 					$this->setContinueEnumParameter( 'continue',
 						"$row->pt_timestamp|$row->pt_namespace|$row->pt_title"
@@ -160,8 +156,8 @@ class ApiQueryProtectedTitles extends ApiQueryGeneratorBase {
 		}
 
 		if ( is_null( $resultPageSet ) ) {
-			$result->addIndexedTagName(
-				[ 'query', $this->getModuleName() ],
+			$result->setIndexedTagName_internal(
+				array( 'query', $this->getModuleName() ),
 				$this->getModulePrefix()
 			);
 		} else {
@@ -179,40 +175,41 @@ class ApiQueryProtectedTitles extends ApiQueryGeneratorBase {
 	}
 
 	public function getAllowedParams() {
-		return [
-			'namespace' => [
+		global $wgRestrictionLevels;
+
+		return array(
+			'namespace' => array(
 				ApiBase::PARAM_ISMULTI => true,
 				ApiBase::PARAM_TYPE => 'namespace',
-			],
-			'level' => [
+			),
+			'level' => array(
 				ApiBase::PARAM_ISMULTI => true,
-				ApiBase::PARAM_TYPE => array_diff( $this->getConfig()->get( 'RestrictionLevels' ), [ '' ] )
-			],
-			'limit' => [
+				ApiBase::PARAM_TYPE => array_diff( $wgRestrictionLevels, array( '' ) )
+			),
+			'limit' => array(
 				ApiBase::PARAM_DFLT => 10,
 				ApiBase::PARAM_TYPE => 'limit',
 				ApiBase::PARAM_MIN => 1,
 				ApiBase::PARAM_MAX => ApiBase::LIMIT_BIG1,
 				ApiBase::PARAM_MAX2 => ApiBase::LIMIT_BIG2
-			],
-			'dir' => [
+			),
+			'dir' => array(
 				ApiBase::PARAM_DFLT => 'older',
-				ApiBase::PARAM_TYPE => [
+				ApiBase::PARAM_TYPE => array(
 					'newer',
 					'older'
-				],
-				ApiBase::PARAM_HELP_MSG => 'api-help-param-direction',
-			],
-			'start' => [
+				)
+			),
+			'start' => array(
 				ApiBase::PARAM_TYPE => 'timestamp'
-			],
-			'end' => [
+			),
+			'end' => array(
 				ApiBase::PARAM_TYPE => 'timestamp'
-			],
-			'prop' => [
+			),
+			'prop' => array(
 				ApiBase::PARAM_ISMULTI => true,
 				ApiBase::PARAM_DFLT => 'timestamp|level',
-				ApiBase::PARAM_TYPE => [
+				ApiBase::PARAM_TYPE => array(
 					'timestamp',
 					'user',
 					'userid',
@@ -220,25 +217,83 @@ class ApiQueryProtectedTitles extends ApiQueryGeneratorBase {
 					'parsedcomment',
 					'expiry',
 					'level'
-				],
-				ApiBase::PARAM_HELP_MSG_PER_VALUE => [],
-			],
-			'continue' => [
-				ApiBase::PARAM_HELP_MSG => 'api-help-param-continue',
-			],
-		];
+				)
+			),
+			'continue' => null,
+		);
 	}
 
-	protected function getExamplesMessages() {
-		return [
-			'action=query&list=protectedtitles'
-				=> 'apihelp-query+protectedtitles-example-simple',
-			'action=query&generator=protectedtitles&gptnamespace=0&prop=linkshere'
-				=> 'apihelp-query+protectedtitles-example-generator',
-		];
+	public function getParamDescription() {
+		return array(
+			'namespace' => 'Only list titles in these namespaces',
+			'start' => 'Start listing at this protection timestamp',
+			'end' => 'Stop listing at this protection timestamp',
+			'dir' => $this->getDirectionDescription( $this->getModulePrefix() ),
+			'limit' => 'How many total pages to return',
+			'prop' => array(
+				'Which properties to get',
+				' timestamp      - Adds the timestamp of when protection was added',
+				' user           - Adds the user that added the protection',
+				' userid         - Adds the user id that added the protection',
+				' comment        - Adds the comment for the protection',
+				' parsedcomment  - Adds the parsed comment for the protection',
+				' expiry         - Adds the timestamp of when the protection will be lifted',
+				' level          - Adds the protection level',
+			),
+			'level' => 'Only list titles with these protection levels',
+			'continue' => 'When more results are available, use this to continue',
+		);
+	}
+
+	public function getResultProperties() {
+		global $wgRestrictionLevels;
+
+		return array(
+			'' => array(
+				'ns' => 'namespace',
+				'title' => 'string'
+			),
+			'timestamp' => array(
+				'timestamp' => 'timestamp'
+			),
+			'user' => array(
+				'user' => array(
+					ApiBase::PROP_TYPE => 'string',
+					ApiBase::PROP_NULLABLE => true
+				),
+				'userid' => 'integer'
+			),
+			'userid' => array(
+				'userid' => 'integer'
+			),
+			'comment' => array(
+				'comment' => 'string'
+			),
+			'parsedcomment' => array(
+				'parsedcomment' => 'string'
+			),
+			'expiry' => array(
+				'expiry' => 'timestamp'
+			),
+			'level' => array(
+				'level' => array(
+					ApiBase::PROP_TYPE => array_diff( $wgRestrictionLevels, array( '' ) )
+				)
+			)
+		);
+	}
+
+	public function getDescription() {
+		return 'List all titles protected from creation.';
+	}
+
+	public function getExamples() {
+		return array(
+			'api.php?action=query&list=protectedtitles',
+		);
 	}
 
 	public function getHelpUrls() {
-		return 'https://www.mediawiki.org/wiki/Special:MyLanguage/API:Protectedtitles';
+		return 'https://www.mediawiki.org/wiki/API:Protectedtitles';
 	}
 }

@@ -1,6 +1,6 @@
 <?php
 /**
- * ResourceLoader module for user tokens.
+ * Resource loader module for user tokens.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -26,36 +26,36 @@
  */
 class ResourceLoaderUserTokensModule extends ResourceLoaderModule {
 
+	/* Protected Members */
+
 	protected $origin = self::ORIGIN_CORE_INDIVIDUAL;
 
-	protected $targets = [ 'desktop', 'mobile' ];
+	protected $targets = array( 'desktop', 'mobile' );
+
+	/* Methods */
 
 	/**
 	 * Fetch the tokens for the current user.
 	 *
-	 * @param ResourceLoaderContext $context
-	 * @return array List of tokens keyed by token type
+	 * @return array: List of tokens keyed by token type
 	 */
-	protected function contextUserTokens( ResourceLoaderContext $context ) {
-		$user = $context->getUserObj();
+	protected function contextUserTokens() {
+		global $wgUser;
 
-		return [
-			'editToken' => $user->getEditToken(),
-			'patrolToken' => $user->getEditToken( 'patrol' ),
-			'watchToken' => $user->getEditToken( 'watch' ),
-			'csrfToken' => $user->getEditToken(),
-		];
+		return array(
+			'editToken' => $wgUser->getEditToken(),
+			'patrolToken' => ApiQueryRecentChanges::getPatrolToken( null, null ),
+			'watchToken' => ApiQueryInfo::getWatchToken( null, null ),
+		);
 	}
 
 	/**
-	 * @param ResourceLoaderContext $context
-	 * @return string JavaScript code
+	 * @param $context ResourceLoaderContext
+	 * @return string
 	 */
 	public function getScript( ResourceLoaderContext $context ) {
-		// Use FILTER_NOMIN annotation to prevent needless minification and caching (T84960).
-		return ResourceLoader::FILTER_NOMIN . Xml::encodeJsCall(
-			'mw.user.tokens.set',
-			[ $this->contextUserTokens( $context ) ],
+		return Xml::encodeJsCall( 'mw.user.tokens.set',
+			array( $this->contextUserTokens() ),
 			ResourceLoader::inDebugMode()
 		);
 	}

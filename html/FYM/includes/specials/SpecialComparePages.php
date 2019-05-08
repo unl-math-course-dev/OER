@@ -43,66 +43,63 @@ class SpecialComparePages extends SpecialPage {
 	/**
 	 * Show a form for filtering namespace and username
 	 *
-	 * @param string $par
-	 * @return string
+	 * @param $par String
+	 * @return String
 	 */
 	public function execute( $par ) {
 		$this->setHeaders();
 		$this->outputHeader();
-		$this->getOutput()->addModuleStyles( 'mediawiki.special' );
 
-		$form = HTMLForm::factory( 'ooui', [
-			'Page1' => [
-				'type' => 'title',
+		$form = new HTMLForm( array(
+			'Page1' => array(
+				'type' => 'text',
 				'name' => 'page1',
 				'label-message' => 'compare-page1',
 				'size' => '40',
 				'section' => 'page1',
-				'validation-callback' => [ $this, 'checkExistingTitle' ],
-				'required' => false,
-			],
-			'Revision1' => [
+				'validation-callback' => array( $this, 'checkExistingTitle' ),
+			),
+			'Revision1' => array(
 				'type' => 'int',
 				'name' => 'rev1',
 				'label-message' => 'compare-rev1',
 				'size' => '8',
 				'section' => 'page1',
-				'validation-callback' => [ $this, 'checkExistingRevision' ],
-			],
-			'Page2' => [
-				'type' => 'title',
+				'validation-callback' => array( $this, 'checkExistingRevision' ),
+			),
+			'Page2' => array(
+				'type' => 'text',
 				'name' => 'page2',
 				'label-message' => 'compare-page2',
 				'size' => '40',
 				'section' => 'page2',
-				'validation-callback' => [ $this, 'checkExistingTitle' ],
-				'required' => false,
-			],
-			'Revision2' => [
+				'validation-callback' => array( $this, 'checkExistingTitle' ),
+			),
+			'Revision2' => array(
 				'type' => 'int',
 				'name' => 'rev2',
 				'label-message' => 'compare-rev2',
 				'size' => '8',
 				'section' => 'page2',
-				'validation-callback' => [ $this, 'checkExistingRevision' ],
-			],
-			'Action' => [
+				'validation-callback' => array( $this, 'checkExistingRevision' ),
+			),
+			'Action' => array(
 				'type' => 'hidden',
 				'name' => 'action',
-			],
-			'Diffonly' => [
+			),
+			'Diffonly' => array(
 				'type' => 'hidden',
 				'name' => 'diffonly',
-			],
-			'Unhide' => [
+			),
+			'Unhide' => array(
 				'type' => 'hidden',
 				'name' => 'unhide',
-			],
-		], $this->getContext(), 'compare' );
+			),
+		), $this->getContext(), 'compare' );
 		$form->setSubmitTextMsg( 'compare-submit' );
 		$form->suppressReset();
 		$form->setMethod( 'get' );
-		$form->setSubmitCallback( [ __CLASS__, 'showDiff' ] );
+		$form->setSubmitCallback( array( __CLASS__, 'showDiff' ) );
 
 		$form->loadData();
 		$form->displayForm( '' );

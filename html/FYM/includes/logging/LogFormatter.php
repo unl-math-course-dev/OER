@@ -19,20 +19,15 @@
  *
  * @file
  * @author Niklas Laxström
- * @license GPL-2.0-or-later
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License 2.0 or later
  * @since 1.19
  */
-use MediaWiki\Linker\LinkRenderer;
-use MediaWiki\MediaWikiServices;
 
 /**
  * Implements the default log formatting.
- *
- * Can be overridden by subclassing and setting:
- *
- *     $wgLogActionsHandlers['type/subtype'] = 'class'; or
- *     $wgLogActionsHandlers['type/*'] = 'class';
- *
+ * Can be overridden by subclassing and setting
+ * $wgLogActionsHandlers['type/subtype'] = 'class'; or
+ * $wgLogActionsHandlers['type/*'] = 'class';
  * @since 1.19
  */
 class LogFormatter {
@@ -69,7 +64,7 @@ class LogFormatter {
 	/**
 	 * Handy shortcut for constructing a formatter directly from
 	 * database row.
-	 * @param stdClass|array $row
+	 * @param $row
 	 * @see DatabaseLogEntry::getSelectQueryData
 	 * @return LogFormatter
 	 */
@@ -82,11 +77,8 @@ class LogFormatter {
 	/** @var LogEntryBase */
 	protected $entry;
 
-	/** @var int Constant for handling log_deleted */
+	/** @var Integer Constant for handling log_deleted */
 	protected $audience = self::FOR_PUBLIC;
-
-	/** @var IContextSource Context for logging */
-	public $context;
 
 	/** @var bool Whether to output user tool links */
 	protected $linkFlood = false;
@@ -103,17 +95,6 @@ class LogFormatter {
 	/** @var string */
 	protected $irctext = false;
 
-	/**
-	 * @var LinkRenderer|null
-	 */
-	private $linkRenderer;
-
-	/**
-	 * @see LogFormatter::getMessageParameters
-	 * @var array
-	 */
-	protected $parsedParameters;
-
 	protected function __construct( LogEntry $entry ) {
 		$this->entry = $entry;
 		$this->context = RequestContext::getMain();
@@ -128,30 +109,10 @@ class LogFormatter {
 	}
 
 	/**
-	 * @since 1.30
-	 * @param LinkRenderer $linkRenderer
-	 */
-	public function setLinkRenderer( LinkRenderer $linkRenderer ) {
-		$this->linkRenderer = $linkRenderer;
-	}
-
-	/**
-	 * @since 1.30
-	 * @return LinkRenderer
-	 */
-	public function getLinkRenderer() {
-		if ( $this->linkRenderer !== null ) {
-			return $this->linkRenderer;
-		} else {
-			return MediaWikiServices::getInstance()->getLinkRenderer();
-		}
-	}
-
-	/**
 	 * Set the visibility restrictions for displaying content.
 	 * If set to public, and an item is deleted, then it will be replaced
 	 * with a placeholder even if the context user is allowed to view it.
-	 * @param int $audience Const self::FOR_THIS_USER or self::FOR_PUBLIC
+	 * @param int $audience self::FOR_THIS_USER or self::FOR_PUBLIC
 	 */
 	public function setAudience( $audience ) {
 		$this->audience = ( $audience == self::FOR_THIS_USER )
@@ -189,7 +150,6 @@ class LogFormatter {
 	 * to avoid formatting for any particular user.
 	 * @see getActionText()
 	 * @return string Plain text
-	 * @return-taint tainted
 	 */
 	public function getPlainActionText() {
 		$this->plaintext = true;
@@ -200,10 +160,10 @@ class LogFormatter {
 	}
 
 	/**
-	 * Even uglier hack to maintain backwards compatibility with IRC bots
-	 * (T36508).
+	 * Even uglier hack to maintain backwards compatibilty with IRC bots
+	 * (bug 34508).
 	 * @see getActionText()
-	 * @return string Text
+	 * @return string text
 	 */
 	public function getIRCActionComment() {
 		$actionComment = $this->getIRCActionText();
@@ -221,10 +181,10 @@ class LogFormatter {
 	}
 
 	/**
-	 * Even uglier hack to maintain backwards compatibility with IRC bots
-	 * (T36508).
+	 * Even uglier hack to maintain backwards compatibilty with IRC bots
+	 * (bug 34508).
 	 * @see getActionText()
-	 * @return string Text
+	 * @return string text
 	 */
 	public function getIRCActionText() {
 		$this->plaintext = true;
@@ -236,7 +196,6 @@ class LogFormatter {
 		// Text of title the action is aimed at.
 		$target = $entry->getTarget()->getPrefixedText();
 		$text = null;
-		$contLang = MediaWikiServices::getInstance()->getContentLanguage();
 		switch ( $entry->getType() ) {
 			case 'move':
 				switch ( $entry->getSubtype() ) {
@@ -267,15 +226,19 @@ class LogFormatter {
 						$text = wfMessage( 'undeletedarticle' )
 							->rawParams( $target )->inContentLanguage()->escaped();
 						break;
+					// @codingStandardsIgnoreStart Long line
 					//case 'revision': // Revision deletion
 					//case 'event': // Log deletion
-					// see https://github.com/wikimedia/mediawiki/commit/a9c243b7b5289dad204278dbe7ed571fd914e395
+					// see https://svn.wikimedia.org/viewvc/mediawiki/trunk/phase3/includes/LogPage.php?&pathrev=97044&r1=97043&r2=97044
 					//default:
+					// @codingStandardsIgnoreEnd
 				}
 				break;
 
 			case 'patrol':
-				// https://github.com/wikimedia/mediawiki/commit/1a05f8faf78675dc85984f27f355b8825b43efff
+				// @codingStandardsIgnoreStart Long line
+				// https://svn.wikimedia.org/viewvc/mediawiki/trunk/phase3/includes/PatrolLog.php?&pathrev=97495&r1=97494&r2=97495
+				// @codingStandardsIgnoreEnd
 				// Create a diff link to the patrolled revision
 				if ( $entry->getSubtype() === 'patrol' ) {
 					$diffLink = htmlspecialchars(
@@ -292,7 +255,7 @@ class LogFormatter {
 				switch ( $entry->getSubtype() ) {
 					case 'protect':
 						$text = wfMessage( 'protectedarticle' )
-							->rawParams( $target . ' ' . $parameters['4::description'] )->inContentLanguage()->escaped();
+							->rawParams( $target . ' ' . $parameters[0] )->inContentLanguage()->escaped();
 						break;
 					case 'unprotect':
 						$text = wfMessage( 'unprotectedarticle' )
@@ -300,11 +263,7 @@ class LogFormatter {
 						break;
 					case 'modify':
 						$text = wfMessage( 'modifiedarticleprotection' )
-							->rawParams( $target . ' ' . $parameters['4::description'] )->inContentLanguage()->escaped();
-						break;
-					case 'move_prot':
-						$text = wfMessage( 'movedarticleprotection' )
-							->rawParams( $target, $parameters['4::oldtitle'] )->inContentLanguage()->escaped();
+							->rawParams( $target . ' ' . $parameters[0] )->inContentLanguage()->escaped();
 						break;
 				}
 				break;
@@ -363,64 +322,6 @@ class LogFormatter {
 						break;
 				}
 				break;
-
-			case 'merge':
-				$text = wfMessage( 'pagemerge-logentry' )
-					->rawParams( $target, $parameters['4::dest'], $parameters['5::mergepoint'] )
-					->inContentLanguage()->escaped();
-				break;
-
-			case 'block':
-				switch ( $entry->getSubtype() ) {
-					case 'block':
-						// Keep compatibility with extensions by checking for
-						// new key (5::duration/6::flags) or old key (0/optional 1)
-						if ( $entry->isLegacy() ) {
-							$rawDuration = $parameters[0];
-							$rawFlags = $parameters[1] ?? '';
-						} else {
-							$rawDuration = $parameters['5::duration'];
-							$rawFlags = $parameters['6::flags'];
-						}
-						$duration = $contLang->translateBlockExpiry(
-							$rawDuration,
-							null,
-							wfTimestamp( TS_UNIX, $entry->getTimestamp() )
-						);
-						$flags = BlockLogFormatter::formatBlockFlags( $rawFlags, $contLang );
-						$text = wfMessage( 'blocklogentry' )
-							->rawParams( $target, $duration, $flags )->inContentLanguage()->escaped();
-						break;
-					case 'unblock':
-						$text = wfMessage( 'unblocklogentry' )
-							->rawParams( $target )->inContentLanguage()->escaped();
-						break;
-					case 'reblock':
-						$duration = $contLang->translateBlockExpiry(
-							$parameters['5::duration'],
-							null,
-							wfTimestamp( TS_UNIX, $entry->getTimestamp() )
-						);
-						$flags = BlockLogFormatter::formatBlockFlags( $parameters['6::flags'],
-							$contLang );
-						$text = wfMessage( 'reblock-logentry' )
-							->rawParams( $target, $duration, $flags )->inContentLanguage()->escaped();
-						break;
-				}
-				break;
-
-			case 'import':
-				switch ( $entry->getSubtype() ) {
-					case 'upload':
-						$text = wfMessage( 'import-logentry-upload' )
-							->rawParams( $target )->inContentLanguage()->escaped();
-						break;
-					case 'interwiki':
-						$text = wfMessage( 'import-logentry-interwiki' )
-							->rawParams( $target )->inContentLanguage()->escaped();
-						break;
-				}
-				break;
 			// case 'suppress' --private log -- aaron  (so we know who to blame in a few years :-D)
 			// default:
 		}
@@ -437,8 +338,6 @@ class LogFormatter {
 	/**
 	 * Gets the log action, including username.
 	 * @return string HTML
-	 * phan-taint-check gets very confused by $this->plaintext, so disable.
-	 * @return-taint onlysafefor_html
 	 */
 	public function getActionText() {
 		if ( $this->canView( LogPage::DELETED_ACTION ) ) {
@@ -450,10 +349,8 @@ class LogFormatter {
 				$element = $this->styleRestricedElement( $element );
 			}
 		} else {
-			$sep = $this->msg( 'word-separator' );
-			$sep = $this->plaintext ? $sep->text() : $sep->escaped();
-			$performer = $this->getPerformerElement();
-			$element = $performer . $sep . $this->getRestrictedElement( 'rev-deleted-event' );
+			$performer = $this->getPerformerElement() . $this->msg( 'word-separator' )->text();
+			$element = $performer . $this->getRestrictedElement( 'rev-deleted-event' );
 		}
 
 		return $element;
@@ -502,7 +399,7 @@ class LogFormatter {
 	 */
 	protected function extractParameters() {
 		$entry = $this->entry;
-		$params = [];
+		$params = array();
 
 		if ( $entry->isLegacy() ) {
 			foreach ( $entry->getParameters() as $index => $value ) {
@@ -516,9 +413,7 @@ class LogFormatter {
 				continue;
 			}
 			list( $index, $type, ) = explode( ':', $key, 3 );
-			if ( ctype_digit( $index ) ) {
-				$params[$index - 1] = $this->formatParameterValue( $type, $value );
-			}
+			$params[$index - 1] = $this->formatParameterValue( $type, $value );
 		}
 
 		/* Message class doesn't like non consecutive numbering.
@@ -527,8 +422,7 @@ class LogFormatter {
 		 */
 		if ( count( $params ) ) {
 			$max = max( array_keys( $params ) );
-			// index 0 to 2 are added in getMessageParameters
-			for ( $i = 3; $i < $max; $i++ ) {
+			for ( $i = 4; $i < $max; $i++ ) {
 				if ( !isset( $params[$i] ) ) {
 					$params[$i] = '';
 				}
@@ -586,9 +480,10 @@ class LogFormatter {
 	 *     * title-link: The value is a page title,
 	 *                   returns link to this page
 	 *     * number: Format value as number
-	 *     * list: Format value as a comma-separated list
-	 * @param mixed $value The parameter value that should be formatted
-	 * @return string|array Formated value
+	 * @param string $value The parameter value that should
+	 *                      be formated
+	 * @return string|Message::numParam|Message::rawParam
+	 *         Formated value
 	 * @since 1.21
 	 */
 	protected function formatParameterValue( $type, $value ) {
@@ -597,9 +492,6 @@ class LogFormatter {
 		switch ( strtolower( trim( $type ) ) ) {
 			case 'raw':
 				$value = Message::rawParam( $value );
-				break;
-			case 'list':
-				$value = $this->context->getLanguage()->commaList( $value );
 				break;
 			case 'msg':
 				$value = $this->msg( $value )->text();
@@ -642,25 +534,18 @@ class LogFormatter {
 	/**
 	 * Helper to make a link to the page, taking the plaintext
 	 * value in consideration.
-	 * @param Title|null $title The page
+	 * @param Title $title The page
 	 * @param array $parameters Query parameters
-	 * @param string|null $html Linktext of the link as raw html
+	 * @throws MWException
 	 * @return string
 	 */
-	protected function makePageLink( Title $title = null, $parameters = [], $html = null ) {
-		if ( !$title instanceof Title ) {
-			$msg = $this->msg( 'invalidtitle' )->text();
-			if ( !$this->plaintext ) {
-				return Html::element( 'span', [ 'class' => 'mw-invalidtitle' ], $msg );
-			} else {
-				return $msg;
-			}
-		}
-
+	protected function makePageLink( Title $title = null, $parameters = array() ) {
 		if ( !$this->plaintext ) {
-			$html = $html !== null ? new HtmlArmor( $html ) : $html;
-			$link = $this->getLinkRenderer()->makeLink( $title, $html, [], $parameters );
+			$link = Linker::link( $title, null, array(), $parameters );
 		} else {
+			if ( !$title instanceof Title ) {
+				throw new MWException( "Expected title, got null" );
+			}
 			$link = '[[' . $title->getPrefixedText() . ']]';
 		}
 
@@ -710,7 +595,6 @@ class LogFormatter {
 	 * Helper method for displaying restricted element.
 	 * @param string $message
 	 * @return string HTML or wiki text
-	 * @return-taint onlysafefor_html
 	 */
 	protected function getRestrictedElement( $message ) {
 		if ( $this->plaintext ) {
@@ -718,7 +602,7 @@ class LogFormatter {
 		}
 
 		$content = $this->msg( $message )->escaped();
-		$attribs = [ 'class' => 'history-deleted' ];
+		$attribs = array( 'class' => 'history-deleted' );
 
 		return Html::rawElement( 'span', $attribs, $content );
 	}
@@ -732,7 +616,7 @@ class LogFormatter {
 		if ( $this->plaintext ) {
 			return $content;
 		}
-		$attribs = [ 'class' => 'history-deleted' ];
+		$attribs = array( 'class' => 'history-deleted' );
 
 		return Html::rawElement( 'span', $attribs, $content );
 	}
@@ -746,13 +630,7 @@ class LogFormatter {
 		return $this->context->msg( $key );
 	}
 
-	/**
-	 * @param User $user
-	 * @param int $toolFlags Combination of Linker::TOOL_LINKS_* flags
-	 * @return string wikitext or html
-	 * @return-taint onlysafefor_html
-	 */
-	protected function makeUserLink( User $user, $toolFlags = 0 ) {
+	protected function makeUserLink( User $user ) {
 		if ( $this->plaintext ) {
 			$element = $user->getName();
 		} else {
@@ -762,11 +640,9 @@ class LogFormatter {
 			);
 
 			if ( $this->linkFlood ) {
-				$element .= Linker::userToolLinks(
+				$element .= Linker::userToolLinksRedContribs(
 					$user->getId(),
 					$user->getName(),
-					true, // redContribsWhenNoEdits
-					$toolFlags,
 					$user->getEditCount()
 				);
 			}
@@ -776,10 +652,10 @@ class LogFormatter {
 	}
 
 	/**
-	 * @return array Array of titles that should be preloaded with LinkBatch
+	 * @return array of titles that should be preloaded with LinkBatch.
 	 */
 	public function getPreloadTitles() {
-		return [];
+		return array();
 	}
 
 	/**
@@ -790,122 +666,6 @@ class LogFormatter {
 		// protected and a change from protected to public caused
 		// problems with extensions
 		return $this->getMessageParameters();
-	}
-
-	/**
-	 * Get the array of parameters, converted from legacy format if necessary.
-	 * @since 1.25
-	 * @return array
-	 */
-	protected function getParametersForApi() {
-		return $this->entry->getParameters();
-	}
-
-	/**
-	 * Format parameters for API output
-	 *
-	 * The result array should generally map named keys to values. Index and
-	 * type should be omitted, e.g. "4::foo" should be returned as "foo" in the
-	 * output. Values should generally be unformatted.
-	 *
-	 * Renames or removals of keys besides from the legacy numeric format to
-	 * modern named style should be avoided. Any renames should be announced to
-	 * the mediawiki-api-announce mailing list.
-	 *
-	 * @since 1.25
-	 * @return array
-	 */
-	public function formatParametersForApi() {
-		$logParams = [];
-		foreach ( $this->getParametersForApi() as $key => $value ) {
-			$vals = explode( ':', $key, 3 );
-			if ( count( $vals ) !== 3 ) {
-				$logParams[$key] = $value;
-				continue;
-			}
-			$logParams += $this->formatParameterValueForApi( $vals[2], $vals[1], $value );
-		}
-		ApiResult::setIndexedTagName( $logParams, 'param' );
-		ApiResult::setArrayType( $logParams, 'assoc' );
-
-		return $logParams;
-	}
-
-	/**
-	 * Format a single parameter value for API output
-	 *
-	 * @since 1.25
-	 * @param string $name
-	 * @param string $type
-	 * @param string $value
-	 * @return array
-	 */
-	protected function formatParameterValueForApi( $name, $type, $value ) {
-		$type = strtolower( trim( $type ) );
-		switch ( $type ) {
-			case 'bool':
-				$value = (bool)$value;
-				break;
-
-			case 'number':
-				if ( ctype_digit( $value ) || is_int( $value ) ) {
-					$value = (int)$value;
-				} else {
-					$value = (float)$value;
-				}
-				break;
-
-			case 'array':
-			case 'assoc':
-			case 'kvp':
-				if ( is_array( $value ) ) {
-					ApiResult::setArrayType( $value, $type );
-				}
-				break;
-
-			case 'timestamp':
-				$value = wfTimestamp( TS_ISO_8601, $value );
-				break;
-
-			case 'msg':
-			case 'msg-content':
-				$msg = $this->msg( $value );
-				if ( $type === 'msg-content' ) {
-					$msg->inContentLanguage();
-				}
-				$value = [];
-				$value["{$name}_key"] = $msg->getKey();
-				if ( $msg->getParams() ) {
-					$value["{$name}_params"] = $msg->getParams();
-				}
-				$value["{$name}_text"] = $msg->text();
-				return $value;
-
-			case 'title':
-			case 'title-link':
-				$title = Title::newFromText( $value );
-				if ( !$title ) {
-					// Huh? Do something halfway sane.
-					$title = SpecialPage::getTitleFor( 'Badtitle', $value );
-				}
-				$value = [];
-				ApiQueryBase::addTitleInfo( $value, $title, "{$name}_" );
-				return $value;
-
-			case 'user':
-			case 'user-link':
-				$user = User::newFromName( $value );
-				if ( $user ) {
-					$value = $user->getName();
-				}
-				break;
-
-			default:
-				// do nothing
-				break;
-		}
-
-		return [ $name => $value ];
 	}
 }
 
@@ -953,10 +713,6 @@ class LegacyLogFormatter extends LogFormatter {
 		return $this->comment;
 	}
 
-	/**
-	 * @return string
-	 * @return-taint onlysafefor_html
-	 */
 	protected function getActionMessage() {
 		$entry = $this->entry;
 		$action = LogPage::actionText(
@@ -970,9 +726,7 @@ class LegacyLogFormatter extends LogFormatter {
 
 		$performer = $this->getPerformerElement();
 		if ( !$this->irctext ) {
-			$sep = $this->msg( 'word-separator' );
-			$sep = $this->plaintext ? $sep->text() : $sep->escaped();
-			$action = $performer . $sep . $action;
+			$action = $performer . $this->msg( 'word-separator' )->text() . $action;
 		}
 
 		return $action;
@@ -992,6 +746,73 @@ class LegacyLogFormatter extends LogFormatter {
 		$type = $this->entry->getType();
 		$subtype = $this->entry->getSubtype();
 
+		// Show unblock/change block link
+		if ( ( $type == 'block' || $type == 'suppress' )
+			&& ( $subtype == 'block' || $subtype == 'reblock' )
+		) {
+			if ( !$this->context->getUser()->isAllowed( 'block' ) ) {
+				return '';
+			}
+
+			$links = array(
+				Linker::linkKnown(
+					SpecialPage::getTitleFor( 'Unblock', $title->getDBkey() ),
+					$this->msg( 'unblocklink' )->escaped()
+				),
+				Linker::linkKnown(
+					SpecialPage::getTitleFor( 'Block', $title->getDBkey() ),
+					$this->msg( 'change-blocklink' )->escaped()
+				)
+			);
+
+			return $this->msg( 'parentheses' )->rawParams(
+				$this->context->getLanguage()->pipeList( $links ) )->escaped();
+		// Show change protection link
+		} elseif ( $type == 'protect'
+			&& ( $subtype == 'protect' || $subtype == 'modify' || $subtype == 'unprotect' )
+		) {
+			$links = array(
+				Linker::link( $title,
+					$this->msg( 'hist' )->escaped(),
+					array(),
+					array(
+						'action' => 'history',
+						'offset' => $this->entry->getTimestamp()
+					)
+				)
+			);
+			if ( $this->context->getUser()->isAllowed( 'protect' ) ) {
+				$links[] = Linker::linkKnown(
+					$title,
+					$this->msg( 'protect_change' )->escaped(),
+					array(),
+					array( 'action' => 'protect' )
+				);
+			}
+
+			return $this->msg( 'parentheses' )->rawParams(
+				$this->context->getLanguage()->pipeList( $links ) )->escaped();
+		// Show unmerge link
+		} elseif ( $type == 'merge' && $subtype == 'merge' ) {
+			if ( !$this->context->getUser()->isAllowed( 'mergehistory' ) ) {
+				return '';
+			}
+
+			$params = $this->extractParameters();
+			$revert = Linker::linkKnown(
+				SpecialPage::getTitleFor( 'MergeHistory' ),
+				$this->msg( 'revertmerge' )->escaped(),
+				array(),
+				array(
+					'target' => $params[3],
+					'dest' => $title->getPrefixedDBkey(),
+					'mergepoint' => $params[4]
+				)
+			);
+
+			return $this->msg( 'parentheses' )->rawParams( $revert )->escaped();
+		}
+
 		// Do nothing. The implementation is handled by the hook modifiying the
 		// passed-by-ref parameters. This also changes the default value so that
 		// getComment() and getActionLinks() do not call them indefinitely.
@@ -1005,8 +826,8 @@ class LegacyLogFormatter extends LogFormatter {
 
 		$params = $this->entry->getParameters();
 
-		Hooks::run( 'LogLine', [ $type, $subtype, $title, $params,
-			&$this->comment, &$this->revert, $this->entry->getTimestamp() ] );
+		wfRunHooks( 'LogLine', array( $type, $subtype, $title, $params,
+			&$this->comment, &$this->revert, $this->entry->getTimestamp() ) );
 
 		return $this->revert;
 	}

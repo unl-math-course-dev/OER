@@ -1,9 +1,5 @@
 <?php
 
-use MediaWiki\MediaWikiServices;
-use Wikimedia\Rdbms\IDatabase;
-use Wikimedia\Rdbms\LoadBalancer;
-
 /**
  * Base class for objects that allow access to other wiki's databases using
  * the foreign database access mechanism implemented by LBFactoryMulti.
@@ -28,7 +24,7 @@ use Wikimedia\Rdbms\LoadBalancer;
  * @file
  * @ingroup Database
  *
- * @license GPL-2.0-or-later
+ * @licence GNU GPL v2+
  * @author Daniel Kinzler
  */
 abstract class DBAccessBase implements IDBAccessObject {
@@ -57,10 +53,10 @@ abstract class DBAccessBase implements IDBAccessObject {
 	 * @param int $id Which connection to use
 	 * @param array $groups Query groups
 	 *
-	 * @return IDatabase
+	 * @return DatabaseBase
 	 */
-	protected function getConnection( $id, $groups = [] ) {
-		$loadBalancer = $this->getLoadBalancer();
+	protected function getConnection( $id, $groups = array() ) {
+		$loadBalancer = wfGetLB( $this->wiki );
 
 		return $loadBalancer->getConnection( $id, $groups, $this->wiki );
 	}
@@ -72,9 +68,9 @@ abstract class DBAccessBase implements IDBAccessObject {
 	 *
 	 * @since 1.21
 	 *
-	 * @param IDatabase $db The database connection to release.
+	 * @param DatabaseBase $db The database connection to release.
 	 */
-	protected function releaseConnection( IDatabase $db ) {
+	protected function releaseConnection( DatabaseBase $db ) {
 		if ( $this->wiki !== false ) {
 			$loadBalancer = $this->getLoadBalancer();
 			$loadBalancer->reuseConnection( $db );
@@ -84,14 +80,13 @@ abstract class DBAccessBase implements IDBAccessObject {
 	/**
 	 * Get the database type used for read operations.
 	 *
-	 * @see MediaWikiServices::getDBLoadBalancer
+	 * @see wfGetLB
 	 *
 	 * @since 1.21
 	 *
 	 * @return LoadBalancer The database load balancer object
 	 */
 	public function getLoadBalancer() {
-		$lbFactory = MediaWikiServices::getInstance()->getDBLoadBalancerFactory();
-		return $lbFactory->getMainLB( $this->wiki );
+		return wfGetLB( $this->wiki );
 	}
 }

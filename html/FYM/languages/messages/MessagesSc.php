@@ -1,7 +1,8 @@
 <?php
 /** Sardinian (sardu)
  *
- * To improve a translation please visit https://translatewiki.net
+ * See MessagesQqq.php for message documentation incl. usage of parameters
+ * To improve a translation please visit http://translatewiki.net
  *
  * @ingroup Language
  * @file
@@ -13,7 +14,7 @@
  * @author לערי ריינהארט
  */
 
-$namespaceNames = [
+$namespaceNames = array(
 	NS_SPECIAL          => 'Ispetziale',
 	NS_TALK             => 'Cuntierra',
 	NS_USER             => 'Usuàriu',
@@ -27,9 +28,9 @@ $namespaceNames = [
 	NS_HELP_TALK        => 'Cuntierra_agiudu',
 	NS_CATEGORY         => 'Categoria',
 	NS_CATEGORY_TALK    => 'Cuntierra_categoria',
-];
+);
 
-$namespaceAliases = [
+$namespaceAliases = array(
 	'Speciale'            => NS_SPECIAL,
 	'Contièndha'          => NS_TALK,
 	'Utente'              => NS_USER,
@@ -37,9 +38,9 @@ $namespaceAliases = [
 	'$1_discussioni'      => NS_PROJECT_TALK,
 	'Immàgini'            => NS_FILE,
 	'Immàgini_contièndha' => NS_FILE_TALK
-];
+);
 
-$dateFormats = [
+$dateFormats = array(
 	'mdy time' => 'H:i',
 	'mdy date' => 'M j, Y',
 	'mdy both' => 'H:i, M j, Y',
@@ -51,6 +52,7 @@ $dateFormats = [
 	'ymd time' => 'H:i',
 	'ymd date' => 'Y M j',
 	'ymd both' => 'H:i, Y M j',
-];
+);
 
 $linkTrail = "/^([a-z]+)(.*)$/sD";
+

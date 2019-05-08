@@ -1,7 +1,8 @@
 <?php
 /** Romani (Romani)
  *
- * To improve a translation please visit https://translatewiki.net
+ * See MessagesQqq.php for message documentation incl. usage of parameters
+ * To improve a translation please visit http://translatewiki.net
  *
  * @ingroup Language
  * @file
@@ -12,7 +13,7 @@
 
 $fallback = 'ro';
 
-$namespaceNames = [
+$namespaceNames = array(
 	NS_MEDIA            => 'Mediya',
 	NS_SPECIAL          => 'Uzalutno',
 	NS_TALK             => 'Vakyarimata',
@@ -29,4 +30,5 @@ $namespaceNames = [
 	NS_HELP_TALK        => 'Zhutipen_vakyarimata',
 	NS_CATEGORY         => 'Shopni',
 	NS_CATEGORY_TALK    => 'Shopni_vakyarimata',
-];
+);
+

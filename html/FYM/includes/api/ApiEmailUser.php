@@ -1,5 +1,9 @@
 <?php
 /**
+ *
+ *
+ * Created on June 1, 2008
+ *
  * Copyright © 2008 Bryan Tong Minh <Bryan.TongMinh@Gmail.com>
  *
  * This program is free software; you can redistribute it and/or modify
@@ -30,47 +34,43 @@ class ApiEmailUser extends ApiBase {
 		$params = $this->extractRequestParams();
 
 		// Validate target
-		$targetUser = SpecialEmailUser::getTarget( $params['target'], $this->getUser() );
+		$targetUser = SpecialEmailUser::getTarget( $params['target'] );
 		if ( !( $targetUser instanceof User ) ) {
-			switch ( $targetUser ) {
-				case 'notarget':
-					$this->dieWithError( 'apierror-notarget' );
-				case 'noemail':
-					$this->dieWithError( [ 'noemail', $params['target'] ] );
-				case 'nowikiemail':
-					$this->dieWithError( 'nowikiemailtext', 'nowikiemail' );
-				default:
-					$this->dieWithError( [ 'apierror-unknownerror', $targetUser ] );
-			}
+			$this->dieUsageMsg( array( $targetUser ) );
 		}
 
 		// Check permissions and errors
-		$error = SpecialEmailUser::getPermissionsError(
-			$this->getUser(),
-			$params['token'],
-			$this->getConfig()
-		);
+		$error = SpecialEmailUser::getPermissionsError( $this->getUser(), $params['token'] );
 		if ( $error ) {
-			$this->dieWithError( $error );
+			$this->dieUsageMsg( array( $error ) );
 		}
 
-		$data = [
+		$data = array(
 			'Target' => $targetUser->getName(),
 			'Text' => $params['text'],
 			'Subject' => $params['subject'],
 			'CCMe' => $params['ccme'],
-		];
+		);
 		$retval = SpecialEmailUser::submit( $data, $this->getContext() );
-		if ( !$retval instanceof Status ) {
-			// This is probably the reason
-			$retval = Status::newFatal( 'hookaborted' );
+
+		if ( $retval instanceof Status ) {
+			// SpecialEmailUser sometimes returns a status
+			// sometimes it doesn't.
+			if ( $retval->isGood() ) {
+				$retval = true;
+			} else {
+				$retval = $retval->getErrorsArray();
+			}
 		}
 
-		$result = array_filter( [
-			'result' => $retval->isGood() ? 'Success' : ( $retval->isOK() ? 'Warnings' : 'Failure' ),
-			'warnings' => $this->getErrorFormatter()->arrayFromStatus( $retval, 'warning' ),
-			'errors' => $this->getErrorFormatter()->arrayFromStatus( $retval, 'error' ),
-		] );
+		if ( $retval === true ) {
+			$result = array( 'result' => 'Success' );
+		} else {
+			$result = array(
+				'result' => 'Failure',
+				'message' => $retval
+			);
+		}
 
 		$this->getResult()->addValue( null, $this->getModuleName(), $result );
 	}
@@ -84,32 +84,77 @@ class ApiEmailUser extends ApiBase {
 	}
 
 	public function getAllowedParams() {
-		return [
-			'target' => [
+		return array(
+			'target' => array(
 				ApiBase::PARAM_TYPE => 'string',
 				ApiBase::PARAM_REQUIRED => true
-			],
+			),
 			'subject' => null,
-			'text' => [
-				ApiBase::PARAM_TYPE => 'text',
+			'text' => array(
+				ApiBase::PARAM_TYPE => 'string',
 				ApiBase::PARAM_REQUIRED => true
-			],
+			),
+			'token' => array(
+				ApiBase::PARAM_TYPE => 'string',
+				ApiBase::PARAM_REQUIRED => true
+			),
 			'ccme' => false,
-		];
+		);
+	}
+
+	public function getParamDescription() {
+		return array(
+			'target' => 'User to send email to',
+			'subject' => 'Subject header',
+			'text' => 'Mail body',
+			'token' => 'A token previously acquired via prop=info',
+			'ccme' => 'Send a copy of this mail to me',
+		);
+	}
+
+	public function getResultProperties() {
+		return array(
+			'' => array(
+				'result' => array(
+					ApiBase::PROP_TYPE => array(
+						'Success',
+						'Failure'
+					),
+				),
+				'message' => array(
+					ApiBase::PROP_TYPE => 'string',
+					ApiBase::PROP_NULLABLE => true
+				)
+			)
+		);
+	}
+
+	public function getDescription() {
+		return 'Email a user.';
+	}
+
+	public function getPossibleErrors() {
+		return array_merge( parent::getPossibleErrors(), array(
+			array( 'usermaildisabled' ),
+		) );
 	}
 
 	public function needsToken() {
-		return 'csrf';
+		return true;
 	}
 
-	protected function getExamplesMessages() {
-		return [
-			'action=emailuser&target=WikiSysop&text=Content&token=123ABC'
-				=> 'apihelp-emailuser-example-email',
-		];
+	public function getTokenSalt() {
+		return '';
+	}
+
+	public function getExamples() {
+		return array(
+			'api.php?action=emailuser&target=WikiSysop&text=Content'
+				=> 'Send an email to the User "WikiSysop" with the text "Content"',
+		);
 	}
 
 	public function getHelpUrls() {
-		return 'https://www.mediawiki.org/wiki/Special:MyLanguage/API:Email';
+		return 'https://www.mediawiki.org/wiki/API:Email';
 	}
 }

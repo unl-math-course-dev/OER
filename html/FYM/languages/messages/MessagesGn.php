@@ -1,7 +1,8 @@
 <?php
 /** Guarani (Avañe'ẽ)
  *
- * To improve a translation please visit https://translatewiki.net
+ * See MessagesQqq.php for message documentation incl. usage of parameters
+ * To improve a translation please visit http://translatewiki.net
  *
  * @ingroup Language
  * @file
@@ -10,7 +11,7 @@
 
 $fallback = 'es';
 
-$namespaceNames = [
+$namespaceNames = array(
 	NS_SPECIAL          => 'Mba\'echĩchĩ',
 	NS_TALK             => 'Myangekõi',
 	NS_USER             => 'Puruhára',
@@ -26,7 +27,8 @@ $namespaceNames = [
 	NS_HELP_TALK        => 'Pytyvõ_myangekõi',
 	NS_CATEGORY         => 'Ñemohenda',
 	NS_CATEGORY_TALK    => 'Ñemohenda_myangekõi',
-];
+);
 
-// Remove Spanish gender aliases (T39090)
-$namespaceGenderAliases = [];
+// Remove Spanish gender aliases (bug 37090)
+$namespaceGenderAliases = array();
+

@@ -22,8 +22,6 @@
  * @author Rob Church <robchur@gmail.com>, Ilmari Karonen
  */
 
-use MediaWiki\MediaWikiServices;
-
 /**
  * Special page to direct the user to a random page
  *
@@ -32,7 +30,7 @@ use MediaWiki\MediaWikiServices;
 class RandomPage extends SpecialPage {
 	private $namespaces; // namespaces to select pages from
 	protected $isRedir = false; // should the result be a redirect?
-	protected $extra = []; // Extra SQL statements
+	protected $extra = array(); // Extra SQL statements
 
 	public function __construct( $name = 'Randompage' ) {
 		$this->namespaces = MWNamespace::getContentNamespaces();
@@ -47,7 +45,7 @@ class RandomPage extends SpecialPage {
 		if ( !$ns || $ns < NS_MAIN ) {
 			$ns = NS_MAIN;
 		}
-		$this->namespaces = [ $ns ];
+		$this->namespaces = array( $ns );
 	}
 
 	// select redirects instead of normal pages?
@@ -56,11 +54,10 @@ class RandomPage extends SpecialPage {
 	}
 
 	public function execute( $par ) {
-		if ( is_string( $par ) ) {
-			// Testing for stringiness since we want to catch
-			// the empty string to mean main namespace only.
-			$this->setNamespace(
-				MediaWikiServices::getInstance()->getContentLanguage()->getNsIndex( $par ) );
+		global $wgContLang;
+
+		if ( $par ) {
+			$this->setNamespace( $wgContLang->getNsIndex( $par ) );
 		}
 
 		$title = $this->getRandomTitle();
@@ -74,7 +71,7 @@ class RandomPage extends SpecialPage {
 			return;
 		}
 
-		$redirectParam = $this->isRedirect() ? [ 'redirect' => 'no' ] : [];
+		$redirectParam = $this->isRedirect() ? array( 'redirect' => 'no' ) : array();
 		$query = array_merge( $this->getRequest()->getValues(), $redirectParam );
 		unset( $query['title'] );
 		$this->getOutput()->redirect( $title->getFullURL( $query ) );
@@ -83,33 +80,33 @@ class RandomPage extends SpecialPage {
 	/**
 	 * Get a comma-delimited list of namespaces we don't have
 	 * any pages in
-	 * @return string
+	 * @return String
 	 */
 	private function getNsList() {
-		$contLang = MediaWikiServices::getInstance()->getContentLanguage();
-		$nsNames = [];
+		global $wgContLang;
+		$nsNames = array();
 		foreach ( $this->namespaces as $n ) {
 			if ( $n === NS_MAIN ) {
 				$nsNames[] = $this->msg( 'blanknamespace' )->plain();
 			} else {
-				$nsNames[] = $contLang->getNsText( $n );
+				$nsNames[] = $wgContLang->getNsText( $n );
 			}
 		}
 
-		return $contLang->commaList( $nsNames );
+		return $wgContLang->commaList( $nsNames );
 	}
 
 	/**
 	 * Choose a random title.
-	 * @return Title|null Title object (or null if nothing to choose from)
+	 * @return Title object (or null if nothing to choose from)
 	 */
 	public function getRandomTitle() {
 		$randstr = wfRandom();
 		$title = null;
 
-		if ( !Hooks::run(
+		if ( !wfRunHooks(
 			'SpecialRandomGetRandomTitle',
-			[ &$randstr, &$this->isRedir, &$this->namespaces, &$this->extra, &$title ]
+			array( &$randstr, &$this->isRedir, &$this->namespaces, &$this->extra, &$title )
 		) ) {
 			return $title;
 		}
@@ -136,31 +133,25 @@ class RandomPage extends SpecialPage {
 
 	protected function getQueryInfo( $randstr ) {
 		$redirect = $this->isRedirect() ? 1 : 0;
-		$tables = [ 'page' ];
-		$conds = array_merge( [
-			'page_namespace' => $this->namespaces,
-			'page_is_redirect' => $redirect,
-			'page_random >= ' . $randstr
-		], $this->extra );
-		$joinConds = [];
 
-		// Allow extensions to modify the query
-		Hooks::run( 'RandomPageQuery', [ &$tables, &$conds, &$joinConds ] );
-
-		return [
-			'tables' => $tables,
-			'fields' => [ 'page_title', 'page_namespace' ],
-			'conds' => $conds,
-			'options' => [
+		return array(
+			'tables' => array( 'page' ),
+			'fields' => array( 'page_title', 'page_namespace' ),
+			'conds' => array_merge( array(
+				'page_namespace' => $this->namespaces,
+				'page_is_redirect' => $redirect,
+				'page_random >= ' . $randstr
+			), $this->extra ),
+			'options' => array(
 				'ORDER BY' => 'page_random',
 				'LIMIT' => 1,
-			],
-			'join_conds' => $joinConds
-		];
+			),
+			'join_conds' => array()
+		);
 	}
 
 	private function selectRandomPageFromDB( $randstr, $fname = __METHOD__ ) {
-		$dbr = wfGetDB( DB_REPLICA );
+		$dbr = wfGetDB( DB_SLAVE );
 
 		$query = $this->getQueryInfo( $randstr );
 		$res = $dbr->select(

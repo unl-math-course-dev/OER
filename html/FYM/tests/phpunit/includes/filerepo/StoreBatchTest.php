@@ -15,11 +15,11 @@ class StoreBatchTest extends MediaWikiTestCase {
 		global $wgFileBackends;
 		parent::setUp();
 
-		# Forge a FileRepo object to not have to rely on local wiki settings
-		$tmpPrefix = $this->getNewTempDirectory();
-		if ( $this->getCliArg( 'use-filebackend' ) ) {
-			$name = $this->getCliArg( 'use-filebackend' );
-			$useConfig = [];
+		# Forge a FSRepo object to not have to rely on local wiki settings
+		$tmpPrefix = wfTempDir() . '/storebatch-test-' . time() . '-' . mt_rand();
+		if ( $this->getCliArg( 'use-filebackend=' ) ) {
+			$name = $this->getCliArg( 'use-filebackend=' );
+			$useConfig = array();
 			foreach ( $wgFileBackends as $conf ) {
 				if ( $conf['name'] == $name ) {
 					$useConfig = $conf;
@@ -31,39 +31,44 @@ class StoreBatchTest extends MediaWikiTestCase {
 			$class = $useConfig['class'];
 			$backend = new $class( $useConfig );
 		} else {
-			$backend = new FSFileBackend( [
+			$backend = new FSFileBackend( array(
 				'name' => 'local-testing',
 				'wikiId' => wfWikiID(),
-				'containerPaths' => [
-					'unittests-public' => "{$tmpPrefix}/public",
-					'unittests-thumb' => "{$tmpPrefix}/thumb",
-					'unittests-temp' => "{$tmpPrefix}/temp",
-					'unittests-deleted' => "{$tmpPrefix}/deleted",
-				]
-			] );
+				'containerPaths' => array(
+					'unittests-public' => "{$tmpPrefix}-public",
+					'unittests-thumb' => "{$tmpPrefix}-thumb",
+					'unittests-temp' => "{$tmpPrefix}-temp",
+					'unittests-deleted' => "{$tmpPrefix}-deleted",
+				)
+			) );
 		}
-		$this->repo = new FileRepo( [
+		$this->repo = new FileRepo( array(
 			'name' => 'unittests',
 			'backend' => $backend
-		] );
+		) );
 
 		$this->date = gmdate( "YmdHis" );
-		$this->createdFiles = [];
+		$this->createdFiles = array();
 	}
 
 	protected function tearDown() {
-		// Delete files
-		$this->repo->cleanupBatch( $this->createdFiles );
+		$this->repo->cleanupBatch( $this->createdFiles ); // delete files
+		foreach ( $this->createdFiles as $tmp ) { // delete dirs
+			$tmp = $this->repo->resolveVirtualUrl( $tmp );
+			while ( $tmp = FileBackend::parentStoragePath( $tmp ) ) {
+				$this->repo->getBackend()->clean( array( 'dir' => $tmp ) );
+			}
+		}
 		parent::tearDown();
 	}
 
 	/**
 	 * Store a file or virtual URL source into a media file name.
 	 *
-	 * @param string $originalName The title of the image
-	 * @param string $srcPath The filepath or virtual URL
-	 * @param int $flags Flags to pass into repo::store().
-	 * @return Status
+	 * @param $originalName string The title of the image
+	 * @param $srcPath string The filepath or virtual URL
+	 * @param $flags integer Flags to pass into repo::store().
+	 * @return FileRepoStatus
 	 */
 	private function storeit( $originalName, $srcPath, $flags ) {
 		$hashPath = $this->repo->getHashPath( $originalName );
@@ -80,10 +85,10 @@ class StoreBatchTest extends MediaWikiTestCase {
 	/**
 	 * Test storing a file using different flags.
 	 *
-	 * @param string $fn The title of the image
-	 * @param string $infn The name of the file (in the filesystem)
-	 * @param string $otherfn The name of the different file (in the filesystem)
-	 * @param bool $fromrepo 'true' if we want to copy from a virtual URL out of the Repo.
+	 * @param $fn string The title of the image
+	 * @param $infn string The name of the file (in the filesystem)
+	 * @param $otherfn string The name of the different file (in the filesystem)
+	 * @param $fromrepo bool 'true' if we want to copy from a virtual URL out of the Repo.
 	 */
 	private function storecohort( $fn, $infn, $otherfn, $fromrepo ) {
 		$f = $this->storeit( $fn, $infn, 0 );
@@ -125,17 +130,7 @@ class StoreBatchTest extends MediaWikiTestCase {
 	 */
 	public function teststore() {
 		global $IP;
-		$this->storecohort(
-			"Test1.png",
-			"$IP/tests/phpunit/data/filerepo/wiki.png",
-			"$IP/tests/phpunit/data/filerepo/video.png",
-			false
-		);
-		$this->storecohort(
-			"Test2.png",
-			"$IP/tests/phpunit/data/filerepo/wiki.png",
-			"$IP/tests/phpunit/data/filerepo/video.png",
-			true
-		);
+		$this->storecohort( "Test1.png", "$IP/skins/monobook/wiki.png", "$IP/skins/monobook/video.png", false );
+		$this->storecohort( "Test2.png", "$IP/skins/monobook/wiki.png", "$IP/skins/monobook/video.png", true );
 	}
 }

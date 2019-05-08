@@ -29,11 +29,9 @@ require_once __DIR__ . '/Maintenance.php';
  * @ingroup Maintenance
  */
 class RebuildFileCache extends Maintenance {
-	private $enabled = true;
-
 	public function __construct() {
 		parent::__construct();
-		$this->addDescription( 'Build file cache for content pages' );
+		$this->mDescription = "Build file cache for content pages";
 		$this->addOption( 'start', 'Page_id to start from', false, true );
 		$this->addOption( 'end', 'Page_id to end on', false, true );
 		$this->addOption( 'overwrite', 'Refresh page cache' );
@@ -41,76 +39,70 @@ class RebuildFileCache extends Maintenance {
 	}
 
 	public function finalSetup() {
-		global $wgDebugToolbar, $wgUseFileCache;
+		global $wgDebugToolbar;
 
-		$this->enabled = $wgUseFileCache;
-		// Script will handle capturing output and saving it itself
-		$wgUseFileCache = false;
 		// Debug toolbar makes content uncacheable so we disable it.
 		// Has to be done before Setup.php initialize MWDebug
 		$wgDebugToolbar = false;
-		//  Avoid DB writes (like enotif/counters)
-		MediaWiki\MediaWikiServices::getInstance()->getReadOnlyMode()
-			->setReason( 'Building cache' );
-
 		parent::finalSetup();
 	}
 
 	public function execute() {
-		if ( !$this->enabled ) {
-			$this->fatalError( "Nothing to do -- \$wgUseFileCache is disabled." );
+		global $wgUseFileCache, $wgReadOnly, $wgContentNamespaces, $wgRequestTime;
+		global $wgOut;
+		if ( !$wgUseFileCache ) {
+			$this->error( "Nothing to do -- \$wgUseFileCache is disabled.", true );
 		}
+
+		$wgReadOnly = 'Building cache'; // avoid DB writes (like enotif/counters)
 
 		$start = $this->getOption( 'start', "0" );
 		if ( !ctype_digit( $start ) ) {
-			$this->fatalError( "Invalid value for start parameter." );
+			$this->error( "Invalid value for start parameter.", true );
 		}
 		$start = intval( $start );
 
 		$end = $this->getOption( 'end', "0" );
 		if ( !ctype_digit( $end ) ) {
-			$this->fatalError( "Invalid value for end parameter." );
+			$this->error( "Invalid value for end parameter.", true );
 		}
 		$end = intval( $end );
 
 		$this->output( "Building content page file cache from page {$start}!\n" );
 
-		$dbr = $this->getDB( DB_REPLICA );
-		$batchSize = $this->getBatchSize();
-		$overwrite = $this->hasOption( 'overwrite' );
+		$dbr = wfGetDB( DB_SLAVE );
+		$overwrite = $this->getOption( 'overwrite', false );
 		$start = ( $start > 0 )
 			? $start
-			: $dbr->selectField( 'page', 'MIN(page_id)', '', __METHOD__ );
+			: $dbr->selectField( 'page', 'MIN(page_id)', false, __FUNCTION__ );
 		$end = ( $end > 0 )
 			? $end
-			: $dbr->selectField( 'page', 'MAX(page_id)', '', __METHOD__ );
+			: $dbr->selectField( 'page', 'MAX(page_id)', false, __FUNCTION__ );
 		if ( !$start ) {
-			$this->fatalError( "Nothing to do." );
+			$this->error( "Nothing to do.", true );
 		}
 
-		// Mock request (hack, no real client)
-		$_SERVER['HTTP_ACCEPT_ENCODING'] = 'bgzip';
+		$_SERVER['HTTP_ACCEPT_ENCODING'] = 'bgzip'; // hack, no real client
 
 		# Do remaining chunk
-		$end += $batchSize - 1;
+		$end += $this->mBatchSize - 1;
 		$blockStart = $start;
-		$blockEnd = $start + $batchSize - 1;
+		$blockEnd = $start + $this->mBatchSize - 1;
 
-		$dbw = $this->getDB( DB_MASTER );
+		$dbw = wfGetDB( DB_MASTER );
 		// Go through each page and save the output
 		while ( $blockEnd <= $end ) {
 			// Get the pages
-			$res = $dbr->select( 'page',
-				[ 'page_namespace', 'page_title', 'page_id' ],
-				[ 'page_namespace' => MWNamespace::getContentNamespaces(),
-					"page_id BETWEEN " . (int)$blockStart . " AND " . (int)$blockEnd ],
-				__METHOD__,
-				[ 'ORDER BY' => 'page_id ASC', 'USE INDEX' => 'PRIMARY' ]
+			$res = $dbr->select( 'page', array( 'page_namespace', 'page_title', 'page_id' ),
+				array( 'page_namespace' => $wgContentNamespaces,
+					"page_id BETWEEN $blockStart AND $blockEnd" ),
+				array( 'ORDER BY' => 'page_id ASC', 'USE INDEX' => 'PRIMARY' )
 			);
 
-			$this->beginTransaction( $dbw, __METHOD__ ); // for any changes
+			$dbw->begin( __METHOD__ ); // for any changes
 			foreach ( $res as $row ) {
 				$rebuilt = false;
+				$wgRequestTime = microtime( true ); # bug 22852
 
 				$title = Title::makeTitleSafe( $row->page_namespace, $row->page_title );
 				if ( null == $title ) {
@@ -118,70 +110,49 @@ class RebuildFileCache extends Maintenance {
 					continue; // broken title?
 				}
 
-				$context = new RequestContext();
+				$context = new RequestContext;
 				$context->setTitle( $title );
 				$article = Article::newFromTitle( $title, $context );
 				$context->setWikiPage( $article->getPage() );
 
-				// Some extensions like FlaggedRevs while error out if this is unset
-				RequestContext::getMain()->setTitle( $title );
+				$wgOut = $context->getOutput(); // set display title
 
 				// If the article is cacheable, then load it
-				if ( $article->isFileCacheable( HTMLFileCache::MODE_REBUILD ) ) {
-					$viewCache = new HTMLFileCache( $title, 'view' );
-					$historyCache = new HTMLFileCache( $title, 'history' );
-					if ( $viewCache->isCacheGood() && $historyCache->isCacheGood() ) {
+				if ( $article->isFileCacheable() ) {
+					$cache = HTMLFileCache::newFromTitle( $title, 'view' );
+					if ( $cache->isCacheGood() ) {
 						if ( $overwrite ) {
 							$rebuilt = true;
 						} else {
-							$this->output( "Page '$title' (id {$row->page_id}) already cached\n" );
+							$this->output( "Page {$row->page_id} already cached\n" );
 							continue; // done already!
 						}
 					}
-
-					Wikimedia\suppressWarnings(); // header notices
-
-					// 1. Cache ?action=view
-					// Be sure to reset the mocked request time (T24852)
-					$_SERVER['REQUEST_TIME_FLOAT'] = microtime( true );
-					ob_start();
+					ob_start( array( &$cache, 'saveToFileCache' ) ); // save on ob_end_clean()
+					$wgUseFileCache = false; // hack, we don't want $article fiddling with filecache
 					$article->view();
-					$context->getOutput()->output();
-					$context->getOutput()->clearHTML();
-					$viewHtml = ob_get_clean();
-					$viewCache->saveToFileCache( $viewHtml );
-
-					// 2. Cache ?action=history
-					// Be sure to reset the mocked request time (T24852)
-					$_SERVER['REQUEST_TIME_FLOAT'] = microtime( true );
-					ob_start();
-					Action::factory( 'history', $article, $context )->show();
-					$context->getOutput()->output();
-					$context->getOutput()->clearHTML();
-					$historyHtml = ob_get_clean();
-					$historyCache->saveToFileCache( $historyHtml );
-
-					Wikimedia\restoreWarnings();
-
+					wfSuppressWarnings(); // header notices
+					$wgOut->output();
+					wfRestoreWarnings();
+					$wgUseFileCache = true;
+					ob_end_clean(); // clear buffer
 					if ( $rebuilt ) {
-						$this->output( "Re-cached page '$title' (id {$row->page_id})..." );
+						$this->output( "Re-cached page {$row->page_id}\n" );
 					} else {
-						$this->output( "Cached page '$title' (id {$row->page_id})..." );
+						$this->output( "Cached page {$row->page_id}\n" );
 					}
-					$this->output( "[view: " . strlen( $viewHtml ) . " bytes; " .
-						"history: " . strlen( $historyHtml ) . " bytes]\n" );
 				} else {
-					$this->output( "Page '$title' (id {$row->page_id}) not cacheable\n" );
+					$this->output( "Page {$row->page_id} not cacheable\n" );
 				}
 			}
-			$this->commitTransaction( $dbw, __METHOD__ ); // commit any changes (just for sanity)
+			$dbw->commit( __METHOD__ ); // commit any changes (just for sanity)
 
-			$blockStart += $batchSize;
-			$blockEnd += $batchSize;
+			$blockStart += $this->mBatchSize;
+			$blockEnd += $this->mBatchSize;
 		}
 		$this->output( "Done!\n" );
 	}
 }
 
-$maintClass = RebuildFileCache::class;
+$maintClass = "RebuildFileCache";
 require_once RUN_MAINTENANCE_IF_MAIN;

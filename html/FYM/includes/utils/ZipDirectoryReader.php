@@ -26,6 +26,7 @@
  *
  * Only a functional interface is provided: ZipFileReader::read(). No access is
  * given to object instances.
+ *
  */
 class ZipDirectoryReader {
 	/**
@@ -63,7 +64,7 @@ class ZipDirectoryReader {
 	 *        valid ZIP64 file, and working out what non-ZIP64 readers will make
 	 *        of such a file is not trivial.
 	 *
-	 * @return Status A Status object. The following fatal errors are defined:
+	 * @return Status object. The following fatal errors are defined:
 	 *
 	 *      - zip-file-open-error: The file could not be opened.
 	 *
@@ -85,7 +86,7 @@ class ZipDirectoryReader {
 	 * a fatal error is returned. If this occurs, the data sent to the callback
 	 * function should be discarded.
 	 */
-	public static function read( $fileName, $callback, $options = [] ) {
+	public static function read( $fileName, $callback, $options = array() ) {
 		$zdr = new self( $fileName, $callback, $options );
 
 		return $zdr->execute();
@@ -128,9 +129,6 @@ class ZipDirectoryReader {
 
 	/**
 	 * Private constructor
-	 * @param string $fileName
-	 * @param callable $callback
-	 * @param array $options
 	 */
 	protected function __construct( $fileName, $callback, $options ) {
 		$this->fileName = $fileName;
@@ -148,7 +146,7 @@ class ZipDirectoryReader {
 	 */
 	function execute() {
 		$this->file = fopen( $this->fileName, 'r' );
-		$this->data = [];
+		$this->data = array();
 		if ( !$this->file ) {
 			return Status::newFatal( 'zip-file-open-error' );
 		}
@@ -183,9 +181,6 @@ class ZipDirectoryReader {
 
 	/**
 	 * Throw an error, and log a debug message
-	 * @param mixed $code
-	 * @param string $debugMessage
-	 * @throws ZipDirectoryReaderError
 	 */
 	function error( $code, $debugMessage ) {
 		wfDebug( __CLASS__ . ": Fatal error: $debugMessage\n" );
@@ -198,7 +193,7 @@ class ZipDirectoryReader {
 	 * spec.
 	 */
 	function readEndOfCentralDirectoryRecord() {
-		$info = [
+		$info = array(
 			'signature' => 4,
 			'disk' => 2,
 			'CD start disk' => 2,
@@ -207,15 +202,11 @@ class ZipDirectoryReader {
 			'CD size' => 4,
 			'CD offset' => 4,
 			'file comment length' => 2,
-		];
+		);
 		$structSize = $this->getStructSize( $info );
 		$startPos = $this->getFileLength() - 65536 - $structSize;
 		if ( $startPos < 0 ) {
 			$startPos = 0;
-		}
-
-		if ( $this->getFileLength() === 0 ) {
-			$this->error( 'zip-wrong-format', "The file is empty." );
 		}
 
 		$block = $this->getBlock( $startPos );
@@ -238,7 +229,7 @@ class ZipDirectoryReader {
 		}
 		$this->eocdr += $this->unpack(
 			$block,
-			[ 'file comment' => [ 'string', $this->eocdr['file comment length'] ] ],
+			array( 'file comment' => array( 'string', $this->eocdr['file comment length'] ) ),
 			$sigPos + $structSize );
 		$this->eocdr['position'] = $startPos + $sigPos;
 	}
@@ -248,12 +239,12 @@ class ZipDirectoryReader {
 	 * error will be raised if it does not exist.
 	 */
 	function readZip64EndOfCentralDirectoryLocator() {
-		$info = [
-			'signature' => [ 'string', 4 ],
+		$info = array(
+			'signature' => array( 'string', 4 ),
 			'eocdr64 start disk' => 4,
 			'eocdr64 offset' => 8,
 			'number of disks' => 4,
-		];
+		);
 		$structSize = $this->getStructSize( $info );
 
 		$start = $this->getFileLength() - $this->eocdr['EOCDR size'] - $structSize;
@@ -279,8 +270,8 @@ class ZipDirectoryReader {
 			$this->error( 'zip-unsupported', 'more than one disk (in EOCDR64 locator)' );
 		}
 
-		$info = [
-			'signature' => [ 'string', 4 ],
+		$info = array(
+			'signature' => array( 'string', 4 ),
 			'EOCDR64 size' => 8,
 			'version made by' => 2,
 			'version needed' => 2,
@@ -290,7 +281,7 @@ class ZipDirectoryReader {
 			'CD entries total' => 8,
 			'CD size' => 8,
 			'CD offset' => 8
-		];
+		);
 		$structSize = $this->getStructSize( $info );
 		$block = $this->getBlock( $this->eocdr64Locator['eocdr64 offset'], $structSize );
 		$this->eocdr64 = $data = $this->unpack( $block, $info );
@@ -308,7 +299,7 @@ class ZipDirectoryReader {
 	 * Find the location of the central directory, as would be seen by a
 	 * non-ZIP64 reader.
 	 *
-	 * @return array List containing offset, size and end position.
+	 * @return List containing offset, size and end position.
 	 */
 	function findOldCentralDirectory() {
 		$size = $this->eocdr['CD size'];
@@ -322,7 +313,7 @@ class ZipDirectoryReader {
 				'of central directory record' );
 		}
 
-		return [ $offset, $size ];
+		return array( $offset, $size );
 	}
 
 	/**
@@ -361,19 +352,17 @@ class ZipDirectoryReader {
 				'of central directory record' );
 		}
 
-		return [ $offset, $size ];
+		return array( $offset, $size );
 	}
 
 	/**
 	 * Read the central directory at the given location
-	 * @param int $offset
-	 * @param int $size
 	 */
 	function readCentralDirectory( $offset, $size ) {
 		$block = $this->getBlock( $offset, $size );
 
-		$fixedInfo = [
-			'signature' => [ 'string', 4 ],
+		$fixedInfo = array(
+			'signature' => array( 'string', 4 ),
 			'version made by' => 2,
 			'version needed' => 2,
 			'general bits' => 2,
@@ -390,7 +379,7 @@ class ZipDirectoryReader {
 			'internal attrs' => 2,
 			'external attrs' => 4,
 			'local header offset' => 4,
-		];
+		);
 		$fixedSize = $this->getStructSize( $fixedInfo );
 
 		$pos = 0;
@@ -402,11 +391,11 @@ class ZipDirectoryReader {
 				$this->error( 'zip-bad', 'Invalid signature found in directory entry' );
 			}
 
-			$variableInfo = [
-				'name' => [ 'string', $data['name length'] ],
-				'extra field' => [ 'string', $data['extra field length'] ],
-				'comment' => [ 'string', $data['comment length'] ],
-			];
+			$variableInfo = array(
+				'name' => array( 'string', $data['name length'] ),
+				'extra field' => array( 'string', $data['extra field length'] ),
+				'comment' => array( 'string', $data['comment length'] ),
+			);
 			$data += $this->unpack( $block, $variableInfo, $pos );
 			$pos += $this->getStructSize( $variableInfo );
 
@@ -441,47 +430,48 @@ class ZipDirectoryReader {
 				$year, $month, $day, $hour, $minute, $second );
 
 			// Convert the character set in the file name
-			if ( $this->testBit( $data['general bits'], self::GENERAL_UTF8 ) ) {
+			if ( !function_exists( 'iconv' )
+				|| $this->testBit( $data['general bits'], self::GENERAL_UTF8 )
+			) {
 				$name = $data['name'];
 			} else {
 				$name = iconv( 'CP437', 'UTF-8', $data['name'] );
 			}
 
 			// Compile a data array for the user, with a sensible format
-			$userData = [
+			$userData = array(
 				'name' => $name,
 				'mtime' => $timestamp,
 				'size' => $data['uncompressed size'],
-			];
+			);
 			call_user_func( $this->callback, $userData );
 		}
 	}
 
 	/**
 	 * Interpret ZIP64 "extra field" data and return an associative array.
-	 * @param string $extraField
 	 * @return array|bool
 	 */
 	function unpackZip64Extra( $extraField ) {
-		$extraHeaderInfo = [
+		$extraHeaderInfo = array(
 			'id' => 2,
 			'size' => 2,
-		];
+		);
 		$extraHeaderSize = $this->getStructSize( $extraHeaderInfo );
 
-		$zip64ExtraInfo = [
+		$zip64ExtraInfo = array(
 			'uncompressed size' => 8,
 			'compressed size' => 8,
 			'local header offset' => 8,
 			'disk number start' => 4,
-		];
+		);
 
 		$extraPos = 0;
 		while ( $extraPos < strlen( $extraField ) ) {
 			$extra = $this->unpack( $extraField, $extraHeaderInfo, $extraPos );
 			$extraPos += $extraHeaderSize;
 			$extra += $this->unpack( $extraField,
-				[ 'data' => [ 'string', $extra['size'] ] ],
+				array( 'data' => array( 'string', $extra['size'] ) ),
 				$extraPos );
 			$extraPos += $extra['size'];
 
@@ -495,7 +485,6 @@ class ZipDirectoryReader {
 
 	/**
 	 * Get the length of the file.
-	 * @return int
 	 */
 	function getFileLength() {
 		if ( $this->fileLength === null ) {
@@ -511,7 +500,7 @@ class ZipDirectoryReader {
 	 * in the file to satisfy the request, an exception will be thrown.
 	 *
 	 * @param int $start The byte offset of the start of the block.
-	 * @param int|null $length The number of bytes to return. If omitted, the remainder
+	 * @param int $length The number of bytes to return. If omitted, the remainder
 	 *    of the file will be returned.
 	 *
 	 * @return string
@@ -557,9 +546,6 @@ class ZipDirectoryReader {
 	 * If there are not enough bytes in the file to satisfy the request, the
 	 * return value will be truncated. If a request is made for a segment beyond
 	 * the end of the file, an empty string will be returned.
-	 *
-	 * @param int $segIndex
-	 *
 	 * @return string
 	 */
 	function getSegment( $segIndex ) {
@@ -585,7 +571,6 @@ class ZipDirectoryReader {
 
 	/**
 	 * Get the size of a structure in bytes. See unpack() for the format of $struct.
-	 * @param array $struct
 	 * @return int
 	 */
 	function getStructSize( $struct ) {
@@ -630,7 +615,7 @@ class ZipDirectoryReader {
 			$this->error( 'zip-bad', 'unpack() would run past the end of the supplied string' );
 		}
 
-		$data = [];
+		$data = array();
 		$pos = $offset;
 		foreach ( $struct as $key => $type ) {
 			if ( is_array( $type ) ) {
@@ -656,7 +641,7 @@ class ZipDirectoryReader {
 				}
 
 				// Throw an exception if there was loss of precision
-				if ( $value > 2 ** 52 ) {
+				if ( $value > pow( 2, 52 ) ) {
 					$this->error( 'zip-unsupported', 'number too large to be stored in a double. ' .
 						'This could happen if we tried to unpack a 64-bit structure ' .
 						'at an invalid location.' );
@@ -673,7 +658,7 @@ class ZipDirectoryReader {
 	 * Returns a bit from a given position in an integer value, converted to
 	 * boolean.
 	 *
-	 * @param int $value
+	 * @param $value integer
 	 * @param int $bitIndex The index of the bit, where 0 is the LSB.
 	 * @return bool
 	 */
@@ -683,7 +668,6 @@ class ZipDirectoryReader {
 
 	/**
 	 * Debugging helper function which dumps a string in hexdump -C format.
-	 * @param string $s
 	 */
 	function hexDump( $s ) {
 		$n = strlen( $s );
@@ -713,5 +697,24 @@ class ZipDirectoryReader {
 			}
 			print "|\n";
 		}
+	}
+}
+
+/**
+ * Internal exception class. Will be caught by private code.
+ */
+class ZipDirectoryReaderError extends Exception {
+	protected $errorCode;
+
+	function __construct( $code ) {
+		$this->errorCode = $code;
+		parent::__construct( "ZipDirectoryReader error: $code" );
+	}
+
+	/**
+	 * @return mixed
+	 */
+	function getErrorCode() {
+		return $this->errorCode;
 	}
 }

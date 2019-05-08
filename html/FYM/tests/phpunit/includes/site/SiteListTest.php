@@ -26,6 +26,7 @@
  *
  * @group Site
  *
+ * @licence GNU GPL v2+
  * @author Jeroen De Dauw < jeroendedauw@gmail.com >
  */
 class SiteListTest extends MediaWikiTestCase {
@@ -37,7 +38,7 @@ class SiteListTest extends MediaWikiTestCase {
 	public function siteListProvider() {
 		$sitesArrays = $this->siteArrayProvider();
 
-		$listInstances = [];
+		$listInstances = array();
 
 		foreach ( $sitesArrays as $sitesArray ) {
 			$listInstances[] = new SiteList( $sitesArray[0] );
@@ -53,13 +54,13 @@ class SiteListTest extends MediaWikiTestCase {
 	public function siteArrayProvider() {
 		$sites = TestSites::getSites();
 
-		$siteArrays = [];
+		$siteArrays = array();
 
 		$siteArrays[] = $sites;
 
-		$siteArrays[] = [ array_shift( $sites ) ];
+		$siteArrays[] = array( array_shift( $sites ) );
 
-		$siteArrays[] = [ array_shift( $sites ), array_shift( $sites ) ];
+		$siteArrays[] = array( array_shift( $sites ), array_shift( $sites ) );
 
 		return $this->arrayWrap( $siteArrays );
 	}
@@ -99,7 +100,7 @@ class SiteListTest extends MediaWikiTestCase {
 		 * @var Site $site
 		 */
 		foreach ( $sites as $site ) {
-			if ( is_int( $site->getInternalId() ) ) {
+			if ( is_integer( $site->getInternalId() ) ) {
 				$this->assertEquals( $site, $sites->getSiteByInternalId( $site->getInternalId() ) );
 			}
 		}
@@ -155,7 +156,7 @@ class SiteListTest extends MediaWikiTestCase {
 		 * @var Site $site
 		 */
 		foreach ( $sites as $site ) {
-			if ( is_int( $site->getInternalId() ) ) {
+			if ( is_integer( $site->getInternalId() ) ) {
 				$this->assertTrue( $site, $sites->hasInternalId( $site->getInternalId() ) );
 			}
 		}
@@ -192,7 +193,7 @@ class SiteListTest extends MediaWikiTestCase {
 
 		$this->assertTrue( is_array( $identifiers ) );
 
-		$expected = [];
+		$expected = array();
 
 		/**
 		 * @var Site $site
@@ -216,7 +217,7 @@ class SiteListTest extends MediaWikiTestCase {
 	public function testSerialization( SiteList $list ) {
 		$serialization = serialize( $list );
 		/**
-		 * @var SiteList $copy
+		 * @var SiteArray $copy
 		 */
 		$copy = unserialize( $serialization );
 

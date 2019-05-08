@@ -1,13 +1,10 @@
 <?php
-
 /**
  * The function only need a string parameter and might react to IIS7.0
- *
- * @group GlobalFunctions
  * @covers ::wfUrlencode
  */
 class WfUrlencodeTest extends MediaWikiTestCase {
-	# ### TESTS ##############################################################
+	#### TESTS ##############################################################
 
 	/**
 	 * @dataProvider provideURLS
@@ -23,17 +20,20 @@ class WfUrlencodeTest extends MediaWikiTestCase {
 		$this->verifyEncodingFor( 'Microsoft-IIS/7', $input, $expected );
 	}
 
-	# ### HELPERS #############################################################
+	#### HELPERS #############################################################
 
 	/**
 	 * Internal helper that actually run the test.
 	 * Called by the public methods testEncodingUrlWith...()
+	 *
 	 */
 	private function verifyEncodingFor( $server, $input, $expectations ) {
 		$expected = $this->extractExpect( $server, $expectations );
 
 		// save up global
-		$old = $_SERVER['SERVER_SOFTWARE'] ?? null;
+		$old = isset( $_SERVER['SERVER_SOFTWARE'] )
+			? $_SERVER['SERVER_SOFTWARE']
+			: null;
 		$_SERVER['SERVER_SOFTWARE'] = $server;
 		wfUrlencode( null );
 
@@ -62,62 +62,58 @@ class WfUrlencodeTest extends MediaWikiTestCase {
 			return $expectations;
 		} elseif ( is_array( $expectations ) ) {
 			if ( !array_key_exists( $server, $expectations ) ) {
-				throw new MWException( __METHOD__ . " expectation does not have any "
-					. "value for server name $server. Check the provider array.\n" );
+				throw new MWException( __METHOD__ . " expectation does not have any value for server name $server. Check the provider array.\n" );
 			} else {
 				return $expectations[$server];
 			}
 		} else {
-			throw new MWException( __METHOD__ . " given invalid expectation for "
-				. "'$server'. Should be a string or an array( <http server name> => <string> ).\n" );
+			throw new MWException( __METHOD__ . " given invalid expectation for '$server'. Should be a string or an array( <http server name> => <string> ).\n" );
 		}
 	}
 
-	# ### PROVIDERS ###########################################################
+	#### PROVIDERS ###########################################################
 
 	/**
 	 * Format is either:
-	 *   [ 'input', 'expected' ];
+	 *   array( 'input', 'expected' );
 	 * Or:
-	 *   [ 'input',
-	 *       [ 'Apache', 'expected' ],
-	 *       [ 'Microsoft-IIS/7', 'expected' ],
-	 *   ],
+	 *   array( 'input',
+	 *       array( 'Apache', 'expected' ),
+	 *       array( 'Microsoft-IIS/7', 'expected' ),
+	 *    ),
 	 * If you want to add other HTTP server name, you will have to add a new
 	 * testing method much like the testEncodingUrlWith() method above.
 	 */
 	public static function provideURLS() {
-		return [
-			# ## RFC 1738 chars
+		return array(
+			### RFC 1738 chars
 			// + is not safe
-			[ '+', '%2B' ],
+			array( '+', '%2B' ),
 			// & and = not safe in queries
-			[ '&', '%26' ],
-			[ '=', '%3D' ],
+			array( '&', '%26' ),
+			array( '=', '%3D' ),
 
-			[ ':', [
+			array( ':', array(
 				'Apache' => ':',
 				'Microsoft-IIS/7' => '%3A',
-			] ],
+			) ),
 
 			// remaining chars do not need encoding
-			[
+			array(
 				';@$-_.!*',
 				';@$-_.!*',
-			],
+			),
 
-			# ## Other tests
+			### Other tests
 			// slash remain unchanged. %2F seems to break things
-			[ '/', '/' ],
-			// T105265
-			[ '~', '~' ],
+			array( '/', '/' ),
 
 			// Other 'funnies' chars
-			[ '[]', '%5B%5D' ],
-			[ '<>', '%3C%3E' ],
+			array( '[]', '%5B%5D' ),
+			array( '<>', '%3C%3E' ),
 
 			// Apostrophe is encoded
-			[ '\'', '%27' ],
-		];
+			array( '\'', '%27' ),
+		);
 	}
 }

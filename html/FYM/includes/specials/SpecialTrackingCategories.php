@@ -37,12 +37,15 @@ class SpecialTrackingCategories extends SpecialPage {
 	}
 
 	function execute( $par ) {
+		// Global array containing names of tracking categories
+		global $wgTrackingCategories;
+
 		$this->setHeaders();
 		$this->outputHeader();
 		$this->getOutput()->allowClickjacking();
 		$this->getOutput()->addHTML(
-			Html::openElement( 'table', [ 'class' => 'mw-datatable sortable',
-				'id' => 'mw-trackingcategories-table' ] ) . "\n" .
+			Html::openElement( 'table', array( 'class' => 'mw-datatable TablePager',
+				'id' => 'mw-trackingcategories-table' ) ) . "\n" .
 			"<thead><tr>
 			<th>" .
 				$this->msg( 'trackingcategories-msg' )->escaped() . "
@@ -56,46 +59,48 @@ class SpecialTrackingCategories extends SpecialPage {
 			</tr></thead>"
 		);
 
-		$trackingCategories = new TrackingCategories( $this->getConfig() );
-		$categoryList = $trackingCategories->getTrackingCategories();
-
-		$batch = new LinkBatch();
-		foreach ( $categoryList as $catMsg => $data ) {
-			$batch->addObj( $data['msg'] );
-			foreach ( $data['cats'] as $catTitle ) {
-				$batch->addObj( $catTitle );
-			}
-		}
-		$batch->execute();
-
-		Hooks::run( 'SpecialTrackingCategories::preprocess', [ $this, $categoryList ] );
-
-		$linkRenderer = $this->getLinkRenderer();
-
-		foreach ( $categoryList as $catMsg => $data ) {
-			$allMsgs = [];
+		foreach( $wgTrackingCategories as $catMsg ) {
+			/*
+			 * Check if the tracking category varies by namespace
+			 * Otherwise only pages in the current namespace will be displayed
+			 * If it does vary, show pages considering all namespaces
+			 */
+			$msgObj = $this->msg( $catMsg )->inContentLanguage();
+			$allMsgs = array();
 			$catDesc = $catMsg . '-desc';
-
-			$catMsgTitleText = $linkRenderer->makeLink(
-				$data['msg'],
-				$catMsg
+			$catMsgTitle = Title::makeTitleSafe( NS_MEDIAWIKI, $catMsg );
+			$catMsgTitleText = Linker::link(
+				$catMsgTitle,
+				htmlspecialchars( $catMsg )
 			);
 
-			foreach ( $data['cats'] as $catTitle ) {
-				$html = $linkRenderer->makeLink(
-					$catTitle,
-					$catTitle->getText()
-				);
-
-				Hooks::run( 'SpecialTrackingCategories::generateCatLink',
-					[ $this, $catTitle, &$html ] );
-
-				$allMsgs[] = $html;
-			}
-
-			# Extra message, when no category was found
-			if ( !count( $allMsgs ) ) {
-				$allMsgs[] = $this->msg( 'trackingcategories-disabled' )->parse();
+			if ( strpos( $msgObj->plain(), '{{NAMESPACE}}' ) !== false ) {
+				$ns = MWNamespace::getValidNamespaces();
+				foreach ( $ns as $namesp ) {
+					$tempTitle = Title::makeTitleSafe( $namesp, $catMsg );
+					$catName = $msgObj->title( $tempTitle )->text();
+					if ( !$msgObj->isDisabled() ) {
+						$catTitle = Title::makeTitleSafe( NS_CATEGORY, $catName );
+						$catTitleText = Linker::link(
+							$catTitle,
+							htmlspecialchars( $catName )
+						);
+						$allMsgs[] = $catTitleText;
+					}
+				}
+			} else {
+				$catName = $msgObj->text();
+				if ( !$msgObj->isDisabled() ) {
+					$catTitle = Title::makeTitleSafe( NS_CATEGORY, $catName );
+					$catTitleText = Linker::link(
+						$catTitle,
+						htmlspecialchars( $catName )
+					);
+					$classes = array();
+				} else {
+					$catTitleText = $this->msg( 'trackingcategories-disabled' )->parse();
+				}
+				$allMsgs[] = $catTitleText;
 			}
 
 			/*
@@ -109,13 +114,13 @@ class SpecialTrackingCategories extends SpecialPage {
 
 			$this->getOutput()->addHTML(
 				Html::openElement( 'tr' ) .
-				Html::openElement( 'td', [ 'class' => 'mw-trackingcategories-name' ] ) .
+				Html::openElement( 'td', array( 'class' => 'mw-trackingcategories-name' ) ) .
 					$this->getLanguage()->commaList( array_unique( $allMsgs ) ) .
 				Html::closeElement( 'td' ) .
-				Html::openElement( 'td', [ 'class' => 'mw-trackingcategories-msg' ] ) .
+				Html::openElement( 'td', array( 'class' => 'mw-trackingcategories-msg' ) ) .
 					$catMsgTitleText .
 				Html::closeElement( 'td' ) .
-				Html::openElement( 'td', [ 'class' => 'mw-trackingcategories-desc' ] ) .
+				Html::openElement( 'td', array( 'class' => 'mw-trackingcategories-desc' ) ) .
 					$descMsg->parse() .
 				Html::closeElement( 'td' ) .
 				Html::closeElement( 'tr' )

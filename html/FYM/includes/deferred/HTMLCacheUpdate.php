@@ -26,7 +26,7 @@
  *
  * @ingroup Cache
  */
-class HTMLCacheUpdate extends DataUpdate {
+class HTMLCacheUpdate implements DeferrableUpdate {
 	/** @var Title */
 	public $mTitle;
 
@@ -36,25 +36,35 @@ class HTMLCacheUpdate extends DataUpdate {
 	/**
 	 * @param Title $titleTo
 	 * @param string $table
-	 * @param string $causeAction Triggering action
-	 * @param string $causeAgent Triggering user
 	 */
-	function __construct(
-		Title $titleTo, $table, $causeAction = 'unknown', $causeAgent = 'unknown'
-	) {
+	function __construct( Title $titleTo, $table ) {
 		$this->mTitle = $titleTo;
 		$this->mTable = $table;
-		$this->causeAction = $causeAction;
-		$this->causeAgent = $causeAgent;
 	}
 
 	public function doUpdate() {
-		$job = HTMLCacheUpdateJob::newForBacklinks(
+		wfProfileIn( __METHOD__ );
+
+		$job = new HTMLCacheUpdateJob(
 			$this->mTitle,
-			$this->mTable,
-			[ 'causeAction' => $this->getCauseAction(), 'causeAgent' => $this->getCauseAgent() ]
+			array(
+				'table' => $this->mTable,
+			) + Job::newRootJobParams( // "overall" refresh links job info
+				"htmlCacheUpdate:{$this->mTable}:{$this->mTitle->getPrefixedText()}"
+			)
 		);
 
-		JobQueueGroup::singleton()->lazyPush( $job );
+		$count = $this->mTitle->getBacklinkCache()->getNumLinks( $this->mTable, 200 );
+		if ( $count >= 200 ) { // many backlinks
+			JobQueueGroup::singleton()->push( $job );
+			JobQueueGroup::singleton()->deduplicateRootJob( $job );
+		} else { // few backlinks ($count might be off even if 0)
+			$dbw = wfGetDB( DB_MASTER );
+			$dbw->onTransactionIdle( function () use ( $job ) {
+				$job->run(); // just do the purge query now
+			} );
+		}
+
+		wfProfileOut( __METHOD__ );
 	}
 }

@@ -5,35 +5,28 @@
  * Copyright © 2011, Antoine Musso
  *
  * @author Antoine Musso
+ * @group Database
  */
 
-use MediaWiki\MediaWikiServices;
-
 /**
- * @group Database
  * @covers QueryPage<extended>
  */
 class QueryAllSpecialPagesTest extends MediaWikiTestCase {
 
-	/**
-	 * @var SpecialPage[]
-	 */
-	private $queryPages;
-
 	/** List query pages that can not be tested automatically */
-	protected $manualTest = [
-		LinkSearchPage::class
-	];
+	protected $manualTest = array(
+		'LinkSearchPage'
+	);
 
 	/**
 	 * Pages whose query use the same DB table more than once.
 	 * This is used to skip testing those pages when run against a MySQL backend
 	 * which does not support reopening a temporary table. See upstream bug:
-	 * https://bugs.mysql.com/bug.php?id=10327
+	 * http://bugs.mysql.com/bug.php?id=10327
 	 */
-	protected $reopensTempTable = [
-		BrokenRedirects::class,
-	];
+	protected $reopensTempTable = array(
+		'BrokenRedirects',
+	);
 
 	/**
 	 * Initialize all query page objects
@@ -43,10 +36,8 @@ class QueryAllSpecialPagesTest extends MediaWikiTestCase {
 
 		foreach ( QueryPage::getPages() as $page ) {
 			$class = $page[0];
-			$name = $page[1];
 			if ( !in_array( $class, $this->manualTest ) ) {
-				$this->queryPages[$class] =
-					MediaWikiServices::getInstance()->getSpecialPageFactory()->getPage( $name );
+				$this->queryPages[$class] = new $class;
 			}
 		}
 	}
@@ -59,14 +50,14 @@ class QueryAllSpecialPagesTest extends MediaWikiTestCase {
 		global $wgDBtype;
 
 		foreach ( $this->queryPages as $page ) {
+
 			// With MySQL, skips special pages reopening a temporary table
-			// See https://bugs.mysql.com/bug.php?id=10327
+			// See http://bugs.mysql.com/bug.php?id=10327
 			if (
 				$wgDBtype === 'mysql'
 				&& in_array( $page->getName(), $this->reopensTempTable )
 			) {
-				$this->markTestSkipped( "SQL query for page {$page->getName()} "
-					. "can not be tested on MySQL backend (it reopens a temporary table)" );
+				$this->markTestSkipped( "SQL query for page {$page->getName()} can not be tested on MySQL backend (it reopens a temporary table)" );
 				continue;
 			}
 

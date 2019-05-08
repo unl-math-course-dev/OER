@@ -1,7 +1,8 @@
 <?php
 /** Zeeuws (Zeêuws)
  *
- * To improve a translation please visit https://translatewiki.net
+ * See MessagesQqq.php for message documentation incl. usage of parameters
+ * To improve a translation please visit http://translatewiki.net
  *
  * @ingroup Language
  * @file
@@ -20,9 +21,9 @@ $fallback = 'nl';
 
 /**
  * Namespace names
- * (T10708)
+ * (bug 8708)
  */
-$namespaceNames = [
+$namespaceNames = array(
 	NS_MEDIA            => 'Media',
 	NS_SPECIAL          => 'Speciaol',
 	NS_TALK             => 'Overleg',
@@ -39,4 +40,5 @@ $namespaceNames = [
 	NS_HELP_TALK        => 'Overleg_ulpe',
 	NS_CATEGORY         => 'Categorie',
 	NS_CATEGORY_TALK    => 'Overleg_categorie',
-];
+);
+

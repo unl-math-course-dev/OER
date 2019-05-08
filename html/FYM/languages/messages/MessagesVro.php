@@ -1,7 +1,8 @@
 <?php
 /** Võro (Võro)
  *
- * To improve a translation please visit https://translatewiki.net
+ * See MessagesQqq.php for message documentation incl. usage of parameters
+ * To improve a translation please visit http://translatewiki.net
  *
  * @ingroup Language
  * @file
@@ -17,7 +18,7 @@
 
 $fallback = 'et';
 
-$namespaceNames = [
+$namespaceNames = array(
 	NS_MEDIA            => 'Meediä',
 	NS_SPECIAL          => 'Tallituslehekülg',
 	NS_TALK             => 'Arotus',
@@ -34,8 +35,9 @@ $namespaceNames = [
 	NS_HELP_TALK        => 'Oppusõ_arotus',
 	NS_CATEGORY         => 'Katõgooria',
 	NS_CATEGORY_TALK    => 'Katõgooria_arotus',
-];
+);
 
-$magicWords = [
-	'redirect'                  => [ '0', '#saadaq', '#suuna', '#REDIRECT' ],
-];
+$magicWords = array(
+	'redirect'                  => array( '0', '#saadaq', '#suuna', '#REDIRECT' ),
+);
+

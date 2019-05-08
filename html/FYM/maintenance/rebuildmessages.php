@@ -31,7 +31,7 @@ require_once __DIR__ . '/Maintenance.php';
 class RebuildMessages extends Maintenance {
 	public function __construct() {
 		parent::__construct();
-		$this->addDescription( 'Purge all language messages from the cache' );
+		$this->mDescription = "Purge all language messages from the cache";
 	}
 
 	public function execute() {
@@ -39,7 +39,7 @@ class RebuildMessages extends Maintenance {
 		if ( $wgLocalDatabases ) {
 			$databases = $wgLocalDatabases;
 		} else {
-			$databases = [ $wgDBname ];
+			$databases = array( $wgDBname );
 		}
 
 		foreach ( $databases as $db ) {
@@ -53,5 +53,5 @@ class RebuildMessages extends Maintenance {
 	}
 }
 
-$maintClass = RebuildMessages::class;
+$maintClass = "RebuildMessages";
 require_once RUN_MAINTENANCE_IF_MAIN;

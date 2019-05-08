@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -19,18 +20,15 @@
  */
 
 /**
- * Send recent change notifications in a UDP packet.
+ * Sends the notification to the specified host in a UDP packet.
  * @since 1.22
  */
-class UDPRCFeedEngine extends RCFeedEngine {
+
+class UDPRCFeedEngine implements RCFeedEngine {
 	/**
 	 * @see RCFeedEngine::send
-	 * @param array $feed
-	 * @param string $line
-	 * @return bool
 	 */
 	public function send( array $feed, $line ) {
-		$transport = UDPTransport::newFromString( $feed['uri'] );
-		$transport->emit( $line );
+		wfErrorLog( $line, $feed['uri'] );
 	}
 }

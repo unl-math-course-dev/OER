@@ -1,14 +1,13 @@
-( function () {
+( function ( $ ) {
 	QUnit.module( 'jquery.getAttrs', QUnit.newMwEnvironment() );
 
-	QUnit.test( 'getAttrs()', function ( assert ) {
+	QUnit.test( 'Check', 1, function ( assert ) {
 		var attrs = {
 				foo: 'bar',
-				class: 'lorem',
-				'data-foo': 'data value'
+				'class': 'lorem'
 			},
 			$el = $( '<div>' ).attr( attrs );
 
-		assert.propEqual( $el.getAttrs(), attrs, 'keys and values match' );
+		assert.deepEqual( $el.getAttrs(), attrs, 'getAttrs() return object should match the attributes set, no more, no less' );
 	} );
-}() );
+}( jQuery ) );

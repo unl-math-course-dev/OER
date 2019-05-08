@@ -3,8 +3,8 @@
  * @author Santhosh Thottingal
  */
 
-mw.language.convertGrammar = function ( word, form ) {
-	var grammarForms = mw.language.getData( 'os', 'grammarForms' ),
+mediaWiki.language.convertGrammar = function ( word, form ) {
+	var grammarForms = mediaWiki.language.getData( 'os', 'grammarForms' ),
 		// Ending for allative case
 		endAllative = 'мæ',
 		// Variable for 'j' beetwen vowels
@@ -14,22 +14,23 @@ mw.language.convertGrammar = function ( word, form ) {
 		// Variable for ending
 		ending = '';
 
-	if ( grammarForms && grammarForms[ form ] ) {
-		return grammarForms[ form ][ word ];
+	if ( grammarForms && grammarForms[form] ) {
+		return grammarForms[form][word];
 	}
 	// Checking if the $word is in plural form
 	if ( word.match( /тæ$/i ) ) {
-		word = word.slice( 0, -1 );
+		word = word.substring( 0, word.length - 1 );
 		endAllative = 'æм';
-	} else if ( word.match( /[аæеёиоыэюя]$/i ) ) {
-		// Works if word is in singular form.
-		// Checking if word ends on one of the vowels: е, ё, и, о, ы, э, ю, я.
+	}
+	// Works if word is in singular form.
+	// Checking if word ends on one of the vowels: е, ё, и, о, ы, э, ю, я.
+	else if ( word.match( /[аæеёиоыэюя]$/i ) ) {
 		jot = 'й';
-	} else if ( word.match( /у$/i ) ) {
-		// Checking if word ends on 'у'. 'У' can be either consonant 'W' or vowel 'U' in Cyrillic Ossetic.
-		// Examples: {{grammar:genitive|аунеу}} = аунеуы, {{grammar:genitive|лæппу}} = лæппуйы.
-
-		if ( !word.slice( -2, -1 ).match( /[аæеёиоыэюя]$/i ) ) {
+	}
+	// Checking if word ends on 'у'. 'У' can be either consonant 'W' or vowel 'U' in cyrillic Ossetic.
+	// Examples: {{grammar:genitive|аунеу}} = аунеуы, {{grammar:genitive|лæппу}} = лæппуйы.
+	else if ( word.match( /у$/i ) ) {
+		if ( !word.substring( word.length - 2, word.length - 1 ).match( /[аæеёиоыэюя]$/i ) ) {
 			jot = 'й';
 		}
 	} else if ( !word.match( /[бвгджзйклмнопрстфхцчшщьъ]$/i ) ) {
@@ -49,7 +50,8 @@ mw.language.convertGrammar = function ( word, form ) {
 		case 'ablative':
 			if ( jot === 'й' ) {
 				ending = hyphen + jot + 'æ';
-			} else {
+			}
+			else {
 				ending = hyphen + jot + 'æй';
 			}
 			break;

@@ -21,9 +21,6 @@
  * @ingroup Search
  */
 
-use MediaWiki\MediaWikiServices;
-use Wikimedia\Rdbms\IResultWrapper;
-
 /**
  * Search engine hook base class for Mssql (ConText).
  * @ingroup Search
@@ -32,31 +29,34 @@ class SearchMssql extends SearchDatabase {
 	/**
 	 * Perform a full text search query and return a result set.
 	 *
-	 * @param string $term Raw search term
-	 * @return SqlSearchResultSet
+	 * @param string $term raw search term
+	 * @return MssqlSearchResultSet
+	 * @access public
 	 */
-	protected function doSearchTextInDB( $term ) {
-		$resultSet = $this->db->query( $this->getQuery( $this->filter( $term ), true ) );
-		return new SqlSearchResultSet( $resultSet, $this->searchTerms );
+	function searchText( $term ) {
+		$resultSet = $this->db->resultObject( $this->db->query( $this->getQuery( $this->filter( $term ), true ) ) );
+		return new MssqlSearchResultSet( $resultSet, $this->searchTerms );
 	}
 
 	/**
 	 * Perform a title-only search query and return a result set.
 	 *
-	 * @param string $term Raw search term
-	 * @return SqlSearchResultSet
+	 * @param string $term raw search term
+	 * @return MssqlSearchResultSet
+	 * @access public
 	 */
-	protected function doSearchTitleInDB( $term ) {
-		$resultSet = $this->db->query( $this->getQuery( $this->filter( $term ), false ) );
-		return new SqlSearchResultSet( $resultSet, $this->searchTerms );
+	function searchTitle( $term ) {
+		$resultSet = $this->db->resultObject( $this->db->query( $this->getQuery( $this->filter( $term ), false ) ) );
+		return new MssqlSearchResultSet( $resultSet, $this->searchTerms );
 	}
 
 	/**
 	 * Return a partial WHERE clause to limit the search to the given namespaces
 	 *
-	 * @return string
+	 * @return String
+	 * @private
 	 */
-	private function queryNamespaces() {
+	function queryNamespaces() {
 		$namespaces = implode( ',', $this->namespaces );
 		if ( $namespaces == '' ) {
 			$namespaces = '0';
@@ -67,11 +67,11 @@ class SearchMssql extends SearchDatabase {
 	/**
 	 * Return a LIMIT clause to limit results on the query.
 	 *
-	 * @param string $sql
+	 * @param $sql string
 	 *
-	 * @return string
+	 * @return String
 	 */
-	private function queryLimit( $sql ) {
+	function queryLimit( $sql ) {
 		return $this->db->limitResult( $sql, $this->limit, $this->offset );
 	}
 
@@ -79,9 +79,7 @@ class SearchMssql extends SearchDatabase {
 	 * Does not do anything for generic search engine
 	 * subclasses may define this though
 	 *
-	 * @param string $filteredTerm
-	 * @param bool $fulltext
-	 * @return string
+	 * @return String
 	 */
 	function queryRanking( $filteredTerm, $fulltext ) {
 		return ' ORDER BY ftindex.[RANK] DESC'; // return ' ORDER BY score(1)';
@@ -91,11 +89,11 @@ class SearchMssql extends SearchDatabase {
 	 * Construct the full SQL query to do the search.
 	 * The guts shoulds be constructed in queryMain()
 	 *
-	 * @param string $filteredTerm
-	 * @param bool $fulltext
-	 * @return string
+	 * @param $filteredTerm String
+	 * @param $fulltext Boolean
+	 * @return String
 	 */
-	private function getQuery( $filteredTerm, $fulltext ) {
+	function getQuery( $filteredTerm, $fulltext ) {
 		return $this->queryLimit( $this->queryMain( $filteredTerm, $fulltext ) . ' ' .
 			$this->queryNamespaces() . ' ' .
 			$this->queryRanking( $filteredTerm, $fulltext ) . ' ' );
@@ -104,7 +102,7 @@ class SearchMssql extends SearchDatabase {
 	/**
 	 * Picks which field to index on, depending on what type of query.
 	 *
-	 * @param bool $fulltext
+	 * @param $fulltext Boolean
 	 * @return string
 	 */
 	function getIndexField( $fulltext ) {
@@ -114,11 +112,12 @@ class SearchMssql extends SearchDatabase {
 	/**
 	 * Get the base part of the search query.
 	 *
-	 * @param string $filteredTerm
-	 * @param bool $fulltext
-	 * @return string
+	 * @param $filteredTerm String
+	 * @param $fulltext Boolean
+	 * @return String
+	 * @private
 	 */
-	private function queryMain( $filteredTerm, $fulltext ) {
+	function queryMain( $filteredTerm, $fulltext ) {
 		$match = $this->parseQuery( $filteredTerm, $fulltext );
 		$page = $this->db->tableName( 'page' );
 		$searchindex = $this->db->tableName( 'searchindex' );
@@ -129,23 +128,21 @@ class SearchMssql extends SearchDatabase {
 	}
 
 	/** @todo document
-	 * @param string $filteredText
-	 * @param bool $fulltext
 	 * @return string
 	 */
-	private function parseQuery( $filteredText, $fulltext ) {
-		$lc = $this->legalSearchChars( self::CHARS_NO_SYNTAX );
-		$this->searchTerms = [];
+	function parseQuery( $filteredText, $fulltext ) {
+		global $wgContLang;
+		$lc = SearchEngine::legalSearchChars();
+		$this->searchTerms = array();
 
 		# @todo FIXME: This doesn't handle parenthetical expressions.
-		$m = [];
-		$q = [];
+		$m = array();
+		$q = array();
 
 		if ( preg_match_all( '/([-+<>~]?)(([' . $lc . ']+)(\*?)|"[^"]*")/',
 			$filteredText, $m, PREG_SET_ORDER ) ) {
 			foreach ( $m as $terms ) {
-				$q[] = $terms[1] . MediaWikiServices::getInstance()->getContentLanguage()->
-					normalizeForSearch( $terms[2] );
+				$q[] = $terms[1] . $wgContLang->normalizeForSearch( $terms[2] );
 
 				if ( !empty( $terms[3] ) ) {
 					$regexp = preg_quote( $terms[3], '/' );
@@ -159,19 +156,19 @@ class SearchMssql extends SearchDatabase {
 			}
 		}
 
-		$searchon = $this->db->addQuotes( implode( ',', $q ) );
+		$searchon = $this->db->strencode( join( ',', $q ) );
 		$field = $this->getIndexField( $fulltext );
-		return "$field, $searchon";
+		return "$field, '$searchon'";
 	}
 
 	/**
 	 * Create or update the search index record for the given page.
 	 * Title and text should be pre-processed.
 	 *
-	 * @param int $id
-	 * @param string $title
-	 * @param string $text
-	 * @return bool|IResultWrapper
+	 * @param $id Integer
+	 * @param $title String
+	 * @param $text String
+	 * @return bool|ResultWrapper
 	 */
 	function update( $id, $title, $text ) {
 		// We store the column data as UTF-8 byte order marked binary stream
@@ -192,9 +189,9 @@ class SearchMssql extends SearchDatabase {
 	 * Update a search index record's title only.
 	 * Title should be pre-processed.
 	 *
-	 * @param int $id
-	 * @param string $title
-	 * @return bool|IResultWrapper
+	 * @param $id Integer
+	 * @param $title String
+	 * @return bool|ResultWrapper
 	 */
 	function updateTitle( $id, $title ) {
 		$table = $this->db->tableName( 'searchindex' );
@@ -205,5 +202,31 @@ class SearchMssql extends SearchDatabase {
 		$sql = "DELETE FROM $table WHERE si_page = $id;";
 		$sql .= "INSERT INTO $table (si_page, si_title, si_text) VALUES ($id, $si_title, 0x00)";
 		return $this->db->query( $sql, 'SearchMssql::updateTitle' );
+	}
+}
+
+/**
+ * @ingroup Search
+ */
+class MssqlSearchResultSet extends SearchResultSet {
+	function __construct( $resultSet, $terms ) {
+		$this->mResultSet = $resultSet;
+		$this->mTerms = $terms;
+	}
+
+	function termMatches() {
+		return $this->mTerms;
+	}
+
+	function numRows() {
+		return $this->mResultSet->numRows();
+	}
+
+	function next() {
+		$row = $this->mResultSet->fetchObject();
+		if ( $row === false ) {
+			return false;
+		}
+		return new SearchResult( $row );
 	}
 }

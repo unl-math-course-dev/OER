@@ -3,11 +3,11 @@
  * Deletes a batch of pages.
  * Usage: php deleteBatch.php [-u <user>] [-r <reason>] [-i <interval>] [listfile]
  * where
- *   [listfile] is a file where each line contains the title of a page to be
- *     deleted, standard input is used if listfile is not given.
- *   <user> is the username
- *   <reason> is the delete reason
- *   <interval> is the number of seconds to sleep for after each delete
+ *	[listfile] is a file where each line contains the title of a page to be
+ *             deleted, standard input is used if listfile is not given.
+ *	<user> is the username
+ *	<reason> is the delete reason
+ *	<interval> is the number of seconds to sleep for after each delete
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -39,7 +39,7 @@ class DeleteBatch extends Maintenance {
 
 	public function __construct() {
 		parent::__construct();
-		$this->addDescription( 'Deletes a batch of pages' );
+		$this->mDescription = "Deletes a batch of pages";
 		$this->addOption( 'u', "User to perform deletion", false, true );
 		$this->addOption( 'r', "Reason to delete page", false, true );
 		$this->addOption( 'i', "Interval to sleep between deletions" );
@@ -55,17 +55,13 @@ class DeleteBatch extends Maintenance {
 		chdir( $oldCwd );
 
 		# Options processing
-		$username = $this->getOption( 'u', false );
+		$username = $this->getOption( 'u', 'Delete page script' );
 		$reason = $this->getOption( 'r', '' );
 		$interval = $this->getOption( 'i', 0 );
 
-		if ( $username === false ) {
-			$user = User::newSystemUser( 'Delete page script', [ 'steal' => true ] );
-		} else {
-			$user = User::newFromName( $username );
-		}
+		$user = User::newFromName( $username );
 		if ( !$user ) {
-			$this->fatalError( "Invalid username" );
+			$this->error( "Invalid username", true );
 		}
 		$wgUser = $user;
 
@@ -77,13 +73,12 @@ class DeleteBatch extends Maintenance {
 
 		# Setup
 		if ( !$file ) {
-			$this->fatalError( "Unable to read file, exiting" );
+			$this->error( "Unable to read file, exiting", true );
 		}
 
-		$dbw = $this->getDB( DB_MASTER );
+		$dbw = wfGetDB( DB_MASTER );
 
 		# Handle each entry
-		// phpcs:ignore Generic.CodeAnalysis.ForLoopWithTestFunctionCall
 		for ( $linenum = 1; !feof( $file ); $linenum++ ) {
 			$line = trim( fgets( $file ) );
 			if ( $line == '' ) {
@@ -100,15 +95,17 @@ class DeleteBatch extends Maintenance {
 			}
 
 			$this->output( $title->getPrefixedText() );
+			$dbw->begin( __METHOD__ );
 			if ( $title->getNamespace() == NS_FILE ) {
-				$img = wfFindFile( $title, [ 'ignoreRedirect' => true ] );
+				$img = wfFindFile( $title );
 				if ( $img && $img->isLocal() && !$img->delete( $reason ) ) {
 					$this->output( " FAILED to delete associated file... " );
 				}
 			}
 			$page = WikiPage::factory( $title );
 			$error = '';
-			$success = $page->doDeleteArticle( $reason, false, null, null, $error, $user, true );
+			$success = $page->doDeleteArticle( $reason, false, 0, false, $error, $user );
+			$dbw->commit( __METHOD__ );
 			if ( $success ) {
 				$this->output( " Deleted!\n" );
 			} else {
@@ -123,5 +120,5 @@ class DeleteBatch extends Maintenance {
 	}
 }
 
-$maintClass = DeleteBatch::class;
+$maintClass = "DeleteBatch";
 require_once RUN_MAINTENANCE_IF_MAIN;

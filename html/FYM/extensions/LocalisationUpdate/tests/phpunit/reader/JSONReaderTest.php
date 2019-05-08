@@ -2,41 +2,36 @@
 /**
  * @file
  * @author Niklas Laxström
- * @license GPL-2.0-or-later
+ * @license GPL-2.0+
  */
 
-namespace LocalisationUpdate;
-
-/**
- * @covers \LocalisationUpdate\JSONReader
- */
-class JSONReaderTest extends \PHPUnit\Framework\TestCase {
+class LU_JSONReaderTest extends MediaWikiTestCase {
 	/**
 	 * @dataProvider parseProvider
 	 */
 	public function testParse( $input, $expected, $comment ) {
-		$reader = new JSONReader( 'xx' );
+		$reader = new LU_JSONReader( 'xx' );
 		$observed = $reader->parse( $input );
 		$this->assertEquals( $expected, $observed['xx'], $comment );
 	}
 
 	public function parseProvider() {
-		return [
-			[
+		return array(
+			array(
 				'{}',
-				[],
+				array(),
 				'empty file',
-			],
-			[
+			),
+			array(
 				'{"key":"value"}',
-				[ 'key' => 'value' ],
+				array( 'key' => 'value' ),
 				'file with one string',
-			],
-			[
+			),
+			array(
 				'{"@metadata":{"authors":["Nike"]},"key":"value2"}',
-				[ 'key' => 'value2' ],
+				array( 'key' => 'value2' ),
 				'@metadata is ignored',
-			]
-		];
+			)
+		);
 	}
 }

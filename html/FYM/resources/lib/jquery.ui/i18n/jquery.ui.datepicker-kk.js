@@ -3,8 +3,8 @@
 jQuery(function($){
 	$.datepicker.regional['kk'] = {
 		closeText: 'Жабу',
-		prevText: '&#x3C;Алдыңғы',
-		nextText: 'Келесі&#x3E;',
+		prevText: '&#x3c;Алдыңғы',
+		nextText: 'Келесі&#x3e;',
 		currentText: 'Бүгін',
 		monthNames: ['Қаңтар','Ақпан','Наурыз','Сәуір','Мамыр','Маусым',
 		'Шілде','Тамыз','Қыркүйек','Қазан','Қараша','Желтоқсан'],

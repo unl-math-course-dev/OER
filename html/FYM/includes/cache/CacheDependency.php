@@ -20,7 +20,6 @@
  * @file
  * @ingroup Cache
  */
-use MediaWiki\MediaWikiServices;
 
 /**
  * This class stores an arbitrary value along with its dependencies.
@@ -34,15 +33,16 @@ class DependencyWrapper {
 	private $deps;
 
 	/**
-	 * @param mixed $value The user-supplied value
+	 * Create an instance.
+	 * @param $value Mixed: the user-supplied value
 	 * @param CacheDependency|CacheDependency[] $deps A dependency or dependency
 	 *   array. All dependencies must be objects implementing CacheDependency.
 	 */
-	function __construct( $value = false, $deps = [] ) {
+	function __construct( $value = false, $deps = array() ) {
 		$this->value = $value;
 
 		if ( !is_array( $deps ) ) {
-			$deps = [ $deps ];
+			$deps = array( $deps );
 		}
 
 		$this->deps = $deps;
@@ -75,7 +75,7 @@ class DependencyWrapper {
 
 	/**
 	 * Get the user-defined value
-	 * @return bool|mixed
+	 * @return bool|Mixed
 	 */
 	function getValue() {
 		return $this->value;
@@ -84,9 +84,9 @@ class DependencyWrapper {
 	/**
 	 * Store the wrapper to a cache
 	 *
-	 * @param BagOStuff $cache
-	 * @param string $key
-	 * @param int $expiry
+	 * @param $cache BagOStuff
+	 * @param $key
+	 * @param $expiry
 	 */
 	function storeToCache( $cache, $key, $expiry = 0 ) {
 		$this->initialiseDeps();
@@ -98,12 +98,12 @@ class DependencyWrapper {
 	 * it will be generated with the callback function (if present), and the newly
 	 * calculated value will be stored to the cache in a wrapper.
 	 *
-	 * @param BagOStuff $cache
-	 * @param string $key The cache key
-	 * @param int $expiry The expiry timestamp or interval in seconds
-	 * @param bool|callable $callback The callback for generating the value, or false
-	 * @param array $callbackParams The function parameters for the callback
-	 * @param array $deps The dependencies to store on a cache miss. Note: these
+	 * @param $cache BagOStuff a cache object such as $wgMemc
+	 * @param string $key the cache key
+	 * @param $expiry Integer: the expiry timestamp or interval in seconds
+	 * @param $callback Mixed: the callback for generating the value, or false
+	 * @param array $callbackParams the function parameters for the callback
+	 * @param array $deps the dependencies to store on a cache miss. Note: these
 	 *    are not the dependencies used on a cache hit! Cache hits use the stored
 	 *    dependency array.
 	 *
@@ -111,14 +111,14 @@ class DependencyWrapper {
 	 *    callback was defined.
 	 */
 	static function getValueFromCache( $cache, $key, $expiry = 0, $callback = false,
-		$callbackParams = [], $deps = []
+		$callbackParams = array(), $deps = array()
 	) {
 		$obj = $cache->get( $key );
 
 		if ( is_object( $obj ) && $obj instanceof DependencyWrapper && !$obj->isExpired() ) {
 			$value = $obj->value;
 		} elseif ( $callback ) {
-			$value = $callback( ...$callbackParams );
+			$value = call_user_func_array( $callback, $callbackParams );
 			# Cache the newly-generated value
 			$wrapper = new DependencyWrapper( $value, $deps );
 			$wrapper->storeToCache( $cache, $key, $expiry );
@@ -156,8 +156,8 @@ class FileDependency extends CacheDependency {
 	/**
 	 * Create a file dependency
 	 *
-	 * @param string $filename The name of the file, preferably fully qualified
-	 * @param null|bool|int $timestamp The unix last modified timestamp, or false if the
+	 * @param string $filename the name of the file, preferably fully qualified
+	 * @param $timestamp Mixed: the unix last modified timestamp, or false if the
 	 *        file does not exist. If omitted, the timestamp will be loaded from
 	 *        the file.
 	 *
@@ -176,16 +176,18 @@ class FileDependency extends CacheDependency {
 	function __sleep() {
 		$this->loadDependencyValues();
 
-		return [ 'filename', 'timestamp' ];
+		return array( 'filename', 'timestamp' );
 	}
 
 	function loadDependencyValues() {
 		if ( is_null( $this->timestamp ) ) {
-			Wikimedia\suppressWarnings();
-			# Dependency on a non-existent file stores "false"
-			# This is a valid concept!
-			$this->timestamp = filemtime( $this->filename );
-			Wikimedia\restoreWarnings();
+			if ( !file_exists( $this->filename ) ) {
+				# Dependency on a non-existent file
+				# This is a valid concept!
+				$this->timestamp = false;
+			} else {
+				$this->timestamp = filemtime( $this->filename );
+			}
 		}
 	}
 
@@ -193,10 +195,7 @@ class FileDependency extends CacheDependency {
 	 * @return bool
 	 */
 	function isExpired() {
-		Wikimedia\suppressWarnings();
-		$lastmod = filemtime( $this->filename );
-		Wikimedia\restoreWarnings();
-		if ( $lastmod === false ) {
+		if ( !file_exists( $this->filename ) ) {
 			if ( $this->timestamp === false ) {
 				# Still nonexistent
 				return false;
@@ -207,6 +206,7 @@ class FileDependency extends CacheDependency {
 				return true;
 			}
 		} else {
+			$lastmod = filemtime( $this->filename );
 			if ( $lastmod > $this->timestamp ) {
 				# Modified or created
 				wfDebug( "Dependency triggered: {$this->filename} changed.\n" );
@@ -241,34 +241,6 @@ class GlobalDependency extends CacheDependency {
 		}
 
 		return $GLOBALS[$this->name] != $this->value;
-	}
-}
-
-/**
- * @ingroup Cache
- */
-class MainConfigDependency extends CacheDependency {
-	private $name;
-	private $value;
-
-	function __construct( $name ) {
-		$this->name = $name;
-		$this->value = $this->getConfig()->get( $this->name );
-	}
-
-	private function getConfig() {
-		return MediaWikiServices::getInstance()->getMainConfig();
-	}
-
-	/**
-	 * @return bool
-	 */
-	function isExpired() {
-		if ( !$this->getConfig()->has( $this->name ) ) {
-			return true;
-		}
-
-		return $this->getConfig()->get( $this->name ) != $this->value;
 	}
 }
 

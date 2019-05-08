@@ -27,17 +27,16 @@
  */
 class CoreTagHooks {
 	/**
-	 * @param Parser $parser
+	 * @param $parser Parser
 	 * @return void
 	 */
-	public static function register( $parser ) {
+	static function register( $parser ) {
 		global $wgRawHtml;
-		$parser->setHook( 'pre', [ __CLASS__, 'pre' ] );
-		$parser->setHook( 'nowiki', [ __CLASS__, 'nowiki' ] );
-		$parser->setHook( 'gallery', [ __CLASS__, 'gallery' ] );
-		$parser->setHook( 'indicator', [ __CLASS__, 'indicator' ] );
+		$parser->setHook( 'pre', array( __CLASS__, 'pre' ) );
+		$parser->setHook( 'nowiki', array( __CLASS__, 'nowiki' ) );
+		$parser->setHook( 'gallery', array( __CLASS__, 'gallery' ) );
 		if ( $wgRawHtml ) {
-			$parser->setHook( 'html', [ __CLASS__, 'html' ] );
+			$parser->setHook( 'html', array( __CLASS__, 'html' ) );
 		}
 	}
 
@@ -46,28 +45,19 @@ class CoreTagHooks {
 	 * Text is treated roughly as 'nowiki' wrapped in an HTML 'pre' tag;
 	 * valid HTML attributes are passed on.
 	 *
-	 * Uses custom html escaping which phan-taint-check won't recognize
-	 * hence we suppress the error.
-	 * @suppress SecurityCheck-XSS
-	 *
 	 * @param string $text
 	 * @param array $attribs
 	 * @param Parser $parser
 	 * @return string HTML
 	 */
-	public static function pre( $text, $attribs, $parser ) {
+	static function pre( $text, $attribs, $parser ) {
 		// Backwards-compatibility hack
 		$content = StringUtils::delimiterReplace( '<nowiki>', '</nowiki>', '$1', $text, 'i' );
 
 		$attribs = Sanitizer::validateTagAttributes( $attribs, 'pre' );
-		// We need to let both '"' and '&' through,
-		// for strip markers and entities respectively.
-		$content = str_replace(
-			[ '>', '<' ],
-			[ '&gt;', '&lt;' ],
-			$content
-		);
-		return Html::rawElement( 'pre', $attribs, $content );
+		return Xml::openElement( 'pre', $attribs ) .
+			Xml::escapeTagsOnly( $content ) .
+			'</pre>';
 	}
 
 	/**
@@ -79,30 +69,16 @@ class CoreTagHooks {
 	 *
 	 * Uses undocumented extended tag hook return values, introduced in r61913.
 	 *
-	 * @suppress SecurityCheck-XSS
-	 * @param string $content
-	 * @param array $attributes
-	 * @param Parser $parser
+	 * @param $content string
+	 * @param $attributes array
+	 * @param $parser Parser
 	 * @throws MWException
-	 * @return array|string Output of tag hook
+	 * @return array
 	 */
-	public static function html( $content, $attributes, $parser ) {
+	static function html( $content, $attributes, $parser ) {
 		global $wgRawHtml;
 		if ( $wgRawHtml ) {
-			if ( $parser->getOptions()->getAllowUnsafeRawHtml() ) {
-				return [ $content, 'markerType' => 'nowiki' ];
-			} else {
-				// In a system message where raw html is
-				// not allowed (but it is allowed in other
-				// contexts).
-				return Html::rawElement(
-					'span',
-					[ 'class' => 'error' ],
-					// Using ->text() not ->parse() as
-					// a paranoia measure against a loop.
-					wfMessage( 'rawhtml-notallowed' )->escaped()
-				);
-			}
+			return array( $content, 'markerType' => 'nowiki' );
 		} else {
 			throw new MWException( '<html> extension tag encountered unexpectedly' );
 		}
@@ -115,27 +91,14 @@ class CoreTagHooks {
 	 *
 	 * Uses undocumented extended tag hook return values, introduced in r61913.
 	 *
-	 * Uses custom html escaping which phan-taint-check won't recognize
-	 * hence we suppress the error.
-	 * @suppress SecurityCheck-XSS
-	 *
-	 * @param string $content
-	 * @param array $attributes
-	 * @param Parser $parser
+	 * @param $content string
+	 * @param $attributes array
+	 * @param $parser Parser
 	 * @return array
 	 */
-	public static function nowiki( $content, $attributes, $parser ) {
-		$content = strtr( $content, [
-			// lang converter
-			'-{' => '-&#123;',
-			'}-' => '&#125;-',
-			// html tags
-			'<' => '&lt;',
-			'>' => '&gt;'
-			// Note: Both '"' and '&' are not converted.
-			// This allows strip markers and entities through.
-		] );
-		return [ $content, 'markerType' => 'nowiki' ];
+	static function nowiki( $content, $attributes, $parser ) {
+		$content = strtr( $content, array( '-{' => '-&#123;', '}-' => '&#125;-' ) );
+		return array( Xml::escapeTagsOnly( $content ), 'markerType' => 'nowiki' );
 	}
 
 	/**
@@ -153,33 +116,7 @@ class CoreTagHooks {
 	 * @param Parser $parser
 	 * @return string HTML
 	 */
-	public static function gallery( $content, $attributes, $parser ) {
+	static function gallery( $content, $attributes, $parser ) {
 		return $parser->renderImageGallery( $content, $attributes );
-	}
-
-	/**
-	 * XML-style tag for page status indicators: icons (or short text snippets) usually displayed in
-	 * the top-right corner of the page, outside of the main content.
-	 *
-	 * @param string $content
-	 * @param array $attributes
-	 * @param Parser $parser
-	 * @param PPFrame $frame
-	 * @return string
-	 * @since 1.25
-	 */
-	public static function indicator( $content, array $attributes, Parser $parser, PPFrame $frame ) {
-		if ( !isset( $attributes['name'] ) || trim( $attributes['name'] ) === '' ) {
-			return '<span class="error">' .
-				wfMessage( 'invalid-indicator-name' )->inContentLanguage()->parse() .
-				'</span>';
-		}
-
-		$parser->getOutput()->setIndicator(
-			trim( $attributes['name'] ),
-			Parser::stripOuterParagraph( $parser->recursiveTagParseFully( $content, $frame ) )
-		);
-
-		return '';
 	}
 }

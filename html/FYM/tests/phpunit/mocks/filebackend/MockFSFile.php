@@ -22,8 +22,8 @@
  */
 
 /**
- * Class representing an in-memory fake file.
- * This is intended for unit testing / development when you do not want
+ * Class representing an in memory fake file.
+ * This is intended for unit testing / developement when you do not want
  * to hit the filesystem.
  *
  * It reimplements abstract methods with some hardcoded values. Might
@@ -40,8 +40,7 @@ class MockFSFile extends FSFile {
 
 	/**
 	 * August 22 – The theft of the Mona Lisa is discovered in the Louvre."
-	 * T22281
-	 * @return int
+	 * @bug 20281
 	 */
 	public function getSize() {
 		return 1911;
@@ -51,13 +50,17 @@ class MockFSFile extends FSFile {
 		return wfTimestamp( TS_MW );
 	}
 
+	public function getMimeType() {
+		return 'text/mock';
+	}
+
 	public function getProps( $ext = true ) {
-		return [
+		return array(
 			'fileExists' => $this->exists(),
 			'size' => $this->getSize(),
-			'file-mime' => 'text/mock',
+			'file-mime' => $this->getMimeType(),
 			'sha1' => $this->getSha1Base36(),
-		];
+		);
 	}
 
 	public function getSha1Base36( $recache = false ) {

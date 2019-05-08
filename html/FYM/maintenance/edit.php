@@ -21,8 +21,6 @@
  * @ingroup Maintenance
  */
 
-use MediaWiki\Revision\SlotRecord;
-
 require_once __DIR__ . '/Maintenance.php';
 
 /**
@@ -33,39 +31,33 @@ require_once __DIR__ . '/Maintenance.php';
 class EditCLI extends Maintenance {
 	public function __construct() {
 		parent::__construct();
-		$this->addDescription( 'Edit an article from the command line, text is from stdin' );
+		$this->mDescription = "Edit an article from the command line, text is from stdin";
 		$this->addOption( 'user', 'Username', false, true, 'u' );
 		$this->addOption( 'summary', 'Edit summary', false, true, 's' );
-		$this->addOption( 'remove', 'Remove a slot (requires --slot).', false, false );
 		$this->addOption( 'minor', 'Minor edit', false, false, 'm' );
 		$this->addOption( 'bot', 'Bot edit', false, false, 'b' );
 		$this->addOption( 'autosummary', 'Enable autosummary', false, false, 'a' );
 		$this->addOption( 'no-rc', 'Do not show the change in recent changes', false, false, 'r' );
 		$this->addOption( 'nocreate', 'Don\'t create new pages', false, false );
 		$this->addOption( 'createonly', 'Only create new pages', false, false );
-		$this->addOption( 'slot', 'Slot role name', false, true );
 		$this->addArg( 'title', 'Title of article to edit' );
 	}
 
 	public function execute() {
 		global $wgUser;
 
-		$userName = $this->getOption( 'user', false );
+		$userName = $this->getOption( 'user', 'Maintenance script' );
 		$summary = $this->getOption( 'summary', '' );
-		$remove = $this->hasOption( 'remove' );
 		$minor = $this->hasOption( 'minor' );
 		$bot = $this->hasOption( 'bot' );
 		$autoSummary = $this->hasOption( 'autosummary' );
 		$noRC = $this->hasOption( 'no-rc' );
-		$slot = $this->getOption( 'slot', SlotRecord::MAIN );
 
-		if ( $userName === false ) {
-			$wgUser = User::newSystemUser( 'Maintenance script', [ 'steal' => true ] );
-		} else {
-			$wgUser = User::newFromName( $userName );
-		}
+		$wgUser = User::newFromName( $userName );
+		$context = RequestContext::getMain();
+		$context->setUser( $wgUser );
 		if ( !$wgUser ) {
-			$this->fatalError( "Invalid username" );
+			$this->error( "Invalid username", true );
 		}
 		if ( $wgUser->isAnon() ) {
 			$wgUser->addToDatabase();
@@ -73,47 +65,29 @@ class EditCLI extends Maintenance {
 
 		$title = Title::newFromText( $this->getArg() );
 		if ( !$title ) {
-			$this->fatalError( "Invalid title" );
+			$this->error( "Invalid title", true );
 		}
+		$context->setTitle( $title );
 
 		if ( $this->hasOption( 'nocreate' ) && !$title->exists() ) {
-			$this->fatalError( "Page does not exist" );
+			$this->error( "Page does not exist", true );
 		} elseif ( $this->hasOption( 'createonly' ) && $title->exists() ) {
-			$this->fatalError( "Page already exists" );
+			$this->error( "Page already exists", true );
 		}
 
 		$page = WikiPage::factory( $title );
 
-		if ( $remove ) {
-			if ( $slot === SlotRecord::MAIN ) {
-				$this->fatalError( "Cannot remove main slot! Use --slot to specify." );
-			}
-
-			$content = false;
-		} else {
-			# Read the text
-			$text = $this->getStdin( Maintenance::STDIN_ALL );
-			$content = ContentHandler::makeContent( $text, $title );
-		}
+		# Read the text
+		$text = $this->getStdin( Maintenance::STDIN_ALL );
+		$content = ContentHandler::makeContent( $text, $title );
 
 		# Do the edit
 		$this->output( "Saving... " );
-		$updater = $page->newPageUpdater( $wgUser );
-
-		$flags = ( $minor ? EDIT_MINOR : 0 ) |
+		$status = $page->doEditContent( $content, $summary,
+			( $minor ? EDIT_MINOR : 0 ) |
 			( $bot ? EDIT_FORCE_BOT : 0 ) |
 			( $autoSummary ? EDIT_AUTOSUMMARY : 0 ) |
-			( $noRC ? EDIT_SUPPRESS_RC : 0 );
-
-		if ( $content === false ) {
-			$updater->removeSlot( $slot );
-		} else {
-			$updater->setContent( $slot, $content );
-		}
-
-		$updater->saveRevision( CommentStoreComment::newUnsavedComment( $summary ), $flags );
-		$status = $updater->getStatus();
-
+			( $noRC ? EDIT_SUPPRESS_RC : 0 ) );
 		if ( $status->isOK() ) {
 			$this->output( "done\n" );
 			$exit = 0;
@@ -122,11 +96,11 @@ class EditCLI extends Maintenance {
 			$exit = 1;
 		}
 		if ( !$status->isGood() ) {
-			$this->output( $status->getWikiText( false, false, 'en' ) . "\n" );
+			$this->output( $status->getWikiText() . "\n" );
 		}
 		exit( $exit );
 	}
 }
 
-$maintClass = EditCLI::class;
+$maintClass = "EditCLI";
 require_once RUN_MAINTENANCE_IF_MAIN;

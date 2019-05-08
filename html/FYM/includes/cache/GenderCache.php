@@ -21,7 +21,6 @@
  * @author Niklas Laxström
  * @ingroup Cache
  */
-use MediaWiki\MediaWikiServices;
 
 /**
  * Caches user genders when needed to use correct namespace aliases.
@@ -29,22 +28,29 @@ use MediaWiki\MediaWikiServices;
  * @since 1.18
  */
 class GenderCache {
-	protected $cache = [];
+	protected $cache = array();
 	protected $default;
 	protected $misses = 0;
 	protected $missLimit = 1000;
 
 	/**
-	 * @deprecated in 1.28 see MediaWikiServices::getInstance()->getGenderCache()
 	 * @return GenderCache
 	 */
 	public static function singleton() {
-		return MediaWikiServices::getInstance()->getGenderCache();
+		static $that = null;
+		if ( $that === null ) {
+			$that = new self();
+		}
+
+		return $that;
+	}
+
+	protected function __construct() {
 	}
 
 	/**
 	 * Returns the default gender option in this wiki.
-	 * @return string
+	 * @return String
 	 */
 	protected function getDefault() {
 		if ( $this->default === null ) {
@@ -56,9 +62,9 @@ class GenderCache {
 
 	/**
 	 * Returns the gender for given username.
-	 * @param string|User $username
-	 * @param string $caller The calling method
-	 * @return string
+	 * @param string $username or User: username
+	 * @param string $caller the calling method
+	 * @return String
 	 */
 	public function getGenderOf( $username, $caller = '' ) {
 		global $wgUser;
@@ -85,17 +91,17 @@ class GenderCache {
 		/* Undefined if there is a valid username which for some reason doesn't
 		 * exist in the database.
 		 */
-		return $this->cache[$username] ?? $this->getDefault();
+		return isset( $this->cache[$username] ) ? $this->cache[$username] : $this->getDefault();
 	}
 
 	/**
 	 * Wrapper for doQuery that processes raw LinkBatch data.
 	 *
-	 * @param array $data
-	 * @param string $caller
+	 * @param $data
+	 * @param $caller
 	 */
 	public function doLinkBatch( $data, $caller = '' ) {
-		$users = [];
+		$users = array();
 		foreach ( $data as $ns => $pagenames ) {
 			if ( !MWNamespace::hasGenderDistinction( $ns ) ) {
 				continue;
@@ -112,11 +118,11 @@ class GenderCache {
 	 * Wrapper for doQuery that processes a title or string array.
 	 *
 	 * @since 1.20
-	 * @param array $titles Array of Title objects or strings
-	 * @param string $caller The calling method
+	 * @param $titles List: array of Title objects or strings
+	 * @param string $caller the calling method
 	 */
 	public function doTitlesArray( $titles, $caller = '' ) {
-		$users = [];
+		$users = array();
 		foreach ( $titles as $title ) {
 			$titleObj = is_string( $title ) ? Title::newFromText( $title ) : $title;
 			if ( !$titleObj ) {
@@ -133,13 +139,13 @@ class GenderCache {
 
 	/**
 	 * Preloads genders for given list of users.
-	 * @param array|string $users Usernames
-	 * @param string $caller The calling method
+	 * @param $users List|String: usernames
+	 * @param string $caller the calling method
 	 */
 	public function doQuery( $users, $caller = '' ) {
 		$default = $this->getDefault();
 
-		$usersToCheck = [];
+		$usersToCheck = array();
 		foreach ( (array)$users as $value ) {
 			$name = self::normalizeUsername( $value );
 			// Skip users whose gender setting we already know
@@ -157,21 +163,21 @@ class GenderCache {
 			return;
 		}
 
-		$dbr = wfGetDB( DB_REPLICA );
-		$table = [ 'user', 'user_properties' ];
-		$fields = [ 'user_name', 'up_value' ];
-		$conds = [ 'user_name' => $usersToCheck ];
-		$joins = [ 'user_properties' =>
-			[ 'LEFT JOIN', [ 'user_id = up_user', 'up_property' => 'gender' ] ] ];
+		$dbr = wfGetDB( DB_SLAVE );
+		$table = array( 'user', 'user_properties' );
+		$fields = array( 'user_name', 'up_value' );
+		$conds = array( 'user_name' => $usersToCheck );
+		$joins = array( 'user_properties' =>
+			array( 'LEFT JOIN', array( 'user_id = up_user', 'up_property' => 'gender' ) ) );
 
 		$comment = __METHOD__;
 		if ( strval( $caller ) !== '' ) {
 			$comment .= "/$caller";
 		}
-		$res = $dbr->select( $table, $fields, $conds, $comment, [], $joins );
+		$res = $dbr->select( $table, $fields, $conds, $comment, array(), $joins );
 
 		foreach ( $res as $row ) {
-			$this->cache[$row->user_name] = $row->up_value ?: $default;
+			$this->cache[$row->user_name] = $row->up_value ? $row->up_value : $default;
 		}
 	}
 

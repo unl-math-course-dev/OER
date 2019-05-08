@@ -1,5 +1,9 @@
 <?php
 /**
+ *
+ *
+ * Created on Oct 22, 2006
+ *
  * Copyright © 2006 Yuri Astrakhan "<Firstname><Lastname>@gmail.com"
  *
  * This program is free software; you can redistribute it and/or modify
@@ -31,53 +35,26 @@ class ApiFormatPhp extends ApiFormatBase {
 	}
 
 	public function execute() {
-		$params = $this->extractRequestParams();
+		$text = serialize( $this->getResultData() );
 
-		switch ( $params['formatversion'] ) {
-			case 1:
-				$transforms = [
-					'BC' => [],
-					'Types' => [],
-					'Strip' => 'all',
-				];
-				break;
-
-			case 2:
-			case 'latest':
-				$transforms = [
-					'Types' => [],
-					'Strip' => 'all',
-				];
-				break;
-
-			default:
-				// Should have been caught during parameter validation
-				$this->dieDebug( __METHOD__, 'Unknown value for \'formatversion\'' );
-		}
-		$text = serialize( $this->getResult()->getResultData( null, $transforms ) );
-
-		// T68776: OutputHandler::mangleFlashPolicy() avoids a nasty bug in
+		// Bug 66776: wfMangleFlashPolicy() is needed to avoid a nasty bug in
 		// Flash, but what it does isn't friendly for the API. There's nothing
 		// we can do here that isn't actively broken in some manner, so let's
 		// just be broken in a useful manner.
 		if ( $this->getConfig()->get( 'MangleFlashPolicy' ) &&
-			in_array( 'MediaWiki\\OutputHandler::handle', ob_list_handlers(), true ) &&
-			preg_match( '/\<\s*cross-domain-policy(?=\s|\>)/i', $text )
+			in_array( 'wfOutputHandler', ob_list_handlers(), true ) &&
+			preg_match( '/\<\s*cross-domain-policy\s*\>/i', $text )
 		) {
-			$this->dieWithError( 'apierror-formatphp', 'internalerror' );
+			$this->dieUsage(
+				'This response cannot be represented using format=php. See https://bugzilla.wikimedia.org/show_bug.cgi?id=66776',
+				'internalerror'
+			);
 		}
 
 		$this->printText( $text );
 	}
 
-	public function getAllowedParams() {
-		$ret = parent::getAllowedParams() + [
-			'formatversion' => [
-				ApiBase::PARAM_TYPE => [ '1', '2', 'latest' ],
-				ApiBase::PARAM_DFLT => '1',
-				ApiBase::PARAM_HELP_MSG => 'apihelp-php-param-formatversion',
-			],
-		];
-		return $ret;
+	public function getDescription() {
+		return 'Output data in serialized PHP format' . parent::getDescription();
 	}
 }

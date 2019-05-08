@@ -29,7 +29,7 @@ class UnusedCategoriesPage extends QueryPage {
 		parent::__construct( $name );
 	}
 
-	public function isExpensive() {
+	function isExpensive() {
 		return true;
 	}
 
@@ -37,25 +37,25 @@ class UnusedCategoriesPage extends QueryPage {
 		return $this->msg( 'unusedcategoriestext' )->parseAsBlock();
 	}
 
-	public function getQueryInfo() {
-		return [
-			'tables' => [ 'page', 'categorylinks' ],
-			'fields' => [
+	function getQueryInfo() {
+		return array(
+			'tables' => array( 'page', 'categorylinks' ),
+			'fields' => array(
 				'namespace' => 'page_namespace',
 				'title' => 'page_title',
 				'value' => 'page_title'
-			],
-			'conds' => [
+			),
+			'conds' => array(
 				'cl_from IS NULL',
 				'page_namespace' => NS_CATEGORY,
 				'page_is_redirect' => 0
-			],
-			'join_conds' => [ 'categorylinks' => [ 'LEFT JOIN', 'cl_to = page_title' ] ]
-		];
+			),
+			'join_conds' => array( 'categorylinks' => array( 'LEFT JOIN', 'cl_to = page_title' ) )
+		);
 	}
 
 	/**
-	 * A should come before Z (T32907)
+	 * A should come before Z (bug 30907)
 	 * @return bool
 	 */
 	function sortDescending() {
@@ -70,14 +70,10 @@ class UnusedCategoriesPage extends QueryPage {
 	function formatResult( $skin, $result ) {
 		$title = Title::makeTitle( NS_CATEGORY, $result->title );
 
-		return $this->getLinkRenderer()->makeLink( $title, $title->getText() );
+		return Linker::link( $title, htmlspecialchars( $title->getText() ) );
 	}
 
 	protected function getGroupName() {
 		return 'maintenance';
-	}
-
-	public function preprocessResults( $db, $res ) {
-		$this->executeLBFromResultWrapper( $res );
 	}
 }

@@ -1,7 +1,5 @@
 <?php
 
-use MediaWiki\MediaWikiServices;
-
 /**
  * @group ContentHandler
  * @group Database
@@ -13,36 +11,24 @@ class TextContentTest extends MediaWikiLangTestCase {
 	protected function setUp() {
 		parent::setUp();
 
-		// trigger purging of all page related tables
-		$this->tablesUsed[] = 'page';
-		$this->tablesUsed[] = 'revision';
-
 		// Anon user
 		$user = new User();
 		$user->setName( '127.0.0.1' );
 
-		$this->context = new RequestContext( new FauxRequest() );
-		$this->context->setTitle( Title::newFromText( 'Test' ) );
-		$this->context->setUser( $user );
-
-		$this->setMwGlobals( [
+		$this->setMwGlobals( array(
 			'wgUser' => $user,
-			'wgTextModelsToParse' => [
+			'wgTextModelsToParse' => array(
 				CONTENT_MODEL_WIKITEXT,
 				CONTENT_MODEL_CSS,
 				CONTENT_MODEL_JAVASCRIPT,
-			],
-			'wgTidyConfig' => [ 'driver' => 'RemexHtml' ],
-			'wgCapitalLinks' => true,
-			'wgHooks' => [], // bypass hook ContentGetParserOutput that force custom rendering
-		] );
+			),
+			'wgUseTidy' => false,
+			'wgAlwaysUseTidy' => false,
+		) );
 
-		MWTidy::destroySingleton();
-	}
-
-	protected function tearDown() {
-		MWTidy::destroySingleton();
-		parent::tearDown();
+		$this->context = new RequestContext( new FauxRequest() );
+		$this->context->setTitle( Title::newFromText( 'Test' ) );
+		$this->context->setUser( $user );
 	}
 
 	public function newContent( $text ) {
@@ -50,26 +36,24 @@ class TextContentTest extends MediaWikiLangTestCase {
 	}
 
 	public static function dataGetParserOutput() {
-		return [
-			[
+		return array(
+			array(
 				'TextContentTest_testGetParserOutput',
 				CONTENT_MODEL_TEXT,
 				"hello ''world'' & [[stuff]]\n", "hello ''world'' &amp; [[stuff]]",
-				[
-					'Links' => []
-				]
-			],
+				array(
+					'Links' => array()
+				)
+			),
 			// TODO: more...?
-		];
+		);
 	}
 
 	/**
 	 * @dataProvider dataGetParserOutput
 	 * @covers TextContent::getParserOutput
 	 */
-	public function testGetParserOutput( $title, $model, $text, $expectedHtml,
-		$expectedFields = null
-	) {
+	public function testGetParserOutput( $title, $model, $text, $expectedHtml, $expectedFields = null ) {
 		$title = Title::newFromText( $title );
 		$content = ContentHandler::makeContent( $text, $title, $model );
 
@@ -83,7 +67,7 @@ class TextContentTest extends MediaWikiLangTestCase {
 		if ( $expectedFields ) {
 			foreach ( $expectedFields as $field => $exp ) {
 				$f = 'get' . ucfirst( $field );
-				$v = call_user_func( [ $po, $f ] );
+				$v = call_user_func( array( $po, $f ) );
 
 				if ( is_array( $exp ) ) {
 					$this->assertArrayEquals( $exp, $v );
@@ -97,23 +81,18 @@ class TextContentTest extends MediaWikiLangTestCase {
 	}
 
 	public static function dataPreSaveTransform() {
-		return [
-			[
-				# 0: no signature resolution
+		return array(
+			array(
+				#0: no signature resolution
 				'hello this is ~~~',
 				'hello this is ~~~',
-			],
-			[
-				# 1: rtrim
+			),
+			array(
+				#1: rtrim
 				" Foo \n ",
 				' Foo',
-			],
-			[
-				# 2: newline normalization
-				"LF\n\nCRLF\r\n\r\nCR\r\rEND",
-				"LF\n\nCRLF\n\nCR\n\nEND",
-			],
-		];
+			),
+		);
 	}
 
 	/**
@@ -121,26 +100,23 @@ class TextContentTest extends MediaWikiLangTestCase {
 	 * @covers TextContent::preSaveTransform
 	 */
 	public function testPreSaveTransform( $text, $expected ) {
-		$options = ParserOptions::newFromUserAndLang( $this->context->getUser(),
-			MediaWikiServices::getInstance()->getContentLanguage() );
+		global $wgContLang;
+
+		$options = ParserOptions::newFromUserAndLang( $this->context->getUser(), $wgContLang );
 
 		$content = $this->newContent( $text );
-		$content = $content->preSaveTransform(
-			$this->context->getTitle(),
-			$this->context->getUser(),
-			$options
-		);
+		$content = $content->preSaveTransform( $this->context->getTitle(), $this->context->getUser(), $options );
 
 		$this->assertEquals( $expected, $content->getNativeData() );
 	}
 
 	public static function dataPreloadTransform() {
-		return [
-			[
+		return array(
+			array(
 				'hello this is ~~~',
 				'hello this is ~~~',
-			],
-		];
+			),
+		);
 	}
 
 	/**
@@ -148,8 +124,8 @@ class TextContentTest extends MediaWikiLangTestCase {
 	 * @covers TextContent::preloadTransform
 	 */
 	public function testPreloadTransform( $text, $expected ) {
-		$options = ParserOptions::newFromUserAndLang( $this->context->getUser(),
-			MediaWikiServices::getInstance()->getContentLanguage() );
+		global $wgContLang;
+		$options = ParserOptions::newFromUserAndLang( $this->context->getUser(), $wgContLang );
 
 		$content = $this->newContent( $text );
 		$content = $content->preloadTransform( $this->context->getTitle(), $options );
@@ -158,11 +134,11 @@ class TextContentTest extends MediaWikiLangTestCase {
 	}
 
 	public static function dataGetRedirectTarget() {
-		return [
-			[ '#REDIRECT [[Test]]',
+		return array(
+			array( '#REDIRECT [[Test]]',
 				null,
-			],
-		];
+			),
+		);
 	}
 
 	/**
@@ -190,23 +166,54 @@ class TextContentTest extends MediaWikiLangTestCase {
 		$this->assertEquals( !is_null( $expected ), $content->isRedirect() );
 	}
 
+	/**
+	 * @todo Test needs database! Should be done by a test class in the Database group.
+	 */
+	/*
+	public function getRedirectChain() {
+		$text = $this->getNativeData();
+		return Title::newFromRedirectArray( $text );
+	}
+	*/
+
+	/**
+	 * @todo Test needs database! Should be done by a test class in the Database group.
+	 */
+	/*
+	public function getUltimateRedirectTarget() {
+		$text = $this->getNativeData();
+		return Title::newFromRedirectRecurse( $text );
+	}
+	*/
+
 	public static function dataIsCountable() {
-		return [
-			[ '',
+		return array(
+			array( '',
 				null,
 				'any',
 				true
-			],
-			[ 'Foo',
+			),
+			array( 'Foo',
 				null,
 				'any',
 				true
-			],
-		];
+			),
+			array( 'Foo',
+				null,
+				'comma',
+				false
+			),
+			array( 'Foo, bar',
+				null,
+				'comma',
+				false
+			),
+		);
 	}
 
 	/**
 	 * @dataProvider dataIsCountable
+	 * @group Database
 	 * @covers TextContent::isCountable
 	 */
 	public function testIsCountable( $text, $hasLinks, $mode, $expected ) {
@@ -216,30 +223,25 @@ class TextContentTest extends MediaWikiLangTestCase {
 
 		$v = $content->isCountable( $hasLinks, $this->context->getTitle() );
 
-		$this->assertEquals(
-			$expected,
-			$v,
-			'isCountable() returned unexpected value ' . var_export( $v, true )
-				. ' instead of ' . var_export( $expected, true )
-				. " in mode `$mode` for text \"$text\""
-		);
+		$this->assertEquals( $expected, $v, 'isCountable() returned unexpected value ' . var_export( $v, true )
+			. ' instead of ' . var_export( $expected, true ) . " in mode `$mode` for text \"$text\"" );
 	}
 
 	public static function dataGetTextForSummary() {
-		return [
-			[ "hello\nworld.",
+		return array(
+			array( "hello\nworld.",
 				16,
 				'hello world.',
-			],
-			[ 'hello world.',
+			),
+			array( 'hello world.',
 				8,
 				'hello...',
-			],
-			[ '[[hello world]].',
+			),
+			array( '[[hello world]].',
 				8,
 				'[[hel...',
-			],
-		];
+			),
+		);
 	}
 
 	/**
@@ -318,12 +320,12 @@ class TextContentTest extends MediaWikiLangTestCase {
 	}
 
 	public static function dataIsEmpty() {
-		return [
-			[ '', true ],
-			[ '  ', false ],
-			[ '0', false ],
-			[ 'hallo welt.', false ],
-		];
+		return array(
+			array( '', true ),
+			array( '  ', false ),
+			array( '0', false ),
+			array( 'hallo welt.', false ),
+		);
 	}
 
 	/**
@@ -337,13 +339,13 @@ class TextContentTest extends MediaWikiLangTestCase {
 	}
 
 	public static function dataEquals() {
-		return [
-			[ new TextContent( "hallo" ), null, false ],
-			[ new TextContent( "hallo" ), new TextContent( "hallo" ), true ],
-			[ new TextContent( "hallo" ), new JavaScriptContent( "hallo" ), false ],
-			[ new TextContent( "hallo" ), new WikitextContent( "hallo" ), false ],
-			[ new TextContent( "hallo" ), new TextContent( "HALLO" ), false ],
-		];
+		return array(
+			array( new TextContent( "hallo" ), null, false ),
+			array( new TextContent( "hallo" ), new TextContent( "hallo" ), true ),
+			array( new TextContent( "hallo" ), new JavaScriptContent( "hallo" ), false ),
+			array( new TextContent( "hallo" ), new WikitextContent( "hallo" ), false ),
+			array( new TextContent( "hallo" ), new TextContent( "HALLO" ), false ),
+		);
 	}
 
 	/**
@@ -355,28 +357,30 @@ class TextContentTest extends MediaWikiLangTestCase {
 	}
 
 	public static function dataGetDeletionUpdates() {
-		return [
-			[
+		return array(
+			array( "TextContentTest_testGetSecondaryDataUpdates_1",
 				CONTENT_MODEL_TEXT, "hello ''world''\n",
-				[]
-			],
-			[
+				array()
+			),
+			array( "TextContentTest_testGetSecondaryDataUpdates_2",
 				CONTENT_MODEL_TEXT, "hello [[world test 21344]]\n",
-				[]
-			],
+				array()
+			),
 			// TODO: more...?
-		];
+		);
 	}
 
 	/**
 	 * @dataProvider dataGetDeletionUpdates
 	 * @covers TextContent::getDeletionUpdates
 	 */
-	public function testDeletionUpdates( $model, $text, $expectedStuff ) {
-		$page = $this->getNonexistingTestPage( get_class( $this ) . '-' . $this->getName() );
-		$title = $page->getTitle();
+	public function testDeletionUpdates( $title, $model, $text, $expectedStuff ) {
+		$ns = $this->getDefaultWikitextNS();
+		$title = Title::newFromText( $title, $ns );
 
 		$content = ContentHandler::makeContent( $text, $title, $model );
+
+		$page = WikiPage::factory( $title );
 		$page->doEditContent( $content, '' );
 
 		$updates = $content->getDeletionUpdates( $page );
@@ -387,48 +391,52 @@ class TextContentTest extends MediaWikiLangTestCase {
 			$updates[$class] = $update;
 		}
 
+		if ( !$expectedStuff ) {
+			$this->assertTrue( true ); // make phpunit happy
+			return;
+		}
+
 		foreach ( $expectedStuff as $class => $fieldValues ) {
 			$this->assertArrayHasKey( $class, $updates, "missing an update of type $class" );
 
 			$update = $updates[$class];
 
 			foreach ( $fieldValues as $field => $value ) {
-				$v = $update->$field; # if the field doesn't exist, just crash and burn
+				$v = $update->$field; #if the field doesn't exist, just crash and burn
 				$this->assertEquals( $value, $v, "unexpected value for field $field in instance of $class" );
 			}
 		}
 
-		// make phpunit happy even if $expectedStuff was empty
-		$this->assertTrue( true );
+		$page->doDeleteArticle( '' );
 	}
 
 	public static function provideConvert() {
-		return [
-			[ // #0
+		return array(
+			array( // #0
 				'Hallo Welt',
 				CONTENT_MODEL_WIKITEXT,
 				'lossless',
 				'Hallo Welt'
-			],
-			[ // #1
+			),
+			array( // #1
 				'Hallo Welt',
 				CONTENT_MODEL_WIKITEXT,
 				'lossless',
 				'Hallo Welt'
-			],
-			[ // #1
+			),
+			array( // #1
 				'Hallo Welt',
 				CONTENT_MODEL_CSS,
 				'lossless',
 				'Hallo Welt'
-			],
-			[ // #1
+			),
+			array( // #1
 				'Hallo Welt',
 				CONTENT_MODEL_JAVASCRIPT,
 				'lossless',
 				'Hallo Welt'
-			],
-		];
+			),
+		);
 	}
 
 	/**
@@ -443,34 +451,8 @@ class TextContentTest extends MediaWikiLangTestCase {
 		if ( $expectedNative === false ) {
 			$this->assertFalse( $converted, "conversion to $model was expected to fail!" );
 		} else {
-			$this->assertInstanceOf( Content::class, $converted );
+			$this->assertInstanceOf( 'Content', $converted );
 			$this->assertEquals( $expectedNative, $converted->getNativeData() );
 		}
 	}
-
-	/**
-	 * @covers TextContent::normalizeLineEndings
-	 * @dataProvider provideNormalizeLineEndings
-	 */
-	public function testNormalizeLineEndings( $input, $expected ) {
-		$this->assertEquals( $expected, TextContent::normalizeLineEndings( $input ) );
-	}
-
-	public static function provideNormalizeLineEndings() {
-		return [
-			[
-				"Foo\r\nbar",
-				"Foo\nbar"
-			],
-			[
-				"Foo\rbar",
-				"Foo\nbar"
-			],
-			[
-				"Foobar\n  ",
-				"Foobar"
-			]
-		];
-	}
-
 }

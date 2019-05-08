@@ -21,13 +21,16 @@
  * @ingroup Language
  */
 
+require_once __DIR__ . '/../LanguageConverter.php';
+require_once __DIR__ . '/LanguageKu_ku.php';
+
 /**
  * Kurdish converter routines
  *
  * @ingroup Language
  */
 class KuConverter extends LanguageConverter {
-	public $mArabicToLatin = [
+	public $mArabicToLatin = array(
 		'ب' => 'b', 'ج' => 'c', 'چ' => 'ç', 'د' => 'd', 'ف' => 'f', 'گ' => 'g', 'ھ' => 'h',
 		'ہ' => 'h', 'ه' => 'h', 'ح' => 'h', 'ژ' => 'j', 'ك' => 'k', 'ک' => 'k', 'ل' => 'l',
 		'م' => 'm', 'ن' => 'n', 'پ' => 'p', 'ق' => 'q', 'ر' => 'r', 'س' => 's', 'ش' => 'ş',
@@ -57,19 +60,19 @@ class KuConverter extends LanguageConverter {
 		'؟' => '?',
 
 		# digits
-		'٠' => '0', # U+0660
-		'١' => '1', # U+0661
-		'٢' => '2', # U+0662
-		'٣' => '3', # U+0663
-		'٤' => '4', # U+0664
-		'٥' => '5', # U+0665
-		'٦' => '6', # U+0666
-		'٧' => '7', # U+0667
-		'٨' => '8', # U+0668
-		'٩' => '9', # U+0669
-	];
+		'٠' => '0', # &#x0660;
+		'١' => '1', # &#x0661;
+		'٢' => '2', # &#x0662;
+		'٣' => '3', # &#x0663;
+		'٤' => '4', # &#x0664;
+		'٥' => '5', # &#x0665;
+		'٦' => '6', # &#x0666;
+		'٧' => '7', # &#x0667;
+		'٨' => '8', # &#x0668;
+		'٩' => '9', # &#x0669;
+	);
 
-	public $mLatinToArabic = [
+	public $mLatinToArabic = array(
 		'b' => 'ب', 'c' => 'ج', 'ç' => 'چ', 'd' => 'د', 'f' => 'ف', 'g' => 'گ',
 		'h' => 'ه', 'j' => 'ژ', 'k' => 'ک', 'l' => 'ل',
 		'm' => 'م', 'n' => 'ن', 'p' => 'پ', 'q' => 'ق', 'r' => 'ر', 's' => 'س', 'ş' => 'ش',
@@ -124,31 +127,30 @@ class KuConverter extends LanguageConverter {
 		' O' => 'ئۆ ',
 		' U' => 'ئو ',
 		' Û' => 'ئوو ',
-		# eyn erstmal deaktivieren, einfache Anführungsstriche sind einfach zu
-		# häufig, um sie als eyn zu interpretieren.
+		# eyn erstmal deaktivieren, einfache Anführungsstriche sind einfach zu häufig, um sie als eyn zu interpretieren
 		# '\'' => 'ع',
 
 /*		# deactivated for now, breaks links i.e. in header of Special:Recentchanges :-(
 		# digits
-		'0' => '٠', # U+0660
-		'1' => '١', # U+0661
-		'2' => '٢', # U+0662
-		'3' => '٣', # U+0663
-		'4' => '٤', # U+0664
-		'5' => '٥', # U+0665
-		'6' => '٦', # U+0666
-		'7' => '٧', # U+0667
-		'8' => '٨', # U+0668
-		'9' => '٩', # U+0669
+		'0' => '٠', # &#x0660;
+		'1' => '١', # &#x0661;
+		'2' => '٢', # &#x0662;
+		'3' => '٣', # &#x0663;
+		'4' => '٤', # &#x0664;
+		'5' => '٥', # &#x0665;
+		'6' => '٦', # &#x0666;
+		'7' => '٧', # &#x0667;
+		'8' => '٨', # &#x0668;
+		'9' => '٩', # &#x0669;
 */
-		];
+		);
 
 	function loadDefaultTables() {
-		$this->mTables = [
+		$this->mTables = array(
 			'ku-latn' => new ReplacementArray( $this->mArabicToLatin ),
 			'ku-arab' => new ReplacementArray( $this->mLatinToArabic ),
 			'ku' => new ReplacementArray()
-		];
+		);
 	}
 
 	/**
@@ -157,9 +159,9 @@ class KuConverter extends LanguageConverter {
 	 *     names as they were
 	 *   - do not try to find variants for usernames
 	 *
-	 * @param string &$link
-	 * @param Title &$nt
-	 * @param bool $ignoreOtherCond
+	 * @param $link string
+	 * @param $nt Title
+	 * @param $ignoreOtherCond bool
 	 */
 	function findVariantLink( &$link, &$nt, $ignoreOtherCond = false ) {
 		// check for user namespace
@@ -178,11 +180,31 @@ class KuConverter extends LanguageConverter {
 	}
 
 	/**
+	 * An ugly function wrapper for parsing Image titles
+	 * (to prevent image name conversion)
+	 *
+	 * @param $text string
+	 * @param $toVariant bool
+	 *
+	 * @return string
+	 */
+	function autoConvert( $text, $toVariant = false ) {
+		global $wgTitle;
+		if ( is_object( $wgTitle ) && $wgTitle->getNamespace() == NS_FILE ) {
+			$imagename = $wgTitle->getNsText();
+			if ( preg_match( "/^$imagename:/", $text ) ) {
+				return $text;
+			}
+		}
+		return parent::autoConvert( $text, $toVariant );
+	}
+
+	/**
 	 *  It translates text into variant, specials:
 	 *    - ommiting roman numbers
 	 *
-	 * @param string $text
-	 * @param bool $toVariant
+	 * @param $text string
+	 * @param $toVariant bool
 	 *
 	 * @throws MWException
 	 * @return string
@@ -192,8 +214,7 @@ class KuConverter extends LanguageConverter {
 		/* From Kazakh interface, maybe we need it later
 		$breaks = '[^\w\x80-\xff]';
 		// regexp for roman numbers
-		// Lookahead assertion ensures $roman doesn't match the empty string
-		$roman = '(?=[MDCLXVI])M{0,4}(C[DM]|D?C{0,3})(X[LC]|L?X{0,3})(I[VX]|V?I{0,3})';
+		$roman = 'M{0,4}(CM|CD|D?C{0,3})(XC|XL|L?X{0,3})(IX|IV|V?I{0,3})';
 		$roman = '';
 
 		$reg = '/^'.$roman.'$|^'.$roman.$breaks.'|'.$breaks.$roman.'$|'.$breaks.$roman.$breaks.'/';
@@ -228,18 +249,20 @@ class KuConverter extends LanguageConverter {
  *
  * @ingroup Language
  */
-class LanguageKu extends Language {
+class LanguageKu extends LanguageKu_ku {
 
 	function __construct() {
+		global $wgHooks;
 		parent::__construct();
 
-		$variants = [ 'ku', 'ku-arab', 'ku-latn' ];
-		$variantfallbacks = [
+		$variants = array( 'ku', 'ku-arab', 'ku-latn' );
+		$variantfallbacks = array(
 			'ku' => 'ku-latn',
 			'ku-arab' => 'ku-latn',
 			'ku-latn' => 'ku-arab',
-		];
+		);
 
 		$this->mConverter = new KuConverter( $this, 'ku', $variants, $variantfallbacks );
+		$wgHooks['PageContentSaveComplete'][] = $this->mConverter;
 	}
 }

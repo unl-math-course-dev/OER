@@ -18,51 +18,57 @@
  * http://www.gnu.org/copyleft/gpl.html
  *
  * @file
+ * @ingroup Language
  */
+
+require_once __DIR__ . '/../LanguageConverter.php';
+require_once __DIR__ . '/LanguageZh.php';
 
 /**
  * @ingroup Language
  */
 class GanConverter extends LanguageConverter {
+
 	/**
-	 * @param Language $langobj
-	 * @param string $maincode
-	 * @param array $variants
-	 * @param array $variantfallbacks
-	 * @param array $flags
-	 * @param array $manualLevel
+	 * @param $langobj Language
+	 * @param $maincode string
+	 * @param $variants array
+	 * @param $variantfallbacks array
+	 * @param $flags array
+	 * @param $manualLevel array
 	 */
-	function __construct( Language $langobj, $maincode,
-		$variants = [],
-		$variantfallbacks = [],
-		$flags = [],
-		$manualLevel = [] ) {
+	function __construct( $langobj, $maincode,
+								$variants = array(),
+								$variantfallbacks = array(),
+								$flags = array(),
+								$manualLevel = array() ) {
 		$this->mDescCodeSep = '：';
 		$this->mDescVarSep = '；';
 		parent::__construct( $langobj, $maincode,
-			$variants,
-			$variantfallbacks,
-			$flags,
-			$manualLevel );
-		$names = [
+									$variants,
+									$variantfallbacks,
+									$flags,
+									$manualLevel );
+		$names = array(
 			'gan' => '原文',
 			'gan-hans' => '简体',
 			'gan-hant' => '繁體',
-		];
+		);
 		$this->mVariantNames = array_merge( $this->mVariantNames, $names );
 	}
 
 	function loadDefaultTables() {
-		$this->mTables = [
-			'gan-hans' => new ReplacementArray( MediaWiki\Languages\Data\ZhConversion::$zh2Hans ),
-			'gan-hant' => new ReplacementArray( MediaWiki\Languages\Data\ZhConversion::$zh2Hant ),
+		require __DIR__ . '/../../includes/ZhConversion.php';
+		$this->mTables = array(
+			'gan-hans' => new ReplacementArray( $zh2Hans ),
+			'gan-hant' => new ReplacementArray( $zh2Hant ),
 			'gan' => new ReplacementArray
-		];
+		);
 	}
 
 	/**
-	 * @param string $key
-	 * @return string
+	 * @param $key string
+	 * @return String
 	 */
 	function convertCategoryKey( $key ) {
 		return $this->autoConvert( $key, 'gan' );
@@ -70,39 +76,41 @@ class GanConverter extends LanguageConverter {
 }
 
 /**
- * Gan Chinese
- *
  * class that handles both Traditional and Simplified Chinese
  * right now it only distinguish gan_hans, gan_hant.
  *
  * @ingroup Language
  */
 class LanguageGan extends LanguageZh {
+
 	function __construct() {
+		global $wgHooks;
 		parent::__construct();
 
-		$variants = [ 'gan', 'gan-hans', 'gan-hant' ];
-		$variantfallbacks = [
-			'gan' => [ 'gan-hans', 'gan-hant' ],
-			'gan-hans' => [ 'gan' ],
-			'gan-hant' => [ 'gan' ],
-		];
-		$ml = [
+		$variants = array( 'gan', 'gan-hans', 'gan-hant' );
+		$variantfallbacks = array(
+			'gan' => array( 'gan-hans', 'gan-hant' ),
+			'gan-hans' => array( 'gan' ),
+			'gan-hant' => array( 'gan' ),
+		);
+		$ml = array(
 			'gan' => 'disable',
-		];
+		);
 
 		$this->mConverter = new GanConverter( $this, 'gan',
-			$variants, $variantfallbacks,
-			[],
-			$ml );
+								$variants, $variantfallbacks,
+								array(),
+								$ml );
+
+		$wgHooks['PageContentSaveComplete'][] = $this->mConverter;
 	}
 
 	/**
 	 * word segmentation
 	 *
-	 * @param string $string
-	 * @param string $autoVariant
-	 * @return string
+	 * @param $string string
+	 * @param $autoVariant string
+	 * @return String
 	 */
 	function normalizeForSearch( $string, $autoVariant = 'gan-hans' ) {
 		// LanguageZh::normalizeForSearch

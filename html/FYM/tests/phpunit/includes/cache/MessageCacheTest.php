@@ -1,7 +1,5 @@
 <?php
 
-use MediaWiki\MediaWikiServices;
-
 /**
  * @group Database
  * @group Cache
@@ -12,7 +10,6 @@ class MessageCacheTest extends MediaWikiLangTestCase {
 	protected function setUp() {
 		parent::setUp();
 		$this->configureLanguages();
-		MessageCache::destroyInstance();
 		MessageCache::singleton()->enable();
 	}
 
@@ -22,11 +19,17 @@ class MessageCacheTest extends MediaWikiLangTestCase {
 	protected function configureLanguages() {
 		// for the test, we need the content language to be anything but English,
 		// let's choose e.g. German (de)
-		$this->setUserLang( 'de' );
-		$this->setContentLang( 'de' );
+		$langCode = 'de';
+		$langObj = Language::factory( $langCode );
+
+		$this->setMwGlobals( array(
+			'wgLanguageCode' => $langCode,
+			'wgLang' => $langObj,
+			'wgContLang' => $langObj,
+		) );
 	}
 
-	function addDBDataOnce() {
+	function addDBData() {
 		$this->configureLanguages();
 
 		// Set up messages and fallbacks ab -> ru -> de
@@ -49,21 +52,24 @@ class MessageCacheTest extends MediaWikiLangTestCase {
 		$this->makePage( 'MessageCacheTest-FullKeyTest', 'ru' );
 
 		// In content language -- get base if no derivative
-		$this->makePage( 'FallbackLanguageTest-NoDervContLang', 'de', 'de/none' );
+		$this->makePage( 'FallbackLanguageTest-NoDervContLang', 'de', 'de/none', false );
 	}
 
 	/**
 	 * Helper function for addDBData -- adds a simple page to the database
 	 *
 	 * @param string $title Title of page to be created
-	 * @param string $lang Language and content of the created page
+	 * @param string $lang  Language and content of the created page
 	 * @param string|null $content Content of the created page, or null for a generic string
+	 * @param bool $createSubPage Set to false if a root page should be created
 	 */
-	protected function makePage( $title, $lang, $content = null ) {
+	protected function makePage( $title, $lang, $content = null, $createSubPage = true ) {
+		global $wgContLang;
+
 		if ( $content === null ) {
 			$content = $lang;
 		}
-		if ( $lang !== MediaWikiServices::getInstance()->getContentLanguage()->getCode() ) {
+		if ( $lang !== $wgContLang->getCode() || $createSubPage ) {
 			$title = "$title/$lang";
 		}
 
@@ -74,7 +80,7 @@ class MessageCacheTest extends MediaWikiLangTestCase {
 	}
 
 	/**
-	 * Test message fallbacks, T3495
+	 * Test message fallbacks, bug #1495
 	 *
 	 * @dataProvider provideMessagesForFallback
 	 */
@@ -84,133 +90,39 @@ class MessageCacheTest extends MediaWikiLangTestCase {
 	}
 
 	function provideMessagesForFallback() {
-		return [
-			[ 'FallbackLanguageTest-Full', 'ab', 'ab' ],
-			[ 'FallbackLanguageTest-Partial', 'ab', 'ru' ],
-			[ 'FallbackLanguageTest-ContLang', 'ab', 'de' ],
-			[ 'FallbackLanguageTest-None', 'ab', false ],
+		return array(
+			array( 'FallbackLanguageTest-Full', 'ab', 'ab' ),
+			array( 'FallbackLanguageTest-Partial', 'ab', 'ru' ),
+			array( 'FallbackLanguageTest-ContLang', 'ab', 'de' ),
+			array( 'FallbackLanguageTest-None', 'ab', false ),
 
 			// Existing message with customizations on the fallbacks
-			[ 'sunday', 'ab', 'амҽыш' ],
+			array( 'sunday', 'ab', 'амҽыш' ),
 
-			// T48579
-			[ 'FallbackLanguageTest-NoDervContLang', 'de', 'de/none' ],
+			// bug 46579
+			array( 'FallbackLanguageTest-NoDervContLang', 'de', 'de/none' ),
 			// UI language different from content language should only use de/none as last option
-			[ 'FallbackLanguageTest-NoDervContLang', 'fit', 'de/none' ],
-		];
-	}
-
-	public function testReplaceMsg() {
-		$messageCache = MessageCache::singleton();
-		$message = 'go';
-		$uckey = MediaWikiServices::getInstance()->getContentLanguage()->ucfirst( $message );
-		$oldText = $messageCache->get( $message ); // "Ausführen"
-
-		$dbw = wfGetDB( DB_MASTER );
-		$dbw->startAtomic( __METHOD__ ); // simulate request and block deferred updates
-		$messageCache->replace( $uckey, 'Allez!' );
-		$this->assertEquals( 'Allez!',
-			$messageCache->getMsgFromNamespace( $uckey, 'de' ),
-			'Updates are reflected in-process immediately' );
-		$this->assertEquals( 'Allez!',
-			$messageCache->get( $message ),
-			'Updates are reflected in-process immediately' );
-		$this->makePage( 'Go', 'de', 'Race!' );
-		$dbw->endAtomic( __METHOD__ );
-
-		$this->assertEquals( 0,
-			DeferredUpdates::pendingUpdatesCount(),
-			'Post-commit deferred update triggers a run of all updates' );
-
-		$this->assertEquals( 'Race!', $messageCache->get( $message ), 'Correct final contents' );
-
-		$this->makePage( 'Go', 'de', $oldText );
-		$messageCache->replace( $uckey, $oldText ); // deferred update runs immediately
-		$this->assertEquals( $oldText, $messageCache->get( $message ), 'Content restored' );
-	}
-
-	public function testReplaceCache() {
-		global $wgWANObjectCaches;
-
-		// We need a WAN cache for this.
-		$this->setMwGlobals( [
-			'wgMainWANCache' => 'hash',
-			'wgWANObjectCaches' => $wgWANObjectCaches + [
-				'hash' => [
-					'class'    => WANObjectCache::class,
-					'cacheId'  => 'hash',
-					'channels' => []
-				]
-			]
-		] );
-		$this->overrideMwServices();
-
-		MessageCache::destroyInstance();
-		$messageCache = MessageCache::singleton();
-		$messageCache->enable();
-
-		// Populate one key
-		$this->makePage( 'Key1', 'de', 'Value1' );
-		$this->assertEquals( 0,
-			DeferredUpdates::pendingUpdatesCount(),
-			'Post-commit deferred update triggers a run of all updates' );
-		$this->assertEquals( 'Value1', $messageCache->get( 'Key1' ), 'Key1 was successfully edited' );
-
-		// Screw up the database so MessageCache::loadFromDB() will
-		// produce the wrong result for reloading Key1
-		$this->db->delete(
-			'page', [ 'page_namespace' => NS_MEDIAWIKI, 'page_title' => 'Key1' ], __METHOD__
+			array( 'FallbackLanguageTest-NoDervContLang', 'fit', 'de/none' ),
 		);
-
-		// Populate the second key
-		$this->makePage( 'Key2', 'de', 'Value2' );
-		$this->assertEquals( 0,
-			DeferredUpdates::pendingUpdatesCount(),
-			'Post-commit deferred update triggers a run of all updates' );
-		$this->assertEquals( 'Value2', $messageCache->get( 'Key2' ), 'Key2 was successfully edited' );
-
-		// Now test that the second edit didn't reload Key1
-		$this->assertEquals( 'Value1', $messageCache->get( 'Key1' ),
-			'Key1 wasn\'t reloaded by edit of Key2' );
 	}
 
 	/**
-	 * @dataProvider provideNormalizeKey
+	 * There's a fallback case where the message key is given as fully qualified -- this
+	 * should ignore the passed $lang and use the language from the key
+	 *
+	 * @dataProvider provideMessagesForFullKeys
 	 */
-	public function testNormalizeKey( $key, $expected ) {
-		$actual = MessageCache::normalizeKey( $key );
-		$this->assertEquals( $expected, $actual );
+	public function testFullKeyBehaviour( $message, $lang, $expectedContent ) {
+		$result = MessageCache::singleton()->get( $message, true, $lang, true );
+		$this->assertEquals( $expectedContent, $result, "Full key message fallback failed." );
 	}
 
-	public function provideNormalizeKey() {
-		return [
-			[ 'Foo', 'foo' ],
-			[ 'foo', 'foo' ],
-			[ 'fOo', 'fOo' ],
-			[ 'FOO', 'fOO' ],
-			[ 'Foo bar', 'foo_bar' ],
-			[ 'Ćab', 'ćab' ],
-			[ 'Ćab_e 3', 'ćab_e_3' ],
-			[ 'ĆAB', 'ćAB' ],
-			[ 'ćab', 'ćab' ],
-			[ 'ćaB', 'ćaB' ],
-		];
+	function provideMessagesForFullKeys() {
+		return array(
+			array( 'MessageCacheTest-FullKeyTest/ru', 'ru', 'ru' ),
+			array( 'MessageCacheTest-FullKeyTest/ru', 'ab', 'ru' ),
+			array( 'MessageCacheTest-FullKeyTest/ru/foo', 'ru', false ),
+		);
 	}
 
-	public function testNoDBAccess() {
-		global $wgContLanguageCode;
-
-		$dbr = wfGetDB( DB_REPLICA );
-
-		MessageCache::singleton()->getMsgFromNamespace( 'allpages', $wgContLanguageCode );
-
-		$this->assertEquals( 0, $dbr->trxLevel() );
-		$dbr->setFlag( DBO_TRX, $dbr::REMEMBER_PRIOR ); // make queries trigger TRX
-
-		MessageCache::singleton()->getMsgFromNamespace( 'go', $wgContLanguageCode );
-
-		$dbr->restoreFlags();
-
-		$this->assertEquals( 0, $dbr->trxLevel(), "No DB read queries" );
-	}
 }

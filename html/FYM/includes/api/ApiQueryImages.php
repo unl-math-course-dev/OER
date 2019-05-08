@@ -1,5 +1,9 @@
 <?php
 /**
+ *
+ *
+ * Created on May 13, 2007
+ *
  * Copyright © 2006 Yuri Astrakhan "<Firstname><Lastname>@gmail.com"
  *
  * This program is free software; you can redistribute it and/or modify
@@ -28,7 +32,7 @@
  */
 class ApiQueryImages extends ApiQueryGeneratorBase {
 
-	public function __construct( ApiQuery $query, $moduleName ) {
+	public function __construct( $query, $moduleName ) {
 		parent::__construct( $query, $moduleName, 'im' );
 	}
 
@@ -41,7 +45,7 @@ class ApiQueryImages extends ApiQueryGeneratorBase {
 	}
 
 	/**
-	 * @param ApiPageSet $resultPageSet
+	 * @param $resultPageSet ApiPageSet
 	 */
 	private function run( $resultPageSet = null ) {
 		if ( $this->getPageSet()->getGoodTitleCount() == 0 ) {
@@ -49,10 +53,10 @@ class ApiQueryImages extends ApiQueryGeneratorBase {
 		}
 
 		$params = $this->extractRequestParams();
-		$this->addFields( [
+		$this->addFields( array(
 			'il_from',
 			'il_to'
-		] );
+		) );
 
 		$this->addTables( 'imagelinks' );
 		$this->addWhereFld( 'il_from', array_keys( $this->getPageSet()->getGoodTitles() ) );
@@ -74,26 +78,22 @@ class ApiQueryImages extends ApiQueryGeneratorBase {
 		if ( count( $this->getPageSet()->getGoodTitles() ) == 1 ) {
 			$this->addOption( 'ORDER BY', 'il_to' . $sort );
 		} else {
-			$this->addOption( 'ORDER BY', [
+			$this->addOption( 'ORDER BY', array(
 				'il_from' . $sort,
 				'il_to' . $sort
-			] );
+			) );
 		}
 		$this->addOption( 'LIMIT', $params['limit'] + 1 );
 
-		if ( $params['images'] ) {
-			$images = [];
+		if ( !is_null( $params['images'] ) ) {
+			$images = array();
 			foreach ( $params['images'] as $img ) {
 				$title = Title::newFromText( $img );
 				if ( !$title || $title->getNamespace() != NS_FILE ) {
-					$this->addWarning( [ 'apiwarn-notfile', wfEscapeWikiText( $img ) ] );
+					$this->setWarning( "\"$img\" is not a file" );
 				} else {
 					$images[] = $title->getDBkey();
 				}
-			}
-			if ( !$images ) {
-				// No titles so no results
-				return;
 			}
 			$this->addWhereFld( 'il_to', $images );
 		}
@@ -109,7 +109,7 @@ class ApiQueryImages extends ApiQueryGeneratorBase {
 					$this->setContinueEnumParameter( 'continue', $row->il_from . '|' . $row->il_to );
 					break;
 				}
-				$vals = [];
+				$vals = array();
 				ApiQueryBase::addTitleInfo( $vals, Title::makeTitle( NS_FILE, $row->il_to ) );
 				$fit = $this->addPageSubItem( $row->il_from, $vals );
 				if ( !$fit ) {
@@ -118,7 +118,7 @@ class ApiQueryImages extends ApiQueryGeneratorBase {
 				}
 			}
 		} else {
-			$titles = [];
+			$titles = array();
 			$count = 0;
 			foreach ( $res as $row ) {
 				if ( ++$count > $params['limit'] ) {
@@ -138,40 +138,61 @@ class ApiQueryImages extends ApiQueryGeneratorBase {
 	}
 
 	public function getAllowedParams() {
-		return [
-			'limit' => [
+		return array(
+			'limit' => array(
 				ApiBase::PARAM_DFLT => 10,
 				ApiBase::PARAM_TYPE => 'limit',
 				ApiBase::PARAM_MIN => 1,
 				ApiBase::PARAM_MAX => ApiBase::LIMIT_BIG1,
 				ApiBase::PARAM_MAX2 => ApiBase::LIMIT_BIG2
-			],
-			'continue' => [
-				ApiBase::PARAM_HELP_MSG => 'api-help-param-continue',
-			],
-			'images' => [
+			),
+			'continue' => null,
+			'images' => array(
 				ApiBase::PARAM_ISMULTI => true,
-			],
-			'dir' => [
+			),
+			'dir' => array(
 				ApiBase::PARAM_DFLT => 'ascending',
-				ApiBase::PARAM_TYPE => [
+				ApiBase::PARAM_TYPE => array(
 					'ascending',
 					'descending'
-				]
-			],
-		];
+				)
+			),
+		);
 	}
 
-	protected function getExamplesMessages() {
-		return [
-			'action=query&prop=images&titles=Main%20Page'
-				=> 'apihelp-query+images-example-simple',
-			'action=query&generator=images&titles=Main%20Page&prop=info'
-				=> 'apihelp-query+images-example-generator',
-		];
+	public function getParamDescription() {
+		return array(
+			'limit' => 'How many images to return',
+			'continue' => 'When more results are available, use this to continue',
+			'images' => 'Only list these images. Useful for checking whether a ' .
+				'certain page has a certain Image.',
+			'dir' => 'The direction in which to list',
+		);
+	}
+
+	public function getResultProperties() {
+		return array(
+			'' => array(
+				'ns' => 'namespace',
+				'title' => 'string'
+			)
+		);
+	}
+
+	public function getDescription() {
+		return 'Returns all images contained on the given page(s).';
+	}
+
+	public function getExamples() {
+		return array(
+			'api.php?action=query&prop=images&titles=Main%20Page'
+				=> 'Get a list of images used in the [[Main Page]]',
+			'api.php?action=query&generator=images&titles=Main%20Page&prop=info'
+				=> 'Get information about all images used in the [[Main Page]]',
+		);
 	}
 
 	public function getHelpUrls() {
-		return 'https://www.mediawiki.org/wiki/Special:MyLanguage/API:Images';
+		return 'https://www.mediawiki.org/wiki/API:Properties#images_.2F_im';
 	}
 }

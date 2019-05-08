@@ -21,169 +21,251 @@
  * @ingroup SpecialPage
  */
 
-use MediaWiki\Auth\AuthManager;
-use MediaWiki\Logger\LoggerFactory;
-
 /**
  * Let users change their email address.
  *
  * @ingroup SpecialPage
  */
-class SpecialChangeEmail extends FormSpecialPage {
+class SpecialChangeEmail extends UnlistedSpecialPage {
+
 	/**
-	 * @var Status
+	 * Users password
+	 * @var string
 	 */
-	private $status;
+	protected $mPassword;
+
+	/**
+	 * Users new email address
+	 * @var string
+	 */
+	protected $mNewEmail;
 
 	public function __construct() {
 		parent::__construct( 'ChangeEmail', 'editmyprivateinfo' );
 	}
 
-	public function doesWrites() {
-		return true;
-	}
-
 	/**
-	 * @return bool
+	 * @return Bool
 	 */
-	public function isListed() {
-		return AuthManager::singleton()->allowsPropertyChange( 'emailaddress' );
+	function isListed() {
+		global $wgAuth;
+
+		return $wgAuth->allowPropChange( 'emailaddress' );
 	}
 
 	/**
 	 * Main execution point
-	 * @param string $par
 	 */
 	function execute( $par ) {
-		$this->checkLoginSecurityLevel();
+		global $wgAuth;
+
+		$this->setHeaders();
+		$this->outputHeader();
 
 		$out = $this->getOutput();
 		$out->disallowUserJs();
+		$out->addModules( 'mediawiki.special.changeemail' );
 
-		parent::execute( $par );
-	}
+		if ( !$wgAuth->allowPropChange( 'emailaddress' ) ) {
+			$this->error( 'cannotchangeemail' );
 
-	protected function checkExecutePermissions( User $user ) {
-		if ( !AuthManager::singleton()->allowsPropertyChange( 'emailaddress' ) ) {
-			throw new ErrorPageError( 'changeemail', 'cannotchangeemail' );
+			return;
 		}
+
+		$user = $this->getUser();
+		$request = $this->getRequest();
 
 		$this->requireLogin( 'changeemail-no-info' );
 
+		if ( $request->wasPosted() && $request->getBool( 'wpCancel' ) ) {
+			$this->doReturnTo();
+
+			return;
+		}
+
+		$this->checkReadOnly();
+		$this->checkPermissions();
+
 		// This could also let someone check the current email address, so
 		// require both permissions.
-		if ( !$this->getUser()->isAllowed( 'viewmyprivateinfo' ) ) {
+		if ( !$user->isAllowed( 'viewmyprivateinfo' ) ) {
 			throw new PermissionsError( 'viewmyprivateinfo' );
 		}
 
-		parent::checkExecutePermissions( $user );
+		$this->mPassword = $request->getVal( 'wpPassword' );
+		$this->mNewEmail = $request->getVal( 'wpNewEmail' );
+
+		if ( $request->wasPosted()
+			&& $user->matchEditToken( $request->getVal( 'token' ) )
+		) {
+			$info = $this->attemptChange( $user, $this->mPassword, $this->mNewEmail );
+			if ( $info === true ) {
+				$this->doReturnTo();
+			} elseif ( $info === 'eauth' ) {
+				# Notify user that a confirmation email has been sent...
+				$out->wrapWikiMsg( "<div class='error' style='clear: both;'>\n$1\n</div>",
+					'eauthentsent', $user->getName() );
+				$this->doReturnTo( 'soft' ); // just show the link to go back
+				return; // skip form
+			}
+		}
+
+		$this->showForm();
 	}
 
-	protected function getFormFields() {
-		$user = $this->getUser();
-
-		$fields = [
-			'Name' => [
-				'type' => 'info',
-				'label-message' => 'username',
-				'default' => $user->getName(),
-			],
-			'OldEmail' => [
-				'type' => 'info',
-				'label-message' => 'changeemail-oldemail',
-				'default' => $user->getEmail() ?: $this->msg( 'changeemail-none' )->text(),
-			],
-			'NewEmail' => [
-				'type' => 'email',
-				'label-message' => 'changeemail-newemail',
-				'autofocus' => true,
-				'help-message' => 'changeemail-newemail-help',
-			],
-		];
-
-		return $fields;
-	}
-
-	protected function getDisplayFormat() {
-		return 'ooui';
-	}
-
-	protected function alterForm( HTMLForm $form ) {
-		$form->setId( 'mw-changeemail-form' );
-		$form->setTableId( 'mw-changeemail-table' );
-		$form->setSubmitTextMsg( 'changeemail-submit' );
-		$form->addHiddenFields( $this->getRequest()->getValues( 'returnto', 'returntoquery' ) );
-
-		$form->addHeaderText( $this->msg( 'changeemail-header' )->parseAsBlock() );
-	}
-
-	public function onSubmit( array $data ) {
-		$status = $this->attemptChange( $this->getUser(), $data['NewEmail'] );
-
-		$this->status = $status;
-
-		return $status;
-	}
-
-	public function onSuccess() {
-		$request = $this->getRequest();
-
-		$returnto = $request->getVal( 'returnto' );
-		$titleObj = $returnto !== null ? Title::newFromText( $returnto ) : null;
+	/**
+	 * @param $type string
+	 */
+	protected function doReturnTo( $type = 'hard' ) {
+		$titleObj = Title::newFromText( $this->getRequest()->getVal( 'returnto' ) );
 		if ( !$titleObj instanceof Title ) {
 			$titleObj = Title::newMainPage();
 		}
-		$query = $request->getVal( 'returntoquery' );
-
-		if ( $this->status->value === true ) {
-			$this->getOutput()->redirect( $titleObj->getFullUrlForRedirect( $query ) );
-		} elseif ( $this->status->value === 'eauth' ) {
-			# Notify user that a confirmation email has been sent...
-			$this->getOutput()->wrapWikiMsg( "<div class='error' style='clear: both;'>\n$1\n</div>",
-				'eauthentsent', $this->getUser()->getName() );
-			// just show the link to go back
-			$this->getOutput()->addReturnTo( $titleObj, wfCgiToArray( $query ) );
+		if ( $type == 'hard' ) {
+			$this->getOutput()->redirect( $titleObj->getFullURL() );
+		} else {
+			$this->getOutput()->addReturnTo( $titleObj );
 		}
 	}
 
 	/**
-	 * @param User $user
-	 * @param string $newaddr
-	 * @return Status
+	 * @param $msg string
 	 */
-	private function attemptChange( User $user, $newaddr ) {
-		if ( $newaddr != '' && !Sanitizer::validateEmail( $newaddr ) ) {
-			return Status::newFatal( 'invalidemailaddress' );
+	protected function error( $msg ) {
+		$this->getOutput()->wrapWikiMsg( "<p class='error'>\n$1\n</p>", $msg );
+	}
+
+	protected function showForm() {
+		global $wgRequirePasswordforEmailChange;
+		$user = $this->getUser();
+
+		$oldEmailText = $user->getEmail()
+			? $user->getEmail()
+			: $this->msg( 'changeemail-none' )->text();
+
+		$this->getOutput()->addHTML(
+			Xml::fieldset( $this->msg( 'changeemail-header' )->text() ) .
+				Xml::openElement( 'form',
+					array(
+						'method' => 'post',
+						'action' => $this->getPageTitle()->getLocalURL(),
+						'id' => 'mw-changeemail-form' ) ) . "\n" .
+				Html::hidden( 'token', $user->getEditToken() ) . "\n" .
+				Html::hidden( 'returnto', $this->getRequest()->getVal( 'returnto' ) ) . "\n" .
+				$this->msg( 'changeemail-text' )->parseAsBlock() . "\n" .
+				Xml::openElement( 'table', array( 'id' => 'mw-changeemail-table' ) ) . "\n"
+		);
+		$items = array(
+			array( 'wpName', 'username', 'text', $user->getName() ),
+			array( 'wpOldEmail', 'changeemail-oldemail', 'text', $oldEmailText ),
+			array( 'wpNewEmail', 'changeemail-newemail', 'email', $this->mNewEmail ),
+		);
+		if ( $wgRequirePasswordforEmailChange ) {
+			$items[] = array( 'wpPassword', 'changeemail-password', 'password', $this->mPassword );
 		}
 
-		if ( $newaddr === $user->getEmail() ) {
-			return Status::newFatal( 'changeemail-nochange' );
+		$this->getOutput()->addHTML(
+			$this->pretty( $items ) .
+				"\n" .
+				"<tr>\n" .
+				"<td></td>\n" .
+				'<td class="mw-input">' .
+				Xml::submitButton( $this->msg( 'changeemail-submit' )->text() ) .
+				Xml::submitButton( $this->msg( 'changeemail-cancel' )->text(), array( 'name' => 'wpCancel' ) ) .
+				"</td>\n" .
+				"</tr>\n" .
+				Xml::closeElement( 'table' ) .
+				Xml::closeElement( 'form' ) .
+				Xml::closeElement( 'fieldset' ) . "\n"
+		);
+	}
+
+	/**
+	 * @param $fields array
+	 * @return string
+	 */
+	protected function pretty( $fields ) {
+		$out = '';
+		foreach ( $fields as $list ) {
+			list( $name, $label, $type, $value ) = $list;
+			if ( $type == 'text' ) {
+				$field = htmlspecialchars( $value );
+			} else {
+				$attribs = array( 'id' => $name );
+				if ( $name == 'wpPassword' ) {
+					$attribs[] = 'autofocus';
+				}
+				$field = Html::input( $name, $value, $type, $attribs );
+			}
+			$out .= "<tr>\n";
+			$out .= "\t<td class='mw-label'>";
+			if ( $type != 'text' ) {
+				$out .= Xml::label( $this->msg( $label )->text(), $name );
+			} else {
+				$out .= $this->msg( $label )->escaped();
+			}
+			$out .= "</td>\n";
+			$out .= "\t<td class='mw-input'>";
+			$out .= $field;
+			$out .= "</td>\n";
+			$out .= "</tr>";
+		}
+
+		return $out;
+	}
+
+	/**
+	 * @param $user User
+	 * @param $pass string
+	 * @param $newaddr string
+	 * @return bool|string true or string on success, false on failure
+	 */
+	protected function attemptChange( User $user, $pass, $newaddr ) {
+		global $wgAuth, $wgPasswordAttemptThrottle;
+
+		if ( $newaddr != '' && !Sanitizer::validateEmail( $newaddr ) ) {
+			$this->error( 'invalidemailaddress' );
+
+			return false;
+		}
+
+		$throttleCount = LoginForm::incLoginThrottle( $user->getName() );
+		if ( $throttleCount === true ) {
+			$lang = $this->getLanguage();
+			$this->error( array( 'changeemail-throttled', $lang->formatDuration( $wgPasswordAttemptThrottle['seconds'] ) ) );
+
+			return false;
+		}
+
+		global $wgRequirePasswordforEmailChange;
+		if ( $wgRequirePasswordforEmailChange && !$user->checkTemporaryPassword( $pass ) && !$user->checkPassword( $pass ) ) {
+			$this->error( 'wrongpassword' );
+
+			return false;
+		}
+
+		if ( $throttleCount ) {
+			LoginForm::clearLoginThrottle( $user->getName() );
 		}
 
 		$oldaddr = $user->getEmail();
 		$status = $user->setEmailWithConfirmation( $newaddr );
 		if ( !$status->isGood() ) {
-			return $status;
+			$this->getOutput()->addHTML(
+				'<p class="error">' .
+					$this->getOutput()->parseInline( $status->getWikiText( 'mailerror' ) ) .
+					'</p>' );
+
+			return false;
 		}
 
-		LoggerFactory::getInstance( 'authentication' )->info(
-			'Changing email address for {user} from {oldemail} to {newemail}', [
-				'user' => $user->getName(),
-				'oldemail' => $oldaddr,
-				'newemail' => $newaddr,
-			]
-		);
-
-		Hooks::run( 'PrefsEmailAudit', [ $user, $oldaddr, $newaddr ] );
+		wfRunHooks( 'PrefsEmailAudit', array( $user, $oldaddr, $newaddr ) );
 
 		$user->saveSettings();
-		MediaWiki\Auth\AuthManager::callLegacyAuthPlugin( 'updateExternalDB', [ $user ] );
 
-		return $status;
-	}
+		$wgAuth->updateExternalDB( $user );
 
-	public function requiresUnblock() {
-		return false;
+		return $status->value;
 	}
 
 	protected function getGroupName() {

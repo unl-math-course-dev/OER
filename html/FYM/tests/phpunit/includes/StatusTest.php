@@ -1,9 +1,14 @@
 <?php
 
 /**
- * @author Addshore
+ * @author Adam Shorland
  */
 class StatusTest extends MediaWikiLangTestCase {
+
+	public function testCanConstruct() {
+		new Status();
+		$this->assertTrue( true );
+	}
 
 	/**
 	 * @dataProvider provideValues
@@ -17,20 +22,20 @@ class StatusTest extends MediaWikiLangTestCase {
 	}
 
 	public static function provideValues() {
-		return [
-			[],
-			[ 'foo' ],
-			[ [ 'foo' => 'bar' ] ],
-			[ new Exception() ],
-			[ 1234 ],
-		];
+		return array(
+			array(),
+			array( 'foo' ),
+			array( array( 'foo' => 'bar' ) ),
+			array( new Exception() ),
+			array( 1234 ),
+		);
 	}
 
 	/**
 	 * @covers Status::newFatal
 	 */
 	public function testNewFatalWithMessage() {
-		$message = $this->getMockBuilder( Message::class )
+		$message = $this->getMockBuilder( 'Message' )
 			->disableOriginalConstructor()
 			->getMock();
 
@@ -52,41 +57,6 @@ class StatusTest extends MediaWikiLangTestCase {
 	}
 
 	/**
-	 * Test 'ok' and 'errors' getters.
-	 *
-	 * @covers Status::__get
-	 */
-	public function testOkAndErrorsGetters() {
-		$status = Status::newGood( 'foo' );
-		$this->assertTrue( $status->ok );
-		$status = Status::newFatal( 'foo', 1, 2 );
-		$this->assertFalse( $status->ok );
-		$this->assertArrayEquals(
-			[
-				[
-					'type' => 'error',
-					'message' => 'foo',
-					'params' => [ 1, 2 ]
-				]
-			],
-			$status->errors
-		);
-	}
-
-	/**
-	 * Test 'ok' setter.
-	 *
-	 * @covers Status::__set
-	 */
-	public function testOkSetter() {
-		$status = new Status();
-		$status->ok = false;
-		$this->assertFalse( $status->isOK() );
-		$status->ok = true;
-		$this->assertTrue( $status->isOK() );
-	}
-
-	/**
 	 * @dataProvider provideSetResult
 	 * @covers Status::setResult
 	 */
@@ -98,30 +68,29 @@ class StatusTest extends MediaWikiLangTestCase {
 	}
 
 	public static function provideSetResult() {
-		return [
-			[ true ],
-			[ false ],
-			[ true, 'value' ],
-			[ false, 'value' ],
-		];
+		return array(
+			array( true ),
+			array( false ),
+			array( true, 'value' ),
+			array( false, 'value' ),
+		);
 	}
 
 	/**
 	 * @dataProvider provideIsOk
-	 * @covers Status::setOK
-	 * @covers Status::isOK
+	 * @covers Status::isOk
 	 */
 	public function testIsOk( $ok ) {
 		$status = new Status();
-		$status->setOK( $ok );
+		$status->ok = $ok;
 		$this->assertEquals( $ok, $status->isOK() );
 	}
 
 	public static function provideIsOk() {
-		return [
-			[ true ],
-			[ false ],
-		];
+		return array(
+			array( true ),
+			array( false ),
+		);
 	}
 
 	/**
@@ -139,20 +108,18 @@ class StatusTest extends MediaWikiLangTestCase {
 	 */
 	public function testIsGood( $ok, $errors, $expected ) {
 		$status = new Status();
-		$status->setOK( $ok );
-		foreach ( $errors as $error ) {
-			$status->warning( $error );
-		}
+		$status->ok = $ok;
+		$status->errors = $errors;
 		$this->assertEquals( $expected, $status->isGood() );
 	}
 
 	public static function provideIsGood() {
-		return [
-			[ true, [], true ],
-			[ true, [ 'foo' ], false ],
-			[ false, [], false ],
-			[ false, [ 'foo' ], false ],
-		];
+		return array(
+			array( true, array(), true ),
+			array( true, array( 'foo' ), false ),
+			array( false, array(), false ),
+			array( false, array( 'foo' ), false ),
+		);
 	}
 
 	/**
@@ -172,7 +139,7 @@ class StatusTest extends MediaWikiLangTestCase {
 
 		$this->assertEquals( count( $messages ), count( $warnings ) );
 		foreach ( $messages as $key => $message ) {
-			$expectedArray = array_merge( [ $message->getKey() ], $message->getParams() );
+			$expectedArray = array_merge( array( $message->getKey() ), $message->getParams() );
 			$this->assertEquals( $warnings[$key], $expectedArray );
 		}
 	}
@@ -182,7 +149,6 @@ class StatusTest extends MediaWikiLangTestCase {
 	 * @covers Status::error
 	 * @covers Status::getErrorsArray
 	 * @covers Status::getStatusArray
-	 * @covers Status::getErrors
 	 */
 	public function testErrorWithMessage( $mockDetails ) {
 		$status = new Status();
@@ -195,7 +161,7 @@ class StatusTest extends MediaWikiLangTestCase {
 
 		$this->assertEquals( count( $messages ), count( $errors ) );
 		foreach ( $messages as $key => $message ) {
-			$expectedArray = array_merge( [ $message->getKey() ], $message->getParams() );
+			$expectedArray = array_merge( array( $message->getKey() ), $message->getParams() );
 			$this->assertEquals( $errors[$key], $expectedArray );
 		}
 	}
@@ -217,14 +183,14 @@ class StatusTest extends MediaWikiLangTestCase {
 
 		$this->assertEquals( count( $messages ), count( $errors ) );
 		foreach ( $messages as $key => $message ) {
-			$expectedArray = array_merge( [ $message->getKey() ], $message->getParams() );
+			$expectedArray = array_merge( array( $message->getKey() ), $message->getParams() );
 			$this->assertEquals( $errors[$key], $expectedArray );
 		}
 		$this->assertFalse( $status->isOK() );
 	}
 
-	protected function getMockMessage( $key = 'key', $params = [] ) {
-		$message = $this->getMockBuilder( Message::class )
+	protected function getMockMessage( $key = 'key', $params = array() ) {
+		$message = $this->getMockBuilder( 'Message' )
 			->disableOriginalConstructor()
 			->getMock();
 		$message->expects( $this->atLeastOnce() )
@@ -237,11 +203,11 @@ class StatusTest extends MediaWikiLangTestCase {
 	}
 
 	/**
-	 * @param array $messageDetails E.g. array( 'KEY' => array(/PARAMS/) )
+	 * @param array $messageDetails eg. array( 'KEY' => array(/PARAMS/) )
 	 * @return Message[]
 	 */
 	protected function getMockMessages( $messageDetails ) {
-		$messages = [];
+		$messages = array();
 		foreach ( $messageDetails as $key => $paramsArray ) {
 			$messages[] = $this->getMockMessage( $key, $paramsArray );
 		}
@@ -249,10 +215,10 @@ class StatusTest extends MediaWikiLangTestCase {
 	}
 
 	public static function provideMockMessageDetails() {
-		return [
-			[ [ 'key1' => [ 'foo' => 'bar' ] ] ],
-			[ [ 'key1' => [ 'foo' => 'bar' ], 'key2' => [ 'foo2' => 'bar2' ] ] ],
-		];
+		return array(
+			array( array( 'key1' => array( 'foo' => 'bar' ) ) ),
+			array( array( 'key1' => array( 'foo' => 'bar' ), 'key2' => array( 'foo2' => 'bar2' ) ) ),
+		);
 	}
 
 	/**
@@ -267,10 +233,7 @@ class StatusTest extends MediaWikiLangTestCase {
 		$status2->error( $message2 );
 
 		$status1->merge( $status2 );
-		$this->assertEquals(
-			2,
-			count( $status1->getWarningsArray() ) + count( $status1->getErrorsArray() )
-		);
+		$this->assertEquals( 2, count( $status1->getWarningsArray() ) + count( $status1->getErrorsArray() ) );
 	}
 
 	/**
@@ -286,10 +249,7 @@ class StatusTest extends MediaWikiLangTestCase {
 		$status2->value = 'FooValue';
 
 		$status1->merge( $status2, true );
-		$this->assertEquals(
-			2,
-			count( $status1->getWarningsArray() ) + count( $status1->getErrorsArray() )
-		);
+		$this->assertEquals( 2, count( $status1->getWarningsArray() ) + count( $status1->getErrorsArray() ) );
 		$this->assertEquals( 'FooValue', $status1->getValue() );
 	}
 
@@ -299,10 +259,7 @@ class StatusTest extends MediaWikiLangTestCase {
 	public function testHasMessage() {
 		$status = new Status();
 		$status->fatal( 'bad' );
-		$status->fatal( wfMessage( 'bad-msg' ) );
 		$this->assertTrue( $status->hasMessage( 'bad' ) );
-		$this->assertTrue( $status->hasMessage( 'bad-msg' ) );
-		$this->assertTrue( $status->hasMessage( wfMessage( 'bad-msg' ) ) );
 		$this->assertFalse( $status->hasMessage( 'good' ) );
 	}
 
@@ -311,7 +268,7 @@ class StatusTest extends MediaWikiLangTestCase {
 	 * @covers Status::cleanParams
 	 */
 	public function testCleanParams( $cleanCallback, $params, $expected ) {
-		$method = new ReflectionMethod( Status::class, 'cleanParams' );
+		$method = new ReflectionMethod( 'Status', 'cleanParams' );
 		$method->setAccessible( true );
 		$status = new Status();
 		$status->cleanCallback = $cleanCallback;
@@ -320,224 +277,170 @@ class StatusTest extends MediaWikiLangTestCase {
 	}
 
 	public static function provideCleanParams() {
-		$cleanCallback = function ( $value ) {
+		$cleanCallback = function( $value ) {
 			return '-' . $value . '-';
 		};
 
-		return [
-			[ false, [ 'foo' => 'bar' ], [ 'foo' => 'bar' ] ],
-			[ $cleanCallback, [ 'foo' => 'bar' ], [ 'foo' => '-bar-' ] ],
-		];
+		return array(
+			array( false, array( 'foo' => 'bar' ), array( 'foo' => 'bar' ) ),
+			array( $cleanCallback, array( 'foo' => 'bar' ), array( 'foo' => '-bar-' ) ),
+		);
 	}
 
 	/**
 	 * @dataProvider provideGetWikiTextAndHtml
 	 * @covers Status::getWikiText
+	 * @todo test long and short context messages generated through this method
+	 *       this can not really be done now due to use of wfMessage()->plain()
+	 *       It is possible to mock such methods but only if namespaces are used
 	 */
-	public function testGetWikiText(
-		Status $status, $wikitext, $wrappedWikitext, $html, $wrappedHtml
-	) {
+	public function testGetWikiText( Status $status, $wikitext, $html ) {
 		$this->assertEquals( $wikitext, $status->getWikiText() );
-
-		$this->assertEquals( $wrappedWikitext, $status->getWikiText( 'wrap-short', 'wrap-long', 'qqx' ) );
 	}
 
 	/**
 	 * @dataProvider provideGetWikiTextAndHtml
 	 * @covers Status::getHtml
+	 * @todo test long and short context messages generated through this method
+	 *       this can not really be done now due to use of $this->getWikiText using wfMessage()->plain()
+	 *       It is possible to mock such methods but only if namespaces are used
 	 */
-	public function testGetHtml(
-		Status $status, $wikitext, $wrappedWikitext, $html, $wrappedHtml
-	) {
+	public function testGetHtml( Status $status, $wikitext, $html ) {
 		$this->assertEquals( $html, $status->getHTML() );
-
-		$this->assertEquals( $wrappedHtml, $status->getHTML( 'wrap-short', 'wrap-long', 'qqx' ) );
 	}
 
 	/**
-	 * @return array Array of arrays with values;
+	 * @return array of arrays with values;
 	 *    0 => status object
 	 *    1 => expected string (with no context)
 	 */
 	public static function provideGetWikiTextAndHtml() {
-		$testCases = [];
+		$testCases = array();
 
-		$testCases['GoodStatus'] = [
+		$testCases[ 'GoodStatus' ] = array(
 			new Status(),
 			"Internal error: Status::getWikiText called for a good result, this is incorrect\n",
-			"(wrap-short: (internalerror_info: Status::getWikiText called for a good result, " .
-				"this is incorrect\n))",
 			"<p>Internal error: Status::getWikiText called for a good result, this is incorrect\n</p>",
-			"<p>(wrap-short: (internalerror_info: Status::getWikiText called for a good result, " .
-				"this is incorrect\n))\n</p>",
-		];
+		);
 
 		$status = new Status();
-		$status->setOK( false );
-		$testCases['GoodButNoError'] = [
+		$status->ok = false;
+		$testCases[ 'GoodButNoError' ] = array(
 			$status,
 			"Internal error: Status::getWikiText: Invalid result object: no error text but not OK\n",
-			"(wrap-short: (internalerror_info: Status::getWikiText: Invalid result object: " .
-				"no error text but not OK\n))",
 			"<p>Internal error: Status::getWikiText: Invalid result object: no error text but not OK\n</p>",
-			"<p>(wrap-short: (internalerror_info: Status::getWikiText: Invalid result object: " .
-				"no error text but not OK\n))\n</p>",
-		];
+		);
 
 		$status = new Status();
 		$status->warning( 'fooBar!' );
-		$testCases['1StringWarning'] = [
+		$testCases[ '1StringWarning' ] = array(
 			$status,
-			"⧼fooBar!⧽",
-			"(wrap-short: (fooBar!))",
-			"<p>⧼fooBar!⧽\n</p>",
-			"<p>(wrap-short: (fooBar!))\n</p>",
-		];
+			"<fooBar!>",
+			"<p>&lt;fooBar!&gt;\n</p>",
+		);
 
 		$status = new Status();
 		$status->warning( 'fooBar!' );
 		$status->warning( 'fooBar2!' );
-		$testCases['2StringWarnings'] = [
+		$testCases[ '2StringWarnings' ] = array(
 			$status,
-			"* ⧼fooBar!⧽\n* ⧼fooBar2!⧽\n",
-			"(wrap-long: * (fooBar!)\n* (fooBar2!)\n)",
-			"<ul><li>⧼fooBar!⧽</li>\n<li>⧼fooBar2!⧽</li></ul>\n",
-			"<p>(wrap-long: * (fooBar!)\n</p>\n<ul><li>(fooBar2!)</li></ul>\n<p>)\n</p>",
-		];
+			"* <fooBar!>\n* <fooBar2!>\n",
+			"<ul>\n<li> &lt;fooBar!&gt;\n</li>\n<li> &lt;fooBar2!&gt;\n</li>\n</ul>\n",
+		);
 
 		$status = new Status();
-		$status->warning( new Message( 'fooBar!', [ 'foo', 'bar' ] ) );
-		$testCases['1MessageWarning'] = [
+		$status->warning( new Message( 'fooBar!', array( 'foo', 'bar' )  ) );
+		$testCases[ '1MessageWarning' ] = array(
 			$status,
-			"⧼fooBar!⧽",
-			"(wrap-short: (fooBar!: foo, bar))",
-			"<p>⧼fooBar!⧽\n</p>",
-			"<p>(wrap-short: (fooBar!: foo, bar))\n</p>",
-		];
+			"<fooBar!>",
+			"<p>&lt;fooBar!&gt;\n</p>",
+		);
 
 		$status = new Status();
-		$status->warning( new Message( 'fooBar!', [ 'foo', 'bar' ] ) );
+		$status->warning( new Message( 'fooBar!', array( 'foo', 'bar' ) ) );
 		$status->warning( new Message( 'fooBar2!' ) );
-		$testCases['2MessageWarnings'] = [
+		$testCases[ '2MessageWarnings' ] = array(
 			$status,
-			"* ⧼fooBar!⧽\n* ⧼fooBar2!⧽\n",
-			"(wrap-long: * (fooBar!: foo, bar)\n* (fooBar2!)\n)",
-			"<ul><li>⧼fooBar!⧽</li>\n<li>⧼fooBar2!⧽</li></ul>\n",
-			"<p>(wrap-long: * (fooBar!: foo, bar)\n</p>\n<ul><li>(fooBar2!)</li></ul>\n<p>)\n</p>",
-		];
+			"* <fooBar!>\n* <fooBar2!>\n",
+			"<ul>\n<li> &lt;fooBar!&gt;\n</li>\n<li> &lt;fooBar2!&gt;\n</li>\n</ul>\n",
+		);
 
 		return $testCases;
-	}
-
-	private static function sanitizedMessageParams( Message $message ) {
-		return array_map( function ( $p ) {
-			return $p instanceof Message
-				? [
-					'key' => $p->getKey(),
-					'params' => self::sanitizedMessageParams( $p ),
-					'lang' => $p->getLanguage()->getCode(),
-				]
-				: $p;
-		}, $message->getParams() );
 	}
 
 	/**
 	 * @dataProvider provideGetMessage
 	 * @covers Status::getMessage
+	 * @todo test long and short context messages generated through this method
 	 */
-	public function testGetMessage(
-		Status $status, $expectedParams = [], $expectedKey, $expectedWrapper
-	) {
-		$message = $status->getMessage( null, null, 'qqx' );
-		$this->assertInstanceOf( Message::class, $message );
-		$this->assertEquals( $expectedParams, self::sanitizedMessageParams( $message ),
-			'Message::getParams' );
+	public function testGetMessage( Status $status, $expectedParams = array(), $expectedKey ) {
+		$message = $status->getMessage();
+		$this->assertInstanceOf( 'Message', $message );
+		$this->assertEquals( $expectedParams, $message->getParams(), 'Message::getParams' );
 		$this->assertEquals( $expectedKey, $message->getKey(), 'Message::getKey' );
-
-		$message = $status->getMessage( 'wrapper-short', 'wrapper-long' );
-		$this->assertInstanceOf( Message::class, $message );
-		$this->assertEquals( $expectedWrapper, $message->getKey(), 'Message::getKey with wrappers' );
-		$this->assertCount( 1, $message->getParams(), 'Message::getParams with wrappers' );
-
-		$message = $status->getMessage( 'wrapper' );
-		$this->assertInstanceOf( Message::class, $message );
-		$this->assertEquals( 'wrapper', $message->getKey(), 'Message::getKey with wrappers' );
-		$this->assertCount( 1, $message->getParams(), 'Message::getParams with wrappers' );
-
-		$message = $status->getMessage( false, 'wrapper' );
-		$this->assertInstanceOf( Message::class, $message );
-		$this->assertEquals( 'wrapper', $message->getKey(), 'Message::getKey with wrappers' );
-		$this->assertCount( 1, $message->getParams(), 'Message::getParams with wrappers' );
 	}
 
 	/**
-	 * @return array Array of arrays with values;
+	 * @return array of arrays with values;
 	 *    0 => status object
 	 *    1 => expected Message parameters (with no context)
 	 *    2 => expected Message key
 	 */
 	public static function provideGetMessage() {
-		$testCases = [];
+		$testCases = array();
 
-		$testCases['GoodStatus'] = [
+		$testCases[ 'GoodStatus' ] = array(
 			new Status(),
-			[ "Status::getMessage called for a good result, this is incorrect\n" ],
-			'internalerror_info',
-			'wrapper-short'
-		];
+			array( "Status::getMessage called for a good result, this is incorrect\n" ),
+			'internalerror_info'
+		);
 
 		$status = new Status();
-		$status->setOK( false );
-		$testCases['GoodButNoError'] = [
+		$status->ok = false;
+		$testCases[ 'GoodButNoError' ] = array(
 			$status,
-			[ "Status::getMessage: Invalid result object: no error text but not OK\n" ],
-			'internalerror_info',
-			'wrapper-short'
-		];
+			array( "Status::getMessage: Invalid result object: no error text but not OK\n" ),
+			'internalerror_info'
+		);
 
 		$status = new Status();
 		$status->warning( 'fooBar!' );
-		$testCases['1StringWarning'] = [
+		$testCases[ '1StringWarning' ] = array(
 			$status,
-			[],
-			'fooBar!',
-			'wrapper-short'
-		];
+			array(),
+			'fooBar!'
+		);
+
+		// FIXME: Assertion tries to compare a StubUserLang with a Language object, because
+		// "data providers are executed before both the call to the setUpBeforeClass static method
+		// and the first call to the setUp method. Because of that you can't access any variables
+		// you create there from within a data provider."
+		// http://phpunit.de/manual/3.7/en/writing-tests-for-phpunit.html
+//		$status = new Status();
+//		$status->warning( 'fooBar!' );
+//		$status->warning( 'fooBar2!' );
+//		$testCases[ '2StringWarnings' ] = array(
+//			$status,
+//			array( new Message( 'fooBar!' ), new Message( 'fooBar2!' ) ),
+//			"* \$1\n* \$2"
+//		);
 
 		$status = new Status();
-		$status->warning( 'fooBar!' );
-		$status->warning( 'fooBar2!' );
-		$testCases[ '2StringWarnings' ] = [
+		$status->warning( new Message( 'fooBar!', array( 'foo', 'bar' )  ) );
+		$testCases[ '1MessageWarning' ] = array(
 			$status,
-			[
-				[ 'key' => 'fooBar!', 'params' => [], 'lang' => 'qqx' ],
-				[ 'key' => 'fooBar2!', 'params' => [], 'lang' => 'qqx' ]
-			],
-			"* \$1\n* \$2",
-			'wrapper-long'
-		];
+			array( 'foo', 'bar' ),
+			'fooBar!'
+		);
 
 		$status = new Status();
-		$status->warning( new Message( 'fooBar!', [ 'foo', 'bar' ] ) );
-		$testCases['1MessageWarning'] = [
-			$status,
-			[ 'foo', 'bar' ],
-			'fooBar!',
-			'wrapper-short'
-		];
-
-		$status = new Status();
-		$status->warning( new Message( 'fooBar!', [ 'foo', 'bar' ] ) );
+		$status->warning( new Message( 'fooBar!', array( 'foo', 'bar' ) ) );
 		$status->warning( new Message( 'fooBar2!' ) );
-		$testCases['2MessageWarnings'] = [
+		$testCases[ '2MessageWarnings' ] = array(
 			$status,
-			[
-				[ 'key' => 'fooBar!', 'params' => [ 'foo', 'bar' ], 'lang' => 'qqx' ],
-				[ 'key' => 'fooBar2!', 'params' => [], 'lang' => 'qqx' ]
-			],
-			"* \$1\n* \$2",
-			'wrapper-long'
-		];
+			array( new Message( 'fooBar!', array( 'foo', 'bar' ) ), new Message( 'fooBar2!' ) ),
+			"* \$1\n* \$2"
+		);
 
 		return $testCases;
 	}
@@ -547,9 +450,9 @@ class StatusTest extends MediaWikiLangTestCase {
 	 */
 	public function testReplaceMessage() {
 		$status = new Status();
-		$message = new Message( 'key1', [ 'foo1', 'bar1' ] );
+		$message = new Message( 'key1', array( 'foo1', 'bar1' ) );
 		$status->error( $message );
-		$newMessage = new Message( 'key2', [ 'foo2', 'bar2' ] );
+		$newMessage = new Message( 'key2', array( 'foo2', 'bar2' ) );
 
 		$status->replaceMessage( $message, $newMessage );
 
@@ -560,15 +463,15 @@ class StatusTest extends MediaWikiLangTestCase {
 	 * @covers Status::getErrorMessage
 	 */
 	public function testGetErrorMessage() {
-		$method = new ReflectionMethod( Status::class, 'getErrorMessage' );
+		$method = new ReflectionMethod( 'Status', 'getErrorMessage' );
 		$method->setAccessible( true );
 		$status = new Status();
 		$key = 'foo';
-		$params = [ 'bar' ];
+		$params = array( 'bar' );
 
 		/** @var Message $message */
-		$message = $method->invoke( $status, array_merge( [ $key ], $params ) );
-		$this->assertInstanceOf( Message::class, $message );
+		$message = $method->invoke( $status, array_merge( array( $key ), $params ) );
+		$this->assertInstanceOf( 'Message', $message );
 		$this->assertEquals( $key, $message->getKey() );
 		$this->assertEquals( $params, $message->getParams() );
 	}
@@ -577,25 +480,25 @@ class StatusTest extends MediaWikiLangTestCase {
 	 * @covers Status::getErrorMessageArray
 	 */
 	public function testGetErrorMessageArray() {
-		$method = new ReflectionMethod( Status::class, 'getErrorMessageArray' );
+		$method = new ReflectionMethod( 'Status', 'getErrorMessageArray' );
 		$method->setAccessible( true );
 		$status = new Status();
 		$key = 'foo';
-		$params = [ 'bar' ];
+		$params = array( 'bar' );
 
 		/** @var Message[] $messageArray */
 		$messageArray = $method->invoke(
 			$status,
-			[
-				array_merge( [ $key ], $params ),
-				array_merge( [ $key ], $params )
-			]
+			array(
+				array_merge( array( $key ), $params ),
+				array_merge( array( $key ), $params )
+			)
 		);
 
 		$this->assertInternalType( 'array', $messageArray );
 		$this->assertCount( 2, $messageArray );
 		foreach ( $messageArray as $message ) {
-			$this->assertInstanceOf( Message::class, $message );
+			$this->assertInstanceOf( 'Message', $message );
 			$this->assertEquals( $key, $message->getKey() );
 			$this->assertEquals( $params, $message->getParams() );
 		}
@@ -625,7 +528,7 @@ class StatusTest extends MediaWikiLangTestCase {
 	 */
 	public function testWakeUpSanitizesCallback() {
 		$status = new Status();
-		$status->cleanCallback = function ( $value ) {
+		$status->cleanCallback = function( $value ) {
 			return '-' . $value . '-';
 		};
 		$status->__wakeup();
@@ -651,72 +554,10 @@ class StatusTest extends MediaWikiLangTestCase {
 	}
 
 	public static function provideNonObjectMessages() {
-		return [
-			[ [ 'ImaString', [ 'param1' => 'value1' ] ] ],
-			[ [ 'ImaString' ] ],
-		];
-	}
-
-	/**
-	 * @dataProvider provideErrorsWarningsOnly
-	 * @covers Status::splitByErrorType
-	 * @covers StatusValue::splitByErrorType
-	 */
-	public function testGetErrorsWarningsOnlyStatus( $errorText, $warningText, $type, $errorResult,
-		$warningResult
-	) {
-		$status = Status::newGood();
-		if ( $errorText ) {
-			$status->fatal( $errorText );
-		}
-		if ( $warningText ) {
-			$status->warning( $warningText );
-		}
-		$testStatus = $status->splitByErrorType()[$type];
-		$this->assertEquals( $errorResult, $testStatus->getErrorsByType( 'error' ) );
-		$this->assertEquals( $warningResult, $testStatus->getErrorsByType( 'warning' ) );
-	}
-
-	public static function provideErrorsWarningsOnly() {
-		return [
-			[
-				'Just an error',
-				'Just a warning',
-				0,
-				[
-					0 => [
-						'type' => 'error',
-						'message' => 'Just an error',
-						'params' => []
-					],
-				],
-				[],
-			], [
-				'Just an error',
-				'Just a warning',
-				1,
-				[],
-				[
-					0 => [
-						'type' => 'warning',
-						'message' => 'Just a warning',
-						'params' => []
-					],
-				],
-			], [
-				null,
-				null,
-				1,
-				[],
-				[],
-			], [
-				null,
-				null,
-				0,
-				[],
-				[],
-			]
-		];
+		return array(
+			array( array( 'ImaString', array( 'param1' => 'value1' ) ) ),
+			array( array( 'ImaString' ) ),
+		);
 	}
 
 }

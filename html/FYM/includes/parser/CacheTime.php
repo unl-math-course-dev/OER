@@ -27,56 +27,46 @@
  * @ingroup Parser
  */
 class CacheTime {
-	/**
-	 * @var string[] ParserOptions which have been taken into account to produce output.
+	/** @var array|bool ParserOptions which have been taken into account to
+	 * produce output or false if not available.
 	 */
 	public $mUsedOptions;
 
-	/**
-	 * @var string|null Compatibility check
-	 */
-	public $mVersion = Parser::VERSION;
-
-	/**
-	 * @var string|int TS_MW timestamp when this object was generated, or -1 for not cacheable. Used
-	 * in ParserCache.
-	 */
-	public $mCacheTime = '';
-
-	/**
-	 * @var int|null Seconds after which the object should expire, use 0 for not cacheable. Used in
-	 * ParserCache.
-	 */
-	public $mCacheExpiry = null;
-
-	/**
-	 * @var int|null Revision ID that was parsed
-	 */
-	public $mCacheRevisionId = null;
+	var	$mVersion = Parser::VERSION,  # Compatibility check
+		$mCacheTime = '',             # Time when this object was generated, or -1 for uncacheable. Used in ParserCache.
+		$mCacheExpiry = null,         # Seconds after which the object should expire, use 0 for uncachable. Used in ParserCache.
+		$mContainsOldMagic,           # Boolean variable indicating if the input contained variables like {{CURRENTDAY}}
+		$mCacheRevisionId = null;     # Revision ID that was parsed
 
 	/**
 	 * @return string TS_MW timestamp
 	 */
-	public function getCacheTime() {
-		// NOTE: keep support for undocumented used of -1 to mean "not cacheable".
-		if ( $this->mCacheTime === '' ) {
-			$this->mCacheTime = MWTimestamp::now();
-		}
-		return $this->mCacheTime;
+	function getCacheTime() {
+		return wfTimestamp( TS_MW, $this->mCacheTime );
+	}
+
+	/**
+	 * @return bool
+	 */
+	function containsOldMagic() {
+		return $this->mContainsOldMagic;
+	}
+
+	/**
+	 * @param $com bool
+	 * @return bool
+	 */
+	function setContainsOldMagic( $com ) {
+		return wfSetVar( $this->mContainsOldMagic, $com );
 	}
 
 	/**
 	 * setCacheTime() sets the timestamp expressing when the page has been rendered.
 	 * This does not control expiry, see updateCacheExpiry() for that!
-	 * @param string $t TS_MW timestamp
+	 * @param $t string
 	 * @return string
 	 */
-	public function setCacheTime( $t ) {
-		// NOTE: keep support for undocumented used of -1 to mean "not cacheable".
-		if ( is_string( $t ) && $t !== '-1' ) {
-			$t = MWTimestamp::convert( TS_MW, $t );
-		}
-
+	function setCacheTime( $t ) {
 		return wfSetVar( $this->mCacheTime, $t );
 	}
 
@@ -84,36 +74,38 @@ class CacheTime {
 	 * @since 1.23
 	 * @return int|null Revision id, if any was set
 	 */
-	public function getCacheRevisionId() {
+	function getCacheRevisionId() {
 		return $this->mCacheRevisionId;
 	}
 
 	/**
 	 * @since 1.23
-	 * @param int|null $id Revision ID
+	 * @param $id int Revision id
 	 */
-	public function setCacheRevisionId( $id ) {
+	function setCacheRevisionId( $id ) {
 		$this->mCacheRevisionId = $id;
 	}
 
 	/**
 	 * Sets the number of seconds after which this object should expire.
-	 *
 	 * This value is used with the ParserCache.
 	 * If called with a value greater than the value provided at any previous call,
 	 * the new call has no effect. The value returned by getCacheExpiry is smaller
 	 * or equal to the smallest number that was provided as an argument to
 	 * updateCacheExpiry().
 	 *
-	 * Avoid using 0 if at all possible. Consider JavaScript for highly dynamic content.
-	 *
-	 * @param int $seconds
+	 * @param $seconds number
 	 */
-	public function updateCacheExpiry( $seconds ) {
+	function updateCacheExpiry( $seconds ) {
 		$seconds = (int)$seconds;
 
 		if ( $this->mCacheExpiry === null || $this->mCacheExpiry > $seconds ) {
 			$this->mCacheExpiry = $seconds;
+		}
+
+		// hack: set old-style marker for uncacheable entries.
+		if ( $this->mCacheExpiry !== null && $this->mCacheExpiry <= 0 ) {
+			$this->mCacheTime = -1;
 		}
 	}
 
@@ -124,15 +116,14 @@ class CacheTime {
 	 * The value returned by getCacheExpiry is smaller or equal to the smallest number
 	 * that was provided to a call of updateCacheExpiry(), and smaller or equal to the
 	 * value of $wgParserCacheExpireTime.
-	 * @return int
+	 * @return int|mixed|null
 	 */
-	public function getCacheExpiry() {
+	function getCacheExpiry() {
 		global $wgParserCacheExpireTime;
 
-		// NOTE: keep support for undocumented used of -1 to mean "not cacheable".
 		if ( $this->mCacheTime < 0 ) {
 			return 0;
-		}
+		} // old-style marker for "not cachable"
 
 		$expire = $this->mCacheExpiry;
 
@@ -142,8 +133,12 @@ class CacheTime {
 			$expire = min( $expire, $wgParserCacheExpireTime );
 		}
 
+		if ( $this->containsOldMagic() ) { //compatibility hack
+			$expire = min( $expire, 3600 ); # 1 hour
+		}
+
 		if ( $expire <= 0 ) {
-			return 0; // not cacheable
+			return 0; // not cachable
 		} else {
 			return $expire;
 		}
@@ -152,7 +147,7 @@ class CacheTime {
 	/**
 	 * @return bool
 	 */
-	public function isCacheable() {
+	function isCacheable() {
 		return $this->getCacheExpiry() > 0;
 	}
 
@@ -161,20 +156,17 @@ class CacheTime {
 	 * per-article cache invalidation timestamps, or if it comes from
 	 * an incompatible older version.
 	 *
-	 * @param string $touched The affected article's last touched timestamp
-	 * @return bool
+	 * @param string $touched the affected article's last touched timestamp
+	 * @return Boolean
 	 */
 	public function expired( $touched ) {
 		global $wgCacheEpoch;
-
-		$expiry = MWTimestamp::convert( TS_MW, MWTimestamp::time() - $this->getCacheExpiry() );
-
-		return !$this->isCacheable() // parser says it's not cacheable
-			|| $this->getCacheTime() < $touched
-			|| $this->getCacheTime() <= $wgCacheEpoch
-			|| $this->getCacheTime() < $expiry // expiry period has passed
-			|| !isset( $this->mVersion )
-			|| version_compare( $this->mVersion, Parser::VERSION, "lt" );
+		return !$this->isCacheable() || // parser says it's uncacheable
+			$this->getCacheTime() < $touched ||
+			$this->getCacheTime() <= $wgCacheEpoch ||
+			$this->getCacheTime() < wfTimestamp( TS_MW, time() - $this->getCacheExpiry() ) || // expiry period has passed
+			!isset( $this->mVersion ) ||
+			version_compare( $this->mVersion, Parser::VERSION, "lt" );
 	}
 
 	/**
@@ -186,8 +178,8 @@ class CacheTime {
 	 * deployed. Someday that should probably be changed.
 	 *
 	 * @since 1.23
-	 * @param int $id The affected article's current revision id
-	 * @return bool
+	 * @param int $id the affected article's current revision id
+	 * @return Boolean
 	 */
 	public function isDifferentRevision( $id ) {
 		$cached = $this->getCacheRevisionId();

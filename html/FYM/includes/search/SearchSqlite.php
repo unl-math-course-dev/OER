@@ -21,8 +21,6 @@
  * @ingroup Search
  */
 
-use MediaWiki\MediaWikiServices;
-
 /**
  * Search engine hook for SQLite
  * @ingroup Search
@@ -30,7 +28,7 @@ use MediaWiki\MediaWikiServices;
 class SearchSqlite extends SearchDatabase {
 	/**
 	 * Whether fulltext search is supported by current schema
-	 * @return bool
+	 * @return Boolean
 	 */
 	function fulltextSearchSupported() {
 		return $this->db->checkForEnabledSearch();
@@ -40,22 +38,19 @@ class SearchSqlite extends SearchDatabase {
 	 * Parse the user's query and transform it into an SQL fragment which will
 	 * become part of a WHERE clause
 	 *
-	 * @param string $filteredText
-	 * @param bool $fulltext
 	 * @return string
 	 */
-	private function parseQuery( $filteredText, $fulltext ) {
-		$lc = $this->legalSearchChars( self::CHARS_NO_SYNTAX ); // Minus syntax chars (" and *)
+	function parseQuery( $filteredText, $fulltext ) {
+		global $wgContLang;
+		$lc = SearchEngine::legalSearchChars(); // Minus format chars
 		$searchon = '';
-		$this->searchTerms = [];
+		$this->searchTerms = array();
 
-		$m = [];
+		$m = array();
 		if ( preg_match_all( '/([-+<>~]?)(([' . $lc . ']+)(\*?)|"[^"]*")/',
 				$filteredText, $m, PREG_SET_ORDER ) ) {
 			foreach ( $m as $bits ) {
-				Wikimedia\suppressWarnings();
-				list( /* all */, $modifier, $term, $nonQuoted, $wildcard ) = $bits;
-				Wikimedia\restoreWarnings();
+				@list( /* all */, $modifier, $term, $nonQuoted, $wildcard ) = $bits;
 
 				if ( $nonQuoted != '' ) {
 					$term = $nonQuoted;
@@ -71,12 +66,11 @@ class SearchSqlite extends SearchDatabase {
 
 				// Some languages such as Serbian store the input form in the search index,
 				// so we may need to search for matches in multiple writing system variants.
-				$convertedVariants = MediaWikiServices::getInstance()->getContentLanguage()->
-					autoConvertToAllVariants( $term );
+				$convertedVariants = $wgContLang->autoConvertToAllVariants( $term );
 				if ( is_array( $convertedVariants ) ) {
 					$variants = array_unique( array_values( $convertedVariants ) );
 				} else {
-					$variants = [ $term ];
+					$variants = array( $term );
 				}
 
 				// The low-level search index does some processing on input to work
@@ -84,8 +78,7 @@ class SearchSqlite extends SearchDatabase {
 				// fulltext engine.
 				// For Chinese this also inserts spaces between adjacent Han characters.
 				$strippedVariants = array_map(
-					[ MediaWikiServices::getInstance()->getContentLanguage(),
-						'normalizeForSearch' ],
+					array( $wgContLang, 'normalizeForSearch' ),
 					$variants );
 
 				// Some languages such as Chinese force all variants to a canonical
@@ -120,14 +113,16 @@ class SearchSqlite extends SearchDatabase {
 			wfDebug( __METHOD__ . ": Can't understand search query '{$filteredText}'\n" );
 		}
 
-		$searchon = $this->db->addQuotes( $searchon );
+		$searchon = $this->db->strencode( $searchon );
 		$field = $this->getIndexField( $fulltext );
-		return " $field MATCH $searchon ";
+		return " $field MATCH '$searchon' ";
 	}
 
-	private function regexTerm( $string, $wildcard ) {
+	function regexTerm( $string, $wildcard ) {
+		global $wgContLang;
+
 		$regex = preg_quote( $string, '/' );
-		if ( MediaWikiServices::getInstance()->getContentLanguage()->hasWordBreaks() ) {
+		if ( $wgContLang->hasWordBreaks() ) {
 			if ( $wildcard ) {
 				// Don't cut off the final bit!
 				$regex = "\b$regex";
@@ -137,65 +132,63 @@ class SearchSqlite extends SearchDatabase {
 		} else {
 			// For Chinese, words may legitimately abut other words in the text literal.
 			// Don't add \b boundary checks... note this could cause false positives
-			// for Latin chars.
+			// for latin chars.
 		}
 		return $regex;
 	}
 
-	public static function legalSearchChars( $type = self::CHARS_ALL ) {
-		$searchChars = parent::legalSearchChars( $type );
-		if ( $type === self::CHARS_ALL ) {
-			// " for phrase, * for wildcard
-			$searchChars = "\"*" . $searchChars;
-		}
-		return $searchChars;
+	public static function legalSearchChars() {
+		return "\"*" . parent::legalSearchChars();
 	}
 
 	/**
 	 * Perform a full text search query and return a result set.
 	 *
-	 * @param string $term Raw search term
-	 * @return SqlSearchResultSet
+	 * @param string $term raw search term
+	 * @return SqliteSearchResultSet
 	 */
-	protected function doSearchTextInDB( $term ) {
+	function searchText( $term ) {
 		return $this->searchInternal( $term, true );
 	}
 
 	/**
 	 * Perform a title-only search query and return a result set.
 	 *
-	 * @param string $term Raw search term
-	 * @return SqlSearchResultSet
+	 * @param string $term raw search term
+	 * @return SqliteSearchResultSet
 	 */
-	protected function doSearchTitleInDB( $term ) {
+	function searchTitle( $term ) {
 		return $this->searchInternal( $term, false );
 	}
 
 	protected function searchInternal( $term, $fulltext ) {
+		global $wgCountTotalSearchHits, $wgContLang;
+
 		if ( !$this->fulltextSearchSupported() ) {
 			return null;
 		}
 
-		$filteredTerm =
-			$this->filter( MediaWikiServices::getInstance()->getContentLanguage()->lc( $term ) );
+		$filteredTerm = $this->filter( $wgContLang->lc( $term ) );
 		$resultSet = $this->db->query( $this->getQuery( $filteredTerm, $fulltext ) );
 
 		$total = null;
-		$totalResult = $this->db->query( $this->getCountQuery( $filteredTerm, $fulltext ) );
-		$row = $totalResult->fetchObject();
-		if ( $row ) {
-			$total = intval( $row->c );
+		if ( $wgCountTotalSearchHits ) {
+			$totalResult = $this->db->query( $this->getCountQuery( $filteredTerm, $fulltext ) );
+			$row = $totalResult->fetchObject();
+			if ( $row ) {
+				$total = intval( $row->c );
+			}
+			$totalResult->free();
 		}
-		$totalResult->free();
 
-		return new SqlSearchResultSet( $resultSet, $this->searchTerms, $total );
+		return new SqliteSearchResultSet( $resultSet, $this->searchTerms, $total );
 	}
 
 	/**
 	 * Return a partial WHERE clause to limit the search to the given namespaces
-	 * @return string
+	 * @return String
 	 */
-	private function queryNamespaces() {
+	function queryNamespaces() {
 		if ( is_null( $this->namespaces ) ) {
 			return '';  # search all
 		}
@@ -209,21 +202,21 @@ class SearchSqlite extends SearchDatabase {
 
 	/**
 	 * Returns a query with limit for number of results set.
-	 * @param string $sql
-	 * @return string
+	 * @param $sql String:
+	 * @return String
 	 */
-	private function limitResult( $sql ) {
+	function limitResult( $sql ) {
 		return $this->db->limitResult( $sql, $this->limit, $this->offset );
 	}
 
 	/**
 	 * Construct the full SQL query to do the search.
 	 * The guts shoulds be constructed in queryMain()
-	 * @param string $filteredTerm
-	 * @param bool $fulltext
-	 * @return string
+	 * @param $filteredTerm String
+	 * @param $fulltext Boolean
+	 * @return String
 	 */
-	private function getQuery( $filteredTerm, $fulltext ) {
+	function getQuery( $filteredTerm, $fulltext ) {
 		return $this->limitResult(
 			$this->queryMain( $filteredTerm, $fulltext ) . ' ' .
 			$this->queryNamespaces()
@@ -232,21 +225,21 @@ class SearchSqlite extends SearchDatabase {
 
 	/**
 	 * Picks which field to index on, depending on what type of query.
-	 * @param bool $fulltext
-	 * @return string
+	 * @param $fulltext Boolean
+	 * @return String
 	 */
-	private function getIndexField( $fulltext ) {
+	function getIndexField( $fulltext ) {
 		return $fulltext ? 'si_text' : 'si_title';
 	}
 
 	/**
 	 * Get the base part of the search query.
 	 *
-	 * @param string $filteredTerm
-	 * @param bool $fulltext
-	 * @return string
+	 * @param $filteredTerm String
+	 * @param $fulltext Boolean
+	 * @return String
 	 */
-	private function queryMain( $filteredTerm, $fulltext ) {
+	function queryMain( $filteredTerm, $fulltext ) {
 		$match = $this->parseQuery( $filteredTerm, $fulltext );
 		$page = $this->db->tableName( 'page' );
 		$searchindex = $this->db->tableName( 'searchindex' );
@@ -255,7 +248,7 @@ class SearchSqlite extends SearchDatabase {
 			"WHERE page_id=$searchindex.rowid AND $match";
 	}
 
-	private function getCountQuery( $filteredTerm, $fulltext ) {
+	function getCountQuery( $filteredTerm, $fulltext ) {
 		$match = $this->parseQuery( $filteredTerm, $fulltext );
 		$page = $this->db->tableName( 'page' );
 		$searchindex = $this->db->tableName( 'searchindex' );
@@ -269,9 +262,9 @@ class SearchSqlite extends SearchDatabase {
 	 * Create or update the search index record for the given page.
 	 * Title and text should be pre-processed.
 	 *
-	 * @param int $id
-	 * @param string $title
-	 * @param string $text
+	 * @param $id Integer
+	 * @param $title String
+	 * @param $text String
 	 */
 	function update( $id, $title, $text ) {
 		if ( !$this->fulltextSearchSupported() ) {
@@ -281,22 +274,22 @@ class SearchSqlite extends SearchDatabase {
 		// couldn't do it so far due to typelessness of FTS3 tables.
 		$dbw = wfGetDB( DB_MASTER );
 
-		$dbw->delete( 'searchindex', [ 'rowid' => $id ], __METHOD__ );
+		$dbw->delete( 'searchindex', array( 'rowid' => $id ), __METHOD__ );
 
 		$dbw->insert( 'searchindex',
-			[
+			array(
 				'rowid' => $id,
 				'si_title' => $title,
 				'si_text' => $text
-			], __METHOD__ );
+			), __METHOD__ );
 	}
 
 	/**
 	 * Update a search index record's title only.
 	 * Title should be pre-processed.
 	 *
-	 * @param int $id
-	 * @param string $title
+	 * @param $id Integer
+	 * @param $title String
 	 */
 	function updateTitle( $id, $title ) {
 		if ( !$this->fulltextSearchSupported() ) {
@@ -305,8 +298,22 @@ class SearchSqlite extends SearchDatabase {
 		$dbw = wfGetDB( DB_MASTER );
 
 		$dbw->update( 'searchindex',
-			[ 'si_title' => $title ],
-			[ 'rowid' => $id ],
+			array( 'si_title' => $title ),
+			array( 'rowid' => $id ),
 			__METHOD__ );
+	}
+}
+
+/**
+ * @ingroup Search
+ */
+class SqliteSearchResultSet extends SqlSearchResultSet {
+	function __construct( $resultSet, $terms, $totalHits = null ) {
+		parent::__construct( $resultSet, $terms );
+		$this->mTotalHits = $totalHits;
+	}
+
+	function getTotalHits() {
+		return $this->mTotalHits;
 	}
 }

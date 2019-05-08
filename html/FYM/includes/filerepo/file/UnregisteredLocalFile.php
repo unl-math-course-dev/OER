@@ -103,7 +103,7 @@ class UnregisteredLocalFile extends File {
 		if ( $mime ) {
 			$this->mime = $mime;
 		}
-		$this->dims = [];
+		$this->dims = array();
 	}
 
 	/**
@@ -111,11 +111,6 @@ class UnregisteredLocalFile extends File {
 	 * @return bool
 	 */
 	private function cachePageDimensions( $page = 1 ) {
-		$page = (int)$page;
-		if ( $page < 1 ) {
-			$page = 1;
-		}
-
 		if ( !isset( $this->dims[$page] ) ) {
 			if ( !$this->getHandler() ) {
 				return false;
@@ -151,7 +146,7 @@ class UnregisteredLocalFile extends File {
 	 */
 	function getMimeType() {
 		if ( !isset( $this->mime ) ) {
-			$magic = MediaWiki\MediaWikiServices::getInstance()->getMimeAnalyzer();
+			$magic = MimeMagic::singleton();
 			$this->mime = $magic->guessMimeType( $this->getLocalRefPath() );
 		}
 
@@ -168,18 +163,6 @@ class UnregisteredLocalFile extends File {
 		}
 
 		return $this->handler->getImageSize( $this, $this->getLocalRefPath() );
-	}
-
-	/**
-	 * @return int
-	 */
-	function getBitDepth() {
-		$gis = $this->getImageSize( $this->getLocalRefPath() );
-
-		if ( !$gis || !isset( $gis['bits'] ) ) {
-			return 0;
-		}
-		return $gis['bits'];
 	}
 
 	/**

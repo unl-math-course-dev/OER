@@ -1,5 +1,9 @@
 <?php
 /**
+ *
+ *
+ * Created on Jul 3, 2007
+ *
  * Copyright © 2007 Roan Kattouw "<Firstname>.<Lastname>@gmail.com"
  *
  * This program is free software; you can redistribute it and/or modify
@@ -26,59 +30,47 @@
 class ApiUndelete extends ApiBase {
 
 	public function execute() {
-		$this->useTransactionalTimeLimit();
-
 		$params = $this->extractRequestParams();
 
-		$user = $this->getUser();
-		if ( $user->isBlocked() ) {
-			$this->dieBlocked( $user->getBlock() );
+		if ( !$this->getUser()->isAllowed( 'undelete' ) ) {
+			$this->dieUsageMsg( 'permdenied-undelete' );
+		}
+
+		if ( $this->getUser()->isBlocked() ) {
+			$this->dieUsageMsg( 'blockedtext' );
 		}
 
 		$titleObj = Title::newFromText( $params['title'] );
 		if ( !$titleObj || $titleObj->isExternal() ) {
-			$this->dieWithError( [ 'apierror-invalidtitle', wfEscapeWikiText( $params['title'] ) ] );
-		}
-
-		if ( !$titleObj->userCan( 'undelete', $user, 'secure' ) ) {
-			$this->dieWithError( 'permdenied-undelete' );
-		}
-
-		// Check if user can add tags
-		if ( !is_null( $params['tags'] ) ) {
-			$ableToTag = ChangeTags::canAddTagsAccompanyingChange( $params['tags'], $user );
-			if ( !$ableToTag->isOK() ) {
-				$this->dieStatus( $ableToTag );
-			}
+			$this->dieUsageMsg( array( 'invalidtitle', $params['title'] ) );
 		}
 
 		// Convert timestamps
 		if ( !isset( $params['timestamps'] ) ) {
-			$params['timestamps'] = [];
+			$params['timestamps'] = array();
 		}
 		if ( !is_array( $params['timestamps'] ) ) {
-			$params['timestamps'] = [ $params['timestamps'] ];
+			$params['timestamps'] = array( $params['timestamps'] );
 		}
 		foreach ( $params['timestamps'] as $i => $ts ) {
 			$params['timestamps'][$i] = wfTimestamp( TS_MW, $ts );
 		}
 
-		$pa = new PageArchive( $titleObj, $this->getConfig() );
+		$pa = new PageArchive( $titleObj );
 		$retval = $pa->undelete(
-			( $params['timestamps'] ?? [] ),
+			( isset( $params['timestamps'] ) ? $params['timestamps'] : array() ),
 			$params['reason'],
-			$params['fileids'],
+			array(),
 			false,
-			$user,
-			$params['tags']
+			$this->getUser()
 		);
 		if ( !is_array( $retval ) ) {
-			$this->dieWithError( 'apierror-cantundelete' );
+			$this->dieUsageMsg( 'cannotundelete' );
 		}
 
 		if ( $retval[1] ) {
-			Hooks::run( 'FileUndeleteComplete',
-				[ $titleObj, $params['fileids'], $this->getUser(), $params['reason'] ] );
+			wfRunHooks( 'FileUndeleteComplete',
+				array( $titleObj, array(), $this->getUser(), $params['reason'] ) );
 		}
 
 		$this->setWatch( $params['watchlist'], $titleObj );
@@ -99,51 +91,87 @@ class ApiUndelete extends ApiBase {
 	}
 
 	public function getAllowedParams() {
-		return [
-			'title' => [
+		return array(
+			'title' => array(
 				ApiBase::PARAM_TYPE => 'string',
 				ApiBase::PARAM_REQUIRED => true
-			],
+			),
+			'token' => array(
+				ApiBase::PARAM_TYPE => 'string',
+				ApiBase::PARAM_REQUIRED => true
+			),
 			'reason' => '',
-			'tags' => [
-				ApiBase::PARAM_TYPE => 'tags',
-				ApiBase::PARAM_ISMULTI => true,
-			],
-			'timestamps' => [
+			'timestamps' => array(
 				ApiBase::PARAM_TYPE => 'timestamp',
 				ApiBase::PARAM_ISMULTI => true,
-			],
-			'fileids' => [
-				ApiBase::PARAM_TYPE => 'integer',
-				ApiBase::PARAM_ISMULTI => true,
-			],
-			'watchlist' => [
+			),
+			'watchlist' => array(
 				ApiBase::PARAM_DFLT => 'preferences',
-				ApiBase::PARAM_TYPE => [
+				ApiBase::PARAM_TYPE => array(
 					'watch',
 					'unwatch',
 					'preferences',
 					'nochange'
-				],
-			],
-		];
+				),
+			),
+		);
+	}
+
+	public function getParamDescription() {
+		return array(
+			'title' => 'Title of the page you want to restore',
+			'token' => 'An undelete token previously retrieved through list=deletedrevs',
+			'reason' => 'Reason for restoring',
+			'timestamps' => 'Timestamps of the revisions to restore. If not set, all ' .
+				'revisions will be restored.',
+			'watchlist' => 'Unconditionally add or remove the page from your ' .
+				'watchlist, use preferences or do not change watch',
+		);
+	}
+
+	public function getResultProperties() {
+		return array(
+			'' => array(
+				'title' => 'string',
+				'revisions' => 'integer',
+				'filerevisions' => 'integer',
+				'reason' => 'string'
+			)
+		);
+	}
+
+	public function getDescription() {
+		return array(
+			'Restore certain revisions of a deleted page. A list of deleted revisions ',
+			'(including timestamps) can be retrieved through list=deletedrevs.'
+		);
+	}
+
+	public function getPossibleErrors() {
+		return array_merge( parent::getPossibleErrors(), array(
+			array( 'permdenied-undelete' ),
+			array( 'blockedtext' ),
+			array( 'invalidtitle', 'title' ),
+			array( 'cannotundelete' ),
+		) );
 	}
 
 	public function needsToken() {
-		return 'csrf';
+		return true;
 	}
 
-	protected function getExamplesMessages() {
-		return [
-			'action=undelete&title=Main%20Page&token=123ABC&reason=Restoring%20main%20page'
-				=> 'apihelp-undelete-example-page',
-			'action=undelete&title=Main%20Page&token=123ABC' .
-				'&timestamps=2007-07-03T22:00:45Z|2007-07-02T19:48:56Z'
-				=> 'apihelp-undelete-example-revisions',
-		];
+	public function getTokenSalt() {
+		return '';
+	}
+
+	public function getExamples() {
+		return array(
+			'api.php?action=undelete&title=Main%20Page&token=123ABC&reason=Restoring%20main%20page',
+			'api.php?action=undelete&title=Main%20Page&token=123ABC&timestamps=20070703220045|20070702194856'
+		);
 	}
 
 	public function getHelpUrls() {
-		return 'https://www.mediawiki.org/wiki/Special:MyLanguage/API:Undelete';
+		return 'https://www.mediawiki.org/wiki/API:Undelete';
 	}
 }

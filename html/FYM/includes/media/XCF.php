@@ -3,7 +3,7 @@
  * Handler for the Gimp's native file format (XCF)
  *
  * Overview:
- *   https://en.wikipedia.org/wiki/XCF_(file_format)
+ *   http://en.wikipedia.org/wiki/XCF_(file_format)
  * Specification in Gnome repository:
  *   http://svn.gnome.org/viewvc/gimp/trunk/devel-docs/xcf.txt?view=markup
  *
@@ -37,7 +37,7 @@ class XCFHandler extends BitmapHandler {
 	 * @param File $file
 	 * @return bool
 	 */
-	public function mustRender( $file ) {
+	function mustRender( $file ) {
 		return true;
 	}
 
@@ -46,37 +46,22 @@ class XCFHandler extends BitmapHandler {
 	 *
 	 * @param string $ext
 	 * @param string $mime
-	 * @param array|null $params
+	 * @param array $params
 	 * @return array
 	 */
 	function getThumbType( $ext, $mime, $params = null ) {
-		return [ 'png', 'image/png' ];
+		return array( 'png', 'image/png' );
 	}
 
 	/**
 	 * Get width and height from the XCF header.
 	 *
-	 * @param File|FSFile $image
+	 * @param File $image
 	 * @param string $filename
 	 * @return array
 	 */
 	function getImageSize( $image, $filename ) {
-		$header = self::getXCFMetaData( $filename );
-		if ( !$header ) {
-			return false;
-		}
-
-		# Forge a return array containing metadata information just like getimagesize()
-		# See PHP documentation at: https://secure.php.net/getimagesize
-		return [
-			0 => $header['width'],
-			1 => $header['height'],
-			2 => null, # IMAGETYPE constant, none exist for XCF.
-			3 => "height=\"{$header['height']}\" width=\"{$header['width']}\"",
-			'mime' => 'image/x-xcf',
-			'channels' => null,
-			'bits' => 8, # Always 8-bits per color
-		];
+		return self::getXCFMetaData( $filename );
 	}
 
 	/**
@@ -87,7 +72,7 @@ class XCFHandler extends BitmapHandler {
 	 * @author Hashar
 	 *
 	 * @param string $filename Full path to a XCF file
-	 * @return bool|array Metadata Array just like PHP getimagesize()
+	 * @return bool|array metadata array just like PHP getimagesize()
 	 */
 	static function getXCFMetaData( $filename ) {
 		# Decode master structure
@@ -100,23 +85,21 @@ class XCFHandler extends BitmapHandler {
 		$binaryHeader = fread( $f, 26 );
 		fclose( $f );
 
-		/**
-		 * Master image structure:
-		 *
-		 * byte[9] "gimp xcf "  File type magic
-		 * byte[4] version      XCF version
-		 *                        "file" - version 0
-		 *                        "v001" - version 1
-		 *                        "v002" - version 2
-		 * byte    0            Zero-terminator for version tag
-		 * uint32  width        With of canvas
-		 * uint32  height       Height of canvas
-		 * uint32  base_type    Color mode of the image; one of
-		 *                         0: RGB color
-		 *                         1: Grayscale
-		 *                         2: Indexed color
-		 *        (enum GimpImageBaseType in libgimpbase/gimpbaseenums.h)
-		 */
+		# Master image structure:
+		#
+		# byte[9] "gimp xcf "  File type magic
+		# byte[4] version      XCF version
+		#                        "file" - version 0
+		#                        "v001" - version 1
+		#                        "v002" - version 2
+		# byte    0            Zero-terminator for version tag
+		# uint32  width        With of canvas
+		# uint32  height       Height of canvas
+		# uint32  base_type    Color mode of the image; one of
+		#                         0: RGB color
+		#                         1: Grayscale
+		#                         2: Indexed color
+		#        (enum GimpImageBaseType in libgimpbase/gimpbaseenums.h)
 		try {
 			$header = wfUnpack(
 				"A9magic" . # A: space padded
@@ -126,7 +109,7 @@ class XCFHandler extends BitmapHandler {
 					"/Nbase_type", # /
 				$binaryHeader
 			);
-		} catch ( Exception $mwe ) {
+		} catch ( MWException $mwe ) {
 			return false;
 		}
 
@@ -141,60 +124,23 @@ class XCFHandler extends BitmapHandler {
 		wfDebug( __METHOD__ .
 			": canvas size of '$filename' is {$header['width']} x {$header['height']} px\n" );
 
-		return $header;
-	}
+		# Forge a return array containing metadata information just like getimagesize()
+		# See PHP documentation at: http://www.php.net/getimagesize
+		$metadata = array();
+		$metadata[0] = $header['width'];
+		$metadata[1] = $header['height'];
+		$metadata[2] = null; # IMAGETYPE constant, none exist for XCF.
+		$metadata[3] = sprintf(
+			'height="%s" width="%s"', $header['height'], $header['width']
+		);
+		$metadata['mime'] = 'image/x-xcf';
+		$metadata['channels'] = null;
+		$metadata['bits'] = 8; # Always 8-bits per color
 
-	/**
-	 * Store the channel type
-	 *
-	 * Greyscale files need different command line options.
-	 *
-	 * @param File|FSFile $file The image object, or false if there isn't one.
-	 *   Warning, FSFile::getPropsFromPath might pass an (object)array() instead (!)
-	 * @param string $filename
-	 * @return string
-	 */
-	public function getMetadata( $file, $filename ) {
-		$header = self::getXCFMetaData( $filename );
-		$metadata = [];
-		if ( $header ) {
-			// Try to be consistent with the names used by PNG files.
-			// Unclear from base media type if it has an alpha layer,
-			// so just assume that it does since it "potentially" could.
-			switch ( $header['base_type'] ) {
-				case 0:
-					$metadata['colorType'] = 'truecolour-alpha';
-					break;
-				case 1:
-					$metadata['colorType'] = 'greyscale-alpha';
-					break;
-				case 2:
-					$metadata['colorType'] = 'index-coloured';
-					break;
-				default:
-					$metadata['colorType'] = 'unknown';
-			}
-		} else {
-			// Marker to prevent repeated attempted extraction
-			$metadata['error'] = true;
-		}
-		return serialize( $metadata );
-	}
+		assert( '7 == count($metadata); ' .
+			'# return array must contains 7 elements just like getimagesize() return' );
 
-	/**
-	 * Should we refresh the metadata
-	 *
-	 * @param File $file The file object for the file in question
-	 * @param string $metadata Serialized metadata
-	 * @return bool One of the self::METADATA_(BAD|GOOD|COMPATIBLE) constants
-	 */
-	public function isMetadataValid( $file, $metadata ) {
-		if ( !$metadata ) {
-			// Old metadata when we just put an empty string in there
-			return self::METADATA_BAD;
-		} else {
-			return self::METADATA_GOOD;
-		}
+		return $metadata;
 	}
 
 	/**
@@ -204,25 +150,7 @@ class XCFHandler extends BitmapHandler {
 	 * @param bool $checkDstPath
 	 * @return string
 	 */
-	protected function getScalerType( $dstPath, $checkDstPath = true ) {
+	protected static function getScalerType( $dstPath, $checkDstPath = true ) {
 		return "im";
-	}
-
-	/**
-	 * Can we render this file?
-	 *
-	 * Image magick doesn't support indexed xcf files as of current
-	 * writing (as of 6.8.9-3)
-	 * @param File $file
-	 * @return bool
-	 */
-	public function canRender( $file ) {
-		Wikimedia\suppressWarnings();
-		$xcfMeta = unserialize( $file->getMetadata() );
-		Wikimedia\restoreWarnings();
-		if ( isset( $xcfMeta['colorType'] ) && $xcfMeta['colorType'] === 'index-coloured' ) {
-			return false;
-		}
-		return parent::canRender( $file );
 	}
 }

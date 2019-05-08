@@ -46,7 +46,7 @@ class UserDupes {
 
 	/**
 	 * Output some text via the output callback provided
-	 * @param string $str Text to print
+	 * @param $str String Text to print
 	 */
 	private function out( $str ) {
 		call_user_func( $this->outputCallback, $str );
@@ -61,7 +61,6 @@ class UserDupes {
 		$info = $this->db->indexInfo( 'user', 'user_name', __METHOD__ );
 		if ( !$info ) {
 			$this->out( "WARNING: doesn't seem to have user_name index at all!\n" );
-
 			return false;
 		}
 
@@ -96,14 +95,13 @@ class UserDupes {
 	 * not requested. (If doing resolution, edits may be reassigned.)
 	 * Status information will be echo'd to stdout.
 	 *
-	 * @param bool $doDelete Pass true to actually remove things
-	 *   from the database; false to just check.
+	 * @param $doDelete bool: pass true to actually remove things
+	 *                  from the database; false to just check.
 	 * @return bool
 	 */
 	function checkDupes( $doDelete = false ) {
 		if ( $this->hasUniqueIndex() ) {
 			echo wfWikiID() . " already has a unique index on its user table.\n";
-
 			return true;
 		}
 
@@ -127,8 +125,7 @@ class UserDupes {
 
 		if ( $this->reassigned > 0 ) {
 			if ( $doDelete ) {
-				$this->out( "$this->reassigned duplicate accounts had edits "
-					. "reassigned to a canonical record id.\n" );
+				$this->out( "$this->reassigned duplicate accounts had edits reassigned to a canonical record id.\n" );
 			} else {
 				$this->out( "$this->reassigned duplicate accounts need to have edits reassigned.\n" );
 			}
@@ -136,27 +133,22 @@ class UserDupes {
 
 		if ( $this->trimmed > 0 ) {
 			if ( $doDelete ) {
-				$this->out( "$this->trimmed duplicate user records were deleted from "
-					. wfWikiID() . ".\n" );
+				$this->out( "$this->trimmed duplicate user records were deleted from " . wfWikiID() . ".\n" );
 			} else {
-				$this->out( "$this->trimmed duplicate user accounts were found on "
-					. wfWikiID() . " which can be removed safely.\n" );
+				$this->out( "$this->trimmed duplicate user accounts were found on " . wfWikiID() . " which can be removed safely.\n" );
 			}
 		}
 
 		if ( $this->failed > 0 ) {
 			$this->out( "Something terribly awry; $this->failed duplicate accounts were not removed.\n" );
-
 			return false;
 		}
 
 		if ( $this->trimmed == 0 || $doDelete ) {
 			$this->out( "It is now safe to apply the unique index on user_name.\n" );
-
 			return true;
 		} else {
 			$this->out( "Run this script again with the --fix option to automatically delete them.\n" );
-
 			return false;
 		}
 	}
@@ -166,8 +158,8 @@ class UserDupes {
 	 * @access private
 	 */
 	function lock() {
-		$set = [ 'user', 'revision' ];
-		$names = array_map( [ $this, 'lockTable' ], $set );
+		$set = array( 'user', 'revision' );
+		$names = array_map( array( $this, 'lockTable' ), $set );
 		$tables = implode( ',', $names );
 
 		$this->db->query( "LOCK TABLES $tables", __METHOD__ );
@@ -195,13 +187,12 @@ class UserDupes {
 			"SELECT user_name,COUNT(*) AS n
 				FROM $user
 			GROUP BY user_name
-				HAVING n > 1", __METHOD__ );
+			  HAVING n > 1", __METHOD__ );
 
-		$list = [];
+		$list = array();
 		foreach ( $result as $row ) {
 			$list[] = $row->user_name;
 		}
-
 		return $list;
 	}
 
@@ -209,14 +200,14 @@ class UserDupes {
 	 * Examine user records for the given name. Try to see which record
 	 * will be the one that actually gets used, then check remaining records
 	 * for edits. If the dupes have no edits, we can safely remove them.
-	 * @param string $name
-	 * @param bool $doDelete
+	 * @param $name string
+	 * @param $doDelete bool
 	 * @access private
 	 */
 	function examine( $name, $doDelete ) {
 		$result = $this->db->select( 'user',
-			[ 'user_id' ],
-			[ 'user_name' => $name ],
+			array( 'user_id' ),
+			array( 'user_name' => $name ),
 			__METHOD__ );
 
 		$firstRow = $this->db->fetchObject( $result );
@@ -258,7 +249,7 @@ class UserDupes {
 	 * Count the number of edits attributed to this user.
 	 * Does not currently check log table or other things
 	 * where it might show up...
-	 * @param int $userid
+	 * @param $userid int
 	 * @return int
 	 * @access private
 	 */
@@ -266,32 +257,33 @@ class UserDupes {
 		return intval( $this->db->selectField(
 			'revision',
 			'COUNT(*)',
-			[ 'rev_user' => $userid ],
+			array( 'rev_user' => $userid ),
 			__METHOD__ ) );
 	}
 
 	/**
-	 * @param int $from
-	 * @param int $to
+	 * @param $from int
+	 * @param $to int
 	 * @access private
 	 */
 	function reassignEdits( $from, $to ) {
 		$this->out( 'reassigning... ' );
 		$this->db->update( 'revision',
-			[ 'rev_user' => $to ],
-			[ 'rev_user' => $from ],
+			array( 'rev_user' => $to ),
+			array( 'rev_user' => $from ),
 			__METHOD__ );
 		$this->out( "ok. " );
 	}
 
 	/**
 	 * Remove a user account line.
-	 * @param int $userid
+	 * @param $userid int
 	 * @access private
 	 */
 	function trimAccount( $userid ) {
 		$this->out( "deleting..." );
-		$this->db->delete( 'user', [ 'user_id' => $userid ], __METHOD__ );
+		$this->db->delete( 'user', array( 'user_id' => $userid ), __METHOD__ );
 		$this->out( " ok" );
 	}
+
 }

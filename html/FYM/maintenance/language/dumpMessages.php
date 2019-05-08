@@ -20,7 +20,7 @@
  *
  * @file
  * @ingroup MaintenanceLanguage
- * @todo Make this more useful, right now just dumps content language
+ * @todo Make this more useful, right now just dumps $wgContLang
  */
 
 require_once __DIR__ . '/../Maintenance.php';
@@ -33,13 +33,13 @@ require_once __DIR__ . '/../Maintenance.php';
 class DumpMessages extends Maintenance {
 	public function __construct() {
 		parent::__construct();
-		$this->addDescription( 'Dump an entire language, using the keys from English' );
+		$this->mDescription = "Dump an entire language, using the keys from English";
 	}
 
 	public function execute() {
 		global $wgVersion;
 
-		$messages = [];
+		$messages = array();
 		foreach ( array_keys( Language::getMessagesFor( 'en' ) ) as $key ) {
 			$messages[$key] = wfMessage( $key )->text();
 		}
@@ -48,5 +48,5 @@ class DumpMessages extends Maintenance {
 	}
 }
 
-$maintClass = DumpMessages::class;
+$maintClass = "DumpMessages";
 require_once RUN_MAINTENANCE_IF_MAIN;

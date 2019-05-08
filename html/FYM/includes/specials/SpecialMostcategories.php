@@ -24,9 +24,6 @@
  * @author Ævar Arnfjörð Bjarmason <avarab@gmail.com>
  */
 
-use Wikimedia\Rdbms\IResultWrapper;
-use Wikimedia\Rdbms\IDatabase;
-
 /**
  * A special page that list pages that have highest category count
  *
@@ -37,7 +34,7 @@ class MostcategoriesPage extends QueryPage {
 		parent::__construct( $name );
 	}
 
-	public function isExpensive() {
+	function isExpensive() {
 		return true;
 	}
 
@@ -45,34 +42,46 @@ class MostcategoriesPage extends QueryPage {
 		return false;
 	}
 
-	public function getQueryInfo() {
-		return [
-			'tables' => [ 'categorylinks', 'page' ],
-			'fields' => [
+	function getQueryInfo() {
+		return array(
+			'tables' => array( 'categorylinks', 'page' ),
+			'fields' => array(
 				'namespace' => 'page_namespace',
 				'title' => 'page_title',
 				'value' => 'COUNT(*)'
-			],
-			'conds' => [ 'page_namespace' => MWNamespace::getContentNamespaces() ],
-			'options' => [
+			),
+			'conds' => array( 'page_namespace' => MWNamespace::getContentNamespaces() ),
+			'options' => array(
 				'HAVING' => 'COUNT(*) > 1',
-				'GROUP BY' => [ 'page_namespace', 'page_title' ]
-			],
-			'join_conds' => [
-				'page' => [
+				'GROUP BY' => array( 'page_namespace', 'page_title' )
+			),
+			'join_conds' => array(
+				'page' => array(
 					'LEFT JOIN',
 					'page_id = cl_from'
-				]
-			]
-		];
+				)
+			)
+		);
 	}
 
 	/**
-	 * @param IDatabase $db
-	 * @param IResultWrapper $res
+	 * @param DatabaseBase $db
+	 * @param ResultWrapper $res
 	 */
 	function preprocessResults( $db, $res ) {
-		$this->executeLBFromResultWrapper( $res );
+		# There's no point doing a batch check if we aren't caching results;
+		# the page must exist for it to have been pulled out of the table
+		if ( !$this->isCached() || !$res->numRows() ) {
+			return;
+		}
+
+		$batch = new LinkBatch();
+		foreach ( $res as $row ) {
+			$batch->add( $row->namespace, $row->title );
+		}
+		$batch->execute();
+
+		$res->seek( 0 );
 	}
 
 	/**
@@ -85,7 +94,7 @@ class MostcategoriesPage extends QueryPage {
 		if ( !$title ) {
 			return Html::element(
 				'span',
-				[ 'class' => 'mw-invalidtitle' ],
+				array( 'class' => 'mw-invalidtitle' ),
 				Linker::getInvalidTitleDescription(
 					$this->getContext(),
 					$result->namespace,
@@ -94,11 +103,10 @@ class MostcategoriesPage extends QueryPage {
 			);
 		}
 
-		$linkRenderer = $this->getLinkRenderer();
 		if ( $this->isCached() ) {
-			$link = $linkRenderer->makeLink( $title );
+			$link = Linker::link( $title );
 		} else {
-			$link = $linkRenderer->makeKnownLink( $title );
+			$link = Linker::linkKnown( $title );
 		}
 
 		$count = $this->msg( 'ncategories' )->numParams( $result->value )->escaped();

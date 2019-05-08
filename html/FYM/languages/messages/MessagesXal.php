@@ -1,7 +1,8 @@
 <?php
 /** Kalmyk (хальмг)
  *
- * To improve a translation please visit https://translatewiki.net
+ * See MessagesQqq.php for message documentation incl. usage of parameters
+ * To improve a translation please visit http://translatewiki.net
  *
  * @ingroup Language
  * @file
@@ -15,7 +16,7 @@ $fallback = 'ru';
 
 $fallback8bitEncoding = "windows-1251";
 
-$namespaceNames = [
+$namespaceNames = array(
 	NS_MEDIA            => 'Аһар',
 	NS_SPECIAL          => 'Көдлхнә',
 	NS_TALK             => 'Меткән',
@@ -32,9 +33,9 @@ $namespaceNames = [
 	NS_HELP_TALK        => 'Цәәлһлһин_туск_меткән',
 	NS_CATEGORY         => 'Әәшл',
 	NS_CATEGORY_TALK    => 'Әәшлин_туск_меткән',
-];
+);
 
-$namespaceAliases = [
+$namespaceAliases = array(
 	'Көдлхнə'                 => NS_SPECIAL,
 	'Ухалвр'                  => NS_TALK,
 	'Орлцач'                  => NS_USER,
@@ -49,7 +50,8 @@ $namespaceAliases = [
 	'Цəəлһлһин_тускар_ухалвр' => NS_HELP_TALK,
 	'Янз'                     => NS_CATEGORY,
 	'Янзин_тускар_ухалвр'     => NS_CATEGORY_TALK,
-];
+);
 
 // Remove Russian aliases
-$namespaceGenderAliases = [];
+$namespaceGenderAliases = array();
+

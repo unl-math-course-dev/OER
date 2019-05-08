@@ -35,65 +35,35 @@ class RollbackAction extends FormlessAction {
 		return 'rollback';
 	}
 
-	/**
-	 * Temporarily unused message keys due to T88044/T136375:
-	 * - confirm-rollback-top
-	 * - confirm-rollback-button
-	 * - rollbackfailed
-	 * - rollback-missingparam
-	 * - rollback-success-notify
-	 */
-
-	/**
-	 * @throws ErrorPageError
-	 */
 	public function onView() {
-		// TODO: use $this->useTransactionalTimeLimit(); when POST only
-		wfTransactionalTimeLimit();
+		$details = null;
 
 		$request = $this->getRequest();
-		$user = $this->getUser();
-		$from = $request->getVal( 'from' );
-		$rev = $this->page->getRevision();
-		if ( $from === null ) {
-			throw new ErrorPageError( 'rollbackfailed', 'rollback-missingparam' );
-		}
-		if ( !$rev ) {
-			throw new ErrorPageError( 'rollbackfailed', 'rollback-missingrevision' );
-		}
-		if ( $from !== $rev->getUserText() ) {
-			throw new ErrorPageError( 'rollbackfailed', 'alreadyrolled', [
-				$this->getTitle()->getPrefixedText(),
-				$from,
-				$rev->getUserText()
-			] );
-		}
 
-		$data = null;
-		$errors = $this->page->doRollback(
-			$from,
+		$result = $this->page->doRollback(
+			$request->getVal( 'from' ),
 			$request->getText( 'summary' ),
 			$request->getVal( 'token' ),
 			$request->getBool( 'bot' ),
-			$data,
+			$details,
 			$this->getUser()
 		);
 
-		if ( in_array( [ 'actionthrottledtext' ], $errors ) ) {
+		if ( in_array( array( 'actionthrottledtext' ), $result ) ) {
 			throw new ThrottledError;
 		}
 
-		if ( isset( $errors[0][0] ) &&
-			( $errors[0][0] == 'alreadyrolled' || $errors[0][0] == 'cantrollback' )
+		if ( isset( $result[0][0] ) &&
+			( $result[0][0] == 'alreadyrolled' || $result[0][0] == 'cantrollback' )
 		) {
 			$this->getOutput()->setPageTitle( $this->msg( 'rollbackfailed' ) );
-			$errArray = $errors[0];
+			$errArray = $result[0];
 			$errMsg = array_shift( $errArray );
 			$this->getOutput()->addWikiMsgArray( $errMsg, $errArray );
 
-			if ( isset( $data['current'] ) ) {
+			if ( isset( $details['current'] ) ) {
 				/** @var Revision $current */
-				$current = $data['current'];
+				$current = $details['current'];
 
 				if ( $current->getComment() != '' ) {
 					$this->getOutput()->addHTML( $this->msg( 'editcomment' )->rawParams(
@@ -104,42 +74,33 @@ class RollbackAction extends FormlessAction {
 			return;
 		}
 
-		# NOTE: Permission errors already handled by Action::checkExecute.
-		if ( $errors == [ [ 'readonlytext' ] ] ) {
+		#NOTE: Permission errors already handled by Action::checkExecute.
+
+		if ( $result == array( array( 'readonlytext' ) ) ) {
 			throw new ReadOnlyError;
 		}
 
-		# XXX: Would be nice if ErrorPageError could take multiple errors, and/or a status object.
-		#      Right now, we only show the first error
-		foreach ( $errors as $error ) {
+		#XXX: Would be nice if ErrorPageError could take multiple errors, and/or a status object.
+		#     Right now, we only show the first error
+		foreach ( $result as $error ) {
 			throw new ErrorPageError( 'rollbackfailed', $error[0], array_slice( $error, 1 ) );
 		}
 
 		/** @var Revision $current */
-		$current = $data['current'];
-		$target = $data['target'];
-		$newId = $data['newid'];
+		$current = $details['current'];
+		$target = $details['target'];
+		$newId = $details['newid'];
 		$this->getOutput()->setPageTitle( $this->msg( 'actioncomplete' ) );
 		$this->getOutput()->setRobotPolicy( 'noindex,nofollow' );
 
 		$old = Linker::revUserTools( $current );
 		$new = Linker::revUserTools( $target );
-		$this->getOutput()->addHTML(
-			$this->msg( 'rollback-success' )
-				->rawParams( $old, $new )
-				->params( $current->getUserText( Revision::FOR_THIS_USER, $user ) )
-				->params( $target->getUserText( Revision::FOR_THIS_USER, $user ) )
-				->parseAsBlock()
-		);
-
-		if ( $user->getBoolOption( 'watchrollback' ) ) {
-			$user->addWatch( $this->page->getTitle(), User::IGNORE_USER_RIGHTS );
-		}
-
+		$this->getOutput()->addHTML( $this->msg( 'rollback-success' )->rawParams( $old, $new )
+			->parseAsBlock() );
 		$this->getOutput()->returnToMain( false, $this->getTitle() );
 
 		if ( !$request->getBool( 'hidediff', false ) &&
-			!$this->getUser()->getBoolOption( 'norollbackdiff' )
+			!$this->getUser()->getBoolOption( 'norollbackdiff', false )
 		) {
 			$contentHandler = $current->getContentHandler();
 			$de = $contentHandler->createDifferenceEngine(
@@ -155,9 +116,5 @@ class RollbackAction extends FormlessAction {
 
 	protected function getDescription() {
 		return '';
-	}
-
-	public function doesWrites() {
-		return true;
 	}
 }

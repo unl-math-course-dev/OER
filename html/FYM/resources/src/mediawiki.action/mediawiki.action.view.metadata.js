@@ -1,57 +1,47 @@
-/*!
+/**
  * Exif metadata display for MediaWiki file uploads
  *
  * Add an expand/collapse link and collapse by default if set to
  * (with JS disabled, user will see all items)
  *
- * See also ImagePage.php#makeMetadataTable (creates the HTML)
+ * See also:
+ * - ImagePage.php#makeMetadataTable (creates the HTML)
+ * - skins/common/shared.css (hides tr.collapsable inside table.collapsed)
  */
-( function () {
+( function ( mw, $ ) {
 	$( function () {
-		var $tables = $( '.mw_metadata' );
-		if ( !$tables.find( '.mw-metadata-collapsible, .collapsable' ).length ) {
-			// No collapsible rows present on this page
+		var $row, $col, $link,
+			showText = mw.msg( 'metadata-expand' ),
+			hideText = mw.msg( 'metadata-collapse' ),
+			$table = $( '#mw_metadata' ),
+			$tbody = $table.find( 'tbody' );
+
+		if ( !$tbody.length || !$tbody.find( '.collapsable' ).length ) {
 			return;
 		}
-		$tables.each( function () {
-			var $link,
-				expandText = mw.msg( 'metadata-expand' ),
-				collapseText = mw.msg( 'metadata-collapse' ),
-				$table = $( this );
 
-			$link = $( '<a>' )
-				.text( expandText )
-				.attr( {
-					role: 'button',
-					tabindex: 0
-				} )
-				.on( 'click keypress', function ( e ) {
-					if (
-						e.type === 'click' ||
-						e.type === 'keypress' && e.which === 13
-					) {
-						if ( $table.hasClass( 'collapsed' ) ) {
-							// From collapsed to expanded. Button will now collapse.
-							$( this ).text( collapseText );
-						} else {
-							// From expanded to collapsed. Button will now expand.
-							$( this ).text( expandText );
-						}
-						$table.toggleClass( 'collapsed' );
-					}
-				} );
+		$row = $( '<tr class="mw-metadata-show-hide-extended"></tr>' );
+		$col = $( '<td colspan="2"></td>' );
 
-			$table.find( 'tbody' ).append(
-				$( '<tr class="mw-metadata-show-hide-extended"></tr>' ).append(
-					$( '<td colspan="2"></td>' ).append( $link )
-				)
-			);
+		$link = $( '<a>', {
+			text: showText,
+			href: '#'
+		} ).click( function () {
+			if ( $table.hasClass( 'collapsed' ) ) {
+				$( this ).text( hideText );
+			} else {
+				$( this ).text( showText );
+			}
+			$table.toggleClass( 'expanded collapsed' );
+			return false;
 		} );
 
-		// Initial collapsed state
-		// (For back-compat with cached HTML from before ImagePage.php
-		// did this by default)
-		$tables.addClass( 'collapsed' );
+		$col.append( $link );
+		$row.append( $col );
+		$tbody.append( $row );
+
+		// And collapse!
+		$table.addClass( 'collapsed' );
 	} );
 
-}() );
+}( mediaWiki, jQuery ) );

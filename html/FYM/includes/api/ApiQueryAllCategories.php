@@ -1,5 +1,9 @@
 <?php
 /**
+ *
+ *
+ * Created on December 12, 2007
+ *
  * Copyright © 2007 Roan Kattouw "<Firstname>.<Lastname>@gmail.com"
  *
  * This program is free software; you can redistribute it and/or modify
@@ -28,7 +32,7 @@
  */
 class ApiQueryAllCategories extends ApiQueryGeneratorBase {
 
-	public function __construct( ApiQuery $query, $moduleName ) {
+	public function __construct( $query, $moduleName ) {
 		parent::__construct( $query, $moduleName, 'ac' );
 	}
 
@@ -45,7 +49,7 @@ class ApiQueryAllCategories extends ApiQueryGeneratorBase {
 	}
 
 	/**
-	 * @param ApiPageSet $resultPageSet
+	 * @param $resultPageSet ApiPageSet
 	 */
 	private function run( $resultPageSet = null ) {
 		$db = $this->getDB();
@@ -90,23 +94,23 @@ class ApiQueryAllCategories extends ApiQueryGeneratorBase {
 		$this->addOption( 'ORDER BY', 'cat_title' . $sort );
 
 		$prop = array_flip( $params['prop'] );
-		$this->addFieldsIf( [ 'cat_pages', 'cat_subcats', 'cat_files' ], isset( $prop['size'] ) );
+		$this->addFieldsIf( array( 'cat_pages', 'cat_subcats', 'cat_files' ), isset( $prop['size'] ) );
 		if ( isset( $prop['hidden'] ) ) {
-			$this->addTables( [ 'page', 'page_props' ] );
-			$this->addJoinConds( [
-				'page' => [ 'LEFT JOIN', [
+			$this->addTables( array( 'page', 'page_props' ) );
+			$this->addJoinConds( array(
+				'page' => array( 'LEFT JOIN', array(
 					'page_namespace' => NS_CATEGORY,
-					'page_title=cat_title' ] ],
-				'page_props' => [ 'LEFT JOIN', [
+					'page_title=cat_title' ) ),
+				'page_props' => array( 'LEFT JOIN', array(
 					'pp_page=page_id',
-					'pp_propname' => 'hiddencat' ] ],
-			] );
-			$this->addFields( [ 'cat_hidden' => 'pp_propname' ] );
+					'pp_propname' => 'hiddencat' ) ),
+			) );
+			$this->addFields( array( 'cat_hidden' => 'pp_propname' ) );
 		}
 
 		$res = $this->select( __METHOD__ );
 
-		$pages = [];
+		$pages = array();
 
 		$result = $this->getResult();
 		$count = 0;
@@ -123,18 +127,18 @@ class ApiQueryAllCategories extends ApiQueryGeneratorBase {
 			if ( !is_null( $resultPageSet ) ) {
 				$pages[] = $titleObj;
 			} else {
-				$item = [];
-				ApiResult::setContentValue( $item, 'category', $titleObj->getText() );
+				$item = array();
+				ApiResult::setContent( $item, $titleObj->getText() );
 				if ( isset( $prop['size'] ) ) {
 					$item['size'] = intval( $row->cat_pages );
 					$item['pages'] = $row->cat_pages - $row->cat_subcats - $row->cat_files;
 					$item['files'] = intval( $row->cat_files );
 					$item['subcats'] = intval( $row->cat_subcats );
 				}
-				if ( isset( $prop['hidden'] ) ) {
-					$item['hidden'] = (bool)$row->cat_hidden;
+				if ( isset( $prop['hidden'] ) && $row->cat_hidden ) {
+					$item['hidden'] = '';
 				}
-				$fit = $result->addValue( [ 'query', $this->getModuleName() ], null, $item );
+				$fit = $result->addValue( array( 'query', $this->getModuleName() ), null, $item );
 				if ( !$fit ) {
 					$this->setContinueEnumParameter( 'continue', $row->cat_title );
 					break;
@@ -143,59 +147,95 @@ class ApiQueryAllCategories extends ApiQueryGeneratorBase {
 		}
 
 		if ( is_null( $resultPageSet ) ) {
-			$result->addIndexedTagName( [ 'query', $this->getModuleName() ], 'c' );
+			$result->setIndexedTagName_internal( array( 'query', $this->getModuleName() ), 'c' );
 		} else {
 			$resultPageSet->populateFromTitles( $pages );
 		}
 	}
 
 	public function getAllowedParams() {
-		return [
+		return array(
 			'from' => null,
-			'continue' => [
-				ApiBase::PARAM_HELP_MSG => 'api-help-param-continue',
-			],
+			'continue' => null,
 			'to' => null,
 			'prefix' => null,
-			'dir' => [
+			'dir' => array(
 				ApiBase::PARAM_DFLT => 'ascending',
-				ApiBase::PARAM_TYPE => [
+				ApiBase::PARAM_TYPE => array(
 					'ascending',
 					'descending'
-				],
-			],
-			'min' => [
+				),
+			),
+			'min' => array(
+				ApiBase::PARAM_DFLT => null,
 				ApiBase::PARAM_TYPE => 'integer'
-			],
-			'max' => [
+			),
+			'max' => array(
+				ApiBase::PARAM_DFLT => null,
 				ApiBase::PARAM_TYPE => 'integer'
-			],
-			'limit' => [
+			),
+			'limit' => array(
 				ApiBase::PARAM_DFLT => 10,
 				ApiBase::PARAM_TYPE => 'limit',
 				ApiBase::PARAM_MIN => 1,
 				ApiBase::PARAM_MAX => ApiBase::LIMIT_BIG1,
 				ApiBase::PARAM_MAX2 => ApiBase::LIMIT_BIG2
-			],
-			'prop' => [
-				ApiBase::PARAM_TYPE => [ 'size', 'hidden' ],
+			),
+			'prop' => array(
+				ApiBase::PARAM_TYPE => array( 'size', 'hidden' ),
 				ApiBase::PARAM_DFLT => '',
-				ApiBase::PARAM_ISMULTI => true,
-				ApiBase::PARAM_HELP_MSG_PER_VALUE => [],
-			],
-		];
+				ApiBase::PARAM_ISMULTI => true
+			),
+		);
 	}
 
-	protected function getExamplesMessages() {
-		return [
-			'action=query&list=allcategories&acprop=size'
-				=> 'apihelp-query+allcategories-example-size',
-			'action=query&generator=allcategories&gacprefix=List&prop=info'
-				=> 'apihelp-query+allcategories-example-generator',
-		];
+	public function getParamDescription() {
+		return array(
+			'from' => 'The category to start enumerating from',
+			'continue' => 'When more results are available, use this to continue',
+			'to' => 'The category to stop enumerating at',
+			'prefix' => 'Search for all category titles that begin with this value',
+			'dir' => 'Direction to sort in',
+			'min' => 'Minimum number of category members',
+			'max' => 'Maximum number of category members',
+			'limit' => 'How many categories to return',
+			'prop' => array(
+				'Which properties to get',
+				' size    - Adds number of pages in the category',
+				' hidden  - Tags categories that are hidden with __HIDDENCAT__',
+			),
+		);
+	}
+
+	public function getResultProperties() {
+		return array(
+			'' => array(
+				'*' => 'string'
+			),
+			'size' => array(
+				'size' => 'integer',
+				'pages' => 'integer',
+				'files' => 'integer',
+				'subcats' => 'integer'
+			),
+			'hidden' => array(
+				'hidden' => 'boolean'
+			)
+		);
+	}
+
+	public function getDescription() {
+		return 'Enumerate all categories.';
+	}
+
+	public function getExamples() {
+		return array(
+			'api.php?action=query&list=allcategories&acprop=size',
+			'api.php?action=query&generator=allcategories&gacprefix=List&prop=info',
+		);
 	}
 
 	public function getHelpUrls() {
-		return 'https://www.mediawiki.org/wiki/Special:MyLanguage/API:Allcategories';
+		return 'https://www.mediawiki.org/wiki/API:Allcategories';
 	}
 }

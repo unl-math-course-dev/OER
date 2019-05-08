@@ -34,10 +34,7 @@
  * minutes and hundreds of read hits.
  *
  * The PoolCounter provides semaphore semantics for restricting the number
- * of workers that may be concurrently performing such single task. Only one
- * key can be locked by any PoolCounter instance of a process, except for keys
- * that start with "nowait:". However, only 0 timeouts (non-blocking requests)
- * can be used with "nowait:" keys.
+ * of workers that may be concurrently performing such single task.
  *
  * By default PoolCounter_Stub is used, which provides no locking. You
  * can get a useful one in the PoolCounter extension.
@@ -56,55 +53,30 @@ abstract class PoolCounter {
 
 	/** @var string All workers with the same key share the lock */
 	protected $key;
-	/** @var int Maximum number of workers working on tasks with the same key simultaneously */
+	/** @var integer Maximum number of workers doing the task simultaneously */
 	protected $workers;
-	/**
-	 * Maximum number of workers working on this task type, regardless of key.
-	 * 0 means unlimited. Max allowed value is 65536.
-	 * The way the slot limit is enforced is overzealous - this option should be used with caution.
-	 * @var int
-	 */
-	protected $slots = 0;
-	/** @var int If this number of workers are already working/waiting, fail instead of wait */
+	/** @var integer If this number of workers are already working/waiting, fail instead of wait */
 	protected $maxqueue;
 	/** @var float Maximum time in seconds to wait for the lock */
 	protected $timeout;
 
 	/**
-	 * @var bool Whether the key is a "might wait" key
-	 */
-	private $isMightWaitKey;
-	/**
-	 * @var bool Whether this process holds a "might wait" lock key
-	 */
-	private static $acquiredMightWaitKey = 0;
-
-	/**
 	 * @param array $conf
-	 * @param string $type The class of actions to limit concurrency for (task type)
+	 * @param string $type
 	 * @param string $key
 	 */
 	protected function __construct( $conf, $type, $key ) {
+		$this->key = $key;
 		$this->workers = $conf['workers'];
 		$this->maxqueue = $conf['maxqueue'];
 		$this->timeout = $conf['timeout'];
-		if ( isset( $conf['slots'] ) ) {
-			$this->slots = $conf['slots'];
-		}
-
-		if ( $this->slots ) {
-			$key = $this->hashKeyIntoSlots( $type, $key, $this->slots );
-		}
-
-		$this->key = $key;
-		$this->isMightWaitKey = !preg_match( '/^nowait:/', $this->key );
 	}
 
 	/**
 	 * Create a Pool counter. This should only be called from the PoolWorks.
 	 *
-	 * @param string $type The class of actions to limit concurrency for (task type)
-	 * @param string $key
+	 * @param $type
+	 * @param $key
 	 *
 	 * @return PoolCounter
 	 */
@@ -146,72 +118,12 @@ abstract class PoolCounter {
 	 * Lets another one grab the lock, and returns the workers
 	 * waiting on acquireForAnyone()
 	 *
-	 * @return Status Value is one of Released/NotLocked/Error
+	 * @return Status value is one of Released/NotLocked/Error
 	 */
 	abstract public function release();
-
-	/**
-	 * Checks that the lock request is sane.
-	 * @return Status - good for sane requests fatal for insane
-	 * @since 1.25
-	 */
-	final protected function precheckAcquire() {
-		if ( $this->isMightWaitKey ) {
-			if ( self::$acquiredMightWaitKey ) {
-				/*
-				 * The poolcounter itself is quite happy to allow you to wait
-				 * on another lock while you have a lock you waited on already
-				 * but we think that it is unlikely to be a good idea.  So we
-				 * made it an error.  If you are _really_ _really_ sure it is a
-				 * good idea then feel free to implement an unsafe flag or
-				 * something.
-				 */
-				return Status::newFatal( 'poolcounter-usage-error',
-					'You may only aquire a single non-nowait lock.' );
-			}
-		} elseif ( $this->timeout !== 0 ) {
-			return Status::newFatal( 'poolcounter-usage-error',
-				'Locks starting in nowait: must have 0 timeout.' );
-		}
-		return Status::newGood();
-	}
-
-	/**
-	 * Update any lock tracking information when the lock is acquired
-	 * @since 1.25
-	 */
-	final protected function onAcquire() {
-		self::$acquiredMightWaitKey |= $this->isMightWaitKey;
-	}
-
-	/**
-	 * Update any lock tracking information when the lock is released
-	 * @since 1.25
-	 */
-	final protected function onRelease() {
-		self::$acquiredMightWaitKey &= !$this->isMightWaitKey;
-	}
-
-	/**
-	 * Given a key (any string) and the number of lots, returns a slot key (a prefix with a suffix
-	 * integer from the [0..($slots-1)] range). This is used for a global limit on the number of
-	 * instances of a given type that can acquire a lock. The hashing is deterministic so that
-	 * PoolCounter::$workers is always an upper limit of how many instances with the same key
-	 * can acquire a lock.
-	 *
-	 * @param string $type The class of actions to limit concurrency for (task type)
-	 * @param string $key PoolCounter instance key (any string)
-	 * @param int $slots The number of slots (max allowed value is 65536)
-	 * @return string Slot key with the type and slot number
-	 */
-	protected function hashKeyIntoSlots( $type, $key, $slots ) {
-		return $type . ':' . ( hexdec( substr( sha1( $key ), 0, 4 ) ) % $slots );
-	}
 }
 
-// phpcs:ignore Squiz.Classes.ValidClassName.NotCamelCaps
 class PoolCounter_Stub extends PoolCounter {
-
 	public function __construct() {
 		/* No parameters needed */
 	}

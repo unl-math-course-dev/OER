@@ -32,7 +32,7 @@ require_once __DIR__ . '/Maintenance.php';
 class ImportSiteScripts extends Maintenance {
 	public function __construct() {
 		parent::__construct();
-		$this->addDescription( 'Import site scripts from a site' );
+		$this->mDescription = 'Import site scripts from a site';
 		$this->addArg( 'api', 'API base url' );
 		$this->addArg( 'index', 'index.php base url' );
 		$this->addOption( 'username', 'User name of the script importer' );
@@ -41,12 +41,7 @@ class ImportSiteScripts extends Maintenance {
 	public function execute() {
 		global $wgUser;
 
-		$username = $this->getOption( 'username', false );
-		if ( $username === false ) {
-			$user = User::newSystemUser( 'ScriptImporter', [ 'steal' => true ] );
-		} else {
-			$user = User::newFromName( $username );
-		}
+		$user = User::newFromName( $this->getOption( 'username', 'ScriptImporter' ) );
 		$wgUser = $user;
 
 		$baseUrl = $this->getArg( 1 );
@@ -61,58 +56,53 @@ class ImportSiteScripts extends Maintenance {
 			}
 
 			$this->output( "Importing $page\n" );
-			$url = wfAppendQuery( $baseUrl, [
+			$url = wfAppendQuery( $baseUrl, array(
 				'action' => 'raw',
-				'title' => "MediaWiki:{$page}" ] );
-			$text = Http::get( $url, [], __METHOD__ );
+				'title' => "MediaWiki:{$page}" ) );
+			$text = Http::get( $url );
 
 			$wikiPage = WikiPage::factory( $title );
 			$content = ContentHandler::makeContent( $text, $wikiPage->getTitle() );
 			$wikiPage->doEditContent( $content, "Importing from $url", 0, false, $user );
 		}
+
 	}
 
 	protected function fetchScriptList() {
-		$data = [
+		$data = array(
 			'action' => 'query',
-			'format' => 'json',
+			'format' => 'php',//'json',
 			'list' => 'allpages',
 			'apnamespace' => '8',
 			'aplimit' => '500',
-			'continue' => '',
-		];
+		);
 		$baseUrl = $this->getArg( 0 );
-		$pages = [];
+		$pages = array();
 
-		while ( true ) {
+		do {
 			$url = wfAppendQuery( $baseUrl, $data );
-			$strResult = Http::get( $url, [], __METHOD__ );
-			$result = FormatJson::decode( $strResult, true );
+			$strResult = Http::get( $url );
+			//$result = FormatJson::decode( $strResult ); // Still broken
+			$result = unserialize( $strResult );
 
-			$page = null;
-			foreach ( $result['query']['allpages'] as $page ) {
-				if ( substr( $page['title'], -3 ) === '.js' ) {
-					strtok( $page['title'], ':' );
-					$pages[] = strtok( '' );
+			if ( !empty( $result['query']['allpages'] ) ) {
+				foreach ( $result['query']['allpages'] as $page ) {
+					if ( substr( $page['title'], -3 ) === '.js' ) {
+						strtok( $page['title'], ':' );
+						$pages[] = strtok( '' );
+					}
 				}
 			}
-
-			if ( $page !== null ) {
-				$this->output( "Fetched list up to {$page['title']}\n" );
+			if ( !empty( $result['query-continue'] ) ) {
+				$data['apfrom'] = $result['query-continue']['allpages']['apfrom'];
+				$this->output( "Fetching new batch from {$data['apfrom']}\n" );
 			}
-
-			if ( isset( $result['continue'] ) ) { // >= 1.21
-				$data = array_replace( $data, $result['continue'] );
-			} elseif ( isset( $result['query-continue']['allpages'] ) ) { // <= 1.20
-				$data = array_replace( $data, $result['query-continue']['allpages'] );
-			} else {
-				break;
-			}
-		}
+		} while ( isset( $result['query-continue'] ) );
 
 		return $pages;
+
 	}
 }
 
-$maintClass = ImportSiteScripts::class;
+$maintClass = 'ImportSiteScripts';
 require_once RUN_MAINTENANCE_IF_MAIN;

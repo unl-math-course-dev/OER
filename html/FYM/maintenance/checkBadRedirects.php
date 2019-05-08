@@ -31,20 +31,20 @@ require_once __DIR__ . '/Maintenance.php';
 class CheckBadRedirects extends Maintenance {
 	public function __construct() {
 		parent::__construct();
-		$this->addDescription( 'Check for bad redirects' );
+		$this->mDescription = "Check for bad redirects";
 	}
 
 	public function execute() {
 		$this->output( "Fetching redirects...\n" );
-		$dbr = $this->getDB( DB_REPLICA );
+		$dbr = wfGetDB( DB_SLAVE );
 		$result = $dbr->select(
-			[ 'page' ],
-			[ 'page_namespace', 'page_title', 'page_latest' ],
-			[ 'page_is_redirect' => 1 ] );
+			array( 'page' ),
+			array( 'page_namespace', 'page_title', 'page_latest' ),
+			array( 'page_is_redirect' => 1 ) );
 
 		$count = $result->numRows();
 		$this->output( "Found $count redirects.\n" .
-			"Checking for bad redirects:\n\n" );
+						"Checking for bad redirects:\n\n" );
 
 		foreach ( $result as $row ) {
 			$title = Title::makeTitle( $row->page_namespace, $row->page_title );
@@ -60,5 +60,5 @@ class CheckBadRedirects extends Maintenance {
 	}
 }
 
-$maintClass = CheckBadRedirects::class;
+$maintClass = "CheckBadRedirects";
 require_once RUN_MAINTENANCE_IF_MAIN;

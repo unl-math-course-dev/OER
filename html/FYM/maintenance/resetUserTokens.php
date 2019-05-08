@@ -30,22 +30,13 @@ require_once __DIR__ . '/Maintenance.php';
  * Maintenance script to reset the user_token for all users on the wiki.
  *
  * @ingroup Maintenance
- * @deprecated since 1.27, use $wgAuthenticationTokenVersion instead.
  */
 class ResetUserTokens extends Maintenance {
 	public function __construct() {
 		parent::__construct();
-		$this->addDescription(
-			"Reset the user_token of all users on the wiki. Note that this may log some of them out.\n"
-			. "Deprecated, use \$wgAuthenticationTokenVersion instead."
-		);
+		$this->mDescription = "Reset the user_token of all users on the wiki. Note that this may log some of them out.";
 		$this->addOption( 'nowarn', "Hides the 5 seconds warning", false, false );
-		$this->addOption(
-			'nulls',
-			'Only reset tokens that are currently null (string of \x00\'s)',
-			false,
-			false
-		);
+		$this->addOption( 'nulls', 'Only reset tokens that are currently null (string of \x00\'s)', false, false );
 		$this->setBatchSize( 1000 );
 	}
 
@@ -54,41 +45,39 @@ class ResetUserTokens extends Maintenance {
 
 		if ( !$this->getOption( 'nowarn' ) ) {
 			if ( $this->nullsOnly ) {
-				$this->output( "The script is about to reset the user_token "
-					. "for USERS WITH NULL TOKENS in the database.\n" );
+				$this->output( "The script is about to reset the user_token for USERS WITH NULL TOKENS in the database.\n" );
 			} else {
 				$this->output( "The script is about to reset the user_token for ALL USERS in the database.\n" );
 				$this->output( "This may log some of them out and is not necessary unless you believe your\n" );
 				$this->output( "user table has been compromised.\n" );
 			}
 			$this->output( "\n" );
-			$this->output( "Abort with control-c in the next five seconds "
-				. "(skip this countdown with --nowarn) ... " );
-			$this->countDown( 5 );
+			$this->output( "Abort with control-c in the next five seconds (skip this countdown with --nowarn) ... " );
+			wfCountDown( 5 );
 		}
 
-		// We list user by user_id from one of the replica DBs
-		$dbr = $this->getDB( DB_REPLICA );
+		// We list user by user_id from one of the slave database
+		$dbr = wfGetDB( DB_SLAVE );
 
-		$where = [];
+		$where = array();
 		if ( $this->nullsOnly ) {
 			// Have to build this by hand, because \ is escaped in helper functions
-			$where = [ 'user_token = \'' . str_repeat( '\0', 32 ) . '\'' ];
+			$where = array( 'user_token = \'' . str_repeat( '\0', 32) . '\'' );
 		}
 
-		$maxid = $dbr->selectField( 'user', 'MAX(user_id)', [], __METHOD__ );
+		$maxid = $dbr->selectField( 'user', 'MAX(user_id)', array(), __METHOD__ );
 
 		$min = 0;
-		$max = $this->getBatchSize();
+		$max = $this->mBatchSize;
 
 		do {
 			$result = $dbr->select( 'user',
-				[ 'user_id' ],
+				array( 'user_id' ),
 				array_merge(
 					$where,
-					[ 'user_id > ' . $dbr->addQuotes( $min ),
+					array( 'user_id > ' . $dbr->addQuotes( $min ),
 						'user_id <= ' . $dbr->addQuotes( $max )
-					]
+					)
 				),
 				__METHOD__
 			);
@@ -98,10 +87,12 @@ class ResetUserTokens extends Maintenance {
 			}
 
 			$min = $max;
-			$max = $min + $this->getBatchSize();
+			$max = $min + $this->mBatchSize;
 
 			wfWaitForSlaves();
+
 		} while ( $min <= $maxid );
+
 	}
 
 	private function updateUser( $userid ) {
@@ -115,5 +106,5 @@ class ResetUserTokens extends Maintenance {
 	}
 }
 
-$maintClass = ResetUserTokens::class;
+$maintClass = "ResetUserTokens";
 require_once RUN_MAINTENANCE_IF_MAIN;

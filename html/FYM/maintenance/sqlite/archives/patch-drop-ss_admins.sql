@@ -1,6 +1,7 @@
 -- field is deprecated and no longer updated as of 1.5
 CREATE TABLE /*_*/site_stats_tmp (
   ss_row_id int unsigned NOT NULL,
+  ss_total_views bigint unsigned default 0,
   ss_total_edits bigint unsigned default 0,
   ss_good_articles bigint unsigned default 0,
   ss_total_pages bigint default '-1',
@@ -10,7 +11,7 @@ CREATE TABLE /*_*/site_stats_tmp (
 ) /*$wgDBTableOptions*/;
 
 INSERT INTO /*_*/site_stats_tmp
-	SELECT ss_row_id, ss_total_edits, ss_good_articles,
+	SELECT ss_row_id, ss_total_views, ss_total_edits, ss_good_articles,
 		ss_total_pages, ss_users, ss_active_users, ss_images
 		FROM /*_*/site_stats;
 

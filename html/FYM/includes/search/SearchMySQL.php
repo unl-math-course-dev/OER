@@ -24,39 +24,35 @@
  * @ingroup Search
  */
 
-use MediaWiki\MediaWikiServices;
-
 /**
  * Search engine hook for MySQL 4+
  * @ingroup Search
  */
 class SearchMySQL extends SearchDatabase {
-	protected $strictMatching = true;
-
-	private static $mMinSearchLength;
+	var $strictMatching = true;
+	static $mMinSearchLength;
 
 	/**
-	 * Parse the user's query and transform it into two SQL fragments:
-	 * a WHERE condition and an ORDER BY expression
+	 * Parse the user's query and transform it into an SQL fragment which will
+	 * become part of a WHERE clause
 	 *
-	 * @param string $filteredText
-	 * @param string $fulltext
+	 * @param $filteredText string
+	 * @param $fulltext string
 	 *
-	 * @return array
+	 * @return string
 	 */
-	private function parseQuery( $filteredText, $fulltext ) {
-		$lc = $this->legalSearchChars( self::CHARS_NO_SYNTAX ); // Minus syntax chars (" and *)
+	function parseQuery( $filteredText, $fulltext ) {
+		global $wgContLang;
+		$lc = SearchEngine::legalSearchChars(); // Minus format chars
 		$searchon = '';
-		$this->searchTerms = [];
+		$this->searchTerms = array();
 
 		# @todo FIXME: This doesn't handle parenthetical expressions.
-		$m = [];
+		$m = array();
 		if ( preg_match_all( '/([-+<>~]?)(([' . $lc . ']+)(\*?)|"[^"]*")/',
 				$filteredText, $m, PREG_SET_ORDER ) ) {
 			foreach ( $m as $bits ) {
-				Wikimedia\suppressWarnings();
-				list( /* all */, $modifier, $term, $nonQuoted, $wildcard ) = $bits;
-				Wikimedia\restoreWarnings();
+				@list( /* all */, $modifier, $term, $nonQuoted, $wildcard ) = $bits;
 
 				if ( $nonQuoted != '' ) {
 					$term = $nonQuoted;
@@ -76,19 +72,20 @@ class SearchMySQL extends SearchDatabase {
 
 				// Some languages such as Serbian store the input form in the search index,
 				// so we may need to search for matches in multiple writing system variants.
-				$contLang = MediaWikiServices::getInstance()->getContentLanguage();
-				$convertedVariants = $contLang->autoConvertToAllVariants( $term );
+				$convertedVariants = $wgContLang->autoConvertToAllVariants( $term );
 				if ( is_array( $convertedVariants ) ) {
 					$variants = array_unique( array_values( $convertedVariants ) );
 				} else {
-					$variants = [ $term ];
+					$variants = array( $term );
 				}
 
 				// The low-level search index does some processing on input to work
 				// around problems with minimum lengths and encoding in MySQL's
 				// fulltext engine.
 				// For Chinese this also inserts spaces between adjacent Han characters.
-				$strippedVariants = array_map( [ $contLang, 'normalizeForSearch' ], $variants );
+				$strippedVariants = array_map(
+					array( $wgContLang, 'normalizeForSearch' ),
+					$variants );
 
 				// Some languages such as Chinese force all variants to a canonical
 				// form when stripping to the low-level search index, so to be sure
@@ -124,17 +121,16 @@ class SearchMySQL extends SearchDatabase {
 			wfDebug( __METHOD__ . ": Can't understand search query '{$filteredText}'\n" );
 		}
 
-		$searchon = $this->db->addQuotes( $searchon );
+		$searchon = $this->db->strencode( $searchon );
 		$field = $this->getIndexField( $fulltext );
-		return [
-			" MATCH($field) AGAINST($searchon IN BOOLEAN MODE) ",
-			" MATCH($field) AGAINST($searchon IN NATURAL LANGUAGE MODE) DESC "
-		];
+		return " MATCH($field) AGAINST('$searchon' IN BOOLEAN MODE) ";
 	}
 
-	private function regexTerm( $string, $wildcard ) {
+	function regexTerm( $string, $wildcard ) {
+		global $wgContLang;
+
 		$regex = preg_quote( $string, '/' );
-		if ( MediaWikiServices::getInstance()->getContentLanguage()->hasWordBreaks() ) {
+		if ( $wgContLang->hasWordBreaks() ) {
 			if ( $wildcard ) {
 				// Don't cut off the final bit!
 				$regex = "\b$regex";
@@ -144,41 +140,38 @@ class SearchMySQL extends SearchDatabase {
 		} else {
 			// For Chinese, words may legitimately abut other words in the text literal.
 			// Don't add \b boundary checks... note this could cause false positives
-			// for Latin chars.
+			// for latin chars.
 		}
 		return $regex;
 	}
 
-	public static function legalSearchChars( $type = self::CHARS_ALL ) {
-		$searchChars = parent::legalSearchChars( $type );
-		if ( $type === self::CHARS_ALL ) {
-			// " for phrase, * for wildcard
-			$searchChars = "\"*" . $searchChars;
-		}
-		return $searchChars;
+	public static function legalSearchChars() {
+		return "\"*" . parent::legalSearchChars();
 	}
 
 	/**
 	 * Perform a full text search query and return a result set.
 	 *
-	 * @param string $term Raw search term
-	 * @return SqlSearchResultSet
+	 * @param string $term raw search term
+	 * @return MySQLSearchResultSet
 	 */
-	protected function doSearchTextInDB( $term ) {
+	function searchText( $term ) {
 		return $this->searchInternal( $term, true );
 	}
 
 	/**
 	 * Perform a title-only search query and return a result set.
 	 *
-	 * @param string $term Raw search term
-	 * @return SqlSearchResultSet
+	 * @param string $term raw search term
+	 * @return MySQLSearchResultSet
 	 */
-	protected function doSearchTitleInDB( $term ) {
+	function searchTitle( $term ) {
 		return $this->searchInternal( $term, false );
 	}
 
 	protected function searchInternal( $term, $fulltext ) {
+		global $wgCountTotalSearchHits;
+
 		// This seems out of place, why is this called with empty term?
 		if ( trim( $term ) === '' ) {
 			return null;
@@ -192,33 +185,35 @@ class SearchMySQL extends SearchDatabase {
 		);
 
 		$total = null;
-		$query = $this->getCountQuery( $filteredTerm, $fulltext );
-		$totalResult = $this->db->select(
-			$query['tables'], $query['fields'], $query['conds'],
-			__METHOD__, $query['options'], $query['joins']
-		);
+		if ( $wgCountTotalSearchHits ) {
+			$query = $this->getCountQuery( $filteredTerm, $fulltext );
+			$totalResult = $this->db->select(
+				$query['tables'], $query['fields'], $query['conds'],
+				__METHOD__, $query['options'], $query['joins']
+			);
 
-		$row = $totalResult->fetchObject();
-		if ( $row ) {
-			$total = intval( $row->c );
+			$row = $totalResult->fetchObject();
+			if ( $row ) {
+				$total = intval( $row->c );
+			}
+			$totalResult->free();
 		}
-		$totalResult->free();
 
-		return new SqlSearchResultSet( $resultSet, $this->searchTerms, $total );
+		return new MySQLSearchResultSet( $resultSet, $this->searchTerms, $total );
 	}
 
 	public function supports( $feature ) {
 		switch ( $feature ) {
-			case 'title-suffix-filter':
-				return true;
-			default:
-				return parent::supports( $feature );
+		case 'title-suffix-filter':
+			return true;
+		default:
+			return parent::supports( $feature );
 		}
 	}
 
 	/**
 	 * Add special conditions
-	 * @param array &$query
+	 * @param $query Array
 	 * @since 1.18
 	 */
 	protected function queryFeatures( &$query ) {
@@ -231,7 +226,7 @@ class SearchMySQL extends SearchDatabase {
 
 	/**
 	 * Add namespace conditions
-	 * @param array &$query
+	 * @param $query Array
 	 * @since 1.18 (changed)
 	 */
 	function queryNamespaces( &$query ) {
@@ -245,7 +240,7 @@ class SearchMySQL extends SearchDatabase {
 
 	/**
 	 * Add limit options
-	 * @param array &$query
+	 * @param $query Array
 	 * @since 1.18
 	 */
 	protected function limitResult( &$query ) {
@@ -256,19 +251,19 @@ class SearchMySQL extends SearchDatabase {
 	/**
 	 * Construct the SQL query to do the search.
 	 * The guts shoulds be constructed in queryMain()
-	 * @param string $filteredTerm
-	 * @param bool $fulltext
-	 * @return array
+	 * @param $filteredTerm String
+	 * @param $fulltext Boolean
+	 * @return Array
 	 * @since 1.18 (changed)
 	 */
-	private function getQuery( $filteredTerm, $fulltext ) {
-		$query = [
-			'tables' => [],
-			'fields' => [],
-			'conds' => [],
-			'options' => [],
-			'joins' => [],
-		];
+	function getQuery( $filteredTerm, $fulltext ) {
+		$query = array(
+			'tables' => array(),
+			'fields' => array(),
+			'conds' => array(),
+			'options' => array(),
+			'joins' => array(),
+		);
 
 		$this->queryMain( $query, $filteredTerm, $fulltext );
 		$this->queryFeatures( $query );
@@ -280,22 +275,22 @@ class SearchMySQL extends SearchDatabase {
 
 	/**
 	 * Picks which field to index on, depending on what type of query.
-	 * @param bool $fulltext
-	 * @return string
+	 * @param $fulltext Boolean
+	 * @return String
 	 */
-	private function getIndexField( $fulltext ) {
+	function getIndexField( $fulltext ) {
 		return $fulltext ? 'si_text' : 'si_title';
 	}
 
 	/**
 	 * Get the base part of the search query.
 	 *
-	 * @param array &$query Search query array
-	 * @param string $filteredTerm
-	 * @param bool $fulltext
+	 * @param &$query array Search query array
+	 * @param $filteredTerm String
+	 * @param $fulltext Boolean
 	 * @since 1.18 (changed)
 	 */
-	private function queryMain( &$query, $filteredTerm, $fulltext ) {
+	function queryMain( &$query, $filteredTerm, $fulltext ) {
 		$match = $this->parseQuery( $filteredTerm, $fulltext );
 		$query['tables'][] = 'page';
 		$query['tables'][] = 'searchindex';
@@ -303,26 +298,23 @@ class SearchMySQL extends SearchDatabase {
 		$query['fields'][] = 'page_namespace';
 		$query['fields'][] = 'page_title';
 		$query['conds'][] = 'page_id=si_page';
-		$query['conds'][] = $match[0];
-		$query['options']['ORDER BY'] = $match[1];
+		$query['conds'][] = $match;
 	}
 
 	/**
 	 * @since 1.18 (changed)
-	 * @param string $filteredTerm
-	 * @param bool $fulltext
 	 * @return array
 	 */
-	private function getCountQuery( $filteredTerm, $fulltext ) {
+	function getCountQuery( $filteredTerm, $fulltext ) {
 		$match = $this->parseQuery( $filteredTerm, $fulltext );
 
-		$query = [
-			'tables' => [ 'page', 'searchindex' ],
-			'fields' => [ 'COUNT(*) as c' ],
-			'conds' => [ 'page_id=si_page', $match[0] ],
-			'options' => [],
-			'joins' => [],
-		];
+		$query = array(
+			'tables' => array( 'page', 'searchindex' ),
+			'fields' => array( 'COUNT(*) as c' ),
+			'conds' => array( 'page_id=si_page', $match ),
+			'options' => array(),
+			'joins' => array(),
+		);
 
 		$this->queryFeatures( $query );
 		$this->queryNamespaces( $query );
@@ -334,66 +326,69 @@ class SearchMySQL extends SearchDatabase {
 	 * Create or update the search index record for the given page.
 	 * Title and text should be pre-processed.
 	 *
-	 * @param int $id
-	 * @param string $title
-	 * @param string $text
+	 * @param $id Integer
+	 * @param $title String
+	 * @param $text String
 	 */
 	function update( $id, $title, $text ) {
 		$dbw = wfGetDB( DB_MASTER );
 		$dbw->replace( 'searchindex',
-			[ 'si_page' ],
-			[
+			array( 'si_page' ),
+			array(
 				'si_page' => $id,
 				'si_title' => $this->normalizeText( $title ),
 				'si_text' => $this->normalizeText( $text )
-			], __METHOD__ );
+			), __METHOD__ );
 	}
 
 	/**
 	 * Update a search index record's title only.
 	 * Title should be pre-processed.
 	 *
-	 * @param int $id
-	 * @param string $title
+	 * @param $id Integer
+	 * @param $title String
 	 */
 	function updateTitle( $id, $title ) {
 		$dbw = wfGetDB( DB_MASTER );
 
 		$dbw->update( 'searchindex',
-			[ 'si_title' => $this->normalizeText( $title ) ],
-			[ 'si_page' => $id ],
+			array( 'si_title' => $this->normalizeText( $title ) ),
+			array( 'si_page' => $id ),
 			__METHOD__,
-			[ $dbw->lowPriorityOption() ] );
+			array( $dbw->lowPriorityOption() ) );
 	}
 
 	/**
 	 * Delete an indexed page
 	 * Title should be pre-processed.
 	 *
-	 * @param int $id Page id that was deleted
-	 * @param string $title Title of page that was deleted
+	 * @param Integer $id Page id that was deleted
+	 * @param String $title Title of page that was deleted
 	 */
 	function delete( $id, $title ) {
 		$dbw = wfGetDB( DB_MASTER );
 
-		$dbw->delete( 'searchindex', [ 'si_page' => $id ], __METHOD__ );
+		$dbw->delete( 'searchindex', array( 'si_page' => $id ), __METHOD__ );
 	}
 
 	/**
 	 * Converts some characters for MySQL's indexing to grok it correctly,
 	 * and pads short words to overcome limitations.
-	 * @param string $string
 	 * @return mixed|string
 	 */
 	function normalizeText( $string ) {
+		global $wgContLang;
+
+		wfProfileIn( __METHOD__ );
+
 		$out = parent::normalizeText( $string );
 
 		// MySQL fulltext index doesn't grok utf-8, so we
 		// need to fold cases and convert to hex
 		$out = preg_replace_callback(
 			"/([\\xc0-\\xff][\\x80-\\xbf]*)/",
-			[ $this, 'stripForSearchCallback' ],
-			MediaWikiServices::getInstance()->getContentLanguage()->lc( $out ) );
+			array( $this, 'stripForSearchCallback' ),
+			$wgContLang->lc( $out ) );
 
 		// And to add insult to injury, the default indexing
 		// ignores short words... Pad them so we can pass them
@@ -410,12 +405,15 @@ class SearchMySQL extends SearchDatabase {
 		// Periods within things like hostnames and IP addresses
 		// are also important -- we want a search for "example.com"
 		// or "192.168.1.1" to work sanely.
+		//
 		// MySQL's search seems to ignore them, so you'd match on
 		// "example.wikipedia.com" and "192.168.83.1" as well.
 		$out = preg_replace(
 			"/(\w)\.(\w|\*)/u",
 			"$1u82e$2",
 			$out );
+
+		wfProfileOut( __METHOD__ );
 
 		return $out;
 	}
@@ -424,7 +422,6 @@ class SearchMySQL extends SearchDatabase {
 	 * Armor a case-folded UTF-8 string to get through MySQL's
 	 * fulltext search without being mucked up by funny charset
 	 * settings or anything else of the sort.
-	 * @param array $matches
 	 * @return string
 	 */
 	protected function stripForSearchCallback( $matches ) {
@@ -441,8 +438,8 @@ class SearchMySQL extends SearchDatabase {
 		if ( is_null( self::$mMinSearchLength ) ) {
 			$sql = "SHOW GLOBAL VARIABLES LIKE 'ft\\_min\\_word\\_len'";
 
-			$dbr = wfGetDB( DB_REPLICA );
-			$result = $dbr->query( $sql, __METHOD__ );
+			$dbr = wfGetDB( DB_SLAVE );
+			$result = $dbr->query( $sql );
 			$row = $result->fetchObject();
 			$result->free();
 
@@ -453,5 +450,19 @@ class SearchMySQL extends SearchDatabase {
 			}
 		}
 		return self::$mMinSearchLength;
+	}
+}
+
+/**
+ * @ingroup Search
+ */
+class MySQLSearchResultSet extends SqlSearchResultSet {
+	function __construct( $resultSet, $terms, $totalHits = null ) {
+		parent::__construct( $resultSet, $terms );
+		$this->mTotalHits = $totalHits;
+	}
+
+	function getTotalHits() {
+		return $this->mTotalHits;
 	}
 }

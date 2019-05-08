@@ -1,7 +1,8 @@
 <?php
 /** Kalaallisut (kalaallisut)
  *
- * To improve a translation please visit https://translatewiki.net
+ * See MessagesQqq.php for message documentation incl. usage of parameters
+ * To improve a translation please visit http://translatewiki.net
  *
  * @ingroup Language
  * @file
@@ -16,7 +17,7 @@
 
 $fallback = 'da';
 
-$namespaceNames = [
+$namespaceNames = array(
 	NS_SPECIAL          => 'Immikkut',
 	NS_TALK             => 'Oqallinneq',
 	NS_USER             => 'Atuisoq',
@@ -32,15 +33,15 @@ $namespaceNames = [
 	NS_HELP_TALK        => 'Ikiuutini_oqallinneq',
 	NS_CATEGORY         => 'Sumut_atassuseq',
 	NS_CATEGORY_TALK    => 'Sumut_atassusermi_oqallinneq',
-];
+);
 
-$namespaceAliases = [
+$namespaceAliases = array(
 	'Speciel' => NS_SPECIAL,
 	'Diskussion' => NS_TALK,
 	'Bruger' => NS_USER,
 	'Brugerdiskussion' => NS_USER_TALK,
 	'$1-diskussion' => NS_PROJECT_TALK,
-	'$1ip_oqalliffia' => NS_PROJECT_TALK,
+	'$1ip oqalliffia' => NS_PROJECT_TALK,
 	'Fil' => NS_FILE,
 	'Fildiskussion' => NS_FILE_TALK,
 	'Billede' => NS_FILE,
@@ -53,4 +54,5 @@ $namespaceAliases = [
 	'Hjælp-diskussion' => NS_HELP_TALK,
 	'Kategori' => NS_CATEGORY,
 	'Kategoridiskussion' => NS_CATEGORY_TALK
-];
+);
+

@@ -41,7 +41,6 @@ class PreprocessDump extends DumpIterator {
 
 	public function getStripList() {
 		global $wgParser;
-
 		return $wgParser->getStripList();
 	}
 
@@ -67,7 +66,7 @@ class PreprocessDump extends DumpIterator {
 		} elseif ( isset( $wgParserConf['preprocessorClass'] ) ) {
 			$name = $wgParserConf['preprocessorClass'];
 		} else {
-			$name = Preprocessor_DOM::class;
+			$name = 'Preprocessor_DOM';
 		}
 
 		$wgParser->firstCallInit();
@@ -76,7 +75,7 @@ class PreprocessDump extends DumpIterator {
 
 	/**
 	 * Callback function for each revision, preprocessToObj()
-	 * @param Revision $rev
+	 * @param $rev Revision
 	 */
 	public function processRevision( $rev ) {
 		$content = $rev->getContent( Revision::RAW );
@@ -88,11 +87,10 @@ class PreprocessDump extends DumpIterator {
 		try {
 			$this->mPreprocessor->preprocessToObj( strval( $content->getNativeData() ), 0 );
 		} catch ( Exception $e ) {
-			$this->error( "Caught exception " . $e->getMessage() . " in "
-				. $rev->getTitle()->getPrefixedText() );
+			$this->error( "Caught exception " . $e->getMessage() . " in " . $rev->getTitle()->getPrefixedText() );
 		}
 	}
 }
 
-$maintClass = PreprocessDump::class;
+$maintClass = "PreprocessDump";
 require_once RUN_MAINTENANCE_IF_MAIN;

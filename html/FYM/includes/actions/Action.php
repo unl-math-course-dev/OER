@@ -19,8 +19,6 @@
  * @file
  */
 
-use MediaWiki\MediaWikiServices;
-
 /**
  * @defgroup Actions Action done on pages
  */
@@ -30,31 +28,28 @@ use MediaWiki\MediaWikiServices;
  * are distinct from Special Pages because an action must apply to exactly one page.
  *
  * To add an action in an extension, create a subclass of Action, and add the key to
- * $wgActions.
+ * $wgActions.  There is also the deprecated UnknownAction hook
  *
  * Actions generally fall into two groups: the show-a-form-then-do-something-with-the-input
  * format (protect, delete, move, etc), and the just-do-something format (watch, rollback,
  * patrol, etc). The FormAction and FormlessAction classes represent these two groups.
  */
-abstract class Action implements MessageLocalizer {
+abstract class Action {
 
 	/**
 	 * Page on which we're performing the action
-	 * @since 1.17
 	 * @var WikiPage|Article|ImagePage|CategoryPage|Page $page
 	 */
 	protected $page;
 
 	/**
 	 * IContextSource if specified; otherwise we'll use the Context from the Page
-	 * @since 1.17
 	 * @var IContextSource $context
 	 */
 	protected $context;
 
 	/**
 	 * The fields used to create the HTMLForm
-	 * @since 1.17
 	 * @var array $fields
 	 */
 	protected $fields;
@@ -64,7 +59,7 @@ abstract class Action implements MessageLocalizer {
 	 * the action is disabled, or null if it's not recognised
 	 * @param string $action
 	 * @param array $overrides
-	 * @return bool|null|string|callable|Action
+	 * @return bool|null|string|callable
 	 */
 	final private static function getClass( $action, array $overrides ) {
 		global $wgActions;
@@ -87,10 +82,9 @@ abstract class Action implements MessageLocalizer {
 
 	/**
 	 * Get an appropriate Action subclass for the given action
-	 * @since 1.17
 	 * @param string $action
 	 * @param Page $page
-	 * @param IContextSource|null $context
+	 * @param IContextSource $context
 	 * @return Action|bool|null False if the action is disabled, null
 	 *     if it is not recognised
 	 */
@@ -98,15 +92,12 @@ abstract class Action implements MessageLocalizer {
 		$classOrCallable = self::getClass( $action, $page->getActionOverrides() );
 
 		if ( is_string( $classOrCallable ) ) {
-			if ( !class_exists( $classOrCallable ) ) {
-				return false;
-			}
 			$obj = new $classOrCallable( $page, $context );
 			return $obj;
 		}
 
 		if ( is_callable( $classOrCallable ) ) {
-			return $classOrCallable( $page, $context );
+			return call_user_func_array( $classOrCallable, array( $page, $context ) );
 		}
 
 		return $classOrCallable;
@@ -132,13 +123,11 @@ abstract class Action implements MessageLocalizer {
 			$actionName = 'nosuchaction';
 		}
 
-		// Workaround for T22966: inability of IE to provide an action dependent
+		// Workaround for bug #20966: inability of IE to provide an action dependent
 		// on which submit button is clicked.
 		if ( $actionName === 'historysubmit' ) {
 			if ( $request->getBool( 'revisiondelete' ) ) {
 				$actionName = 'revisiondelete';
-			} elseif ( $request->getBool( 'editchangetags' ) ) {
-				$actionName = 'editchangetags';
 			} else {
 				$actionName = 'view';
 			}
@@ -153,7 +142,7 @@ abstract class Action implements MessageLocalizer {
 			return 'view';
 		}
 
-		$action = self::factory( $actionName, $context->getWikiPage(), $context );
+		$action = Action::factory( $actionName, $context->getWikiPage(), $context );
 		if ( $action instanceof Action ) {
 			return $action->getName();
 		}
@@ -163,18 +152,16 @@ abstract class Action implements MessageLocalizer {
 
 	/**
 	 * Check if a given action is recognised, even if it's disabled
-	 * @since 1.17
 	 *
 	 * @param string $name Name of an action
 	 * @return bool
 	 */
 	final public static function exists( $name ) {
-		return self::getClass( $name, [] ) !== null;
+		return self::getClass( $name, array() ) !== null;
 	}
 
 	/**
 	 * Get the IContextSource in use here
-	 * @since 1.17
 	 * @return IContextSource
 	 */
 	final public function getContext() {
@@ -192,7 +179,6 @@ abstract class Action implements MessageLocalizer {
 
 	/**
 	 * Get the WebRequest being used for this instance
-	 * @since 1.17
 	 *
 	 * @return WebRequest
 	 */
@@ -202,7 +188,6 @@ abstract class Action implements MessageLocalizer {
 
 	/**
 	 * Get the OutputPage being used for this instance
-	 * @since 1.17
 	 *
 	 * @return OutputPage
 	 */
@@ -212,7 +197,6 @@ abstract class Action implements MessageLocalizer {
 
 	/**
 	 * Shortcut to get the User being used for this instance
-	 * @since 1.17
 	 *
 	 * @return User
 	 */
@@ -222,7 +206,6 @@ abstract class Action implements MessageLocalizer {
 
 	/**
 	 * Shortcut to get the Skin being used for this instance
-	 * @since 1.17
 	 *
 	 * @return Skin
 	 */
@@ -240,9 +223,18 @@ abstract class Action implements MessageLocalizer {
 	}
 
 	/**
-	 * Shortcut to get the Title object from the page
-	 * @since 1.17
+	 * Shortcut to get the user Language being used for this instance
 	 *
+	 * @deprecated since 1.19 Use getLanguage instead
+	 * @return Language
+	 */
+	final public function getLang() {
+		wfDeprecated( __METHOD__, '1.19' );
+		return $this->getLanguage();
+	}
+
+	/**
+	 * Shortcut to get the Title object from the page
 	 * @return Title
 	 */
 	final public function getTitle() {
@@ -255,16 +247,18 @@ abstract class Action implements MessageLocalizer {
 	 *
 	 * @return Message
 	 */
-	final public function msg( $key ) {
+	final public function msg() {
 		$params = func_get_args();
-		return $this->getContext()->msg( ...$params );
+		return call_user_func_array( array( $this->getContext(), 'msg' ), $params );
 	}
 
 	/**
+	 * Constructor.
+	 *
 	 * Only public since 1.21
 	 *
 	 * @param Page $page
-	 * @param IContextSource|null $context
+	 * @param IContextSource $context
 	 */
 	public function __construct( Page $page, IContextSource $context = null ) {
 		if ( $context === null ) {
@@ -279,8 +273,6 @@ abstract class Action implements MessageLocalizer {
 
 	/**
 	 * Return the name of the action this object responds to
-	 * @since 1.17
-	 *
 	 * @return string Lowercase name
 	 */
 	abstract public function getName();
@@ -288,8 +280,6 @@ abstract class Action implements MessageLocalizer {
 	/**
 	 * Get the permission required to perform this action.  Often, but not always,
 	 * the same as the action name
-	 * @since 1.17
-	 *
 	 * @return string|null
 	 */
 	public function getRestriction() {
@@ -300,10 +290,10 @@ abstract class Action implements MessageLocalizer {
 	 * Checks if the given user (identified by an object) can perform this action.  Can be
 	 * overridden by sub-classes with more complicated permissions schemes.  Failures here
 	 * must throw subclasses of ErrorPageError
-	 * @since 1.17
 	 *
 	 * @param User $user The user to check, or null to use the context user
 	 * @throws UserBlockedError|ReadOnlyError|PermissionsError
+	 * @return bool True on success
 	 */
 	protected function checkCanExecute( User $user ) {
 		$right = $this->getRestriction();
@@ -325,12 +315,11 @@ abstract class Action implements MessageLocalizer {
 		if ( $this->requiresWrite() && wfReadOnly() ) {
 			throw new ReadOnlyError();
 		}
+		return true;
 	}
 
 	/**
 	 * Whether this action requires the wiki not to be locked
-	 * @since 1.17
-	 *
 	 * @return bool
 	 */
 	public function requiresWrite() {
@@ -339,8 +328,6 @@ abstract class Action implements MessageLocalizer {
 
 	/**
 	 * Whether this action can still be executed by a blocked user
-	 * @since 1.17
-	 *
 	 * @return bool
 	 */
 	public function requiresUnblock() {
@@ -350,13 +337,12 @@ abstract class Action implements MessageLocalizer {
 	/**
 	 * Set output headers for noindexing etc.  This function will not be called through
 	 * the execute() entry point, so only put UI-related stuff in here.
-	 * @since 1.17
 	 */
 	protected function setHeaders() {
 		$out = $this->getOutput();
 		$out->setRobotPolicy( "noindex,nofollow" );
 		$out->setPageTitle( $this->getPageTitle() );
-		$out->setSubtitle( $this->getDescription() );
+		$this->getOutput()->setSubtitle( $this->getDescription() );
 		$out->setArticleRelated( true );
 	}
 
@@ -371,61 +357,24 @@ abstract class Action implements MessageLocalizer {
 
 	/**
 	 * Returns the description that goes below the \<h1\> tag
-	 * @since 1.17
 	 *
-	 * @return string HTML
+	 * @return string
 	 */
 	protected function getDescription() {
 		return $this->msg( strtolower( $this->getName() ) )->escaped();
 	}
 
 	/**
-	 * Adds help link with an icon via page indicators.
-	 * Link target can be overridden by a local message containing a wikilink:
-	 * the message key is: lowercase action name + '-helppage'.
-	 * @param string $to Target MediaWiki.org page title or encoded URL.
-	 * @param bool $overrideBaseUrl Whether $url is a full URL, to avoid MW.o.
-	 * @since 1.25
-	 */
-	public function addHelpLink( $to, $overrideBaseUrl = false ) {
-		$msg = wfMessage( MediaWikiServices::getInstance()->getContentLanguage()->lc(
-			self::getActionName( $this->getContext() )
-			) . '-helppage' );
-
-		if ( !$msg->isDisabled() ) {
-			$helpUrl = Skin::makeUrl( $msg->plain() );
-			$this->getOutput()->addHelpLink( $helpUrl, true );
-		} else {
-			$this->getOutput()->addHelpLink( $to, $overrideBaseUrl );
-		}
-	}
-
-	/**
 	 * The main action entry point.  Do all output for display and send it to the context
 	 * output.  Do not use globals $wgOut, $wgRequest, etc, in implementations; use
 	 * $this->getOutput(), etc.
-	 * @since 1.17
-	 *
 	 * @throws ErrorPageError
 	 */
 	abstract public function show();
 
 	/**
-	 * Call wfTransactionalTimeLimit() if this request was POSTed
-	 * @since 1.26
+	 * Execute the action in a silent fashion: do not display anything or release any errors.
+	 * @return bool whether execution was successful
 	 */
-	protected function useTransactionalTimeLimit() {
-		if ( $this->getRequest()->wasPosted() ) {
-			wfTransactionalTimeLimit();
-		}
-	}
-
-	/**
-	 * Indicates whether this action may perform database writes
-	 * @return bool
-	 * @since 1.27
-	 */
-	public function doesWrites() {
-		return false;
-	}
+	abstract public function execute();
 }

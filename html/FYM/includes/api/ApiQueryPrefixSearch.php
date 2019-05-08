@@ -1,5 +1,4 @@
 <?php
-
 /**
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -24,11 +23,6 @@
  * @ingroup API
  */
 class ApiQueryPrefixSearch extends ApiQueryGeneratorBase {
-	use SearchApi;
-
-	/** @var array list of api allowed params */
-	private $allowedParams;
-
 	public function __construct( $query, $moduleName ) {
 		parent::__construct( $query, $moduleName, 'ps' );
 	}
@@ -42,55 +36,40 @@ class ApiQueryPrefixSearch extends ApiQueryGeneratorBase {
 	}
 
 	/**
-	 * @param ApiPageSet $resultPageSet
+	 * @param $resultPageSet ApiPageSet
 	 */
 	private function run( $resultPageSet = null ) {
 		$params = $this->extractRequestParams();
 		$search = $params['search'];
 		$limit = $params['limit'];
-		$offset = $params['offset'];
+		$namespaces = $params['namespace'];
 
-		$searchEngine = $this->buildSearchEngine( $params );
-		$suggestions = $searchEngine->completionSearchWithVariants( $search );
-		$titles = $searchEngine->extractTitles( $suggestions );
-
-		if ( $suggestions->hasMoreResults() ) {
-			$this->setContinueEnumParameter( 'offset', $offset + $limit );
-		}
-
+		$searcher = new TitlePrefixSearch;
+		$titles = $searcher->searchWithVariants( $search, $limit, $namespaces );
 		if ( $resultPageSet ) {
-			$resultPageSet->setRedirectMergePolicy( function ( array $current, array $new ) {
-				if ( !isset( $current['index'] ) || $new['index'] < $current['index'] ) {
-					$current['index'] = $new['index'];
-				}
-				return $current;
-			} );
 			$resultPageSet->populateFromTitles( $titles );
-			foreach ( $titles as $index => $title ) {
-				$resultPageSet->setGeneratorData( $title, [ 'index' => $index + $offset + 1 ] );
-			}
 		} else {
 			$result = $this->getResult();
-			$count = 0;
 			foreach ( $titles as $title ) {
-				$vals = [
+				if ( !$limit-- ) {
+					break;
+				}
+				$vals = array(
 					'ns' => intval( $title->getNamespace() ),
 					'title' => $title->getPrefixedText(),
-				];
+				);
 				if ( $title->isSpecialPage() ) {
-					$vals['special'] = true;
+					$vals['special'] = '';
 				} else {
-					$vals['pageid'] = intval( $title->getArticleID() );
+					$vals['pageid'] = intval( $title->getArticleId() );
 				}
-				$fit = $result->addValue( [ 'query', $this->getModuleName() ], null, $vals );
-				++$count;
+				$fit = $result->addValue( array( 'query', $this->getModuleName() ), null, $vals );
 				if ( !$fit ) {
-					$this->setContinueEnumParameter( 'offset', $offset + $count );
 					break;
 				}
 			}
-			$result->addIndexedTagName(
-				[ 'query', $this->getModuleName() ], $this->getModulePrefix()
+			$result->setIndexedTagName_internal(
+				array( 'query', $this->getModuleName() ), $this->getModulePrefix()
 			);
 		}
 	}
@@ -100,31 +79,46 @@ class ApiQueryPrefixSearch extends ApiQueryGeneratorBase {
 	}
 
 	public function getAllowedParams() {
-		if ( $this->allowedParams !== null ) {
-			return $this->allowedParams;
-		}
-		$this->allowedParams = $this->buildCommonApiParams();
-
-		return $this->allowedParams;
+			return array(
+				'search' => array(
+					ApiBase::PARAM_TYPE => 'string',
+					ApiBase::PARAM_REQUIRED => true,
+				),
+				'namespace' => array(
+					ApiBase::PARAM_DFLT => NS_MAIN,
+					ApiBase::PARAM_TYPE => 'namespace',
+					ApiBase::PARAM_ISMULTI => true,
+				),
+				'limit' => array(
+					ApiBase::PARAM_DFLT => 10,
+					ApiBase::PARAM_TYPE => 'limit',
+					ApiBase::PARAM_MIN => 1,
+					ApiBase::PARAM_MAX => 100, // Non-standard value for compatibility
+					                           // with action=opensearch
+					ApiBase::PARAM_MAX2 => 200,
+				),
+			);
 	}
 
-	public function getSearchProfileParams() {
-		return [
-			'profile' => [
-				'profile-type' => SearchEngine::COMPLETION_PROFILE_TYPE,
-				'help-message' => 'apihelp-query+prefixsearch-param-profile',
-			],
-		];
+	public function getParamDescription() {
+		return array(
+			'search' => 'Search string',
+			'limit' => 'Maximum amount of results to return',
+			'namespace' => 'Namespaces to search',
+		);
 	}
 
-	protected function getExamplesMessages() {
-		return [
-			'action=query&list=prefixsearch&pssearch=meaning'
-				=> 'apihelp-query+prefixsearch-example-simple',
-		];
+	public function getDescription() {
+		return 'Perform a prefix search for page titles';
+	}
+
+	public function getExamples() {
+		return array(
+			'api.php?action=query&list=prefixsearch&pssearch=meaning',
+		);
 	}
 
 	public function getHelpUrls() {
-		return 'https://www.mediawiki.org/wiki/Special:MyLanguage/API:Prefixsearch';
+		return 'https://www.mediawiki.org/wiki/API:Prefixsearch';
 	}
 }

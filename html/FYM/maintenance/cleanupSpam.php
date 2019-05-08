@@ -32,35 +32,28 @@ class CleanupSpam extends Maintenance {
 
 	public function __construct() {
 		parent::__construct();
-		$this->addDescription( 'Cleanup all spam from a given hostname' );
+		$this->mDescription = "Cleanup all spam from a given hostname";
 		$this->addOption( 'all', 'Check all wikis in $wgLocalDatabases' );
 		$this->addOption( 'delete', 'Delete pages containing only spam instead of blanking them' );
-		$this->addArg(
-			'hostname',
-			'Hostname that was spamming, single * wildcard in the beginning allowed'
-		);
+		$this->addArg( 'hostname', 'Hostname that was spamming, single * wildcard in the beginning allowed' );
 	}
 
 	public function execute() {
 		global $IP, $wgLocalDatabases, $wgUser;
 
 		$username = wfMessage( 'spambot_username' )->text();
-		$wgUser = User::newSystemUser( $username );
+		$wgUser = User::newFromName( $username );
 		if ( !$wgUser ) {
-			$this->fatalError( "Invalid username specified in 'spambot_username' message: $username" );
+			$this->error( "Invalid username specified in 'spambot_username' message: $username", true );
 		}
-		// Hack: Grant bot rights so we don't flood RecentChanges
-		$wgUser->addGroup( 'bot' );
-
+		// Create the user if necessary
+		if ( !$wgUser->getId() ) {
+			$wgUser->addToDatabase();
+		}
 		$spec = $this->getArg();
-
-		$likes = [];
-		foreach ( [ 'http://', 'https://' ] as $prot ) {
-			$like = LinkFilter::makeLikeArray( $spec, $prot );
-			if ( !$like ) {
-				$this->fatalError( "Not a valid hostname specification: $spec" );
-			}
-			$likes[$prot] = $like;
+		$like = LinkFilter::makeLikeArray( $spec );
+		if ( !$like ) {
+			$this->error( "Not a valid hostname specification: $spec", true );
 		}
 
 		if ( $this->hasOption( 'all' ) ) {
@@ -68,24 +61,15 @@ class CleanupSpam extends Maintenance {
 			$this->output( "Finding spam on " . count( $wgLocalDatabases ) . " wikis\n" );
 			$found = false;
 			foreach ( $wgLocalDatabases as $wikiID ) {
-				/** @var $dbr Database */
-				$dbr = $this->getDB( DB_REPLICA, [], $wikiID );
+				$dbr = wfGetDB( DB_SLAVE, array(), $wikiID );
 
-				foreach ( $likes as $like ) {
-					$count = $dbr->selectField(
-						'externallinks',
-						'COUNT(*)',
-						[ 'el_index' . $dbr->buildLike( $like ) ],
-						__METHOD__
-					);
-					if ( $count ) {
-						$found = true;
-						$cmd = wfShellWikiCmd(
-							"$IP/maintenance/cleanupSpam.php",
-							[ '--wiki', $wikiID, $spec ]
-						);
-						passthru( "$cmd | sed 's/^/$wikiID:  /'" );
-					}
+				$count = $dbr->selectField( 'externallinks', 'COUNT(*)',
+					array( 'el_index' . $dbr->buildLike( $like ) ), __METHOD__ );
+				if ( $count ) {
+					$found = true;
+					$cmd = wfShellWikiCmd( "$IP/maintenance/cleanupSpam.php",
+						array( '--wiki', $wikiID, $spec ) );
+					passthru( "$cmd | sed 's/^/$wikiID:  /'" );
 				}
 			}
 			if ( $found ) {
@@ -96,21 +80,13 @@ class CleanupSpam extends Maintenance {
 		} else {
 			// Clean up spam on this wiki
 
-			$count = 0;
-			/** @var $dbr Database */
-			$dbr = $this->getDB( DB_REPLICA );
-			foreach ( $likes as $prot => $like ) {
-				$res = $dbr->select(
-					'externallinks',
-					[ 'DISTINCT el_from' ],
-					[ 'el_index' . $dbr->buildLike( $like ) ],
-					__METHOD__
-				);
-				$count = $dbr->numRows( $res );
-				$this->output( "Found $count articles containing $spec\n" );
-				foreach ( $res as $row ) {
-					$this->cleanupArticle( $row->el_from, $spec, $prot );
-				}
+			$dbr = wfGetDB( DB_SLAVE );
+			$res = $dbr->select( 'externallinks', array( 'DISTINCT el_from' ),
+				array( 'el_index' . $dbr->buildLike( $like ) ), __METHOD__ );
+			$count = $dbr->numRows( $res );
+			$this->output( "Found $count articles containing $spec\n" );
+			foreach ( $res as $row ) {
+				$this->cleanupArticle( $row->el_from, $spec );
 			}
 			if ( $count ) {
 				$this->output( "Done\n" );
@@ -118,17 +94,10 @@ class CleanupSpam extends Maintenance {
 		}
 	}
 
-	/**
-	 * @param int $id
-	 * @param string $domain
-	 * @param string $protocol
-	 * @throws MWException
-	 */
-	private function cleanupArticle( $id, $domain, $protocol ) {
+	private function cleanupArticle( $id, $domain ) {
 		$title = Title::newFromID( $id );
 		if ( !$title ) {
 			$this->error( "Internal error: no page for ID $id" );
-
 			return;
 		}
 
@@ -137,8 +106,7 @@ class CleanupSpam extends Maintenance {
 		$currentRevId = $rev->getId();
 
 		while ( $rev && ( $rev->isDeleted( Revision::DELETED_TEXT )
-			|| LinkFilter::matchEntry( $rev->getContent( Revision::RAW ), $domain, $protocol ) )
-		) {
+						|| LinkFilter::matchEntry( $rev->getContent( Revision::RAW ), $domain ) ) ) {
 			$rev = $rev->getPrevious();
 		}
 
@@ -147,42 +115,32 @@ class CleanupSpam extends Maintenance {
 			// This happens e.g. when a link comes from a template rather than the page itself
 			$this->output( "False match\n" );
 		} else {
-			$dbw = $this->getDB( DB_MASTER );
-			$this->beginTransaction( $dbw, __METHOD__ );
+			$dbw = wfGetDB( DB_MASTER );
+			$dbw->begin( __METHOD__ );
 			$page = WikiPage::factory( $title );
 			if ( $rev ) {
 				// Revert to this revision
 				$content = $rev->getContent( Revision::RAW );
 
 				$this->output( "reverting\n" );
-				$page->doEditContent(
-					$content,
-					wfMessage( 'spam_reverting', $domain )->inContentLanguage()->text(),
-					EDIT_UPDATE | EDIT_FORCE_BOT,
-					$rev->getId()
-				);
+				$page->doEditContent( $content, wfMessage( 'spam_reverting', $domain )->inContentLanguage()->text(),
+					EDIT_UPDATE, $rev->getId() );
 			} elseif ( $this->hasOption( 'delete' ) ) {
 				// Didn't find a non-spammy revision, blank the page
 				$this->output( "deleting\n" );
-				$page->doDeleteArticle(
-					wfMessage( 'spam_deleting', $domain )->inContentLanguage()->text()
-				);
+				$page->doDeleteArticle( wfMessage( 'spam_deleting', $domain )->inContentLanguage()->text() );
 			} else {
 				// Didn't find a non-spammy revision, blank the page
 				$handler = ContentHandler::getForTitle( $title );
 				$content = $handler->makeEmptyContent();
 
 				$this->output( "blanking\n" );
-				$page->doEditContent(
-					$content,
-					wfMessage( 'spam_blanking', $domain )->inContentLanguage()->text(),
-					EDIT_UPDATE | EDIT_FORCE_BOT
-				);
+				$page->doEditContent( $content, wfMessage( 'spam_blanking', $domain )->inContentLanguage()->text() );
 			}
-			$this->commitTransaction( $dbw, __METHOD__ );
+			$dbw->commit( __METHOD__ );
 		}
 	}
 }
 
-$maintClass = CleanupSpam::class;
+$maintClass = "CleanupSpam";
 require_once RUN_MAINTENANCE_IF_MAIN;

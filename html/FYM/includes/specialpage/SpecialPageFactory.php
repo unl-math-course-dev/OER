@@ -22,19 +22,6 @@
  * @defgroup SpecialPage SpecialPage
  */
 
-namespace MediaWiki\Special;
-
-use Config;
-use Hooks;
-use IContextSource;
-use Language;
-use MediaWiki\Linker\LinkRenderer;
-use Profiler;
-use RequestContext;
-use SpecialPage;
-use Title;
-use User;
-
 /**
  * Factory for handling the special page list and generating SpecialPage objects.
  *
@@ -53,289 +40,224 @@ use User;
  * SpecialPageFactory::$list. To remove a core static special page at runtime, use
  * a SpecialPage_initList hook.
  *
- * @note There are two classes called SpecialPageFactory.  You should use this first one, in
- * namespace MediaWiki\Special, which is a service.  \SpecialPageFactory is a deprecated collection
- * of static methods that forwards to the global service.
- *
  * @ingroup SpecialPage
  * @since 1.17
  */
 class SpecialPageFactory {
 	/**
 	 * List of special page names to the subclass of SpecialPage which handles them.
-	 * @todo Make this a const when we drop HHVM support (T192166).  It can still be private in PHP
-	 * 7.1.
 	 */
-	private static $coreList = [
+	private static $list = array(
 		// Maintenance Reports
-		'BrokenRedirects' => \BrokenRedirectsPage::class,
-		'Deadendpages' => \DeadendPagesPage::class,
-		'DoubleRedirects' => \DoubleRedirectsPage::class,
-		'Longpages' => \LongPagesPage::class,
-		'Ancientpages' => \AncientPagesPage::class,
-		'Lonelypages' => \LonelyPagesPage::class,
-		'Fewestrevisions' => \FewestrevisionsPage::class,
-		'Withoutinterwiki' => \WithoutInterwikiPage::class,
-		'Protectedpages' => \SpecialProtectedpages::class,
-		'Protectedtitles' => \SpecialProtectedtitles::class,
-		'Shortpages' => \ShortPagesPage::class,
-		'Uncategorizedcategories' => \UncategorizedCategoriesPage::class,
-		'Uncategorizedimages' => \UncategorizedImagesPage::class,
-		'Uncategorizedpages' => \UncategorizedPagesPage::class,
-		'Uncategorizedtemplates' => \UncategorizedTemplatesPage::class,
-		'Unusedcategories' => \UnusedCategoriesPage::class,
-		'Unusedimages' => \UnusedimagesPage::class,
-		'Unusedtemplates' => \UnusedtemplatesPage::class,
-		'Unwatchedpages' => \UnwatchedpagesPage::class,
-		'Wantedcategories' => \WantedCategoriesPage::class,
-		'Wantedfiles' => \WantedFilesPage::class,
-		'Wantedpages' => \WantedPagesPage::class,
-		'Wantedtemplates' => \WantedTemplatesPage::class,
+		'BrokenRedirects' => 'BrokenRedirectsPage',
+		'Deadendpages' => 'DeadendPagesPage',
+		'DoubleRedirects' => 'DoubleRedirectsPage',
+		'Longpages' => 'LongPagesPage',
+		'Ancientpages' => 'AncientPagesPage',
+		'Lonelypages' => 'LonelyPagesPage',
+		'Fewestrevisions' => 'FewestrevisionsPage',
+		'Withoutinterwiki' => 'WithoutInterwikiPage',
+		'Protectedpages' => 'SpecialProtectedpages',
+		'Protectedtitles' => 'SpecialProtectedtitles',
+		'Shortpages' => 'ShortpagesPage',
+		'Uncategorizedcategories' => 'UncategorizedCategoriesPage',
+		'Uncategorizedimages' => 'UncategorizedImagesPage',
+		'Uncategorizedpages' => 'UncategorizedPagesPage',
+		'Uncategorizedtemplates' => 'UncategorizedTemplatesPage',
+		'Unusedcategories' => 'UnusedCategoriesPage',
+		'Unusedimages' => 'UnusedimagesPage',
+		'Unusedtemplates' => 'UnusedtemplatesPage',
+		'Unwatchedpages' => 'UnwatchedpagesPage',
+		'Wantedcategories' => 'WantedCategoriesPage',
+		'Wantedfiles' => 'WantedFilesPage',
+		'Wantedpages' => 'WantedPagesPage',
+		'Wantedtemplates' => 'WantedTemplatesPage',
 
 		// List of pages
-		'Allpages' => \SpecialAllPages::class,
-		'Prefixindex' => \SpecialPrefixindex::class,
-		'Categories' => \SpecialCategories::class,
-		'Listredirects' => \ListredirectsPage::class,
-		'PagesWithProp' => \SpecialPagesWithProp::class,
-		'TrackingCategories' => \SpecialTrackingCategories::class,
+		'Allpages' => 'SpecialAllpages',
+		'Prefixindex' => 'SpecialPrefixindex',
+		'Categories' => 'SpecialCategories',
+		'Listredirects' => 'ListredirectsPage',
+		'PagesWithProp' => 'SpecialPagesWithProp',
+		'TrackingCategories' => 'SpecialTrackingCategories',
 
-		// Authentication
-		'Userlogin' => \SpecialUserLogin::class,
-		'Userlogout' => \SpecialUserLogout::class,
-		'CreateAccount' => \SpecialCreateAccount::class,
-		'LinkAccounts' => \SpecialLinkAccounts::class,
-		'UnlinkAccounts' => \SpecialUnlinkAccounts::class,
-		'ChangeCredentials' => \SpecialChangeCredentials::class,
-		'RemoveCredentials' => \SpecialRemoveCredentials::class,
+		// Login/create account
+		'Userlogin' => 'LoginForm',
+		'CreateAccount' => 'SpecialCreateAccount',
 
 		// Users and rights
-		'Activeusers' => \SpecialActiveUsers::class,
-		'Block' => \SpecialBlock::class,
-		'Unblock' => \SpecialUnblock::class,
-		'BlockList' => \SpecialBlockList::class,
-		'AutoblockList' => \SpecialAutoblockList::class,
-		'ChangePassword' => \SpecialChangePassword::class,
-		'BotPasswords' => \SpecialBotPasswords::class,
-		'PasswordReset' => \SpecialPasswordReset::class,
-		'DeletedContributions' => \DeletedContributionsPage::class,
-		'Preferences' => \SpecialPreferences::class,
-		'ResetTokens' => \SpecialResetTokens::class,
-		'Contributions' => \SpecialContributions::class,
-		'Listgrouprights' => \SpecialListGroupRights::class,
-		'Listgrants' => \SpecialListGrants::class,
-		'Listusers' => \SpecialListUsers::class,
-		'Listadmins' => \SpecialListAdmins::class,
-		'Listbots' => \SpecialListBots::class,
-		'Userrights' => \UserrightsPage::class,
-		'EditWatchlist' => \SpecialEditWatchlist::class,
-		'PasswordPolicies' => \SpecialPasswordPolicies::class,
+		'Block' => 'SpecialBlock',
+		'Unblock' => 'SpecialUnblock',
+		'BlockList' => 'SpecialBlockList',
+		'ChangePassword' => 'SpecialChangePassword',
+		'PasswordReset' => 'SpecialPasswordReset',
+		'DeletedContributions' => 'DeletedContributionsPage',
+		'Preferences' => 'SpecialPreferences',
+		'ResetTokens' => 'SpecialResetTokens',
+		'Contributions' => 'SpecialContributions',
+		'Listgrouprights' => 'SpecialListGroupRights',
+		'Listusers' => 'SpecialListUsers',
+		'Listadmins' => 'SpecialListAdmins',
+		'Listbots' => 'SpecialListBots',
+		'Userrights' => 'UserrightsPage',
+		'EditWatchlist' => 'SpecialEditWatchlist',
 
 		// Recent changes and logs
-		'Newimages' => \SpecialNewFiles::class,
-		'Log' => \SpecialLog::class,
-		'Watchlist' => \SpecialWatchlist::class,
-		'Newpages' => \SpecialNewpages::class,
-		'Recentchanges' => \SpecialRecentChanges::class,
-		'Recentchangeslinked' => \SpecialRecentChangesLinked::class,
-		'Tags' => \SpecialTags::class,
+		'Newimages' => 'SpecialNewFiles',
+		'Log' => 'SpecialLog',
+		'Watchlist' => 'SpecialWatchlist',
+		'Newpages' => 'SpecialNewpages',
+		'Recentchanges' => 'SpecialRecentChanges',
+		'Recentchangeslinked' => 'SpecialRecentChangesLinked',
+		'Tags' => 'SpecialTags',
 
 		// Media reports and uploads
-		'Listfiles' => \SpecialListFiles::class,
-		'Filepath' => \SpecialFilepath::class,
-		'MediaStatistics' => \MediaStatisticsPage::class,
-		'MIMEsearch' => \MIMEsearchPage::class,
-		'FileDuplicateSearch' => \FileDuplicateSearchPage::class,
-		'Upload' => \SpecialUpload::class,
-		'UploadStash' => \SpecialUploadStash::class,
-		'ListDuplicatedFiles' => \ListDuplicatedFilesPage::class,
+		'Listfiles' => 'SpecialListFiles',
+		'Filepath' => 'SpecialFilepath',
+		'MIMEsearch' => 'MIMEsearchPage',
+		'FileDuplicateSearch' => 'FileDuplicateSearchPage',
+		'Upload' => 'SpecialUpload',
+		'UploadStash' => 'SpecialUploadStash',
+		'ListDuplicatedFiles' => 'ListDuplicatedFilesPage',
 
 		// Data and tools
-		'ApiSandbox' => \SpecialApiSandbox::class,
-		'Statistics' => \SpecialStatistics::class,
-		'Allmessages' => \SpecialAllMessages::class,
-		'Version' => \SpecialVersion::class,
-		'Lockdb' => \SpecialLockdb::class,
-		'Unlockdb' => \SpecialUnlockdb::class,
+		'Statistics' => 'SpecialStatistics',
+		'Allmessages' => 'SpecialAllmessages',
+		'Version' => 'SpecialVersion',
+		'Lockdb' => 'SpecialLockdb',
+		'Unlockdb' => 'SpecialUnlockdb',
 
 		// Redirecting special pages
-		'LinkSearch' => \LinkSearchPage::class,
-		'Randompage' => \RandomPage::class,
-		'RandomInCategory' => \SpecialRandomInCategory::class,
-		'Randomredirect' => \SpecialRandomredirect::class,
-		'Randomrootpage' => \SpecialRandomrootpage::class,
-		'GoToInterwiki' => \SpecialGoToInterwiki::class,
+		'LinkSearch' => 'LinkSearchPage',
+		'Randompage' => 'RandomPage',
+		'RandomInCategory' => 'SpecialRandomInCategory',
+		'Randomredirect' => 'SpecialRandomredirect',
 
 		// High use pages
-		'Mostlinkedcategories' => \MostlinkedCategoriesPage::class,
-		'Mostimages' => \MostimagesPage::class,
-		'Mostinterwikis' => \MostinterwikisPage::class,
-		'Mostlinked' => \MostlinkedPage::class,
-		'Mostlinkedtemplates' => \MostlinkedTemplatesPage::class,
-		'Mostcategories' => \MostcategoriesPage::class,
-		'Mostrevisions' => \MostrevisionsPage::class,
+		'Mostlinkedcategories' => 'MostlinkedCategoriesPage',
+		'Mostimages' => 'MostimagesPage',
+		'Mostinterwikis' => 'MostinterwikisPage',
+		'Mostlinked' => 'MostlinkedPage',
+		'Mostlinkedtemplates' => 'MostlinkedTemplatesPage',
+		'Mostcategories' => 'MostcategoriesPage',
+		'Mostrevisions' => 'MostrevisionsPage',
 
 		// Page tools
-		'ComparePages' => \SpecialComparePages::class,
-		'Export' => \SpecialExport::class,
-		'Import' => \SpecialImport::class,
-		'Undelete' => \SpecialUndelete::class,
-		'Whatlinkshere' => \SpecialWhatLinksHere::class,
-		'MergeHistory' => \SpecialMergeHistory::class,
-		'ExpandTemplates' => \SpecialExpandTemplates::class,
+		'ComparePages' => 'SpecialComparePages',
+		'Export' => 'SpecialExport',
+		'Import' => 'SpecialImport',
+		'Undelete' => 'SpecialUndelete',
+		'Whatlinkshere' => 'SpecialWhatLinksHere',
+		'MergeHistory' => 'SpecialMergeHistory',
+		'ExpandTemplates' => 'SpecialExpandTemplates',
 
 		// Other
-		'Booksources' => \SpecialBookSources::class,
+		'Booksources' => 'SpecialBookSources',
 
 		// Unlisted / redirects
-		'ApiHelp' => \SpecialApiHelp::class,
-		'Blankpage' => \SpecialBlankpage::class,
-		'Diff' => \SpecialDiff::class,
-		'EditTags' => \SpecialEditTags::class,
-		'Emailuser' => \SpecialEmailUser::class,
-		'Movepage' => \MovePageForm::class,
-		'Mycontributions' => \SpecialMycontributions::class,
-		'MyLanguage' => \SpecialMyLanguage::class,
-		'Mypage' => \SpecialMypage::class,
-		'Mytalk' => \SpecialMytalk::class,
-		'Myuploads' => \SpecialMyuploads::class,
-		'AllMyUploads' => \SpecialAllMyUploads::class,
-		'PermanentLink' => \SpecialPermanentLink::class,
-		'Redirect' => \SpecialRedirect::class,
-		'Revisiondelete' => \SpecialRevisionDelete::class,
-		'RunJobs' => \SpecialRunJobs::class,
-		'Specialpages' => \SpecialSpecialpages::class,
-		'PageData' => \SpecialPageData::class,
-	];
+		'Blankpage' => 'SpecialBlankpage',
+		'Diff' => 'SpecialDiff',
+		'Emailuser' => 'SpecialEmailUser',
+		'Movepage' => 'MovePageForm',
+		'Mycontributions' => 'SpecialMycontributions',
+		'Mypage' => 'SpecialMypage',
+		'Mytalk' => 'SpecialMytalk',
+		'Myuploads' => 'SpecialMyuploads',
+		'AllMyUploads' => 'SpecialAllMyUploads',
+		'PermanentLink' => 'SpecialPermanentLink',
+		'Redirect' => 'SpecialRedirect',
+		'Revisiondelete' => 'SpecialRevisionDelete',
+		'RunJobs' => 'SpecialRunJobs',
+		'Specialpages' => 'SpecialSpecialpages',
+		'Userlogout' => 'SpecialUserlogout',
+	);
 
-	/** @var array Special page name => class name */
-	private $list;
-
-	/** @var array */
-	private $aliases;
-
-	/** @var Config */
-	private $config;
-
-	/** @var Language */
-	private $contLang;
+	private static $aliases;
 
 	/**
-	 * @param Config $config
-	 * @param Language $contLang
-	 */
-	public function __construct( Config $config, Language $contLang ) {
-		$this->config = $config;
-		$this->contLang = $contLang;
-	}
-
-	/**
-	 * Returns a list of canonical special page names.
-	 * May be used to iterate over all registered special pages.
-	 *
-	 * @return string[]
-	 */
-	public function getNames() : array {
-		return array_keys( $this->getPageList() );
-	}
-
-	/**
-	 * Get the special page list as an array
+	 * Get the special page list
 	 *
 	 * @return array
 	 */
-	private function getPageList() : array {
-		if ( !is_array( $this->list ) ) {
-			$this->list = self::$coreList;
+	static function getList() {
+		global $wgSpecialPages;
+		global $wgDisableCounters, $wgDisableInternalSearch, $wgEmailAuthentication;
+		global $wgEnableEmail, $wgEnableJavaScriptTest;
 
-			if ( !$this->config->get( 'DisableInternalSearch' ) ) {
-				$this->list['Search'] = \SpecialSearch::class;
-			}
+		if ( !is_object( self::$list ) ) {
+			wfProfileIn( __METHOD__ );
 
-			if ( $this->config->get( 'EmailAuthentication' ) ) {
-				$this->list['Confirmemail'] = \EmailConfirmation::class;
-				$this->list['Invalidateemail'] = \EmailInvalidation::class;
-			}
-
-			if ( $this->config->get( 'EnableEmail' ) ) {
-				$this->list['ChangeEmail'] = \SpecialChangeEmail::class;
+			if ( !$wgDisableCounters ) {
+				self::$list['Popularpages'] = 'PopularPagesPage';
 			}
 
-			if ( $this->config->get( 'EnableJavaScriptTest' ) ) {
-				$this->list['JavaScriptTest'] = \SpecialJavaScriptTest::class;
+			if ( !$wgDisableInternalSearch ) {
+				self::$list['Search'] = 'SpecialSearch';
 			}
 
-			if ( $this->config->get( 'PageLanguageUseDB' ) ) {
-				$this->list['PageLanguage'] = \SpecialPageLanguage::class;
+			if ( $wgEmailAuthentication ) {
+				self::$list['Confirmemail'] = 'EmailConfirmation';
+				self::$list['Invalidateemail'] = 'EmailInvalidation';
 			}
-			if ( $this->config->get( 'ContentHandlerUseDB' ) ) {
-				$this->list['ChangeContentModel'] = \SpecialChangeContentModel::class;
+
+			if ( $wgEnableEmail ) {
+				self::$list['ChangeEmail'] = 'SpecialChangeEmail';
 			}
+
+			if ( $wgEnableJavaScriptTest ) {
+				self::$list['JavaScriptTest'] = 'SpecialJavaScriptTest';
+			}
+
+			self::$list['Activeusers'] = 'SpecialActiveUsers';
 
 			// Add extension special pages
-			$this->list = array_merge( $this->list, $this->config->get( 'SpecialPages' ) );
+			self::$list = array_merge( self::$list, $wgSpecialPages );
 
-			// This hook can be used to disable unwanted core special pages
-			// or conditionally register special pages.
-			Hooks::run( 'SpecialPage_initList', [ &$this->list ] );
+			// Run hooks
+			// This hook can be used to remove undesired built-in special pages
+			wfRunHooks( 'SpecialPage_initList', array( &self::$list ) );
 
+			// Cast to object: func()[$key] doesn't work, but func()->$key does
+			settype( self::$list, 'object' );
+
+			wfProfileOut( __METHOD__ );
 		}
 
-		return $this->list;
+		return self::$list;
 	}
 
 	/**
-	 * Initialise and return the list of special page aliases. Returns an array where
-	 * the key is an alias, and the value is the canonical name of the special page.
-	 * All registered special pages are guaranteed to map to themselves.
-	 * @return array
+	 * Initialise and return the list of special page aliases.  Returns an object with
+	 * properties which can be accessed $obj->pagename - each property is an array of
+	 * aliases; the first in the array is the canonical alias.  All registered special
+	 * pages are guaranteed to have a property entry, and for that property array to
+	 * contain at least one entry (English fallbacks will be added if necessary).
+	 * @return Object
 	 */
-	private function getAliasList() : array {
-		if ( is_null( $this->aliases ) ) {
-			$aliases = $this->contLang->getSpecialPageAliases();
-			$pageList = $this->getPageList();
+	static function getAliasList() {
+		if ( !is_object( self::$aliases ) ) {
+			global $wgContLang;
+			$aliases = $wgContLang->getSpecialPageAliases();
 
-			$this->aliases = [];
-			$keepAlias = [];
+			// Objects are passed by reference by default, need to create a copy
+			$missingPages = clone self::getList();
 
-			// Force every canonical name to be an alias for itself.
-			foreach ( $pageList as $name => $stuff ) {
-				$caseFoldedAlias = $this->contLang->caseFold( $name );
-				$this->aliases[$caseFoldedAlias] = $name;
-				$keepAlias[$caseFoldedAlias] = 'canonical';
-			}
-
-			// Check for $aliases being an array since Language::getSpecialPageAliases can return null
-			if ( is_array( $aliases ) ) {
-				foreach ( $aliases as $realName => $aliasList ) {
-					$aliasList = array_values( $aliasList );
-					foreach ( $aliasList as $i => $alias ) {
-						$caseFoldedAlias = $this->contLang->caseFold( $alias );
-
-						if ( isset( $this->aliases[$caseFoldedAlias] ) &&
-							$realName === $this->aliases[$caseFoldedAlias]
-						) {
-							// Ignore same-realName conflicts
-							continue;
-						}
-
-						if ( !isset( $keepAlias[$caseFoldedAlias] ) ) {
-							$this->aliases[$caseFoldedAlias] = $realName;
-							if ( !$i ) {
-								$keepAlias[$caseFoldedAlias] = 'first';
-							}
-						} elseif ( !$i ) {
-							wfWarn( "First alias '$alias' for $realName conflicts with " .
-								"{$keepAlias[$caseFoldedAlias]} alias for " .
-								$this->aliases[$caseFoldedAlias]
-							);
-						}
-					}
+			self::$aliases = array();
+			foreach ( $aliases as $realName => $aliasList ) {
+				foreach ( $aliasList as $alias ) {
+					self::$aliases[$wgContLang->caseFold( $alias )] = $realName;
 				}
+				unset( $missingPages->$realName );
 			}
+			foreach ( $missingPages as $name => $stuff ) {
+				self::$aliases[$wgContLang->caseFold( $name )] = $name;
+			}
+
+			// Cast to object: func()[$key] doesn't work, but func()->$key does
+			self::$aliases = (object)self::$aliases;
 		}
 
-		return $this->aliases;
+		return self::$aliases;
 	}
 
 	/**
@@ -346,25 +268,53 @@ class SpecialPageFactory {
 	 * @param string $alias
 	 * @return array Array( String, String|null ), or array( null, null ) if the page is invalid
 	 */
-	public function resolveAlias( $alias ) {
+	public static function resolveAlias( $alias ) {
+		global $wgContLang;
 		$bits = explode( '/', $alias, 2 );
 
-		$caseFoldedAlias = $this->contLang->caseFold( $bits[0] );
+		$caseFoldedAlias = $wgContLang->caseFold( $bits[0] );
 		$caseFoldedAlias = str_replace( ' ', '_', $caseFoldedAlias );
-		$aliases = $this->getAliasList();
-		if ( isset( $aliases[$caseFoldedAlias] ) ) {
-			$name = $aliases[$caseFoldedAlias];
+		if ( isset( self::getAliasList()->$caseFoldedAlias ) ) {
+			$name = self::getAliasList()->$caseFoldedAlias;
 		} else {
-			return [ null, null ];
+			return array( null, null );
 		}
 
-		if ( !isset( $bits[1] ) ) { // T4087
+		if ( !isset( $bits[1] ) ) { // bug 2087
 			$par = null;
 		} else {
 			$par = $bits[1];
 		}
 
-		return [ $name, $par ];
+		return array( $name, $par );
+	}
+
+	/**
+	 * Add a page to a certain display group for Special:SpecialPages
+	 *
+	 * @param SpecialPage|string $page
+	 * @param string $group
+	 * @deprecated since 1.21 Override SpecialPage::getGroupName
+	 */
+	public static function setGroup( $page, $group ) {
+		wfDeprecated( __METHOD__, '1.21' );
+
+		global $wgSpecialPageGroups;
+		$name = is_object( $page ) ? $page->getName() : $page;
+		$wgSpecialPageGroups[$name] = $group;
+	}
+
+	/**
+	 * Get the group that the special page belongs in on Special:SpecialPage
+	 *
+	 * @param SpecialPage $page
+	 * @return string
+	 * @deprecated since 1.21 Use SpecialPage::getFinalGroupName
+	 */
+	public static function getGroup( &$page ) {
+		wfDeprecated( __METHOD__, '1.21' );
+
+		return $page->getFinalGroupName();
 	}
 
 	/**
@@ -373,11 +323,10 @@ class SpecialPageFactory {
 	 * @param string $name Name of a special page
 	 * @return bool True if a special page exists with this name
 	 */
-	public function exists( $name ) {
-		list( $title, /*...*/ ) = $this->resolveAlias( $name );
+	public static function exists( $name ) {
+		list( $title, /*...*/ ) = self::resolveAlias( $name );
 
-		$specialPageList = $this->getPageList();
-		return isset( $specialPageList[$title] );
+		return property_exists( self::getList(), $title );
 	}
 
 	/**
@@ -386,50 +335,44 @@ class SpecialPageFactory {
 	 * @param string $name Special page name, may be localised and/or an alias
 	 * @return SpecialPage|null SpecialPage object or null if the page doesn't exist
 	 */
-	public function getPage( $name ) {
-		list( $realName, /*...*/ ) = $this->resolveAlias( $name );
-
-		$specialPageList = $this->getPageList();
-
-		if ( isset( $specialPageList[$realName] ) ) {
-			$rec = $specialPageList[$realName];
-
-			if ( is_callable( $rec ) ) {
-				// Use callback to instantiate the special page
-				$page = $rec();
-			} elseif ( is_string( $rec ) ) {
+	public static function getPage( $name ) {
+		list( $realName, /*...*/ ) = self::resolveAlias( $name );
+		if ( property_exists( self::getList(), $realName ) ) {
+			$rec = self::getList()->$realName;
+			if ( is_string( $rec ) ) {
 				$className = $rec;
-				$page = new $className;
-			} elseif ( $rec instanceof SpecialPage ) {
-				$page = $rec; // XXX: we should deep clone here
-			} else {
-				$page = null;
+
+				return new $className;
+			} elseif ( is_array( $rec ) ) {
+				// @deprecated, officially since 1.18, unofficially since forever
+				wfDebug( "Array syntax for \$wgSpecialPages is deprecated, " .
+					"define a subclass of SpecialPage instead." );
+				$className = array_shift( $rec );
+				self::getList()->$realName = MWFunction::newObj( $className, $rec );
 			}
 
-			if ( $page instanceof SpecialPage ) {
-				return $page;
-			}
-
-			// It's not a classname, nor a callback, nor a legacy constructor array,
-			// nor a special page object. Give up.
-			wfLogWarning( "Cannot instantiate special page $realName: bad spec!" );
+			return self::getList()->$realName;
+		} else {
+			return null;
 		}
-
-		return null;
 	}
 
 	/**
 	 * Return categorised listable special pages which are available
 	 * for the current user, and everyone.
 	 *
-	 * @param User $user User object to check permissions
-	 *  provided
+	 * @param $user User object to check permissions, $wgUser will be used if
+	 *   if not provided
 	 * @return array ( string => Specialpage )
 	 */
-	public function getUsablePages( User $user ) : array {
-		$pages = [];
-		foreach ( $this->getPageList() as $name => $rec ) {
-			$page = $this->getPage( $name );
+	public static function getUsablePages( User $user = null ) {
+		$pages = array();
+		if ( $user === null ) {
+			global $wgUser;
+			$user = $wgUser;
+		}
+		foreach ( self::getList() as $name => $rec ) {
+			$page = self::getPage( $name );
 			if ( $page ) { // not null
 				$page->setContext( RequestContext::getMain() );
 				if ( $page->isListed()
@@ -448,11 +391,11 @@ class SpecialPageFactory {
 	 *
 	 * @return array ( string => Specialpage )
 	 */
-	public function getRegularPages() : array {
-		$pages = [];
-		foreach ( $this->getPageList() as $name => $rec ) {
-			$page = $this->getPage( $name );
-			if ( $page && $page->isListed() && !$page->isRestricted() ) {
+	public static function getRegularPages() {
+		$pages = array();
+		foreach ( self::getList() as $name => $rec ) {
+			$page = self::getPage( $name );
+			if ( $page->isListed() && !$page->isRestricted() ) {
 				$pages[$name] = $page;
 			}
 		}
@@ -464,17 +407,17 @@ class SpecialPageFactory {
 	 * Return categorised listable special pages which are available
 	 * for the current user, but not for everyone
 	 *
-	 * @param User $user User object to use
 	 * @return array ( string => Specialpage )
 	 */
-	public function getRestrictedPages( User $user ) : array {
-		$pages = [];
-		foreach ( $this->getPageList() as $name => $rec ) {
-			$page = $this->getPage( $name );
-			if ( $page
-				&& $page->isListed()
+	public static function getRestrictedPages() {
+		global $wgUser;
+		$pages = array();
+		foreach ( self::getList() as $name => $rec ) {
+			$page = self::getPage( $name );
+			if (
+				$page->isListed()
 				&& $page->isRestricted()
-				&& $page->userCanExecute( $user )
+				&& $page->userCanExecute( $wgUser )
 			) {
 				$pages[$name] = $page;
 			}
@@ -491,26 +434,25 @@ class SpecialPageFactory {
 	 * Returns a title object if the page is redirected, false if there was no such special
 	 * page, and true if it was successful.
 	 *
-	 * @param Title &$title
-	 * @param IContextSource &$context
+	 * @param Title $title
+	 * @param IContextSource $context
 	 * @param bool $including Bool output is being captured for use in {{special:whatever}}
-	 * @param LinkRenderer|null $linkRenderer (since 1.28)
 	 *
-	 * @return bool|Title
+	 * @return bool
 	 */
-	public function executePath( Title &$title, IContextSource &$context, $including = false,
-		LinkRenderer $linkRenderer = null
-	) {
+	public static function executePath( Title &$title, IContextSource &$context, $including = false ) {
+		wfProfileIn( __METHOD__ );
+
 		// @todo FIXME: Redirects broken due to this call
 		$bits = explode( '/', $title->getDBkey(), 2 );
 		$name = $bits[0];
-		if ( !isset( $bits[1] ) ) { // T4087
+		if ( !isset( $bits[1] ) ) { // bug 2087
 			$par = null;
 		} else {
 			$par = $bits[1];
 		}
-
-		$page = $this->getPage( $name );
+		$page = self::getPage( $name );
+		// Nonexistent?
 		if ( !$page ) {
 			$context->getOutput()->setArticleRelated( false );
 			$context->getOutput()->setRobotPolicy( 'noindex,nofollow' );
@@ -521,18 +463,9 @@ class SpecialPageFactory {
 			}
 
 			$context->getOutput()->showErrorPage( 'nosuchspecialpage', 'nospecialpagetext' );
+			wfProfileOut( __METHOD__ );
 
 			return false;
-		}
-
-		if ( !$including ) {
-			// Narrow DB query expectations for this HTTP request
-			$trxLimits = $context->getConfig()->get( 'TrxProfilerLimits' );
-			$trxProfiler = Profiler::instance()->getTransactionProfiler();
-			if ( $context->getRequest()->wasPosted() && !$page->doesWrites() ) {
-				$trxProfiler->setExpectations( $trxLimits['POST-nonwrite'], __METHOD__ );
-				$context->getRequest()->markAsSafeRequest();
-			}
 		}
 
 		// Page exists, set the context
@@ -550,22 +483,26 @@ class SpecialPageFactory {
 				$title = $page->getPageTitle( $par );
 				$url = $title->getFullURL( $query );
 				$context->getOutput()->redirect( $url );
+				wfProfileOut( __METHOD__ );
 
 				return $title;
+			} else {
+				$context->setTitle( $page->getPageTitle( $par ) );
 			}
-
-			$context->setTitle( $page->getPageTitle( $par ) );
 		} elseif ( !$page->isIncludable() ) {
+			wfProfileOut( __METHOD__ );
+
 			return false;
 		}
 
 		$page->including( $including );
-		if ( $linkRenderer ) {
-			$page->setLinkRenderer( $linkRenderer );
-		}
 
 		// Execute special page
+		$profName = 'Special:' . $page->getName();
+		wfProfileIn( $profName );
 		$page->run( $par );
+		wfProfileOut( $profName );
+		wfProfileOut( __METHOD__ );
 
 		return true;
 	}
@@ -582,57 +519,34 @@ class SpecialPageFactory {
 	 *
 	 * @param Title $title
 	 * @param IContextSource $context
-	 * @param LinkRenderer|null $linkRenderer (since 1.28)
 	 * @return string HTML fragment
 	 */
-	public function capturePath(
-		Title $title, IContextSource $context, LinkRenderer $linkRenderer = null
-	) {
-		global $wgTitle, $wgOut, $wgRequest, $wgUser, $wgLang;
-		$main = RequestContext::getMain();
+	static function capturePath( Title $title, IContextSource $context ) {
+		global $wgOut, $wgTitle, $wgRequest, $wgUser, $wgLang;
 
-		// Save current globals and main context
-		$glob = [
-			'title' => $wgTitle,
-			'output' => $wgOut,
-			'request' => $wgRequest,
-			'user' => $wgUser,
-			'language' => $wgLang,
-		];
-		$ctx = [
-			'title' => $main->getTitle(),
-			'output' => $main->getOutput(),
-			'request' => $main->getRequest(),
-			'user' => $main->getUser(),
-			'language' => $main->getLanguage(),
-		];
+		// Save current globals
+		$oldTitle = $wgTitle;
+		$oldOut = $wgOut;
+		$oldRequest = $wgRequest;
+		$oldUser = $wgUser;
+		$oldLang = $wgLang;
 
-		// Override
+		// Set the globals to the current context
 		$wgTitle = $title;
 		$wgOut = $context->getOutput();
 		$wgRequest = $context->getRequest();
 		$wgUser = $context->getUser();
 		$wgLang = $context->getLanguage();
-		$main->setTitle( $title );
-		$main->setOutput( $context->getOutput() );
-		$main->setRequest( $context->getRequest() );
-		$main->setUser( $context->getUser() );
-		$main->setLanguage( $context->getLanguage() );
 
 		// The useful part
-		$ret = $this->executePath( $title, $context, true, $linkRenderer );
+		$ret = self::executePath( $title, $context, true );
 
-		// Restore old globals and context
-		$wgTitle = $glob['title'];
-		$wgOut = $glob['output'];
-		$wgRequest = $glob['request'];
-		$wgUser = $glob['user'];
-		$wgLang = $glob['language'];
-		$main->setTitle( $ctx['title'] );
-		$main->setOutput( $ctx['output'] );
-		$main->setRequest( $ctx['request'] );
-		$main->setUser( $ctx['user'] );
-		$main->setLanguage( $ctx['language'] );
+		// And restore the old globals
+		$wgTitle = $oldTitle;
+		$wgOut = $oldOut;
+		$wgRequest = $oldRequest;
+		$wgUser = $oldUser;
+		$wgLang = $oldLang;
 
 		return $ret;
 	}
@@ -644,51 +558,34 @@ class SpecialPageFactory {
 	 * @param string|bool $subpage
 	 * @return string
 	 */
-	public function getLocalNameFor( $name, $subpage = false ) {
-		$aliases = $this->contLang->getSpecialPageAliases();
-		$aliasList = $this->getAliasList();
+	static function getLocalNameFor( $name, $subpage = false ) {
+		global $wgContLang;
+		$aliases = $wgContLang->getSpecialPageAliases();
 
-		// Find the first alias that maps back to $name
-		if ( isset( $aliases[$name] ) ) {
+		if ( isset( $aliases[$name][0] ) ) {
+			$name = $aliases[$name][0];
+		} else {
+			// Try harder in case someone misspelled the correct casing
 			$found = false;
-			foreach ( $aliases[$name] as $alias ) {
-				$caseFoldedAlias = $this->contLang->caseFold( $alias );
-				$caseFoldedAlias = str_replace( ' ', '_', $caseFoldedAlias );
-				if ( isset( $aliasList[$caseFoldedAlias] ) &&
-					$aliasList[$caseFoldedAlias] === $name
-				) {
-					$name = $alias;
+			foreach ( $aliases as $n => $values ) {
+				if ( strcasecmp( $name, $n ) === 0 ) {
+					wfWarn( "Found alias defined for $n when searching for " .
+						"special page aliases for $name. Case mismatch?" );
+					$name = $values[0];
 					$found = true;
 					break;
 				}
 			}
 			if ( !$found ) {
-				wfWarn( "Did not find a usable alias for special page '$name'. " .
-					"It seems all defined aliases conflict?" );
+				wfWarn( "Did not find alias for special page '$name'. " .
+					"Perhaps no aliases are defined for it?" );
 			}
-		} else {
-			// Check if someone misspelled the correct casing
-			if ( is_array( $aliases ) ) {
-				foreach ( $aliases as $n => $values ) {
-					if ( strcasecmp( $name, $n ) === 0 ) {
-						wfWarn( "Found alias defined for $n when searching for " .
-							"special page aliases for $name. Case mismatch?" );
-						return $this->getLocalNameFor( $n, $subpage );
-					}
-				}
-			}
-
-			wfWarn( "Did not find alias for special page '$name'. " .
-				"Perhaps no aliases are defined for it?" );
 		}
-
 		if ( $subpage !== false && !is_null( $subpage ) ) {
-			// Make sure it's in dbkey form
-			$subpage = str_replace( ' ', '_', $subpage );
 			$name = "$name/$subpage";
 		}
 
-		return $this->contLang->ucfirst( $name );
+		return $wgContLang->ucfirst( $name );
 	}
 
 	/**
@@ -697,12 +594,12 @@ class SpecialPageFactory {
 	 * @param string $alias
 	 * @return Title|null Title or null if there is no such alias
 	 */
-	public function getTitleForAlias( $alias ) {
-		list( $name, $subpage ) = $this->resolveAlias( $alias );
-		if ( $name != null ) {
-			return SpecialPage::getTitleFor( $name, $subpage );
+	static function getTitleForAlias( $alias ) {
+		$name = self::resolveAlias( $alias );
+		if ( $name ) {
+			return SpecialPage::getTitleFor( $name );
+		} else {
+			return null;
 		}
-
-		return null;
 	}
 }

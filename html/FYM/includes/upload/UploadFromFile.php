@@ -28,13 +28,14 @@
  * @author Bryan Tong Minh
  */
 class UploadFromFile extends UploadBase {
+
 	/**
 	 * @var WebRequestUpload
 	 */
 	protected $mUpload = null;
 
 	/**
-	 * @param WebRequest &$request
+	 * @param $request WebRequest
 	 */
 	function initializeFromRequest( &$request ) {
 		$upload = $request->getUpload( 'wpUploadFile' );
@@ -48,8 +49,8 @@ class UploadFromFile extends UploadBase {
 
 	/**
 	 * Initialize from a filename and a WebRequestUpload
-	 * @param string $name
-	 * @param WebRequestUpload $webRequestUpload
+	 * @param $name
+	 * @param $webRequestUpload
 	 */
 	function initialize( $name, $webRequestUpload ) {
 		$this->mUpload = $webRequestUpload;
@@ -58,7 +59,7 @@ class UploadFromFile extends UploadBase {
 	}
 
 	/**
-	 * @param WebRequest $request
+	 * @param $request
 	 * @return bool
 	 */
 	static function isValidRequest( $request ) {
@@ -82,13 +83,14 @@ class UploadFromFile extends UploadBase {
 		# proper error can be shown to the user
 		if ( is_null( $this->mTempPath ) || $this->isEmptyFile() ) {
 			if ( $this->mUpload->isIniSizeOverflow() ) {
-				return [
+				return array(
 					'status' => UploadBase::FILE_TOO_LARGE,
 					'max' => min(
 						self::getMaxUploadSize( $this->getSourceType() ),
-						self::getMaxPhpUploadSize()
+						wfShorthandToInteger( ini_get( 'upload_max_filesize' ) ),
+						wfShorthandToInteger( ini_get( 'post_max_size' ) )
 					),
-				];
+				);
 			}
 		}
 

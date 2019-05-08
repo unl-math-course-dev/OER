@@ -21,9 +21,11 @@
  *
  * @file
  * @ingroup Maintenance
+ * @author Aaron Schulz
  */
 
 require_once __DIR__ . '/Maintenance.php';
+require_once __DIR__ . '/deleteArchivedRevisions.inc';
 
 /**
  * Maintenance script to delete archived (deleted from public) revisions
@@ -34,32 +36,27 @@ require_once __DIR__ . '/Maintenance.php';
 class DeleteArchivedRevisions extends Maintenance {
 	public function __construct() {
 		parent::__construct();
-		$this->addDescription(
-			"Deletes all archived revisions\nThese revisions will no longer be restorable" );
+		$this->mDescription = "Deletes all archived revisions\nThese revisions will no longer be restorable";
 		$this->addOption( 'delete', 'Performs the deletion' );
 	}
 
+	public function handleOutput( $str ) {
+		$this->output( $str );
+	}
+
 	public function execute() {
-		$dbw = $this->getDB( DB_MASTER );
-
-		if ( !$this->hasOption( 'delete' ) ) {
-			$count = $dbw->selectField( 'archive', 'COUNT(*)', '', __METHOD__ );
-			$this->output( "Found $count revisions to delete.\n" );
-			$this->output( "Please run the script again with the --delete option "
-				. "to really delete the revisions.\n" );
-			return;
-		}
-
-		$this->output( "Deleting archived revisions... " );
-		$dbw->delete( 'archive', '*', __METHOD__ );
-		$count = $dbw->affectedRows();
-		$this->output( "done. $count revisions deleted.\n" );
-
-		if ( $count ) {
-			$this->purgeRedundantText( true );
+		$this->output( "Delete archived revisions\n\n" );
+		# Data should come off the master, wrapped in a transaction
+		if ( $this->hasOption( 'delete' ) ) {
+			DeleteArchivedRevisionsImplementation::doDelete( $this );
+		} else {
+			$dbw = wfGetDB( DB_MASTER );
+			$res = $dbw->selectRow( 'archive', 'COUNT(*) as count', array(), __FUNCTION__ );
+			$this->output( "Found {$res->count} revisions to delete.\n" );
+			$this->output( "Please run the script again with the --delete option to really delete the revisions.\n" );
 		}
 	}
 }
 
-$maintClass = DeleteArchivedRevisions::class;
+$maintClass = "DeleteArchivedRevisions";
 require_once RUN_MAINTENANCE_IF_MAIN;

@@ -18,15 +18,13 @@
  * http://www.gnu.org/copyleft/gpl.html
  *
  * @file
+ * @defgroup PHPBugTests PHP known bugs tests
  */
 
 /**
- * @defgroup PHPBugTests PHP known bugs tests
- */
-/**
  * Test for PHP+libxml2 bug which breaks XML input subtly with certain versions.
  * Known fixed with PHP 5.2.9 + libxml2-2.7.3
- * @see https://bugs.php.net/bug.php?id=45996
+ * @see http://bugs.php.net/bug.php?id=45996
  * @ingroup PHPBugTests
  */
 class PhpXmlBugTester {
@@ -38,7 +36,7 @@ class PhpXmlBugTester {
 		$xml = '<a>' . htmlspecialchars( $charData ) . '</a>';
 
 		$parser = xml_parser_create();
-		xml_set_character_data_handler( $parser, [ $this, 'chardata' ] );
+		xml_set_character_data_handler( $parser, array( $this, 'chardata' ) );
 		$parsedOk = xml_parse( $parser, $xml, true );
 		$this->ok = $parsedOk && ( $this->parsedData == $charData );
 	}

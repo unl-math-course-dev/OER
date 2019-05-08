@@ -2,9 +2,6 @@
 /**
  * Base code for MediaWiki installer.
  *
- * DO NOT PATCH THIS FILE IF YOU NEED TO CHANGE INSTALLER BEHAVIOR IN YOUR PACKAGE!
- * See mw-config/overrides/README for details.
- *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 2 of the License, or
@@ -24,10 +21,6 @@
  * @ingroup Deployment
  */
 
-use MediaWiki\Interwiki\NullInterwikiLookup;
-use MediaWiki\MediaWikiServices;
-use MediaWiki\Shell\Shell;
-
 /**
  * This documentation group collects source code files with deployment functionality.
  *
@@ -44,6 +37,9 @@ use MediaWiki\Shell\Shell;
  * @since 1.17
  */
 abstract class Installer {
+
+	// This is the absolute minimum PHP version we can support
+	const MINIMUM_PHP_VERSION = '5.3.2';
 
 	/**
 	 * The oldest version of PCRE we can support.
@@ -70,12 +66,12 @@ abstract class Installer {
 	 *
 	 * @var array
 	 */
-	protected $dbInstallers = [];
+	protected $dbInstallers = array();
 
 	/**
 	 * Minimum memory size in MB.
 	 *
-	 * @var int
+	 * @var integer
 	 */
 	protected $minMemorySize = 50;
 
@@ -102,28 +98,30 @@ abstract class Installer {
 	 *
 	 * @var array
 	 */
-	protected static $dbTypes = [
+	protected static $dbTypes = array(
 		'mysql',
 		'postgres',
 		'oracle',
 		'mssql',
 		'sqlite',
-	];
+	);
 
 	/**
 	 * A list of environment check methods called by doEnvironmentChecks().
 	 * These may output warnings using showMessage(), and/or abort the
 	 * installation process by returning false.
 	 *
-	 * For the WebInstaller these are only called on the Welcome page,
-	 * if these methods have side-effects that should affect later page loads
-	 * (as well as the generated stylesheet), use envPreps instead.
-	 *
 	 * @var array
 	 */
-	protected $envChecks = [
+	protected $envChecks = array(
 		'envCheckDB',
+		'envCheckRegisterGlobals',
 		'envCheckBrokenXML',
+		'envCheckMagicQuotes',
+		'envCheckMagicSybase',
+		'envCheckMbstring',
+		'envCheckSafeMode',
+		'envCheckXML',
 		'envCheckPCRE',
 		'envCheckMemory',
 		'envCheckCache',
@@ -133,22 +131,14 @@ abstract class Installer {
 		'envCheckGit',
 		'envCheckServer',
 		'envCheckPath',
+		'envCheckExtension',
 		'envCheckShellLocale',
 		'envCheckUploadsDirectory',
 		'envCheckLibicu',
 		'envCheckSuhosinMaxValueLength',
-		'envCheck64Bit',
-	];
-
-	/**
-	 * A list of environment preparation methods called by doEnvironmentPreps().
-	 *
-	 * @var array
-	 */
-	protected $envPreps = [
-		'envPrepServer',
-		'envPrepPath',
-	];
+		'envCheckCtype',
+		'envCheckJSON',
+	);
 
 	/**
 	 * MediaWiki configuration globals that will eventually be passed through
@@ -157,25 +147,26 @@ abstract class Installer {
 	 *
 	 * @var array
 	 */
-	protected $defaultVarNames = [
+	protected $defaultVarNames = array(
 		'wgSitename',
 		'wgPasswordSender',
 		'wgLanguageCode',
 		'wgRightsIcon',
 		'wgRightsText',
 		'wgRightsUrl',
+		'wgMainCacheType',
 		'wgEnableEmail',
 		'wgEnableUserEmail',
 		'wgEnotifUserTalk',
 		'wgEnotifWatchlist',
 		'wgEmailAuthentication',
-		'wgDBname',
 		'wgDBtype',
 		'wgDiff3',
 		'wgImageMagickConvertCommand',
 		'wgGitBin',
 		'IP',
 		'wgScriptPath',
+		'wgScriptExtension',
 		'wgMetaNamespace',
 		'wgDeletedDirectory',
 		'wgEnableUploads',
@@ -184,8 +175,8 @@ abstract class Installer {
 		'wgUseInstantCommons',
 		'wgUpgradeKey',
 		'wgDefaultSkin',
-		'wgPingback',
-	];
+		'wgResourceLoaderMaxQueryLength',
+	);
 
 	/**
 	 * Variables that are stored alongside globals, and are used for any
@@ -194,126 +185,129 @@ abstract class Installer {
 	 *
 	 * @var array
 	 */
-	protected $internalDefaults = [
+	protected $internalDefaults = array(
 		'_UserLang' => 'en',
 		'_Environment' => false,
+		'_SafeMode' => false,
 		'_RaiseMemory' => false,
 		'_UpgradeDone' => false,
 		'_InstallDone' => false,
-		'_Caches' => [],
+		'_Caches' => array(),
 		'_InstallPassword' => '',
 		'_SameAccount' => true,
 		'_CreateDBAccount' => false,
 		'_NamespaceType' => 'site-name',
 		'_AdminName' => '', // will be set later, when the user selects language
 		'_AdminPassword' => '',
-		'_AdminPasswordConfirm' => '',
+		'_AdminPassword2' => '',
 		'_AdminEmail' => '',
 		'_Subscribe' => false,
 		'_SkipOptional' => 'continue',
 		'_RightsProfile' => 'wiki',
 		'_LicenseCode' => 'none',
 		'_CCDone' => false,
-		'_Extensions' => [],
-		'_Skins' => [],
+		'_Extensions' => array(),
 		'_MemCachedServers' => '',
 		'_UpgradeKeySupplied' => false,
 		'_ExistingDBSettings' => false,
 
-		// $wgLogo is probably wrong (T50084); set something that will work.
+		// $wgLogo is probably wrong (bug 48084); set something that will work.
 		// Single quotes work fine here, as LocalSettingsGenerator outputs this unescaped.
-		'wgLogo' => '$wgResourceBasePath/resources/assets/wiki.png',
-		'wgAuthenticationTokenVersion' => 1,
-	];
+		'wgLogo' => '$wgStylePath/common/images/wiki.png',
+	);
 
 	/**
 	 * The actual list of installation steps. This will be initialized by getInstallSteps()
 	 *
 	 * @var array
 	 */
-	private $installSteps = [];
+	private $installSteps = array();
 
 	/**
 	 * Extra steps for installation, for things like DatabaseInstallers to modify
 	 *
 	 * @var array
 	 */
-	protected $extraInstallSteps = [];
+	protected $extraInstallSteps = array();
 
 	/**
 	 * Known object cache types and the functions used to test for their existence.
 	 *
 	 * @var array
 	 */
-	protected $objectCaches = [
+	protected $objectCaches = array(
+		'xcache' => 'xcache_get',
 		'apc' => 'apc_fetch',
-		'apcu' => 'apcu_fetch',
 		'wincache' => 'wincache_ucache_get'
-	];
+	);
 
 	/**
 	 * User rights profiles.
 	 *
 	 * @var array
 	 */
-	public $rightsProfiles = [
-		'wiki' => [],
-		'no-anon' => [
-			'*' => [ 'edit' => false ]
-		],
-		'fishbowl' => [
-			'*' => [
+	public $rightsProfiles = array(
+		'wiki' => array(),
+		'no-anon' => array(
+			'*' => array( 'edit' => false )
+		),
+		'fishbowl' => array(
+			'*' => array(
 				'createaccount' => false,
 				'edit' => false,
-			],
-		],
-		'private' => [
-			'*' => [
+			),
+		),
+		'private' => array(
+			'*' => array(
 				'createaccount' => false,
 				'edit' => false,
 				'read' => false,
-			],
-		],
-	];
+			),
+		),
+	);
 
 	/**
 	 * License types.
 	 *
 	 * @var array
 	 */
-	public $licenses = [
-		'cc-by' => [
-			'url' => 'https://creativecommons.org/licenses/by/4.0/',
-			'icon' => '$wgResourceBasePath/resources/assets/licenses/cc-by.png',
-		],
-		'cc-by-sa' => [
-			'url' => 'https://creativecommons.org/licenses/by-sa/4.0/',
-			'icon' => '$wgResourceBasePath/resources/assets/licenses/cc-by-sa.png',
-		],
-		'cc-by-nc-sa' => [
-			'url' => 'https://creativecommons.org/licenses/by-nc-sa/4.0/',
-			'icon' => '$wgResourceBasePath/resources/assets/licenses/cc-by-nc-sa.png',
-		],
-		'cc-0' => [
+	public $licenses = array(
+		'cc-by' => array(
+			'url' => 'http://creativecommons.org/licenses/by/3.0/',
+			'icon' => '{$wgStylePath}/common/images/cc-by.png',
+		),
+		'cc-by-sa' => array(
+			'url' => 'http://creativecommons.org/licenses/by-sa/3.0/',
+			'icon' => '{$wgStylePath}/common/images/cc-by-sa.png',
+		),
+		'cc-by-nc-sa' => array(
+			'url' => 'http://creativecommons.org/licenses/by-nc-sa/3.0/',
+			'icon' => '{$wgStylePath}/common/images/cc-by-nc-sa.png',
+		),
+		'cc-0' => array(
 			'url' => 'https://creativecommons.org/publicdomain/zero/1.0/',
-			'icon' => '$wgResourceBasePath/resources/assets/licenses/cc-0.png',
-		],
-		'gfdl' => [
-			'url' => 'https://www.gnu.org/copyleft/fdl.html',
-			'icon' => '$wgResourceBasePath/resources/assets/licenses/gnu-fdl.png',
-		],
-		'none' => [
+			'icon' => '{$wgStylePath}/common/images/cc-0.png',
+		),
+		'pd' => array(
+			'url' => '',
+			'icon' => '{$wgStylePath}/common/images/public-domain.png',
+		),
+		'gfdl' => array(
+			'url' => 'http://www.gnu.org/copyleft/fdl.html',
+			'icon' => '{$wgStylePath}/common/images/gnu-fdl.png',
+		),
+		'none' => array(
 			'url' => '',
 			'icon' => '',
 			'text' => ''
-		],
-		'cc-choose' => [
+		),
+		'cc-choose' => array(
 			// Details will be filled in by the selector.
 			'url' => '',
 			'icon' => '',
 			'text' => '',
-		],
-	];
+		),
+	);
 
 	/**
 	 * URL to mediawiki-announce subscription
@@ -324,115 +318,48 @@ abstract class Installer {
 	/**
 	 * Supported language codes for Mailman
 	 */
-	protected $mediaWikiAnnounceLanguages = [
+	protected $mediaWikiAnnounceLanguages = array(
 		'ca', 'cs', 'da', 'de', 'en', 'es', 'et', 'eu', 'fi', 'fr', 'hr', 'hu',
 		'it', 'ja', 'ko', 'lt', 'nl', 'no', 'pl', 'pt', 'pt-br', 'ro', 'ru',
 		'sl', 'sr', 'sv', 'tr', 'uk'
-	];
+	);
 
 	/**
 	 * UI interface for displaying a short message
 	 * The parameters are like parameters to wfMessage().
 	 * The messages will be in wikitext format, which will be converted to an
 	 * output format such as HTML or text before being sent to the user.
-	 * @param string $msg
+	 * @param $msg
 	 */
 	abstract public function showMessage( $msg /*, ... */ );
 
 	/**
 	 * Same as showMessage(), but for displaying errors
-	 * @param string $msg
+	 * @param $msg
 	 */
 	abstract public function showError( $msg /*, ... */ );
 
 	/**
 	 * Show a message to the installing user by using a Status object
-	 * @param Status $status
+	 * @param $status Status
 	 */
 	abstract public function showStatusMessage( Status $status );
-
-	/**
-	 * Constructs a Config object that contains configuration settings that should be
-	 * overwritten for the installation process.
-	 *
-	 * @since 1.27
-	 *
-	 * @param Config $baseConfig
-	 *
-	 * @return Config The config to use during installation.
-	 */
-	public static function getInstallerConfig( Config $baseConfig ) {
-		$configOverrides = new HashConfig();
-
-		// disable (problematic) object cache types explicitly, preserving all other (working) ones
-		// bug T113843
-		$emptyCache = [ 'class' => EmptyBagOStuff::class ];
-
-		$objectCaches = [
-				CACHE_NONE => $emptyCache,
-				CACHE_DB => $emptyCache,
-				CACHE_ANYTHING => $emptyCache,
-				CACHE_MEMCACHED => $emptyCache,
-			] + $baseConfig->get( 'ObjectCaches' );
-
-		$configOverrides->set( 'ObjectCaches', $objectCaches );
-
-		// Load the installer's i18n.
-		$messageDirs = $baseConfig->get( 'MessagesDirs' );
-		$messageDirs['MediawikiInstaller'] = __DIR__ . '/i18n';
-
-		$configOverrides->set( 'MessagesDirs', $messageDirs );
-
-		$installerConfig = new MultiConfig( [ $configOverrides, $baseConfig ] );
-
-		// make sure we use the installer config as the main config
-		$configRegistry = $baseConfig->get( 'ConfigRegistry' );
-		$configRegistry['main'] = function () use ( $installerConfig ) {
-			return $installerConfig;
-		};
-
-		$configOverrides->set( 'ConfigRegistry', $configRegistry );
-
-		return $installerConfig;
-	}
 
 	/**
 	 * Constructor, always call this from child classes.
 	 */
 	public function __construct() {
-		global $wgMemc, $wgUser, $wgObjectCaches;
+		global $wgMessagesDirs, $wgUser;
 
-		$defaultConfig = new GlobalVarConfig(); // all the stuff from DefaultSettings.php
-		$installerConfig = self::getInstallerConfig( $defaultConfig );
-
-		// Reset all services and inject config overrides
-		MediaWikiServices::resetGlobalInstance( $installerConfig );
-
-		// Don't attempt to load user language options (T126177)
-		// This will be overridden in the web installer with the user-specified language
-		RequestContext::getMain()->setLanguage( 'en' );
-
-		// Disable the i18n cache
-		// TODO: manage LocalisationCache singleton in MediaWikiServices
+		// Disable the i18n cache and LoadBalancer
 		Language::getLocalisationCache()->disableBackend();
+		LBFactory::disableBackend();
 
-		// Disable all global services, since we don't have any configuration yet!
-		MediaWikiServices::disableStorageBackend();
-
-		$mwServices = MediaWikiServices::getInstance();
-		// Disable object cache (otherwise CACHE_ANYTHING will try CACHE_DB and
-		// SqlBagOStuff will then throw since we just disabled wfGetDB)
-		$wgObjectCaches = $mwServices->getMainConfig()->get( 'ObjectCaches' );
-		$wgMemc = ObjectCache::getInstance( CACHE_NONE );
-
-		// Disable interwiki lookup, to avoid database access during parses
-		$mwServices->redefineService( 'InterwikiLookup', function () {
-			return new NullInterwikiLookup();
-		} );
+		// Load the installer's i18n.
+		$wgMessagesDirs['MediawikiInstaller'] = __DIR__ . '/i18n';
 
 		// Having a user with id = 0 safeguards us from DB access via User::loadOptions().
 		$wgUser = User::newFromId( 0 );
-		RequestContext::getMain()->setUser( $wgUser );
 
 		$this->settings = $this->internalDefaults;
 
@@ -440,23 +367,30 @@ abstract class Installer {
 			$this->settings[$var] = $GLOBALS[$var];
 		}
 
-		$this->doEnvironmentPreps();
-
-		$this->compiledDBs = [];
+		$compiledDBs = array();
 		foreach ( self::getDBTypes() as $type ) {
 			$installer = $this->getDBInstaller( $type );
 
 			if ( !$installer->isCompiled() ) {
 				continue;
 			}
-			$this->compiledDBs[] = $type;
+			$compiledDBs[] = $type;
+
+			$defaults = $installer->getGlobalDefaults();
+
+			foreach ( $installer->getGlobalNames() as $var ) {
+				if ( isset( $defaults[$var] ) ) {
+					$this->settings[$var] = $defaults[$var];
+				} else {
+					$this->settings[$var] = $GLOBALS[$var];
+				}
+			}
 		}
+		$this->compiledDBs = $compiledDBs;
 
 		$this->parserTitle = Title::newFromText( 'Installer' );
-		$this->parserOptions = new ParserOptions( $wgUser ); // language will be wrong :(
-		$this->parserOptions->setTidy( true );
-		// Don't try to access DB before user language is initialised
-		$this->setParserLanguage( Language::factory( 'en' ) );
+		$this->parserOptions = new ParserOptions; // language will  be wrong :(
+		$this->parserOptions->setEditSection( false );
 	}
 
 	/**
@@ -482,21 +416,25 @@ abstract class Installer {
 	 * @return Status
 	 */
 	public function doEnvironmentChecks() {
-		// Php version has already been checked by entry scripts
-		// Show message here for information purposes
-		if ( wfIsHHVM() ) {
-			$this->showMessage( 'config-env-hhvm', HHVM_VERSION );
+		$phpVersion = phpversion();
+		if ( version_compare( $phpVersion, self::MINIMUM_PHP_VERSION, '>=' ) ) {
+			$this->showMessage( 'config-env-php', $phpVersion );
+			$good = true;
 		} else {
-			$this->showMessage( 'config-env-php', PHP_VERSION );
+			$this->showMessage( 'config-env-php-toolow', $phpVersion, self::MINIMUM_PHP_VERSION );
+			$good = false;
 		}
 
-		$good = true;
 		// Must go here because an old version of PCRE can prevent other checks from completing
-		list( $pcreVersion ) = explode( ' ', PCRE_VERSION, 2 );
-		if ( version_compare( $pcreVersion, self::MINIMUM_PCRE_VERSION, '<' ) ) {
-			$this->showError( 'config-pcre-old', self::MINIMUM_PCRE_VERSION, $pcreVersion );
-			$good = false;
-		} else {
+		if ( $good ) {
+			list( $pcreVersion ) = explode( ' ', PCRE_VERSION, 2 );
+			if ( version_compare( $pcreVersion, self::MINIMUM_PCRE_VERSION, '<' ) ) {
+				$this->showError( 'config-pcre-old', self::MINIMUM_PCRE_VERSION, $pcreVersion );
+				$good = false;
+			}
+		}
+
+		if ( $good ) {
 			foreach ( $this->envChecks as $check ) {
 				$status = $this->$check();
 				if ( $status === false ) {
@@ -510,17 +448,11 @@ abstract class Installer {
 		return $good ? Status::newGood() : Status::newFatal( 'config-env-bad' );
 	}
 
-	public function doEnvironmentPreps() {
-		foreach ( $this->envPreps as $prep ) {
-			$this->$prep();
-		}
-	}
-
 	/**
 	 * Set a MW configuration variable, or internal installer configuration variable.
 	 *
-	 * @param string $name
-	 * @param mixed $value
+	 * @param $name String
+	 * @param $value Mixed
 	 */
 	public function setVar( $name, $value ) {
 		$this->settings[$name] = $value;
@@ -531,8 +463,8 @@ abstract class Installer {
 	 * The defaults come from $GLOBALS (ultimately DefaultSettings.php).
 	 * Installer variables are typically prefixed by an underscore.
 	 *
-	 * @param string $name
-	 * @param mixed|null $default
+	 * @param $name String
+	 * @param $default Mixed
 	 *
 	 * @return mixed
 	 */
@@ -554,20 +486,9 @@ abstract class Installer {
 	}
 
 	/**
-	 * Get the DatabaseInstaller class name for this type
-	 *
-	 * @param string $type database type ($wgDBtype)
-	 * @return string Class name
-	 * @since 1.30
-	 */
-	public static function getDBInstallerClass( $type ) {
-		return ucfirst( $type ) . 'Installer';
-	}
-
-	/**
 	 * Get an instance of DatabaseInstaller for the specified DB type.
 	 *
-	 * @param mixed $type DB installer for which is needed, false to use default.
+	 * @param $type Mixed: DB installer for which is needed, false to use default.
 	 *
 	 * @return DatabaseInstaller
 	 */
@@ -579,7 +500,7 @@ abstract class Installer {
 		$type = strtolower( $type );
 
 		if ( !isset( $this->dbInstallers[$type] ) ) {
-			$class = self::getDBInstallerClass( $type );
+			$class = ucfirst( $type ) . 'Installer';
 			$this->dbInstallers[$type] = new $class( $this );
 		}
 
@@ -589,7 +510,7 @@ abstract class Installer {
 	/**
 	 * Determine if LocalSettings.php exists. If it does, return its variables.
 	 *
-	 * @return array|false
+	 * @return Array
 	 */
 	public static function getExistingLocalSettings() {
 		global $IP;
@@ -598,18 +519,12 @@ abstract class Installer {
 		// then some poorly-formed extensions try to call their own classes
 		// after immediately registering them. We really need to get extension
 		// registration out of the global scope and into a real format.
-		// @see https://phabricator.wikimedia.org/T69440
+		// @see https://bugzilla.wikimedia.org/67440
 		global $wgAutoloadClasses;
-		$wgAutoloadClasses = [];
 
-		// LocalSettings.php should not call functions, except wfLoadSkin/wfLoadExtensions
-		// Define the required globals here, to ensure, the functions can do it work correctly.
-		// phpcs:ignore MediaWiki.VariableAnalysis.UnusedGlobalVariables
-		global $wgExtensionDirectory, $wgStyleDirectory;
-
-		Wikimedia\suppressWarnings();
+		wfSuppressWarnings();
 		$_lsExists = file_exists( "$IP/LocalSettings.php" );
-		Wikimedia\restoreWarnings();
+		wfRestoreWarnings();
 
 		if ( !$_lsExists ) {
 			return false;
@@ -627,7 +542,7 @@ abstract class Installer {
 	 * This is a security mechanism to avoid compromise of the password in the
 	 * event of session ID compromise.
 	 *
-	 * @param string $realPassword
+	 * @param $realPassword String
 	 *
 	 * @return string
 	 */
@@ -639,8 +554,8 @@ abstract class Installer {
 	 * Set a variable which stores a password, except if the new value is a
 	 * fake password in which case leave it as it is.
 	 *
-	 * @param string $name
-	 * @param mixed $value
+	 * @param $name String
+	 * @param $value Mixed
 	 */
 	public function setPassword( $name, $value ) {
 		if ( !preg_match( '/^\*+$/', $value ) ) {
@@ -668,7 +583,8 @@ abstract class Installer {
 		# posix_getegid() *not* getmygid() because we want the group of the webserver,
 		# not whoever owns the current script.
 		$gid = posix_getegid();
-		$group = posix_getpwuid( $gid )['name'];
+		$getpwuid = posix_getpwuid( $gid );
+		$group = $getpwuid['name'];
 
 		return $group;
 	}
@@ -685,21 +601,22 @@ abstract class Installer {
 	 * whatever, this function is guarded to catch the attempted DB access and to present
 	 * some fallback text.
 	 *
-	 * @param string $text
-	 * @param bool $lineStart
-	 * @return string
+	 * @param $text String
+	 * @param $lineStart Boolean
+	 * @return String
 	 */
 	public function parse( $text, $lineStart = false ) {
 		global $wgParser;
 
 		try {
 			$out = $wgParser->parse( $text, $this->parserTitle, $this->parserOptions, $lineStart );
-			$html = $out->getText( [
-				'enableSectionEditLinks' => false,
-				'unwrap' => true,
-			] );
-		} catch ( MediaWiki\Services\ServiceDisabledException $e ) {
+			$html = $out->getText();
+		} catch ( DBAccessError $e ) {
 			$html = '<!--DB access attempted during parse-->  ' . htmlspecialchars( $text );
+
+			if ( !empty( $this->debug ) ) {
+				$html .= "<!--\n" . $e->getTraceAsString() . "\n-->";
+			}
 		}
 
 		return $html;
@@ -725,7 +642,7 @@ abstract class Installer {
 	 * Install step which adds a row to the site_stats table with appropriate
 	 * initial values.
 	 *
-	 * @param DatabaseInstaller $installer
+	 * @param $installer DatabaseInstaller
 	 *
 	 * @return Status
 	 */
@@ -736,19 +653,30 @@ abstract class Installer {
 		}
 		$status->value->insert(
 			'site_stats',
-			[
+			array(
 				'ss_row_id' => 1,
+				'ss_total_views' => 0,
 				'ss_total_edits' => 0,
 				'ss_good_articles' => 0,
 				'ss_total_pages' => 0,
 				'ss_users' => 0,
-				'ss_active_users' => 0,
 				'ss_images' => 0
-			],
+			),
 			__METHOD__, 'IGNORE'
 		);
 
 		return Status::newGood();
+	}
+
+	/**
+	 * Exports all wg* variables stored by the installer into global scope.
+	 */
+	public function exportVars() {
+		foreach ( $this->settings as $name => $value ) {
+			if ( substr( $name, 0, 2 ) == 'wg' ) {
+				$GLOBALS[$name] = $value;
+			}
+		}
 	}
 
 	/**
@@ -758,7 +686,7 @@ abstract class Installer {
 	protected function envCheckDB() {
 		global $wgLang;
 
-		$allNames = [];
+		$allNames = array();
 
 		// Messages: config-type-mysql, config-type-postgres, config-type-oracle,
 		// config-type-sqlite
@@ -781,13 +709,22 @@ abstract class Installer {
 		}
 		$databases = array_flip( $databases );
 		if ( !$databases ) {
-			$this->showError( 'config-no-db', $wgLang->commaList( $allNames ), count( $allNames ) );
+			$this->showError( 'config-no-db', $wgLang->commaList( $allNames ) );
 
 			// @todo FIXME: This only works for the web installer!
 			return false;
 		}
 
 		return true;
+	}
+
+	/**
+	 * Environment check for register_globals.
+	 */
+	protected function envCheckRegisterGlobals() {
+		if ( wfIniGetBool( 'register_globals' ) ) {
+			$this->showMessage( 'config-register-globals' );
+		}
 	}
 
 	/**
@@ -806,6 +743,75 @@ abstract class Installer {
 	}
 
 	/**
+	 * Environment check for magic_quotes_runtime.
+	 * @return bool
+	 */
+	protected function envCheckMagicQuotes() {
+		if ( wfIniGetBool( "magic_quotes_runtime" ) ) {
+			$this->showError( 'config-magic-quotes-runtime' );
+
+			return false;
+		}
+
+		return true;
+	}
+
+	/**
+	 * Environment check for magic_quotes_sybase.
+	 * @return bool
+	 */
+	protected function envCheckMagicSybase() {
+		if ( wfIniGetBool( 'magic_quotes_sybase' ) ) {
+			$this->showError( 'config-magic-quotes-sybase' );
+
+			return false;
+		}
+
+		return true;
+	}
+
+	/**
+	 * Environment check for mbstring.func_overload.
+	 * @return bool
+	 */
+	protected function envCheckMbstring() {
+		if ( wfIniGetBool( 'mbstring.func_overload' ) ) {
+			$this->showError( 'config-mbstring' );
+
+			return false;
+		}
+
+		return true;
+	}
+
+	/**
+	 * Environment check for safe_mode.
+	 * @return bool
+	 */
+	protected function envCheckSafeMode() {
+		if ( wfIniGetBool( 'safe_mode' ) ) {
+			$this->setVar( '_SafeMode', true );
+			$this->showMessage( 'config-safe-mode' );
+		}
+
+		return true;
+	}
+
+	/**
+	 * Environment check for the XML module.
+	 * @return bool
+	 */
+	protected function envCheckXML() {
+		if ( !function_exists( "utf8_encode" ) ) {
+			$this->showError( 'config-xml-bad' );
+
+			return false;
+		}
+
+		return true;
+	}
+
+	/**
 	 * Environment check for the PCRE module.
 	 *
 	 * @note If this check were to fail, the parser would
@@ -814,14 +820,14 @@ abstract class Installer {
 	 * @return bool
 	 */
 	protected function envCheckPCRE() {
-		Wikimedia\suppressWarnings();
+		wfSuppressWarnings();
 		$regexd = preg_replace( '/[\x{0430}-\x{04FF}]/iu', '', '-АБВГД-' );
 		// Need to check for \p support too, as PCRE can be compiled
 		// with utf8 support, but not unicode property support.
 		// check that \p{Zs} (space separators) matches
 		// U+3000 (Ideographic space)
-		$regexprop = preg_replace( '/\p{Zs}/u', '', "-\u{3000}-" );
-		Wikimedia\restoreWarnings();
+		$regexprop = preg_replace( '/\p{Zs}/u', '', "-\xE3\x80\x80-" );
+		wfRestoreWarnings();
 		if ( $regexd != '--' || $regexprop != '--' ) {
 			$this->showError( 'config-pcre-no-utf8' );
 
@@ -862,28 +868,29 @@ abstract class Installer {
 	 * Environment check for compiled object cache types.
 	 */
 	protected function envCheckCache() {
-		$caches = [];
+		$caches = array();
 		foreach ( $this->objectCaches as $name => $function ) {
 			if ( function_exists( $function ) ) {
+				if ( $name == 'xcache' && !wfIniGetBool( 'xcache.var_size' ) ) {
+					continue;
+				}
 				$caches[$name] = true;
 			}
 		}
 
 		if ( !$caches ) {
-			$key = 'config-no-cache-apcu';
-			$this->showMessage( $key );
+			$this->showMessage( 'config-no-cache' );
 		}
 
 		$this->setVar( '_Caches', $caches );
 	}
 
 	/**
-	 * Scare user to death if they have mod_security or mod_security2
+	 * Scare user to death if they have mod_security
 	 * @return bool
 	 */
 	protected function envCheckModSecurity() {
-		if ( self::apacheModulePresent( 'mod_security' )
-			|| self::apacheModulePresent( 'mod_security2' ) ) {
+		if ( self::apacheModulePresent( 'mod_security' ) ) {
 			$this->showMessage( 'config-mod-security' );
 		}
 
@@ -895,13 +902,10 @@ abstract class Installer {
 	 * @return bool
 	 */
 	protected function envCheckDiff3() {
-		$names = [ "gdiff3", "diff3" ];
-		if ( wfIsWindows() ) {
-			$names[] = 'diff3.exe';
-		}
-		$versionInfo = [ '--version', 'GNU diffutils' ];
+		$names = array( "gdiff3", "diff3", "diff3.exe" );
+		$versionInfo = array( '$1 --version 2>&1', 'GNU diffutils' );
 
-		$diff3 = ExecutableFinder::findInDefaultPaths( $names, $versionInfo );
+		$diff3 = self::locateExecutableInDefaultPaths( $names, $versionInfo );
 
 		if ( $diff3 ) {
 			$this->setVar( 'wgDiff3', $diff3 );
@@ -918,9 +922,9 @@ abstract class Installer {
 	 * @return bool
 	 */
 	protected function envCheckGraphics() {
-		$names = wfIsWindows() ? 'convert.exe' : 'convert';
-		$versionInfo = [ '-version', 'ImageMagick' ];
-		$convert = ExecutableFinder::findInDefaultPaths( $names, $versionInfo );
+		$names = array( wfIsWindows() ? 'convert.exe' : 'convert' );
+		$versionInfo = array( '$1 -version', 'ImageMagick' );
+		$convert = self::locateExecutableInDefaultPaths( $names, $versionInfo );
 
 		$this->setVar( 'wgImageMagickConvertCommand', '' );
 		if ( $convert ) {
@@ -944,10 +948,10 @@ abstract class Installer {
 	 * @return bool
 	 */
 	protected function envCheckGit() {
-		$names = wfIsWindows() ? 'git.exe' : 'git';
-		$versionInfo = [ '--version', 'git version' ];
+		$names = array( wfIsWindows() ? 'git.exe' : 'git' );
+		$versionInfo = array( '$1 --version', 'git version' );
 
-		$git = ExecutableFinder::findInDefaultPaths( $names, $versionInfo );
+		$git = self::locateExecutableInDefaultPaths( $names, $versionInfo );
 
 		if ( $git ) {
 			$this->setVar( 'wgGitBin', $git );
@@ -961,29 +965,55 @@ abstract class Installer {
 	}
 
 	/**
-	 * Environment check to inform user which server we've assumed.
-	 *
-	 * @return bool
+	 * Environment check for the server hostname.
 	 */
 	protected function envCheckServer() {
 		$server = $this->envGetDefaultServer();
 		if ( $server !== null ) {
 			$this->showMessage( 'config-using-server', $server );
+			$this->setVar( 'wgServer', $server );
 		}
+
 		return true;
 	}
 
 	/**
-	 * Environment check to inform user which paths we've assumed.
-	 *
+	 * Helper function to be called from envCheckServer()
+	 * @return String
+	 */
+	abstract protected function envGetDefaultServer();
+
+	/**
+	 * Environment check for setting $IP and $wgScriptPath.
 	 * @return bool
 	 */
 	protected function envCheckPath() {
+		global $IP;
+		$IP = dirname( dirname( __DIR__ ) );
+		$this->setVar( 'IP', $IP );
+
 		$this->showMessage(
 			'config-using-uri',
 			$this->getVar( 'wgServer' ),
 			$this->getVar( 'wgScriptPath' )
 		);
+
+		return true;
+	}
+
+	/**
+	 * Environment check for setting the preferred PHP file extension.
+	 * @return bool
+	 */
+	protected function envCheckExtension() {
+		// @todo FIXME: Detect this properly
+		if ( defined( 'MW_INSTALL_PHP5_EXT' ) ) {
+			$ext = 'php5';
+		} else {
+			$ext = 'php';
+		}
+		$this->setVar( 'wgScriptExtension', ".$ext" );
+
 		return true;
 	}
 
@@ -993,28 +1023,24 @@ abstract class Installer {
 	 */
 	protected function envCheckShellLocale() {
 		$os = php_uname( 's' );
-		$supported = [ 'Linux', 'SunOS', 'HP-UX', 'Darwin' ]; # Tested these
+		$supported = array( 'Linux', 'SunOS', 'HP-UX', 'Darwin' ); # Tested these
 
 		if ( !in_array( $os, $supported ) ) {
 			return true;
 		}
 
-		if ( Shell::isDisabled() ) {
-			return true;
-		}
-
 		# Get a list of available locales.
-		$result = Shell::command( '/usr/bin/locale', '-a' )
-			->execute();
+		$ret = false;
+		$lines = wfShellExec( '/usr/bin/locale -a', $ret );
 
-		if ( $result->getExitCode() != 0 ) {
+		if ( $ret ) {
 			return true;
 		}
 
-		$lines = $result->getStdout();
 		$lines = array_map( 'trim', explode( "\n", $lines ) );
-		$candidatesByLocale = [];
-		$candidatesByLang = [];
+		$candidatesByLocale = array();
+		$candidatesByLang = array();
+
 		foreach ( $lines as $line ) {
 			if ( $line === '' ) {
 				continue;
@@ -1038,7 +1064,7 @@ abstract class Installer {
 		}
 
 		# Try the most common ones.
-		$commonLocales = [ 'C.UTF-8', 'en_US.UTF-8', 'en_US.utf8', 'de_DE.UTF-8', 'de_DE.utf8' ];
+		$commonLocales = array( 'en_US.UTF-8', 'en_US.utf8', 'de_DE.UTF-8', 'de_DE.utf8' );
 		foreach ( $commonLocales as $commonLocale ) {
 			if ( isset( $candidatesByLocale[$commonLocale] ) ) {
 				$this->setVar( 'wgShellLocale', $commonLocale );
@@ -1103,37 +1129,60 @@ abstract class Installer {
 	}
 
 	/**
-	 * Checks if we're running on 64 bit or not. 32 bit is becoming increasingly
-	 * hard to support, so let's at least warn people.
-	 *
-	 * @return bool
+	 * Convert a hex string representing a Unicode code point to that code point.
+	 * @param $c String
+	 * @return string
 	 */
-	protected function envCheck64Bit() {
-		if ( PHP_INT_SIZE == 4 ) {
-			$this->showMessage( 'config-using-32bit' );
+	protected function unicodeChar( $c ) {
+		$c = hexdec( $c );
+		if ( $c <= 0x7F ) {
+			return chr( $c );
+		} elseif ( $c <= 0x7FF ) {
+			return chr( 0xC0 | $c >> 6 ) . chr( 0x80 | $c & 0x3F );
+		} elseif ( $c <= 0xFFFF ) {
+			return chr( 0xE0 | $c >> 12 ) . chr( 0x80 | $c >> 6 & 0x3F )
+			. chr( 0x80 | $c & 0x3F );
+		} elseif ( $c <= 0x10FFFF ) {
+			return chr( 0xF0 | $c >> 18 ) . chr( 0x80 | $c >> 12 & 0x3F )
+			. chr( 0x80 | $c >> 6 & 0x3F )
+			. chr( 0x80 | $c & 0x3F );
+		} else {
+			return false;
 		}
-
-		return true;
 	}
 
 	/**
 	 * Check the libicu version
 	 */
 	protected function envCheckLibicu() {
+		$utf8 = function_exists( 'utf8_normalize' );
+		$intl = function_exists( 'normalizer_normalize' );
+
 		/**
 		 * This needs to be updated something that the latest libicu
 		 * will properly normalize.  This normalization was found at
-		 * https://www.unicode.org/versions/Unicode5.2.0/#Character_Additions
+		 * http://www.unicode.org/versions/Unicode5.2.0/#Character_Additions
 		 * Note that we use the hex representation to create the code
 		 * points in order to avoid any Unicode-destroying during transit.
 		 */
-		$not_normal_c = "\u{FA6C}";
-		$normal_c = "\u{242EE}";
+		$not_normal_c = $this->unicodeChar( "FA6C" );
+		$normal_c = $this->unicodeChar( "242EE" );
 
 		$useNormalizer = 'php';
 		$needsUpdate = false;
 
-		if ( function_exists( 'normalizer_normalize' ) ) {
+		/**
+		 * We're going to prefer the pecl extension here unless
+		 * utf8_normalize is more up to date.
+		 */
+		if ( $utf8 ) {
+			$useNormalizer = 'utf8';
+			$utf8 = utf8_normalize( $not_normal_c, UtfNormal::UNORM_NFC );
+			if ( $utf8 !== $normal_c ) {
+				$needsUpdate = true;
+			}
+		}
+		if ( $intl ) {
 			$useNormalizer = 'intl';
 			$intl = normalizer_normalize( $not_normal_c, Normalizer::FORM_C );
 			if ( $intl !== $normal_c ) {
@@ -1141,7 +1190,8 @@ abstract class Installer {
 			}
 		}
 
-		// Uses messages 'config-unicode-using-php' and 'config-unicode-using-intl'
+		// Uses messages 'config-unicode-using-php', 'config-unicode-using-utf8',
+		// 'config-unicode-using-intl'
 		if ( $useNormalizer === 'php' ) {
 			$this->showMessage( 'config-unicode-pure-php-warning' );
 		} else {
@@ -1153,49 +1203,132 @@ abstract class Installer {
 	}
 
 	/**
-	 * Environment prep for the server hostname.
+	 * @return bool
 	 */
-	protected function envPrepServer() {
-		$server = $this->envGetDefaultServer();
-		if ( $server !== null ) {
-			$this->setVar( 'wgServer', $server );
+	protected function envCheckCtype() {
+		if ( !function_exists( 'ctype_digit' ) ) {
+			$this->showError( 'config-ctype' );
+
+			return false;
 		}
+
+		return true;
 	}
 
 	/**
-	 * Helper function to be called from envPrepServer()
-	 * @return string
+	 * @return bool
 	 */
-	abstract protected function envGetDefaultServer();
+	protected function envCheckJSON() {
+		if ( !function_exists( 'json_decode' ) ) {
+			$this->showError( 'config-json' );
+
+			return false;
+		}
+
+		return true;
+	}
 
 	/**
-	 * Environment prep for setting $IP and $wgScriptPath.
+	 * Get an array of likely places we can find executables. Check a bunch
+	 * of known Unix-like defaults, as well as the PATH environment variable
+	 * (which should maybe make it work for Windows?)
+	 *
+	 * @return Array
 	 */
-	protected function envPrepPath() {
-		global $IP;
-		$IP = dirname( dirname( __DIR__ ) );
-		$this->setVar( 'IP', $IP );
+	protected static function getPossibleBinPaths() {
+		return array_merge(
+			array( '/usr/bin', '/usr/local/bin', '/opt/csw/bin',
+				'/usr/gnu/bin', '/usr/sfw/bin', '/sw/bin', '/opt/local/bin' ),
+			explode( PATH_SEPARATOR, getenv( 'PATH' ) )
+		);
+	}
+
+	/**
+	 * Search a path for any of the given executable names. Returns the
+	 * executable name if found. Also checks the version string returned
+	 * by each executable.
+	 *
+	 * Used only by environment checks.
+	 *
+	 * @param string $path path to search
+	 * @param array $names of executable names
+	 * @param $versionInfo Boolean false or array with two members:
+	 *         0 => Command to run for version check, with $1 for the full executable name
+	 *         1 => String to compare the output with
+	 *
+	 * If $versionInfo is not false, only executables with a version
+	 * matching $versionInfo[1] will be returned.
+	 * @return bool|string
+	 */
+	public static function locateExecutable( $path, $names, $versionInfo = false ) {
+		if ( !is_array( $names ) ) {
+			$names = array( $names );
+		}
+
+		foreach ( $names as $name ) {
+			$command = $path . DIRECTORY_SEPARATOR . $name;
+
+			wfSuppressWarnings();
+			$file_exists = file_exists( $command );
+			wfRestoreWarnings();
+
+			if ( $file_exists ) {
+				if ( !$versionInfo ) {
+					return $command;
+				}
+
+				$file = str_replace( '$1', wfEscapeShellArg( $command ), $versionInfo[0] );
+				if ( strstr( wfShellExec( $file ), $versionInfo[1] ) !== false ) {
+					return $command;
+				}
+			}
+		}
+
+		return false;
+	}
+
+	/**
+	 * Same as locateExecutable(), but checks in getPossibleBinPaths() by default
+	 * @see locateExecutable()
+	 * @param array $names Array of possible names.
+	 * @param array|bool $versionInfo Default: false or array with two members:
+	 *         0 => Command to run for version check, with $1 for the full executable name
+	 *         1 => String to compare the output with
+	 *
+	 * If $versionInfo is not false, only executables with a version
+	 * matching $versionInfo[1] will be returned.
+	 * @return bool|string
+	 */
+	public static function locateExecutableInDefaultPaths( $names, $versionInfo = false ) {
+		foreach ( self::getPossibleBinPaths() as $path ) {
+			$exe = self::locateExecutable( $path, $names, $versionInfo );
+			if ( $exe !== false ) {
+				return $exe;
+			}
+		}
+
+		return false;
 	}
 
 	/**
 	 * Checks if scripts located in the given directory can be executed via the given URL.
 	 *
 	 * Used only by environment checks.
-	 * @param string $dir
-	 * @param string $url
+	 * @param $dir string
+	 * @param $url string
 	 * @return bool|int|string
 	 */
 	public function dirIsExecutable( $dir, $url ) {
-		$scriptTypes = [
-			'php' => [
+		$scriptTypes = array(
+			'php' => array(
 				"<?php echo 'ex' . 'ec';",
-				"#!/var/env php\n<?php echo 'ex' . 'ec';",
-			],
-		];
+				"#!/var/env php5\n<?php echo 'ex' . 'ec';",
+			),
+		);
 
 		// it would be good to check other popular languages here, but it'll be slow.
 
-		Wikimedia\suppressWarnings();
+		wfSuppressWarnings();
 
 		foreach ( $scriptTypes as $ext => $contents ) {
 			foreach ( $contents as $source ) {
@@ -1206,22 +1339,22 @@ abstract class Installer {
 				}
 
 				try {
-					$text = Http::get( $url . $file, [ 'timeout' => 3 ], __METHOD__ );
-				} catch ( Exception $e ) {
+					$text = Http::get( $url . $file, array( 'timeout' => 3 ) );
+				} catch ( MWException $e ) {
 					// Http::get throws with allow_url_fopen = false and no curl extension.
 					$text = null;
 				}
 				unlink( $dir . $file );
 
 				if ( $text == 'exec' ) {
-					Wikimedia\restoreWarnings();
+					wfRestoreWarnings();
 
 					return $ext;
 				}
 			}
 		}
 
-		Wikimedia\restoreWarnings();
+		wfRestoreWarnings();
 
 		return false;
 	}
@@ -1247,7 +1380,7 @@ abstract class Installer {
 	/**
 	 * ParserOptions are constructed before we determined the language, so fix it
 	 *
-	 * @param Language $lang
+	 * @param $lang Language
 	 */
 	public function setParserLanguage( $lang ) {
 		$this->parserOptions->setTargetLanguage( $lang );
@@ -1256,7 +1389,7 @@ abstract class Installer {
 
 	/**
 	 * Overridden by WebInstaller to provide lastPage parameters.
-	 * @param string $page
+	 * @param $page string
 	 * @return string
 	 */
 	protected function getDocUrl( $page ) {
@@ -1264,205 +1397,35 @@ abstract class Installer {
 	}
 
 	/**
-	 * Find extensions or skins in a subdirectory of $IP.
-	 * Returns an array containing the value for 'Name' for each found extension.
+	 * Finds extensions that follow the format /extensions/Name/Name.php,
+	 * and returns an array containing the value for 'Name' for each found extension.
 	 *
-	 * @param string $directory Directory to search in, relative to $IP, must be either "extensions"
-	 *     or "skins"
-	 * @return array [ $extName => [ 'screenshots' => [ '...' ] ]
+	 * @return array
 	 */
-	public function findExtensions( $directory = 'extensions' ) {
-		switch ( $directory ) {
-			case 'extensions':
-				return $this->findExtensionsByType( 'extension', 'extensions' );
-			case 'skins':
-				return $this->findExtensionsByType( 'skin', 'skins' );
-			default:
-				throw new InvalidArgumentException( "Invalid extension type" );
-		}
-	}
-
-	/**
-	 * Find extensions or skins, and return an array containing the value for 'Name' for each found
-	 * extension.
-	 *
-	 * @param string $type Either "extension" or "skin"
-	 * @param string $directory Directory to search in, relative to $IP
-	 * @return array [ $extName => [ 'screenshots' => [ '...' ] ]
-	 */
-	protected function findExtensionsByType( $type = 'extension', $directory = 'extensions' ) {
+	public function findExtensions() {
 		if ( $this->getVar( 'IP' ) === null ) {
-			return [];
+			return array();
 		}
 
-		$extDir = $this->getVar( 'IP' ) . '/' . $directory;
+		$extDir = $this->getVar( 'IP' ) . '/extensions';
 		if ( !is_readable( $extDir ) || !is_dir( $extDir ) ) {
-			return [];
+			return array();
 		}
 
 		$dh = opendir( $extDir );
-		$exts = [];
+		$exts = array();
 		while ( ( $file = readdir( $dh ) ) !== false ) {
 			if ( !is_dir( "$extDir/$file" ) ) {
 				continue;
 			}
-			$status = $this->getExtensionInfo( $type, $directory, $file );
-			if ( $status->isOK() ) {
-				$exts[$file] = $status->value;
+			if ( file_exists( "$extDir/$file/$file.php" ) ) {
+				$exts[] = $file;
 			}
 		}
 		closedir( $dh );
-		uksort( $exts, 'strnatcasecmp' );
+		natcasesort( $exts );
 
 		return $exts;
-	}
-
-	/**
-	 * @param string $type Either "extension" or "skin"
-	 * @param string $parentRelPath The parent directory relative to $IP
-	 * @param string $name The extension or skin name
-	 * @return Status An object containing an error list. If there were no errors, an associative
-	 *     array of information about the extension can be found in $status->value.
-	 */
-	protected function getExtensionInfo( $type, $parentRelPath, $name ) {
-		if ( $this->getVar( 'IP' ) === null ) {
-			throw new Exception( 'Cannot find extensions since the IP variable is not yet set' );
-		}
-		if ( $type !== 'extension' && $type !== 'skin' ) {
-			throw new InvalidArgumentException( "Invalid extension type" );
-		}
-		$absDir = $this->getVar( 'IP' ) . "/$parentRelPath/$name";
-		$relDir = "../$parentRelPath/$name";
-		if ( !is_dir( $absDir ) ) {
-			return Status::newFatal( 'config-extension-not-found', $name );
-		}
-		$jsonFile = $type . '.json';
-		$fullJsonFile = "$absDir/$jsonFile";
-		$isJson = file_exists( $fullJsonFile );
-		$isPhp = false;
-		if ( !$isJson ) {
-			// Only fallback to PHP file if JSON doesn't exist
-			$fullPhpFile = "$absDir/$name.php";
-			$isPhp = file_exists( $fullPhpFile );
-		}
-		if ( !$isJson && !$isPhp ) {
-			return Status::newFatal( 'config-extension-not-found', $name );
-		}
-
-		// Extension exists. Now see if there are screenshots
-		$info = [];
-		if ( is_dir( "$absDir/screenshots" ) ) {
-			$paths = glob( "$absDir/screenshots/*.png" );
-			foreach ( $paths as $path ) {
-				$info['screenshots'][] = str_replace( $absDir, $relDir, $path );
-			}
-		}
-
-		if ( $isJson ) {
-			$jsonStatus = $this->readExtension( $fullJsonFile );
-			if ( !$jsonStatus->isOK() ) {
-				return $jsonStatus;
-			}
-			$info += $jsonStatus->value;
-		}
-
-		return Status::newGood( $info );
-	}
-
-	/**
-	 * @param string $fullJsonFile
-	 * @param array $extDeps
-	 * @param array $skinDeps
-	 *
-	 * @return Status On success, an array of extension information is in $status->value. On
-	 *    failure, the Status object will have an error list.
-	 */
-	private function readExtension( $fullJsonFile, $extDeps = [], $skinDeps = [] ) {
-		$load = [
-			$fullJsonFile => 1
-		];
-		if ( $extDeps ) {
-			$extDir = $this->getVar( 'IP' ) . '/extensions';
-			foreach ( $extDeps as $dep ) {
-				$fname = "$extDir/$dep/extension.json";
-				if ( !file_exists( $fname ) ) {
-					return Status::newFatal( 'config-extension-not-found', $dep );
-				}
-				$load[$fname] = 1;
-			}
-		}
-		if ( $skinDeps ) {
-			$skinDir = $this->getVar( 'IP' ) . '/skins';
-			foreach ( $skinDeps as $dep ) {
-				$fname = "$skinDir/$dep/skin.json";
-				if ( !file_exists( $fname ) ) {
-					return Status::newFatal( 'config-extension-not-found', $dep );
-				}
-				$load[$fname] = 1;
-			}
-		}
-		$registry = new ExtensionRegistry();
-		try {
-			$info = $registry->readFromQueue( $load );
-		} catch ( ExtensionDependencyError $e ) {
-			if ( $e->incompatibleCore || $e->incompatibleSkins
-				|| $e->incompatibleExtensions
-			) {
-				// If something is incompatible with a dependency, we have no real
-				// option besides skipping it
-				return Status::newFatal( 'config-extension-dependency',
-					basename( dirname( $fullJsonFile ) ), $e->getMessage() );
-			} elseif ( $e->missingExtensions || $e->missingSkins ) {
-				// There's an extension missing in the dependency tree,
-				// so add those to the dependency list and try again
-				return $this->readExtension(
-					$fullJsonFile,
-					array_merge( $extDeps, $e->missingExtensions ),
-					array_merge( $skinDeps, $e->missingSkins )
-				);
-			}
-			// Some other kind of dependency error?
-			return Status::newFatal( 'config-extension-dependency',
-				basename( dirname( $fullJsonFile ) ), $e->getMessage() );
-		}
-		$ret = [];
-		// The order of credits will be the order of $load,
-		// so the first extension is the one we want to load,
-		// everything else is a dependency
-		$i = 0;
-		foreach ( $info['credits'] as $name => $credit ) {
-			$i++;
-			if ( $i == 1 ) {
-				// Extension we want to load
-				continue;
-			}
-			$type = basename( $credit['path'] ) === 'skin.json' ? 'skins' : 'extensions';
-			$ret['requires'][$type][] = $credit['name'];
-		}
-		$credits = array_values( $info['credits'] )[0];
-		if ( isset( $credits['url'] ) ) {
-			$ret['url'] = $credits['url'];
-		}
-		$ret['type'] = $credits['type'];
-
-		return Status::newGood( $ret );
-	}
-
-	/**
-	 * Returns a default value to be used for $wgDefaultSkin: normally the one set in DefaultSettings,
-	 * but will fall back to another if the default skin is missing and some other one is present
-	 * instead.
-	 *
-	 * @param string[] $skinNames Names of installed skins.
-	 * @return string
-	 */
-	public function getDefaultSkin( array $skinNames ) {
-		$defaultSkin = $GLOBALS['wgDefaultSkin'];
-		if ( !$skinNames || in_array( $defaultSkin, $skinNames ) ) {
-			return $defaultSkin;
-		} else {
-			return $skinNames[0];
-		}
 	}
 
 	/**
@@ -1475,76 +1438,55 @@ abstract class Installer {
 		$exts = $this->getVar( '_Extensions' );
 		$IP = $this->getVar( 'IP' );
 
-		// Marker for DatabaseUpdater::loadExtensions so we don't
-		// double load extensions
-		define( 'MW_EXTENSIONS_LOADED', true );
-
 		/**
 		 * We need to include DefaultSettings before including extensions to avoid
 		 * warnings about unset variables. However, the only thing we really
 		 * want here is $wgHooks['LoadExtensionSchemaUpdates']. This won't work
 		 * if the extension has hidden hook registration in $wgExtensionFunctions,
 		 * but we're not opening that can of worms
-		 * @see https://phabricator.wikimedia.org/T28857
+		 * @see https://bugzilla.wikimedia.org/show_bug.cgi?id=26857
 		 */
 		global $wgAutoloadClasses;
-		$wgAutoloadClasses = [];
-		$queue = [];
+		$wgAutoloadClasses = array();
 
 		require "$IP/includes/DefaultSettings.php";
 
 		foreach ( $exts as $e ) {
-			if ( file_exists( "$IP/extensions/$e/extension.json" ) ) {
-				$queue["$IP/extensions/$e/extension.json"] = 1;
-			} else {
-				require_once "$IP/extensions/$e/$e.php";
-			}
+			require_once "$IP/extensions/$e/$e.php";
 		}
-
-		$registry = new ExtensionRegistry();
-		$data = $registry->readFromQueue( $queue );
-		$wgAutoloadClasses += $data['autoload'];
 
 		$hooksWeWant = isset( $wgHooks['LoadExtensionSchemaUpdates'] ) ?
-			/** @suppress PhanUndeclaredVariable $wgHooks is set by DefaultSettings */
-			$wgHooks['LoadExtensionSchemaUpdates'] : [];
+			$wgHooks['LoadExtensionSchemaUpdates'] : array();
 
-		if ( isset( $data['globals']['wgHooks']['LoadExtensionSchemaUpdates'] ) ) {
-			$hooksWeWant = array_merge_recursive(
-				$hooksWeWant,
-				$data['globals']['wgHooks']['LoadExtensionSchemaUpdates']
-			);
-		}
 		// Unset everyone else's hooks. Lord knows what someone might be doing
-		// in ParserFirstCallInit (see T29171)
-		$GLOBALS['wgHooks'] = [ 'LoadExtensionSchemaUpdates' => $hooksWeWant ];
+		// in ParserFirstCallInit (see bug 27171)
+		$GLOBALS['wgHooks'] = array( 'LoadExtensionSchemaUpdates' => $hooksWeWant );
 
 		return Status::newGood();
 	}
 
 	/**
 	 * Get an array of install steps. Should always be in the format of
-	 * [
+	 * array(
 	 *   'name'     => 'someuniquename',
-	 *   'callback' => [ $obj, 'method' ],
-	 * ]
+	 *   'callback' => array( $obj, 'method' ),
+	 * )
 	 * There must be a config-install-$name message defined per step, which will
 	 * be shown on install.
 	 *
-	 * @param DatabaseInstaller $installer DatabaseInstaller so we can make callbacks
+	 * @param $installer DatabaseInstaller so we can make callbacks
 	 * @return array
 	 */
 	protected function getInstallSteps( DatabaseInstaller $installer ) {
-		$coreInstallSteps = [
-			[ 'name' => 'database', 'callback' => [ $installer, 'setupDatabase' ] ],
-			[ 'name' => 'tables', 'callback' => [ $installer, 'createTables' ] ],
-			[ 'name' => 'interwiki', 'callback' => [ $installer, 'populateInterwikiTable' ] ],
-			[ 'name' => 'stats', 'callback' => [ $this, 'populateSiteStats' ] ],
-			[ 'name' => 'keys', 'callback' => [ $this, 'generateKeys' ] ],
-			[ 'name' => 'updates', 'callback' => [ $installer, 'insertUpdateKeys' ] ],
-			[ 'name' => 'sysop', 'callback' => [ $this, 'createSysop' ] ],
-			[ 'name' => 'mainpage', 'callback' => [ $this, 'createMainpage' ] ],
-		];
+		$coreInstallSteps = array(
+			array( 'name' => 'database', 'callback' => array( $installer, 'setupDatabase' ) ),
+			array( 'name' => 'tables', 'callback' => array( $installer, 'createTables' ) ),
+			array( 'name' => 'interwiki', 'callback' => array( $installer, 'populateInterwikiTable' ) ),
+			array( 'name' => 'stats', 'callback' => array( $this, 'populateSiteStats' ) ),
+			array( 'name' => 'keys', 'callback' => array( $this, 'generateKeys' ) ),
+			array( 'name' => 'sysop', 'callback' => array( $this, 'createSysop' ) ),
+			array( 'name' => 'mainpage', 'callback' => array( $this, 'createMainpage' ) ),
+		);
 
 		// Build the array of install steps starting from the core install list,
 		// then adding any callbacks that wanted to attach after a given step
@@ -1569,12 +1511,12 @@ abstract class Installer {
 		// Extensions should always go first, chance to tie into hooks and such
 		if ( count( $this->getVar( '_Extensions' ) ) ) {
 			array_unshift( $this->installSteps,
-				[ 'name' => 'extensions', 'callback' => [ $this, 'includeExtensions' ] ]
+				array( 'name' => 'extensions', 'callback' => array( $this, 'includeExtensions' ) )
 			);
-			$this->installSteps[] = [
+			$this->installSteps[] = array(
 				'name' => 'extension-tables',
-				'callback' => [ $installer, 'createExtensionTables' ]
-			];
+				'callback' => array( $installer, 'createExtensionTables' )
+			);
 		}
 
 		return $this->installSteps;
@@ -1583,19 +1525,19 @@ abstract class Installer {
 	/**
 	 * Actually perform the installation.
 	 *
-	 * @param callable $startCB A callback array for the beginning of each step
-	 * @param callable $endCB A callback array for the end of each step
+	 * @param array $startCB A callback array for the beginning of each step
+	 * @param array $endCB A callback array for the end of each step
 	 *
-	 * @return array Array of Status objects
+	 * @return Array of Status objects
 	 */
 	public function performInstallation( $startCB, $endCB ) {
-		$installResults = [];
+		$installResults = array();
 		$installer = $this->getDBInstaller();
 		$installer->preInstall();
 		$steps = $this->getInstallSteps( $installer );
 		foreach ( $steps as $stepObj ) {
 			$name = $stepObj['name'];
-			call_user_func_array( $startCB, [ $name ] );
+			call_user_func_array( $startCB, array( $name ) );
 
 			// Perform the callback step
 			$status = call_user_func( $stepObj['callback'], $installer );
@@ -1611,11 +1553,6 @@ abstract class Installer {
 			}
 		}
 		if ( $status->isOk() ) {
-			$this->showMessage(
-				'config-install-success',
-				$this->getVar( 'wgServer' ),
-				$this->getVar( 'wgScriptPath' )
-			);
 			$this->setVar( '_InstallDone', true );
 		}
 
@@ -1628,7 +1565,7 @@ abstract class Installer {
 	 * @return Status
 	 */
 	public function generateKeys() {
-		$keys = [ 'wgSecretKey' => 64 ];
+		$keys = array( 'wgSecretKey' => 64 );
 		if ( strval( $this->getVar( 'wgUpgradeKey' ) ) === '' ) {
 			$keys['wgUpgradeKey'] = 16;
 		}
@@ -1640,22 +1577,34 @@ abstract class Installer {
 	 * Generate a secret value for variables using our CryptRand generator.
 	 * Produce a warning if the random source was insecure.
 	 *
-	 * @param array $keys
+	 * @param $keys Array
 	 * @return Status
 	 */
 	protected function doGenerateKeys( $keys ) {
 		$status = Status::newGood();
 
+		$strong = true;
 		foreach ( $keys as $name => $length ) {
-			$secretKey = MWCryptRand::generateHex( $length );
+			$secretKey = MWCryptRand::generateHex( $length, true );
+			if ( !MWCryptRand::wasStrong() ) {
+				$strong = false;
+			}
+
 			$this->setVar( $name, $secretKey );
+		}
+
+		if ( !$strong ) {
+			$names = array_keys( $keys );
+			$names = preg_replace( '/^(.*)$/', '\$$1', $names );
+			global $wgLang;
+			$status->warning( 'config-insecure-keys', $wgLang->listToText( $names ), count( $names ) );
 		}
 
 		return $status;
 	}
 
 	/**
-	 * Create the first user account, grant it sysop, bureaucrat and interface-admin rights
+	 * Create the first user account, grant it sysop and bureaucrat rights
 	 *
 	 * @return Status
 	 */
@@ -1679,14 +1628,13 @@ abstract class Installer {
 
 			$user->addGroup( 'sysop' );
 			$user->addGroup( 'bureaucrat' );
-			$user->addGroup( 'interface-admin' );
 			if ( $this->getVar( '_AdminEmail' ) ) {
 				$user->setEmail( $this->getVar( '_AdminEmail' ) );
 			}
 			$user->saveSettings();
 
 			// Update user count
-			$ssUpdate = SiteStatsUpdate::factory( [ 'users' => 1 ] );
+			$ssUpdate = new SiteStatsUpdate( 0, 0, 0, 0, 1 );
 			$ssUpdate->doUpdate();
 		}
 		$status = Status::newGood();
@@ -1699,14 +1647,14 @@ abstract class Installer {
 	}
 
 	/**
-	 * @param Status $s
+	 * @param $s Status
 	 */
 	private function subscribeToMediaWikiAnnounce( Status $s ) {
-		$params = [
+		$params = array(
 			'email' => $this->getVar( '_AdminEmail' ),
 			'language' => 'en',
 			'digest' => 0
-		];
+		);
 
 		// Mailman doesn't support as many languages as we do, so check to make
 		// sure their selected language is available
@@ -1718,7 +1666,7 @@ abstract class Installer {
 
 		if ( MWHttpRequest::canMakeRequests() ) {
 			$res = MWHttpRequest::factory( $this->mediaWikiAnnounceUrl,
-				[ 'method' => 'POST', 'postData' => $params ], __METHOD__ )->execute();
+				array( 'method' => 'POST', 'postData' => $params ) )->execute();
 			if ( !$res->isOK() ) {
 				$s->warning( 'config-install-subscribe-fail', $res->getMessage() );
 			}
@@ -1730,31 +1678,26 @@ abstract class Installer {
 	/**
 	 * Insert Main Page with default content.
 	 *
-	 * @param DatabaseInstaller $installer
+	 * @param $installer DatabaseInstaller
 	 * @return Status
 	 */
 	protected function createMainpage( DatabaseInstaller $installer ) {
 		$status = Status::newGood();
-		$title = Title::newMainPage();
-		if ( $title->exists() ) {
-			$status->warning( 'config-install-mainpage-exists' );
-			return $status;
-		}
 		try {
-			$page = WikiPage::factory( $title );
+			$page = WikiPage::factory( Title::newMainPage() );
 			$content = new WikitextContent(
 				wfMessage( 'mainpagetext' )->inContentLanguage()->text() . "\n\n" .
 				wfMessage( 'mainpagedocfooter' )->inContentLanguage()->text()
 			);
 
-			$status = $page->doEditContent( $content,
+			$page->doEditContent( $content,
 				'',
 				EDIT_NEW,
 				false,
 				User::newFromName( 'MediaWiki default' )
 			);
-		} catch ( Exception $e ) {
-			// using raw, because $wgShowExceptionDetails can not be set yet
+		} catch ( MWException $e ) {
+			//using raw, because $wgShowExceptionDetails can not be set yet
 			$status->fatal( 'config-install-mainpage-failed', $e->getMessage() );
 		}
 
@@ -1765,9 +1708,7 @@ abstract class Installer {
 	 * Override the necessary bits of the config to run an installation.
 	 */
 	public static function overrideConfig() {
-		// Use PHP's built-in session handling, since MediaWiki's
-		// SessionHandler can't work before we have an object cache set up.
-		define( 'MW_NO_SESSION_HANDLER', 1 );
+		define( 'MW_NO_SESSION', 1 );
 
 		// Don't access the database
 		$GLOBALS['wgUseDatabaseMessages'] = false;
@@ -1775,9 +1716,12 @@ abstract class Installer {
 		$GLOBALS['wgLanguageConverterCacheType'] = CACHE_NONE;
 		// Debug-friendly
 		$GLOBALS['wgShowExceptionDetails'] = true;
-		$GLOBALS['wgShowHostnames'] = true;
 		// Don't break forms
 		$GLOBALS['wgExternalLinkTarget'] = '_blank';
+
+		// Extended debugging
+		$GLOBALS['wgShowSQLErrors'] = true;
+		$GLOBALS['wgShowDBErrorBacktrace'] = true;
 
 		// Allow multiple ob_flush() calls
 		$GLOBALS['wgDisableOutputCompression'] = true;
@@ -1788,27 +1732,18 @@ abstract class Installer {
 		// Some of the environment checks make shell requests, remove limits
 		$GLOBALS['wgMaxShellMemory'] = 0;
 
-		// Override the default CookieSessionProvider with a dummy
-		// implementation that won't stomp on PHP's cookies.
-		$GLOBALS['wgSessionProviders'] = [
-			[
-				'class' => InstallerSessionProvider::class,
-				'args' => [ [
-					'priority' => 1,
-				] ]
-			]
-		];
-
-		// Don't try to use any object cache for SessionManager either.
-		$GLOBALS['wgSessionCacheType'] = CACHE_NONE;
+		// Don't bother embedding images into generated CSS, which is not cached
+		$GLOBALS['wgResourceLoaderLESSFunctions']['embeddable'] = function ( $frame, $less ) {
+			return $less->toBool( false );
+		};
 	}
 
 	/**
 	 * Add an installation step following the given step.
 	 *
-	 * @param callable $callback A valid installation callback array, in this form:
-	 *    [ 'name' => 'some-unique-name', 'callback' => [ $obj, 'function' ] ];
-	 * @param string $findStep The step to find. Omit to put the step at the beginning
+	 * @param array $callback A valid installation callback array, in this form:
+	 *    array( 'name' => 'some-unique-name', 'callback' => array( $obj, 'function' ) );
+	 * @param string $findStep the step to find. Omit to put the step at the beginning
 	 */
 	public function addInstallStep( $callback, $findStep = 'BEGINNING' ) {
 		$this->extraInstallSteps[$findStep][] = $callback;
@@ -1819,8 +1754,8 @@ abstract class Installer {
 	 * Some long-running pages (Install, Upgrade) will want to do this
 	 */
 	protected function disableTimeLimit() {
-		Wikimedia\suppressWarnings();
+		wfSuppressWarnings();
 		set_time_limit( 0 );
-		Wikimedia\restoreWarnings();
+		wfRestoreWarnings();
 	}
 }

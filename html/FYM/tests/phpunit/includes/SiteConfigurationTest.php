@@ -12,70 +12,68 @@ class SiteConfigurationTest extends MediaWikiTestCase {
 
 		$this->mConf = new SiteConfiguration;
 
-		$this->mConf->suffixes = [ 'wikipedia' => 'wiki' ];
-		$this->mConf->wikis = [ 'enwiki', 'dewiki', 'frwiki' ];
-		$this->mConf->settings = [
-			'SimpleKey' => [
+		$this->mConf->suffixes = array( 'wikipedia' => 'wiki' );
+		$this->mConf->wikis = array( 'enwiki', 'dewiki', 'frwiki' );
+		$this->mConf->settings = array(
+			'simple' => array(
 				'wiki' => 'wiki',
 				'tag' => 'tag',
 				'enwiki' => 'enwiki',
 				'dewiki' => 'dewiki',
 				'frwiki' => 'frwiki',
-			],
+			),
 
-			'Fallback' => [
+			'fallback' => array(
 				'default' => 'default',
 				'wiki' => 'wiki',
 				'tag' => 'tag',
-				'frwiki' => 'frwiki',
-				'null_wiki' => null,
-			],
+			),
 
-			'WithParams' => [
+			'params' => array(
 				'default' => '$lang $site $wiki',
-			],
+			),
 
-			'+SomeGlobal' => [
-				'wiki' => [
+			'+global' => array(
+				'wiki' => array(
 					'wiki' => 'wiki',
-				],
-				'tag' => [
+				),
+				'tag' => array(
 					'tag' => 'tag',
-				],
-				'enwiki' => [
+				),
+				'enwiki' => array(
 					'enwiki' => 'enwiki',
-				],
-				'dewiki' => [
+				),
+				'dewiki' => array(
 					'dewiki' => 'dewiki',
-				],
-				'frwiki' => [
+				),
+				'frwiki' => array(
 					'frwiki' => 'frwiki',
-				],
-			],
+				),
+			),
 
-			'MergeIt' => [
-				'+wiki' => [
+			'merge' => array(
+				'+wiki' => array(
 					'wiki' => 'wiki',
-				],
-				'+tag' => [
+				),
+				'+tag' => array(
 					'tag' => 'tag',
-				],
-				'default' => [
+				),
+				'default' => array(
 					'default' => 'default',
-				],
-				'+enwiki' => [
+				),
+				'+enwiki' => array(
 					'enwiki' => 'enwiki',
-				],
-				'+dewiki' => [
+				),
+				'+dewiki' => array(
 					'dewiki' => 'dewiki',
-				],
-				'+frwiki' => [
+				),
+				'+frwiki' => array(
 					'frwiki' => 'frwiki',
-				],
-			],
-		];
+				),
+			),
+		);
 
-		$GLOBALS['SomeGlobal'] = [ 'SomeGlobal' => 'SomeGlobal' ];
+		$GLOBALS['global'] = array( 'global' => 'global' );
 	}
 
 	/**
@@ -92,16 +90,16 @@ class SiteConfigurationTest extends MediaWikiTestCase {
 			}
 		}
 
-		return [
+		return array(
 			'suffix' => $site,
 			'lang' => $lang,
-			'params' => [
+			'params' => array(
 				'lang' => $lang,
 				'site' => $site,
 				'wiki' => $wiki,
-			],
-			'tags' => [ 'tag' ],
-		];
+			),
+			'tags' => array( 'tag' ),
+		);
 	}
 
 	/**
@@ -109,24 +107,24 @@ class SiteConfigurationTest extends MediaWikiTestCase {
 	 */
 	public function testSiteFromDb() {
 		$this->assertEquals(
-			[ 'wikipedia', 'en' ],
+			array( 'wikipedia', 'en' ),
 			$this->mConf->siteFromDB( 'enwiki' ),
 			'siteFromDB()'
 		);
 		$this->assertEquals(
-			[ 'wikipedia', '' ],
+			array( 'wikipedia', '' ),
 			$this->mConf->siteFromDB( 'wiki' ),
 			'siteFromDB() on a suffix'
 		);
 		$this->assertEquals(
-			[ null, null ],
+			array( null, null ),
 			$this->mConf->siteFromDB( 'wikien' ),
 			'siteFromDB() on a non-existing wiki'
 		);
 
-		$this->mConf->suffixes = [ 'wiki', '' ];
+		$this->mConf->suffixes = array( 'wiki', '' );
 		$this->assertEquals(
-			[ '', 'wikien' ],
+			array( '', 'wikien' ),
 			$this->mConf->siteFromDB( 'wikien' ),
 			'siteFromDB() on a non-existing wiki (2)'
 		);
@@ -137,7 +135,7 @@ class SiteConfigurationTest extends MediaWikiTestCase {
 	 */
 	public function testGetLocalDatabases() {
 		$this->assertEquals(
-			[ 'enwiki', 'dewiki', 'frwiki' ],
+			array( 'enwiki', 'dewiki', 'frwiki' ),
 			$this->mConf->getLocalDatabases(),
 			'getLocalDatabases()'
 		);
@@ -147,127 +145,113 @@ class SiteConfigurationTest extends MediaWikiTestCase {
 	 * @covers SiteConfiguration::get
 	 */
 	public function testGetConfVariables() {
-		// Simple
 		$this->assertEquals(
 			'enwiki',
-			$this->mConf->get( 'SimpleKey', 'enwiki', 'wiki' ),
+			$this->mConf->get( 'simple', 'enwiki', 'wiki' ),
 			'get(): simple setting on an existing wiki'
 		);
 		$this->assertEquals(
 			'dewiki',
-			$this->mConf->get( 'SimpleKey', 'dewiki', 'wiki' ),
+			$this->mConf->get( 'simple', 'dewiki', 'wiki' ),
 			'get(): simple setting on an existing wiki (2)'
 		);
 		$this->assertEquals(
 			'frwiki',
-			$this->mConf->get( 'SimpleKey', 'frwiki', 'wiki' ),
+			$this->mConf->get( 'simple', 'frwiki', 'wiki' ),
 			'get(): simple setting on an existing wiki (3)'
 		);
 		$this->assertEquals(
 			'wiki',
-			$this->mConf->get( 'SimpleKey', 'wiki', 'wiki' ),
+			$this->mConf->get( 'simple', 'wiki', 'wiki' ),
 			'get(): simple setting on an suffix'
 		);
 		$this->assertEquals(
 			'wiki',
-			$this->mConf->get( 'SimpleKey', 'eswiki', 'wiki' ),
+			$this->mConf->get( 'simple', 'eswiki', 'wiki' ),
 			'get(): simple setting on an non-existing wiki'
 		);
 
-		// Fallback
 		$this->assertEquals(
 			'wiki',
-			$this->mConf->get( 'Fallback', 'enwiki', 'wiki' ),
+			$this->mConf->get( 'fallback', 'enwiki', 'wiki' ),
 			'get(): fallback setting on an existing wiki'
 		);
 		$this->assertEquals(
 			'tag',
-			$this->mConf->get( 'Fallback', 'dewiki', 'wiki', [], [ 'tag' ] ),
+			$this->mConf->get( 'fallback', 'dewiki', 'wiki', array(), array( 'tag' ) ),
 			'get(): fallback setting on an existing wiki (with wiki tag)'
 		);
 		$this->assertEquals(
-			'frwiki',
-			$this->mConf->get( 'Fallback', 'frwiki', 'wiki', [], [ 'tag' ] ),
-			'get(): no fallback if wiki has its own setting (matching tag)'
-		);
-		$this->assertSame(
-			// Potential regression test for T192855
-			null,
-			$this->mConf->get( 'Fallback', 'null_wiki', 'wiki', [], [ 'tag' ] ),
-			'get(): no fallback if wiki has its own setting (matching tag and uses null)'
-		);
-		$this->assertEquals(
 			'wiki',
-			$this->mConf->get( 'Fallback', 'wiki', 'wiki' ),
+			$this->mConf->get( 'fallback', 'wiki', 'wiki' ),
 			'get(): fallback setting on an suffix'
 		);
 		$this->assertEquals(
 			'wiki',
-			$this->mConf->get( 'Fallback', 'wiki', 'wiki', [], [ 'tag' ] ),
+			$this->mConf->get( 'fallback', 'wiki', 'wiki', array(), array( 'tag' ) ),
 			'get(): fallback setting on an suffix (with wiki tag)'
 		);
 		$this->assertEquals(
 			'wiki',
-			$this->mConf->get( 'Fallback', 'eswiki', 'wiki' ),
+			$this->mConf->get( 'fallback', 'eswiki', 'wiki' ),
 			'get(): fallback setting on an non-existing wiki'
 		);
 		$this->assertEquals(
 			'tag',
-			$this->mConf->get( 'Fallback', 'eswiki', 'wiki', [], [ 'tag' ] ),
+			$this->mConf->get( 'fallback', 'eswiki', 'wiki', array(), array( 'tag' ) ),
 			'get(): fallback setting on an non-existing wiki (with wiki tag)'
 		);
 
-		// Merging
-		$common = [ 'wiki' => 'wiki', 'default' => 'default' ];
-		$commonTag = [ 'tag' => 'tag', 'wiki' => 'wiki', 'default' => 'default' ];
+		$common = array( 'wiki' => 'wiki', 'default' => 'default' );
+		$commonTag = array( 'tag' => 'tag', 'wiki' => 'wiki', 'default' => 'default' );
 		$this->assertEquals(
-			[ 'enwiki' => 'enwiki' ] + $common,
-			$this->mConf->get( 'MergeIt', 'enwiki', 'wiki' ),
+			array( 'enwiki' => 'enwiki' ) + $common,
+			$this->mConf->get( 'merge', 'enwiki', 'wiki' ),
 			'get(): merging setting on an existing wiki'
 		);
 		$this->assertEquals(
-			[ 'enwiki' => 'enwiki' ] + $commonTag,
-			$this->mConf->get( 'MergeIt', 'enwiki', 'wiki', [], [ 'tag' ] ),
+			array( 'enwiki' => 'enwiki' ) + $commonTag,
+			$this->mConf->get( 'merge', 'enwiki', 'wiki', array(), array( 'tag' ) ),
 			'get(): merging setting on an existing wiki (with tag)'
 		);
 		$this->assertEquals(
-			[ 'dewiki' => 'dewiki' ] + $common,
-			$this->mConf->get( 'MergeIt', 'dewiki', 'wiki' ),
+			array( 'dewiki' => 'dewiki' ) + $common,
+			$this->mConf->get( 'merge', 'dewiki', 'wiki' ),
 			'get(): merging setting on an existing wiki (2)'
 		);
 		$this->assertEquals(
-			[ 'dewiki' => 'dewiki' ] + $commonTag,
-			$this->mConf->get( 'MergeIt', 'dewiki', 'wiki', [], [ 'tag' ] ),
+			array( 'dewiki' => 'dewiki' ) + $commonTag,
+			$this->mConf->get( 'merge', 'dewiki', 'wiki', array(), array( 'tag' ) ),
 			'get(): merging setting on an existing wiki (2) (with tag)'
 		);
 		$this->assertEquals(
-			[ 'frwiki' => 'frwiki' ] + $common,
-			$this->mConf->get( 'MergeIt', 'frwiki', 'wiki' ),
+			array( 'frwiki' => 'frwiki' ) + $common,
+			$this->mConf->get( 'merge', 'frwiki', 'wiki' ),
 			'get(): merging setting on an existing wiki (3)'
 		);
 		$this->assertEquals(
-			[ 'frwiki' => 'frwiki' ] + $commonTag,
-			$this->mConf->get( 'MergeIt', 'frwiki', 'wiki', [], [ 'tag' ] ),
+			array( 'frwiki' => 'frwiki' ) + $commonTag,
+			$this->mConf->get( 'merge', 'frwiki', 'wiki', array(), array( 'tag' ) ),
 			'get(): merging setting on an existing wiki (3) (with tag)'
 		);
 		$this->assertEquals(
-			[ 'wiki' => 'wiki' ] + $common,
-			$this->mConf->get( 'MergeIt', 'wiki', 'wiki' ),
+			array( 'wiki' => 'wiki' ) + $common,
+			$this->mConf->get( 'merge', 'wiki', 'wiki' ),
 			'get(): merging setting on an suffix'
 		);
 		$this->assertEquals(
-			[ 'wiki' => 'wiki' ] + $commonTag,
-			$this->mConf->get( 'MergeIt', 'wiki', 'wiki', [], [ 'tag' ] ),
+			array( 'wiki' => 'wiki' ) + $commonTag,
+			$this->mConf->get( 'merge', 'wiki', 'wiki', array(), array( 'tag' ) ),
 			'get(): merging setting on an suffix (with tag)'
 		);
 		$this->assertEquals(
 			$common,
-			$this->mConf->get( 'MergeIt', 'eswiki', 'wiki' ),
+			$this->mConf->get( 'merge', 'eswiki', 'wiki' ),
 			'get(): merging setting on an non-existing wiki'
 		);
 		$this->assertEquals(
 			$commonTag,
-			$this->mConf->get( 'MergeIt', 'eswiki', 'wiki', [], [ 'tag' ] ),
+			$this->mConf->get( 'merge', 'eswiki', 'wiki', array(), array( 'tag' ) ),
 			'get(): merging setting on an non-existing wiki (with tag)'
 		);
 	}
@@ -279,17 +263,17 @@ class SiteConfigurationTest extends MediaWikiTestCase {
 		$this->mConf->siteParamsCallback = 'SiteConfigurationTest::getSiteParamsCallback';
 
 		$this->assertEquals(
-			[ 'wiki', 'en' ],
+			array( 'wiki', 'en' ),
 			$this->mConf->siteFromDB( 'enwiki' ),
 			'siteFromDB() with callback'
 		);
 		$this->assertEquals(
-			[ 'wiki', '' ],
+			array( 'wiki', '' ),
 			$this->mConf->siteFromDB( 'wiki' ),
 			'siteFromDB() with callback on a suffix'
 		);
 		$this->assertEquals(
-			[ null, null ],
+			array( null, null ),
 			$this->mConf->siteFromDB( 'wikien' ),
 			'siteFromDB() with callback on a non-existing wiki'
 		);
@@ -303,27 +287,27 @@ class SiteConfigurationTest extends MediaWikiTestCase {
 
 		$this->assertEquals(
 			'en wiki enwiki',
-			$this->mConf->get( 'WithParams', 'enwiki', 'wiki' ),
+			$this->mConf->get( 'params', 'enwiki', 'wiki' ),
 			'get(): parameter replacement on an existing wiki'
 		);
 		$this->assertEquals(
 			'de wiki dewiki',
-			$this->mConf->get( 'WithParams', 'dewiki', 'wiki' ),
+			$this->mConf->get( 'params', 'dewiki', 'wiki' ),
 			'get(): parameter replacement on an existing wiki (2)'
 		);
 		$this->assertEquals(
 			'fr wiki frwiki',
-			$this->mConf->get( 'WithParams', 'frwiki', 'wiki' ),
+			$this->mConf->get( 'params', 'frwiki', 'wiki' ),
 			'get(): parameter replacement on an existing wiki (3)'
 		);
 		$this->assertEquals(
 			' wiki wiki',
-			$this->mConf->get( 'WithParams', 'wiki', 'wiki' ),
+			$this->mConf->get( 'params', 'wiki', 'wiki' ),
 			'get(): parameter replacement on an suffix'
 		);
 		$this->assertEquals(
 			'es wiki eswiki',
-			$this->mConf->get( 'WithParams', 'eswiki', 'wiki' ),
+			$this->mConf->get( 'params', 'eswiki', 'wiki' ),
 			'get(): parameter replacement on an non-existing wiki'
 		);
 	}
@@ -334,46 +318,21 @@ class SiteConfigurationTest extends MediaWikiTestCase {
 	public function testGetAllGlobals() {
 		$this->mConf->siteParamsCallback = 'SiteConfigurationTest::getSiteParamsCallback';
 
-		$getall = [
-			'SimpleKey' => 'enwiki',
-			'Fallback' => 'tag',
-			'WithParams' => 'en wiki enwiki',
-			'SomeGlobal' => [ 'enwiki' => 'enwiki' ] + $GLOBALS['SomeGlobal'],
-			'MergeIt' => [
-				'enwiki' => 'enwiki',
-				'tag' => 'tag',
-				'wiki' => 'wiki',
-				'default' => 'default'
-			],
-		];
+		$getall = array(
+			'simple' => 'enwiki',
+			'fallback' => 'tag',
+			'params' => 'en wiki enwiki',
+			'global' => array( 'enwiki' => 'enwiki' ) + $GLOBALS['global'],
+			'merge' => array( 'enwiki' => 'enwiki', 'tag' => 'tag', 'wiki' => 'wiki', 'default' => 'default' ),
+		);
 		$this->assertEquals( $getall, $this->mConf->getAll( 'enwiki' ), 'getAll()' );
 
 		$this->mConf->extractAllGlobals( 'enwiki', 'wiki' );
 
-		$this->assertEquals(
-			$getall['SimpleKey'],
-			$GLOBALS['SimpleKey'],
-			'extractAllGlobals(): simple setting'
-		);
-		$this->assertEquals(
-			$getall['Fallback'],
-			$GLOBALS['Fallback'],
-			'extractAllGlobals(): fallback setting'
-		);
-		$this->assertEquals(
-			$getall['WithParams'],
-			$GLOBALS['WithParams'],
-			'extractAllGlobals(): parameter replacement'
-		);
-		$this->assertEquals(
-			$getall['SomeGlobal'],
-			$GLOBALS['SomeGlobal'],
-			'extractAllGlobals(): merging with global'
-		);
-		$this->assertEquals(
-			$getall['MergeIt'],
-			$GLOBALS['MergeIt'],
-			'extractAllGlobals(): merging setting'
-		);
+		$this->assertEquals( $getall['simple'], $GLOBALS['simple'], 'extractAllGlobals(): simple setting' );
+		$this->assertEquals( $getall['fallback'], $GLOBALS['fallback'], 'extractAllGlobals(): fallback setting' );
+		$this->assertEquals( $getall['params'], $GLOBALS['params'], 'extractAllGlobals(): parameter replacement' );
+		$this->assertEquals( $getall['global'], $GLOBALS['global'], 'extractAllGlobals(): merging with global' );
+		$this->assertEquals( $getall['merge'], $GLOBALS['merge'], 'extractAllGlobals(): merging setting' );
 	}
 }

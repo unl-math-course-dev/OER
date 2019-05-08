@@ -15,10 +15,10 @@ class ApiTokensTest extends ApiTestCase {
 		}
 	}
 
-	protected function runTokenTest( TestUser $user ) {
+	protected function runTokenTest( $user ) {
 		$tokens = $this->getTokenList( $user );
 
-		$rights = $user->getUser()->getRights();
+		$rights = $user->user->getRights();
 
 		$this->assertArrayHasKey( 'edittoken', $tokens );
 		$this->assertArrayHasKey( 'movetoken', $tokens );

@@ -10,12 +10,12 @@ class UserWrapper {
 		$this->password = $password;
 
 		$this->user = User::newFromName( $this->userName );
-		if ( !$this->user->getId() ) {
-			$this->user = User::createNew( $this->userName, [
+		if ( !$this->user->getID() ) {
+			$this->user = User::createNew( $this->userName, array(
 				"email" => "test@example.com",
-				"real_name" => "Test User" ] );
+				"real_name" => "Test User" ) );
 		}
-		TestUser::setPasswordForUser( $this->user, $this->password );
+		$this->user->setPassword( $this->password );
 
 		if ( $group !== '' ) {
 			$this->user->addGroup( $group );
