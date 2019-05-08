@@ -1,0 +1,600 @@
+<!DOCTYPE html>
+<!--**************************************-->
+<!--*    Generated from PreTeXt source   *-->
+<!--*    on 2019-05-08T14:10:04-05:00    *-->
+<!--*                                    *-->
+<!--*   http://mathbook.pugetsound.edu   *-->
+<!--*                                    *-->
+<!--**************************************-->
+<html lang="en-US">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>AC Population Growth and the Logistic Equation</title>
+<meta name="Keywords" content="Authored in PreTeXt">
+<meta name="viewport" content="width=device-width,  initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0">
+<script type="text/javascript" src="https://sagecell.sagemath.org/static/jquery.min.js"></script><script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [['\\(','\\)']],
+    },
+    TeX: {
+        extensions: ["extpfeil.js", "autobold.js", "https://aimath.org/mathbook/mathjaxknowl.js", ],
+        // scrolling to fragment identifiers is controlled by other Javascript
+        positionToHash: false,
+        equationNumbers: { autoNumber: "none", useLabelIds: true, },
+        TagSide: "right",
+        TagIndent: ".8em",
+    },
+    // HTML-CSS output Jax to be dropped for MathJax 3.0
+    "HTML-CSS": {
+        scale: 88,
+        mtextFontInherit: true,
+    },
+    CommonHTML: {
+        scale: 88,
+        mtextFontInherit: true,
+    },
+});
+</script><script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS_CHTML-full"></script><link href="https://math-webwork2.unl.edu//webwork2_files/js/apps/MathView/mathview.css" rel="stylesheet">
+<script type="text/javascript" src="https://math-webwork2.unl.edu//webwork2_files/js/vendor/iframe-resizer/js/iframeResizer.min.js"></script><script>(function() {
+  var cx = '015103900096539427448:ngwuia10qci';
+  var gcse = document.createElement('script');
+  gcse.type = 'text/javascript';
+  gcse.async = true;
+  gcse.src = 'https://cse.google.com/cse.js?cx=' + cx;
+  var s = document.getElementsByTagName('script')[0];
+  s.parentNode.insertBefore(gcse, s);
+})();
+</script><script type="text/javascript" src="https://aimath.org/knowl.js"></script><script src="https://aimath.org/mathbook/js/lib/jquery.sticky.js"></script><script src="https://aimath.org/mathbook/js/lib/jquery.espy.min.js"></script><script src="https://aimath.org/mathbook/js/Mathbook.js"></script><link href="https://fonts.googleapis.com/css?family=Open+Sans:400,400italic,600,600italic" rel="stylesheet" type="text/css">
+<link href="https://fonts.googleapis.com/css?family=Inconsolata:400,700&amp;subset=latin,latin-ext" rel="stylesheet" type="text/css">
+<link href="https://aimath.org/mathbook/stylesheets/mathbook-3.css" rel="stylesheet" type="text/css">
+<link href="https://aimath.org/mathbook/mathbook-add-on.css" rel="stylesheet" type="text/css">
+</head>
+<body class="mathbook-book has-toc has-sidebar-left">
+<a class="assistive" href="#content">Skip to main content</a><div class="hidden-content">\(\newcommand{\dollar}{\$}
+\DeclareMathOperator{\erf}{erf}
+\DeclareMathOperator{\arctanh}{arctanh}
+\newcommand{\lt}{&lt;}
+\newcommand{\gt}{&gt;}
+\newcommand{\amp}{&amp;}
+\)</div>
+<header id="masthead" class="smallbuttons"><div class="banner"><div class="container">
+<div class="searchwrapper"><div class="gcse-search"></div></div>
+<a id="logo-link" href="https://activecalculus.org" target="_blank"><img src="images/ActiveCalculusImage_sm.jpg" alt="Logo image"></a><div class="title-container">
+<h1 class="heading"><a href="index.html"><span class="title">Active Calculus</span></a></h1>
+<p class="byline">Matthew Boelkins</p>
+</div>
+</div></div>
+<nav id="primary-navbar" class="navbar"><div class="container">
+<div class="navbar-top-buttons">
+<button class="sidebar-left-toggle-button button active">Contents</button><div class="tree-nav toolbar toolbar-divisor-3">
+<a class="index-button toolbar-item button" href="index-1.html" title="Index" alt="Index">Index</a><span class="threebuttons"><a id="previousbutton" class="previous-button toolbar-item button" href="sec-7-5-modeling.html" title="Previous" alt="Previous">Prev</a><a id="upbutton" class="up-button button toolbar-item" href="C-7.html" title="Up" alt="Up">Up</a><a id="nextbutton" class="next-button button toolbar-item" href="C-8.html" title="Next" alt="Next">Next</a></span>
+</div>
+<button class="sidebar-right-toggle-button button active">Annotations</button>
+</div>
+<div class="navbar-bottom-buttons toolbar toolbar-divisor-4">
+<button class="sidebar-left-toggle-button button toolbar-item active">Contents</button><a class="previous-button toolbar-item button" href="sec-7-5-modeling.html" title="Previous" alt="Previous">Prev</a><a class="up-button button toolbar-item" href="C-7.html" title="Up" alt="Up">Up</a><a class="next-button button toolbar-item" href="C-8.html" title="Next" alt="Next">Next</a>
+</div>
+</div></nav></header><div class="page">
+<aside id="sidebar-left" class="sidebar"><div class="sidebar-content">
+<nav id="toc"><h2 class="link"><a href="frontmatter.html" data-scroll="frontmatter"><span class="title">Front Matter</span></a></h2>
+<ul>
+<li><a href="colophon-1.html" data-scroll="colophon-1">Colophon</a></li>
+<li><a href="acknowledgement-1.html" data-scroll="acknowledgement-1">Acknowledgements</a></li>
+<li><a href="preface-1.html" data-scroll="preface-1">Contributors</a></li>
+<li><a href="preface-2.html" data-scroll="preface-2">Active Calculus: Our Goals</a></li>
+<li><a href="preface-3.html" data-scroll="preface-3">Features of the Text</a></li>
+<li><a href="preface-4.html" data-scroll="preface-4">How to Use this Text</a></li>
+</ul>
+<h2 class="link"><a href="C-1.html" data-scroll="C-1"><span class="codenumber">1</span><span class="title">Understanding the Derivative</span></a></h2>
+<ul>
+<li><a href="sec-1-1-vel.html" data-scroll="sec-1-1-vel">How do we measure velocity?</a></li>
+<li><a href="sec-1-2-lim.html" data-scroll="sec-1-2-lim">The notion of limit</a></li>
+<li><a href="sec-1-3-derivative-pt.html" data-scroll="sec-1-3-derivative-pt">The derivative of a function at a point</a></li>
+<li><a href="sec-1-4-derivative-fxn.html" data-scroll="sec-1-4-derivative-fxn">The derivative function</a></li>
+<li><a href="sec-1-5-units.html" data-scroll="sec-1-5-units">Interpreting, estimating, and using the derivative</a></li>
+<li><a href="sec-1-6-second-d.html" data-scroll="sec-1-6-second-d">The second derivative</a></li>
+<li><a href="sec-1-7-lim-cont-diff.html" data-scroll="sec-1-7-lim-cont-diff">Limits, Continuity, and Differentiability</a></li>
+<li><a href="sec-1-8-tan-line-approx.html" data-scroll="sec-1-8-tan-line-approx">The Tangent Line Approximation</a></li>
+</ul>
+<h2 class="link"><a href="C-2.html" data-scroll="C-2"><span class="codenumber">2</span><span class="title">Computing Derivatives</span></a></h2>
+<ul>
+<li><a href="sec-2-1-elem-rules.html" data-scroll="sec-2-1-elem-rules">Elementary derivative rules</a></li>
+<li><a href="sec-2-2-sin-cos.html" data-scroll="sec-2-2-sin-cos">The sine and cosine functions</a></li>
+<li><a href="sec-2-3-prod-quot.html" data-scroll="sec-2-3-prod-quot">The product and quotient rules</a></li>
+<li><a href="sec-2-4-other-trig.html" data-scroll="sec-2-4-other-trig">Derivatives of other trigonometric functions</a></li>
+<li><a href="sec-2-5-chain.html" data-scroll="sec-2-5-chain">The chain rule</a></li>
+<li><a href="sec-2-6-inverse.html" data-scroll="sec-2-6-inverse">Derivatives of Inverse Functions</a></li>
+<li><a href="sec-2-7-implicit.html" data-scroll="sec-2-7-implicit">Derivatives of Functions Given Implicitly</a></li>
+<li><a href="sec-2-8-LHR.html" data-scroll="sec-2-8-LHR">Using Derivatives to Evaluate Limits</a></li>
+</ul>
+<h2 class="link"><a href="C-3.html" data-scroll="C-3"><span class="codenumber">3</span><span class="title">Using Derivatives</span></a></h2>
+<ul>
+<li><a href="sec-3-1-tests.html" data-scroll="sec-3-1-tests">Using derivatives to identify extreme values</a></li>
+<li><a href="sec-3-2-families.html" data-scroll="sec-3-2-families">Using derivatives to describe families of functions</a></li>
+<li><a href="sec-3-3-optimization.html" data-scroll="sec-3-3-optimization">Global Optimization</a></li>
+<li><a href="sec-3-4-applied-opt.html" data-scroll="sec-3-4-applied-opt">Applied Optimization</a></li>
+<li><a href="sec-3-5-rel-rates.html" data-scroll="sec-3-5-rel-rates">Related Rates</a></li>
+</ul>
+<h2 class="link"><a href="C-4.html" data-scroll="C-4"><span class="codenumber">4</span><span class="title">The Definite Integral</span></a></h2>
+<ul>
+<li><a href="sec-4-1-velocity-distance.html" data-scroll="sec-4-1-velocity-distance">Determining distance traveled from velocity</a></li>
+<li><a href="sec-4-2-Riemann.html" data-scroll="sec-4-2-Riemann">Riemann Sums</a></li>
+<li><a href="sec-4-3-definite-integral.html" data-scroll="sec-4-3-definite-integral">The Definite Integral</a></li>
+<li><a href="sec-4-4-FTC.html" data-scroll="sec-4-4-FTC">The Fundamental Theorem of Calculus</a></li>
+</ul>
+<h2 class="link"><a href="C-5.html" data-scroll="C-5"><span class="codenumber">5</span><span class="title">Evaluating Integrals</span></a></h2>
+<ul>
+<li><a href="sec-5-1-antid-graphs.html" data-scroll="sec-5-1-antid-graphs">Constructing Accurate Graphs of Antiderivatives</a></li>
+<li><a href="sec-5-2-FTC2.html" data-scroll="sec-5-2-FTC2">The Second Fundamental Theorem of Calculus</a></li>
+<li><a href="sec-5-3-substitution.html" data-scroll="sec-5-3-substitution">Integration by Substitution</a></li>
+<li><a href="sec-5-4-parts.html" data-scroll="sec-5-4-parts">Integration by Parts</a></li>
+<li><a href="sec-5-5-other-opt.html" data-scroll="sec-5-5-other-opt">Other Options for Finding Algebraic Antiderivatives</a></li>
+<li><a href="sec-5-6-num-int.html" data-scroll="sec-5-6-num-int">Numerical Integration</a></li>
+</ul>
+<h2 class="link"><a href="C-6.html" data-scroll="C-6"><span class="codenumber">6</span><span class="title">Using Definite Integrals</span></a></h2>
+<ul>
+<li><a href="sec-6-1-area.html" data-scroll="sec-6-1-area">Using Definite Integrals to Find Area and Length</a></li>
+<li><a href="sec-6-2-volume.html" data-scroll="sec-6-2-volume">Using Definite Integrals to Find Volume</a></li>
+<li><a href="sec-6-3-mass.html" data-scroll="sec-6-3-mass">Density, Mass, and Center of Mass</a></li>
+<li><a href="sec-6-4-physics.html" data-scroll="sec-6-4-physics">Physics Applications:  Work, Force, and Pressure</a></li>
+<li><a href="sec-6-5-improper.html" data-scroll="sec-6-5-improper">Improper Integrals</a></li>
+</ul>
+<h2 class="link active"><a href="C-7.html" data-scroll="C-7"><span class="codenumber">7</span><span class="title">Differential Equations</span></a></h2>
+<ul>
+<li><a href="sec-7-1-diff-eq-intro.html" data-scroll="sec-7-1-diff-eq-intro">An Introduction to Differential Equations</a></li>
+<li><a href="sec-7-2-qualitative.html" data-scroll="sec-7-2-qualitative">Qualitative behavior of solutions to DEs</a></li>
+<li><a href="sec-7-3-euler.html" data-scroll="sec-7-3-euler">Euler's method</a></li>
+<li><a href="sec-7-4-separable.html" data-scroll="sec-7-4-separable">Separable differential equations</a></li>
+<li><a href="sec-7-5-modeling.html" data-scroll="sec-7-5-modeling">Modeling with differential equations</a></li>
+<li><a href="sec-7-6-logistic.html" data-scroll="sec-7-6-logistic" class="active">Population Growth and the Logistic Equation</a></li>
+</ul>
+<h2 class="link"><a href="C-8.html" data-scroll="C-8"><span class="codenumber">8</span><span class="title">Sequences and Series</span></a></h2>
+<ul>
+<li><a href="sec-8-1-sequences.html" data-scroll="sec-8-1-sequences">Sequences</a></li>
+<li><a href="sec-8-2-geometric.html" data-scroll="sec-8-2-geometric">Geometric Series</a></li>
+<li><a href="sec-8-3-series.html" data-scroll="sec-8-3-series">Series of Real Numbers</a></li>
+<li><a href="sec-8-4-alternating.html" data-scroll="sec-8-4-alternating">Alternating Series</a></li>
+<li><a href="sec-8-5-taylor.html" data-scroll="sec-8-5-taylor">Taylor Polynomials and Taylor Series</a></li>
+<li><a href="sec-8-6-powerseries.html" data-scroll="sec-8-6-powerseries">Power Series</a></li>
+</ul>
+<h2 class="link"><a href="backmatter.html" data-scroll="backmatter"><span class="title">Back Matter</span></a></h2>
+<ul>
+<li><a href="integral-table.html" data-scroll="integral-table">A Short Table of Integrals</a></li>
+<li><a href="index-1.html" data-scroll="index-1">Index</a></li>
+<li><a href="colophon-2.html" data-scroll="colophon-2">Colophon</a></li>
+</ul></nav><div class="extras"><nav><a class="feedback-link" href="http://gvsu.edu/s/0vK" target="_blank">Feedback</a><a class="mathbook-link" href="https://mathbook.pugetsound.edu">Authored in PreTeXt</a><a href="https://www.mathjax.org"><img title="Powered by MathJax" src="https://www.mathjax.org/badge/badge.gif" border="0" alt="Powered by MathJax"></a></nav></div>
+</div></aside><main class="main"><div id="content" class="mathbook-content"><section class="section" id="sec-7-6-logistic"><h2 class="heading hide-type" alt="Section 7.6 Population Growth and the Logistic Equation">
+<span class="type">Section</span><span class="codenumber">7.6</span><span class="title">Population Growth and the Logistic Equation</span>
+</h2>
+<a href="sec-7-6-logistic.html" class="permalink">¶</a><article class="objectives" id="objectives-42"><h6 class="heading"><span class="type">Motivating Questions</span></h6>
+<ul class="disc">
+<li id="li-4398"><p id="p-6506">How can we use differential equations to realistically model the growth of a population?</p></li>
+<li id="li-4399"><p id="p-6507">How can we assess the accuracy of our models?</p></li>
+</ul></article><section class="introduction" id="introduction-42"><p id="p-6508">The growth of the earth's population is one of the pressing issues of our time. Will the population continue to grow? Or will it perhaps level off at some point, and if so, when? In this section, we look at two ways in which we may use differential equations to help us address these questions.</p>
+<p id="p-6509">Before we begin, let's consider again two important differential equations that we have seen in earlier work this chapter.</p>
+<article class="example-like" id="PA-7-6"><h6 class="heading">
+<span class="type">Preview Activity</span><span class="codenumber">7.18</span>
+</h6>
+<p id="p-6510">Recall that one model for population growth states that a population grows at a rate proportional to its size. </p>
+<ol class="lower-alpha">
+<li id="li-4400">
+<p id="p-6511">We begin with the differential equation</p>
+<div class="displaymath">
+\begin{equation*}
+\frac{dP}{dt} = \frac12 P\text{.}
+\end{equation*}
+</div>
+<p>Sketch a slope field below as well as a few typical solutions on the axes provided.</p>
+<div class="sidebyside" id="sidebyside-306"><div class="sbsrow" style="margin-left:25%;margin-right:25%;"><div class="sbspanel" style="width:100%;justify-content:flex-start;"><img src="images/7_6_preview.svg" width="100%" style="display: block; margin: 0 auto;" alt=""></div></div></div>
+</li>
+<li id="li-4401"><p id="p-6512">Find all equilibrium solutions of the equation \(\frac{dP}{dt} = \frac12 P\) and classify them as stable or unstable.</p></li>
+<li id="li-4402"><p id="p-6513">If \(P(0)\) is positive, describe the long-term behavior of the solution to \(\frac{dP}{dt} = \frac12 P\text{.}\)</p></li>
+<li id="li-4403">
+<p id="p-6514">Let's now consider a modified differential equation given by</p>
+<div class="displaymath">
+\begin{equation*}
+\frac{dP}{dt} = \frac 12 P(3-P)\text{.}
+\end{equation*}
+</div>
+<p>As before, sketch a slope field as well as a few typical solutions on the following axes provided.</p>
+<div class="sidebyside" id="sidebyside-307"><div class="sbsrow" style="margin-left:25%;margin-right:25%;"><div class="sbspanel" style="width:100%;justify-content:flex-start;"><img src="images/7_6_preview.svg" width="100%" style="display: block; margin: 0 auto;" alt=""></div></div></div>
+</li>
+<li id="li-4404"><p id="p-6515">Find any equilibrium solutions and classify them as stable or unstable.</p></li>
+<li id="li-4405"><p id="p-6516">If \(P(0)\) is positive, describe the long-term behavior of the solution.</p></li>
+</ol></article></section><section class="subsection" id="subsection-140"><h3 class="heading hide-type" alt="Subsection  The earth's population">
+<span class="type">Subsection</span><span class="codenumber"></span><span class="title">The earth's population</span>
+</h3>
+<p id="p-6517">We will now begin studying the earth's population. To get started, in <a knowl="./knowl/T-7-6-earth.html" knowl-id="xref-T-7-6-earth" alt="Table 7.38 " title="Table 7.38 ">Table 7.38</a> are some data for the earth's population in recent years that we will use in our investigations.</p>
+<figure class="figure-like" id="T-7-6-earth"><table>
+<tr>
+<td class="l m b1 r0 l0 t1 lines">Year</td>
+<td class="l m b1 r0 l0 t1 lines">1998</td>
+<td class="l m b1 r0 l0 t1 lines">1999</td>
+<td class="l m b1 r0 l0 t1 lines">2000</td>
+<td class="l m b1 r0 l0 t1 lines">2001</td>
+<td class="l m b1 r0 l0 t1 lines">2002</td>
+<td class="l m b1 r0 l0 t1 lines">2005</td>
+<td class="l m b1 r0 l0 t1 lines">2006</td>
+<td class="l m b1 r0 l0 t1 lines">2007</td>
+<td class="l m b1 r0 l0 t1 lines">2008</td>
+<td class="l m b1 r0 l0 t1 lines">2009</td>
+<td class="l m b1 r0 l0 t1 lines">2010</td>
+</tr>
+<tr>
+<td class="l m b1 r0 l0 t0 lines">Pop<br> (billions)</td>
+<td class="l m b1 r0 l0 t0 lines">\(5.932\)</td>
+<td class="l m b1 r0 l0 t0 lines">\(6.008\)</td>
+<td class="l m b1 r0 l0 t0 lines">\(6.084\)</td>
+<td class="l m b1 r0 l0 t0 lines">\(6.159\)</td>
+<td class="l m b1 r0 l0 t0 lines">\(6.234\)</td>
+<td class="l m b1 r0 l0 t0 lines">\(6.456\)</td>
+<td class="l m b1 r0 l0 t0 lines">\(6.531\)</td>
+<td class="l m b1 r0 l0 t0 lines">\(6.606\)</td>
+<td class="l m b1 r0 l0 t0 lines">\(6.681\)</td>
+<td class="l m b1 r0 l0 t0 lines">\(6.756\)</td>
+<td class="l m b1 r0 l0 t0 lines">\(6.831\)</td>
+</tr>
+</table>
+<figcaption><span class="type">Table</span><span class="codenumber">7.38</span>Some recent population data for planet Earth.</figcaption></figure><article class="example-like" id="act-7-6-1"><h6 class="heading">
+<span class="type">Activity</span><span class="codenumber">7.19</span>
+</h6>
+<p id="p-6518">Our first model will be based on the following assumption:</p>
+<blockquote class="blockquote" id="blockquote-13"><p id="p-6519"><em class="emphasis">The rate of change of the population is proportional to the population.</em></p></blockquote>
+<p id="p-6520">On the face of it, this seems pretty reasonable. When there is a relatively small number of people, there will be fewer births and deaths so the rate of change will be small. When there is a larger number of people, there will be more births and deaths so we expect a larger rate of change.</p>
+<p id="p-6521">If \(P(t)\) is the population \(t\) years after the year 2000, we may express this assumption as</p>
+<div class="displaymath">
+\begin{equation*}
+\frac{dP}{dt} = kP
+\end{equation*}
+</div>
+<p>where \(k\) is a constant of proportionality. </p>
+<ol class="lower-alpha">
+<li id="li-4406"><p id="p-6522">Use the data in the table to estimate the derivative \(P'(0)\) using a central difference. Assume that \(t=0\) corresponds to the year 2000.</p></li>
+<li id="li-4407"><p id="p-6523">What is the population \(P(0)\text{?}\)</p></li>
+<li id="li-4408"><p id="p-6524">Use your results from (a) and (b) to estimate the constant of proportionality \(k\) in the differential equation.</p></li>
+<li id="li-4409">
+<p id="p-6525">Now that we know the value of \(k\text{,}\) we have the initial value problem</p>
+<div class="displaymath">
+\begin{equation*}
+\frac{dP}{dt} = kP, \ P(0) = 6.084\text{.}
+\end{equation*}
+</div>
+<p>Find the solution to this initial value problem.</p>
+</li>
+<li id="li-4410"><p id="p-6526">What does your solution predict for the population in the year 2010? Is this close to the actual population given in the table?</p></li>
+<li id="li-4411"><p id="p-6527">When does your solution predict that the population will reach 12 billion?</p></li>
+<li id="li-4412"><p id="p-6528">What does your solution predict for the population in the year 2500?</p></li>
+<li id="li-4413"><p id="p-6529">Do you think this is a reasonable model for the earth's population? Why or why not? Explain your thinking using a couple of complete sentences.</p></li>
+</ol>
+<div class="solutions">
+<span class="solution"><a knowl="" class="id-ref" refid="hk-hint-116" id="hint-116"><span class="type">Hint</span></a></span><div id="hk-hint-116" class="hidden-content tex2jax_ignore"><span class="solution"><ol id="p-6530" class="lower-alpha"><li id="li-4414"><p id="p-6531">Small hints for each of the prompts above.</p></li></ol></span></div>
+<span class="solution"><a knowl="" class="id-ref" refid="hk-answer-266" id="answer-266"><span class="type">Answer</span></a></span><div id="hk-answer-266" class="hidden-content tex2jax_ignore"><span class="solution"><ol id="p-6532" class="lower-alpha">
+<li id="li-4415"><p id="p-6533">\(P'(0) \approx 0.0755\text{.}\)</p></li>
+<li id="li-4416"><p id="p-6534">\(P(0) = 6.084\text{.}\)</p></li>
+<li id="li-4417"><p id="p-6535">\(k \approx 0.012041\text{.}\)</p></li>
+<li id="li-4418"><p id="p-6536">\(P(t) = 6.084 e^{0.012041t}\text{.}\)</p></li>
+<li id="li-4419"><p id="p-6537">\(P(10) \approx 6.8878\text{.}\)</p></li>
+<li id="li-4420"><p id="p-6538">\(t = \frac{1}{0.012041} \ln \left( \frac{12}{6.084}\right) \approx 56.41\text{,}\) or in the year 2056.</p></li>
+<li id="li-4421"><p id="p-6539">\(P(500) \approx 3012.3\) billion.</p></li>
+</ol></span></div>
+<span class="solution"><a knowl="" class="id-ref" refid="hk-solution-303" id="solution-303"><span class="type">Solution</span></a></span><div id="hk-solution-303" class="hidden-content tex2jax_ignore"><span class="solution"><p id="p-6540">We let \(P(t)\) be the population after year 2000 with \(\frac{dP}{dt} = kP\text{,}\) where \(k\) is a constant of proportionality. </p>
+<ol class="lower-alpha">
+<li id="li-4422">
+<p id="p-6541">Using the data in the table,</p>
+<div class="displaymath">
+\begin{equation*}
+P'(0) \approx \frac{P(1) - P(-1)}{2} \approx \frac{6.159 - 6.008}{2} \approx 0.0755\text{.}
+\end{equation*}
+</div>
+</li>
+<li id="li-4423"><p id="p-6542">Since \(t = 0\) corresponds to the year \(2000\text{,}\) \(P(0) = 6.084\text{.}\)</p></li>
+<li id="li-4424"><p id="p-6543">Using \(\frac{dP}{dt} = kP\) and the preceding values at \(t = 0\text{,}\) we have \(0.0755 \approx k (6.084)\text{,}\) so \(k \approx 0.012041\text{.}\)</p></li>
+<li id="li-4425"><p id="p-6544">The solution for the initial value problem is \(P(t) = 6.084 e^{0.012041t}\text{.}\)</p></li>
+<li id="li-4426"><p id="p-6545">The year 2010 corresponds to \(t = 10\text{.}\) So \(P(10) \approx 6.8878\text{.}\) The model predicts that the population in 2010 will be about 6.888 billion.</p></li>
+<li id="li-4427"><p id="p-6546">The population will be 12 billion when \(P(t) = 12\text{.}\) So we solve the equation \(6.084e^{0.012041t} = 12\) for \(t\text{.}\) We see that \(e^{0.012041t} = \frac{12}{6.084}\text{,}\) so \(t = \frac{1}{0.012041} \ln \left( \frac{12}{6.084}\right) \approx 56.41\text{.}\) The population will reach 12 billion during the year 2056.</p></li>
+<li id="li-4428"><p id="p-6547">The year 2500 corresponds to \(t = 500\text{.}\) So \(P(500) \approx 3012.3\text{.}\) The model predicts that the population in 2500 will be about 3012 billion or about about 3 012 300 000 000. This is rather unreasonably large.</p></li>
+</ol></span></div>
+</div></article><p id="p-6548">Our work in <a knowl="./knowl/act-7-6-1.html" knowl-id="xref-act-7-6-1" alt="Activity 7.19 " title="Activity 7.19 ">Activity 7.19</a> shows that that the exponential model is fairly accurate for years relatively close to 2000. However, if we go too far into the future, the model predicts increasingly large rates of change, which causes the population to grow arbitrarily large. This does not make much sense since it is unrealistic to expect that the earth would be able to support such a large population.</p>
+<p id="p-6549">The constant \(k\) in the differential equation has an important interpretation. Let's rewrite the differential equation \(\frac{dP}{dt} = kP\) by solving for \(k\text{,}\) so that we have</p>
+<div class="displaymath">
+\begin{equation*}
+k = \frac{dP/dt}{P}\text{.}
+\end{equation*}
+</div>
+<p id="p-6550">We see that \(k\) is the ratio of the rate of change to the population; in other words, it is the contribution to the rate of change from a single person. We call this the <em class="emphasis">per capita growth rate</em>. </p>
+<p id="p-6551">In the exponential model we introduced in <a knowl="./knowl/act-7-6-1.html" knowl-id="xref-act-7-6-1" alt="Activity 7.19 " title="Activity 7.19 ">Activity 7.19</a>, the per capita growth rate is constant. This means that when the population is large, the per capita growth rate is the same as when the population is small. It is natural to think that the per capita growth rate should decrease when the population becomes large, since there will not be enough resources to support so many people. We expect it would be a more realistic model to assume that the per capita growth rate depends on the population \(P\text{.}\)</p>
+<p id="p-6552">In the previous activity, we computed the per capita growth rate in a single year by computing \(k\text{,}\) the quotient of \(\frac{dP}{dt}\) and \(P\) (which we did for \(t = 0\)). If we return to the data in <a knowl="./knowl/T-7-6-earth.html" knowl-id="xref-T-7-6-earth" alt="Table 7.38 " title="Table 7.38 ">Table 7.38</a> and compute the per capita growth rate over a range of years, we generate the data shown in <a knowl="./knowl/F-7-6-census.html" knowl-id="xref-F-7-6-census" alt="Figure 7.39 " title="Figure 7.39 ">Figure 7.39</a>, which shows how the per capita growth rate is a function of the population, \(P\text{.}\)</p>
+<figure class="figure-like" id="F-7-6-census"><img src="images/7_6_census.svg" width="50%" style="display: block; margin: 0 auto;" alt=""><figcaption><span class="type">Figure</span><span class="codenumber">7.39</span>A plot of per capita growth rate vs. population \(P\text{.}\)</figcaption></figure><p id="p-6553">From the data, we see that the per capita growth rate appears to decrease as the population increases. In fact, the points seem to lie very close to a line, which is shown at two different scales in <a knowl="./knowl/F-7-6-census1.html" knowl-id="xref-F-7-6-census1" alt="Figure 7.40 " title="Figure 7.40 ">Figure 7.40</a>.</p>
+<figure class="figure-like" id="F-7-6-census1"><div class="sidebyside" id="sidebyside-308"><div class="sbsrow" style="margin-left:0%;margin-right:0%;">
+<div class="sbspanel" style="width:47%;justify-content:flex-start;"><img src="images/7_6_census_1.svg" width="100%" style="display: block; margin: 0 auto;" alt=""></div>
+<div class="sbspanel" style="width:47%;justify-content:flex-start;"><img src="images/7_6_census_2.svg" width="100%" style="display: block; margin: 0 auto;" alt=""></div>
+</div></div>
+<figcaption><span class="type">Figure</span><span class="codenumber">7.40</span>The line that approximates per capita growth as a function of population, \(P\text{.}\)</figcaption></figure><p id="p-6554">Looking at this line carefully, we can find its equation to be</p>
+<div class="displaymath">
+\begin{equation*}
+\frac{dP/dt}{P} = 0.025 - 0.002P\text{.}
+\end{equation*}
+</div>
+<p id="p-6555">If we multiply both sides by \(P\text{,}\) we arrive at the differential equation</p>
+<div class="displaymath">
+\begin{equation*}
+\frac{dP}{dt} = P(0.025 - 0.002P)\text{.}
+\end{equation*}
+</div>
+<p id="p-6556">Graphing the dependence of \(dP/dt\) on the population \(P\text{,}\) we see that this differential equation demonstrates a quadratic relationship between \(\frac{dP}{dt}\) and \(P\text{,}\) as shown in <a knowl="./knowl/F-7-6logistic.html" knowl-id="xref-F-7-6logistic" alt="Figure 7.41 " title="Figure 7.41 ">Figure 7.41</a>.</p>
+<figure class="figure-like" id="F-7-6logistic"><img src="images/7_6_logistic_de.svg" width="50%" style="display: block; margin: 0 auto;" alt=""><figcaption><span class="type">Figure</span><span class="codenumber">7.41</span>A plot of \(\frac{dP}{dt}\) vs. \(P\) for the differential equation \(\frac{dP}{dt} = P(0.025 - 0.002P)\text{.}\)</figcaption></figure><p id="p-6557">The equation \(\frac{dP}{dt} = P(0.025 - 0.002P)\) is an example of the <em class="emphasis">logistic equation</em>, and is the second model for population growth that we will consider. We expect that it will be more realistic, because the per capita growth rate is a decreasing function of the population.</p>
+<p id="p-6558">Indeed, the graph in <a knowl="./knowl/F-7-6logistic.html" knowl-id="xref-F-7-6logistic" alt="Figure 7.41 " title="Figure 7.41 ">Figure 7.41</a> shows that there are two equilibrium solutions, \(P=0\text{,}\) which is unstable, and \(P=12.5\text{,}\) which is a stable equilibrium. The graph shows that any solution with \(P(0) \gt 0\) will eventually stabilize around 12.5. Thus, our model predicts the world's population will eventually stabilize around 12.5 billion.</p>
+<p id="p-6559">A prediction for the long-term behavior of the population is a valuable conclusion to draw from our differential equation. We would, however, also like to answer some quantitative questions. For instance, how long will it take to reach a population of 10 billion? To answer this question, we need to find an explicit solution of the equation.</p></section><section class="subsection" id="subsection-141"><h3 class="heading hide-type" alt="Subsection  Solving the logistic differential equation">
+<span class="type">Subsection</span><span class="codenumber"></span><span class="title">Solving the logistic differential equation</span>
+</h3>
+<p id="p-6560">Since we would like to apply the logistic model in more general situations, we state the logistic equation  in its more general form,</p>
+<div class="displaymath">
+\begin{equation}
+\frac{dP}{dt} = kP(N-P)\text{.}\label{E-7-6-logistic}\tag{7.2}
+\end{equation}
+</div>
+<p id="p-6561">The equilibrium solutions here are \(P=0\) and \(1-\frac PN = 0\text{,}\) which shows that \(P=N\text{.}\) The equilibrium at \(P=N\) is called the <em class="emphasis">carrying capacity</em>  of the population for it represents the stable population that can be sustained by the environment.</p>
+<p id="p-6562">We now solve the logistic equation <a knowl="./knowl/E-7-6-logistic.html" knowl-id="xref-E-7-6-logistic" alt="Equation 7.2 " title="Equation 7.2 ">(7.2)</a>. The equation is separable, so we separate the variables</p>
+<div class="displaymath">
+\begin{equation*}
+\frac{1}{P(N-P)}\frac{dP}{dt} = k\text{,}
+\end{equation*}
+</div>
+<p>and integrate to find that</p>
+<div class="displaymath">
+\begin{equation*}
+\int \frac{1}{P(N-P)}~dP = \int k~dt\text{.}
+\end{equation*}
+</div>
+<p id="p-6563">To find the antiderivative on the left, we use the partial fraction decomposition</p>
+<div class="displaymath">
+\begin{equation*}
+\frac{1}{P(N-P)} = \frac 1N\left[\frac 1P + \frac 1{N-P}\right]\text{.}
+\end{equation*}
+</div>
+<p id="p-6564">Now we are ready to integrate, with</p>
+<div class="displaymath">
+\begin{equation*}
+\int \frac 1N\left[\frac 1P + \frac 1{N-P}\right] ~dP  =  \int k~dt\text{.}
+\end{equation*}
+</div>
+<p id="p-6565">On the left, observe that \(N\) is constant, so we can remove a factor of \(\frac{1}{N}\) and antidifferentiate to find that</p>
+<div class="displaymath">
+\begin{equation*}
+\frac 1N (\ln|P| - \ln|N-P|)  =  kt + C\text{.}
+\end{equation*}
+</div>
+<p id="p-6566">Multiplying both sides of this last equation by \(N\) and using a rule of logarithms, we next find that</p>
+<div class="displaymath">
+\begin{equation*}
+\ln\left|\frac{P}{N-P}\right| = kNt + C\text{.}
+\end{equation*}
+</div>
+<p id="p-6567">From the definition of the logarithm, replacing \(e^C\) with \(C\text{,}\) and letting \(C\) absorb the absolute value signs, we now know that</p>
+<div class="displaymath">
+\begin{equation*}
+\frac{P}{N-P} =  Ce^{kNt}\text{.}
+\end{equation*}
+</div>
+<p id="p-6568">At this point, all that remains is to determine \(C\) and solve algebraically for \(P\text{.}\)</p>
+<p id="p-6569">If the initial population is \(P(0) = P_0\text{,}\) then it follows that \(C = \frac{P_0}{N-P_0}\text{,}\) so</p>
+<div class="displaymath">
+\begin{equation*}
+\frac{P}{N-P} = \frac{P_0}{N-P_0}e^{kNt}\text{.}
+\end{equation*}
+</div>
+<p id="p-6570">We will solve this equation for \(P\) by multiplying both sides by \((N-P)(N-P_0)\) to obtain</p>
+<div class="displaymath">
+\begin{align*}
+P(N-P_0) &amp;=  P_0(N-P)e^{kNt}\\
+&amp;=  P_0Ne^{kNt} - P_0Pe^{kNt}\text{.}
+\end{align*}
+</div>
+<p id="p-6571">Solving for \(P_0Ne^{kNt}\text{,}\) expanding, and factoring, it follows that</p>
+<div class="displaymath">
+\begin{align*}
+P_0Ne^{kNt} &amp;=  P(N-P_0) + P_0 Pe^{kNt}\\
+&amp;=  P(N-P_0 + P_0e^{kNt})\text{.}
+\end{align*}
+</div>
+<p id="p-6572">Dividing to solve for \(P\text{,}\) we see that</p>
+<div class="displaymath">
+\begin{equation*}
+P = \frac{P_0Ne^{kNt}}{N-P_0 + P_0e^{kNt}}\text{.}
+\end{equation*}
+</div>
+<p id="p-6573">Finally, we choose to multiply the numerator and denominator by \(\frac{1}{P_0}e^{-kNt}\) to obtain</p>
+<div class="displaymath">
+\begin{equation*}
+P(t) = \frac{N}{\left(\frac{N-P_0}{P_0}\right) e^{-kNt} + 1}\text{.}
+\end{equation*}
+</div>
+<p id="p-6574">While that was a lot of algebra, notice the result: we have found an explicit solution to the logistic equation.</p>
+<article class="assemblage-like" id="assemblage-49"><h6 class="heading"><span class="title">Solution to the Logistic Equation</span></h6>
+<p id="p-6575">The solution to the initial value problem</p>
+<div class="displaymath">
+\begin{equation*}
+\frac{dP}{dt} = kP(N-P), \ P(0) = P_0\text{,}
+\end{equation*}
+</div>
+<p> is</p>
+<div class="displaymath">
+\begin{equation}
+P(t) = \frac{N}{\left(\frac{N-P_0}{P_0}\right) e^{-kNt} + 1}\text{.}\label{E-7-6-logistic-solution}\tag{7.3}
+\end{equation}
+</div></article><p id="p-6576">For the logistic equation describing the earth's population that we worked with earlier in this section, we have</p>
+<div class="displaymath">
+\begin{equation*}
+k=0.002,  N= 12.5, \ \text{and} \  P_0 = 6.084\text{.}
+\end{equation*}
+</div>
+<p id="p-6577">This gives the solution</p>
+<div class="displaymath">
+\begin{equation*}
+P(t) = \frac{12.5}{1.0546e^{-0.025t} + 1}\text{,}
+\end{equation*}
+</div>
+<p>whose graph is shown in <a knowl="./knowl/F-7-6-logistic-sol.html" knowl-id="xref-F-7-6-logistic-sol" alt="Figure 7.42 " title="Figure 7.42 ">Figure 7.42</a>.</p>
+<figure class="figure-like" id="F-7-6-logistic-sol"><img src="images/7_6_logistic_sol.svg" width="50%" style="display: block; margin: 0 auto;" alt=""><figcaption><span class="type">Figure</span><span class="codenumber">7.42</span>The solution to the logistic equation modeling the earth's population.</figcaption></figure><p id="p-6578">The graph shows the population leveling off at 12.5 billion, as we expected, and that the population will be around 10 billion in the year 2050. These results, which we have found using a relatively simple mathematical model, agree fairly well with predictions made using a much more sophisticated model developed by the United Nations.</p>
+<p id="p-6579">The logistic equation is good for modeling any situation in which limited growth is possible. For instance, it could model the spread of a flu virus through a population contained on a cruise ship, the rate at which a rumor spreads within a small town, or the behavior of an animal population on an island. Through our work in this section, we have completely solved the logistic equation, regardless of the values of the constants \(N\text{,}\) \(k\text{,}\) and \(P_0\text{.}\) Anytime we encounter a logistic equation, we can apply the formula we found in Equation <a knowl="./knowl/E-7-6-logistic-solution.html" knowl-id="xref-E-7-6-logistic-solution" alt="Equation 7.3 " title="Equation 7.3 ">(7.3)</a>.</p>
+<article class="example-like" id="act-7-6-2"><h6 class="heading">
+<span class="type">Activity</span><span class="codenumber">7.20</span>
+</h6>
+<p id="p-6580">Consider the logistic equation</p>
+<div class="displaymath">
+\begin{equation*}
+\frac{dP}{dt} = kP(N-P)
+\end{equation*}
+</div>
+<p>with the graph of \(\frac{dP}{dt}\) vs. \(P\) shown in <a knowl="./knowl/F-act-7-6-2.html" knowl-id="xref-F-act-7-6-2" alt="Figure 7.43 " title="Figure 7.43 ">Figure 7.43</a>.</p>
+<figure class="figure-like" id="F-act-7-6-2"><img src="images/7_6_activity_2.svg" width="50%" style="display: block; margin: 0 auto;" alt=""><figcaption><span class="type">Figure</span><span class="codenumber">7.43</span>Plot of \(\frac{dP}{dt}\) vs. \(P\text{.}\)</figcaption></figure><ol id="p-6581" class="lower-alpha">
+<li id="li-4429"><p id="p-6582">At what value of \(P\) is the rate of change greatest?</p></li>
+<li id="li-4430"><p id="p-6583">Consider the model for the earth's population that we created. At what value of \(P\) is the rate of change greatest? How does that compare to the population in recent years?</p></li>
+<li id="li-4431"><p id="p-6584">According to the model we developed, what will the population be in the year 2100?</p></li>
+<li id="li-4432"><p id="p-6585">According to the model we developed, when will the population reach 9 billion?</p></li>
+<li id="li-4433">
+<p id="p-6586">Now consider the general solution to the general logistic initial value problem that we found, given by</p>
+<div class="displaymath">
+\begin{equation*}
+P(t) = \frac{N}{\left(\frac{N-P_0}{P_0}\right)e^{-kNt} + 1}\text{.}
+\end{equation*}
+</div>
+<p>Verify algebraically that \(P(0) = P_0\) and that \(\lim_{t\to\infty} P(t) = N\text{.}\)</p>
+</li>
+</ol>
+<div class="solutions">
+<span class="solution"><a knowl="" class="id-ref" refid="hk-hint-117" id="hint-117"><span class="type">Hint</span></a></span><div id="hk-hint-117" class="hidden-content tex2jax_ignore"><span class="solution"><ol id="p-6587" class="lower-alpha"><li id="li-4434"><p id="p-6588">Small hints for each of the prompts above.</p></li></ol></span></div>
+<span class="solution"><a knowl="" class="id-ref" refid="hk-answer-267" id="answer-267"><span class="type">Answer</span></a></span><div id="hk-answer-267" class="hidden-content tex2jax_ignore"><span class="solution"><ol id="p-6589" class="lower-alpha">
+<li id="li-4435"><p id="p-6590">When \(P = \frac{N}{2}\text{.}\)</p></li>
+<li id="li-4436"><p id="p-6591">When the population is 6.125 billion.</p></li>
+<li id="li-4437"><p id="p-6592">\(P = \frac{12.5}{1.0546e^{-0.025t} + 1}
+\text{;}\) \(P(100) = 11.504\) billion.</p></li>
+<li id="li-4438"><p id="p-6593">\(t = \frac{1}{-0.025} \ln \left( \frac{\left( \frac{12.5}{9} - 1 \right)}{1.0546}\right) \approx 39.9049\) (so in about year \(2040\)).</p></li>
+<li id="li-4439"><p id="p-6594">\(\lim_{t \to \infty} P(t) = N\text{.}\)</p></li>
+</ol></span></div>
+<span class="solution"><a knowl="" class="id-ref" refid="hk-solution-304" id="solution-304"><span class="type">Solution</span></a></span><div id="hk-solution-304" class="hidden-content tex2jax_ignore"><span class="solution"><p id="p-6595">Consider the logistic equation \(\frac{dP}{dt} = kP(N - P)\text{.}\) </p>
+<ol class="lower-alpha">
+<li id="li-4440"><p id="p-6596">The maximum value for \(\frac{dP}{dt}\) will occur when \(P = \frac{N}{2}\) since this is the highest point on the graph.</p></li>
+<li id="li-4441"><p id="p-6597">The model we created for the population of the earth was \(\frac{dP}{dt} = P(0.025 - 0.002P\text{,}\) which can be rewritten as \(\frac{dP}{dt} = 0.002P(12.5 - P)\text{.}\) So for this model, the maximum rate of change for the earth's population will occur when the population is 6.125 billion. This value is slightly less than the earth's population in recent years.</p></li>
+<li id="li-4442">
+<p id="p-6598">So for the logistic model, we have \(k = 0.002\text{,}\) \(N = 12.5\text{.}\) Using the year 2000 as \(t = 0\text{,}\) the initial population is 6.084. So the solution for the differential equation in part (b) is</p>
+<div class="displaymath">
+\begin{equation*}
+P = \frac{12.5}{1.0546e^{-0.025t} + 1}\text{.}
+\end{equation*}
+</div>
+<p>For the year 2100, we use \(t = 100\) and this model predicts that in the year 2100, the earth's population will be 11.504 billion.</p>
+</li>
+<li id="li-4443">
+<p id="p-6599">To determine when this model predicts that the earth's population will be 9 billion, we solve the  equation</p>
+<div class="displaymath">
+\begin{equation*}
+\frac{12.5}{1.0546e^{-0.025t} + 1} = 9
+\end{equation*}
+</div>
+<p>for \(t\text{.}\) Multiplying both sides by \(\left( 1.0546e^{-0.025t} + 1 \right)\text{,}\) we have</p>
+<div class="displaymath">
+\begin{equation*}
+12.5 = 9 \left( 1.0546e^{-0.025t} + 1 \right)\text{.}
+\end{equation*}
+</div>
+<p>Dividing by \(9\) then subtracting \(1\) from both sides, \(1.0546e^{-0.025t} = \left( \frac{12.5}{9} - 1 \right)\text{.}\) Thus, \(e^{-0.025t} = \frac{\left( \frac{12.5}{9} - 1 \right)}{1.0546}\text{.}\) Using logarithms in the usual way, \(t = \frac{1}{-0.025} \ln \left( \frac{\left( \frac{12.5}{9} - 1 \right)}{1.0546}\right) \approx 39.9049\text{.}\) The earth's population will reach 9 billion in about 2040.</p>
+</li>
+<li id="li-4444">
+<p id="p-6600">The solution for the general logistic initial value problem is</p>
+<div class="displaymath">
+\begin{equation*}
+P(t) = \frac{N}{\left( \frac{N - P_0}{P_0} \right) e^{-kNt} + 1}\text{.}
+\end{equation*}
+</div>
+<p>For this solution, we see that</p>
+<div class="displaymath">
+\begin{align*}
+P(0) \amp = \frac{N}{\left( \frac{N - P_0}{P_0} \right) + 1}\\
+\amp = \frac{N}{\frac{N - P_0 + P_0}{P_0}}\\
+\amp = \frac{N P_0}{N}\\
+\amp = P_0
+\end{align*}
+</div>
+<p>To determine \(\lim_{t \to \infty} P(t)\text{,}\) we first note that since \(-kN \lt  0\text{,}\) \(\lim_{t \to \infty} e^{-kNt} = 0\text{.}\) Hence,</p>
+<div class="displaymath">
+\begin{equation*}
+\lim_{t \to \infty}\left[ \left( \frac{N - P_0}{P_0} \right)e^{-kNt} + 1 \right] = 1\text{,}
+\end{equation*}
+</div>
+<p>and therefore,</p>
+<div class="displaymath">
+\begin{equation*}
+\lim_{t \to \infty} P(t) = \lim_{t\to \infty} \frac{N}{\left( \frac{N - P_0}{P_0} \right) e^{-kNt} + 1} = \frac{N}{1} = N\text{.}
+\end{equation*}
+</div>
+</li>
+</ol></span></div>
+</div></article></section><section class="subsection" id="subsection-142"><h3 class="heading hide-type" alt="Subsection  Summary">
+<span class="type">Subsection</span><span class="codenumber"></span><span class="title">Summary</span>
+</h3>
+<ul id="p-6601" class="disc">
+<li id="li-4445"><p id="p-6602">If we assume that the rate of growth of a population is proportional to the population, we are led to a model in which the population grows without bound and at a rate that grows without bound.</p></li>
+<li id="li-4446"><p id="p-6603">By assuming that the per capita growth rate decreases as the population grows, we are led to the logistic model of population growth, which predicts that the population will eventually stabilize at the carrying capacity.</p></li>
+</ul></section><section class="exercises" id="ez-7-6"><h3 class="heading hide-type" alt="Exercises  Exercises">
+<span class="type">Subsection</span><span class="codenumber"></span><span class="title">Exercises</span>
+</h3>
+<a href="sec-7-6-logistic.html#ez-7-6" class="permalink">¶</a><article class="exercise-like" id="ez-7-6-WW1"><h6 class="heading">
+<span class="codenumber">1</span><span class="title">Analyzing a logistic equation</span>
+</h6>
+<span class="heading"><a knowl="./knowl/webwork-196-hidden.html" knowl-id="hidden-webwork-196" alt="WeBWorK  " title="WeBWorK  ">WeBWorK Exercise</a></span><div id="hk-webwork-196" class="hidden-content tex2jax_ignore">
+<!--use 'format=debug' on 'webwork' tag to debug problem--><iframe width="100%" src="https://math-webwork2.unl.edu//webwork2/html2xml?&amp;answersSubmitted=0&amp;sourceFilePath=Library/Michigan/Chap11Sec7/Q03.pg&amp;problemSeed=123567890&amp;displayMode=MathJax&amp;courseID=OERSystem&amp;userID=anonymous&amp;course_password=anonymous&amp;outputformat=simple"></iframe><script type="text/javascript">iFrameResize({log:true,inPageLinks:true,resizeFrom:'child',checkOrigin:'False'</script>
+</div></article><article class="exercise-like" id="ez-7-6-WW2"><h6 class="heading">
+<span class="codenumber">2</span><span class="title">Analyzing a logistic model</span>
+</h6>
+<span class="heading"><a knowl="./knowl/webwork-197-hidden.html" knowl-id="hidden-webwork-197" alt="WeBWorK  " title="WeBWorK  ">WeBWorK Exercise</a></span><div id="hk-webwork-197" class="hidden-content tex2jax_ignore">
+<!--use 'format=debug' on 'webwork' tag to debug problem--><iframe width="100%" src="https://math-webwork2.unl.edu//webwork2/html2xml?&amp;answersSubmitted=0&amp;sourceFilePath=Library/Michigan/Chap11Sec7/Q05.pg&amp;problemSeed=123567890&amp;displayMode=MathJax&amp;courseID=OERSystem&amp;userID=anonymous&amp;course_password=anonymous&amp;outputformat=simple"></iframe><script type="text/javascript">iFrameResize({log:true,inPageLinks:true,resizeFrom:'child',checkOrigin:'False'</script>
+</div></article><article class="exercise-like" id="ez-7-6-WW3"><h6 class="heading">
+<span class="codenumber">3</span><span class="title">Finding a logistic function for an infection model</span>
+</h6>
+<span class="heading"><a knowl="./knowl/webwork-198-hidden.html" knowl-id="hidden-webwork-198" alt="WeBWorK  " title="WeBWorK  ">WeBWorK Exercise</a></span><div id="hk-webwork-198" class="hidden-content tex2jax_ignore">
+<!--use 'format=debug' on 'webwork' tag to debug problem--><iframe width="100%" src="https://math-webwork2.unl.edu//webwork2/html2xml?&amp;answersSubmitted=0&amp;sourceFilePath=Library/Michigan/Chap11Sec7/Q09.pg&amp;problemSeed=123567890&amp;displayMode=MathJax&amp;courseID=OERSystem&amp;userID=anonymous&amp;course_password=anonymous&amp;outputformat=simple"></iframe><script type="text/javascript">iFrameResize({log:true,inPageLinks:true,resizeFrom:'child',checkOrigin:'False'</script>
+</div></article><article class="exercise-like" id="ez-7-6-WW4"><h6 class="heading">
+<span class="codenumber">4</span><span class="title">Analyzing a population growth model</span>
+</h6>
+<span class="heading"><a knowl="./knowl/webwork-199-hidden.html" knowl-id="hidden-webwork-199" alt="WeBWorK  " title="WeBWorK  ">WeBWorK Exercise</a></span><div id="hk-webwork-199" class="hidden-content tex2jax_ignore">
+<!--use 'format=debug' on 'webwork' tag to debug problem--><iframe width="100%" src="https://math-webwork2.unl.edu//webwork2/html2xml?&amp;answersSubmitted=0&amp;sourceFilePath=Library/Michigan/Chap11Sec7/Q15.pg&amp;problemSeed=123567890&amp;displayMode=MathJax&amp;courseID=OERSystem&amp;userID=anonymous&amp;course_password=anonymous&amp;outputformat=simple"></iframe><script type="text/javascript">iFrameResize({log:true,inPageLinks:true,resizeFrom:'child',checkOrigin:'False'</script>
+</div></article><article class="exercise-like" id="exercise-338"><h6 class="heading"><span class="codenumber">5</span></h6>
+<p id="p-6604">The logistic equation may be used to model how a rumor spreads through a group of people. Suppose that \(p(t)\) is the fraction of people that have heard the rumor on day \(t\text{.}\) The equation</p>
+<div class="displaymath">
+\begin{equation*}
+\frac{dp}{dt} = 0.2p(1-p)
+\end{equation*}
+</div>
+<p>describes how \(p\) changes. Suppose initially that one-tenth of the people have heard the rumor; that is, \(p(0) = 0.1\text{.}\) </p>
+<ol class="lower-alpha">
+<li id="li-4447"><p id="p-6605">What happens to \(p(t)\) after a very long time?</p></li>
+<li id="li-4448"><p id="p-6606">Determine a formula for the function \(p(t)\text{.}\)</p></li>
+<li id="li-4449"><p id="p-6607">At what time is \(p\) changing most rapidly?</p></li>
+<li id="li-4450"><p id="p-6608">How long does it take before 80% of the people have heard the rumor?</p></li>
+</ol></article><article class="exercise-like" id="exercise-339"><h6 class="heading"><span class="codenumber">6</span></h6>
+<p id="p-6619">Suppose that \(b(t)\) measures the number of bacteria living in a colony in a Petri dish, where \(b\) is measured in thousands and \(t\) is measured in days. One day, you measure that there are 6,000 bacteria and the per capita growth rate is 3. A few days later, you measure that there are 9,000 bacteria and the per capita growth rate is 2. </p>
+<ol class="lower-alpha">
+<li id="li-4459"><p id="p-6620">Assume that the per capita growth rate \(\frac{db/dt}{b}\) is a linear function of \(b\text{.}\) Use the measurements to find this function and write a logistic equation to describe \(\frac{db}{dt}\text{.}\)</p></li>
+<li id="li-4460"><p id="p-6621">What is the carrying capacity for the bacteria?</p></li>
+<li id="li-4461"><p id="p-6622">At what population is the number of bacteria increasing most rapidly?</p></li>
+<li id="li-4462"><p id="p-6623">If there are initially 1,000 bacteria, how long will it take to reach 80% of the carrying capacity?</p></li>
+</ol></article><article class="exercise-like" id="exercise-340"><h6 class="heading"><span class="codenumber">7</span></h6>
+<p id="p-6634">Suppose that the population of a species of fish is controlled by the logistic equation</p>
+<div class="displaymath">
+\begin{equation*}
+\frac{dP}{dt} = 0.1P(10 - P)\text{,}
+\end{equation*}
+</div>
+<p>where \(P\) is measured in thousands of fish and \(t\) is measured in years. </p>
+<ol class="lower-alpha">
+<li id="li-4471"><p id="p-6635">What is the carrying capacity of this population?</p></li>
+<li id="li-4472"><p id="p-6636">Suppose that a long time has passed and that the fish population is stable at the carrying capacity. At this time, humans begin harvesting 20% of the fish every year. Modify the differential equation by adding a term to incorporate the harvesting of fish.</p></li>
+<li id="li-4473"><p id="p-6637">What is the new carrying capacity?</p></li>
+<li id="li-4474"><p id="p-6638">What will the fish population be one year after the harvesting begins?</p></li>
+<li id="li-4475"><p id="p-6639">How long will it take for the population to be within 10% of the carrying capacity?</p></li>
+</ol></article></section></section></div></main>
+</div>
+</body>
+</html>
