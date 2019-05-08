@@ -128,15 +128,15 @@ $wgGroupPermissions['*']['read'] = false;
 # Enabled Extensions. Most extensions are enabled by including the base extension file here
 # but check specific extension documentation for more details
 # The following extensions were automatically enabled:
-require_once "$IP/extensions/ConfirmEdit/ConfirmEdit.php";
-require_once "$IP/extensions/PdfHandler/PdfHandler.php";
-require_once "$IP/extensions/WikiEditor/WikiEditor.php";
+#require_once "$IP/extensions/ConfirmEdit/ConfirmEdit.php";
+#require_once "$IP/extensions/PdfHandler/PdfHandler.php";
+#require_once "$IP/extensions/WikiEditor/WikiEditor.php";
 
 
 # End of automatically generated settings.
 # Add more configuration options below.
 
-require_once( "$IP/extensions/CASAuth/CASAuth.php" );
+#require_once( "$IP/extensions/CASAuth/CASAuth.php" );
 
 #require_once("$IP/extensions/Math/Math.php");
 
@@ -147,7 +147,7 @@ require_once( "$IP/extensions/CASAuth/CASAuth.php" );
 ##$wgIframePageSrc = array( 'YouTube' => 'https://www.youtube.com/embed/', 'Vimeo' => 'https://player.vimeo.com/video/' );
 ##$wgIframePageAllowPath = true;
 
-require_once "$IP/extensions/Widgets/Widgets.php";
+#require_once "$IP/extensions/Widgets/Widgets.php";
 
 $wgFileExtensions = array( 'png', 'gif', 'jpg', 'jpeg', 'doc',
     'xls', 'mpp', 'pdf', 'ppt', 'tiff', 'bmp', 'docx', 'xlsx',
