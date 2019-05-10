@@ -3953,9 +3953,7 @@ along with MathBook XML.  If not, see <http://www.gnu.org/licenses/>.
         </xsl:if>
     </xsl:element> <!-- end iframe -->
     <script type="text/javascript">
-        <xsl:text>iFrameResize({log:true,inPageLinks:true,resizeFrom:'child',checkOrigin:["</xsl:text>
-        <xsl:value-of select="$webwork-server" />
-        <xsl:text>"]})</xsl:text>
+        <xsl:text>iFrameResize({log:true,inPageLinks:true,resizeFrom:'child',checkOrigin:'False'</xsl:text>
     </script>
 </xsl:template>
 
