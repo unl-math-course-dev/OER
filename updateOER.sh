@@ -36,4 +36,4 @@ xsltproc --xinclude /var/www/html/Contemporary/mfg-html.xsl /var/www/OERSource/C
 perl /var/www/html/Contemporary/GoogleAnalytics.pl 
 
 
-echo "Nightly Backup Successful: $(date)" >> /var/OERupdate.log
+echo "Nightly Backup Successful: $(date)" >> /var/www/OERupdate.log
