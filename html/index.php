@@ -9,11 +9,9 @@ $dir = ".";
 $a = scandir($dir);
 
 foreach($a as $title){
-echo "<h2>".$title."</h2>"
-
+echo "<h2>".$title."</h2>";
 }
 
-var_dump($a);
 
 ?>
 
