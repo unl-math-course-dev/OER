@@ -10,8 +10,8 @@ foreach my $file (@files){
 my $filename = $file;
 $filename =~ s/\.html/.html/g;
 
-print $filename;
-print "\n";
+#print $filename;
+#print "\n";
 
 my $data = read_file $file, {binmode => ':utf8'};
 
@@ -20,11 +20,11 @@ my $data = read_file $file, {binmode => ':utf8'};
 
  if ($data =~ m/UA-122864107-1/)
  {
-  print "found the tracking code already present\n"; }
+  #print "found the tracking code already present\n"; }
   else
 { 
   $data =~ s/<head>/<head>\n<script async src=\"https:\/\/www.googletagmanager.com\/gtag\/js?id=UA-122864107-1\"><\/script> <script> window.dataLayer = window.dataLayer \|\| \[\]; function gtag(){dataLayer.push(arguments);} gtag(\'js\', new Date()); gtag(\'config\', \'UA-122864107-1\');<\/script>/gs;
-print "added the tracking code\n";
+#print "added the tracking code\n";
 
  }
 
