@@ -28,7 +28,7 @@ my $data = read_file $file, {binmode => ':utf8'};
 
  }
 
-  
+
 
 
 
@@ -40,7 +40,7 @@ my $data = read_file $file, {binmode => ':utf8'};
 
 write_file $filename, {binmode => ':utf8'}, $data;
 }
-
+print "added the tracking code\n";
 #Invoke with perl FormatV2.pl *.txt
 
 
