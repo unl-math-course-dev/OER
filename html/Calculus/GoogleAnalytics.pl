@@ -28,7 +28,7 @@ print "added the tracking code\n";
 
  }
 
-  
+
 
 
 
@@ -40,7 +40,7 @@ print "added the tracking code\n";
 
 write_file $filename, {binmode => ':utf8'}, $data;
 }
-
+#print "added the tracking code\n";
 #Invoke with perl FormatV2.pl *.txt
 
 
