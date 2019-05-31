@@ -6,9 +6,9 @@
 
 ?>
 
-<h2><a href="http://mathbooks-web.unl.edu/Calculus">Calculus</a></h2>
-<h2><a href="http://mathbooks-web.unl.edu/Contemporary">Contemporary Mathematics</a></h2>
-<h2><a href="http://mathbooks-web.unl.edu/PreCalculus">PreCalculus</a></h2>
+<h2><a href="http://mathbooks.unl.edu/Calculus">Calculus</a></h2>
+<h2><a href="http://mathbooks.unl.edu/Contemporary">Contemporary Mathematics</a></h2>
+<h2><a href="http://mathbooks.unl.edu/PreCalculus">PreCalculus</a></h2>
 
 
 </body>
