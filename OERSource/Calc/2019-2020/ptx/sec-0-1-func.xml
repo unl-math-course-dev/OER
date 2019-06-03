@@ -1,805 +1,525 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<!-- **********************************************************************-->
-<!-- Copyright 2012-2018                                                   -->
-<!-- Matthew Boelkins                                                      -->
-<!--                                                                       -->
-<!-- This file is part of Active Calculus.                                 -->
-<!--                                                                       -->
-<!-- Permission is granted to copy, distribute and/or modify this document -->
-<!-- under the terms of the Creative Commons BY-SA license.  The work      -->
-<!-- may be used for free by any party so long as attribution is given to  -->
-<!-- the author(s), the work and its derivatives are used in the spirit of -->
-<!-- "share and share alike".  All trademarks are the registered marks of  -->
-<!-- their respective owners.                                              -->
-<!-- **********************************************************************-->
-<!--This is a comment-->
-<section xmlns:xi="http://www.w3.org/2001/XInclude" xml:id="sec-1-1-vel" permid="Cph">
-  <title>How do we measure velocity?</title>
-  <objectives permid="ngj">
-    <ul permid="LIT">
-      <li permid="Eeu">
-        <p permid="FTH">
-          How is the average velocity of a moving object connected to the input and output values of its position function?
-        </p>
-      </li>
+<!-- <mathbook><book> -->
 
-      <li permid="klD">
-        <p permid="maQ">
-          How do we interpret the average velocity of an object geometrically on the graph of its position function?
-        </p>
-      </li>
+<section xml:id="introfunctions"   xmlns:xi="http://www.w3.org/2001/XInclude">
+<title>Functions</title>
+<subsection><title>The Definition of Function</title>
+<p>
+    We often want to predict values of one variable from the values of a related variable. For example, when a physician prescribes a drug in a certain dosage, she needs to know how long the dose will remain in the bloodstream. A sales manager needs to know how the price of his product will affect its sales. A <term>function</term><idx>function</idx> is a special type of relationship between variables that allows us to make such predictions.</p>
 
-      <li permid="QsM">
-        <p permid="ShZ">
-          How is the notion of instantaneous velocity connected to average velocity?
-        </p>
-      </li>
-    </ul>
-  </objectives>
-
-  <introduction permid="Tns">
-    <p permid="CZb">
-      Calculus can be viewed broadly as the study of change.
-      A natural and important question to ask about any changing quantity is
-      <q>how fast is the quantity changing?</q>
+<assemblage>
+    <title>Definition of Function</title>
+    <p>A <term>function</term><idx>function</idx> is a relationship between two variables for which a unique value of the <term>output</term><idx>output</idx> variable can be determined from a value of the <term>input</term><idx>input</idx> variable.
     </p>
+</assemblage>
 
-    
-    <p permid="jgk">
-      We begin with a simple problem:
-      a ball is tossed straight up in the air.
-      How is the ball moving?
-      Questions like this one are central to our study of differential calculus.
-    </p>
-
-<example xml:id="PA-1-1" permid="udo">
-  <statement>
-    <p permid="hOW">
-      Suppose that the height <m>s</m> of a ball at time <m>t</m>
-      (in seconds) is given in feet by the formula <m>s(t) = 64 - 16(t-1)^2</m>.
-    </p> 
-
-      <ol label="a." permid="QQL">
-        <li permid="wXU">
-          <p permid="ptv">
-            Construct a graph of
-            <m>y = s(t)</m> on the time interval <m>0 \le t \le 3</m>.
-            Label at least six distinct points on the graph,
-            including the three points showing when the ball was released,
-            when the ball reaches its highest point, and when the ball lands.
-          </p>
-        </li>
-
-        <li permid="dfd">
-          <p permid="VAE">
-            Describe the behavior of the ball on the time interval
-            <m>0 \lt t \lt 1</m> and on time interval <m>1 \lt t \lt 3</m>.
-            What occurs at the instant <m>t = 1</m>?
-          </p>
-        </li>
-
-        <li permid="Jmm">
-          <p permid="BHN">
-            Consider the expression
-            <me permid="NWf">
-              AV_{[0.5,1]} = \frac{s(1) - s(0.5)}{1-0.5}
-            </me>.
-            Compute the value of <m>AV_{[0.5,1]}</m>.
-            What does this value measure on the graph?
-            What does this value tell us about the motion of the ball?
-            In particular, what are the units on <m>AV_{[0.5,1]}</m>?
-          </p>
-        </li>
-      </ol>
-  </statement>
-  <hint>
-    <ol label="a.">
-      <li>
-        <m>s</m> is a quadratic function, so its graph is a parabola. 
-        Where is the vertex? What are the <m>t</m>-intercepts?
-      </li>
-      <li>
-        Where is the vertex?
-      </li>
-      <li>
-        How does this value relate to the points <m>(1,s(1))</m> and <m>(0.5,s(0.5))</m>
-        on the graph? What are the units of <m>s(t)</m>? What are the units of <m>t</m>?
-        How might these units inform the units of <m>AV_{[0.5,1]}</m>?
-      </li>
+<p>
+    What distinguishes functions from other variable relationships? The definition of a function calls for a <em>unique value</em>— that is, <em>exactly one value</em> of the output variable corresponding to each value of the input variable. This property makes functions useful in applications because they can often be used to make predictions.
+</p>
+<example  xml:id="example-functions">
+    <p>
+        <ol label="a">
+            <li><p>The distance, <m>d</m>, traveled by a car in 2 hours is a function of its speed, <m>r</m>. If we know the speed of the car, we can determine the distance it travels by the formula <m>d = r \cdot 2</m>.</p></li>
+            <li><p>The cost of a fill-up with unleaded gasoline is a function of the number of gallons purchased. The gas pump represents the function by displaying the corresponding values of the input variable (number of gallons) and the output variable (cost).</p></li>
+            <li><p>Score on the Scholastic Aptitude Test (SAT) is not a function of score on an IQ test, because two people with the same score on an IQ test may score differently on the SAT; that is, a person’s score on the SAT is not uniquely determined by his or her score on an IQ test.</p></li>
     </ol>
-  </hint>
-  <answer>
-    <ol label="a.">
-      <li>
-        <p>
-        
-        <figure>
-          <caption>A graph of <m>y = s(t)</m> on the time interval <m>0 \le t \le 3</m>.  You can drag the point to check your points. </caption>
-          <interactive geogebra="cqs42zua" height="500" width="300" />
-        </figure>
-        </p>
-      </li>
-      <li>
-        <p>
-        The ball reaches its highest point at <m>t=1</m>, rising until then and falling after.
-        </p>
-      </li>
-      <li>
-        <p>
-        <m>AV_{[0.5,1]}=8</m> ft/s measures the slope of the line between <m>(0.5,s(0.5))</m> and
-        <m>(1,s(1))</m>, and is the average velocity of the ball between <m>t=0.5</m> seconds and <m>t=1</m> second. 
-        </p>
-      </li>
-    </ol>  
-  </answer>
-  <solution>
-  <ol label="a." permid="QQL">
-  <li permid="wXU">
-  <p>
-  
-<figure>
-    <caption>A graph of <m>y = s(t)</m> on the time interval <m>0 \le t \le 3</m>.  You can drag the point to check your points. </caption>
-    <interactive geogebra="cqs42zua" height="500" width="300" />
-</figure>
-  </p>
-  </li>
-  <li>
-    <p>
-    The ball is rising on the interval <m>0\lt t\lt1</m> and falling on the interval 
-    <m>1\lt t\lt3</m>. At the instant <m>t=1</m>, the ball reaches its highest point, 
-    stops, and changes direction.
+
     </p>
-  </li>
-  <li>
-    <p>
-    We first compute <m>s(1)=64-16(1-1)^2=64</m> and <m>s(0.5)=64-16(0.5-1)^2=60</m>.
-    With these values, we can say 
-    <md>
-    <mrow>AV_{[0.5,1]}=\mathstrut \amp \frac{s(1)-s(0.5)}{1-0.5}</mrow>
-    <mrow>=\mathstrut \amp \frac{64-60}{0.5}</mrow>
-    <mrow>=\mathstrut \amp \frac{4}{0.5}</mrow>
-    <mrow>=\mathstrut \amp 8</mrow>.
-    </md>
-    Notice that in the numerator, we have the values <m>s(1)</m> and <m>s(0.5)</m>, 
-    both measured in feet. In the denominator, we have the corresponding time values
-    <m>t=1</m> and <m>t=0.5</m>, both measured in seconds. The units of the quotient, then, 
-    should be feet per second. These are units of velocity, and in fact the value of 
-    <m>AV_{[0.5,1]}</m> is the average velocity on the time interval <m>0.5\le t\le1</m>.
-    Moreover, the formula for <m>AV_{[0.5,1]}</m> is precisely the slope formula between 
-    the points <m>(0.5,s(0.5))</m> and <m>(1,s(1))</m>.
-    </p>
-  </li>
-  </ol>
-  </solution>
-</example>
-  </introduction>
-
-  <subsection permid="iwq">
-    <title>Position and average velocity</title>
-    <p permid="Pnt">
-     The <em>position</em>
-          <idx><h>position</h></idx>
-      of any moving object can be considered as a function of <em>time</em>.
-      When the motion is along a straight line,
-      the position is given by a single variable,
-      which we denote by <m>s(t)</m>.
-      For example,
-      <m>s(t)</m> might give the mile marker of a car traveling on a straight highway at time <m>t</m> in hours.
-      Similarly, the function <m>s</m> described in <xref ref="PA-1-1">Example</xref> is a position function,
-      where the position of a ball is measured vertically relative to the ground.
-    </p>
-
-    <p permid="vuC">
-      On any time interval, a moving object also has an
-      <em>average velocity</em>.
-      For example,
-      to compute a car's average velocity we divide the number of miles traveled by the time elapsed,
-      which gives the velocity in <em>miles per hour</em>.
-      Similarly, the value of <m>AV_{[0.5,1]}</m> in <xref ref="PA-1-1">Example</xref>
-      gave the average velocity of the ball on the time interval <m>[0.5,1]</m>,
-      measured in feet per second.
-    </p>
-
-    <p permid="bBL">
-      In general, we make the following definition:
-    </p>
-
-    <assemblage permid="aRR">
-      <title>Average Velocity</title>
-      <p permid="HIU">
-        For an object moving in a straight line with position function <m>s(t)</m>, the 
-            <idx><h>average velocity</h></idx>
-        <em>average velocity of the object on the interval from <m>t = a</m> to <m>t = b</m></em>,
-        denoted <m>AV_{[a,b]}</m>, is given by the formula
-        <me permid="YHf">
-          AV_{[a,b]} = \frac{s(b)-s(a)}{b-a}
-        </me>.
-      </p>
-    </assemblage>
-
-    <p permid="nQd">
-      Note: the units on <m>AV_{[a,b]}</m> are
-      <q>units of <m>s</m> per unit of <m>t</m>,</q>
-      such as <q>miles per hour</q> or
-      <q>feet per second.</q>
-    </p>
-
-<example xml:id="act-1-1-1" permid="Vks">
-  <statement>
-    <p permid="QAz">
-      The following questions concern the position function given by <m>s(t) = 64 - 16(t-1)^2</m>,
-      considered in <xref ref="PA-1-1">Example</xref>.
-    </p>
-
-    <p permid="wHI">
-      <ol label="a." permid="DCn">
-        <li permid="jJw">
-          <p permid="dUk">
-            Compute the average velocity of the ball on each of the following time intervals:
-            <m>[0.4,0.8]</m>, <m>[0.7,0.8]</m>,
-            <m>[0.79, 0.8]</m>, <m>[0.799,0.8]</m>, <m>[0.8,1.2]</m>,
-            <m>[0.8,0.9]</m>, <m>[0.8,0.81]</m>, <m>[0.8,0.801]</m>.
-            Include units for each value.
-          </p>
-        </li>
-
-        <li permid="PQF">
-          <p permid="Kbt">
-            On the graph provided below in <xref ref="F-1-1-Act1">Figure</xref>,
-
-            sketch the line that passes through the points
-            <m>A=(0.4, s(0.4))</m> and <m>B=(0.8, s(0.8))</m>.
-            What is the meaning of the slope of this line?
-            In light of this meaning,
-            what is a geometric way to interpret each of the values computed in the preceding question?
-          </p>
-        </li>
-
-        <li permid="vXO">
-          <p permid="qiC">
-            Use a graphing utility to plot the graph of
-            <m>s(t) = 64 - 16(t-1)^2</m> on an interval containing the value <m>t = 0.8</m>.
-            Then,
-            zoom in repeatedly on the point <m>(0.8, s(0.8))</m>.
-            What do you observe about how the graph appears as you view it more and more closely?
-          </p>
-        </li>
-
-        <li permid="ceX">
-          <p permid="WpL">
-            What do you conjecture is the velocity of the ball at the instant <m>t = 0.8</m>?
-            Why?
-          </p>
-        </li>
-      </ol>
-    </p>
-
-    <figure xml:id="F-1-1-Act1" permid="cOR">
-      <caption>A partial plot of <m>s(t) = 64 - 16(t-1)^2</m>.</caption>
-      <image width="43%" source="images/1_1_Act1" />
-    </figure>
-  </statement>
-  <hint permid="eZD">
-    <p permid="ktq">
-      <ol label="a." permid="Xve">
-        <li permid="Img">
-          <p permid="CwU">
-            On <m>[0.4,0.8]</m>,
-            the average velocity is <m>AV_{[0.4,0.8]} = \frac{s(0.8)-s(0.4)}{0.8-0.4}</m> ft/sec.
-          </p>
-        </li>
-
-        <li permid="otp">
-          <p permid="iEd">
-            Remember that the slope of a line can be found by taking
-            <q>rise over run.</q> In this context,
-            the slope is found by computing
-            <q>change in <m>s</m> over change in <m>t</m>.</q>
-          </p>
-        </li>
-
-        <li permid="UAy">
-          <p permid="OLm">
-            While the curve <m>s(t)</m> is a parabola,
-            how does it look up close on a very small interval?
-          </p>
-        </li>
-
-        <li permid="AHH">
-          <p permid="uSv">
-            <q>Instantaneous</q>
-            velocity can be approximated by average velocity on a very small interval.
-          </p>
-        </li>
-      </ol>
-    </p>
-  </hint>
-  <answer permid="ySu">
-    <p permid="Emh">
-      <ol label="a." permid="rnV">
-        <li permid="gOQ">
-          <p permid="aZE">
-            <m>AV_{[0.4,0.8]} = 12.8</m> ft/sec;
-            <m>AV_{[0.7,0.8]} = 8</m> ft/sec;
-            the other average velocities are,
-            respectively, 6.56, 6.416, 0, 4.8, 6.24, 6.384, all in ft/sec.
-          </p>
-        </li>
-
-        <li permid="MVZ">
-          <p permid="HgN">
-            <m>m = 12.8</m> is the average velocity of the ball between <m>t = 0.4</m> and <m>t = 0.8</m>.
-          </p>
-
-          <sidebyside width="30%" permid="IWa">
-            <image source="images/1_1_Act1Soln" />
-          </sidebyside>
-
-        </li>
-
-        <li permid="tdi">
-          <p permid="nnW">
-            Like a straight line with slope about 6.4.
-          </p>
-        </li>
-
-        <li permid="Zkr">
-          <p permid="Tvf">
-            About 6.4 feet per second.
-          </p>
-        </li>
-      </ol>
-    </p>
-  </answer>
-  <solution permid="SLl">
-    <p permid="YeY">
-      <ol label="a." permid="LgM">
-        <li permid="FrA">
-          <p permid="zCo">
-            On <m>[0.4,0.8]</m>,
-            the average velocity is <m>AV_{[0.4,0.8]} = \frac{s(0.8)-s(0.4)}{0.8-0.4} = \frac{63.36-58.24}{0.4} = 12.8</m> ft/sec.
-            On <m>[0.7,0.8]</m>, the average velocity is 8 ft/sec.
-            The other average velocities are, respectively
-            (in the order of the intervals listed in the activity),
-            6.56, 6.416, 0, 4.8, 6.24, 6.384,
-            all measured in feet per second.
-          </p>
-        </li>
-
-        <li permid="lyJ">
-          <p permid="fJx">
-            The slope of the line between <m>A(0.4, s(0.4))</m> and
-            <m>B(0.8, s(0.8))</m> is <m>\frac{s(0.8)-s(0.4)}{0.8-0.4} = 12.8</m>.
-            This is precisely the average velocity of the ball between <m>t = 0.4</m> and <m>t = 0.8</m>,
-            and indeed each of the average velocities computed in (a) can be viewed as the slope of the line joining the points <m>(a,s(a))</m> and <m>(b,s(b))</m>.
-          </p>
-
-          <sidebyside width="30%" permid="pdj">
-            <image source="images/1_1_Act1Soln" />
-          </sidebyside>
-
-        </li>
-
-        <li permid="RFS">
-          <p permid="LQG">
-            As we zoom in on the curve
-            <m>s(t) = 64 - 16(t-1)^2</m> at the point <m>(0.5, 60)</m>,
-            the graph begins to look like a straight line.
-            Indeed,
-            it appears to look like a straight line with slope about 6.4.
-          </p>
-        </li>
-
-        <li permid="xNb">
-          <p permid="rXP">
-            Observe that the average velocity of the ball on the intervals <m>[0.799,0.8]</m> and
-            <m>[0.8,0.801]</m> is 6.416 and 6.384 feet/sec respectively.
-            Hence it appears that the ball's velocity at the instant <m>t = 0.8</m> should be about 6.4 feet per second.
-          </p>
-        </li>
-      </ol>
-    </p>
-  </solution>
-</example>
-  </subsection>
-
-  <subsection permid="ODz">
-    <title>Instantaneous Velocity</title>
-    <p permid="TXm">
-      Whether we are driving a car,
-      riding a bike, or throwing a ball,
-      we have an intuitive sense that a moving object has a velocity at any given moment -- a number that measures how fast the object is moving <em>right now</em>.
-      For instance,
-      a car's speedometer tells the driver the car's velocity at any given instant.
-      In fact, the velocity on a speedometer is really an average velocity that is computed over a very small time interval.
-      If we let the time interval over which average velocity is computed become shorter and shorter,
-      we can progress from average velocity to
-      <em>instantaneous</em> velocity.
-    </p>
-
-    <p permid="Aev">
-      Informally, we define the <em>instantaneous velocity</em>
-          <idx><h>instantaneous velocity</h></idx>
-      of a moving object at time <m>t = a</m> to be the value that the average velocity approaches as we take smaller and smaller intervals of time containing <m>t = a</m>.
-      We will develop a more formal definition of instantaneous velocity soon,
-      and this definition will be the foundation of much of our work in calculus.
-      For now, it is fine to think of instantaneous velocity as follows:
-      take average velocities on smaller and smaller time intervals around a specific point.
-      If those average velocities approach a single number,
-      then that number will be the instantaneous velocity at that point.
-    </p>
-
-<example xml:id="act-1-1-2" permid="Lvh">
-  <statement>
-    <p permid="zgP">
-      Each of the following questions concern <m>s(t) = 64 - 16(t-1)^2</m>,
-      the position function from <xref ref="PA-1-1">Example</xref>.
-    </p>
-
-    <p permid="fnY">
-      <ol label="a." permid="miD">
-        <li permid="SpM">
-          <p permid="MAA">
-            Compute the average velocity of the ball on the time interval <m>[1.5,2]</m>.
-            What is different between this value and the average velocity on the interval <m>[0,0.5]</m>?
-          </p>
-        </li>
-
-        <li permid="ywV">
-          <p permid="sHJ">
-            Use appropriate computing technology to estimate the instantaneous velocity of the ball at <m>t = 1.5</m>.
-            Likewise,
-            estimate the instantaneous velocity of the ball at <m>t = 2</m>.
-            Which value is greater?
-          </p>
-        </li>
-
-        <li permid="eEe">
-          <p permid="YOS">
-            How is the sign of the instantaneous velocity of the ball related to its behavior at a given point in time?
-            That is,
-            what does positive instantaneous velocity tell you the ball is doing?
-            Negative instantaneous velocity?
-          </p>
-        </li>
-
-        <li permid="KLn">
-          <p permid="EWb">
-            Without doing any computations,
-            what do you expect the instantaneous velocity of the ball at <m>t = 1</m> to be?
-            Why?
-          </p>
-        </li>
-      </ol>
-    </p>
-  </statement>
-  <hint permid="NFT">
-    <p permid="SZG">
-      <ol label="a." permid="Gbu">
-        <li permid="qSw">
-          <p permid="ldk">
-            Remember to use the formula for average velocity from above:
-            <m>AV_{[a,b]} = \frac{s(b)-s(a)}{b-a}</m>.
-            Think carefully about whether certain quantities are positive or negative.
-          </p>
-        </li>
-
-        <li permid="WZF">
-          <p permid="Rkt">
-            To estimate the instantaneous velocity at <m>t = 1.5</m>,
-            consider average velocities on the intervals
-            <m>[1.499,1.5]</m> and <m>[1.5,1.501]</m>.
-          </p>
-        </li>
-
-        <li permid="DgO">
-          <p permid="xrC">
-            Think about whether the ball is rising or falling.
-          </p>
-        </li>
-
-        <li permid="jnX">
-          <p permid="dyL">
-            What is the average velocity of the ball on small intervals that contain <m>t = 1</m>?
-          </p>
-        </li>
-      </ol>
-    </p>
-  </hint>
-  <answer permid="hyK">
-    <p permid="mSx">
-      <ol label="a." permid="ZUl">
-        <li permid="Pvg">
-          <p permid="JFU">
-            <m>AV_{[1.5,2]} = -24</m> ft/sec, which is negative; <m>AV_{[0,0.5]} = 24</m> ft/sec, which is positive.
-          </p>
-        </li>
-
-        <li permid="vCp">
-          <p permid="pNd">
-            The instantaneous velocity at <m>t = 1.5</m> is approximately <m>-16</m> ft/sec;
-            at <m>t = 2</m>,
-            the instantaneous velocity is about <m>-32</m> ft/sec,
-            and <m>-16>-32</m>.
-          </p>
-        </li>
-
-        <li permid="bJy">
-          <p permid="VUm">
-            When the ball is rising
-            its instantaneous velocity is positive,
-            while when the ball is falling
-            its instantaneous velocity is negative.
-          </p>
-        </li>
-
-        <li permid="HQH">
-          <p permid="Cbv">
-            Zero.
-          </p>
-        </li>
-      </ol>
-    </p>
-  </answer>
-  <solution permid="BrB">
-    <p permid="GLo">
-      <ol label="a." permid="tNc">
-        <li permid="nXQ">
-          <p permid="iiE">
-            <m>AV_{[1.5,2]} = \frac{s(2)-s(1.5)}{2-1.5} = -24</m> ft/sec.
-            We note that this average velocity is negative,
-            and in fact is the opposite of the average velocity of 24 ft/sec on the interval <m>[0,0.5]</m>.
-          </p>
-        </li>
-
-        <li permid="UeZ">
-          <p permid="OpN">
-            Since <m>AV_{[1.499,1.5]} = -15.984</m> and <m>AV_{[1.5, 1.501]} = -16.016</m>,
-            it appears that the instantaneous velocity of the ball at <m>t = 1.5</m> is approximately <m>-16</m> ft/sec.
-            Similar computations show that at <m>t = 2</m>,
-            the instantaneous velocity is about <m>-32</m> ft/sec.
-            Note that <m>-16>-32</m>,
-            so the instantaneous velocity at <m>t = 1.5</m> is greater because it is <q>less negative.</q>
-            Asking which number is <q>greater</q>
-            is different from asking which number is <q>more negative.</q>
-          </p>
-        </li>
-
-        <li permid="Ami">
-          <p permid="uwW">
-            When the ball is rising
-            its instantaneous velocity is positive,
-            while when the ball is falling
-            its instantaneous velocity is negative.
-          </p>
-        </li>
-
-        <li permid="gtr">
-          <p permid="aEf">
-            Note that <m>(1,s(1))</m> is the vertex of the parabola given by <m>s(t)</m>.
-            At this point, the ball is neither rising nor falling.
-            On intervals of the form <m>[a,1]</m>,
-            where <m>a \lt 1</m>, the average velocity of the ball is positive;
-            on intervals of form <m>[1,b]</m>,
-            where <m>b > 1</m>, the average velocity is positive.
-            Hence we expect the instantaneous velocity of the ball at the moment <m>t = 1</m> to be zero.
-          </p>
-        </li>
-      </ol>
-    </p>
-  </solution>
 </example>
 
-    <p permid="glE">
-      <!-- As we saw in in <xref ref="act-1-1-1">Example</xref>,
-      it follows that ...
-      (will cross-referencing work for activities?)
-      -->
-      At this point we have started to see a close connection between average velocity and instantaneous velocity.
-      Each is connected not only to the physical behavior of the moving object but also to the geometric behavior of the graph of the position function.
-      We are interested in computing average velocities on the interval <m>[a,b]</m> for smaller and smaller intervals.
-      In order to make the link between average and instantaneous velocity more formal,
-      think of the value <m>b</m> as <m>b = a + h</m>,
-      where <m>h</m> is a small (non-zero) number that is allowed to vary.
-      Then the average velocity of the object on the interval <m>[a,a+h]</m> is
-      <me permid="EOo">
-        AV_{[a,a+h]} = \frac{s(a+h)-s(a)}{h}
-      </me>,
-      with the denominator being simply <m>h</m> because <m>(a+h) - a = h</m>.
-      Note that when <m>h \lt  0</m>,
-      <m>AV_{[a,a+h]}</m> measures the average velocity on the interval <m>[a+h,a]</m>.
-    </p>
 
-    <p permid="MsN">
-      To find the instantaneous velocity at <m>t = a</m>,
-      we investigate what happens as the value of <m>h</m> approaches zero.
-    </p>
 
-    <example permid="GZa">
-      <title>Computing instantaneous velocity for a falling ball</title>
-      <statement>
-        <p permid="qKJ">
-          The position function for a falling ball is given by <m>s(t) = 16 - 16t^2</m>
-          (where <m>s</m> is measured in feet and <m>t</m> in seconds).
-        </p>
+<p>A function can be described in several different ways. In the following examples, we consider functions defined by tables, by graphs, and by equations.</p>
+</subsection>
 
-        <p permid="WRS">
-          <ol label="a" permid="rQc">
-            <li permid="VcF">
-              Find an expression for the average velocity of the ball on a time interval of the form <m>[0.5, 0.5+h]</m> where
-              <m>-0.5 \lt h \lt 0.5</m> and <m>h \ne 0</m>.
-            </li>
+<subsection><title>Functions Defined by Tables</title>
+    <p>When we use a table to describe a function, the first variable in the table (the left column of a vertical table or the top row of a horizontal table) is the input variable, and the second variable is the output. We say that the output variable <em>is a function of</em> the input.</p>
 
-            <li permid="BjO">
-              Use this expression to compute the average velocity on
-              <m>[0.5,0.75]</m> and <m>[0.4,0.5]</m>.
-            </li>
+    <example xml:id="example-table-functions"><statement><p>
+        <ol label="a">
+        <li><p><xref ref="table-auto-sales" text="type-global" /> shows data on sales compiled over several years by the accounting office for Eau Claire Auto Parts, a division of Major Motors. In this example, the year is the input variable, and total sales is the output. We say that total sales, <m>S</m>, <em>is a function of</em> <m>t</m>.</p>
+        <table xml:id="table-auto-sales"><caption></caption><tabular top="major" halign="center" right="minor" left="minor" bottom="minor">
+        <row bottom="minor">
+            <cell>Year <m>(t)</m></cell>
+            <cell>Total sales <m>(S)</m></cell>
+        </row>
+        <row>
+            <cell>2000</cell>
+            <cell><dollar />612,000</cell>
+        </row>
+        <row> 
+            <cell>2001</cell>
+            <cell><dollar />663,000</cell>
+        </row>
+        <row> 
+            <cell>2002</cell>
+            <cell><dollar />692,000</cell>
+        </row>
+        <row> 
+            <cell>2003</cell>
+            <cell><dollar />749,000</cell>
+        </row>
+        <row> 
+            <cell>2004</cell>
+            <cell><dollar />904,000</cell>
+        </row>
+        </tabular></table>
+        </li>
+        <li><p><xref ref="table-postage" text="type-global" /> gives the cost of sending printed material by first-class mail in 2016. </p>
+        <table xml:id="table-postage"><caption></caption><tabular top="major" halign="center" right="minor" left="minor" bottom="minor">
+        <row bottom="minor">
+            <cell>Weight in ounces <m>(w)</m></cell>
+            <cell>Postage <m>(P)</m></cell>
+        </row>
+        <row>
+            <cell><m>0 \lt w \le 1 </m></cell>
+            <cell><dollar />0.47</cell>
+        </row>
+        <row> 
+            <cell><m>1 \lt w \le 2 </m></cell>
+            <cell><dollar />0.68</cell>
+        </row>
+        <row> 
+            <cell><m>2 \lt w \le 3 </m></cell>
+            <cell><dollar />0.89</cell>
+        </row>
+        <row> 
+            <cell><m>3 \lt w \le 4 </m></cell>
+            <cell><dollar />1.10</cell>
+        </row>
+        <row> 
+            <cell><m>4 \lt w \le 5 </m></cell>
+            <cell><dollar />1.31</cell>
+        </row>
+        <row> 
+            <cell><m>5 \lt w \le 6 </m></cell>
+            <cell><dollar />1.52</cell>
+        </row>
+        <row> 
+            <cell><m>6 \lt w \le 7 </m></cell>
+            <cell><dollar />1.73</cell>
+        </row>
+    </tabular></table>
 
-            <li permid="hqX">
-              Make a conjecture about the instantaneous velocity at <m>t = 0.5</m>.
-            </li>
-          </ol>
-        </p>
-      </statement>
-      <solution permid="zuB">
-        <p permid="KDA">
-          <ol label="a" permid="fBK">
-            <li permid="Nyg">
-              We make the assumptions that
-              <m>-0.5 \lt  h \lt  0.5</m> and <m>h \ne 0</m> because <m>h</m> cannot be zero
-              (otherwise there is no interval on which to compute average velocity)
-              and because the function only makes sense on the time interval <m>0 \le t \le 1</m>,
-              as this is the duration of time during which the ball is falling.
-              We want to compute and simplify
-              <me permid="kVx">
-                AV_{[0.5, 0.5+h]} = \frac{s(0.5+h) - s(0.5)}{(0.5+h) - 0.5}
-              </me>.
-              We start by finding <m>s(0.5+h)</m>.
-              To do so, we follow the rule that defines the function <m>s</m>.
-              <md permid="dqY">
-                <mrow>s(0.5+h) \amp  =  16 - 16(0.5 + h)^2</mrow>
-                <mrow>\amp  =  16 - 16(0.25 + h + h^2)</mrow>
-                <mrow>\amp  =  16 - 4 - 16h - 16h^2</mrow>
-                <mrow>\amp  =  12 - 16h - 16h^2</mrow>
-              </md>.
-              Now, returning to our computation of the average velocity,
-              we find that
-              <md permid="Jyh">
-                <mrow>AV_{[0.5, 0.5+h]} \amp  =  \frac{s(0.5+h) - s(0.5)}{(0.5+h) - 0.5}</mrow>
-                <mrow>\amp  =  \frac{(12 - 16h - 16h^2) - (16 - 16(0.5)^2)}{0.5 + h - 0.5}</mrow>
-                <mrow>\amp  =  \frac{12 - 16h - 16h^2 - 12}{h}</mrow>
-                <mrow>\amp  =  \frac{-16h - 16h^2}{h}</mrow>
-              </md>.
-              At this point, we note two things:
-              first, the expression for average velocity clearly depends on <m>h</m>,
-              which it must,
-              since as <m>h</m> changes the average velocity will change.
-              Further, we note that since <m>h</m> can never equal zero,
-              we may remove the common factor of <m>h</m> from the numerator and denominator.
-              It follows that
-              <me permid="RcG">
-                AV_{[0.5, 0.5+h]} = -16 - 16h
-              </me>.
-            </li>
+        <p>If we know the weight of the article being shipped, we can determine the required postage from <xref ref="table-postage" text="type-global" />. For instance, a catalog weighing 4.5 ounces would require <dollar />1.31 in postage. In this example, <m>w</m> is the input variable and <m>p</m> is the output variable. We say that <m>p</m> <em>is a function of</em> <m>w</m>.</p></li>
 
-            <li permid="tFp">
-              From this expression we can compute the average for any small positive or negative value of <m>h</m>.
-              For instance, to obtain the average velocity on
-              <m>[0.5,0.75]</m>, we let <m>h = 0.25</m>,
-              and the average velocity is <m>-16 - 16(0.25) = -20</m> ft/sec.
-              To get the average velocity on <m>[0.4, 0.5]</m>,
-              we let <m>h = -0.1</m>, and compute the average velocity as
-              <me permid="xjP">
-                -16 - 16(-0.1) = -14.4\ \text{ft/sec}
-              </me>.
-            </li>
+        <li><p><xref ref="table-cholesterol" text="type-global" /> records the age and cholesterol count for 20 patients tested in a hospital survey.</p>
+        <table xml:id="table-cholesterol"><caption></caption><tabular top="major" halign="center" right="minor" left="minor" bottom="minor">
+        <row bottom="minor">
+            <cell>Age</cell>
+            <cell>Cholesterol count</cell>
+            <cell></cell>
+            <cell>Age</cell>
+            <cell>Cholesterol count</cell>
+        </row>
+        <row>
+            <cell>53</cell>
+            <cell>217</cell>
+            <cell></cell>
+            <cell><m>\alert{51}</m></cell>
+            <cell><m>\alert{209}</m></cell>
+        </row>
+        <row> 
+            <cell>48</cell>
+            <cell>232</cell>
+            <cell></cell>
+            <cell>53</cell>
+            <cell>241</cell>
+        </row>
+        <row> 
+            <cell>55</cell>
+            <cell>198</cell>
+            <cell></cell>
+            <cell>49</cell>
+            <cell>186</cell>
+        </row>
+        <row>
+            <cell>56</cell>
+            <cell>238</cell>
+            <cell></cell>
+            <cell><m>\alert{51}</m></cell>
+            <cell><m>\alert{216}</m></cell>
+        </row>
+        <row> 
+            <cell><m>\alert{51}</m></cell>
+            <cell><m>\alert{227}</m></cell>
+            <cell></cell>
+            <cell>57</cell>
+            <cell>208</cell>
+        </row>
+        <row> 
+            <cell>52</cell>
+            <cell>264</cell>
+            <cell></cell>
+            <cell>52</cell>
+            <cell>248</cell>
+        </row>
+        <row> 
+            <cell>53</cell>
+            <cell>195</cell>
+            <cell></cell>
+            <cell>50</cell>
+            <cell>214</cell>
+        </row>
+        <row> 
+            <cell>47</cell>
+            <cell>203</cell>
+            <cell></cell>
+            <cell>56</cell>
+            <cell>271</cell>
+        </row>
+        <row> 
+            <cell>48</cell>
+            <cell>212</cell>
+            <cell></cell>
+            <cell>53</cell>
+            <cell>193</cell>
+        </row>
+        <row> 
+            <cell>50</cell>
+            <cell>234</cell>
+            <cell></cell>
+            <cell>48</cell>
+            <cell>172</cell>
+        </row>
 
-            <li permid="ZMy">
-              We can even explore what happens to
-              <m>AV_{[0.5, 0.5+h]}</m> as <m>h</m> gets closer and closer to zero.
-              As <m>h</m> approaches zero,
-              <m>-16h</m> will also approach zero,
-              so it appears that the instantaneous velocity of the ball at <m>t = 0.5</m> should be <m>-16</m> ft/sec.
-            </li>
-          </ol>
-        </p>
-      </solution>
+    </tabular></table>
+
+        <p>According to these data, cholesterol count is <em>not</em> a function of age, because several patients who are the same age have different cholesterol levels. For example, three different patients are 51 years old but have cholesterol counts of 227, 209, and 216, respectively. Thus, we cannot determine a <em>unique</em> value of the output variable (cholesterol count) from the value of the input variable (age). Other factors besides age must influence a person’s cholesterol count.</p></li>
+
+    </ol></p></statement>
     </example>
 
-<example xml:id="act-1-1-3" permid="hdl">
-  <statement>
-    <p permid="IAB">
-      For the function given by
-      <m>s(t) = 64 - 16(t-1)^2</m> from <xref ref="PA-1-1">Example</xref>,
-      find the most simplified expression you can for the average velocity of the ball on the interval <m>[2, 2+h]</m>.
-      Use your result to compute the average velocity on <m>[1.5,2]</m> and to estimate the instantaneous velocity at <m>t = 2</m>.
-      Finally, compare this to your earlier work in <xref ref="act-1-1-1">Example</xref>.
-    </p>
-  </statement>
-  <hint permid="DQI">
-    <p permid="cts">
-      Note that
-      <md permid="oHK">
-        <mrow>s(2+h) \amp = 64 - 16(2+h-1)^2 = 64 - 16(1+h)^2</mrow>
-        <mrow>\amp = 64 - (16 + 32h + 16h^2) = 48 - 32h - 16h^2</mrow>
-      </md>.
-    </p>
-  </hint>
-  <answer permid="XJz">
-    <p permid="wmj">
-      <m>AV_{[2, 2+h]} = -32 - 16h</m>
-    </p>
-  </answer>
-  <solution permid="rCq">
-    <p permid="jXR">
-      Observe first that
-      <md permid="AWc">
-        <mrow>s(2+h) \amp = 64 - 16(2+h-1)^2 = 64 - 16(1+h)^2</mrow>
-        <mrow>\amp = 64 - (16 + 32h + 16h^2) = 48 - 32h - 16h^2</mrow>
-      </md>.
-      Next, recall that <m>AV_{[2, 2+h]} = \frac{s(2+h) - s(2)}{h}</m>, so
-      <me permid="UOT">
-        AV_{[2, 2+h]} = \frac{s(2+h) - s(2)}{h} = \frac{(48 - 32h - 16h^2)-48}{h} = \frac{-32h - 16h^2}{h}
-      </me>.
-    </p>
+</subsection>
 
-    <p permid="Qfa">
-      Now, since we assume <m>h \ne 0</m>,
-      we can simplify further to find that <m>AV_{[2, 2+h]} = -32 - 16h</m>.
-      Setting <m>h = -0.5</m>,
-      it follows that <m>AV_{[1.5,2]} = -32 + 16(0.5) = -24</m> ft/sec.
-      Likewise, as we let <m>h</m> approach zero,
-      we see that <m>-32 - 16h</m> will approach <m>-32</m>,
-      so the instantaneous velocity at <m>t = 2</m> appears to be <m>-32</m> feet/sec.
-      Both results match our earlier work in <xref ref="act-1-1-1">Example</xref>.
-    </p>
-  </solution>
+<subsection><title>Functions Defined by Graphs</title>
+<p>
+    A graph may also be used to define one variable as a function of another. The input variable is displayed on the horizontal axis, and the output variable on the vertical axis.
+</p>    
+
+<example xml:id="example-sun-hours"><statement>
+    <p><xref ref="fig-sun-hours" text="type-global"/>  shows the number of hours, <m>H</m>, that the sun is above the horizon in Peoria, Illinois, on day <m>t</m>, where January 1 corresponds to <m>t = 0</m>.</p>
+    <sidebyside widths="50% 40%">
+        
+        <paragraphs><p>
+            <ol label="a">
+            <li><p>Which variable is the input, and which is the output?</p></li>
+            <li><p>Approximately how many hours of sunlight are there in Peoria on day 150?</p></li>
+            <li><p>On which days are there 12 hours of sunlight?</p></li>
+            <li><p>What are the maximum and minimum values of <m>H</m>, and when do these values occur?</p></li>
+        </ol></p></paragraphs>
+        <figure xml:id="fig-sun-hours"><caption></caption><image source="images/fig-sun-hours" width="90%"><description>Peoria sunlight hours</description></image></figure>
+    </sidebyside></statement>
+    <solution><p>
+        <ol label="a">
+            <li><p>The input variable, <m>t</m>, appears on the horizontal axis. The number of daylight hours, <m>H</m>, is a function of the date. The output variable appears on the vertical axis.</p></li>
+            <li><p>The point on the curve where <m>t = 150</m> has <m>H \approx 14.1</m>, so Peoria gets about 14.1 hours of daylight when <m>t = 150</m>, which is at the end of May.</p></li>
+            <li><p><m>H = 12</m> at the two points where <m>t \approx 85</m> (in late March) and <m>t \approx 270</m> (late September).</p></li>
+            <li><p>The maximum value of 14.4 hours occurs on the longest day of the year, when <m>t \approx 170</m>, about three weeks into June. The minimum of 9.6 hours occurs on the shortest day, when <m>t \approx 355</m>, about three weeks into December.</p></li>
+        </ol></p>
+    </solution>
 </example>
-  </subsection>
 
-  <subsection permid="uKI">
-    <title>Summary</title>
-    <!-- The first list item is split from the others; fine in practice as long as the list is not used as a knowl. -->
-    <p permid="szW">
-      <ul permid="XXl">
-        <li permid="wzV">
-          For an object moving in a straight line with position function <m>s(t)</m>, the
-              <idx><h>average velocity</h></idx>
-          <em>average velocity of the object on the interval from <m>t = a</m> to <m>t = b</m></em>,
-          denoted <m>AV_{[a,b]}</m>, is given by the formula
-          <me permid="pFq">
-            AV_{[a,b]} = \frac{s(b)-s(a)}{b-a}
-          </me>.
-        </li>
 
-        <li permid="cHe">
-          <p permid="ypi">
-            The average velocity on <m>[a,b]</m> can be viewed geometrically as the slope of the line between the points <m>(a,s(a))</m> and
-            <m>(b,s(b))</m> on the graph of <m>y = s(t)</m>,
-            as shown below in <xref ref="F-1-1-Summary">Figure</xref>.
-          </p>
+</subsection>
 
-          <figure xml:id="F-1-1-Summary" permid="ewr">
-            <caption>The graph of position function <m>s</m> together with the line through <m>(a,s(a))</m> and <m>(b,s(b))</m> whose slope is <m>m = \frac{s(b)-s(a)}{b-a}</m>. The line's slope is the average rate of change of <m>s</m> on the interval <m>[a,b]</m>.</caption>
-            <image width="50%" source="images/1_1_Summary" />
-          </figure>
+<subsection><title>Functions Defined by Equations</title>
+<p><xref ref="example-falling-book" text="type-global"/> illustrates a function defined by an equation.</p>
+<example xml:id="example-falling-book">
+    <p>As of 2016,  One World Trade Center in New York City is the nation’s tallest building, at 1776 feet. If an algebra book is dropped from the top of One World Trade Center, its height above the ground after <m>t</m> seconds is given by the equation <me>h = 1776 - 16t^2</me> Thus, after <m>\alert{1}</m> second the book’s height is <me>h = 1776 - 16(\alert{1})^2 = 1760 \text{ feet}</me> After <m>\alert{2}</m> seconds its height is <me>h = 1776 - 16(\alert{2})^2 = 1712 \text{ feet}</me> For this function, <m>t</m> is the input variable and <m>h</m> is the output variable. For any value of <m>t</m>, a unique value of <m>h</m> can be determined from the equation for <m>h</m>. We say that <m>h</m> <em>is a function of</em> <m>t</m>.</p>
+ </example>  
 
-        </li>
 
-        <li permid="IOn">
-          Given a moving object whose position at time <m>t</m> is given by a function <m>s</m>,
-          the average velocity of the object on the time interval <m>[a,b]</m> is given by <m>AV_{[a,b]} = \frac{s(b) - s(a)}{b-a}</m>.
-          Viewing the interval <m>[a,b]</m> as having the form <m>[a,a+h]</m>,
-          we equivalently compute average velocity by the formula <m>AV_{[a,a+h]} = \frac{s(a+h) - s(a)}{h}</m>.
-        </li>
+</subsection>
 
-        <li permid="oVw">
-          The instantaneous velocity of a moving object at a fixed time is estimated by considering average velocities on shorter and shorter time intervals that contain the instant of interest.
-        </li>
-      </ul>
+
+
+<subsection><title>Function Notation</title>
+    <p>There is a convenient notation for discussing functions. First, we choose a letter, such as <m>f</m>, <m>g</m>, or <m>h</m> (or <m>F</m>, <m>G</m>, or <m>H</m>), to name a particular function. (We can use any letter, but these are
+        the most common choices.) For instance, the height, <m>h</m>, of a falling textbook is a function of the elapsed time, <m>t</m>. We might call this function <m>f</m>. In other words, <m>f</m> is the name of the relationship between the variables <m>h</m> and <m>t</m>. We write
+        <me>h = f (t)</me>
+        which means "<m>h</m> is a function of <m>t</m>, and <m>f</m> is the name of the function."</p>
+    
+    <warning>
+        <p>The new symbol <m>f(t)</m>, read "<m>f</m> of <m>t</m>," is another name for the height, <m>h</m>. The parentheses in the symbol <m>f(t)</m> do not indicate multiplication. (It would not make sense to multiply the name of a function by a variable.) Think of the symbol <m>f(t)</m> as a single variable that represents
+            the output value of the function.</p>
+    </warning>
+    
+    <p>With this new notation we may write
+        <me>h = f (t) = 1776 - 16t^2</me>
+        or just
+        <me>f (t) = 1776 - 16t^2</me>
+        instead of
+        <me>h = 1776 - 16t^2</me>
+        to describe the function.</p>
+    
+    <p>Perhaps it seems complicated to introduce a new symbol for <m>h</m>, but the notation <m>f(t)</m> is very useful for showing the correspondence between specific values of the variables <m>h</m> and <m>t</m>.
     </p>
-  </subsection>
+    
+    <example xml:id="example-falling-book-2">
+        <p>In <xref ref="example-falling-book" text="type-global"/>, the height of an algebra book dropped from the top of One World Trade Center is given by the equation
+            <me>h = 1776 - 16t^2</me>
+            We see that</p>
+        <p><sidebyside><tabular>
+            <row>
+                <cell>when <m>t=1</m></cell>
+                <cell></cell>
+                <cell><m>h=1760</m></cell>
+            </row>
+            <row>
+                <cell>when <m>t=2</m></cell>
+                <cell></cell>
+                <cell><m>h=1712</m></cell>
+            </row>
+        </tabular></sidebyside></p>
+        <p>Using function notation, these relationships can be expressed more concisely as</p>
+        <p><sidebyside><tabular>
+            <row>
+                <cell><m>f(1)=1760</m></cell>
+                <cell> and </cell>
+                <cell><m>f(2)=1712</m></cell>
+            </row>
+        </tabular></sidebyside></p>
+        <p>which we read as "<m>f</m> of 1 equals 1760" and "<m>f</m> of 2 equals 1712." The values for the input variable, <m>t</m>, appear <em>inside</em> the parentheses, and the values for the output variable, <m>h</m>, appear on the other side of the equation.</p>
+    </example>
+    
+    
+    <p>Remember that when we write <m>y = f(x)</m>, the symbol <m>f(x)</m> is just another name for the output variable.</p>
+    
 
-  <xi:include href="./exercises/ez-1-1.xml" />
+</subsection>
+
+<subsection><title>Evaluating a Function</title>
+    <p>
+        Finding the value of the output variable that corresponds to a particular value of the input variable is called <term>evaluating the function</term><idx>evaluating the function</idx>.
+    </p>
+    
+    <example xml:id="example-postage2"><statement>
+        <p>Let <m>g</m> be the name of the postage function defined by <xref ref="table-postage" text="type-global"/>  in <xref ref="example-functions" text="type-global"/>. Find <m>g(1)</m>, <m>g(3)</m>, and <m>g(6.75</m>).</p></statement>
+    <solution>
+        <p>According to the table,</p><p>
+            <sidebyside><tabular>
+                <row>
+                    <cell>when <m>w=1</m>,</cell>
+                    <cell></cell>
+                    <cell><m>p=0.47</m></cell>
+                    <cell> so </cell>
+                    <cell><m>g(1)=0.47</m></cell>
+                </row>
+                <row>
+                    <cell>when <m>w=3</m>,</cell>
+                    <cell></cell>
+                    <cell><m>p=0.89</m></cell>
+                    <cell> so </cell>
+                    <cell><m>g(3)=0.89</m></cell>
+                </row>
+                <row>
+                    <cell>when <m>w=6.75</m>,</cell>
+                    <cell></cell>
+                    <cell><m>p=1.73</m></cell>
+                    <cell> so </cell>
+                    <cell><m>g(6.75)=1.73</m></cell>
+                </row>
+            </tabular></sidebyside>
+            Thus, a letter weighing 1 ounce costs <dollar />0.47 to mail, a letter weighing 3 ounces costs <dollar />0.89, and a letter weighing 6.75 ounces costs <dollar />1.73.</p>
+    </solution>
+    </example>
+    
+    
+    <p>If a function is described by an equation, we simply substitute the given input value into the equation to find the corresponding output, or function value.</p>
+
+    
+    <p>
+        To simplify the notation, we sometimes use the same letter for the output variable and
+        for the name of the function. In the next example, <m>C</m> is used in this way.
+    </p>
+    
+    <example xml:id="example-function-notation-abuse"><statement>
+        <p>TrailGear decides to market a line of backpacks. The cost, <m>C</m>, of manufacturing backpacks is a function of the number, <m>x</m>, of backpacks produced, given by the equation
+            <me>C(x) = 3000 + 20x</me>
+            where <m>C(x)</m> is measured in dollars. Find the cost of producing 500 backpacks.</p></statement>
+    <solution><p>To find the value of <m>C</m> that corresponds to <m>x = \alert{500}</m>, evaluate <m>C(500)</m>.
+        <me>C(\alert{500}) = 3000 + 20(\alert{500}) = 13,000</me>
+        The cost of producing 500 backpacks is <dollar />13,000.</p></solution>
+    </example>
+    
+</subsection>
+
+<subsection><title>Linear Functions</title>   
+
+<p>
+Linear relationships are relationships in which the rate of change is constant.
+
+    <assemblage><title>Linear Equation</title>
+    <p>
+        A <term>linear function</term> is a function which has a <term>constant rate of change.</term>
+    </p>
+</assemblage>
+
+
+    Many phenomena can be modeled using linear functions <m>y = f (x)</m> where the equations have the form
+    <me>f (x) = (\text{starting value}) + (\text{rate of change}) \cdot x.</me>
+    The initial value, or the value of <m>f(0)</m>, is the vertical intercept of the graph, and the rate of change is the slope of the graph. 
+    
+    Thus, we can write an equation of a line as
+    <me>f (x) = b + mx</me>
+    where the constant term, <m>b</m>, is the vertical intercept of the line, and <m>m</m>, the coefficient of <m>x</m>, is the slope of the line. This form for an equation of a line is called the <term>slope-intercept form</term><idx>slope-intercept form</idx>.
+</p>
+
+<assemblage><title>Slope-Intercept Form</title>
+    <p>
+        If we write an equation of a linear function in the form,
+        <me>f (x) = b + mx</me>
+        then <m>m</m> is the <term>slope</term><idx>slope</idx> of the line, and <m>b</m> is the <term>vertical intercept</term>.
+    </p>
+</assemblage>
+
+<p>(You may have encountered the slope-intercept equation in the equivalent form <m>y = mx + b</m>.)</p>
+<p> For example, consider the two linear functions and their graphs shown in <xref ref="fig-decreasing-line" text="type-global" /> and <xref ref="fig-increasing-line" text="type-global"/>.
+<sidebyside widths="17% 27% 17% 27%">
+    <paragraphs><p></p><p><m>f (x) = 10 - 3x</m></p>
+    <sidebyside><tabular top="major" halign="center" right="minor" left="minor" bottom="minor">
+        <row bottom="minor">
+            <cell><m>\hphantom{00}x\hphantom{00}</m></cell>
+            <cell><m>\hphantom{0}f(x)\hphantom{0}</m></cell>
+        </row>
+        <row>
+            <cell><m>0</m></cell>
+            <cell><m>10</m></cell>
+        </row>
+        <row>
+            <cell><m>1</m></cell>
+            <cell><m>7</m></cell>
+        </row>
+        <row>
+            <cell><m>2</m></cell>
+            <cell><m>4</m></cell>
+        </row>
+        <row>
+            <cell><m>3</m></cell>
+            <cell><m>1</m></cell>
+        </row>
+        <row>
+            <cell><m>4</m></cell>
+            <cell><m>-2</m></cell>
+        </row>
+    </tabular>    
+</sidebyside></paragraphs>
+<figure xml:id="fig-decreasing-line"><caption></caption><image source="images/fig-decreasing-line"><description>deceasing line</description></image></figure>
+<!-- </sidebyside>
+<sidebyside> -->
+    <paragraphs><p></p><p><m>g(x) = -3+2x</m></p>
+    <sidebyside><tabular top="major" halign="center" right="minor" left="minor" bottom="minor">
+        <row bottom="minor">
+            <cell><m>\hphantom{00}x\hphantom{00}</m></cell>
+            <cell><m>\hphantom{0}f(x)\hphantom{0}</m></cell>
+        </row>
+        <row>
+            <cell><m>0</m></cell>
+            <cell><m>-3</m></cell>
+        </row>
+        <row>
+            <cell><m>1</m></cell>
+            <cell><m>-1</m></cell>
+        </row>
+        <row>
+            <cell><m>2</m></cell>
+            <cell><m>1</m></cell>
+        </row>
+        <row>
+            <cell><m>3</m></cell>
+            <cell><m>3</m></cell>
+        </row>
+        <row>
+            <cell><m>4</m></cell>
+            <cell><m>5</m></cell>
+        </row>
+    </tabular>   
+</sidebyside></paragraphs>
+<figure xml:id="fig-increasing-line"><caption></caption><image source="images/fig-increasing-line"><description>inceasing line</description></image></figure>
+</sidebyside>
+</p>
+
+
+<p>
+    Some observations:
+    <ul>
+        <li>We can see that the vertical intercept of each line is given by the constant term, <m>b</m>. </li>
+        <li>By examining the table of values, we can also see why the coefficient of <m>x</m>gives the slope of the line:</li> 
+    <li>For <m>f (x)</m>, each time <m>x</m> increases by <m>1</m> unit, <m>y</m> decreases by <m>3</m> units.</li>
+    <li> For <m>g(x)</m>, each time <m>x</m> increases by <m>1</m> unit, <m>y</m> increases by <m>2</m> units.</li>
+</ul>
+
+     For each graph, the coefficient of <m>x</m> is a scale factor that tells us how many units <m>y</m> changes for <m>1</m> unit increase in <m>x</m>. But that is exactly what the slope tells us about a line.
+</p>
+
+<p>
+Is is also useful to introduce the term <m>x</m>-intercept at this point.
+    <assemblage><title><m>x</m>-intercept</title>
+    <p>
+        An <term><m>x</m>-intercept</term> for a function <m>f(x)</m> is the value of <m>x</m> such that <m>f(x)=0</m>.
+    </p>
+</assemblage>
+</p>
+
+
+<example xml:id="example-internet-providers"><statement>
+    <p>Francine is choosing an Internet service provider. She paid <dollar />30 for a modem, and she is considering three companies for service:
+    <ul>
+    <li> Juno charges <dollar />14.95 per month,</li>
+    <li> ISP.com charges <dollar/>12.95 per month,</li> 
+    <li> and peoplepc charges <dollar />15.95 per month.</li> 
+</ul>Match the graphs in <xref ref="fig-internet-providers" text="type-global"/> to Francine’s Internet cost with each company.</p></statement>
+    <solution>
+        <p>Francine pays the same initial amount, <dollar />30 for the modem, under each plan. The monthly fee is the rate of change of her total cost, in dollars per month. We can write a formula for her cost under each plan. </p>
+    <sidebyside widths="50% 40%"><p>
+    <me>\text{Juno:   } f(x) = 30 + 14.95x</me>
+    <me>\text{ISP.com:   } g(x) = 30 + 12.95x</me>
+    <me>\text{peoplepc:   } h(x) = 30 + 15.95x</me>
+    The graphs of these three functions all have the same <m>y</m>-intercept, but their slopes are determined by the monthly fees. The steepest graph, III, is the one with the largest monthly fee, peoplepc, and ISP.com, which has the lowest monthly fee, has the least steep graph, I.</p>    
+    <figure xml:id="fig-internet-providers"><caption></caption><image source="images/fig-internet-providers"   width="80%"><description>internet provider costs</description></image></figure></sidebyside>
+    </solution>
+</example>
+
+
+
+<note><p>
+    In the equation <m>f (x) = b + mx</m>, we call <m>m</m> and <m>b</m> <term>parameters</term><idx>parameters</idx>. Their values are fixed for any particular linear equation; for example, in the equation <m>y = 2x + 3</m>, <m>m = 2</m> and <m>b = 3</m>, and the variables are <m>x</m> and <m>y</m>. By changing the values of <m>m</m> and <m>b</m>, we can write the equation for any line except a vertical line (see <xref ref="fig-slope-vs-intercept" text="type-global"/>). The collection of all linear functions <m>f (x) = b + mx</m> is called a <term>two-parameter</term><idx>two-parameter</idx> family of functions.
+</p></note>
+<figure xml:id="fig-slope-vs-intercept"><caption></caption><image source="images/fig-slope-vs-intercept"   width="80%"><description>lines with common intercept or common slope</description></image></figure>
+</subsection>
+
+
+
+<subsection><title>Describing Functions</title>
+<p>There are several terms that will be useful in describing functions.  We first begin with the notion of an increasing function.</p>
+
+<assemblage><title>Increasing Function</title><p>A function $f$ is increasing if the values of $f(x)$ increase as $x$ increases.
+
+The graph of an increasing function climbs as we move from left to right.</p>
+</assemblage>
+
+<assemblage><title>Decreasing Function</title>
+<p>A function $f$ is decreasing if the values of $f(x)$ decrease as $x$ increases.
+
+The graph of a decreasing function falls as we move from left to right.</p>
+
+</assemblage>
+<p>
+<em>A function $f(x)$ is monotonic if it increases for all $x$ or decreases for all $x$. 
+</em>
+</p>
+
+<assemblage><title>Directly Proportional</title> <p>We say $y$ is directly proportional to $x$ if there is a nonzero constant $k$ such that, $y = kx$. This $k$ is called the constant of proportionality.
+</p>
+</assemblage>
+
+<assemblage><title>Inversely Proportional</title> <p>We say that $y$ is inversely proportional to $x$ if $y$ is proportional to the reciprocal of $x$, that is, $y = k/x$ for a nonzero constant $k$.
+</p>
+
+</assemblage>
+
+</subsection>
+
 </section>
-
+<!-- </book>  </mathbook> -->
