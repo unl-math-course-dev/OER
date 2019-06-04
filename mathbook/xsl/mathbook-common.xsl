@@ -3167,6 +3167,9 @@ Neither: A structural node that is simply a (visual) subdivision of a chunk
         <xsl:when test="$parts = 'structural'">
             <xsl:number from="part" count="chapter" format="1" />
         </xsl:when>
+        <xsl:when test="$parts = 'decorative'">
+            <xsl:number from="part" count="chapter" format="1" />
+        </xsl:when>
     </xsl:choose>
 </xsl:template>
 <xsl:template match="appendix" mode="division-serial-number">
