@@ -3160,7 +3160,8 @@ Neither: A structural node that is simply a (visual) subdivision of a chunk
     <!-- chapters, varying the subtree considered depending  -->
     <!-- on the style elected for how parts are numbered     -->
     <xsl:choose>
-        <xsl:when test="($parts = 'absent') or ($parts = 'decorative')">
+        <!--<xsl:when test="($parts = 'absent') or ($parts = 'decorative')">-->
+        <xsl:when test="($parts = 'absent')>
             <xsl:number from="book" level="any" count="chapter" format="1" />
         </xsl:when>
         <xsl:when test="$parts = 'structural'">
