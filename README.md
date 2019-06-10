@@ -46,3 +46,7 @@ git clone https://github.com/nwakefield2/OER.git www
 
 Finally, there is a script that can be run from /var/www that handles everything including git pull, compiling, and google analytics.
 ./updateOER.sh
+
+
+I found out that some browsers cannot display PDFs as images.  The following command will convert all PDFs in a directory to jpg files so that they can be displayed.
+
