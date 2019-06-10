@@ -50,5 +50,6 @@ Finally, there is a script that can be run from /var/www that handles everything
 
 I found out that some browsers cannot display PDFs as images.  The following command will convert all PDFs in a directory to jpg files so that they can be displayed.
 
-for i in *.pdf; do if [ -f "${i%.*}.jpg" ]; then echo ""; else echo "${i%.*}.jpg";  convert -density 600  "$i" "${i%.*}.jpg"; echo "*************file Created***********"; fi; done
+for i in *.pdf; do if [ -f "${i%.*}.jpg" ] || [ -f "${i%.*}.svg" ]; then echo ""; else echo "${i%.*}.jpg";  convert -density 600  "$i" "${i%.*}.jpg"; echo "*************file Created***********"; fi; done
+
 
