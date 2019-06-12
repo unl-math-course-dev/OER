@@ -18,15 +18,816 @@
     <ul permid="hUn">
       <li permid="uiF">
         <p permid="eZH">
-          What type of function describes the behavior of a line hanging between two poles?
+          If we have a function given by a formula, is there a way to write down the antiderivative?
         </p>
       </li>
+
 
     </ul>
   </objectives>
 
-  <introduction permid="VFV"></introduction>
+  <introduction permid="VFV">
+<p permid="PRj">
+      The general problem of finding an antiderivative is difficult.
+      In part, this is due to the fact that we are trying to undo the process of differentiating,
+      and the undoing is much more difficult than the doing.
+      For example,
+      while it is evident that an antiderivative of <m>f(x) = \sin(x)</m> is
+      <m>F(x) = -\cos(x)</m> and that an antiderivative of
+      <m>g(x) = x^2</m> is <m>G(x) = \frac{1}{3} x^3</m>,
+      combinations of <m>f</m> and <m>g</m> can be far more complicated.
+      Consider the functions
+      <me permid="rYt">
+        5\sin(x) - 4x^2, \ x^2 \sin(x), \ \frac{\sin(x)}{x^2}, \ \text{and}  \ \sin(x^2)
+      </me>.  In the above cases, the antiderivative might not be obvious and in some cases, for example, <m>\sin(x^2)</m> the antiderivative cannot be written down using elementary functions.  This warrants the question, how do we find an antiderivative from a function given by a formula in general?  We will begin to answer that question in this chapter.
+    </p>
+  
+  
+  </introduction>
+  
+    <subsection xml:id="sec-4-4-ss2" permid="XRh">
+    <title>Basic antiderivatives</title>
+    
 
+    <p permid="vYs">
+      What is involved in trying to find an antiderivative for each?
+      From our experience with derivative rules,
+      we know that derivatives of sums and constant multiples of basic functions are simple to execute, but
+      derivatives involving products, quotients,
+      and composites of familiar functions are more complicated.
+      Therefore, it stands to reason that antidifferentiating products,
+      quotients,
+      and composites of basic functions may be even more challenging.
+      We defer our study of all but the most elementary antiderivatives to later in the text.
+    </p>
+
+<p>Before proceeding any further it will be useful to state two properties.
+<assemblage><title>Properties of Antiderivatives: Sums and Constant Multiples</title>
+<p>
+Let <m>f</m> and <m>g</m> be functions that have an antiderivative and <m>c</m> a constant then
+      <md permid="wIm">
+        <mrow>\int\left(f(x) \pm g(x)\right) dx &amp;=  \int f(x)dx \pm \int g(x)dx</mrow>
+		<mrow>\int cf(x) dx &amp;=  c\int f(x)dx</mrow>
+       
+      </md>.
+      In other words, the antiderivative of a sum is the sum of the antiderivatives.
+</p>
+
+</assemblage>
+
+</p>
+
+
+
+    <p permid="cfB">
+      We do note that whenever we know the derivative of a function,
+      we have a <em>function-derivative pair</em>,
+      so we also know the antiderivative of a function.
+      For instance, since we know that
+      <me permid="YfC">
+        \frac{d}{dx}[-\cos(x)] = \sin(x)
+      </me>,
+      we also know that <m>F(x) = -\cos(x)</m> is an antiderivative of <m>f(x) = \sin(x)</m>.
+      <m>F</m> and <m>f</m> together form a function-derivative pair.
+      Clearly, every basic derivative rule leads us to such a pair,
+      and thus to a known antiderivative.
+    </p>
+
+    <p permid="ImK">
+      In <xref ref="act-4-4-2">Example</xref>,
+      we will construct a list of the basic antiderivatives we know at this time.
+      Those rules will help us  antidifferentiate sums and constant multiples of basic functions.
+      For example,
+      since <m>-\cos(x)</m> is an antiderivative of <m>\sin(x)</m> and
+      <m>\frac{1}{3}x^3</m> is an antiderivative of <m>x^2</m>,
+      it follows that
+      <me permid="EmL">
+        F(x) = -5\cos(x) - \frac{4}{3}x^3
+      </me>
+      is an antiderivative of <m>f(x) = 5\sin(x) - 4x^2</m>,
+      by the sum and constant multiple rules for differentiation.
+    </p>
+
+    <p permid="otT">
+      Finally, before proceeding to build a list of common functions whose antiderivatives we know,
+      we recall that each function has more than one antiderivative.
+      Because the derivative of any constant is zero,
+      we may add a constant of our choice to 
+      any antiderivative.
+      For instance, we know that
+      <m>G(x) = \frac{1}{3}x^3</m> is an antiderivative of <m>g(x) = x^2</m>.
+      But we could also have chosen <m>G(x) = \frac{1}{3}x^3 + 7</m>,
+      since in this case as well, <m>G'(x) = x^2</m>.
+
+      If <m>g(x) = x^2</m>, we say that the
+      <em>general antiderivative</em>
+          <idx><h>antiderivative</h><h>general</h></idx>
+      of <m>g</m> is
+      <me permid="ktU">
+        G(x) = \frac{1}{3}x^3 + C
+      </me>,
+      where <m>C</m> represents an arbitrary real number constant.
+      Regardless of the formula for <m>g</m>,
+      including <m>+C</m> in the formula for its antiderivative <m>G</m> results in the most general possible antiderivative.
+    </p>
+
+    <p permid="UBc">
+      Our current interest in antiderivatives is so that we can evaluate definite integrals 
+      by the Fundamental Theorem of Calculus.
+      For that task, the constant <m>C</m> is irrelevant,
+      and we usually omit it.
+      To see why, consider the definite integral
+      <me permid="QBd">
+        \int_0^1 x^2 \, dx
+      </me>.
+    </p>
+
+    <p permid="AIl">
+      For the integrand <m>g(x) = x^2</m>,
+      suppose we find and use the general antiderivative <m>G(x) = \frac{1}{3} x^3 + C</m>.
+      Then, by the FTC,
+      <md permid="wIm">
+        <mrow>\int_0^1 x^2 \, dx &amp;=  \left. \frac{1}{3} x^3 + C \right|_0^1</mrow>
+        <mrow>&amp;= \left(\frac{1}{3} (1)^3 + C  \right) - \left(\frac{1}{3} (0)^3 + C  \right)</mrow>
+        <mrow>&amp;= \frac{1}{3} + C - 0 - C</mrow>
+        <mrow>&amp;= \frac{1}{3}</mrow>
+      </md>.
+    </p>
+
+    <p permid="gPu">
+      Observe that the <m>C</m>-values appear as opposites in the evaluation of the integral and thus do not affect the definite integral's value.
+    </p>
+
+    <p permid="MWD">
+      In the following example,
+      we work to build a list of basic functions whose antiderivatives we already know.
+    </p>
+
+<example xml:id="act-4-4-2" permid="ovP">
+  <statement>
+    <p permid="yUU">
+      Use your knowledge of derivatives of basic functions to complete the above table of antiderivatives.
+      For each entry,
+      your task is to find a function <m>F</m> whose derivative is the given function <m>f</m>.
+      When finished,
+      use the FTC and the results in the table to evaluate the three given definite integrals.
+    </p>
+
+    <table xml:id="T-4-4-Act2" permid="PTf">
+      <caption>Familiar basic functions and their antiderivatives.</caption>
+      <tabular top="minor" bottom="minor" permid="wao">
+        <row bottom="medium">
+          <cell>given function, <m>f(x)</m></cell>
+          <cell>antiderivative, <m>F(x)</m>   <nbsp /></cell>
+        </row>
+        <row>
+          <cell  ><m>k</m>, (<m>k</m> is constant)</cell>
+          <cell></cell>
+        </row>
+        <row>
+          <cell><m>x^n</m>, <m>n \ne -1</m></cell>
+          <cell></cell>
+        </row>
+        <row>
+          <cell><m>\frac{1}{x}</m>, <m>x \gt 0</m></cell>
+          <cell></cell>
+        </row>
+        <row>
+          <cell><m>\sin(x)</m></cell>
+          <cell></cell>
+        </row>
+        <row>
+          <cell><m>\cos(x)</m></cell>
+          <cell></cell>
+        </row>
+        <row>
+          <cell><m>\sec(x) \tan(x)</m></cell>
+          <cell></cell>
+        </row>
+        <row>
+          <cell><m>\csc(x) \cot(x)</m></cell>
+          <cell></cell>
+        </row>
+        <row>
+          <cell><m>\sec^2 (x)</m></cell>
+          <cell></cell>
+        </row>
+        <row>
+          <cell><m>\csc^2 (x)</m></cell>
+          <cell></cell>
+        </row>
+        <row>
+          <cell><m>e^x</m></cell>
+          <cell></cell>
+        </row>
+        <row>
+          <cell><m>a^x</m> <m>(a \gt 1)</m></cell>
+          <cell></cell>
+        </row>
+        <row>
+          <cell><m>\frac{1}{1+x^2}</m></cell>
+          <cell></cell>
+        </row>
+        <row>
+          <cell><m>\frac{1}{\sqrt{1-x^2}}</m></cell>
+          <cell></cell>
+        </row>
+      </tabular>
+
+    </table>
+
+    <p permid="fcd">
+      <ol label="a." permid="TTe">
+        <li permid="Aan">
+          <p permid="dmQ">
+            <m>\displaystyle \int_0^1 \left(x^3 - x - e^x + 2\right) \,dx</m>
+          </p>
+        </li>
+
+        <li permid="ghw">
+          <p permid="JtZ">
+            <m>\displaystyle \int_0^{\pi/3} (2\sin (t) - 4\cos(t) + \sec^2(t) - \pi) \, dt</m>
+          </p>
+        </li>
+
+        <li permid="MoF">
+          <p permid="pBi">
+            <m>\displaystyle \int_0^1 (\sqrt{x}-x^2) \, dx</m>
+          </p>
+        </li>
+      </ol>
+    </p>
+  </statement>
+  <hint permid="bxD">
+    <p permid="SNL">
+      For the table,
+      you might start by constructing a list of all the basic functions whose derivative you know.
+      For the three definite integrals,
+      be sure to recall the sum and constant multiple rules,
+      which work not only for differentiating,
+      but also for antidifferentiating.
+    </p>
+  </hint>
+  <answer permid="vqu">
+    <sidebyside permid="chx">
+
+      <tabular top="minor" bottom="minor" permid="jLW">
+        <row bottom="medium">
+          <cell>given function, <m>f(x)</m></cell>
+          <cell>antiderivative, <m>F(x)</m>   <nbsp /></cell>
+        </row>
+        <row>
+          <cell  ><m>k</m>, (<m>k \ne 0</m>)</cell>
+          <cell><m>kx</m></cell>
+        </row>
+        <row>
+          <cell><m>x^n</m>, <m>n \ne -1</m></cell>
+          <cell><m>\frac{1}{n+1}x^{n+1}</m></cell>
+        </row>
+        <row>
+          <cell><m>\frac{1}{x}</m>, <m>x \gt 0</m></cell>
+          <cell><m>\ln(x)</m></cell>
+        </row>
+        <row>
+          <cell><m>\sin(x)</m></cell>
+          <cell><m>-\cos(x)</m></cell>
+        </row>
+        <row>
+          <cell><m>\cos(x)</m></cell>
+          <cell><m>\sin(x)</m></cell>
+        </row>
+        <row>
+          <cell><m>\sec(x) \tan(x)</m></cell>
+          <cell><m>\sec(x)</m></cell>
+        </row>
+        <row>
+          <cell><m>\csc(x) \cot(x)</m></cell>
+          <cell><m>-\csc(x)</m></cell>
+        </row>
+        <row>
+          <cell><m>\sec^2 (x)</m></cell>
+          <cell><m>\tan(x)</m></cell>
+        </row>
+        <row>
+          <cell><m>\csc^2 (x)</m></cell>
+          <cell><m>\cot(x)</m></cell>
+        </row>
+        <row>
+          <cell><m>e^x</m></cell>
+          <cell><m>e^x</m></cell>
+        </row>
+        <row>
+          <cell><m>a^x</m> <m>(a \gt 1)</m></cell>
+          <cell><m>\frac{1}{\ln(a)} a^x</m></cell>
+        </row>
+        <row>
+          <cell><m>\frac{1}{1+x^2}</m></cell>
+          <cell><m>\arctan(x)</m></cell>
+        </row>
+        <row>
+          <cell><m>\frac{1}{\sqrt{1-x^2}}</m></cell>
+          <cell><m>\arcsin(x)</m></cell>
+        </row>
+      </tabular>
+
+    </sidebyside>
+
+    <p permid="mGC">
+      <ol label="a." permid="nLV">
+        <li permid="svO">
+          <p permid="VIr">
+            <m> \int_0^1 \left(x^3 - x - e^x + 2\right) \,dx = \frac{11}{4} - 3</m>.
+          </p>
+        </li>
+
+        <li permid="YCX">
+          <p permid="BPA">
+            <m> \int_0^{\pi/3} (2\sin (t) - 4\cos(t) + \sec^2(t) - \pi) \, dt = 1 - \sqrt{3} - \frac{\pi^2}{3}</m>.
+          </p>
+        </li>
+
+        <li permid="EKg">
+          <p permid="hWJ">
+            <m> \int_0^1 (\sqrt{x} - x^2) \, dx = \frac{1}{3}</m>.
+          </p>
+        </li>
+      </ol>
+    </p>
+  </answer>
+  <solution permid="Pjl">
+    <sidebyside permid="IoG">
+
+      <tabular top="minor" bottom="minor" permid="DEN">
+        <row bottom="medium">
+          <cell>given function, <m>f(x)</m></cell>
+          <cell>antiderivative, <m>F(x)</m>   <nbsp /></cell>
+        </row>
+        <row>
+          <cell  ><m>k</m>, (<m>k \ne 0</m>)</cell>
+          <cell><m>kx</m></cell>
+        </row>
+        <row>
+          <cell><m>x^n</m>, <m>n \ne -1</m></cell>
+          <cell><m>\frac{1}{n+1}x^{n+1}</m></cell>
+        </row>
+        <row>
+          <cell><m>\frac{1}{x}</m>, <m>x \gt 0</m></cell>
+          <cell><m>\ln(x)</m></cell>
+        </row>
+        <row>
+          <cell><m>\sin(x)</m></cell>
+          <cell><m>-\cos(x)</m></cell>
+        </row>
+        <row>
+          <cell><m>\cos(x)</m></cell>
+          <cell><m>\sin(x)</m></cell>
+        </row>
+        <row>
+          <cell><m>\sec(x) \tan(x)</m></cell>
+          <cell><m>\sec(x)</m></cell>
+        </row>
+        <row>
+          <cell><m>\csc(x) \cot(x)</m></cell>
+          <cell><m>-\csc(x)</m></cell>
+        </row>
+        <row>
+          <cell><m>\sec^2 (x)</m></cell>
+          <cell><m>\tan(x)</m></cell>
+        </row>
+        <row>
+          <cell><m>\csc^2 (x)</m></cell>
+          <cell><m>\cot(x)</m></cell>
+        </row>
+        <row>
+          <cell><m>e^x</m></cell>
+          <cell><m>e^x</m></cell>
+        </row>
+        <row>
+          <cell><m>a^x</m> <m>(a \gt 1)</m></cell>
+          <cell><m>\frac{1}{\ln(a)} a^x</m></cell>
+        </row>
+        <row>
+          <cell><m>\frac{1}{1+x^2}</m></cell>
+          <cell><m>\arctan(x)</m></cell>
+        </row>
+        <row>
+          <cell><m>\frac{1}{\sqrt{1-x^2}}</m></cell>
+          <cell><m>\arcsin(x)</m></cell>
+        </row>
+      </tabular>
+
+    </sidebyside>
+
+    <p permid="Gzt">
+      <ol label="a." permid="HEM">
+        <li permid="kRp">
+          <p permid="OdS">
+            By standard antiderivative rules and the FTC,
+            <md permid="Ljm">
+              <mrow>\int_0^1 \left(x^3 - x - e^x + 2\right) \,dx =\mathstrut \amp  \left. \frac{1}{4} x^4 - \frac{1}{2}x^2 - e^x + 2x \right|_0^1</mrow>
+              <mrow>=\mathstrut \amp  \left(\frac{1}{4} (1)^4 - \frac{1}{2}(1)^2 - e^1 + 2(1) \right) -   \left(\frac{1}{4} (0)^4 - \frac{1}{2}(0)^2 - e^0 + 2(0) \right)</mrow>
+              <mrow>=\mathstrut \amp  \frac{1}{4} - \frac{1}{2} - e + 2 -  \left(0 - 0 - 1 + 0 \right)</mrow>
+              <mrow>=\mathstrut \amp  -\frac{1}{4} - e + 3</mrow>
+              <mrow>=\mathstrut \amp  \frac{11}{4} - 3</mrow>
+            </md>.
+          </p>
+        </li>
+
+        <li permid="QYy">
+          <p permid="ulb">
+            Calculating the needed antiderivative and applying the FTC,
+            <md permid="rqv">
+              <mrow>\int_0^{\pi/3} (2\sin (t) - 4\cos(t) + \sec^2(t) - \pi) \, dt =\mathstrut \amp  \left. \left(-2\cos(t) - 4\sin(t) + \tan(t) - \pi t \right) \right|_0^{\pi/3}</mrow>
+              <mrow>=\mathstrut \amp  \left(-2\cos(\pi/3) - 4\sin(\pi/3) + \tan(\pi/3) - \pi (\pi/3) \right) -</mrow>
+              <mrow>\ \amp   \left(-2\cos(0)) - 4\sin(0) + \tan(0) - \pi (0) \right)</mrow>
+              <mrow>=\mathstrut \amp  -2 \cdot \frac{1}{2} - 4 \cdot \frac{\sqrt{3}}{2} + \sqrt{3} - \frac{\pi^2}{3} - (-2 - 0 + 0 - 0)</mrow>
+              <mrow>=\mathstrut \amp  1 - \sqrt{3} - \frac{\pi^2}{3}</mrow>
+            </md>.
+          </p>
+        </li>
+
+        <li permid="xfH">
+          <p permid="ask">
+            Noting that <m>\frac{d}{dx}[\frac{2}{3} x^{3/2}] = x^{1/2}</m>,
+            we find that
+            <md permid="XxE">
+              <mrow>\int_0^1 (\sqrt{x} - x^2) \, dx =\mathstrut \amp  \left. \frac{2}{3}x^{3/2} - \frac{1}{3}x^3 \right|_0^1</mrow>
+              <mrow>=\mathstrut \amp  \frac{2}{3} - \frac{1}{3} - (0 - 0 )</mrow>
+              <mrow>=\mathstrut \amp  \frac{1}{3}</mrow>
+            </md>.
+          </p>
+        </li>
+      </ol>
+    </p>
+  </solution>
+</example>
+  </subsection>
+  
+<exercises xmlns:xi="http://www.w3.org/2001/XInclude" xml:id="ez-4-4" permid="HHd">
+
+  <exercise xml:id="ez-4-4-WW1" permid="laK">
+    <title>Finding exact displacement</title>
+    <webwork source="Library/Rochester/setIntegrals3Definite/osu_in_3_1a.pg" />
+  </exercise>
+
+  <exercise xml:id="ez-4-4-WW2" permid="RhT">
+    <title>Evaluating the definite integral of a rational function</title>
+    <webwork source="Library/Rochester/setIntegrals3Definite/c4s4p6.pg" />
+  </exercise>
+
+  <exercise xml:id="ez-4-4-WW3" permid="xpc">
+    <title>Evaluating the definite integral of a linear function</title>
+    <webwork source="Library/Rochester/setIntegrals3Definite/s4_4_17.pg" />
+  </exercise>
+
+  <exercise xml:id="ez-4-4-WW4" permid="dwl">
+    <title>Evaluating the definite integral of a quadratic function</title>
+    <webwork source="Library/Rochester/setIntegrals3Definite/s4_4_21.pg" />
+  </exercise>
+
+  <exercise xml:id="ez-4-4-WW5" permid="JDu">
+    <title>Simplifying an integrand before integrating</title>
+    <webwork source="Library/Rochester/setIntegrals3Definite/s4_4_27.pg" />
+  </exercise>
+
+  <exercise xml:id="ez-4-4-WW6" permid="pKD">
+    <title>Evaluating the definite integral of a trigonometric function</title>
+    <webwork source="Library/Rochester/setIntegrals3Definite/s4_4_41.pg" />
+  </exercise>
+
+  <exercise permid="VRM">
+    <statement>
+      <p permid="GXj">
+        The instantaneous velocity
+        (in meters per minute)
+        of a moving object is given by the function <m>v</m> as pictured in <xref ref="F-4-4-Ez2">Figure</xref>.
+        Assume that on the interval <m>0 \le t \le 4</m>,
+        <m>v(t)</m> is given by <m>v(t) = -\frac{1}{4}t^3 + \frac{3}{2}t^2 + 1</m>,
+        and that on every other interval <m>v</m> is piecewise linear,
+        as shown.
+      </p>
+
+      <figure xml:id="F-4-4-Ez2" permid="TlB">
+        <caption>The velocity function of a moving body.</caption>
+        <image width="47%" source="images/4_4_Ez2" />
+      </figure>
+
+      <p permid="nes">
+        <ol label="a." permid="cqS">
+          <li permid="UMt">
+            <p permid="ppe">
+              Determine the exact distance traveled by the object on the time interval <m>0 \le t \le 4</m>.
+            </p>
+          </li>
+
+          <li permid="ATC">
+            <p permid="Vwn">
+              What is the object's average velocity on <m>[12,24]</m>?
+            </p>
+          </li>
+
+          <li permid="haL">
+            <p permid="BDw">
+              At what time is the object's acceleration greatest?
+            </p>
+          </li>
+
+          <li permid="NhU">
+            <p permid="hKF">
+              Suppose that the velocity of the object is increased by a constant value <m>c</m> for all values of <m>t</m>.
+              What value of <m>c</m> will make the object's total distance traveled on <m>[12,24]</m> be 210 meters?
+            </p>
+          </li>
+        </ol>
+      </p>
+    </statement>
+    <answer permid="aBF">
+      <p permid="iuz">
+        <ol label="a." permid="jVr">
+          <li permid="tpd">
+            <p permid="NRO">
+              <m>20</m> meters.
+            </p>
+          </li>
+
+          <li permid="Zwm">
+            <p permid="tYX">
+              <m>
+              \displaystyle v_{\operatorname{AVG} [12,24]} = 12.5
+              </m>
+              meters per minute.
+            </p>
+          </li>
+
+          <li permid="FDv">
+            <p permid="agg">
+              The object's maximum acceleration is <m>3</m> meters per minute per minute at the instant <m>t = 2</m>.
+            </p>
+          </li>
+
+          <li permid="lKE">
+            <p permid="Gnp">
+              <m>c = \frac{60}{24} = 2.5</m>.
+            </p>
+          </li>
+        </ol>
+      </p>
+    </answer>
+    <solution permid="uuw">
+      <p permid="JRP">
+        <ol label="a." permid="rzQ">
+          <li permid="RRN">
+            <p permid="muy">
+              Since velocity is positive,
+              distance traveled is the definite integral of velocity.
+              Thus, on <m>[0,4]</m>, the total distance, <m>D</m>, is
+              <me permid="kjM">
+                D = \int_0^4 v(t) \, dt = \int_0^4 \left( -\frac{1}{4}t^3 + \frac{3}{2}t^2 + 1 \right) \, dt
+              </me>.
+              By the Fundamental Theorem of Calculus,
+              <md permid="QqV">
+                <mrow>\int_0^4 \left( -\frac{1}{4}t^3 + \frac{3}{2}t^2 + 1 \right) \, dt &amp;= \left. \left( -\frac{1}{16}t^4 + \frac{1}{2}t^3 + t \right) \right|_{t=0}^{t=4}</mrow>
+                <mrow>&amp;= -\frac{1}{16}4^4 + \frac{1}{2}4^3 + 4</mrow>
+                <mrow>&amp;= 20</mrow>
+              </md>,
+              so the distance traveled by the object on <m>[0,4]</m> is <m>20</m> meters.
+            </p>
+          </li>
+
+          <li permid="xYW">
+            <p permid="SBH">
+              To find the average velocity of the object on <m>[12,24]</m>,
+              we first evaluate <m>\int_{12}^{24} v(t) \, dt</m>.
+              To do so, we use the fact that <m>v</m> is piecewise linear and employ standard geometric formulas to determine the value of the integral.
+              The area of the trapezoid formed by <m>v(t)</m> and the vertical line segments at <m>t = 12</m> and <m>t = 16</m> is
+              <me permid="wye">
+                A_1 = \frac{1}{2}(f(12) + f(16))(4) = 2(9 + 15) = 48
+              </me>.
+              The area of the rectangle formed by <m>v(t)</m> and the vertical line segments at <m>t = 16</m> and <m>t = 20</m> is
+              <me permid="cFn">
+                A_2 = 4 \cdot 15 = 60
+              </me>.
+              Finally, the area of the trapezoid formed by <m>v(t)</m> and the vertical line segments at <m>t = 20</m> and <m>t = 24</m> is
+              <me permid="IMw">
+                A_3 = \frac{1}{2}(f(20) + f(24))(4) = 2(15 + 6) = 42
+              </me>.
+              Thus,
+              <me permid="oTF">
+                \int_{12}^{24} v(t) \, dt = A_1 + A_2 + A_3 = 48 + 60 + 42 = 150
+              </me>,
+              from which it follows that
+              <me permid="VaO">
+                \displaystyle v_{\operatorname{AVG} [12,24]}  = \frac{1}{24-12} \int_{12}^{24} v(t) \, dt = \frac{150}{12} = 12.5
+              </me>
+              meters per minute.
+            </p>
+          </li>
+
+          <li permid="egf">
+            <p permid="yIQ">
+              To find where <m>a(t)</m> is greatest,
+              we recall that <m>a(t) = v'(t)</m>,
+              so we are seeking the location where the slope of the tangent line to <m>v(t)</m> is maximized on the interval <m>[0,24]</m>.
+              From the graph,
+              there are only two possible intervals where this can occur:
+              <m>0 \lt t \lt 4</m> and <m>12 \lt t \lt 16</m>,
+              as these are both where <m>v</m> is increasing and thus <m>a(t) = v'(t)</m> is positive.
+            </p>
+
+            <p permid="ePZ">
+              On <m>12 \lt t \lt 16</m>,
+              <m>a(t) = v'(t) = \frac{3}{2}</m> since this is the slope of the line that forms <m>v(t)</m> on this interval.
+              On <m>0 \lt t \lt 4</m>,
+              <m>v(t) = -\frac{1}{4}t^3 + \frac{3}{2}t^2 + 1</m>,
+              so <m>a(t) = v'(t) = -\frac{3}{4}t^2 + 3t</m>.
+              We see that <m>a(t)</m> is a quadratic function that opens down,
+              so its maximum occurs at its vertex,
+              which is located where <m>a'(t) = 0</m>.
+              We know that <m>a'(t) = -\frac{3}{2}t + 3</m>,
+              and <m>0 = -\frac{3}{2}t + 3</m> implies <m>t = 2</m>.
+              Moreover, <m>a(2) = v'(2) = -\frac{3}{4} \cdot 2^2 + 3(2) = 3</m>.
+              Clearly <m>a(2) = 3 \gt \frac{3}{2}</m>,
+              so the object's maximum acceleration is <m>3</m> meters per minute per minute at the instant <m>t = 2</m>.
+            </p>
+          </li>
+
+          <li permid="Kno">
+            <p permid="KXi">
+              Let <m>V(t) = v(t) + c</m> be the new velocity function that is the original velocity <m>v</m> increased by <m>c</m> at every time.
+              We want to know the value of <m>c</m> for which total distance traveled is <m>210</m> meters.
+              For this to be true, we must have that
+              <me permid="BhX">
+                210 = \int_{0}^{24} V(t) \, dt = \int_{0}^{24} \left( v(t) + c \right) \, dt
+              </me>.
+              Using the additive property of the definite integral and our earlier work in (b),
+              we can say that
+              <me permid="hpg">
+                210 = \int_{0}^{24} v(t) \, dt + \int_{0}^{24} c \, dt = 150 + \int_{0}^{24} c \, dt
+              </me>,
+              so
+              <me permid="Nwp">
+                \int_{0}^{24} c \, dt = 60
+              </me>.
+              Since the function <m>f(t) = c</m> is constant,
+              the integral <m>\int_{0}^{24} c \, dt</m> represents the area of a rectangle <m>24</m> units wide and <m>c</m> units tall,
+              so  <m>\int_{0}^{24} c \, dt = 24c</m>.
+              Hence,
+              <me permid="tDy">
+                24c = 60
+              </me>
+              so <m>c = \frac{60}{24} = 2.5</m>.
+            </p>
+          </li>
+        </ol>
+      </p>
+    </solution>
+  </exercise>
+
+  <exercise permid="BYV">
+    <statement>
+      <p permid="zsK">
+        A function <m>f</m> is given piecewise by the formula
+        <me permid="ZKH">
+          f(x) = 
+          \begin{cases}
+          -x^2 + 2x + 1, \amp  \ \text{if}  \ 0 \le x \lt  2 \\
+          -x + 3, \amp  \ \text{if}  \ 2 \le x \lt  3 \\
+          x^2 - 8x + 15, \amp  \ \text{if}  \ 3 \le x \le 5
+          \end{cases}
+        </me>.
+        <ol label="a." permid="Iyb">
+          <li permid="qux">
+            <p permid="rer">
+              Determine the exact value of the net signed area enclosed by <m>f</m> and the <m>x</m>-axis on the interval <m>[2,5]</m>.
+            </p>
+          </li>
+
+          <li permid="WBG">
+            <p permid="XlA">
+              Compute the exact average value of <m>f</m> on <m>[0,5]</m>.
+            </p>
+          </li>
+
+          <li permid="CIP">
+            <p permid="DsJ">
+              Find a formula for a function <m>g</m> on
+              <m>5 \le x \le 7</m> so that if we extend the above definition of <m>f</m> so that
+              <m>f(x) = g(x)</m> if <m>5 \le x \le 7</m>,
+              it follows that <m>\int_0^7 f(x) \, dx = 0</m>.
+            </p>
+          </li>
+        </ol>
+      </p>
+    </statement>
+    <answer permid="mPX">
+      <p permid="OBI">
+        <ol label="a." permid="QcA">
+          <li permid="iPY">
+            <p permid="jzS">
+              <m>-\frac{5}{6}</m>.
+            </p>
+          </li>
+
+          <li permid="OXh">
+            <p permid="PHb">
+              <m>
+              \displaystyle f_{\operatorname{AVG} [0,5]} = \frac{1}{2}</m>.
+            </p>
+          </li>
+
+          <li permid="veq">
+            <p permid="vOk">
+              <m>g(x) = f(x)</m> for <m>0 \le x \lt 5</m> and
+              <m>g(x) = -\frac{5}{4}(x - 5)</m> on <m>5 \le x \le 7</m>.
+            </p>
+
+            <sidebyside width="50%" permid="AjI">
+              <image source="images/4_4_Ez2Solnc" />
+            </sidebyside>
+
+          </li>
+        </ol>
+      </p>
+    </answer>
+    <solution permid="GIO">
+      <p permid="pYY">
+        <ol label="a." permid="XGZ">
+          <li permid="blz">
+            <p permid="bVt">
+              The net signed area enclosed by <m>f</m> and the <m>x</m>-axis on the interval <m>[2,5]</m> is <m>\int_2^5 f(x) \, dx</m>.
+              The figure below shows a graph of <m>f</m> on the interval <m>[0,5]</m>.
+              To calculate the definite integral of <m>f</m> on the interval <m>[2,5]</m>,
+              we consider the integrals on the subintervals <m>[2,3]</m> and <m>[3,5]</m>.
+              Doing so and using the Fundamental Theorem of Calculus,
+              <md permid="FRQ">
+                <mrow>\int_2^5 f(x) \, dx &amp;= \int_2^3 f(x) \, dx + \int_3^5 f(x) \, dx</mrow>
+                <mrow>&amp;= \int_2^3 -x+3 \, dx + \int_3^5 x^2-8x+15 \, dx</mrow>
+                <mrow>&amp;= \left. \left( -\frac{1}{2}x^2 + 3x \right)\right|_2^3 + \left. \left( \frac{1}{3}x^3 - 4x^2 + 15x  \right)\right|_3^5</mrow>
+                <mrow>&amp;= \left(\frac{9}{2}-4\right) + \left( \frac{50}{3}-18 \right)</mrow>
+                <mrow>&amp;= \frac{127}{6} - 22 = -\frac{5}{6}</mrow>
+              </md>.
+            </p>
+
+            <sidebyside width="50%" permid="gqR">
+              <image source="images/4_4_Ez2Soln" />
+            </sidebyside>
+
+          </li>
+
+          <li permid="HsI">
+            <p permid="IcC">
+              To find the average value of <m>f</m> on <m>[0,5]</m> we need to first calculate
+              <me permid="lYZ">
+                \int_0^5 f(x) \, dx
+              </me>.
+              Using our work in (a) and considering the subintervals <m>[0,2]</m> and <m>[2,5]</m>,
+              <md permid="ynr">
+                <mrow>\int_0^5 f(x) \, dx &amp;= \int_0^2 f(x) \, dx + \int_2^5 f(x) \, dx</mrow>
+                <mrow>&amp;= \int_0^2 -x^2 + 2x + 1 \, dx - \frac{5}{6}</mrow>
+                <mrow>&amp;= \left. \left( -\frac{1}{3}x^3 + x^2 + x \right)\right|_0^2 - \frac{5}{6}</mrow>
+                <mrow>&amp;= \frac{10}{3} - \frac{5}{6}</mrow>
+                <mrow>&amp;= \frac{5}{2}</mrow>
+              </md>.
+              Therefore, the average value of <m>f</m> on <m>[0,5]</m> is
+              <me permid="Sgi">
+                \displaystyle f_{\operatorname{AVG} [0,5]} = \frac{1}{5-0} \int_0^5 f(x) \, dx = \left(\frac{1}{5}\right) \left(\frac{5}{2}\right) = \frac{1}{2}
+              </me>.
+            </p>
+          </li>
+
+          <li permid="nzR">
+            <p permid="ojL">
+              Since <m>\int_0^5 f(x) \, dx = \frac{5}{2}</m>,
+              we need a function <m>g</m> that matches <m>f</m> but that is also defined on <m>[5,7]</m> so that <m>\int_5^7 g(x) \, dx = -\frac{5}{2}</m>.
+              To preserve continuity,
+              we will choose a formula for <m>g</m> that also satisfies <m>g(5) = 0</m>.
+              It's natural to pick a linear function whose graph encloses <m>5/2</m> units of area,
+              so one that has a slope of <m>5/4</m>.
+              To check, we compute
+              <md permid="euA">
+                <mrow>\int_5^7 -\frac{5}{4}(x - 5) \, dx &amp;= -\left(\frac{5}{4}\right) \left. \left(\frac{x^2}{2} - 5x\right) \right|_5^7</mrow>
+                <mrow>&amp;= -\left(\frac{5}{4}\right) \left( \frac{49-25}{2} - 5(7-5) \right)</mrow>
+                <mrow>&amp;= -\left(\frac{5}{4}\right) \left( 12 - 10 \right)</mrow>
+                <mrow>&amp;= -\left(\frac{5}{4}\right) \left( 2 \right) = -\frac{5}{2}</mrow>
+              </md>.
+              So <m>g</m> defined so that <m>g(x) = f(x)</m> for
+              <m>0 \le x \lt 5</m> and <m>g(x) = -\frac{5}{4}(x - 5)</m> on
+              <m>5 \le x \le 7</m> has the desired property.
+              A graph of <m>g</m> is shown in the figure below.
+            </p>
+
+            <sidebyside width="50%" permid="Mya">
+              <image source="images/4_4_Ez2Solnc" />
+            </sidebyside>
+
+          </li>
+        </ol>
+      </p>
+    </solution>
+  </exercise>
+
+
+</exercises>
 
 </section>
 
