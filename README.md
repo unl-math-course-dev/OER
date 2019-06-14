@@ -46,3 +46,7 @@ git clone https://github.com/nwakefield2/OER.git www
 
 Finally, there is a script that can be run from /var/www that handles everything including git pull, compiling, and google analytics.
 ./updateOER.sh
+
+I believe that LaTeX should now be working with a few more tweeks to be made.  The command to create the PDF of the 106-107 book is
+	
+	xsltproc -xinclude acs-latex.xsl ~/Documents/GitHub/OER/OERSource/Calc/2019-2020/index.xml
