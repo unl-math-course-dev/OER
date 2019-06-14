@@ -142,48 +142,403 @@
         </p>
       </li>
 
-      <li permid="qGs">
-        <p permid="HED">
-          If you are told instead that the object's initial position is
-          <m>s(0) = 3</m>, what is <m>s(2)</m>?
-        </p>
-      </li>
-
-      <li permid="WNB">
-        <p permid="nLM">
-          If we only know the velocity <m>v(t)=4t+1</m>,
-          is it possible that the object's position at all times is <m>s(t) = 2t^2 + t - 4</m>?
-          Explain how you know.
-        </p>
-      </li>
 
       <li permid="CUK">
         <p permid="TSV">
-          Are there other possibilities for <m>s(t)</m>?
-          If so, what are they?
+        If we know that <m>s(0) = 7</m> can we find an equation for <m>s(t)</m>?
         </p>
       </li>
 
-      <li permid="jbT">
-        <p permid="Aae">
-          If, in addition to knowing the velocity function is <m>v(t) = 4t+1</m>,
-          we know the initial position <m>s(0)</m>,
-          how many possibilities are there for <m>s(t)</m>?
-        </p>
-      </li>
     </ol>
   </p>
   </statement>
-  <hint>
-  
+  <hint><p>
+  What does the quantity <m>\int_0^4 (4t+1)dt</m> represent in this problem?</p>
   </hint>
+  <solution>
+  <ol>
+  <li>
+  <p>
+  We can find the total change in the position of the object by integrating the equation for velocity over the interval <m>[0,4]</m>.  That is
+  <me>\int_0^4 (4t+1)dt=\left.(2t^2+t)\right\vert_0^4=36</me>.  Therefore, the position changes by 36 feet over the interval <m>[0,4]</m>.
+  </p>
+  </li>
+  <li>
+  <p>
+  Simply knowing how much the position has changed on the interval <m>[0,4]</m> does not tell us where the object is.  In order to know where the object is located we must also know where the object started.
+  </p>
+  </li>
+  
+    <li>
+  <p>
+  We can find the total change in the position of the object by integrating the equation for velocity over the interval <m>[0,2]</m>.  That is
+  <me>\int_0^2 (4t+1)dt=\left.(2t^2+t)\right\vert_0^2=10</me>.  Therefore, the position changes by 10 feet over the interval <m>[0,2]</m>.  Since we know that <m>s(0)=7</m> we can say that <m>s(2)=7+10=17</m>.
+  </p>
+  </li>
+  
+      <li>
+  <p>
+  Note that <me>\int (4t+1)dt=2t^2+t+C</me>.  Since <m>s(0) = 7</m> it is reasonable to use <m>s(0)</m> to "find" the constant <m>C</m>.  That is, we can say that <m>7=2(0)^2+0+C</m> which means <m>C=7</m>.  Therefore, the position of the object at anytime is given by the equation <m>s(t)=2t^2+t+7</m>.
+   
+  
+  </p>
+  </li>
+  
+  </ol>
+  </solution>
 </example>
     
     
     
     </subsection>
 
+  <subsection permid="cIR">
+    <title>Solving a differential equation</title>
+    <idx><h>differential equation</h><h>solution</h></idx>
 
+    <p permid="pHd">
+      A differential equation describes the derivative,
+      or derivatives, of a function that is unknown to us.
+      By a <em>solution</em> to a differential equation,
+      we mean simply a function that satisies this description.
+    </p>
+
+    <p permid="VOm">
+      For instance, the first differential equation we looked at is
+      <me permid="AQc">
+        \frac{ds}{dt} = 4t+1
+      </me>,
+      which describes an unknown function <m>s(t)</m>.
+      We may check that <m>s(t) =
+      2t^2+t</m> is a solution because it satisfies this description.
+      Notice
+      that <m>s(t) = 2t^2+t+4</m> is also a solution.
+    </p>
+
+    <p permid="BVv">
+      If we have a candidate for a solution, it is straightforward to
+      check whether it is a solution or not.
+      Before we demonstrate,
+      however, let's consider the same issue in a simpler context.
+      Suppose we are given the equation
+      <m>2x^2 - 2x = 2x+6</m> and asked whether <m>x=3</m> is a solution.
+      To answer
+      this question,
+      we could rewrite the variable <m>x</m> in the equation with
+      the symbol <m>\Box</m>:
+      <me permid="gXl">
+        2\Box^2 - 2\Box = 2\Box + 6
+      </me>.
+    </p>
+
+    <p permid="icE">
+      To determine whether <m>x=3</m> is a solution,
+      we can investigate the value of each side of the equation separately when the value <m>3</m> is placed in <m>\Box</m> and see if indeed the two resulting values are equal.
+      Doing so, we observe that
+      <me permid="Neu">
+        2\Box^2 - 2\Box = 2\cdot3^2 - 2\cdot3 = 12
+      </me>,
+      and
+      <me permid="tlD">
+        2\Box + 6 = 2\cdot3 + 6 = 12
+      </me>.
+    </p>
+
+    <p permid="OjN">
+      Therefore, <m>x=3</m> is indeed a solution.
+    </p>
+
+    <p permid="uqW">
+      We will do the same thing with differential equations.
+      Consider
+      the differential equation
+      <md permid="ZsM">
+        <mrow>\frac{dv}{dt} =\mathstrut \amp  1.5 - 0.5v, \ \text{or}</mrow>
+        <mrow>\frac{d\Box}{dt} =\mathstrut \amp  1.5 - 0.5\Box</mrow>
+      </md>.
+    </p>
+
+    <p permid="ayf">
+      Let's ask whether <m>v(t) = 3 - 2e^{-0.5t}</m> is a solution<fn>
+      At this time,
+      don't worry about why we chose this function;  we will learn
+      techniques for finding solutions to differential equations soon enough.
+      </fn>.
+      Using this formula for <m>v</m>, observe first that
+      <me permid="FzV">
+        \frac{dv}{dt} =  \frac{d\Box}{dt}  = \frac{d}{dt}[3 - 2e^{-0.5t}] = -2e^{-0.5t} \cdot (-0.5) = e^{-0.5t}
+      </me>
+      and
+      <me permid="lHe">
+        1.5 - 0.5v = 1.5 - 0.5\Box= 1.5 - 0.5(3 - 2e^{-0.5t}) = 1.5 - 1.5 + e^{-0.5t} = e^{-0.5t}
+      </me>.
+    </p>
+
+    <p permid="GFo">
+      Since <m>\frac{dv}{dt}</m> and
+      <m>1.5 - 0.5v</m> agree for all values of <m>t</m> when <m>v = 3-2e^{-0.5t}</m>,
+      we have indeed found a solution to the differential equation.
+    </p>
+
+<example xml:id="act-7-1-3" permid="PrP">
+  <statement>
+    <p permid="WWo">
+      Consider the differential equation
+      <me permid="jkG">
+        \frac{dv}{dt} = 1.5 - 0.5v
+      </me>.
+    </p>
+
+    <p permid="Ddx">
+      Which of the following functions are solutions of this differential equation?
+
+      <ol label="a." cols="2" permid="uPe">
+        <li permid="aWn">
+          <p permid="cLA">
+            <m>v(t) = 1.5t - 0.25t^2</m>.
+          </p>
+        </li>
+
+        <li permid="Hdw">
+          <p permid="ISJ">
+            <m>v(t) = 3 + 2e^{-0.5t}</m>.
+          </p>
+        </li>
+
+        <li permid="nkF">
+          <p permid="oZS">
+            <m>v(t) = 3</m>.
+          </p>
+        </li>
+
+        <li permid="TrO">
+          <p permid="Vhb">
+            <m>v(t) = 3 + Ce^{-0.5t}</m> where <m>C</m> is any constant.
+          </p>
+        </li>
+      </ol>
+    </p>
+  </statement>
+  <hint permid="Wmu">
+    <p permid="qPf">
+      <ol label="a." permid="OHV">
+        <li permid="zyX">
+          <p permid="Bok">
+            hints for each of the prompts above.
+          </p>
+        </li>
+      </ol>
+    </p>
+  </hint>
+  <answer permid="qfl">
+    <p permid="KHW">
+      <ol label="a." permid="iAM">
+        <li permid="fGg">
+          <p permid="hvt">
+            <m>v(t) = 1.5t - 0.25t^2</m> is not a solution to the given DE.
+          </p>
+        </li>
+
+        <li permid="LNp">
+          <p permid="NCC">
+            <m>v(t) = 3 + 2e^{-0.5t}</m> is a solution to the given DE.
+          </p>
+        </li>
+
+        <li permid="rUy">
+          <p permid="tJL">
+            <m>v(t) = 3</m> is a solution to the given DE.
+          </p>
+        </li>
+
+        <li permid="YbH">
+          <p permid="ZQU">
+            <m>v(t) = 3 + Ce^{-0.5t}</m> is a solution to the given DE for any choice of <m>C</m>.
+          </p>
+        </li>
+      </ol>
+    </p>
+  </answer>
+  <solution permid="JYc">
+    <p permid="eAN">
+      <ol label="a." permid="CtD">
+        <li permid="EiQ">
+          <p permid="FYd">
+            Since <m>v(t) = 1.5t - 0.25t^2</m>,
+            <m>\frac{dv}{dt} = 1.5 - 0.5t</m>.
+            We observe that for this choice of <m>v</m>,
+            <m>1.5 - 0.5v = 1.5 - 0.5(1.5t - 0.25t^2) = 1.5 - 0.75t + 0.125t^2 \ne 1.5 - 0.5t = \frac{dv}{dt}</m>,
+            and thus <m>v(t) = 1.5t - 0.25t^2</m> is not a solution to the given differential equation.
+          </p>
+        </li>
+
+        <li permid="kpZ">
+          <p permid="mfm">
+            Since <m>v(t) = 3 + 2e^{-0.5t}</m>,
+            <m>\frac{dv}{dt} = 2e^{-0.5t}(-0.5) = -e^{-0.5t}</m>.
+            Hence, for this choice of <m>v</m>,
+            <m>1.5 - 0.5v = 1.5 - 0.5(3+2e^{-0.5t}) = 1.5 - 1.5 - e^{-0.5t} = -e^{-0.5t} = \frac{dv}{dt}</m>.
+            Therefore <m>v(t) = 3 + 2e^{-0.5t}</m> is a solution to the given differential equation.
+          </p>
+        </li>
+
+        <li permid="Qxi">
+          <p permid="Smv">
+            Since <m>v(t) = 3</m>, <m>\frac{dv}{dt} = 0</m>.
+            Hence, for this choice of <m>v</m>,
+            <m>1.5 - 0.5v = 1.5 - 0.5(3) = 1.5 - 1.5 = 0 = \frac{dv}{dt}</m>.
+            Therefore <m>v(t) = 3</m> is a solution to the given differential equation.
+          </p>
+        </li>
+
+        <li permid="wEr">
+          <p permid="ytE">
+            Since <m>v(t) = 3 + Ce^{-0.5t}</m>
+            (where <m>C</m> is a constant),
+            <m>\frac{dv}{dt} = Ce^{-0.5t}(-0.5) = -0.5C e^{-0.5t}</m>.
+            Hence, for this choice of <m>v</m>,
+            <m>1.5 - 0.5v = 1.5 - 0.5(3+Ce^{-0.5t}) = 1.5 - 1.5 - 0.5Ce^{-0.5t} = -0.5Ce^{-0.5t} = \frac{dv}{dt}</m>.
+            Therefore <m>v(t) = 3 + Ce^{-0.5t}</m> is a solution to the given differential equation for any choice of <m>C</m>.
+          </p>
+        </li>
+      </ol>
+    </p>
+  </solution>
+</example>
+
+    <p permid="mMx">
+      This example shows us something interesting.
+      Notice that the differential equation has infinitely many solutions,
+      which are parametrized by the constant <m>C</m> in <m>v(t) = 3+Ce^{-0.5t}</m>.
+      In <xref ref="F-7-1-family">Figure</xref>,
+      we see the graphs of these solutions for a few values of <m>C</m>,
+      as labeled.
+    </p>
+
+    <figure xml:id="F-7-1-family" permid="PZa">
+      <caption>The family of solutions to the differential equation <m>\frac{dv}{dt} = 1.5 - 0.5v</m>.</caption>
+      <image width="47%" source="images/7_1_family" />
+    </figure>
+
+    <p permid="STG">
+      Notice that the value of <m>C</m> is connected to the initial value of the velocity <m>v(0)</m>,
+      since <m>v(0) = 3+C</m>.
+      In other words,
+      while the differential equation describes how the velocity changes as a function of the velocity itself,
+      this is not enough information to determine the velocity uniquely:
+      we also need to know the initial velocity.
+      For this reason,
+      differential equations will typically have infinitely many solutions,
+      one corresponding to each initial value.
+      We have seen this phenomenon before:
+      given the velocity of a moving object <m>v(t)</m>,
+      we cannot uniquely determine the object's position function unless we also know its initial position.
+    </p>
+
+    <p permid="zaP">
+      If we are given a differential equation and an initial value for the
+      unknown function, we say that we have an
+      <em>initial value problem.</em>
+      For instance,
+      <me permid="ROn">
+        \frac{dv}{dt} = 1.5-0.5v, \ v(0) = 0.5
+      </me>
+      is an initial value problem.
+      In this problem, we know the value of
+      <m>v</m> at one time and we know how <m>v</m> is changing.
+      Consequently, there should
+      be exactly one function <m>v</m> that satisfies the initial value problem.
+    </p>
+
+    <p permid="fhY">
+      This demonstrates the following important general property of initial value problems.
+    </p>
+
+    <assemblage permid="oXj">
+      <p permid="Lph">
+        Initial value problems that are
+        <q>well behaved</q> have exactly one solution,
+        which exists in some interval around the initial point.
+      </p>
+    </assemblage>
+
+    <p permid="rwq">
+      We won't worry about what <q>well behaved</q>
+      means <mdash />it is a technical
+      condition that will be satisfied by all the differential equations we
+      consider.
+    </p>
+
+  
+  </subsection>
+<exercises>
+
+  <exercise xml:id="ez-5-3-WW1" permid="hLF">
+    <title>General Solution to a Differential Equations</title>
+    <webwork source="Library/Michigan/Chap6Sec3/Q13.pg" />
+  </exercise>
+  
+    <exercise xml:id="ez-5-3-WW2" permid="hLF">
+    <title>Developing a Differential Equations</title>
+    <webwork source="Library/Michigan/Chap6Sec3/Q15.pg" />
+  </exercise>
+  
+      <exercise xml:id="ez-5-3-WW3" permid="hLF">
+    <title>Developing a Differential Equations</title>
+    <webwork source="Library/Michigan/Chap6Sec3/Q24.pg" />
+  </exercise>
+  
+        <exercise xml:id="ez-5-3-WW4" permid="hLF">
+    <title>Displacement</title>
+    <webwork source="Library/ma122DB/set12/s5_4_53.pg" />
+  </exercise>
+
+
+        <exercise xml:id="ez-5-3-WW5" permid="hLF">
+    <title>Initial Value Problems</title>
+    <webwork source="Library/Wiley/setAnton_Section_5.7/Anton_5_7_Q18b.pg" />
+  </exercise>
+  
+          <exercise xml:id="ez-5-3-WW6" permid="hLF">
+    <title>Initial Velocity</title>
+    <webwork source="Library/Wiley/setAnton_Section_5.7/Anton_5_7_Q38.pg" />
+  </exercise>
+  
+            <exercise xml:id="ez-5-3-WW7" permid="hLF">
+    <title>Finding the Position Function</title>
+    <webwork source="Library/Wiley/setAnton_Section_5.7/Anton_5_7_Q6a.pg" />
+  </exercise>
+  
+              <exercise xml:id="ez-5-3-WW8" permid="hLF">
+    <title>Finding the Position Function Given Acceleration</title>
+    <webwork source="Library/Wiley/setAnton_Section_5.7/Anton_5_7_Q6b.pg" />
+  </exercise>
+  
+                <exercise xml:id="ez-5-3-WW9" permid="hLF">
+    <title>Finding Discplacement</title>
+    <webwork source="Library/WHFreeman/Rogawski_Calculus_Early_Transcendentals_Second_Edition/5_The_Integral/5.5_Net_Change_as_the_Integral_of_a_Rate/5.5.11.pg" />
+  </exercise>
+
+
+                <exercise xml:id="ez-5-3-WW10" permid="hLF">
+    <title>Finding Discplacement</title>
+    <webwork source="Library/Valdosta/APEX_Calculus/5.4/APEX_5.4_40.pg" />
+  </exercise>
+  
+                  <exercise xml:id="ez-5-3-WW11" permid="hLF">
+    <title>Finding Discplacement from a Graph</title>
+    <webwork source="Library/Rochester/setIntegrals4FTC/S05.03.FundThmCalc.PTP02.pg" />
+  </exercise>
+  
+                    <exercise xml:id="ez-5-3-WW12" permid="hLF">
+    <title>Finding Discplacement from a Graph</title>
+    <webwork source="Library/Rochester/setIntegrals4FTC/S05.03.FundThmCalc.PTP02.pg" />
+  </exercise>
+
+
+
+
+</exercises>
 
 </section>
 
