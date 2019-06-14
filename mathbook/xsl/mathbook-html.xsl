@@ -3866,7 +3866,7 @@ along with MathBook XML.  If not, see <http://www.gnu.org/licenses/>.
 
 <!-- WeBWork exercises do not have titles of their own -->
 <xsl:template match="webwork" mode="heading-birth">
-    <xsl:text>WeBWorK Exercise</xsl:text>
+    <xsl:text>Exercise</xsl:text>
 </xsl:template>
 
 <!-- When the knowl is opened, it is obvious what it is -->
