@@ -3521,8 +3521,8 @@ along with MathBook XML.  If not, see <http://www.gnu.org/licenses/>.
 <xsl:template match="webwork[@source]">
     <!-- directory of server LaTeX must be specified -->
     <xsl:if test="$webwork.server.latex = ''">
-        <xsl:message terminate="No">MBX:ERROR   For LaTeX versions of WeBWorK problems on a server, the mbx script will collect the LaTeX source and then this conversion must specify the location through the "webwork.server.latex" command line stringparam.  Quitting...</xsl:message>
-    	<xsl:text>This exercise uses the WeBWorK Online Homework System and so is not available in the print copy of this book.</xsl:text>
+        <!--<xsl:message terminate="No">MBX:ERROR   For LaTeX versions of WeBWorK problems on a server, the mbx script will collect the LaTeX source and then this conversion must specify the location through the "webwork.server.latex" command line stringparam.  Quitting...</xsl:message>
+    	<xsl:text>This exercise uses the WeBWorK Online Homework System and so is not available in the print copy of this book.</xsl:text>-->
     </xsl:if>
     <xsl:if test="$webwork.server.latex != ''">
     <xsl:variable name="xml-filename">
