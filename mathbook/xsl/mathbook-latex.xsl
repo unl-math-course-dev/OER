@@ -485,10 +485,15 @@ along with MathBook XML.  If not, see <http://www.gnu.org/licenses/>.
     <xsl:text>\usepackage[utf8]{inputenc}&#xa;</xsl:text>
     <!-- TODO: put a pdflatex font package hook here? -->
     <xsl:text>%% end: pdflatex-specific configuration&#xa;</xsl:text>
-    
+
     <xsl:text>}&#xa;</xsl:text>
     <xsl:text>%% \mono macro for content of "c" element only&#xa;</xsl:text>
     <xsl:text>\newcommand{\mono}[1]{\texttt{#1}}&#xa;</xsl:text>
+
+
+    <xsl:text>\newcommand{\alert}[1]{{\color{red}#1}}&#xa;</xsl:text>
+    <xsl:text>\newcommand{\abs}[1]{\mid #1 \mid}&#xa;</xsl:text>
+
     <xsl:if test="$document-root//c or $document-root//cd or $document-root//pre or $document-root//program or $document-root//console or $document-root//sage">
         <xsl:text>%% Monospace font: Inconsolata (zi4)&#xa;</xsl:text>
         <xsl:text>%% Sponsored by TUG: http://levien.com/type/myfonts/inconsolata.html&#xa;</xsl:text>
