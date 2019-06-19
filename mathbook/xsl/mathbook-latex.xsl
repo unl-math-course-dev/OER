@@ -353,7 +353,7 @@ along with MathBook XML.  If not, see <http://www.gnu.org/licenses/>.
         <xsl:text>&#xa;</xsl:text>
     </xsl:if>
     <!-- Following need to be mature, robust, powerful, flexible, well-maintained -->
-    <xsl:text>\usepackage{\usepackage{fullpage}}&#xa;</xsl:text>
+    <xsl:text>\usepackage{fullpage}&#xa;</xsl:text>
     <xsl:text>%% Default LaTeX packages&#xa;</xsl:text>
     <xsl:text>%%   1.  always employed (or nearly so) for some purpose, or&#xa;</xsl:text>
     <xsl:text>%%   2.  a stylewriter may assume their presence&#xa;</xsl:text>
@@ -6130,6 +6130,9 @@ along with MathBook XML.  If not, see <http://www.gnu.org/licenses/>.
     </xsl:if>
         <xsl:if test="not(starts-with($imagename,'https://mathbooks.unl.edu/'))">
         <xsl:text>Calculus/</xsl:text>
+          <xsl:if test="ends-with($imagename,'.gif')">
+              <xsl:variable name="imagename" select="replace($imagename,'gif','pdf')"/>
+          </xsl:if>
         <xsl:value-of select="$imagename" />
     </xsl:if>
     <xsl:if test="$extension=''">
