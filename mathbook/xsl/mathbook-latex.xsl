@@ -6130,9 +6130,6 @@ along with MathBook XML.  If not, see <http://www.gnu.org/licenses/>.
     </xsl:if>
         <xsl:if test="not(starts-with($imagename,'https://mathbooks.unl.edu/'))">
         <xsl:text>Calculus/</xsl:text>
-          <xsl:if test="ends-with($imagename,'.gif')">
-              <xsl:variable name="imagename" select="replace($imagename,'gif','pdf')"/>
-          </xsl:if>
         <xsl:value-of select="$imagename" />
     </xsl:if>
     <xsl:if test="$extension=''">
