@@ -35,6 +35,9 @@
 <xsl:param name="exercise.divisional.hint" select="'yes'" />
 <xsl:param name="exercise.divisional.answer" select="'yes'" />
 <xsl:param name="exercise.divisional.solution" select="'yes'" />
+<xsl:param name="exercise.sectional.hint" select="'yes'" />
+<xsl:param name="exercise.sectional.answer" select="'yes'" />
+<xsl:param name="exercise.sectional.solution" select="'yes'" />
 
 <!-- activity is a project-like, so we need to set those stringparams -->
 <!-- to control hints, answers, and solutions -->
