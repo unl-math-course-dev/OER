@@ -33,8 +33,8 @@
 <!-- These configurations live here because workbook and solutions manual need -->
 <!-- different settings. -->
 <xsl:param name="exercise.divisional.hint" select="'yes'" />
-<xsl:param name="exercise.divisional.answer" select="'no'" />
-<xsl:param name="exercise.divisional.solution" select="'no'" />
+<xsl:param name="exercise.divisional.answer" select="'yes'" />
+<xsl:param name="exercise.divisional.solution" select="'yes'" />
 
 <!-- activity is a project-like, so we need to set those stringparams -->
 <!-- to control hints, answers, and solutions -->
