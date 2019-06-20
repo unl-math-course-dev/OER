@@ -1,5 +1,8 @@
 # OER
 
+Note:  If you are working on a windows machine there is some work to do before you will be able to run any of this.  You need ot install the relevant software.  A guide is availible at http://mathbook.pugetsound.edu/doc/pnw/html/software.html  In particular, you should look at step 5, installing xsltproc
+
+
 The folder mathbook contains all the mathbook xml template files that give the book it's structure.
 
 The OERsource folder contains source files for each course
