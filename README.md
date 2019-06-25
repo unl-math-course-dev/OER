@@ -60,6 +60,14 @@ That is
 for i in \*.pdf; do if [ -f "${i%.\*}.jpg" ] || [ -f "${i%.\*}.svg" ]; then echo ""; else echo "${i%.\*}.jpg";  convert -density 600  "$i" "${i%.\*}.jpg"; echo "\*\*\*\*\*\*\*\*\*\*\*\*\*file Created\*\*\*\*\*\*\*\*\*\*\*"; fi; done
 
 
+followed by 
+git status
+git add .
+git commit
+git push
+
+
+
 I believe that LaTeX should now be working with a few more tweeks to be made.  The command to create the PDF of the 106-107 book is
 	
 	xsltproc -xinclude acs-latex.xsl ~/Documents/GitHub/OER/OERSource/Calc/2019-2020/index.xml
