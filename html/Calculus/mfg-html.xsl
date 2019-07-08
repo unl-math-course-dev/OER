@@ -27,7 +27,7 @@
 </xsl:template>
 <!-- Knowls -->
 <xsl:param name="html.knowl.example" select="'no'" />
-<xsl:param name="html.knowl.exercise.inline" select="'no'" />
+<xsl:param name="html.knowl.exercise.inline" select="'yes'" />
 <xsl:param name="html.knowl.example.solution" select="'yes'" />
 <xsl:param name="html.knowl.warning" select="'no'" />
 <xsl:param name="html.knowl.technology" select="'no'" />
@@ -38,7 +38,7 @@
  Exercises have "solution"s which should be put in the back. 
 -->
 <!--  Not sure what to do for homework solutions  -->
-<xsl:param name="exercise.text.statement" select="'no'"/>
+<xsl:param name="exercise.text.statement" select="'yes'"/>
 <xsl:param name="exercise.text.hint" select="'yes'"/>
 <xsl:param name="exercise.text.answer" select="'no'"/>
 <xsl:param name="exercise.text.solution" select="'no'"/>
