@@ -41,7 +41,7 @@
   </introduction>
 
   <subsection permid="MOz">
-    <title>Being differentiable at a point</title>
+    <title>Being Differentiable at a Point</title>
     <idx><h>differentiable</h></idx>
 
     <p permid="RcT">
@@ -63,13 +63,18 @@
       then it must be continuous at <m>x = a</m>.
       Stated differently, if <m>f</m> is not continuous at <m>x = a</m>,
       then it is automatically the case that <m>f</m> is not differentiable there.
-      For example, in <xref ref="F-1-7-Cont">Figure</xref>,
+      For example, in <xref ref="F-1-7-ContDiff">Figure</xref> below,
       both <m>f</m> and <m>g</m> fail to be differentiable at <m>x = 1</m> because neither function is continuous at <m>x = 1</m>.
     </p>
+    
+    <figure xml:id="F-1-7-ContDiff">
+      <caption>Functions <m>f</m> and <m>g</m> that are not continuous (and hence not differentiable) at <m>x=1</m>, and a function <m>h</m> that is both continuous and differentiable at <m>x=1</m>.</caption>
+      <image width="100%" source="images/1_7_Cont" />
+    </figure>
 
     <p permid="drl">
       A natural question to ask at this point is <q>is there a difference between continuity and differentiability?</q>
-      Can a function fail to be differentiable at a point where the function is continuous?
+      In other words, can a function fail to be differentiable at a point where the function is continuous?
       To answer these questions, we consider a certain function <m>f</m>, where the graph of
       <m>y=f(x)</m> is displayed below in <xref ref="F-1-7-NotDiff">Figure</xref>.
       We notice that <m>f</m> has a sharp corner at the point <m>(1,1)</m>, and
@@ -77,7 +82,7 @@
     </p>
 
     <figure xml:id="F-1-7-NotDiff" permid="ibe">
-      <caption>A function <m>f</m> that is continuous at <m>x = 1</m> but not differentiable at <m>x = 1</m>; at right, we zoom in on the point <m>(1,1)</m> in a magnified version of the box in the left-hand plot.</caption>
+      <caption>A function <m>f</m> that is continuous at <m>x = 1</m> but not differentiable at <m>x = 1</m>; at right, we zoom in on the point <m>(1,1)</m> in a magnified version of the box shown in the left-hand plot.</caption>
       <image width="70%" source="images/1_7_NotDiff" />
     </figure>
 
@@ -98,33 +103,37 @@
       and never like a single line,
       which tells us there is no possibility for a tangent line there.
     </p>
+</subsection>
 
+<subsection><title>Local Linearity</title>
     <p permid="pFD">
       If a function <em>does</em> have a tangent line at a given point,
       then the function and the tangent line should appear essentially indistinguishable
-      when we zoom in on the point of tangency<fn>
+      when we zoom in on the point of tangency.<fn>
       For instance, see
       <url href="http://gvsu.edu/s/6J">http://gvsu.edu/s/6J</url> for an applet
       (due to David Austin, GVSU)
       where zooming in shows the increasing similarity between the tangent line and the curve.
-      </fn>.
+      </fn>
       Conversely,
       if we zoom in on a point and the function looks like a single straight line,
-      then the function should have a tangent line there,
+      then the function should have a tangent line there
       and thus be differentiable at that point.
 <!--
       Hence a function that is differentiable at <m>x = a</m> will,
       up close, look more and more like its tangent line at <m>(a,f(a))</m>.
 -->
       Therefore, we say that a function that is differentiable at <m>x = a</m> is
-      <em>locally linear</em>.
+      <term>locally linear</term>.
           <idx><h>locally linear</h></idx>
-    </p>
-    <p> This can be seen in <xref ref="F-1-8-local-linearity">Figure</xref>.</p>
+      An example of this can be seen in <xref ref="F-1-8-local-linearity">Figure</xref> below, 
+      with the graph of a function <m>y=f(x)</m> on the left and a magnified version with 
+      the tangent line to <m>f</m> at <m>a</m> on the right.</p>
     
     <figure xml:id="F-1-8-local-linearity" permid="fQs">
       <caption>A function <m>y = f(x)</m> and its tangent line at the point <m>(a,f(a))</m> is shown in the figure. Notice how the function resembles a line as we zoom in on <m>x=a</m>.</caption>
       <image width="100%" source="images/1-8-local-linearity.jpg" />
+      <!-- want this to be a gif not a jpg (the file exists, but won't compile locally) -->
     </figure>
     
     <example xml:id="non-diff">
@@ -181,11 +190,9 @@
 
         <li permid="GLO">
           <p permid="tsd">
-            Show that
             <me permid="boz">
-              g'(0) =  \lim_{h \to 0} \frac{|h|}{h}
-            </me>,
-            which does not exist.
+              \lim_{h \to 0^-} \frac{|h|}{h}=-1, \ \text{and} \ \lim_{h\to0^+}\frac{|h|}h=1
+            </me>.
           </p>
         </li>
       </ol>
@@ -200,8 +207,9 @@
             <m>g(x) = -x</m> when <m>x \lt 0</m> and by <m>g(x) = x</m> when <m>x \ge 0</m>.
             Each of these pieces of <m>g</m> is a straight line,
             so at every point other than the point where they meet,
-            the function <m>g</m> has a well-defined slope,
-            and thus is differentiable.
+            the function <m>g</m> has a well-defined slope
+            and thus is differentiable whenever <m>x\neq0</m>.
+            The graph of <m>y=g(x)</m> is a translate of the earlier graph of <m>y=f(x)</m> from <xref ref="F-1-7-NotDiff">Figure</xref>.
           </p>
         </li>
 
@@ -220,29 +228,34 @@
             <me permid="nCR">
               \lim_{h \to 0^+} \frac{|h|}{h} = \lim_{h \to 0^+} \frac{h}{h} = 1
             </me>.
-            In contrast, <m>|h| = -h</m> whenever <m>h \lt  0</m>, and thus
+            In contrast, we have <m>|h| = -h</m> whenever <m>h \lt  0</m>, and thus
             <me permid="TKa">
               \lim_{h \to 0^-} \frac{|h|}{h} = \lim_{h \to 0^-} \frac{-h}{h} = -1
-            </me>
+            </me>.
             Since the right- and left-hand limits are not equal,
             it follows that
             <me permid="zRj">
               g'(0) =  \lim_{h \to 0} \frac{|h|}{h}
             </me>
             does not exist.
+            Therefore, the function <m>g(x)=|x|</m> is not differentiable at <m>x=0</m>.
           </p>
         </li>
       </ol>
     </p>
   </solution>
 </example>
+
+</subsection>
+<subsection><title>Vertical Tangent Lines</title>
     
-    <p>Another example of where a function can fail to be differentiable is a point <m>x=a</m> is the function has a vertical tangent at the point. In other words, <m>f</m> is continuous at <m>x=a</m> and <m>\lim_{x\to a}|f'(x)|=\infty</m>. This means the tangent lines become very steep as we move closer to <m>x=a</m>. </p>
+    <p>Another example of when a function can fail to be differentiable at a point <m>x=a</m> is if the function has a vertical tangent at the point. In other words, when <m>f</m> is continuous at <m>x=a</m> and <m>\lim_{x\to a}|f'(x)|=\infty</m>. This means the tangent lines become very steep as we move closer to <m>x=a</m>. </p>
     
     <example><p>In this example, let <m>f(x)=\sqrt{x}</m>.</p>
-      <p> In <xref ref="F-1-8-vertical-tangent">Figure</xref>, we see that the tangent lines drawn become steeper and steeper as we approach <m>x=0</m> leading to a vertical tangent line at <m>x=0</m>.</p>
+      <p> In <xref ref="F-1-8-vertical-tangent">Figure</xref> below, we have the graph of <m>y=f(x)</m> along with a progression of tangent lines at points approaching <m>(0,0)</m> on the graph. 
+      As we approach <m>x=0</m>, we see that the tangent lines drawn become steeper and steeper, ultimately leading to a vertical tangent line at <m>x=0</m>.</p>
     <figure xml:id="F-1-8-vertical-tangent" permid="fQs">
-      <caption>As we move closer to <m>x=0</m> the tangent lines to the function <m>f(x)=\sqrt{x}</m> become steeper and steeper. Notice that the tangent line closest to <m>x=0</m> is nearly vertical.</caption>
+      <caption>As we move closer to <m>x=0</m>, the tangent lines to the graph of <m>y=f(x)</m> become steeper and steeper. Notice that the tangent line closest to <m>x=0</m> is nearly vertical.</caption>
       <image width="75%" source="images/1-8-vertical-tangent.gif" />
     </figure>
       <p>We can also show this by calculating the limit of the derivative close to <m>x=0</m>: 
@@ -251,7 +264,8 @@
       </p>
       
     </example>
-    
+</subsection>
+<subsection><title>Links Between Continuity, Differentiability, and Limits</title>
     
     <p permid="VMM">
       To summarize the preceding discussion of differentiability,
@@ -334,7 +348,7 @@
       <ol label="a." permid="EWB">
         <li permid="Oqn">
           <p permid="AWC">
-            You might start by looking for places you would lift your pencil when drawing the graph. identifying points where <m>f</m> is not continuous. Calculating limits may also be useful.
+            You might start by looking for places you would lift your pencil when drawing the graph, identifying points where <m>f</m> is not continuous. Calculating limits may also be useful.
         </p>
         </li>
         
@@ -346,7 +360,7 @@
 
         <li permid="uxw">
           <p permid="hdL">
-            <xref ref="non-diff">Example</xref> may be useful.
+            Thinking back to <xref ref="non-diff">Example</xref> may be useful.
           </p>
         </li>
       </ol>
@@ -358,12 +372,12 @@
 
         <li permid="mSX">
           <p permid="Zzm">
-            <m>a = -2 </m>, <m>\lim_{x\to-2}f(x)</m> does not exist; <m>a=-1</m>, <m>\lim_{x\to-1}f(x)\neq f(-1)</m>; <m>a=2</m>, <m>\lim_{x\to2}f(x)</m> does not exist; <m>a=3</m>, <m>f(3)</m> is undefined.
+            At <m>a = -2 </m>, <m>\lim_{x\to-2}f(x)</m> does not exist; at <m>a=-1</m>, <m>\lim_{x\to-1}f(x)\neq f(-1)</m>; at <m>a=2</m>, <m>\lim_{x\to2}f(x)</m> does not exist; at <m>a=3</m>, <m>f(3)</m> is undefined.
           </p>
         </li>
         <li permid="mSX">
           <p permid="Zzm">
-            <m>a = -2, -1, 2, 3</m>, <m>f</m> is not continuous at these points; <m>a=-3,1</m>, <m>f</m> does not have a tangent line at these points.
+            <m>a = -2, -1, 2, 3</m>, because <m>f</m> is not continuous at these points; <m>a=-3,1</m>, because <m>f</m> does not have a tangent line at these points.
           </p>
         </li>
         
@@ -397,7 +411,7 @@
         </li>
         <li permid="rCQ">
           <p permid="ejf">
-            The only two points where <m>f</m> is continuous, but not differentiable are <m>a=-3,1</m>. This is because of the corner point (or cusp). These points fit the criteria for continuity, but there is no discernible tangent line.
+            The only two points where <m>f</m> is continuous but not differentiable are <m>a=-3,1</m>. This is because of the corner point (or cusp). These points fit the criteria for continuity, but there is no discernible tangent line.
           </p>
         </li>
       </ol>
@@ -421,7 +435,9 @@
           </p>
     
   </hint>
- 
+  <answer>
+  <p>True.</p>
+  </answer>
   <solution permid="AmI">
     <p permid="qxx">
             We know that a function <m>f</m> is continuous whenever it is differentiable,
