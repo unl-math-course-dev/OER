@@ -1,0 +1,2038 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!-- **********************************************************************-->
+<!-- Copyright 2012-2018                                                   -->
+<!-- Matthew Boelkins                                                      -->
+<!--                                                                       -->
+<!-- This file is part of Active Calculus.                                 -->
+<!--                                                                       -->
+<!-- Permission is granted to copy, distribute and/or modify this document -->
+<!-- under the terms of the Creative Commons BY-SA license.  The work      -->
+<!-- may be used for free by any party so long as attribution is given to  -->
+<!-- the author(s), the work and its derivatives are used in the spirit of -->
+<!-- "share and share alike".  All trademarks are the registered marks of  -->
+<!-- their respective owners.                                              -->
+<!-- **********************************************************************-->
+<section xmlns:xi="http://www.w3.org/2001/XInclude" xml:id="sec-3-3-optimization" permid="bgZ">
+  <title>Global Optimization</title>
+  <objectives permid="LYb">
+    <ul permid="cWm">
+      <li permid="VrN">
+        <p permid="jvs">
+          What are the differences between finding relative extreme values and global extreme values of a function?
+        </p>
+      </li>
+
+      <li permid="ByW">
+        <p permid="PCB">
+          How is the process of finding the global maximum or minimum of a function over the function's entire domain different from determining the global maximum or minimum on a restricted domain?
+        </p>
+      </li>
+
+      <li permid="hGf">
+        <p permid="vJK">
+          For a function that is guaranteed to have both a global maximum and global minimum on a closed,
+          bounded interval,
+          what are the possible points at which these extreme values occur?
+        </p>
+      </li>
+    </ul>
+  </objectives>
+
+  <introduction permid="Ymt">
+    <p permid="Thb">
+      We have seen that we can use the first derivative of a function to determine where the function is increasing or decreasing,
+      and the second derivative to know where the function is concave up or concave down.
+      This information helps us determine the overall shape and behavior of the graph
+      as well as whether the function has relative extrema.
+    </p>
+
+    <p permid="zok">
+      Remember the difference between a relative maximum and a global maximum:
+      there is a <em>relative</em> maximum of <m>f</m> at <m>x = p</m> if
+      <m>f(p) \ge f(x)</m> for all <m>x</m> <em>near</em> <m>p</m>,
+      while there is a <em>global</em> maximum at <m>p</m> if
+      <m>f(p) \ge f(x)</m> for <em>all</em>
+      <m>x</m> in the domain of <m>f</m>.
+    </p>
+
+    <sidebyside widths="50% 44%" margins="0%" permid="sfk">
+      <p permid="GSJ">
+        For instance, in <xref ref="F-3-3-Intro">Figure</xref> at the right,
+        we see a function <m>f</m> that has a global maximum at <m>x = c</m> and a relative maximum at <m>x = a</m>,
+        since <m>f(c)</m> is greater than or equal to <m>f(x)</m> for every value of <m>x</m>,
+        while <m>f(a)</m> is only greater than or equal to the value of <m>f(x)</m> for <m>x</m> near <m>a</m>.
+        Since the function appears to decrease without bound,
+        <m>f</m> has no global minimum,
+        although there is a relative minimum at <m>x = b</m>.
+      </p>
+
+      <figure xml:id="F-3-3-Intro" permid="mZS">
+        <caption>A function <m>f</m> with a global maximum, but no global minimum.</caption>
+        <image source="images/3_3_Intro" />
+      </figure>
+    </sidebyside>
+
+    <p permid="fvt">
+      Our emphasis in this section is on finding the global extreme values of a function
+      (if they exist),
+      either over its entire domain or on some restricted portion.
+    </p>
+
+<example xml:id="PA-3-3" permid="Iok">
+<statement>
+  <p permid="chb">
+    Let <m>f(x) = 2 + \frac{3}{1+(x+1)^2}</m>.
+
+    <ol label="a." permid="arO">
+      <li permid="GyX">
+        <p permid="rpZ">
+          Determine all of the critical numbers of <m>f</m>.
+        </p>
+      </li>
+
+      <li permid="mGg">
+        <p permid="Xxi">
+          Construct a first derivative sign chart for <m>f</m> and thus determine all intervals on which <m>f</m> is increasing or decreasing.
+        </p>
+      </li>
+
+      <li permid="SNp">
+        <p permid="DEr">
+          Does <m>f</m> have a global maximum?
+          If so, why,
+          and what is its value and where is the maximum attained?
+          If not, explain why.
+        </p>
+      </li>
+
+      <li permid="yUy">
+        <p permid="jLA">
+          Determine <m>\lim_{x \to \infty} f(x)</m> and <m>\lim_{x \to -\infty} f(x)</m>.
+        </p>
+      </li>
+
+      <li permid="fbH">
+        <p permid="PSJ">
+          Explain why <m>f(x) \gt 2</m> for every value of <m>x</m>.
+        </p>
+      </li>
+
+      <li permid="LiQ">
+        <p permid="vZS">
+          Does <m>f</m> have a global minimum?
+          If so, why,
+          and what is its value and where is the minimum attained?
+          If not, explain why.
+        </p>
+      </li>
+    </ol>
+  </p>
+</statement>
+<hint>
+  <p>
+  <ol label="a">
+    <li>
+    <p>
+    What is true about <m>f'(c)</m> when <m>c</m> is a critical number of <m>f</m>?
+    </p>
+    </li>
+    <li>
+    <p>
+    Remember that on a given interval of the first derivative sign chart for <m>f</m>, 
+    the derivative <m>f'</m> should have the same sign everywhere, so you only need to 
+    test at a single point on the interval.
+    </p>
+    </li>
+    <li>
+    <p>
+    What does the chart from (b) tell you? Thinking about the algebraic structure of 
+    <m>f(x)</m> can also support your reasoning.
+    </p>
+    </li>
+    <li>
+    <p>
+    What happens to <m>1+(x+1)^2</m> for large values of <m>x</m>? What happens to its 
+    reciprocal?
+    </p>
+    </li>
+    <li>
+    <p>
+    <m>1+(x+1)^2\gt0</m> for every value of <m>x</m>.
+    </p>
+    </li>
+    <li>
+    <p>
+    Think about the long-run behavior of <m>f</m> that you found in (d).
+    </p>
+    </li>
+  </ol>
+  </p>
+</hint>
+<answer>
+  <p>
+  <ol label="a">
+    <li>
+    <p>
+    <m>-1</m> is the only critical number of <m>f</m>.
+    </p>
+    </li>
+    <li>
+    <p>
+    <m>f</m> is increasing on <m>(-\infty,-1)</m> and decreasing on <m>(-1,\infty)</m>.
+    </p>
+    </li>
+    <li>
+    <p>
+    <m>f</m> has a global maximum of <m>5</m> at the point <m>(-1,5)</m>.
+    </p>
+    </li>
+    <li>
+    <p>
+    <m>\lim_{x\to\pm\infty}f(x)=2</m>.
+    </p>
+    </li>
+    <li>
+    <p>
+    <m>\frac3{1+(x+1)^2}\gt0</m> for every value of <m>x</m>.
+    </p>
+    </li>
+    <li>
+    <p>
+    <m>f</m> has a horizontal asymptote at <m>y=2</m> but no global minimum.
+    </p>
+    </li>
+  </ol>
+  </p>
+</answer>
+<solution>
+  <p>
+  <ol label="a">
+    <li>
+    <p>
+    We first notice that the domain of <m>f</m> is all real numbers, since the denominator 
+    of <m>f(x)</m> is always at least <m>1</m>:
+    <md>
+    <mrow>(x+1)^2\ge\mathstrut\amp0</mrow>
+    <mrow>1+(x+1)^2\ge\mathstrut\amp1</mrow>
+    </md>.
+    To differentiate <m>f</m>, we will first rewrite <m>f(x)</m> as 
+    <me>f(x)=2+3\left(1+(x+1)^2\right)^{-1}</me> and then use the chain rule to find 
+    <md>
+    <mrow>f'(x)=\mathstrut\amp3\left((-1)\left(1+(x+1)^2\right)^{-2}\left(2(x+1)(1)\right)\right)</mrow>
+    <mrow>=\mathstrut\amp\frac{-6(x+1)}{\left(1+(x+1)^2\right)^2}</mrow>
+    </md>.
+    The denominator of <m>f'(x)</m> is always at least <m>1</m> for the same reason that 
+    the denominator of <m>f(x)</m> is always at least <m>1</m>, so there are no points
+    <m>x=c</m> for which <m>f'(c)</m> does not exist. Thus the only critical number(s) of
+    <m>f</m> will occur when <m>f'(c)=0</m>. 
+    This happens when 
+    <md>
+    <mrow>-6(x+1)=\mathstrut\amp0</mrow>
+    <mrow>x+1=\mathstrut\amp0</mrow>
+    <mrow>x=\mathstrut\amp-1</mrow>
+    </md>.
+    Thus the only critical number of <m>f</m> is <m>c=-1</m>, with <m>f'(-1)=0</m>. 
+    </p>
+    </li>
+    <li>
+    <p>
+    As stated in (a), the denominator of <m>f'(x)</m> is always at least <m>1</m>, so in particular,
+    it is always positive. 
+    On our first derivative sign chart, the only critical number we have is <m>c=-1</m>, 
+    which splits the domain of <m>f</m> and <m>f'</m> into the intervals <m>(-\infty,-1)</m> 
+    and <m>(-1,\infty)</m>. 
+    Thinking of the factors of <m>f'(x)</m> as <m>-6</m>, <m>(x+1)</m>, and <m>\frac{1}{\left(1+(x+1)^2\right)^2}</m>, 
+    the signs of these at <m>x=-2</m> are <q><m>--+</m></q>, with the final product positive. 
+    Likewise, the signs of these factors at <m>x=0</m> are <q><m>-++</m></q>, making the 
+    final product negative. 
+    Therefore <m>f'(x)\gt0</m> on the interval <m>x\lt-1</m>, and <m>f'(x)\lt0</m> on the 
+    interval <m>x\gt-1</m>. 
+    Hence <m>f</m> is increasing on <m>(-\infty,-1)</m> and decreasing on <m>(-1,\infty)</m>.
+    </p>
+    </li>
+    <li>
+    <p>
+    According to the first derivative test, the point <m>(-1,f(-1))</m> is a relative 
+    maximum of <m>f</m>. Since this is the only critical point of the function and 
+    <m>f</m> is continuous everywhere, there is nowhere else that <m>f</m> can change 
+    direction. It follows that this point is actually a global maximum. 
+    </p>
+    <p>
+    From an algebraic standpoint, we have already observed that <m>1+(x+1)^2\ge1</m> for every
+    value of <m>x</m>. Consequently, <me>0\lt\frac{3}{1+(x+1)^2}\le3</me> for every value of 
+    <m>x</m>, and this quotient achieves its maximum of <m>3</m> when <m>x=-1</m>. 
+    Hence <me>2\lt2+\frac{3}{1+(x+1)^2}\le5</me> for every value of <m>x</m>.
+    Since <m>f(-1)=5</m>, we conclude that the global maximum of <m>f</m> is <m>5</m> 
+    at <m>x=-1</m>.
+    </p>
+    </li>
+    <li>
+    <p>
+    The symmetry of <m>f</m> about <m>x=-1</m> allows us to compute both limits simultaneously. 
+    We first note that <m>\lim_{x\to\pm\infty}\left(1+(x+1)^2\right)=\infty</m> and 
+    <m>\lim_{x\to\pm\infty}\frac{1}{1+(x+1)^2}=0</m>.
+    Thus <me>\lim_{x\to\pm\infty}f(x)=\lim_{x\to\pm\infty}\left(2+\frac{3}{1+(x+1)^2}\right)=2+0=2</me>.
+    This tells us the graph of <m>y=f(x)</m> has a horizontal asymptote of <m>y=2</m>.
+    </p>
+    </li>
+    <li>
+    <p>
+    In (c), we stated the inequality <me>2\lt2+\frac{3}{1+(x+1)^2}\le5</me>. Since the quotient 
+    in the formula for <m>f(x)</m> is always strictly greater than zero, adding <m>2</m> 
+    to the quotient to obtain <m>f(x)</m> will always yield a value strictly greater 
+    than <m>2</m>. 
+    </p>
+    </li>
+    <li>
+    <p>
+    Since <m>f(x)\gt2</m> for every value of <m>x</m>, a global minimum of <m>f</m> 
+    (if it existed) would necessarily be larger than <m>2</m>. But we showed in (d) that 
+    <m>\lim_{x\to\pm\infty}f(x)=2</m>, meaning that <m>f</m> gets arbitrarily close to 
+    <m>2</m> as <m>x</m> gets large. Moreover, <m>f'</m> is always positive for <m>x\lt-1</m>
+    and <m>f'</m> is always negative for <m>x\gt-1</m>, so a lowest point of <m>f</m> is 
+    never attained. 
+    </p>
+    </li>
+  </ol>
+  </p>
+</solution>
+</example>
+  </introduction>
+
+  <subsection permid="Hoi">
+    <title>Global Optimization</title>
+    <p permid="LCC">
+      In both <xref ref="F-3-3-Intro">Figure</xref>
+      and <xref ref="PA-3-3">Example</xref> above,
+      we were interested in finding the global minimum and global maximum for <m>f</m> on its entire domain.
+      At other times, we might focus on some restriction of the domain.
+    </p>
+
+    <p permid="rJL">
+      For example, rather than considering
+      <m>f(x) = 2 + \frac{3}{1+(x+1)^2}</m> for every value of <m>x</m>,
+      perhaps instead we are only interested in those <m>x</m> for which <m>0 \le x \le 4</m>,
+      and we would like to know which values of <m>x</m> in the interval <m>[0,4]</m> produce the largest possible and smallest possible values of <m>f</m>.
+      We are accustomed to critical numbers playing a key role in determining the location of extreme values of a function;
+      now, by restricting the domain to an interval
+      it makes sense that the endpoints of the interval will also be important to consider,
+      as we see in the following example.
+      When limiting ourselves to a particular interval,
+      we will often refer to the <em>absolute</em>
+      maximum or minimum value,
+      rather than the <em>global</em> maximum or minimum.
+    </p>
+
+<example xml:id="act-3-3-1" permid="AnV">
+  <statement>
+    <p permid="HSu">
+      Let <m>g(x) = \frac{1}{3}x^3 - 2x + 2</m>.
+
+      <ol label="a." permid="qkp">
+        <li permid="Wry">
+          <p permid="IXN">
+            Find all critical numbers of <m>g</m> that lie in the interval <m>-2 \le x \le 3</m>.
+          </p>
+        </li>
+
+        <li permid="CyH">
+          <p permid="peW">
+            Use a graphing utility to construct the graph of <m>g</m> on the interval <m>-2 \le x \le 3</m>.
+          </p>
+        </li>
+
+        <li permid="iFQ">
+          <p permid="Vmf">
+            From the graph,
+            determine the <m>x</m>-values at which the absolute minimum and absolute maximum of <m>g</m> occur on the interval <m>[-2,3]</m>.
+          </p>
+        </li>
+
+        <li permid="OMZ">
+          <p permid="Bto">
+            How do your answers change if we instead consider the interval <m>-2 \le x \le 2</m>?
+          </p>
+        </li>
+
+        <li permid="uUi">
+          <p permid="hAx">
+            What if we instead consider the interval <m>-2 \le x \le 1</m>?
+          </p>
+        </li>
+      </ol>
+    </p>
+  </statement>
+  <hint permid="RHF">
+    <p permid="bLl">
+      <ol label="a." permid="Kdg">
+        <li permid="bbr">
+          <p permid="NHG">
+            Check that each critical number you find satisfies <m>-2 \le x \le 3</m>.
+          </p>
+        </li>
+
+        <li permid="HiA">
+          <p permid="tOP">
+            <url href="http://desmos.com/calculator">desmos.com</url> is a great choice.
+          </p>
+        </li>
+
+        <li permid="npJ">
+          <p permid="ZVY">
+            On the graph,
+            look for the lowest and highest possible values of the function.
+          </p>
+        </li>
+
+        <li permid="TwS">
+          <p permid="Gdh">
+            Ask yourself the same questions as (a)-(c),
+            simply using the new interval.
+          </p>
+        </li>
+        <li permid="TwS">
+          <p permid="Gdh">
+            Ask yourself the same questions as (a)-(c),
+            simply using the new interval.
+          </p>
+        </li>
+      </ol>
+    </p>
+  </hint>
+  <answer permid="lAw">
+    <p permid="vEc">
+      <ol label="a." permid="dVX">
+        <li permid="zEb">
+          <p permid="mkq">
+            <m>x = \pm \sqrt{2} \approx \pm 1.414</m>.
+          </p>
+        </li>
+
+        <li permid="fLk">
+        <p>
+        Below is the graph of <m>y=g(x)</m> replicated three times, with critical points 
+        and endpoints of each interval marked. On the left, we have the interval 
+        <m>[-2,3]</m> for (c); the middle shows the interval <m>[-2,2]</m> for (d); the right displays 
+        the interval <m>[-2,1]</m> for (e).
+        </p>
+
+          <sidebyside widths="100%" permid="nZD">
+            <image width="100%" source="images/3_3_Act1Soln" />
+          </sidebyside>
+
+        </li>
+
+        <li permid="LSt">
+          <p permid="Srz">
+            On <m>[-2,3]</m>,
+            <m>g</m> has a global maximum at <m>x = 3</m> and a global minimum at <m>x = \sqrt{2}</m>.
+          </p>
+        </li>
+
+        <li permid="rZC">
+          <p permid="yyI">
+            On <m>[-2,2]</m>, <m>g</m> has a global maximum at
+            <m>x = -\sqrt{2}</m> and a global minimum at <m>x = \sqrt{2}</m>.
+          </p>
+        </li>
+
+        <li permid="YgL">
+          <p permid="eFR">
+            On <m>[-2,3]</m>, <m>g</m> has a global maximum at
+            <m>x = -\sqrt{2}</m> and a global minimum at <m>x = 1</m>.
+          </p>
+        </li>
+      </ol>
+    </p>
+  </answer>
+  <solution permid="Ftn">
+    <p permid="PwT">
+      <ol label="a." permid="xOO">
+        <li permid="EnU">
+          <p permid="KNa">
+            Since <m>g'(x) = x^2 - 2</m>,
+            the critical numbers of <m>g</m> are <m>x = \pm \sqrt{2} \approx \pm 1.414</m>,
+            both of which lie in the interval <m>-2 \le x \le 3</m>.
+          </p>
+        </li>
+
+        <li permid="kvd">
+        <p permid="qUj">
+        Below is the graph of <m>y=g(x)</m> replicated three times, with critical points 
+        and endpoints of each interval marked. On the left, we have the interval 
+        <m>[-2,3]</m> for (c); the middle shows the interval <m>[-2,2]</m> for (d); the right displays 
+        the interval <m>[-2,1]</m> for (e).
+        </p>
+
+          <sidebyside widths="100%" permid="UgM">
+            <image source="images/3_3_Act1Soln" />
+          </sidebyside>
+
+        </li>
+
+        <li permid="QCm">
+          <p permid="Xbs">
+            On <m>[-2,3]</m>,
+            <m>g</m> has a global maximum at <m>x = 3</m> and a global minimum at <m>x = \sqrt{2}</m>.
+          </p>
+        </li>
+
+        <li permid="wJv">
+          <p permid="DiB">
+            On <m>[-2,2]</m>, <m>g</m> has a global maximum at
+            <m>x = -\sqrt{2}</m> and a global minimum at <m>x = \sqrt{2}</m>.
+          </p>
+        </li>
+
+        <li permid="cQE">
+          <p permid="jpK">
+            On <m>[-2,3]</m>, <m>g</m> has a global maximum at
+            <m>x = -\sqrt{2}</m> and a global minimum at <m>x = 1</m>.
+          </p>
+        </li>
+      </ol>
+    </p>
+  </solution>
+</example>
+
+    <p permid="XQU">
+      <xref ref="act-3-3-1">Example</xref> showed 
+      how the absolute maximum and absolute minimum of a function on a closed,
+      bounded interval <m>[a,b]</m>
+      depend not only on the critical numbers of the function,
+      but also on the values of <m>a</m> and <m>b</m>.
+      In fact, the interval we choose has nearly the same influence on extreme values as the function under consideration.
+      For instance,
+      <xref ref="F-3-3-Interval">Figure</xref> below depicts again the graph of <m>y=g(x)</m>
+      that we looked at in <xref ref="act-3-3-1">Example</xref>.
+    </p>
+
+    <figure xml:id="F-3-3-Interval" permid="IHW">
+      <caption>A function <m>g</m> considered on three different intervals.</caption>
+      <image width="100%" source="images/3_3_Interval" />
+    </figure>
+
+    <p permid="wtE">
+      From left to right,
+      the interval under consideration is changed from <m>[-2,3]</m> to <m>[-2,2]</m> to <m>[-2,1]</m>.
+
+      <ul permid="Jdv">
+        <li permid="GiP">
+          There are two critical numbers
+          on the interval <m>[-2,3]</m>;
+          the absolute minimum is at one critical number and the absolute maximum is at the right endpoint.
+        </li>
+
+        <li permid="mpY">
+          On the interval <m>[-2,2]</m>,
+          both critical numbers are again in the interval. 
+          One critical value is still the absolute minimum;
+          however, the absolute maximum is now at the other critical number rather 
+          than at the right endpoint.
+        </li>
+
+        <li permid="Sxh">
+          Only one critical number lies on the interval <m>[-2,1]</m>.
+          That critical number gives the absolute maximum; the absolute minimum is at the right endpoint.
+        </li>
+      </ul>
+    
+      These observations demonstrate several important facts that hold more generally.
+    </p>
+
+    <p permid="DYd">
+    <assemblage xml:id="extreme-value-theorem" permid="zJJ">
+      <title>The Extreme Value Theorem</title>
+      <p>
+            <idx><h>extreme value theorem</h></idx>
+        If <m>f</m> is a continuous function on a closed and bounded interval <m>[a,b]</m>,
+        then <m>f</m> attains both an absolute minimum and absolute maximum on <m>[a,b]</m>.
+        That is, there is some value <m>x_m</m> in <m>[a,b]</m> such that  
+        <m>f(x_m) \le f(x)</m> for all <m>x</m> in <m>[a,b]</m>.
+        Similarly, there is a value <m>x_M</m> in <m>[a,b]</m> such that
+        <m>f(x_M) \ge f(x)</m> for all <m>x</m> in <m>[a,b]</m>.
+        Letting <m>m = f(x_m)</m> and <m>M = f(x_M)</m>,
+        it follows that <m>m \le f(x) \le M</m> for all <m>x</m> in <m>[a,b]</m>.
+      </p>
+    </assemblage>
+    </p>
+
+    <p permid="kfm">
+      The Extreme Value Theorem tells us that 
+      on any closed and bounded interval <m>[a,b]</m>,
+      a continuous function has to achieve both an absolute minimum and an absolute maximum.
+      The theorem does not tell us where these extreme values occur,
+      only that they must exist.
+      As we saw in <xref ref="act-3-3-1">Example</xref>,
+      the only possible locations for relative extrema are at the endpoints of the interval or at a critical number.
+      It is important to consider only the critical numbers that lie within the interval.
+    </p>
+
+
+<!--    <note permid="kAL"> -->
+      <p permid="uEr">
+        We now have the following approach to finding the absolute maximum and minimum of a continuous function <m>f</m> on the interval <m>[a,b]</m>:
+
+        <ol permid="wPd">
+          <li permid="NNo">
+            <p permid="bQT">
+              Find all critical numbers of <m>f</m> that lie in the interval.
+            </p>
+          </li>
+
+          <li permid="tUx">
+            <p permid="HYc">
+              Evaluate the function <m>f</m> at each critical number in the interval and at each endpoint of the interval.
+            </p>
+          </li>
+
+          <li permid="abG">
+            <p permid="ofl">
+              From among these function values,
+              the smallest is the absolute minimum of <m>f</m> on the interval,
+              while the largest is the absolute maximum.
+            </p>
+          </li>
+        </ol>
+      </p>
+<!--    </note> -->
+
+<example xml:id="act-3-3-2" permid="eUm">
+  <statement>
+    <p permid="SFU">
+      Find the <em>exact</em> absolute maximum and minimum of each function on the stated interval.
+
+      <ol label="a." permid="JHH">
+        <li permid="Tbt">
+          <p permid="lOR">
+            <m>h(x) = xe^{-x}</m> on <m>[0,3]</m>
+          </p>
+        </li>
+
+        <li permid="ziC">
+          <p permid="RWa">
+            <m>p(t) = \sin(t) + \cos(t)</m> on
+            <m>[-\frac{\pi}{2}, \frac{\pi}{2}]</m>
+          </p>
+        </li>
+
+        <li permid="fpL">
+          <p permid="ydj">
+            <m>q(x) = \frac{x^2}{x-2}</m> on <m>[3,7]</m>
+          </p>
+        </li>
+
+        <li permid="LwU">
+          <p permid="eks">
+            <m>f(x) = 4 - e^{-(x-2)^2}</m> on <m>(-\infty, \infty)</m>
+          </p>
+        </li>
+
+        <li permid="rEd">
+          <p permid="KrB">
+            <m>h(x) = xe^{-ax}</m> on
+            <m>\left[0, \frac{2}{a}\right]</m>; assume <m>a \gt 0</m>
+          </p>
+        </li>
+
+        <li permid="XLm">
+          <p permid="qyK">
+            <m>f(x) = b - e^{-(x-a)^2}</m> on
+            <m>(-\infty, \infty)</m>; assume <m>a, b \gt 0</m>
+          </p>
+        </li>
+      </ol>
+    </p>
+  </statement>
+  <hint permid="sJw">
+    <p permid="myL">
+      <ol label="a." permid="dAy">
+        <li permid="DSv">
+          <p permid="WFT">
+            After computing <m>h'(x)</m>,
+            factor to write the derivative as a product.
+          </p>
+        </li>
+
+        <li permid="jZE">
+          <p permid="CNc">
+            The sine and cosine functions share the same value at
+            <m>\frac{\pi}{4} \pm k\pi</m> for any integer <m>k</m>.
+          </p>
+        </li>
+
+        <li permid="QgN">
+          <p permid="iUl">
+            Upon finding <m>q'(x)</m>, factor its numerator.
+          </p>
+        </li>
+
+        <li permid="wnW">
+          <p permid="Pbu">
+            Remember that <m>e^{-(x-2)^2}</m> is never zero. 
+            Also, notice that <m>(-\infty,\infty)</m> is not a bounded interval.
+          </p>
+        </li>
+
+        <li permid="cvf">
+          <p permid="viD">
+            After differentiating,
+            remove a factor of <m>e^{-ax}</m>.
+          </p>
+        </li>
+
+        <li permid="ICo">
+          <p permid="bpM">
+            Compare to part (d).
+          </p>
+        </li>
+      </ol>
+    </p>
+  </hint>
+  <answer permid="MCn">
+    <p permid="GrC">
+      <ol label="a." permid="xtp">
+        <li permid="oJx">
+          <p permid="HwV">
+            Absolute maximum: <m>e^{-1}</m>;
+            absolute minimum: <m>0</m>.
+          </p>
+        </li>
+
+        <li permid="UQG">
+          <p permid="nEe">
+            Absolute maximum: <m>\sqrt{2}</m>;
+            absolute minimum: <m>-1</m>.
+          </p>
+        </li>
+
+        <li permid="AXP">
+          <p permid="TLn">
+            Absolute maximum: <m>9.8</m>; absolute minimum: <m>8</m>.
+          </p>
+        </li>
+
+        <li permid="heY">
+          <p permid="zSw">
+            Absolute minimum: <m>3</m>; no absolute maximum.
+          </p>
+        </li>
+        <li>
+        <p>
+        Absolute maximum: <m>(ae)^{-1}</m>; absolute minimum: <m>0</m>.
+        </p>
+        </li>
+        <li>
+        <p>
+        Absolute minimum: <m>b-1</m>; no absolute maximum.
+        </p>
+        </li>
+      </ol>
+    </p>
+  </answer>
+  <solution permid="gve">
+    <p permid="akt">
+      <ol label="a." permid="Rmg">
+        <li permid="Nmh">
+          <p permid="fZF">
+            For <m>h(x) = xe^{-x}</m>,
+            we know that <m>h'(x) = e^{-x}+xe^{-x}(-1) = e^{-x}(1-x)</m>.
+            Therefore
+            the only critical number of <m>h</m> is <m>x = 1</m>.
+            Next, we compute <m>h(1)</m>,
+            <m>h(0)</m>, and <m>h(3)</m>.
+            Observe that
+
+            <ul permid="YQF">
+              <li permid="VVZ">
+                <p permid="MgO">
+                  <m>h(0) = 0</m>
+                </p>
+              </li>
+
+              <li permid="pOQ">
+                <p permid="ptr">
+                  <m>h(1) = e^{-1} \approx 0.36788</m>
+                </p>
+              </li>
+
+              <li permid="Cdi">
+                <p permid="snX">
+                  <m>h(3) = 3e^{-3} \approx 0.14936</m>
+                </p>
+              </li>
+            </ul>
+          </p>
+
+          <p permid="hOS">
+            Thus, on <m>[0,3]</m>,
+            the absolute maximum of <m>h</m> is <m>e^{-1}</m> and the absolute minimum is <m>0</m>.
+          </p>
+        </li>
+
+        <li permid="ttq">
+          <p permid="Yvg">
+            Given <m>p(t) = \sin(t) + \cos(t)</m>,
+            it follows that <m>p'(t) = \cos(t) - \sin(t)</m>,
+            so <m>p'(t) = 0</m> implies that <m>\cos(t) =\sin(t)</m>.
+            The sine and cosine functions have the same value at
+            <m>\frac{\pi}{4} \pm k\pi</m> for any integer <m>k</m>.
+            The only time this occurs in
+            <m>[-\frac{\pi}{2}, \frac{\pi}{2}]</m> is at <m>x = \frac{\pi}{4}</m>,
+            thus this is the only critical number of <m>p</m> in the given interval.
+            Now
+
+            <ul permid="EXO">
+              <li permid="OrA">
+                <p permid="ECp">
+                  <m>p(-\frac{\pi}{2}) = \sin(-\frac{\pi}{2}) + \cos(-\frac{\pi}{2}) = -1 + 0 = -1</m>
+                </p>
+              </li>
+
+              <li permid="ikr">
+                <p permid="VAA">
+                  <m>p(\frac{\pi}{4}) = \sin(\frac{\pi}{4}) + \cos(\frac{\pi}{4}) = \frac{\sqrt{2}}{2} + \frac{\sqrt{2}}{2} = \sqrt{2} \approx 1.41421</m>
+                </p>
+              </li>
+
+              <li permid="uyJ">
+                <p permid="kJy">
+                  <m>p(\frac{\pi}{2}) = \sin(\frac{\pi}{2}) + \cos(\frac{\pi}{2}) = 1 + 0 = 1</m>
+                </p>
+              </li>
+            </ul>
+          </p>
+
+          <p permid="NWb">
+            Therefore, on <m>[-\frac{\pi}{2},\frac{\pi}{2}]</m>,
+            the absolute maximum of <m>p</m> is
+            <m>\sqrt{2}</m> and the absolute minimum is <m>-1</m>.
+          </p>
+        </li>
+
+        <li permid="ZAz">
+          <p permid="QQH">
+            With <m>q(x) = \frac{x^2}{x-2}</m>, we have
+            <me permid="yNd">
+              q'(x) = \frac{2x(x-2) - x^2}{(x-2)^2} = \frac{x^2-4x}{(x-2)^2} = \frac{x(x-4)}{(x-2)^2}
+            </me>.
+            Hence
+            the critical numbers of <m>q</m> are <m>x = 0</m> and <m>x = 4</m>.
+            Only the latter critical number lies in the interval <m>[3,7]</m>,
+            and thus we evaluate <m>q</m> and find
+
+            <ul permid="leX">
+              <li permid="GNb">
+                <p permid="wXQ">
+                  <m>q(3) = \frac{9}{1} = 9</m>
+                </p>
+              </li>
+
+              <li permid="aFS">
+                <p permid="BHJ">
+                  <m>q(4) = \frac{16}{2} = 8</m>
+                </p>
+              </li>
+
+              <li permid="mUk">
+                <p permid="deZ">
+                  <m>q(7) = \frac{49}{5} = 9.8</m>
+                </p>
+              </li>
+            </ul>
+          </p>
+
+          <p permid="udk">
+            We now see that on <m>[3,7]</m> the absolute maximum of <m>q</m> is <m>9.8</m> and the absolute minimum is <m>8</m>.
+          </p>
+        </li>
+
+        <li permid="FHI">
+          <p permid="Jmi">
+            We first observe that we are working on the domain of all real numbers
+            rather than on a closed bounded interval.
+            Hence the extreme value theorem does not apply and
+            we need to think about the overall behavior of the function.
+            First, since <m>f(x) = 4 - e^{-(x-2)^2}</m>,
+            we see by the chain rule that <m>f'(x) = -e^{-(x-2)^2}(-2(x-2)) = 2(x-2)e^{-(x-2)^2}</m>.
+            Since <m>e^{-(x-2)^2}</m> is always positive
+            (and in particular is never zero),
+            it follows that the only critical number of <m>f</m> is <m>x = 2</m>.
+            Furthermore, with <m>f'(x) = 2(x-2)e^{-(x-2)^2}</m>,
+            we see that <m>f'(x) \lt 0</m> for <m>x \lt 2</m>, 
+            and <m>f'(x) \gt 0</m> for <m>x \gt 2</m>.
+            Thus <m>f</m> is decreasing for <m>x \lt 2</m> and increasing for <m>x \gt 2</m>.
+            The first derivative test then tells us that <m>f</m> has an absolute minimum at <m>x = 2</m>
+            and <m>f</m> does not have an absolute maximum.
+          </p>
+        </li>
+        <li>
+        <p>
+        This will be similar to part (a). We start by differentiating <m>h</m>, finding 
+        <m>h'(x)=e^{-ax}(1-ax)</m>. Thus the only critical number of <m>h</m> is <m>\frac1a</m>, 
+        which is on the interval <m>\left[0,\frac2a\right]</m>. 
+        Evaluating <m>h</m> at the interval endpoints and the critical number, we find 
+        <ul>
+        <li>
+        <p>
+        <m>h(0)=0</m>
+        </p>
+        </li>
+        <li>
+        <p>
+        <m>h\left(\frac1a\right)=\frac1ae^{-1}\approx\frac{0.368}a\gt0</m>
+        </p>
+        </li>
+        <li>
+        <p>
+        <m>h\left(\frac2a\right)=\frac2ae^{-2}\approx\frac{0.271}a\gt0</m>
+        </p>
+        </li>
+        </ul>
+        Thus on <m>\left[0,\frac2a\right]</m>, the absolute maximum of <m>h</m> is 
+        <m>\frac1ae^{-1}=(ae)^{-1}</m> and the absolute minimum is <m>0</m>.
+        </p>
+        </li>
+        <li>
+        <p>
+        This is similar to part (d), including the fact that we are looking at all real numbers and not 
+        a closed bounded domain. We first find that <m>f'(x)=2(x-a)e^{-(x-a)^2}</m> and the only 
+        critical number of <m>f</m> is <m>x=a</m>. 
+        Since <m>f'(x)\lt0</m> for <m>x\lt a</m> and <m>f'(x)\gt0</m> for <m>x\gt a</m>, 
+        the first derivative test tells us that <m>f</m> has a minimum at <m>x=a</m> but has no 
+        maximum. 
+        Finally, the value of the absolute minimum is <m>f(a)=b-1</m>. 
+        </p>
+        </li>
+      </ol>
+    </p>
+  </solution>
+</example>
+
+  </subsection>
+
+  <subsection permid="nvr">
+    <title>Moving Toward Applications</title>
+    <p permid="oPf">
+      We conclude this section with an example of an applied optimization problem.
+      It highlights the role that a closed,
+      bounded domain can play in finding absolute extrema.
+    </p>
+
+    <example xml:id="Ex-3-3-1" permid="fQS">
+      <statement>
+        <p permid="aLA">
+          A 20 cm piece of wire is cut into two pieces.
+          One piece is used to form a square and the other to form an equilateral triangle.
+          How should the wire be cut to maximize the total area enclosed by the square and triangle? To minimize the area?
+        </p>
+      </statement>
+      <hint>
+      <p>
+      Drawing and labeling a picture to model the situation may be useful.
+      </p>
+      </hint>
+      <answer>
+      <p>
+      The area is maximized when the wire is uncut and all used for the square; the area is minimized 
+      when approximately <m>11.3</m> cm of wire are used for the triangle and approximately <m>8.7</m> cm 
+      are used for the square.
+      </p>
+      </answer>
+      <solution permid="EtC">
+        <p permid="Fdw">
+          We begin by sketching a picture that illustrates the situation.
+          The variable in the problem is where we decide to cut the wire,
+          so we label the cut point at a distance <m>x</m> cm from one end of the wire
+          and note that the remaining portion of the wire then has length <m>20-x</m> cm.
+        </p>
+        <!--<sidebyside widths="39% 56%" margins="0%">-->
+        <p permid="lkF">
+          <xref ref="F-3-3-Ex1">Figure</xref> below shows how the wire is used to form 
+          the two regular polygons.
+          From the <m>x</m> cm segment of wire, we obtain an equilateral triangle with 
+          three sides of length <m>\frac{x}{3}</m>; the square shaped from the remaining 
+          <m>20-x</m> cm of wire will have four sides of length <m>\frac{20-x}{4}</m>.
+        </p>
+
+        <figure xml:id="F-3-3-Ex1" permid="ipZ">
+          <caption>A 20 cm piece of wire cut into two pieces, one of which forms an equilateral triangle while the other yields a square.</caption>
+          <image width="56%" source="images/3_3_Ex1" />
+        </figure>
+      <!--</sidebyside>-->
+        <p permid="RrO">
+          At this point,
+          we note that there are obvious restrictions on <m>x</m>:
+          in particular, <m>0 \le x \le 20</m>.
+          In the extreme cases,
+          all of the wire is being used to make just one figure.
+          For instance, if <m>x = 0</m>
+          then all 20 cm of wire are used to make a square that is <m>5 \times 5</m>.
+        </p>
+
+        <p permid="xyX">
+          Now, our overall goal is to find the minimum and maximum areas that can be enclosed.
+          Because the height <m>h</m> of an equilateral triangle is
+          <m>\sqrt{3}</m> times half the length of the base <m>b</m>,
+          the area of the triangle is
+          <me permid="hkG">
+            A_{\Delta} = \frac{1}{2} bh = \frac{1}{2} \cdot \frac{x}{3} \cdot \frac{x\sqrt{3}}{6}=\frac{\sqrt3x^2}{36}
+          </me>.
+          The area of the square is <m>A_{\Box} = \left( \frac{20-x}{4} \right)^2</m>.
+          Therefore, the total area function is
+          <me permid="NrP">
+            A(x) = \frac{\sqrt{3}x^2}{36} + \left( \frac{20-x}{4} \right)^2
+          </me>.
+        </p>
+
+        <p permid="dGg">
+          Remember that we are considering this function only on the restricted domain <m>[0,20]</m>.
+        </p>
+
+        <p permid="JNp">
+          Differentiating <m>A(x)</m>, we have
+          <me permid="tyY">
+            A'(x) = \frac{\sqrt{3}x}{18} + 2\left( \frac{20-x}{4} \right)\left( -\frac{1}{4} \right) = \frac{\sqrt{3}}{18} x + \frac{1}{8}x - \frac{5}{2}
+          </me>.
+        </p>
+
+        <p permid="pUy">
+          When we set <m>A'(x) = 0</m>,
+          we find that <m>x = \frac{180}{4\sqrt{3}+9} \approx 11.3007</m> is the only critical number of <m>A</m> in the interval <m>[0,20]</m>.
+        </p>
+
+        <p permid="WbH">
+          Evaluating <m>A</m> at the critical number and endpoints,
+          we see that
+
+          <ul permid="QHU">
+            <li permid="eLz">
+              <p permid="AtD">
+                <m>A(0) = 25</m> cm<m>^2</m>
+              </p>
+            </li>
+
+            <li permid="yEq">
+              <p permid="Umu">
+                <m>A\left(\frac{180}{4\sqrt{3}+9}\right) = \frac{\sqrt{3}\left(\frac{180}{4\sqrt{3}+9}\right)^2}{4} + \left( \frac{20-\frac{180}{4\sqrt{3}+9}}{4} \right)^2 \approx 10.8741</m> cm<m>^2</m>
+              </p>
+            </li>
+
+            <li permid="KSI">
+              <p permid="gAM">
+                <m>A(20) = \frac{\sqrt{3}}{36}(400) = \frac{100}{9} \sqrt{3} \approx 19.2450</m> cm<m>^2</m>
+              </p>
+            </li>
+          </ul>
+        </p>
+        <!--<sidebyside widths="47% 47%" margins="0%">-->
+        <p permid="CiQ">
+          Thus, the absolute minimum occurs when
+          <m>x \approx 11.3007</m> cm and results in the minimum area of approximately <m>10.8741</m> square centimeters.
+          The absolute maximum occurs when we invest all of the wire in the square
+          (and none in the triangle),
+          resulting in 25 square centimeters of area.
+          These results are confirmed by a plot of
+          <m>y = A(x)</m> on the interval <m>[0,20]</m>,
+          as shown below in <xref ref="F-3-3-Ex1Plot">Figure</xref>.
+        </p>
+
+        <figure xml:id="F-3-3-Ex1Plot" permid="Oxi">
+          <caption>A plot of the area function from <xref ref="Ex-3-3-1">Example</xref>.</caption>
+          <image width="47%" source="images/3_3_Ex1Plot" />
+        </figure>
+      <!--</sidebyside>-->
+      </solution>
+    </example>
+
+<example xml:id="act-3-3-3" permid="JAD">
+  <statement>
+    <p permid="EQK">
+      A piece of cardboard that is <m>10 \times 15</m>
+      (each measured in inches)
+      is being made into a box without a top.
+      To do so,
+      squares are cut from each corner of the box and the remaining sides are folded up.
+      Assuming that the box needs to be at least 1 inch deep and no more than 3 inches deep, 
+      answer the following questions.
+
+      <ol label="a." permid="IgP">
+        <li permid="Zfa">
+          <p permid="Qvi">
+            Draw a labeled diagram that shows the given information.
+            What variable should we introduce to represent the choice we make in creating the box?
+            Label the diagram appropriately with the variable
+            and write a sentence to state what the variable represents.
+          </p>
+        </li>
+
+        <li permid="Fmj">
+          <p permid="wCr">
+            Determine a formula for the function <m>V</m> that tells us the volume of the box
+            and depends on the variable defined in (a).
+          </p>
+        </li>
+
+        <li permid="lts">
+          <p permid="cJA">
+            What is the domain of the function <m>V</m>?
+            That is, in the context of this problem, 
+            what values of <m>x</m> make sense for the input of <m>V</m>?
+            Are there additional restrictions provided in the problem?
+          </p>
+        </li>
+
+        <li permid="RAB">
+          <p permid="IQJ">
+            Determine all critical numbers of the function <m>V</m>.
+          </p>
+        </li>
+
+        <li permid="xHK">
+          <p permid="oXS">
+            Evaluate <m>V</m> at each of the endpoints of the domain and at any critical numbers that lie in the domain.
+          </p>
+        </li>
+
+        <li permid="dOT">
+          <p permid="Vfb">
+            What is the maximum possible volume of the box? What is the minimum volume? 
+            Justify your answers using calculus.
+          </p>
+        </li>
+      </ol>
+    </p>
+  </statement>
+  <hint permid="XpN">
+    <p permid="YJB">
+      <ol label="a." permid="bZG">
+        <li permid="JWc">
+          <p permid="Bmk">
+            Consider letting the length of one side of the removed squares be represented by <m>x</m>.
+          </p>
+        </li>
+
+        <li permid="qdl">
+          <p permid="htt">
+            Remember that the volume of a box is length <m>\times</m> width <m>\times</m> height.
+          </p>
+        </li>
+
+        <li permid="Wku">
+          <p permid="NAC">
+            Read the given information carefully and think about the picture.
+          </p>
+        </li>
+
+        <li permid="CrD">
+          <p permid="tHL">
+            Note that since <m>V</m> is a cubic function, <m>V'</m> is quadratic.
+          </p>
+        </li>
+
+        <li permid="iyM">
+          <p permid="ZOU">
+            Which critical numbers satisfy <m>1 \le x \le 3</m>?
+          </p>
+        </li>
+
+        <li permid="OFV">
+          <p permid="FWd">
+            Evaluate the function at appropriate points.
+          </p>
+        </li>
+      </ol>
+    </p>
+  </hint>
+  <answer permid="riE">
+    <p permid="sCs">
+      <ol label="a." permid="vSx">
+        <li permid="uNe">
+
+          <sidebyside width="65%" permid="xml">
+            <image source="images/3_3_Act3Soln" />
+          </sidebyside>
+
+        </li>
+
+        <li permid="aUn">
+          <p permid="mdm">
+            <m> V(x) = x (10-2x) (15-2x) = 4x^3 - 50x^2 + 150x</m>.
+          </p>
+        </li>
+
+        <li permid="Hbw">
+          <p permid="Skv">
+            <m>1 \le x \le 3</m>.
+          </p>
+        </li>
+
+        <li permid="niF">
+          <p permid="yrE">
+            <m> x = \frac{25 \pm 5\sqrt{7}}{6} \approx 6.371, 1.962</m>.
+          </p>
+        </li>
+
+        <li permid="TpO">
+          <p permid="eyN">
+            <ul permid="PLo">
+              <li permid="Uvh">
+                <p permid="KFW">
+                  <m>V(1) = 104</m> in<m>^3</m>.
+                </p>
+              </li>
+
+              <li permid="onY">
+                <p permid="AgR">
+                  <m>V\left(\frac{25-5\sqrt7}6\right) \approx 132.038\text{ in}^3</m>.
+                </p>
+              </li>
+
+              <li permid="ACq">
+                <p permid="qNf">
+                  <m>V(3) = 108</m> in<m>^3</m>.
+                </p>
+              </li>
+            </ul>
+          </p>
+        </li>
+
+        <li permid="zwX">
+          <p permid="WUo">
+            The maximum volume is about <m>132</m> cubic inches; the minimum volume is <m>104</m> cubic inches.
+          </p>
+        </li>
+      </ol>
+    </p>
+  </answer>
+  <solution permid="Lbv">
+    <p permid="Mvj">
+      <ol label="a." permid="jEf">
+        <li permid="fEg">
+          <p permid="Dbx">
+            From each corner of the cardboard, we will cut a square with side length <m>x</m> inches. 
+            The result is the following picture:
+          </p>
+
+          <sidebyside width="50%" permid="dtu">
+            <image source="images/3_3_Act3Soln" />
+          </sidebyside>
+
+        </li>
+
+        <li permid="LLp">
+          <p permid="jiG">
+            After cutting out the four <m>x\times x</m> squares from the corners of the cardboard 
+            and folding up the edges, the resulting box is <m>x</m> inches tall,  
+            <m>10-2x</m> inches wide, and <m>15-2x</m> inches long. 
+            Thus the volume of the box (in cubic inches) is given by
+            <me permid="kXT">
+              V(x) = x (10-2x) (15-2x) = 4x^3 - 50x^2 + 150x
+            </me>.
+          </p>
+        </li>
+
+        <li permid="rSy">
+          <p permid="PpP">
+            At first glance, we see that <m>V</m> is a polynomial and so is defined for every real number <m>x</m>.
+            However, because <m>x</m> represents a length in this problem, the smallest 
+            <m>x</m> can be is <m>0</m>. Moreover, since the shortest side of the 
+            cardboard is initially only <m>10</m> inches and cutting the squares reduces each
+            side by <m>2x</m> inches, the largest <m>x</m> can be is <m>5</m>.
+            We note that both of these extremes would result in a <q>box</q> with zero volume, as the 
+            first would have no height and the second would have no width. 
+            Finally, the problem says the height needs to be between <m>1</m> and <m>3</m>
+            inches, so we will further restrict the domain of <m>V</m> to <m>1 \le x \le 3</m>.
+          </p>
+        </li>
+
+        <li permid="XZH">
+          <p permid="vwY">
+            Since <m>V'(x) = 12x^2 - 100x + 150</m>,
+            it follows that the critical numbers (where <m>V'(x) = 0</m>) are
+            <me permid="Rfc">
+              x = \frac{25 \pm 5\sqrt{7}}{6} \approx 6.371, 1.962
+            </me>.
+          </p>
+        </li>
+
+        <li permid="EgQ">
+          <p permid="bEh">
+            Only the latter critical number is in the relevant domain of <m>V</m>,
+            so we consider
+
+            <ul permid="DwW">
+              <li permid="MQI">
+                <p permid="HLq">
+                  <m>V(1) = 104</m> in<m>^3</m>,
+                </p>
+              </li>
+
+              <li permid="gJz">
+                <p permid="goa">
+                  <m>V\left(\frac{25-5\sqrt7}6\right) \approx 132.038 \text{ in}^3</m>,
+                </p>
+              </li>
+
+              <li permid="sXR">
+                <p permid="nSz">
+                  <m>V(3) = 108</m> in<m>^3</m>.
+                </p>
+              </li>
+            </ul>
+          </p>
+        </li>
+
+        <li permid="knZ">
+          <p permid="TZI">
+          The maximum possible volume of the box is about <m>132.038</m> cubic inches, 
+          occurring when squares with side length around <m>1.962</m> inches are cut 
+          from each corner of the cardboard.
+          The minimum possible volume of the box is <m>104</m> in<m>^3</m> and occurs 
+          with a box that is <m>1</m> inch tall.
+          </p>
+        </li>
+      </ol>
+    </p>
+  </solution>
+</example>
+
+    <p permid="UWo">
+      <xref ref="Ex-3-3-1">Example</xref>
+      and <xref ref="act-3-3-3">Example</xref>
+      illustrate standard steps that we undertake in almost every applied optimization problem:
+      we draw a picture to demonstrate the situation,
+      introduce one or more variables to represent quantities that are changing,
+      find a function that models the quantity to be optimized,
+      and then decide on an appropriate domain for that function.
+      Once that is done,
+      we are in the familiar situation of finding the absolute minimum and maximum of a function over a particular domain,
+      so we apply the calculus ideas that we have been studying up to this point in <xref ref="C-3">Chapter</xref>.
+    </p>
+  </subsection>
+
+  <subsection permid="TCA">
+    <title>Summary</title>
+    <p permid="Bdx">
+      <ul permid="pkE">
+        <li permid="qZR">
+          <p permid="MHV">
+            To find relative extreme values of a function,
+            we use a first derivative sign chart and classify all of the function's critical numbers.
+            If instead we are interested in absolute extreme values,
+            we first decide whether we are considering the entire domain of the function or a particular interval.
+          </p>
+        </li>
+
+        <li permid="Xha">
+          <p permid="sPe">
+            In the case of finding global extrema over the function's entire domain,
+            we again use a first or second derivative sign chart.
+            If we are working to find absolute extrema on a restricted interval,
+            then we first identify all critical numbers of the function that lie in the interval.
+          </p>
+        </li>
+
+        <li permid="Doj">
+          <p permid="YWn">
+            For a continuous function on a closed, bounded interval,
+            the only possible points at which absolute extreme values occur are the critical numbers and the endpoints.
+            Hence we evaluate the function at each endpoint and at each critical number in the interval
+            and then compare the results to decide which is largest
+            (the absolute maximum)
+            and which is smallest
+            (the absolute minimum).
+          </p>
+        </li>
+      </ul>
+    </p>
+  </subsection>
+
+<exercises xmlns:xi="http://www.w3.org/2001/XInclude"> 
+
+  <exercise permid="SIl">
+  <title>Conditions for When Global Extrema May Occur</title>
+    <statement>
+      <p permid="WfH">
+        Based on the given information about each function,
+        decide whether the function has a global maximum,
+        a global minimum, neither, both,
+        or that it is not possible to say without more information.
+        Assume that each function is twice differentiable and defined for all real numbers,
+        unless noted otherwise.
+        In each case, write one sentence to explain your conclusion.
+
+        <ol label="a." permid="qfC">
+          <li permid="ITa">
+            <p permid="rzq">
+              <m>f</m> is a function such that <m>f''(x) \lt 0</m> for every <m>x</m>.
+            </p>
+          </li>
+
+          <li permid="paj">
+            <p permid="XGz">
+              <m>g</m> is a function with two critical numbers <m>a</m> and <m>b</m>
+              (where <m>a \lt b</m>),
+              and <m>g'(x) \lt 0</m> for <m>x \lt a</m>,
+              <m>g'(x) \lt 0</m> for <m>a \lt x \lt b</m>,
+              and <m>g'(x) \gt 0</m> for <m>x \gt b</m>.
+            </p>
+          </li>
+
+          <li permid="Vhs">
+            <p permid="DNI">
+              <m>h</m> is a function with two critical numbers <m>a</m> and <m>b</m>
+              (where <m>a \lt b</m>),
+              and <m>h'(x) \lt 0</m> for <m>x \lt a</m>,
+              <m>h'(x) \gt 0</m> for <m>a \lt x \lt b</m>,
+              and <m>h'(x) \lt 0</m> for <m>x \gt b</m>.
+              In addition,
+              <m>\lim_{x \to \infty} h(x) = 0</m> and <m>\lim_{x \to -\infty} h(x) = 0</m>.
+            </p>
+          </li>
+
+          <li permid="BoB">
+            <p permid="jUR">
+              <m>p</m> is a function differentiable everywhere except at <m>x = a</m> and
+              <m>p''(x) \gt 0</m> for <m>x \lt a</m> and <m>p''(x) \lt 0</m> for <m>x \gt a</m>.
+            </p>
+          </li>
+        </ol>
+      </p>
+    </statement>
+    <answer permid="Xse">
+      <p permid="xCX">
+        <ol label="a." permid="RCS">
+          <li permid="hvK">
+            <p permid="Qca">
+              Not enough information is given.
+            </p>
+          </li>
+
+          <li permid="NCT">
+            <p permid="wjj">
+              Global minimum at <m>x = a</m>.
+            </p>
+          </li>
+
+          <li permid="tKc">
+            <p permid="cqs">
+              Global minimum at <m>x = a</m>;
+              global maximum at <m>x = b</m>.
+            </p>
+          </li>
+
+          <li permid="ZRl">
+            <p permid="IxB">
+              Not enough information is provided.
+            </p>
+          </li>
+        </ol>
+      </p>
+    </answer>
+    <solution permid="rkV">
+      <p permid="Zan">
+        <ol label="a." permid="oqp">
+          <li permid="FYu">
+            <p permid="oEK">
+              It's not possible to say without more information:
+              for instance, the functions
+              <m>f(x) = e^{-x}</m>, <m>f(x) = e^{-x}</m>,
+              and <m>f(x) = x^2</m> are each always concave up,
+              but only one of them has a global minimum.
+              We can say for sure that by being always concave up,
+              <m>f</m> cannot have a global maximum,
+              and it also cannot have both a global maximum and a global minimum.
+              It might have a global minimum, or it might have neither.
+            </p>
+          </li>
+
+          <li permid="mfD">
+            <p permid="ULT">
+              By being twice differentiable,
+              we know that <m>g'(x) = 0</m> any time <m>x</m> is a critical number of <m>g</m>.
+              Thus, given the signs of <m>g'(x)</m> on the stated intervals,
+              <m>g</m> is decreasing before <m>x = a</m> and decreasing on <m>a \lt x \lt b</m>,
+              with a horizontal tangent line at <m>x = a</m>.
+              In addition, <m>g</m> is increasing for <m>x \gt b</m>.
+              Thus, we know that <m>g</m> has a global minimum at <m>x = a</m>.
+            </p>
+          </li>
+
+          <li permid="SmM">
+            <p permid="ATc">
+              Since <m>h</m> is always decreasing for <m>x \lt a</m>,
+              always increasing for <m>a \lt x \lt b</m>,
+              and always decreasing for <m>x \gt b</m>,
+              we know that <m>h</m> has a local minimum at <m>x = a</m> and a local maximum at <m>x = b</m>.
+              Moreover, these local extrema are both global extrema since
+              <m>h(x) to 0</m> as <m>x \to \pm \infty</m>.
+              In particular,
+              since <m>h(x)</m> decreases to <m>0</m> for <m>x \gt b</m> and increases on <m>a \lt x \lt b</m>,
+              it follows that <m>h(b)</m> is the largest value of <m>h(x)</m> on <m>(a, \infty)</m>,
+              and that <m>h(b) \gt 0</m>.
+              Similarly, since <m>h(x)</m> decreases on
+              <m>(-\infty,
+              a)</m> and approaches <m>0</m> as <m>x \to -\infty</m>,
+              and <m>h(x)</m> increases on <m>a \lt x \lt b</m>,
+              it must be the case that <m>h(a)</m> is the least value of <m>h(x)</m> on
+              <m>(-\infty,
+              b)</m> and that <m>h(b) \lt 0</m>.
+              Hence, <m>h(x)</m> is always negative on <m>x \lt a</m> and <m>h(x)</m> is always positive on <m>x \gt b</m>.
+              From all of these observations,
+              it follows that <m>h</m> has a global minimum at <m>x = a</m> and a global maximum at <m>x = b</m>.
+            </p>
+          </li>
+
+          <li permid="ytV">
+            <p permid="hal">
+              First, observe that <m>p</m> is defined for all real numbers by assumption,
+              so <m>p(a)</m> has some finite value.
+              However, <m>p</m> is not differentiable at <m>x = a</m> and <m>p</m> is concave up to the left of <m>x = a</m> and concave down to the right of <m>x = a</m>.
+              This indicates that <m>p</m> has a relative maximum at <m>x = a</m>.
+              Not enough information is provided,
+              however, to determine if this relative maximum is a global maximum,
+              nor if <m>p</m> happens to have a global minimum at some other point.
+            </p>
+          </li>
+        </ol>
+      </p>
+    </solution>
+  </exercise>
+
+  <exercise permid="yPu">
+  <title>Finding Extrema on Closed and Bounded Intervals</title>
+    <statement>
+      <p permid="CmQ">
+        For each family of functions that depends on one or more parameters,
+        determine the function's absolute maximum and absolute minimum on the given interval.
+
+        <ol label="a." permid="WmL">
+          <li permid="eBe">
+            <p permid="Nhu">
+              <m>p(x) = x^3 - a^2x</m> on 
+              <m>[0,a]</m>; assume <m>a \gt 0</m>.
+            </p>
+          </li>
+
+          <li permid="KIn">
+            <p permid="toD">
+              <m>r(x) = axe^{-bx}</m> on
+              <m>\left[\frac{1}{2b}, \frac{2}{b}\right]</m>; assume <m>a \gt 0,
+              b \gt 1</m>.
+            </p>
+          </li>
+
+          <li permid="qPw">
+            <p permid="ZvM">
+              <m>w(x) = a(1-e^{-bx})</m> on
+              <m>[b, 3b]</m>; assume <m>a, b \gt 0</m>.
+            </p>
+          </li>
+
+          <li permid="WWF">
+            <p permid="FCV">
+              <m>s(x) = \sin(kx)</m> on 
+              <m>\left[\frac{\pi}{3k}, \frac{5\pi}{6k}\right]</m>; assume <m>k \gt 0</m>.
+            </p>
+          </li>
+        </ol>
+      </p>
+    </statement>
+    <answer permid="jGw">
+      <p permid="dKg">
+        <ol label="a." permid="xKb">
+          <li permid="DdO">
+            <p permid="lKe">
+              Global maximum <m>p(0) = p(a) = 0</m>;
+              global minimum <m>p\left( \frac{a}{\sqrt{3}} \right) = -\frac{2a^3}{3\sqrt{3}}</m>.
+            </p>
+          </li>
+
+          <li permid="jkX">
+            <p permid="RRn">
+              Global max <m>r\left( \frac{1}{b} \right) \approx 0.368 \frac{a}{b}</m>;
+              global min <m>r\left( \frac{2}{b} \right) \approx 0.270 \frac{a}{b}</m>.
+            </p>
+          </li>
+
+          <li permid="Psg">
+            <p permid="xYw">
+              Global minimum <m>g(b) = a(1-e^{-b^2})</m>;
+              global maximum <m>g(3b) = a(1-e^{-3b^2})</m>.
+            </p>
+          </li>
+
+          <li permid="vzp">
+            <p permid="efF">
+              Global max <m>s\left( \frac{\pi}{2k} \right) = 1</m>;
+              global min <m>s\left( \frac{5\pi}{6k} \right) = \frac{1}{2}</m>.
+            </p>
+          </li>
+        </ol>
+      </p>
+    </answer>
+    <solution permid="Dzn">
+      <p permid="Fhw">
+        <ol label="a." permid="gLQ">
+          <li permid="bGy">
+            <p permid="KmO">
+              Given <m>p(x) = x^3 - a^2x</m> on <m>[0,a]</m>,
+              we first find the critical number(s) of <m>p</m> that lie in <m>[0,a]</m>.
+              Since <m>p'(x) = 3x^2 - a^2 = 3\left(x^2 - \frac{a^2}{3} \right)</m>,
+              we know <m>p</m> has critical numbers at <m>x = \pm \frac{a}{\sqrt{3}}</m>.
+              The negative critical number lies outside the interval,
+              while the positive one lies within the interval since <m>0 \lt \frac{1}{\sqrt{3}} \lt 1</m>.
+              Evaluating <m>p</m> at the endpoints and the critical number within the interval,
+              we find that <m>p(0) = 0</m>,
+              <m>p(a) = a^3 - a^2 \cdot a = 0</m>,
+              and <m>p\left( \frac{a}{\sqrt{3}} \right) = \left( \frac{a}{\sqrt{3}} \right)^3 - a^2 \cdot \left( \frac{a}{\sqrt{3}} \right) = \frac{a^3}{3\sqrt{3}} - \frac{a^3}{\sqrt{3}} = -\frac{2a^3}{3\sqrt{3}}</m>.
+              Hence, the global maximum of <m>p</m> on <m>[0,a]</m> is
+              <m>p(0) = p(a) = 0</m> and the global minimum is <m>p\left( \frac{a}{\sqrt{3}} \right) = -\frac{2a^3}{3\sqrt{3}}</m>.
+            </p>
+          </li>
+
+          <li permid="HNH">
+            <p permid="qtX">
+              Given <m>r(x) = axe^{-bx}</m> on <m>\left[\frac{1}{2b}, \frac{2}{b}\right]</m>,
+              we first find the critical numbers of <m>r</m> that lie in the given interval.
+              Note that by the product rule,
+              <m>r'(x) = ax e^{-bx} (-b) + e^{-bx} a</m>.
+              Factoring, <m>r'(x) = ae^{-bx}(-bx + 1)</m>,
+              and thus the only critical number of <m>r</m> occurs where <m>x = \frac{1}{b}</m>.
+              Note that <m>\frac{1}{2b} \lt \frac{1}{b} \lt b</m> since <m>b \gt 1</m>,
+              and thus the critical number lies within the interval.
+            </p>
+
+            <p permid="WBg">
+              Evaluating <m>r</m> at the endpoints and the critical number, we find
+
+              <ul permid="Uxy">
+                <li permid="OIm">
+                  <p permid="Uqu">
+                    <m>r\left( \frac{1}{2b} \right) = a \cdot \frac{1}{2b} \cdot e^{-1/2} \approx 0.607 \frac{a}{2b} = 0.3035 \frac{a}{b}</m>
+                  </p>
+                </li>
+
+                <li permid="uPv">
+                  <p permid="CIp">
+                    <m>r\left( \frac{2}{b} \right) = a \cdot \frac{2}{b} \cdot e^{-2} \approx 0.135 \frac{2a}{b} = 0.270 \frac{a}{b}</m>
+                  </p>
+                </li>
+
+                <li permid="aWE">
+                  <p permid="iPy">
+                    <m>r\left( \frac{1}{b} \right) = a \cdot \frac{1}{b} \cdot e^{-1} \approx 0.368 \frac{a}{b} </m>
+                  </p>
+                </li>
+              </ul>
+
+              The global max of <m>r</m> is therefore
+              <m>r\left( \frac{1}{b} \right) \approx 0.368 \frac{a}{b}</m> and the global min is <m>r\left( \frac{2}{b} \right) \approx 0.270 \frac{a}{b}</m>.
+            </p>
+          </li>
+
+          <li permid="nUQ">
+            <p permid="OWH">
+              For <m>w(x) = a(1-e^{-bx})</m> on <m>[b, 3b]</m>,
+              we first note that <m>w'(x) = a(be^{-bx}) = abe^{-bx}</m>.
+              Since <m>a</m> and <m>b</m> are both positive and so is <m>e^{-bx}</m> for every value of <m>x</m>,
+              we see that <m>w'(x) \gt 0</m> for every value of <m>x</m>.
+              Because <m>w</m> is always increasing
+              (specifically on <m>[b,3b]</m>),
+              <m>w</m> has its global minimum at the left endpoint (<m>g(b) = a(1-e^{-b^2})</m>) and its global maximum at the right endpoint (<m>g(3b) = a(1-e^{-3b^2})</m>).
+            </p>
+          </li>
+
+          <li permid="UbZ">
+            <p permid="vdQ">
+              Finally, for <m>s(x) = \sin(kx)</m> on <m>\left[\frac{\pi}{3k}, \frac{5\pi}{6k}\right]</m>,
+              we know <m>s'(x) = k\cos(kx)</m>,
+              and <m>\cos(kx) = 0</m> when
+              <m>kx = \frac{\pi}{2} \pm n\pi</m> for some integer <m>n</m>,
+              so <m>x = \frac{\pi}{2k} \pm n\pi = \frac{\pi \pm 2n\pi}{2k}</m>.
+              These <m>x</m>-values are the critical numbers of <m>s</m>.
+              Note that when <m>n = -1, 0, 1</m>,
+              the corresponding critical numbers are
+              <me permid="uIr">
+                x = -\frac{\pi}{2k}, \frac{\pi}{2k}, \frac{3\pi}{2k}
+              </me>
+              Comparing the values of <m>-\frac{\pi}{2}</m>, <m>\frac{\pi}{2k}</m>,
+              and <m>\frac{3\pi}{2k}</m> to
+              <m>\frac{\pi}{3}</m> and <m>\frac{5\pi}{6}</m>,
+              we see that only <m>\frac{\pi}{2k}</m> lies in the given interval <m>\left[\frac{\pi}{3k}, \frac{5\pi}{6k}\right]</m>,
+              and thus <m>x = \frac{\pi}{2k}</m> is the only critical number at which we need to evaluate <m>s</m>.
+            </p>
+
+            <p permid="bkZ">
+              Evaluating <m>s</m> at the endpoints and relevant critical number, we find:
+
+              <ul permid="AEH">
+                <li permid="HdN">
+                  <p permid="AxD">
+                    <m>s\left( \frac{\pi}{3k} \right) = \sin\left( k \cdot \frac{\pi}{3k} \right) = \sin\left( \frac{\pi}{3} \right) = \frac{\sqrt{3}}{2}</m>;
+                  </p>
+                </li>
+
+                <li permid="nkW">
+                  <p permid="Hsi">
+                    <m>s\left( \frac{5\pi}{6k} \right) = \sin\left( k \cdot \frac{5\pi}{6k} \right) = \sin\left( \frac{5\pi}{6} \right) = \frac{1}{2}</m>; and
+                  </p>
+                </li>
+
+                <li permid="Tsf">
+                  <p permid="nzr">
+                    <m>s\left( \frac{\pi}{2k} \right) = \sin\left( k \cdot \frac{\pi}{2k} \right) = \sin\left( \frac{\pi}{2} \right) = 1</m>.
+                  </p>
+                </li>
+              </ul>
+
+              Hence the global max of <m>s</m> on <m>\left[\frac{\pi}{3k}, \frac{5\pi}{6k}\right]</m> is
+              <m>s\left( \frac{\pi}{2k} \right) = 1</m> and the global min of <m>s</m> is <m>s\left( \frac{5\pi}{6k} \right) = \frac{1}{2}</m>.
+            </p>
+          </li>
+        </ol>
+      </p>
+    </solution>
+  </exercise>
+
+  <exercise permid="eWD">
+  <title>Conditions for Where Global Extrema May Occur</title>
+    <statement>
+      <p permid="itZ">
+        For each of the functions described below
+        (each continuous on <m>[a,b]</m>),
+        state the location of the function's absolute maximum and absolute minimum on the interval <m>[a,b]</m>,
+        or say there is not enough information provided to make a conclusion.
+        Assume that any critical numbers mentioned in the problem statement represent all of the critical numbers the function has in <m>[a,b]</m>.
+        In each case, write one sentence to explain your answer.
+
+        <ol label="a." permid="CtU">
+          <li permid="Aji">
+            <p permid="TGA">
+              <m>f'(x) \le 0</m> for all <m>x</m> in <m>[a,b]</m>.
+            </p>
+          </li>
+
+          <li permid="gqr">
+            <p permid="zNJ">
+              <m>g</m> has a critical number at <m>c</m> such that <m>a \lt c\lt b</m> and
+              <m>g'(x) \gt 0</m> for <m>x \lt c</m> and <m>g'(x) \lt 0</m> for <m>x \gt c</m>.
+            </p>
+          </li>
+
+          <li permid="MxA">
+            <p permid="fUS">
+              <m>h(a) = h(b)</m> and
+              <m>h''(x) \lt 0</m> for all <m>x</m> in <m>[a,b]</m>.
+            </p>
+          </li>
+
+          <li permid="sEJ">
+            <p permid="Mcb">
+              <m>p(a) \gt 0</m>, <m>p(b) \lt 0</m>,
+              and for the critical number <m>c</m> such that <m>a \lt c \lt b</m>,
+              <m>p'(x) \lt 0</m> for <m>x \lt c</m> and <m>p'(x) \gt 0</m> for <m>x \gt c</m>.
+            </p>
+          </li>
+        </ol>
+      </p>
+    </statement>
+    <answer permid="vUO">
+      <p permid="JRp">
+        <ol label="a." permid="dRk">
+          <li permid="YLS">
+            <p permid="sjk">
+              Global maximum at <m>x=a</m>;
+              global minimum at <m>x=b</m>.
+            </p>
+          </li>
+
+          <li permid="ETb">
+            <p permid="Yqt">
+              Global maximum at <m>x=c</m>;
+              global minimum at either <m>x=a</m> or <m>x=b</m>.
+            </p>
+          </li>
+
+          <li permid="lak">
+            <p permid="ExC">
+              Global minimum at <m>x=a</m> and <m>x=b</m>;
+              global maximum somewhere in <m>(a,b)</m>.
+            </p>
+          </li>
+
+          <li permid="Rht">
+            <p permid="kEL">
+              Global minimum at <m>x=c</m>;
+              global maximum value at <m>x = a</m>.
+            </p>
+          </li>
+        </ol>
+      </p>
+    </answer>
+    <solution permid="PNF">
+      <p permid="loF">
+        <ol label="a." permid="MSZ">
+          <li permid="xoC">
+            <p permid="QLU">
+              The fact that <m>f'(x) \leq 0</m> for all <m>x</m> in <m>[a,b]</m> means that <m>f</m> cannot increase in this interval.
+              So either <m>f</m> is constant or <m>f</m> decreases somewhere in this interval.
+              We can conclude that the global maximum value of <m>f</m> occurs at <m>x=a</m> and the global minimum value at <m>x=b</m>.
+            </p>
+          </li>
+
+          <li permid="dvL">
+            <p permid="wTd">
+              The information we are given shows that <m>g</m> is increasing on <m>(a,c)</m> and decreasing on <m>(c,b)</m>.
+              So <m>g</m> has a global maximum value at <m>x=c</m>.
+              We know that <m>g</m> must have a global minimum at either <m>x=a</m> or <m>x=b</m>.
+              The information given does not tell us how much <m>g</m> increases on <m>(a,c)</m> and decreases on <m>(c,b)</m>,
+              so we cannot determine the endpoint at which <m>g</m> attains its global minimum value.
+            </p>
+          </li>
+
+          <li permid="JCU">
+            <p permid="dam">
+              In order for <m>h(a)=h(b)</m> and
+              <m>h''(x) \lt 0</m> for all <m>x</m> in <m>[a,b]</m>,
+              the graph of <m>h</m> must look something like a parabola that opens down on the interval <m>[a,b]</m>.
+              Consequently,
+              <m>h</m> has its global minimum at <m>x=a</m> and <m>x=b</m>,
+              and its global maximum somewhere in <m>(a,b)</m>,
+              but we do not know the exact point at which <m>h</m> attains its global maximum.
+            </p>
+          </li>
+
+          <li permid="pKd">
+            <p permid="Jhv">
+              The given information forces the graph of <m>p</m> to decrease on <m>(a,c)</m> then increase on <m>(c,b)</m>.
+              Thus, we must have <m>p(c) \lt p(b)</m> and so <m>p</m> has its global minimum value at <m>x=c</m>.
+              Since <m>p(a) \gt p(b)</m>,
+              this makes <m>p(a)</m> the global maximum value of <m>p</m> on <m>[a,b]</m>.
+            </p>
+          </li>
+        </ol>
+      </p>
+    </solution>
+  </exercise>
+
+  <exercise permid="LdM">
+  <title>Using the Extreme Value Theorem</title>
+    <statement>
+      <p permid="OBi">
+        Let <m>s(t) = 3\sin\left(2\left(t-\frac{\pi}{6}\right)\right) + 5</m>.
+        Find the exact absolute maximum and minimum of <m>s</m> on the provided intervals by testing the endpoints and by finding and evaluating <m>s</m> at all relevant critical numbers of <m>s</m>.
+
+        <ol label="a." cols="2" permid="iBd">
+          <li permid="VRm">
+            <p permid="poE">
+              <m>\left[\frac{\pi}{6}, \frac{7\pi}{6}\right]</m>
+            </p>
+          </li>
+
+          <li permid="BYv">
+            <p permid="VvN">
+              <m>\left[0, \frac{\pi}{2}\right]</m>
+            </p>
+          </li>
+
+          <li permid="ifE">
+            <p permid="BCW">
+              <m>[0, 2\pi]</m>
+            </p>
+          </li>
+
+          <li permid="OmN">
+            <p permid="hKf">
+              <m>\left[\frac{\pi}{3}, \frac{5\pi}{6}\right]</m>
+            </p>
+          </li>
+        </ol>
+      </p>
+    </statement>
+    <answer permid="Ijg">
+      <p permid="pYy">
+        <ol label="a." permid="JYt">
+          <li permid="utW">
+            <p permid="NRo">
+              Global max <m>s(\frac{5\pi}{12}) = 8</m>;
+              global min <m>s(\frac{11\pi}{12}) = 2</m>.
+            </p>
+          </li>
+
+          <li permid="aBf">
+            <p permid="tYx">
+              Global max <m>s(\frac{5\pi}{12}) = 8</m>;
+              global min <m>s(0) = 5 - \frac{3\sqrt{3}}{2} \approx 2.402</m>.
+            </p>
+          </li>
+
+          <li permid="GIo">
+            <p permid="afG">
+              Global max <m>s(\frac{5\pi}{12}) = 8</m>;
+              global min <m>s(\frac{11\pi}{12}) = 2</m>.
+              (There are other points at which the function achieves these values on the given interval.)
+            </p>
+          </li>
+
+          <li permid="mPx">
+            <p permid="GmP">
+              Global max <m>s(\frac{5\pi}{12}) = 8</m>;
+              global min <m>s(\frac{\pi}{3}) = 6.5</m>.
+            </p>
+          </li>
+        </ol>
+      </p>
+    </answer>
+    <solution permid="cbX">
+      <p permid="RvO">
+        <ol label="a." permid="lvJ">
+          <li permid="SWG">
+            <p permid="mtY">
+              For <m>s(t) = 3\sin(2(t-\frac{\pi}{6})) + 5</m>,
+              <m>s'(t) = 3\cos(2(t-\frac{\pi}{6})) \cdot 2 = 6\cos(2(t-\frac{\pi}{6}))</m>.
+              It follows that <m>s'(t) = 0</m> if and only if <m>\cos(2(t-\frac{\pi}{6})) = 0</m>,
+              and thus <m>2(t-\frac{\pi}{6}) = \frac{\pi}{2} \pm k\pi</m> for some integer value of <m>k</m>.
+              Solving this most recent equation for <m>t</m>,
+              we have <m>t-\frac{\pi}{6} = \frac{\pi}{4} \pm \frac{k\pi}{2}</m>, so
+              <me permid="aPA">
+                t = \frac{\pi}{6} + \frac{\pi}{4} \pm \frac{k\pi}{2} = \frac{5\pi}{12} \pm \frac{k\pi}{2}
+              </me>.
+              Now we consider the given interval <m>[\frac{\pi}{6}, \frac{7\pi}{6}]</m>,
+              which we can think of as <m>[\frac{2\pi}{12}, \frac{14\pi}{12}]</m>.
+              The value <m>t = \frac{5\pi}{12}</m> lies in this interval,
+              as does <m>t = \frac{5\pi}{12} + \frac{\pi}{2} = \frac{11\pi}{12}</m>.
+              Thus, we have two critical numbers in the interval at which to evaluate <m>s</m>,
+              as well as at the endpoints.
+            </p>
+
+            <p permid="SBh">
+              Doing so, we find:
+
+              <ul permid="tai">
+                <li permid="zzo">
+                  <p permid="gEM">
+                    <m>s(\frac{5\pi}{12}) = 8</m>;
+                  </p>
+                </li>
+
+                <li permid="fGx">
+                  <p permid="yIq">
+                    <m>s(\frac{11\pi}{12}) = 2</m>;
+                  </p>
+                </li>
+
+                <li permid="LNG">
+                  <p permid="ePz">
+                    <m>s(\frac{\pi}{6}) = 5</m>; and
+                  </p>
+                </li>
+
+                <li permid="rUP">
+                  <p permid="KWI">
+                    <m>s(\frac{7\pi}{6}) = 5</m>.
+                  </p>
+                </li>
+              </ul>
+
+              The global max of <m>s</m> on
+              <m>[\frac{\pi}{6}, \frac{7\pi}{6}]</m> is thus <m>s(\frac{5\pi}{12}) = 8</m>,
+              while the global min is <m>s(\frac{11\pi}{12}) = 2</m>.
+            </p>
+          </li>
+
+          <li permid="zdP">
+            <p permid="rdR">
+              From our work in (a),
+              we know that <m>s</m> has critical numbers at <m>t = \frac{5\pi}{12} \pm \frac{k\pi}{2}</m>.
+              On the interval <m>[0, \frac{\pi}{2}]</m>,
+              only <m>t = \frac{5\pi}{12}</m> lies in the interval.
+              Thus we have three values at which to evaluate <m>s</m>.
+            </p>
+
+            <p permid="Xla">
+              Doing so:
+
+              <ul permid="Zhr">
+                <li permid="YbY">
+                  <p permid="MLV">
+                    <m>s(\frac{5\pi}{12}) = 8</m>;
+                  </p>
+                </li>
+
+                <li permid="Ejh">
+                  <p permid="Dsj">
+                    <m>s(0) = 3\sin(2(0-\frac{\pi}{6})) + 5 = 3\sin(-\frac{\pi}{3}) + 5 = 5 - \frac{3\sqrt{3}}{2} \approx 2.402</m>; and
+                  </p>
+                </li>
+
+                <li permid="kqq">
+                  <p permid="jzs">
+                    <m>s(\frac{\pi}{2}) = 3\sin(2(\frac{\pi}{2}-\frac{\pi}{6})) + 5 = 3\sin(\frac{2\pi}{3}) + 5 = 5 + \frac{3\sqrt{3}}{2} \approx 7.598</m>.
+                  </p>
+                </li>
+              </ul>
+
+              The global max of <m>s</m> on
+              <m>[0, \frac{\pi}{2}]</m> is thus <m>s(\frac{5\pi}{12}) = 8</m>,
+              while the global min is <m>s(0) = 5 - \frac{3\sqrt{3}}{2} \approx 2.402</m>.
+            </p>
+          </li>
+
+          <li permid="fkY">
+            <p permid="PGB">
+              On the interval from <m>t = 0</m> to <m>t = 2\pi</m>,
+              <m>s</m> completes nearly two full periods,
+              and thus achieves each of its maximum and minimum values.
+              The global maximum is <m>8</m> as determined in (a),
+              and the global minimum is <m>2</m>.
+              These occur, for example, at <m>s(\frac{5\pi}{12}) = 8</m>,
+              while the global min is <m>s(\frac{11\pi}{12}) = 2</m>.
+              There are other points at which the function achieves these values on the given interval.
+            </p>
+          </li>
+
+          <li permid="Lsh">
+            <p permid="vNK">
+              On the interval <m>[\frac{\pi}{3}, \frac{5\pi}{6}] = [\frac{4\pi}{12}, \frac{10\pi}{12}]</m>,
+              only the critical number <m>t = \frac{5\pi}{12}</m> lies in the interval.
+              Thus we have three values at which to evaluate <m>s</m>.
+            </p>
+
+            <p permid="bUT">
+              Doing so:
+
+              <ul permid="FoA">
+                <li permid="Qxz">
+                  <p permid="sTe">
+                    <m>s(\frac{5\pi}{12}) = 8</m>;
+                  </p>
+                </li>
+
+                <li permid="wEI">
+                  <p permid="Icc">
+                    <m>s(\frac{\pi}{3}) = 3\sin(2(\frac{\pi}{3}-\frac{\pi}{6})) + 5 = 3\sin(\frac{\pi}{6}) + 5 = \frac{3}{2} + 5 = \frac{13}{2} = 6.5</m>; and
+                  </p>
+                </li>
+
+                <li permid="cLR">
+                  <p permid="ojl">
+                    <m>s(\frac{5\pi}{6}) = 3\sin(2(\frac{5\pi}{6}-\frac{\pi}{6})) + 5 = 3\sin(\frac{2\pi}{3}) + 5 = 5 + \frac{3\sqrt{3}}{2} \approx 7.598</m>.
+                  </p>
+                </li>
+              </ul>
+
+              The global max of <m>s</m> on
+              <m>[\frac{\pi}{3}, \frac{5\pi}{6}]</m> is thus <m>s(\frac{5\pi}{12}) = 8</m>,
+              while the global min is <m>s(\frac{\pi}{3}) = 6.5</m>.
+            </p>
+          </li>
+        </ol>
+      </p>
+    </solution>
+  </exercise>
+
+ </exercises>
+</section>
+

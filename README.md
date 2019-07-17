@@ -1,5 +1,8 @@
 # OER
 
+Note:  If you are working on a windows machine there is some work to do before you will be able to run any of this.  You need ot install the relevant software.  A guide is availible at http://mathbook.pugetsound.edu/doc/pnw/html/software.html  In particular, you should look at step 5, installing xsltproc
+
+
 The folder mathbook contains all the mathbook xml template files that give the book it's structure.
 
 The OERsource folder contains source files for each course
@@ -46,3 +49,25 @@ git clone https://github.com/nwakefield2/OER.git www
 
 Finally, there is a script that can be run from /var/www that handles everything including git pull, compiling, and google analytics.
 ./updateOER.sh
+
+
+I found out that some browsers cannot display PDFs as images.  The following command will convert all PDFs in a directory to jpg files so that they can be displayed.
+
+for i in *.pdf; do if [ -f "${i%.*}.jpg" ] || [ -f "${i%.*}.svg" ]; then echo ""; else echo "${i%.*}.jpg";  convert -density 600  "$i" "${i%.*}.jpg"; echo "*************file Created***********"; fi; done
+
+That is
+
+for i in \*.pdf; do if [ -f "${i%.\*}.jpg" ] || [ -f "${i%.\*}.svg" ]; then echo ""; else echo "${i%.\*}.jpg";  convert -density 600  "$i" "${i%.\*}.jpg"; echo "\*\*\*\*\*\*\*\*\*\*\*\*\*file Created\*\*\*\*\*\*\*\*\*\*\*"; fi; done
+
+
+followed by 
+git status
+git add .
+git commit
+git push
+
+
+
+I believe that LaTeX should now be working with a few more tweeks to be made.  The command to create the PDF of the 106-107 book is
+	
+	xsltproc -xinclude acs-latex.xsl ~/Documents/GitHub/OER/OERSource/Calc/2019-2020/index.xml
