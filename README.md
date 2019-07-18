@@ -21,12 +21,13 @@ you issue the compile commands.)
 This command will change depending on your directory structure 
 For macOS you will be issuing a command of the form
 
-cd ~/Documents/GitHub/OER/html/PreCalculus/
+%First compile with this
+cd ~/Documents/GitHub/OER/html/Calculus/
 
 Now we call the command to compile the OER.  This command will change depending on your directory structure 
 For macOS the command should be something like:
-
-xsltproc -xinclude mfg-html.xsl ~/Documents/GitHub/OER/OERSource/PreCalc/2019-2020/update.xml 
+%Second compile with this
+xsltproc -xinclude mfg-html.xsl ~/Documents/GitHub/OER/OERSource/Calc/2019-2020/update.xml 
 
 %%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%
