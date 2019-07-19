@@ -39,10 +39,11 @@
 
   <introduction permid="job">
     <p permid="JFY">
+    <idx><h>limits</h><h>indeterminate form</h></idx>
       Because differential calculus is based on the definition of the derivative,
       and the definition of the derivative involves a limit,
       there is a sense in which all of calculus rests on limits.
-      Limits in which evaluating the numerator and denominator at the limit point separately results in the fraction <m>\frac{0}{0}</m> are called indeterminate form.
+      Limits in which separately evaluating the numerator and denominator at the limit point results in the fraction <m>\frac{0}{0}</m> are called indeterminate form.
       When we come across a limit like this we have some work to do.
       Remember, saying that a limit has an indeterminate form only means that we don't yet know its value and have more work to do:
       indeed, limits of the form
@@ -50,13 +51,17 @@
     </p>
 
     <p permid="pNh">
-      We have learned many techniques for evaluating the limits,
-      including a large number of shortcut rules.
+      We have learned many techniques for evaluating the limits
+      that arise from applying the definition of the derivative,
+      including a large number of shortcut rules 
+      that seem to bypass the use of limits entirely.
       In this section,
-      we explore how to use derivatives to evaluate certain limits.
+      we will explore how to use derivatives to evaluate certain limits 
+      that we previously could not compute.
     </p>
 
 <example xml:id="PA-2-8" permid="tAL">
+<statement>
   <p permid="hmt">
     Let <m>h</m> be the function given by <m>h(x) = \frac{x^5 + x - 2}{x^2 - 1}</m>.
 
@@ -65,7 +70,7 @@
 
       <li permid="rLy">
         <p permid="cCA">
-          Evaluate <m>f(x) = x^5 + x - 2</m> and <m>g(x) = x^2 - 1</m> at <m>x=1</m>.  Can you evaluate <m>\lim_{x \rightarrow 1}\frac{x^5 + x - 2}{x^2 - 1}</m> by just plugging <m>x=1</m> into the equations?
+          Evaluate <m>f(x) = x^5 + x - 2</m> and <m>g(x) = x^2 - 1</m> at <m>x=1</m>.  Can you evaluate <m>\lim_{x \rightarrow 1}\frac{x^5 + x - 2}{x^2 - 1}</m> by just plugging <m>x=1</m> into the quotient?
         </p>
       </li>
 
@@ -87,7 +92,7 @@
 
       <li permid="kgZ">
         <p permid="UYb">
-          Using your work from (c) and (d), evaluate
+          Using your work from (b), evaluate
           <me permid="NtC">
             \lim_{x \to 1} \frac{L_f(x)}{L_g(x)}
           </me>.
@@ -103,6 +108,121 @@
       </li>
     </ol>
   </p>
+</statement>
+<hint>
+  <ol label="a">
+  <li>
+    <p>
+    Is <m>h</m> continuous at <m>x=1</m>? Why (not)?
+    </p>
+  </li>
+  <li>
+    <p>
+    Remember that the local linearization of a function at a point is just the 
+    tangent line to the function at that point.
+    </p>
+  </li>
+  <li>
+    <p>
+    What can you say about the relationship between <m>f</m> and <m>L_f</m> near <m>a=1</m>? 
+    </p>
+  </li>
+  <li>
+    <p>
+    Based on (c), how should <m>\lim_{x\to1}\frac{L_f(x)}{L_g(x)}</m> compare to <m>\lim_{x\to1}h(x)</m>?
+    </p>
+  </li>
+  <li>
+    <p>
+    You can also investigate <m>h(x)</m> algebraically by factoring the numerator and denominator (with a common factor of <m>x-1</m>).
+    </p>
+  </li>
+  </ol>
+</hint>
+<answer>
+  <ol label="a">
+  <li>
+    <p>
+    <m>f(1)=0=g(1)</m>. <m>\lim_{x\to1}h(x)</m> has indeterminate form <m>\frac00</m>.
+    </p>
+  </li>
+  <li>
+    <p>
+    <m>L_f(x)=6(x-1)</m>; <m>L_g(x)=2(x-1)</m>.
+    </p>
+  </li>
+  <li>
+    <p>
+    Near <m>a=1</m>, we have <m>L_f(x)\approx f(x)</m> and <m>L_g(x)\approx g(x)\neq0</m>. 
+    Hence, near <m>a=1</m>, <m>\frac{L_f(x)}{L_g(x)}\approx\frac{f(x)}{g(x)}=h(x)</m>.
+    </p>
+  </li>
+  <li>
+    <p>
+    <m>\lim_{x\to1}\frac{L_f(x)}{L_g(x)}=3</m>.
+    </p>
+  </li>
+  <li>
+    <p>
+    <m>\lim_{x\to1}h(x)=3</m>.
+    </p>
+  </li>
+  </ol>
+</answer>
+<solution>
+  <ol label="a">
+  <li>
+    <p>
+    Since <m>f(x)=x^5+x-2</m>, we have <m>f(1)=1+1-2=0</m>.
+    Likewise, <m>g(x)=x^2-1</m>, so <m>g(1)=1-1=0</m>. 
+    As both <m>f(1)=0</m> and <m>g(1)=0</m>, we can <em>not</em> say <q><m>\lim_{x\to1}\frac{f(x)}{g(x)}=\frac{f(1)}{g(1)}</m>,</q>
+    because the right side of this equation is not a well-defined number. If only the denominator were <m>0</m>, 
+    we could say the limit was infinite; if only the numerator were <m>0</m>, we could say the limit was also <m>0</m>. 
+    Instead, we are left with an indeterminate form of <m>\frac00</m>, which could be zero or infinite or anywhere in between. 
+    </p>
+  </li>
+  <li>
+    <p>
+    Recall that the local linearization of a function <m>y(x)</m> at a point <m>x=a</m>
+    is given by the formula <me>L_y(x)=y(a)+y'(a)(x-a)</me>.
+    Since <m>f(1)=0</m> and <m>f'(x)=5x^4+1</m>, then <m>f'(1)=6</m> and <me>L_f(x)=6(x-1)</me>.
+    Since <m>g(1)=0</m> and <m>g'(x)=2x</m>, then <m>g'(1)=2</m> and <me>L_g(x)=2(x-1)</me>.
+    </p>
+  </li>
+  <li>
+    <p>
+    <m>L_f</m> and <m>L_g</m> are the tangent line approximations for <m>f</m> and <m>g</m>, respectively, near the point 
+    <m>x=1</m>. Because <m>f</m> and <m>g</m> are each differentiable and hence locally linear, this means 
+    <m>L_f(x)\approx f(x)</m> for <m>x</m> near <m>1</m>, and <m>L_g(x)\approx g(x)</m> for <m>x</m> near <m>1</m>.
+    Thus for values of <m>x</m> that are close to <m>1</m> and are not roots of <m>g(x)</m>, we can approximate the quotient 
+    <m>h(x)=\frac{f(x)}{g(x)}</m> by <m>\frac{L_f(x)}{L_g(x)}</m>. 
+    Finally, since the only roots of <m>g</m> are <m>\pm1</m>, we can thus say: for <m>x\neq1</m> 
+    near <m>a=1</m>, <me>h(x)\approx\frac{L_f(x)}{L_g(x)}</me>.
+    </p>
+  </li>
+  <li>
+    <p>
+    Notice that <me>\lim_{x\to1}\frac{L_f(x)}{L_g(x)}=\lim_{x\to1}\frac{6(x-1)}{2(x-1)}=\lim_{x\to1}\frac62=3</me>.
+    By our argument in (c), we know <m>h(x)\approx\frac{L_f(x)}{L_g(x)}</m> near <m>x=1</m>. It should thus be the case 
+    that <m>\lim_{x\to1}h(x)=\lim_{x\to1}\frac{L_f(x)}{L_g(x)}=3</m>.
+    </p>
+  </li>
+  <li>
+    <p>
+    Looking at a graph of <m>y=h(x)</m>, we note that there is a hole at <m>(1,3)</m>, 
+    implying that <m>x=1</m> is a removable discontinuity, and <m>\lim_{x\to1}h(x)=3</m>. 
+    With a numerical approach, we see that <m>h(0.99)\approx2.965</m>, <m>h(0.999)\approx2.997</m>, 
+    <m>h(1.01)\approx3.035</m>, and <m>h(1.001)\approx3.0035</m>. These values again suggest that 
+    <m>\lim_{h\to1}h(x)=3</m>. 
+    Finally, we note that <m>h</m> is a rational function and that <m>1</m> is a root of 
+    both its numerator and its denominator. It follows that <m>x-1</m> is a factor of both the numerator and denominator, 
+    and in fact <me>h(x)=\frac{(x^4+x^3+x^2+x+2)(x-1)}{(x+1)(x-1)}</me>. 
+    Hence, we can actually compute <m>\lim_{x\to1}h(x)</m> algebraically (even though it wasn't clear before that we could), 
+    and thus confirm that <me>\lim_{x\to1}h(x)=\lim_{x\to1}\frac{(x^4+x^3+x^2+x+2))}{(x+1)}=\frac62=3</me>.
+    </p>
+  </li>
+  </ol>
+</solution>
 </example>
   </introduction>
 
@@ -979,7 +1099,7 @@
       <m>\frac{f(x)}{g(x)}</m> that results in an indeterminate form of <m>\frac{\infty}{\infty}</m>,
       in essence we are asking which function is growing faster without bound.
       We say that the function <m>g</m> <term>dominates</term>
-      <idx><h>dominates</h></idx>
+      <idx><h>function</h><h>dominance</h></idx>
       the function <m>f</m> as <m>x \to \infty</m> provided that
       <me permid="BGa">
         \lim_{x \to \infty} \frac{f(x)}{g(x)} = 0
@@ -1472,7 +1592,7 @@
     <statement>
       <p permid="rzd">
         Recall we say that the function <m>g</m> dominates
-            <idx><h>dominates</h></idx>
+            <idx><h>function</h><h>dominance</h></idx>
         the function <m>f</m> provided that <m>\lim_{x \to \infty} f(x) = \infty</m>,
         <m>\lim_{x \to \infty} g(x) = \infty</m>,
         and <m>\lim_{x \to \infty} \frac{f(x)}{g(x)} = 0</m>.
