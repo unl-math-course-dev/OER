@@ -28,7 +28,7 @@ Now we call the command to compile the OER.  This command will change depending 
 For macOS the command should be something like:
 %Second compile with this
 xsltproc -xinclude mfg-html.xsl ~/Documents/GitHub/OER/OERSource/Calc/2019-2020/update.xml 
-
+xsltproc -xinclude mfg-html.xsl ~/Documents/GitHub/OER/OERSource/Calc/2019-2020/index.xml 
 %%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%
