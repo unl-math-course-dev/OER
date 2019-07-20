@@ -13,7 +13,7 @@
 <!-- their respective owners.                                              -->
 <!-- **********************************************************************-->
 <section xmlns:xi="http://www.w3.org/2001/XInclude" xml:id="sec-8-3-series" permid="nbf">
-  <title>Series of Real Numbers</title>
+  <title>Convergence of Series</title>
   <objectives permid="hlT">
     <ul permid="ZHu">
       <li permid="ern">
@@ -976,7 +976,7 @@
       <ol label="a." permid="iWY">
         <li permid="nGR">
           <p permid="JoV">
-            Consider <m>\lim_{k \to \infty} \frac{k}{k+1}}</m>.
+            Consider <m>\lim_{k \to \infty} \frac{k}{k+1}</m>.
           </p>
         </li>
 
@@ -1522,42 +1522,153 @@
   </solution>
 </example>
   </subsection>
+  
+	<subsection>
+		<title>The Direct Comparison Test</title>
+		<p permid="YgC">
+			The Integral Test allows us to determine the convergence of an entire family of series: the <m>p</m>-series.
+			However, we have seen that it is often difficult to integrate functions,
+			so the Integral Test is not one that we can use all of the time.
+			In fact, even for a relatively simple series such as <m>\sum \frac{k^2+1}{k^4+2k+2}</m>, the Integral Test is not an option.
+			In what follows we develop a test that applies to series of rational functions by comparing their behavior to the behavior of <m>p</m>-series.
+		</p>
+	
+		<assemblage permid="QnI">
+			<title>The Direct Comparison Test</title>
+			<p permid="QCd">
+			Suppose that <m> 0 \leq a_n \leq b_n </m> for all <m>n</m> beyond a certain value.
+				<ul>
+					<li> <p> If <m> \sum b_n </m> converges, then <m> \sum a_n </m> converges. </p> </li>
+					<li> <p> If <m> \sum a_n </m> diverges, then <m> \sum b_n </m> diverges. </p></li>
+				</ul>
+			</p>
+		</assemblage>
+		
+		<p> The idea behind the Direct Comparison Test is very intuitive. If a series <m>\sum a_n</m> has terms that are all (beyond a certain <m>n</m>) 
+		smaller than the corresponding terms in a series <m>\sum b_n</m> that we know converges, then the unknown series <m> \sum a_n </m> must also
+		converge, because it is "smaller" than something finite. Thus, we can use the first bullet point above to prove that a series
+		<m> \left( \sum a_n \right)</m> converges.
+		</p>
+		
+		<p>
+		On the other hand, if a series <m> \sum b_n </m> has terms that are all (beyond a certain <m> n</m>) larger than the corresponding terms in
+		a series <m> \sum a_n </m> that we know diverges, then the series <m> \sum b_n </m> must also diverge, because it is "larger" than something infinite.
+		Thus, we can use the second bullet point to prove that a series <m>\left(\sum b_n \right)</m> diverges.
+		</p>
+		
+		<example>
+			<statement>
+				<p>
+					<ol label="a.">
+						<li>
+							<p> Consider the series <me> \sum_{n=1}^\infty \frac{n-2}{n^4+1}.</me> Since the convergence or divergence of a series only depends
+							on the behavior of the series for large values of <m>n </m>, we might examine the terms of this series more closely as 
+							<m>n</m> gets large. By computing the value of <m> \frac{n-2}{n^4+1} </m> for <m> n=100 </m> and <m> n=1000</m>, explain why the terms
+							<m> \frac{n-2}{n^4+1} </m> are essentially <m> \frac{n}{n^4} </m> when <m>n</m> is large.
+							</p>
+						</li>
+						<li>
+							<p> This gives us the sense that the series <m> \sum \frac{n-2}{n^4+1} </m> should behave the same way that <m> \sum \frac{n}{n^4} = \sum \frac{1}{n^3}</m> behaves.
+								Does <m>\sum \frac{1}{n^3} </m> converge or diverge? Why?
+							</p>
+						</li>
+						<li>
+							<p> Show that for all <m> n\geq 2</m>, <m> 0 \leq \frac{n-2}{n^4+1} \leq \frac{n}{n^4} = \frac{1}{n^3}.</m> You can then use the direct comparison test to 
+							argue that <me> \sum_{n=1}^\infty \frac{n-2}{n^4+1} </me> converges.
+							</p>
+						</li>							
+						<li><p> Use a similar method to the parts above to determine whether <me>\sum_{n=1}^\infty \frac{3n+2}{4n^2-3} </me> converges or diverges.</p></li>
+					</ol>
+				</p>
+			</statement>
+			
+			<solution> 
+				<p>
+					<ol label="a.">
+						<li> <p> When <m>n</m> is very large, the constant 2 in the numerator is negligible when compared to <m>n</m>, and the constant 1
+						in the denominator is negligible when compared to <m>n^4</m>. So for large <m>n</m>, the numerator looks like <m>n</m> and the denominator looks
+						like <m> n^4</m>. Thus, the fraction <m> \frac{n-2}{n^4+1}</m> looks like <m> \frac{n}{n^4}</m> for large <m>n</m>. </p>
+						</li>
+						<li> <p> We know that <m> \sum \frac{1}{n^3} </m> is a <m>p</m>-series with <m>p=3</m>, so it is a convergent series. Thus, we expect that <m> \sum \frac{n-2}{n^4+1} </m> will converge too.
+							</p>
+						</li>
+						<li><p> Since we expect <m> \sum \frac{n-2}{n^4+1}</m> to converge, we'll want to use the first bullet point from the test, so we need to complete the inequality
+							<me> 0 \leq \frac{n-2}{n^4+1} \leq \cdots </me> 
+							until we get to a series we know converges. Since a fraction increases if we make the numerator larger or if we make the denominator smaller,
+							we can do the following:
+							<me> 0 \leq \frac{n-2}{n^4+1} \leq \frac{n}{n^4+1} \leq \frac{n}{n^4} = \frac{1}{n^3} </me>
+							for all <m> n \geq 1 </m>. Now since <m> \sum \frac{1}{n^3} </m> converges, then <m> \sum \frac{n-2}{n^4+1} </m> also converges by the Direct Comparison Test.
+							</p>
+						</li>
+						<li><p> We similarly first get a feel for what we expect the series to do. For very large <m> n</m>, <m> \frac{3n+2}{4n^2-3}</m> behaves like <m> \frac{3n}{4n^2} = \frac{3}{4n} = \frac{3}{4} \cdot \frac{1}{n}</m>.
+						Since <m> \sum \frac{1}{n} </m> diverges, then <m>\sum \frac{3}{4n} </m> also diverges, so we expect <m>\sum \frac{3n+2}{4n^2-3} </m> to diverge as well.</p>
+						<p> Thus, this time we'll use the second bullet point and build the inequality
+						<me> \frac{3n+2}{4n^2-3}  \geq \cdots \geq 0 </me>
+						where the middle is filled in with a series we know the convergence for. To make a fraction smaller, we should decrease the numerator and increase the denominator.
+						So we can do
+						<me> \frac{3n+2}{4n^2-3} \geq \frac{3n}{4n^2-3} \geq \frac{3n}{4n^2} = \frac{3}{4n} \geq 0. </me>
+						Now since <m> \sum \frac{3}{4n} </m> diverges, then <m>\sum \frac{3n+2}{4n^2-3}</m> also diverges by the Direct Comparison Test.</p>
+						</li>
+					</ol>
+				</p>
+			</solution>
+			
+		</example>
+		<p> Sometimes, getting the inequalities right can be tricky. The following example illustrates this.</p>
+		
+		<example>
+			<statement>
+				<p> Consider the series <m> \sum \frac{k+1}{k^3+2}</m>. </p>
+				<ol label="a.">
+					<li> <p> For large <m>k</m>, what <m>p</m>-series does <m>\sum \frac{k+1}{k^3+2}</m> look like? Using this, do you expect
+							<m> \sum \frac{k+1}{k^3+2}</m> to converge or diverge?</p>
+					</li>
+					<li> <p> Try to build an inequality as in the direct comparison test to prove that the series converges or diverges. What makes this tricky? </p>
+					</li>	
+				</ol>
+			</statement>
+			
+			<solution>
+				<ol label = "a.">
+					<li> <p> For large <m>k</m>, <m> \frac{k+1}{k^3+2} </m> looks like <m>\frac{k}{k^3} = \frac{1}{k^2}</m>. Since <m> \sum \frac{1}{k^2}</m>
+					is a <m>p</m>-series with <m>p=2</m>, then <m>\sum \frac{1}{k^2}</m> converges, so we expect <m>\frac{k+1}{k^3+2}</m> to converge as well. </p>
+					</li>
+					<li> <p> We need to find a series whose <m>k</m>th term is larger than <m>\frac{k+1}{k^3+2}</m>. We can begin like in the previous example with:
+						<me> 0 \leq \frac{k+1}{k^3+2} \leq \frac{k+1}{k^3} </me> for all <m>k \geq 1</m>. However, <m>\frac{k}{k^3}</m> is smaller than <m>\frac{k+1}{k^3}</m>,
+						not larger. This makes finding the right inequality a little tricker than the previous example. There is a way to deal with this. For example:
+						<me> 0 \leq \frac{k+1}{k^3+2} \leq \frac{k+1}{k^3} \leq \frac{k+k}{k^3} = \frac{2k}{k^3} </me>. This works because in the numerator, <m> k+1 \leq k+k</m> for <m> k\geq 1</m>.
+						Now <m>\frac{2k}{k^3}=2\left(\frac{1}{k^2}\right)</m>, which yields a convergent <m>p</m>-series. Therefore, by the direct comparison test,
+						<m> \sum\frac{k+1}{k^3+2} </m> also converges. </p>
+					</li>
+				</ol>
+			</solution>
+		</example>
+	
+	</subsection>
+	
+	
+
 
   <subsection permid="LDP">
     <title>The Limit Comparison Test</title>
     <idx><h>limit comparison test</h></idx>
 
-    <p permid="YgC">
-      The Integral Test allows us to determine the convergence of an entire family of series:
-      the <m>p</m>-series.
-      However, we have seen that it is often
-      difficult to integrate functions,
-      so the Integral Test is not one that we can use all of the time.
-      In fact, even for a relatively simple series such as <m>\sum \frac{k^2+1}{k^4+2k+2}</m>,
-      the Integral Test is not an option.
-      In what follows we develop a test that applies to series of rational functions by comparing their behavior to the behavior of <m>p</m>-series.
-    </p>
+<p>The limit comparison test is another test that can be used to determine series convergence and works in many of the same situations that
+the direct comparison test is used. However, the limit comparison test does not require any inequalities between the series you are comparing,
+so in some cases it can be easier to use than the direct comparison test. </p>
+
 
 <example xml:id="act-8-3-6" permid="daI">
   <statement>
     <p permid="kFh">
-      Consider the series <m>\sum \frac{k+1}{k^3+2}</m>.
-      Since the convergence or divergence of a series only depends on the behavior of the series for large values of <m>k</m>,
-      we might examine the terms of this series more closely as <m>k</m> gets large.
-
+      Once again, consider the series <m>\sum \frac{k+1}{k^3+2}</m>.
+      
       <ol label="a." permid="toZ">
-        <li permid="Zwi">
-          <p permid="iPU">
-            By computing the value of
-            <m>\frac{k+1}{k^3+2}</m> for <m>k = 100</m> and <m>k = 1000</m>,
-            explain why the terms <m>\frac{k+1}{k^3+2}</m> are essentially
-            <m>\frac{k}{k^3}</m> when <m>k</m> is large.
-          </p>
-        </li>
 
         <li permid="FDr">
-          <p permid="OXd">
-            Let's formalize our observations in (a) a bit more.
+          <p permid="OXd"> 
+			Recall that for large <m>k</m>, <m>\frac{k+1}{k^3+2}</m> looks like <m>\frac{k}{k^3}</m>.
+            Let's formalize this observation a bit more.
             Let <m>a_k =  \frac{k+1}{k^3+2}</m> and <m>b_k =  \frac{k}{k^3}</m>.
             Calculate
             <me permid="QMq">
@@ -1570,36 +1681,16 @@
 
         <li permid="lKA">
           <p permid="vem">
-            Does the series <m>\sum \frac{k}{k^3}</m> converge or diverge?
-            Why?
-            What do you think that tells us about the convergence or divergence of the series <m>\sum \frac{k+1}{k^3+2}</m>?
+            What do you think that this tells us about the convergence or divergence of the series <m>\sum \frac{k+1}{k^3+2}</m>, based on the convergence of <m>\sum \frac{k}{k^3}</m>?
             Explain.
           </p>
         </li>
       </ol>
     </p>
   </statement>
-  <hint permid="UMp">
-    <p permid="ExY">
-      <ol label="a." permid="NhQ">
-        <li permid="RRJ">
-          <p permid="blv">
-            Small hints for each of the prompts above.
-          </p>
-        </li>
-      </ol>
-    </p>
-  </hint>
+  
   <answer permid="oFg">
-    <p permid="YqP">
-      <ol label="a." permid="haH">
-        <li permid="xYS">
-          <p permid="HsE">
-            <m>\frac{k+1}{k^3+2}</m> looks like
-            <m>\frac{k}{k^3}</m> when <m>k</m> is large.
-          </p>
-        </li>
-
+	<p><ol label="a.">
         <li permid="egb">
           <p permid="nzN">
             <m>
@@ -1620,15 +1711,6 @@
   <solution permid="IxX">
     <p permid="sjG">
       <ol label="a." permid="ATy">
-        <li permid="qut">
-          <p permid="zOf">
-            When <m>k</m> is very large,
-            the constant 1 in the numerator is negligible compared to <m>k</m> and the constant 2 in the denominator is negligible compared to <m>k^3</m>.
-            So the numerator looks like <m>k</m> and the denominator <m>k^3</m> when <m>k</m> is large.
-            It follows that <m>\frac{k+1}{k^3+2}</m> looks like
-            <m>\frac{k}{k^3}</m> when <m>k</m> is large.
-          </p>
-        </li>
 
         <li permid="WBC">
           <p permid="fVo">
@@ -1639,8 +1721,7 @@
               <mrow>\amp = \lim_{k \to \infty} \frac{1+\frac{1}{k}}{1+\frac{2}{k}}</mrow>
               <mrow>\amp = 1</mrow>
             </md>.
-            This tells us that <m>a_k \approx b_k</m> for large values of <m>k</m>,
-            which is what we suggested in part (a).
+            This tells us that <m>a_k \approx b_k</m> for large values of <m>k</m>, formally (before, we were only building intuition and hadn't proved this).
           </p>
         </li>
 
@@ -1649,7 +1730,7 @@
             Since <m>\frac{k}{k^3} = \frac{1}{k^2}</m>,
             the series <m>\sum \frac{k}{k^3}</m> is a <m>p</m>-series with <m>p=2</m> and so converges.
             Since <m>a_k \approx b_k</m> for large values of <m>k</m>,
-            it seems reasonable to expect that <m>\sum a_k \approx \sum b_k</m> for large <m>k</m>s.
+            it seems reasonable to expect that <m>\sum a_k \approx \sum b_k</m>.
             Since <m>\sum a_k</m> is finite,
             we should then conclude that <m>\sum b_k</m> is also finite.
             So <m>\sum \frac{k+1}{k^3+2}</m> should be a convergent series.

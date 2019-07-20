@@ -353,6 +353,7 @@ along with MathBook XML.  If not, see <http://www.gnu.org/licenses/>.
         <xsl:text>&#xa;</xsl:text>
     </xsl:if>
     <!-- Following need to be mature, robust, powerful, flexible, well-maintained -->
+    <xsl:text>\usepackage{fullpage}&#xa;</xsl:text>
     <xsl:text>%% Default LaTeX packages&#xa;</xsl:text>
     <xsl:text>%%   1.  always employed (or nearly so) for some purpose, or&#xa;</xsl:text>
     <xsl:text>%%   2.  a stylewriter may assume their presence&#xa;</xsl:text>
@@ -485,10 +486,15 @@ along with MathBook XML.  If not, see <http://www.gnu.org/licenses/>.
     <xsl:text>\usepackage[utf8]{inputenc}&#xa;</xsl:text>
     <!-- TODO: put a pdflatex font package hook here? -->
     <xsl:text>%% end: pdflatex-specific configuration&#xa;</xsl:text>
-    
+
     <xsl:text>}&#xa;</xsl:text>
     <xsl:text>%% \mono macro for content of "c" element only&#xa;</xsl:text>
     <xsl:text>\newcommand{\mono}[1]{\texttt{#1}}&#xa;</xsl:text>
+
+
+    <xsl:text>\newcommand{\alert}[1]{{\color{red}#1}}&#xa;</xsl:text>
+    <xsl:text>\newcommand{\abs}[1]{\mid #1 \mid}&#xa;</xsl:text>
+
     <xsl:if test="$document-root//c or $document-root//cd or $document-root//pre or $document-root//program or $document-root//console or $document-root//sage">
         <xsl:text>%% Monospace font: Inconsolata (zi4)&#xa;</xsl:text>
         <xsl:text>%% Sponsored by TUG: http://levien.com/type/myfonts/inconsolata.html&#xa;</xsl:text>
@@ -3515,8 +3521,8 @@ along with MathBook XML.  If not, see <http://www.gnu.org/licenses/>.
 <xsl:template match="webwork[@source]">
     <!-- directory of server LaTeX must be specified -->
     <xsl:if test="$webwork.server.latex = ''">
-        <xsl:message terminate="No">MBX:ERROR   For LaTeX versions of WeBWorK problems on a server, the mbx script will collect the LaTeX source and then this conversion must specify the location through the "webwork.server.latex" command line stringparam.  Quitting...</xsl:message>
-    	<xsl:text>This exercise uses the WeBWorK Online Homework System and so is not available in the print copy of this book.</xsl:text>
+        <!--<xsl:message terminate="No">MBX:ERROR   For LaTeX versions of WeBWorK problems on a server, the mbx script will collect the LaTeX source and then this conversion must specify the location through the "webwork.server.latex" command line stringparam.  Quitting...</xsl:message>
+    	<xsl:text>This exercise uses the WeBWorK Online Homework System and so is not available in the print copy of this book.</xsl:text>-->
     </xsl:if>
     <xsl:if test="$webwork.server.latex != ''">
     <xsl:variable name="xml-filename">
