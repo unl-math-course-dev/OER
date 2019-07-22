@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<section xmlns:xi="http://www.w3.org/2001/XInclude" xml:id="sec-8-7-applications-taylor-series" permid="kXx">
+	  <title>Applications of Taylor Series</title>
+			<objectives>
+				<ul>
+					<li>
+						<p>
+							How can we use the Taylor series that we already know to build new ones?
+						</p>
+					</li>
+					<li>
+						<p>
+							How can we use Taylor series to approximate values of functions or irrational numbers?
+						</p>
+					</li>
+					<li>
+						<p>
+							How can we use Taylor series to put several functions in order, near a specific value?
+						</p>
+					</li>
+				</ul>
+			</objectives>
+		
+			<introduction>
+				<p>
+				We have now built several examples of Taylor series using the definition, and we have seen in the process that nearly all 
+				of the work needed to find a Taylor series is done in finding the coefficients. This can be done for any function by taking derivatives;
+				however, some functions have very complicated derivatives, and the process of finding these derivatives can take a serious
+				amount of time and effort. In many situations, we can use the Taylor series that we already know to find Taylor series for more
+				complicated functions. 
+				</p>
+			</introduction>
+			
+		<subsection permid="kvh">
+			<title>Manipulating Power Series</title>
+				<p> 
+					Recall the Taylor series expansions about <m>x=0</m> for the following important functions:
+					<md>
+						<mrow> \sin x \amp= x - \frac{x^3}{3!} + \frac{x^5}{5!} - \frac{x^7}{7!} + \frac{x^9}{9!} - \cdots </mrow>
+						<mrow> \cos x \amp= 1 - \frac{x^2}{2!} + \frac{x^4}{4!} - \frac{x^6}{6!} + \frac{x^8}{8!} - \cdots </mrow>
+						<mrow> e^x \amp= 1 + x + \frac{x^2}{2!} + \frac{x^3}{3!} + \frac{x^4}{4!} + \cdots </mrow>
+						<mrow> \frac{1}{1-x} \amp= 1 + x + x^2 + x^3 + x^4 + \cdots </mrow>
+					</md>
+				</p>
+			
+			<example>
+				<statement>
+					<p>
+						Consider the function <m>f(x)=\sin(x^2)</m>. The goal is to find the Taylor series centered at 0 for <m>f(x)</m>.
+					</p>
+					<ol label="a.">
+						<li>
+							<p>
+								Find the first two derivates of <m>f(x)</m>. Explain why each time you take another derivative, the result
+								has more terms than the previous derivative. For example, the second derivative has more terms than the first derivative.
+							</p>
+						</li>
+						<li>
+							<p>
+								Take the Taylor series for <m>\sin y </m> about <m>y=0</m> and then substitute <m>y=x^2</m>. Simplify this and you have
+								the Taylor series for <m>\sin(x^2)</m>.
+							</p>
+						</li>
+						<li>
+							<p>
+								Verify that the derives you found in part a. match the Taylor series from part b.
+							</p>
+						</li>
+						<li>
+							<p> What is the radius of convergence of the Taylor series for <m>\sin(x^2)</m>?</p>
+						</li>
+					</ol>
+				</statement>
+				<solution>
+					<ol label="a.">
+						<li>
+							<p>
+								<md>
+									<mrow> f'(x)\amp= 2x\cos(x^2) </mrow>
+									<mrow> f''(x)\amp=2\cos(x^2) - 4x^2\sin(x^2) </mrow>
+								</md>
+								Notice that each time we take a further derivative, we're going to be using at least one of the product rule or
+								the chain rule on each existing term. Thus, there will always be more terms than the previous derivative had.
+							</p>
+						</li>
+						<li>
+							<p>
+							 Since <me> \sin(y) = y - \frac{y^3}{3!} + \frac{y^5}{5!} - \frac{y^7}{7!} + \frac{y^9}{9!} + \cdots </me>,
+							 substituting <m>y=x^2 </m> yields
+							 <md> 
+								<mrow> \sin(x^2)\amp= x^2 - \frac{(x^2)^3}{3!} + \frac{(x^2)^5}{5!} - \frac{(x^2)^7}{7!} + \frac{(x^2)^9}{9!} + \cdots </mrow>
+							 <mrow> \amp= x^2 - \frac{x^6}{3!} + \frac{x^{10}}{5!} - \frac{x^{14}}{7!} + \frac{x^{18}}{9!} + \cdots </mrow>
+							 </md>
+							</p>
+						</li>
+						<li>
+							<p> The constant term of the series should be <m>f(0)=\sin(0)=0.</m>
+							
+							The coefficient of the <m>x</m> term of the series should be <m> f'(0)=0 \cdot \cos(0)=0.</m> 
+							
+							The coefficient of the <m>x^2</m> term of the series should be <m>\frac{f''(0)}{2} = \frac{2\cos(0)- 4(0)\sin(0)}{2}=\frac{2}{2}=1.</m>
+							
+							All match!
+							</p>
+						</li>
+						<li>
+							<p>
+								Since the Taylor series for <m>\sin(y)</m> has radius of convergence <m>R=\infty</m>, the Taylor series for <m>\sin(x^2)</m>
+								also has radius of convergence <m>R=\infty</m>.
+							</p>
+						</li>
+					</ol>
+				</solution>
+			</example>
+			
+			<example xml:id="act-8-6-2" permid="XlW">
+  <statement>
+    <p permid="SCd">
+      Our goal in this example is to find a power series expansion for
+      <m>f(x) = \frac{1}{1+x^2}</m> centered at <m>x=0</m>.
+    </p>
+
+
+    <p permid="eQv">
+      <ol label="a." permid="blV">
+        <li permid="Hte">
+          <p permid="QMQ">
+            What is the Taylor series expansion for <m>g(x) = \frac{1}{1-x}</m>?
+            What is the interval of convergence of this series?
+          </p>
+        </li>
+
+        <li permid="nAn">
+          <p permid="wTZ">
+            How is <m>g(-x^2)</m> related to <m>f(x)</m>?
+            Explain,
+            and hence substitute <m>-x^2</m> for <m>x</m> in the power series expansion for <m>g(x)</m>.
+            Given the relationship between <m>g(-x^2)</m> and <m>f(x)</m>,
+            how is the resulting series related to <m>f(x)</m>?
+          </p>
+        </li>
+
+        <li permid="THw">
+          <p permid="dbi">
+            For which values of <m>x</m> will this power series expansion for <m>f(x)</m> be valid?
+            Why?
+          </p>
+        </li>
+      </ol>
+    </p>
+  </statement>
+  <hint permid="CJl">
+    <p permid="muU">
+      <ol label="a." permid="veM">
+        <li permid="zOF">
+          <p permid="Jir">
+            Small hints for each of the prompts above.
+          </p>
+        </li>
+      </ol>
+    </p>
+  </hint>
+  <answer permid="WCc">
+    <p permid="GnL">
+      <ol label="a." permid="OXD">
+        <li permid="fVO">
+          <p permid="ppA">
+            <m>
+            \frac{1}{1-x} = \sum_{k=0}^{\infty} x^k
+            </m>
+            for <m>-1 \lt x \lt 1</m>.
+          </p>
+        </li>
+
+        <li permid="McX">
+          <p permid="VwJ">
+            <m>f(x) = g(-x^2) = \sum_{k=0}^{\infty} (-1)^k x^{2k}</m>.
+          </p>
+        </li>
+
+        <li permid="skg">
+          <p permid="BDS">
+            <m>-1 \lt x \lt 1</m>.
+          </p>
+        </li>
+      </ol>
+    </p>
+  </answer>
+  <solution permid="quT">
+    <p permid="agC">
+      <ol label="a." permid="iQu">
+        <li permid="Yrp">
+          <p permid="hLb">
+            Recall that
+            <me permid="KXE">
+              g(x) = \frac{1}{1-x} = \sum_{k=0}^{\infty} x^k
+            </me>
+            for <m>-1 \lt  x \lt  1</m>.
+          </p>
+        </li>
+
+        <li permid="Eyy">
+          <p permid="NSk">
+            Substituting <m>-x^2</m> for <m>x</m> in the power series expansion for <m>g(x)</m> gives
+            <md permid="reN">
+              <mrow>f(x) \amp = g(-x^2)</mrow>
+              <mrow>\amp = \frac{1}{1-(-x^2)}</mrow>
+              <mrow>\amp = \sum_{k=0}^{\infty} \left(-x^2\right)^k</mrow>
+              <mrow>\amp = \sum_{k=0}^{\infty} (-1)^k x^{2k}</mrow>
+            </md>.
+          </p>
+        </li>
+
+        <li permid="kFH">
+          <p permid="tZt">
+            This power series expansion for <m>f(x)</m> will be valid as long as
+            <m>-1 \lt (-x)^2 \lt 1</m> or for <m>-1 \lt x \lt 1</m>.
+          </p>
+        </li>
+      </ol>
+    </p>
+  </solution>
+</example>
+		</subsection>
+
+</section>
+

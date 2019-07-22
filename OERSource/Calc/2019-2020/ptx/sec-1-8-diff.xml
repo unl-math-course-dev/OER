@@ -41,7 +41,7 @@
   </introduction>
 
   <subsection permid="MOz">
-    <title>Being differentiable at a point</title>
+    <title>Being Differentiable at a Point</title>
     <idx><h>differentiable</h></idx>
 
     <p permid="RcT">
@@ -63,13 +63,18 @@
       then it must be continuous at <m>x = a</m>.
       Stated differently, if <m>f</m> is not continuous at <m>x = a</m>,
       then it is automatically the case that <m>f</m> is not differentiable there.
-      For example, in <xref ref="F-1-7-Cont">Figure</xref>,
+      For example, in <xref ref="F-1-7-ContDiff">Figure</xref> below,
       both <m>f</m> and <m>g</m> fail to be differentiable at <m>x = 1</m> because neither function is continuous at <m>x = 1</m>.
     </p>
 
+    <figure xml:id="F-1-7-ContDiff">
+      <caption>Functions <m>f</m> and <m>g</m> that are not continuous (and hence not differentiable) at <m>x=1</m>, and a function <m>h</m> that is both continuous and differentiable at <m>x=1</m>.</caption>
+      <image width="100%" source="images/1_7_Cont" />
+    </figure>
+
     <p permid="drl">
       A natural question to ask at this point is <q>is there a difference between continuity and differentiability?</q>
-      Can a function fail to be differentiable at a point where the function is continuous?
+      In other words, can a function fail to be differentiable at a point where the function is continuous?
       To answer these questions, we consider a certain function <m>f</m>, where the graph of
       <m>y=f(x)</m> is displayed below in <xref ref="F-1-7-NotDiff">Figure</xref>.
       We notice that <m>f</m> has a sharp corner at the point <m>(1,1)</m>, and
@@ -77,7 +82,7 @@
     </p>
 
     <figure xml:id="F-1-7-NotDiff" permid="ibe">
-      <caption>A function <m>f</m> that is continuous at <m>x = 1</m> but not differentiable at <m>x = 1</m>; at right, we zoom in on the point <m>(1,1)</m> in a magnified version of the box in the left-hand plot.</caption>
+      <caption>A function <m>f</m> that is continuous at <m>x = 1</m> but not differentiable at <m>x = 1</m>; at right, we zoom in on the point <m>(1,1)</m> in a magnified version of the box shown in the left-hand plot.</caption>
       <image width="70%" source="images/1_7_NotDiff" />
     </figure>
 
@@ -98,28 +103,169 @@
       and never like a single line,
       which tells us there is no possibility for a tangent line there.
     </p>
+</subsection>
 
+<subsection><title>Local Linearity</title>
     <p permid="pFD">
       If a function <em>does</em> have a tangent line at a given point,
       then the function and the tangent line should appear essentially indistinguishable
-      when we zoom in on the point of tangency<fn>
+      when we zoom in on the point of tangency.<fn>
       For instance, see
       <url href="http://gvsu.edu/s/6J">http://gvsu.edu/s/6J</url> for an applet
       (due to David Austin, GVSU)
       where zooming in shows the increasing similarity between the tangent line and the curve.
-      </fn>.
+      </fn>
       Conversely,
       if we zoom in on a point and the function looks like a single straight line,
-      then the function should have a tangent line there,
+      then the function should have a tangent line there
       and thus be differentiable at that point.
 <!--
       Hence a function that is differentiable at <m>x = a</m> will,
       up close, look more and more like its tangent line at <m>(a,f(a))</m>.
 -->
       Therefore, we say that a function that is differentiable at <m>x = a</m> is
-      <em>locally linear</em>.
+      <term>locally linear</term>.
           <idx><h>locally linear</h></idx>
+      An example of this can be seen in <xref ref="F-1-8-local-linearity">Figure</xref> below,
+      with the graph of a function <m>y=f(x)</m> on the left and a magnified version with
+      the tangent line to <m>f</m> at <m>a</m> on the right.</p>
+
+    <figure xml:id="F-1-8-local-linearity" permid="fQs">
+      <caption>A function <m>y = f(x)</m> and its tangent line at the point <m>(a,f(a))</m> is shown in the figure. Notice how the function resembles a line as we zoom in on <m>x=a</m>.</caption>
+      <image width="100%" source="images/1-8-local-linearity.gif" />
+      <!-- want this to be a gif not a jpg (the file exists, but won't compile locally) -->
+    </figure>
+
+    <example xml:id="non-diff">
+  <statement>
+    <p permid="iSY">
+      Let <m>g</m> be the function given by the rule <m>g(x) = |x|</m>.
     </p>
+    <p permid="Pah">
+      <ol label="a." permid="ldK">
+        <li permid="RkT">
+          <p permid="DRi">
+            Visualize (or sketch) the graph of <m>y=g(x)</m>, and use it to explain why <m>g</m>
+            is differentiable at every nonzero value of <m>x</m>.
+          </p>
+        </li>
+
+        <li permid="xsc">
+          <p permid="jYr">
+            Use the limit definition of the derivative to show that <m>g'(0) = \lim_{h \to 0} \frac{|h|}{h}</m>.
+            Then use left- and right- handed limits to explain why this limit does not exist.
+            Conclude that <m>g</m> is not differentiable at <m>x=0</m>.
+          </p>
+        </li>
+      </ol>
+    </p>
+  </statement>
+  <hint permid="MBa">
+    <p permid="CLP">
+      <ol label="a." permid="EWB">
+        <li permid="VUM">
+          <p permid="IBb">
+            What type of function is <m>g</m> for all <m>x \lt 0</m>?
+            For all <m>x > 0</m>?
+          </p>
+        </li>
+
+        <li permid="CbV">
+          <p permid="oIk">
+            Recall that <m>g'(0) = \lim_{h \to 0} \frac{g(0 + h) - g(0)}{h}</m>.
+            What is the value of <m>|h|</m> when <m>h \lt 0</m>?
+          </p>
+        </li>
+      </ol>
+    </p>
+  </hint>
+  <answer permid="gtR">
+    <p permid="WEG">
+      <ol label="a." permid="YPs">
+        <li permid="aEF">
+          <p permid="NkU">
+            <m>g</m> is piecewise linear.
+          </p>
+        </li>
+
+        <li permid="GLO">
+          <p permid="tsd">
+            <me permid="boz">
+              \lim_{h \to 0^-} \frac{|h|}{h}=-1, \ \text{and} \ \lim_{h\to0^+}\frac{|h|}h=1
+            </me>.
+          </p>
+        </li>
+      </ol>
+    </p>
+  </answer>
+  <solution permid="AmI">
+    <p permid="qxx">
+      <ol label="a." permid="sIj">
+        <li permid="zhp">
+          <p permid="lNE">
+            We know that <m>g(x) = |x|</m> is given by the formula
+            <m>g(x) = -x</m> when <m>x \lt 0</m> and by <m>g(x) = x</m> when <m>x \ge 0</m>.
+            Each of these pieces of <m>g</m> is a straight line,
+            so at every point other than the point where they meet,
+            the function <m>g</m> has a well-defined slope
+            and thus is differentiable whenever <m>x\neq0</m>.
+            The graph of <m>y=g(x)</m> is a translate of the earlier graph of <m>y=f(x)</m> from <xref ref="F-1-7-NotDiff">Figure</xref>.
+          </p>
+        </li>
+
+        <li permid="foy">
+          <p permid="RUN">
+            Observe that
+            <md permid="HvI">
+              <mrow>g'(0) =\mathstrut \amp  \lim_{h \to 0} \frac{g(0+h)-g(0)}{h}</mrow>
+              <mrow>=\mathstrut \amp  \lim_{h \to 0} \frac{|0+h|-|0|}{h}</mrow>
+              <mrow>=\mathstrut \amp  \lim_{h \to 0} \frac{|h|}{h}</mrow>
+            </md>
+          </p>
+          <p permid="ybW">
+            To evaluate this limit,
+            note that <m>|h| = h</m> whenever <m>h > 0</m>, and thus
+            <me permid="nCR">
+              \lim_{h \to 0^+} \frac{|h|}{h} = \lim_{h \to 0^+} \frac{h}{h} = 1
+            </me>.
+            In contrast, we have <m>|h| = -h</m> whenever <m>h \lt  0</m>, and thus
+            <me permid="TKa">
+              \lim_{h \to 0^-} \frac{|h|}{h} = \lim_{h \to 0^-} \frac{-h}{h} = -1
+            </me>.
+            Since the right- and left-hand limits are not equal,
+            it follows that
+            <me permid="zRj">
+              g'(0) =  \lim_{h \to 0} \frac{|h|}{h}
+            </me>
+            does not exist.
+            Therefore, the function <m>g(x)=|x|</m> is not differentiable at <m>x=0</m>.
+          </p>
+        </li>
+      </ol>
+    </p>
+  </solution>
+</example>
+
+</subsection>
+<subsection><title>Vertical Tangent Lines</title>
+
+    <p>Another example of when a function can fail to be differentiable at a point <m>x=a</m> is if the function has a vertical tangent at the point. In other words, when <m>f</m> is continuous at <m>x=a</m> and <m>\lim_{x\to a}|f'(x)|=\infty</m>. This means the tangent lines become very steep as we move closer to <m>x=a</m>. </p>
+
+    <example><p>In this example, let <m>f(x)=\sqrt{x}</m>.</p>
+      <p> In <xref ref="F-1-8-vertical-tangent">Figure</xref> below, we have the graph of <m>y=f(x)</m> along with a progression of tangent lines at points approaching <m>(0,0)</m> on the graph.
+      As we approach <m>x=0</m>, we see that the tangent lines drawn become steeper and steeper, ultimately leading to a vertical tangent line at <m>x=0</m>.</p>
+    <figure xml:id="F-1-8-vertical-tangent" permid="fQs">
+      <caption>As we move closer to <m>x=0</m>, the tangent lines to the graph of <m>y=f(x)</m> become steeper and steeper. Notice that the tangent line closest to <m>x=0</m> is nearly vertical.</caption>
+      <image width="75%" source="images/1-8-vertical-tangent.gif" />
+    </figure>
+      <p>We can also show this by calculating the limit of the derivative close to <m>x=0</m>:
+        <me>\lim_{x\to 0}f'(x)=\lim_{x\to 0}\frac{1}{2\sqrt{x}}=\infty.</me>
+        Therefore, <m>f(x)</m> is not differentiable at <m>x=0 </m>.
+      </p>
+
+    </example>
+</subsection>
+<subsection><title>Links Between Continuity, Differentiability, and Limits</title>
 
     <p permid="VMM">
       To summarize the preceding discussion of differentiability,
@@ -164,10 +310,7 @@
 <example xml:id="act-1-7-3" permid="fYs">
   <statement>
     <p permid="iSY">
-      In this example,
-      we explore two different functions and classify the points at which each is not differentiable.
-      Let <m>g</m> be the function given by the rule <m>g(x) = |x|</m>,
-      and let <m>f</m> be the function
+      In this example, let <m>f</m> be the function
       whose graph is given below in <xref ref="F-1-7-Act3">Figure</xref>.
     </p>
 
@@ -178,21 +321,12 @@
 
     <p permid="Pah">
       <ol label="a." permid="ldK">
-        <li permid="RkT">
-          <p permid="DRi">
-            Visualize (or sketch) the graph of <m>y=g(x)</m>, and use it to explain why <m>g</m>
-            is differentiable at every nonzero value of <m>x</m>.
+        <li permid="JGu">
+          <p permid="wmJ">
+            State all values of <m>a</m> for which <m>f</m> is not continuous at <m>x = a</m>.
+            For each, provide a reason for your conclusion.
           </p>
         </li>
-
-        <li permid="xsc">
-          <p permid="jYr">
-            Use the limit definition of the derivative to show that <m>g'(0) = \lim_{h \to 0} \frac{|h|}{h}</m>.
-            Then use small positive and negative values of <m>h</m> to explain why this limit does not exist.
-            Conclude that <m>g</m> is not differentiable at <m>x=0</m>.
-          </p>
-        </li>
-
         <li permid="JGu">
           <p permid="wmJ">
             State all values of <m>a</m> for which <m>f</m> is not differentiable at <m>x = a</m>.
@@ -200,12 +334,10 @@
           </p>
         </li>
 
-        <li permid="pND">
-          <p permid="ctS">
-            True or false:
-            if a function <m>p</m> is differentiable at <m>x = b</m>,
-            then <m>\lim_{x \to b} p(x)</m> must exist.
-            Write at least one sentence to justify your choice.
+        <li permid="JGu">
+          <p permid="wmJ">
+            State all values of <m>a</m> for which <m>f</m> is not differentiable, but is continuous at <m>x = a</m>.
+            Think about why this is the case.
           </p>
         </li>
       </ol>
@@ -214,21 +346,13 @@
   <hint permid="MBa">
     <p permid="CLP">
       <ol label="a." permid="EWB">
-        <li permid="VUM">
-          <p permid="IBb">
-            What type of function is <m>g</m> for all <m>x \lt 0</m>?
-            For all <m>x > 0</m>?
-          </p>
-        </li>
-
-        <li permid="CbV">
-          <p permid="oIk">
-            Recall that <m>g'(0) = \lim_{h \to 0} \frac{g(0 + h) - g(0)}{h}</m>.
-            What is the value of <m>|h|</m> when <m>h \lt 0</m>?
-          </p>
-        </li>
-
         <li permid="Oqn">
+          <p permid="AWC">
+            You might start by looking for places you would lift your pencil when drawing the graph, identifying points where <m>f</m> is not continuous. Calculating limits may also be useful.
+        </p>
+        </li>
+
+             <li permid="Oqn">
           <p permid="AWC">
             You might start by identifying points where <m>f</m> is not continuous.
           </p>
@@ -236,7 +360,7 @@
 
         <li permid="uxw">
           <p permid="hdL">
-            What does being differentiable at a point tell you about continuity there?
+            Thinking back to <xref ref="non-diff">Example</xref> may be useful.
           </p>
         </li>
       </ol>
@@ -245,31 +369,21 @@
   <answer permid="gtR">
     <p permid="WEG">
       <ol label="a." permid="YPs">
-        <li permid="aEF">
-          <p permid="NkU">
-            <m>g</m> is piecewise linear.
+
+        <li permid="mSX">
+          <p permid="Zzm">
+            At <m>a = -2 </m>, <m>\lim_{x\to-2}f(x)</m> does not exist; at <m>a=-1</m>, <m>\lim_{x\to-1}f(x)\neq f(-1)</m>; at <m>a=2</m>, <m>\lim_{x\to2}f(x)</m> does not exist; at <m>a=3</m>, <m>f(3)</m> is undefined.
           </p>
         </li>
-
-        <li permid="GLO">
-          <p permid="tsd">
-            Show that
-            <me permid="boz">
-              g'(0) =  \lim_{h \to 0} \frac{|h|}{h}
-            </me>,
-            which does not exist.
+        <li permid="mSX">
+          <p permid="Zzm">
+            <m>a = -2, -1, 2, 3</m>, because <m>f</m> is not continuous at these points; <m>a=-3,1</m>, because <m>f</m> does not have a tangent line at these points.
           </p>
         </li>
 
         <li permid="mSX">
           <p permid="Zzm">
-            <m>a = -3, -2, -1, 1, 2, 3</m>.
-          </p>
-        </li>
-
-        <li permid="Tag">
-          <p permid="FGv">
-            True.
+            <m>a = -3,1</m>.
           </p>
         </li>
       </ol>
@@ -278,42 +392,10 @@
   <solution permid="AmI">
     <p permid="qxx">
       <ol label="a." permid="sIj">
-        <li permid="zhp">
-          <p permid="lNE">
-            We know that <m>g(x) = |x|</m> is given by the formula
-            <m>g(x) = -x</m> when <m>x \lt 0</m> and by <m>g(x) = x</m> when <m>x \ge 0</m>.
-            Each of these pieces of <m>g</m> is a straight line,
-            so at every point other than the point where they meet,
-            the function <m>g</m> has a well-defined slope,
-            and thus is differentiable.
-          </p>
-        </li>
-
-        <li permid="foy">
-          <p permid="RUN">
-            Observe that
-            <md permid="HvI">
-              <mrow>g'(0) =\mathstrut \amp  \lim_{h \to 0} \frac{g(0+h)-g(0)}{h}</mrow>
-              <mrow>=\mathstrut \amp  \lim_{h \to 0} \frac{|0+h|-|0|}{h}</mrow>
-              <mrow>=\mathstrut \amp  \lim_{h \to 0} \frac{|h|}{h}</mrow>
-            </md>
-          </p>
-          <p permid="ybW">
-            To evaluate this limit,
-            note that <m>|h| = h</m> whenever <m>h > 0</m>, and thus
-            <me permid="nCR">
-              \lim_{h \to 0^+} \frac{|h|}{h} = \lim_{h \to 0^+} \frac{h}{h} = 1
-            </me>.
-            In contrast, <m>|h| = -h</m> whenever <m>h \lt  0</m>, and thus
-            <me permid="TKa">
-              \lim_{h \to 0^-} \frac{|h|}{h} = \lim_{h \to 0^-} \frac{-h}{h} = -1
-            </me>
-            Since the right- and left-hand limits are not equal,
-            it follows that
-            <me permid="zRj">
-              g'(0) =  \lim_{h \to 0} \frac{|h|}{h}
-            </me>
-            does not exist.
+        <li permid="rCQ">
+          <p permid="ejf">
+            <m>f</m> is not continuous at
+            <m>a = -2, 2</m> because at each of these points <m>\lim_{x\to a}f(x)</m> does not exist. <m>f</m> is not continuous at <m>a = -3</m> because <m>\lim_{x\to -1}f(x)=-3.5</m>, but <m>f(-1)=1</m>. <m>f</m> is not continuous at <m>a=3</m> because <m>f(3)</m> is not defined.
           </p>
         </li>
 
@@ -327,18 +409,43 @@
             at each of these values.
           </p>
         </li>
+        <li permid="rCQ">
+          <p permid="ejf">
+            The only two points where <m>f</m> is continuous but not differentiable are <m>a=-3,1</m>. This is because of the corner point (or cusp). These points fit the criteria for continuity, but there is no discernible tangent line.
+          </p>
+        </li>
+      </ol>
+    </p>
+  </solution>
+</example>
 
-        <li permid="XJZ">
-          <p permid="Kqo">
+    <example>
+  <statement>
+          <p permid="ctS">
+            True or false:
+            if a function <m>p</m> is differentiable at <m>x = b</m>,
+            then <m>\lim_{x \to b} p(x)</m> must exist.
+            Write at least one sentence to justify your choice.
+          </p>
+  </statement>
+  <hint permid="MBa">
+    <p permid="CLP">
+
+            What does being differentiable at a point tell you about continuity there?
+          </p>
+
+  </hint>
+  <answer>
+  <p>True.</p>
+  </answer>
+  <solution permid="AmI">
+    <p permid="qxx">
             We know that a function <m>f</m> is continuous whenever it is differentiable,
             and that one characteristic of <m>f</m> being continuous at <m>x=a</m> is that
             <m>\lim_{x\to a}f(x)</m> exists. Therefore the statement <q>if a function <m>p</m>
             is differentiable at <m>x = b</m>, then <m>\lim_{x \to b} p(x)</m> must exist</q>
             is true.
           </p>
-        </li>
-      </ol>
-    </p>
   </solution>
 </example>
   </subsection>
@@ -396,7 +503,7 @@
     </p>
   </subsection>
 
-<exercises xmlns:xi="http://www.w3.org/2001/XInclude"> 
+<exercises xmlns:xi="http://www.w3.org/2001/XInclude">
 
   <exercise xml:id="ez-1-7-WW3" permid="YRW">
     <title>Continuity and differentiability of a graph</title>
@@ -404,6 +511,7 @@
   </exercise>
 
   <exercise permid="lgo">
+  <title>Continuity and differentiability of a graph</title>
     <statement>
       <p permid="FXu">
         Consider the graph of the function
@@ -528,11 +636,11 @@
   </exercise>
 
     <exercise permid="Rnx">
+	<title>Examples of functions</title>
     <statement>
       <p permid="ysV">
         For each of the following prompts,
-        give an example of a function that satisfies the stated criteria.
-        A formula or a graph, with reasoning, is sufficient for each.
+        give an example of a function that satisfies the stated criteria; a formula or a graph, with reasoning, is sufficient for each.
         If no such example is possible, explain why.
 
         <ol label="a." permid="kaV">
@@ -663,6 +771,7 @@
 
 
     <exercise permid="dBP">
+	<title>Estimating the derivative at a point</title>
     <statement>
       <p permid="qOw">
         Consider the function <m>g(x) = \sqrt{|x|}</m>.

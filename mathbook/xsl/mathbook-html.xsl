@@ -109,9 +109,10 @@ along with MathBook XML.  If not, see <http://www.gnu.org/licenses/>.
 <xsl:param name="html.knowl.table" select="'no'" />
 <xsl:param name="html.knowl.listing" select="'no'" />
 <xsl:param name="html.knowl.webwork.inline" select="'no'" />
-<xsl:param name="html.knowl.webwork.sectional" select="'yes'" />
+<xsl:param name="html.knowl.webwork.sectional" select="'no'" />
 <xsl:param name="html.knowl.exercise.inline" select="'no'" />
 <xsl:param name="html.knowl.exercise.sectional" select="'yes'" />
+<xsl:param name="html.knowl.exercise.solution" select="'no'" />
 <!-- html.knowl.example.solution: always "yes", could be implemented -->
 
 <!-- CSS and Javascript Servers -->
@@ -3953,7 +3954,7 @@ along with MathBook XML.  If not, see <http://www.gnu.org/licenses/>.
         </xsl:if>
     </xsl:element> <!-- end iframe -->
     <script type="text/javascript">
-        <xsl:text>iFrameResize({log:true,inPageLinks:true,resizeFrom:'child',checkOrigin:'False'})</xsl:text>
+        <xsl:text>iFrameResize({scrolling:true,minHeight:500,heightCalculationMethod:'max',log:true,inPageLinks:true,resizeFrom:'child',checkOrigin:["</xsl:text> <xsl:value-of select="$webwork-server" /><xsl:text>"]})</xsl:text>
     </script>
 </xsl:template>
 
