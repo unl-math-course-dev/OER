@@ -33,21 +33,128 @@
 		In this form, <m>q</m> is the quota, <m>w_1</m> is the weight for player 1, and so on.</p>
 	</assemblage>
 
-<example>
+	<example>
+		<p>
+			In a small company, there are 4 shareholders.  Mr. Smith has a 30% ownership stake in the company, Mr. Garcia has a 25% stake, Mrs. Hughes has a 25% stake, and Mrs. Lee has a 20% stake.   They are trying to decide whether to open a new location.  The company by-laws state that more than 50% of the ownership has to approve any decision like this.  This could be represented by the weighted voting system:
+
+			<me>[51:  30, 25, 25, 20]</me>
+
+			Here we have treated the percentage ownership as votes, so Mr. Smith gets the equivalent of 30 votes, having a 30% ownership stake.  Since more than 50% is required to approve the decision, the quota is 51, the smallest whole number over 50.
+		</p>
+	</example>
+
+	<p>In order to have a meaningful weighted voting system, it is necessary to put some limits on the quota.</p>
+
+	<assemblage><title>Limits on the Quota</title>
+		<p>The quota must be more than <m>1/2</m> the total number of votes.</p>
+		<p>The quota can’t be larger than the total number of votes.</p>
+	</assemblage>
+
+	<p>Why?  Consider the voting system <m>[q: 3, 2, 1]</m></p>
+
 	<p>
-		In a small company, there are 4 shareholders.  Mr. Smith has a 30% ownership stake in the company, Mr. Garcia has a 25% stake, Mrs. Hughes has a 25% stake, and Mrs. Lee has a 20% stake.   They are trying to decide whether to open a new location.  The company by-laws state that more than 50% of the ownership has to approve any decision like this.  This could be represented by the weighted voting system:
-
-		<me>[51:  30, 25, 25, 20]</me>
-
-		Here we have treated the percentage ownership as votes, so Mr. Smith gets the equivalent of 30 votes, having a 30% ownership stake.  Since more than 50% is required to approve the decision, the quota is 51, the smallest whole number over 50.
+		Here there are 6 total votes.  If the quota was set at only 3, then player 1 could vote yes, players 2 and 3 could vote no, and both would reach quota, which doesn’t lead to a decision being made.  In order for only one decision to reach quota at a time, the quota must be at least half the total number of votes.  If the quota was set to 7, then no group of voters could ever reach quota, and no decision can be made, so it doesn’t make sense for the quota to be larger than the total number of voters.
 	</p>
-</example>
+
+	<exploration>
+		<statement><p>
+			In a committee there are four representatives from the management and three representatives from the workers’ union.  For a proposal to pass, four of the members must support it, including at least one member of the union.  Find a voting system that can represent this situation.
+		</p></statement>
+		<solution>
+			<p>If we represent the players as <m>M_1, M_2, M_3, M_4, U_1, U_2, U_3</m>, then we may be tempted to set up a system like <m>[4: 1, 1, 1, 1, 1, 1, 1]</m>.  While this system would meet the first requirement that four members must support a proposal for it to pass, this does not satisfy the requirement that at least one member of the union must support it.</p>
+
+			<p>To accomplish that, we might try increasing the voting weight of the union members: <m>[5: 1, 1, 1, 1, 2, 2, 2]</m>.  The quota was set at 5 so that the four management members alone would not be able to reach quota without one of the union members.  Unfortunately, now the three union members can reach quota alone.  To fix this, three management members need to have more weight than two union members.</p>
+
+			<p>After trying several other guesses, we land on the system <m>[13: 3, 3, 3, 3, 4, 4, 4]</m>.  Here, the four management members have combined weight of 12, so cannot reach quota.  Likewise, the three union members have combined weight of 12, so cannot reach quota alone.  But, as required, any group of 4 members that includes at least one union member will reach the quota of 13.  For example, three management members and one union member have combined weight of <m>3+3+3+4=13</m>, and reach quota.</p>
+		</solution>
+	</exploration>
+
 </subsection>
 
 <subsection><title>A Look at Power</title>
 	<p>
-		Text here.
+		Consider the voting system <m>[10: 11, 3, 2]</m>.  Notice that in this system, player 1 can reach quota without the support of any other player.   When this happens, we say that player 1 is a <term>dictator</term>.
 	</p>
+
+	<assemblage><title>Dictator</title>
+		<p>A player will be a <term>dictator</term> if their weight is equal to or greater than the quota. This means that the dictator can force any measure to pass, even without the support of any other player.</p>
+	</assemblage>
+
+	<p>
+		In the voting system <m>[8: 6, 3, 2]</m>, no player is a dictator, since they each have less votes than the quota of 8.  However, in this system, players 2 and 3 together have only <m>3+2=5</m> votes, less than the quota. Hence, the quota can only be reached if player 1 is in support of the proposal as well. In this case, player 1 is said to have <term>veto power</term>.
+	</p>
+
+	<assemblage><title>Veto Power</title>
+		<p>A player has <term>veto power</term> if their support is necessary for the quota to be reached.  It is possible for more than one player to have veto power, or for no player to have veto power.</p>
+	</assemblage>
+
+	<p>
+		Notice that every dictator has veto power, since the other players can never reach the quota without the dictator's votes. On the other hand, not every player with veto power is a dictator, as we saw in the <m>[8: 6, 3, 2]</m> system above: player 1 has veto power, but has less than 8 votes and so is not a dictator.
+	</p>
+
+	<p>
+		Finally, consider the system <m>[10: 7, 6, 2]</m>. Players 1 and 2 have 13 votes, so they can force a measure to pass whether or not player 3 supports it. On the other hand, players 1 and 3 together have 9 votes, while players 2 and 3 together have 8 votes; neither of these meets the quota. Hence, there is no situation where the vote of player 3 makes a difference in the outcome. We call player 3 a <term>dummy</term> when this happens.
+			<aside><p>Both players 1 and 2 happen to have veto power here as well, although that is unrelated to the fact that player 3 is a dummy.</p></aside>
+	</p>
+
+	<assemblage><title>Dummy</title>
+		<p>A player is a <term>dummy</term> if their vote is never essential for a group to reach quota.</p>
+	</assemblage>
+
+	<example>
+		<p>In the voting system <m>[16: 7, 6, 3, 3, 2]</m>, are any players dictators?  Do any have veto power?  Are any dummies?</p>
+
+		<p>No player can reach quota alone, so there are no dictators.</p>
+
+		<p>Without player 1, the rest of the players’ weights add to 14, which doesn’t reach quota, so player 1 has veto power.  Likewise, without player 2, the rest of the players’ weights add to 15, which doesn’t reach quota, so player 2 also has veto power.</p>
+
+			<p>Since player 1 and 2 can reach quota with either player 3 or player 4’s support, neither player 3 or player 4 have veto power.  However they cannot reach quota with player 5’s support alone, so player 5 has no influence on the outcome and is a dummy.  </p>
+	</example>
+
+	<exploration>
+		<statement><p>
+			In the voting system <m>[q: 10, 5, 3]</m>, which players are dictators, have veto power, and are dummies if the quota is 10?  12?  16?
+		</p></statement>
+		<solution>
+			<p>text</p>
+		</solution>
+	</exploration>
+
+	<p>
+		To better define power, we need to introduce the idea of a coalition.  A <term>coalition</term> is a group of players voting the same way.  In the example above, <m>\{ P_1, P_2, P_4\}</m> would represent the coalition of players 1, 2 and 4.  This coalition has a combined weight of <m>7+6+3 = 16</m>, which meets quota, so this would be a winning coalition.
+	</p>
+
+	<p>
+		A player is said to be <term>critical</term> in a coalition if them leaving the coalition would change it from a winning coalition to a losing coalition.  In the coalition <m>\{ P_1, P_2, P_4\}</m>, every player is critical.  In the coalition <m>\{ P_3, P_4, P_5\}</m>, no player is critical, since it wasn’t a winning coalition to begin with.  In the coalition <m>\{ P_1, P_2, P_3,P_4,P_5\}</m>, only players 1 and 2 are critical; any other player could leave the coalition and it would still meet quota.
+	</p>
+
+
+	<assemblage><title>Coalitions and Critical Players</title>
+		<p><ul>
+			<li>A <term>coalition</term> is a group of players voting the same way.</li>
+			<li>A coalition is a <term>winning coalition</term> if the coalition has enough weight to meet quota.</li>
+			<li>A player is <term>critical</term> in a coalition if them leaving the coalition would change it from a winning coalition to a losing coalition.</li>
+		</ul></p>
+	</assemblage>
+
+	<example>
+		<p>text
+		</p>
+	</example>
+
+	<p>
+		Notice that a player with veto power will be critical in every winning coalition, since removing their support would prevent a proposal from passing.
+	</p>
+
+	<p>
+		Likewise, a dummy will never be critical, since their support will never change a losing coalition to a winning one.
+	</p>
+
+<assemblage><title>Dictators, Veto, and Dummies and Critical Players</title>
+	<p>text
+	</p>
+</assemblage>
+
 </subsection>
 
 <subsection><title>Calculating Power: Banzhaf Power Index</title>
