@@ -116,7 +116,12 @@
 			In the voting system <m>[q: 10, 5, 3]</m>, which players are dictators, have veto power, and are dummies if the quota is 10?  12?  16?
 		</p></statement>
 		<solution>
-			<p>text</p>
+			<p><!--In the voting system <m>[q: 10, 5, 3]</m>, if-->
+			If the quota is <m>q=10</m>, then player 1 is a dictator since they can reach quota without the support of the other players.  This makes the other two players automatically dummies.</p>
+
+			<p>If the quota is 12, then player 1 is necessary to reach quota, so has veto power.  Since at this point either player 2 or player 3 would allow player 1 to reach quota, neither player is a dummy, so they are regular players (not dictators, no veto power, and not a dummy).</p>
+
+			<p>If the quota is 16, then no two players alone can reach quota, so all three players have veto power.</p>
 		</solution>
 	</exploration>
 
@@ -138,28 +143,162 @@
 	</assemblage>
 
 	<example>
-		<p>text
-		</p>
+		<p>In the Scottish Parliament in 2009 there were 5 political parties:  47 representatives for the Scottish National Party, 46 for the Labour Party, 17 for the Conservative Party, 16 for the Liberal Democrats, and 2 for the Scottish Green Party.  Typically all representatives from a party vote as a block, so the parliament can be treated like the weighted voting system:
+			<me>[65: 47, 46, 17, 16, 2]</me>
+		Consider the coalition <m>\{ P_1, P_3, P_4\}</m>.  No two players alone could meet the quota, so all three players are critical in this coalition.</p>
+
+		<p>In the coalition <m>\{ P_1, P_3, P_4, P_5\}</m>, any player except <m>P_1</m> could leave the coalition and it would still meet quota, so only <m>P_1</m> is critical in this coalition.</p>
 	</example>
 
 	<p>
 		Notice that a player with veto power will be critical in every winning coalition, since removing their support would prevent a proposal from passing.
-	</p>
-
-	<p>
 		Likewise, a dummy will never be critical, since their support will never change a losing coalition to a winning one.
+		This allows us to rephrase the definitions of these terms in a more precise way, using the concepts of critical players and winning coalitions.
 	</p>
 
 <assemblage><title>Dictators, Veto, and Dummies and Critical Players</title>
-	<p>text
-	</p>
+	<p><ul>
+		<li>A player is a <term>dictator</term> if the single-player coalition containing them is a winning coalition.</li>
+		<li>A player has <term>veto power</term> if they are critical in every winning coalition.</li>
+		<li>A player is a <term>dummy</term> if they are not critical in any winning coalition.</li>
+	</ul></p>
 </assemblage>
 
 </subsection>
 
 <subsection><title>Calculating Power: Banzhaf Power Index</title>
 	<p>
-		Text here.
+		The <term>Banzhaf power index</term> was originally created in 1946 by Lionel Penrose, but was reintroduced by John Banzhaf in 1965.  The power index is a numerical way of looking at power in a weighted voting situation.
 	</p>
+
+	<assemblage><title>Calculating the Banzhaf Power Index</title>
+		<p><ol>
+			<li>List all winning coalitions.</li>
+			<li>In each coalition, identify the players who are critical.</li>
+			<li>Count up how many times each player is critical.</li>
+			<li>Convert these counts to fractions or decimals by dividing by the total times any player is critical.</li>
+		</ol></p>
+	</assemblage>
+
+<example>
+	<p>
+		Find the Banzhaf power index for the voting system [8: 6, 3, 2].
+
+		We start by listing all winning coalitions.  If you aren’t sure how to do this, you can list all coalitions, then eliminate the non-winning coalitions.  No player is a dictator, so we’ll only consider two and three player coalitions.
+
+{P1, P2}	Total weight: 9.  Meets quota.
+{P1, P3}	Total weight: 8.  Meets quota.
+{P2, P3}	Total weight: 5.  Does not meet quota.
+{P1, P2, P3}	Total weight: 11.  Meets quota.
+
+	Next we determine which players are critical in each winning coalition.  In the winning two-player coalitions, both players are critical since no player can meet quota alone.  Underlining the critical players to make it easier to count:
+{P1, P2}
+{P1, P3}
+
+	In the three-person coalition, either P2 or P3 could leave the coalition and the remaining players could still meet quota, so neither is critical.  If P1 were to leave, the remaining players could not reach quota, so P1 is critical.
+{P1, P2, P3}
+
+	Altogether, P1 is critical 3 times, P2 is critical 1 time, and P3 is critical 1 time.
+	Converting to percents:
+P1 = 3/5 = 60%
+P2 = 1/5 = 20%
+P3 = 1/5 = 20%
+</p>
+</example>
+
+<example>
+	<p>Consider the voting system [16: 7, 6, 3, 3, 2].  Find the Banzhaf power index.
+
+The winning coalitions are listed below, with the critical players underlined.
+{P1, P2, P3}
+{P1, P2, P4}
+{P1, P2, P3, P4}
+{P1, P2, P3, P5}
+{P1, P2, P4, P5}
+{P1, P2, P3, P4, P5}
+
+Counting up times that each player is critical:
+P1 = 6
+P2 = 6
+P3 = 2
+P4 = 2
+P5 = 0
+Total of all:  16
+Divide each player’s count by 16 to convert to fractions or percents:
+
+P1 = 6/16 = 3/8 = 37.5%
+P2 = 6/16 = 3/8 = 37.5%
+P3 = 2/16 = 1/8 = 12.5%
+P4 = 2/16 = 1/8 = 12.5%
+P5 = 0/16 = 0 = 0%
+</p>
+</example>
+
+<p>
+	The Banzhaf power index measures a player’s ability to influence the outcome of the vote.  Notice that player 5 has a power index of 0, indicating that there is no coalition in which they would be critical power and could influence the outcome.  This means player 5 is a dummy, as we noted earlier.
+</p>
+
+<example>
+	<p>The Banzhaf power index measures a player’s ability to influence the outcome of the vote.  Notice that player 5 has a power index of 0, indicating that there is no coalition in which they would be critical power and could influence the outcome.  This means player 5 is a dummy, as we noted earlier.  </p>
+
+	INSERT TABLE HERE!!!!!!!!!!!!!
+
+	<p>
+		Interestingly, even though the Liberal Democrats party has only one less representative than the Conservative Party, and 14 more than the Scottish Green Party, their Banzhaf power index is the same as the Scottish Green Party’s.  In parliamentary governments, forming coalitions is an essential part of getting results, and a party’s ability to help a coalition reach quota defines its influence.
+	</p>
+</example>
+
+<!--
+<exploration>
+	<statement><p>
+		Find the Banzhaf power index for the weighted voting system <m>[36: 20, 17, 16, 3]</m>.
+	</p></statement>
+	<solution>
+		<p>
+			The voting system tells us that the quota is 36, that Player 1 has 20 votes (or equivalently, has a weight of 20), Player 2 has 17 votes, Player 3 has 16 votes, and Player 4 has 3 votes.
+
+			A coalition is any group of one or more players. What we're looking for is winning coalitions - coalitions whose combined votes (weights) add to up to the quota or more. So the coalition {P3, P4} is not a winning coalition because the combined weight is 16+3=19, which is below the quota.
+
+			So we look at each possible combination of players and identify the winning ones:
+
+			{P1, P2} (weight: 37)				{P1, P3} (weight: 36)
+{P1, P2, P3} (weight: 53)			{P1, P2, P4} (weight: 40)
+{P1, P3, P4} (weight: 39)			{P1, P2, P3, P4} (weight: 56)
+{P2, P3, P4} (weight: 36)
+
+Now, in each coalition, we need to identify which players are critical. A player is critical if the coalition would no longer reach quota without that person. So, in the coalition {P1, P2}, both players are necessary to reach quota, so both are critical. However in the coalition {P1, P2, P3}, we can see from the earlier two coalitions that either P2 or P3 could leave the coalition and it would still reach quota. But if P1 left, it would not reach quota, so P1 is the only player critical in this coalition. We evaluate the rest of the coalitions similarly, giving us this (underlining the critical players)
+
+{P1, P2}				{P1, P3}
+{P1, P2, P3}				{P1, P2, P4}
+{P1, P3, P4}				{P1, P2, P3, P4}
+{P2, P3, P4}
+
+Next we count how many times each player is critical:
+P1: 5 times
+P2: 3 times
+P3: 3 times
+P4: 1 time
+
+In total, there were 5+3+3+1 = 12 times anyone was critical, so we take our counts and turn them into fractions, giving us our Banzhaf power:
+P1: 5/12
+P2: 3/12 = 1/4
+P3: 3/12 = 1/4
+P4: 1/12
+
+</p>
+	</solution>
+</exploration>
+-->
+
+<example>
+	<p>Banzhaf used this index to argue that the weighted voting system used in the Nassau County Board of Supervisors in New York was unfair.  The county was divided up into 6 districts, each getting voting weight proportional to the population in the district, as shown below.  Calculate the power index for each district.</p>
+
+	INSERT TABLE HERE!!!!!!!! and all the rest of the material.
+</example>
+
+<p>
+	The weighted voting system that Americans are most familiar with is the Electoral College system used to elect the President.  In the Electoral College, states are given a number of votes equal to the number of their congressional representatives (house + senate).  Most states give all their electoral votes to the candidate that wins a majority in their state, turning the Electoral College into a weighted voting system, in which the states are the players.  As I’m sure you can imagine, there are billions of possible winning coalitions, so the power index for the Electoral College has to be computed by a computer using approximation techniques.
+</p>
+
 </subsection>
-  </section>
+</section>
