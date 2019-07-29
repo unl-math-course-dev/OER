@@ -142,7 +142,7 @@
 		</ul></p>
 	</assemblage>
 
-	<example>
+	<example xml:id="scot-coalitions">
 		<p>In the Scottish Parliament in 2009 there were 5 political parties:  47 representatives for the Scottish National Party, 46 for the Labour Party, 17 for the Conservative Party, 16 for the Liberal Democrats, and 2 for the Scottish Green Party.  Typically all representatives from a party vote as a block, so the parliament can be treated like the weighted voting system:
 			<me>[65: 47, 46, 17, 16, 2]</me>
 		Consider the coalition <m>\{ P_1, P_3, P_4\}</m>.  No two players alone could meet the quota, so all three players are critical in this coalition.</p>
@@ -170,13 +170,19 @@
 	<p>
 		The <term>Banzhaf power index</term> was originally created in 1946 by Lionel Penrose, but was reintroduced by John Banzhaf in 1965.  The power index is a numerical way of looking at power in a weighted voting situation.
 	</p>
+	<aside><p>
+		The story of how Banzhaf originally used this power index is in <xref ref="banzhaf-nassau"/>
+	</p></aside>
+
+	<p>The story of how Banzhaf originally used this power index is in <xref ref="banzhaf-nassau"/></p>
 
 	<assemblage><title>Calculating the Banzhaf Power Index</title>
 		<p><ol>
 			<li>List all winning coalitions.</li>
 			<li>In each coalition, identify the players who are critical.</li>
-			<li>Count up how many times each player is critical.</li>
-			<li>Convert these counts to fractions or decimals by dividing by the total times any player is critical.</li>
+			<li>Count up how many times each player is critical. This number is called the player's <term>Banzhaf score</term> (also called the <term>critical count</term>).</li>
+			<li>Add the Banzhaf scores of all players together, to find the total number of times any player is critical. This number is called the <term>total power score</term>.</li>
+			<li>Convert the Banzhaf score of each player to a fraction or decimal by dividing it by the total power score. This number is the player's <term>Banzhaf power index</term>. It can be expressed as a fraction, decimal, or percent.</li>
 		</ol></p>
 	</assemblage>
 
@@ -185,11 +191,15 @@
 		Find the Banzhaf power index for the voting system <m>[8: 6, 3, 2]</m>.
 	</p>
 	<p>
-		We start by listing all winning coalitions.  If you aren’t sure how to do this, you can list all coalitions, then eliminate the non-winning coalitions.  No player is a dictator, so we’ll only consider two and three player coalitions.
+		We start by listing all winning coalitions.  One way to do this is to list all coalitions, then eliminate the non-winning coalitions. In this system, no player is a dictator, so we’ll only consider two and three player coalitions.
 	</p>
 
 	<table><caption></caption>
 		<tabular>
+			<row>
+				<cell><m>\{P_1, P_2, P_3\}</m></cell>
+				<cell>	Total weight: 11.  Meets quota.</cell>
+			</row>
 			<row>
 				<cell><m>\{P_1, P_2\}</m></cell>
 				<cell>Total weight: 9.  Meets quota.</cell>
@@ -202,10 +212,6 @@
 				<cell><m>\{P_2, P_3\}</m></cell>
 				<cell>Total weight: 5.  Does not meet quota.</cell>
 			</row>
-			<row>
-				<cell><m>\{P_1, P_2, P_3\}</m></cell>
-				<cell>	Total weight: 11.  Meets quota.</cell>
-			</row>
 		</tabular>
 	</table>
 
@@ -217,10 +223,16 @@
 		</md>
 
 		In the three-person coalition, either <m>P_2</m> or <m>P_3</m> could leave the coalition and the remaining players could still meet quota, so neither is critical.  If <m>P_1</m> were to leave, the remaining players could not reach quota, so <m>P_1</m> is critical.
+
 		<me>\{\underline{\smash{P_1}}, P_2, P_3\}</me>
 
-		Altogether, <m>P_1</m> is critical 3 times, <m>P_2</m> is critical 1 time, and <m>P_3</m> is critical 1 time.
-		Converting to percents:
+		<aside><p>
+			Remember that the power score for a player only counts those winning coalitions in which that player is critical, <em>not</em> every coalition in which that player appears.
+		</p></aside>
+
+		Altogether, <m>P_1</m> is critical 3 times, <m>P_2</m> is critical 1 time, and <m>P_3</m> is critical 1 time; these numbers are the players' Banzhaf scores.
+		Their sum is the total power score: <m>3+1+1=5</m>.
+		Divide each Banzhaf score by the total power score of 5 to find the Banzhaf power index for each player:
 		<md><mrow>P_1 = 3/5 = 60\%</mrow>
 		<mrow>P_2 = 1/5 = 20\%</mrow>
 		<mrow>P_3 = 1/5 = 20\%</mrow></md>
@@ -232,33 +244,36 @@
 	<p>Consider the voting system <m>[16: 7, 6, 3, 3, 2]</m>.  Find the Banzhaf power index.</p>
 
 	<p>
+		There's nothing special about naming the players <m>P_1,P_2,</m> etc. We can choose any names or letters we like. Let's refer to the players in this system as A, B, C, D, and E, in descending order of weight (so A has 7 votes, B has 6 votes, and so on).
+	</p>
+	<p>
 		The winning coalitions are listed below, with the critical players underlined.
 		<md>
-			<mrow>\{\underline{\smash{P_1}}, \underline{\smash{P_2}}, P_3, P_4, P_5\}</mrow>
-			<mrow>\{\underline{\smash{P_1}}, \underline{\smash{P_2}}, P_3, P_4\}</mrow>
-			<mrow>\{\underline{\smash{P_1}}, \underline{\smash{P_2}}, \underline{\smash{P_3}}, P_5\}</mrow>
-			<mrow>\{\underline{\smash{P_1}}, \underline{\smash{P_2}}, \underline{\smash{P_4}}, P_5\}</mrow>
-			<mrow>\{\underline{\smash{P_1}}, \underline{\smash{P_2}}, \underline{\smash{P_3}}\}</mrow>
-			<mrow>\{\underline{\smash{P_1}}, \underline{\smash{P_2}}, \underline{\smash{P_4}}\}</mrow>
+			<mrow>\{\underline{\smash{A}}, \underline{\smash{B}}, C, D, E\}</mrow>
+			<mrow>\{\underline{\smash{A}}, \underline{\smash{B}}, C, D\}</mrow>
+			<mrow>\{\underline{\smash{A}}, \underline{\smash{B}}, \underline{\smash{C}}, E\}</mrow>
+			<mrow>\{\underline{\smash{A}}, \underline{\smash{B}}, \underline{\smash{D}}, E\}</mrow>
+			<mrow>\{\underline{\smash{A}}, \underline{\smash{B}}, \underline{\smash{C}}\}</mrow>
+			<mrow>\{\underline{\smash{A}}, \underline{\smash{B}}, \underline{\smash{D}}\}</mrow>
 		</md>
 
-		Counting up times that each player is critical:
+		Counting up times that each player is critical gives their Banzhaf scores:
 		<md>
-			<mrow>P_1 = 6</mrow>
-			<mrow>P_2 = 6</mrow>
-			<mrow>P_3 = 2</mrow>
-			<mrow>P_4 = 2</mrow>
-			<mrow>P_5 = 0</mrow>
-			<mrow>\text{Total of all: }16</mrow>
+			<mrow>A \amp= 6</mrow>
+			<mrow>B \amp= 6</mrow>
+			<mrow>C \amp= 2</mrow>
+			<mrow>D \amp= 2</mrow>
+			<mrow>E \amp= 0</mrow>
+			<mrow>\text{Total power score}\amp=16</mrow>
 		</md>
 
-		Divide each player’s count by 16 to convert to fractions or percents:
+		Divide each player’s Banzhaf score by the total power score of 16 to find the Banzhaf power index, as fractions or percents:
 		<md>
-			<mrow>P_1 = 6/16 = 3/8 = 37.5\%</mrow>
-			<mrow>P_2 = 6/16 = 3/8 = 37.5\%</mrow>
-			<mrow>P_3 = 2/16 = 1/8 = 12.5\%</mrow>
-			<mrow>P_4 = 2/16 = 1/8 = 12.5\%</mrow>
-			<mrow>P_5 = 0/16 = 0 = 0\%</mrow>
+			<mrow>A = 6/16 = 3/8 = 37.5\%</mrow>
+			<mrow>B = 6/16 = 3/8 = 37.5\%</mrow>
+			<mrow>C = 2/16 = 1/8 = 12.5\%</mrow>
+			<mrow>D = 2/16 = 1/8 = 12.5\%</mrow>
+			<mrow>E = 0/16 = 0 = 0\%</mrow>
 		</md>
 	</p>
 </example>
@@ -269,8 +284,14 @@
 </p>
 
 
-<example>
-	<p>Revisiting the Scottish Parliament, with voting system <m>[65: 47, 46, 17, 16, 2]</m>, the winning coalitions are listed, with the critical players underlined.
+<example xml:id="scot-banzhaf">
+	<p>
+		Recall that the Scottish Parliament has the voting system <m>[65: 47, 46, 17, 16, 2]</m>.
+	</p>
+
+	<p>
+		There will be a lot of coalitions in this system. How can you find them all if presented with a problem like this? A good strategy is to list coalitions beginning with the <em>largest</em> and decreasing by weight and number of players. The advantage of this method is that by finding the largest coalitions first, you should be able to identify the winning coalitions before having to sort through very many losing coalitions.
+		With this in mind, the winning coalitions are listed below with the critical players underlined.
 
 	<md>
 		<mrow>\amp\{P_1,P_2,P_3,P_4,P_5\}
@@ -291,14 +312,19 @@
 			\amp\{\underline{\smash{P_1}}, \underline{\smash{P_4}}, \underline{\smash{P_5}}\}</mrow>
 	</md>
 
-	Counting up times that each player is critical:</p>
+	Notice that in our list above, the last three-player coalition listed, <m>\{P_2, P_3, P_5\}</m>, has exactly 65 votes. Thus, we don't need to check any smaller three-player coalitions (such as <m>\{P_2, P_4, P_5\}</m>). However, we still have to identify winning two-player coalitions. In this case, there is only one: the coalition <m>\{P_1,P_2\}</m>. The next-smallest two-player coalition, <m>\{P_1,P_3\}</m>, has only 64 votes, so we know none of the smaller ones will be winning without having to check them all.
+	</p>
+
+	<p>
+		Counting up times that each player is critical gives us the Banzhaf score and Banzhaf index for each player:
+	</p>
 
 	<table><caption></caption>
 		<tabular top="medium" left="medium" right="medium" bottom="minor">
 			<row bottom="major">
 				<cell>Players (the political parties)</cell>
-				<cell>Critical count</cell>
-				<cell>Power index</cell>
+				<cell>Banzhaf score</cell>
+				<cell>Banzhaf power index</cell>
 			</row>
 			<row>
 				<cell><m>P_1</m> (Scottish National Party)</cell>
@@ -326,14 +352,14 @@
 				<cell><m>\frac{3}{27}=11.1\%</m></cell>
 			</row>
 			<row right="none" bottom="none">
-				<cell right="none">Total critical count:</cell>
+				<cell right="none">Total power score:</cell>
 				<cell left="none" colspan="2"><m>9+7+5+3+3=27</m></cell>
 			</row>
 		</tabular>
 	</table>
 
 	<p>
-		Interestingly, even though the Liberal Democrats party has only one less representative than the Conservative Party, and 14 more than the Scottish Green Party, their Banzhaf power index is the same as the Scottish Green Party’s.  In parliamentary governments, forming coalitions is an essential part of getting results, and a party’s ability to help a coalition reach quota defines its influence.
+		Interestingly, even though the Liberal Democrats have only one less representative than the Conservatives, and 14 more than the Scottish Green Party, their Banzhaf power index is the same as the Scottish Green Party’s.  In parliamentary governments, forming coalitions is an essential part of getting results, and a party’s ability to help a coalition reach quota defines its influence.
 	</p>
 </example>
 
@@ -381,14 +407,14 @@
 				</mrow>
 			</md>
 
-			From this, we can find the critical count and Banzhaf power index of each player:
+			From this, we can find the Banzhaf score and Banzhaf power index of each player:
 
 			<sidebyside>
 				<tabular top="medium" left="medium" right="medium" bottom="minor">
 					<row bottom="major">
 						<cell>Players</cell>
-						<cell>Critical count</cell>
-						<cell>Power index</cell>
+						<cell>Banzhaf score</cell>
+						<cell>Banzhaf power index</cell>
 					</row>
 					<row>
 						<cell><m>P_1</m></cell>
@@ -411,7 +437,7 @@
 						<cell><m>\frac{1}{12}=8.3\%</m></cell>
 					</row>
 					<row right="none" bottom="none">
-						<cell right="none">Total critical count:</cell>
+						<cell right="none">Total power score:</cell>
 						<cell left="none" colspan="2"><m>5+3+3+1=12</m></cell>
 					</row>
 				</tabular>
@@ -422,7 +448,7 @@
 
 
 
-<example>
+<example xml:id="banzhaf-nassau">
 	<p>Banzhaf used this index to argue that the weighted voting system used in the Nassau County Board of Supervisors in New York was unfair.  The county was divided up into 6 districts, each getting voting weight proportional to the population in the district, as shown below.  Calculate the power index for each district.</p>
 
 	<table><caption></caption>
@@ -529,15 +555,15 @@
 			</mrow>
 		</md>
 
-		This gives us the following critical counts and Banzhaf power index for each district:
+		This gives us the following Banzhaf scores and Banzhaf power index for each district:
 	</p>
 
 		<table><caption></caption>
 			<tabular top="medium" left="medium" right="medium" bottom="minor">
 				<row bottom="major">
 					<cell>Players (the districts)</cell>
-					<cell>Critical count</cell>
-					<cell>Power index</cell>
+					<cell>Banzhaf score</cell>
+					<cell>Banzhaf power index</cell>
 				</row>
 				<row>
 					<cell>Hempstead #1</cell>
@@ -568,6 +594,10 @@
 					<cell>Glen Cove</cell>
 					<cell>0</cell>
 					<cell><m>\frac{0}{48}=0=0\%</m></cell>
+				</row>
+				<row right="none" bottom="none">
+					<cell right="none">Total power score:</cell>
+					<cell left="none" colspan="2"><m>16+16+16=48</m></cell>
 				</row>
 			</tabular>
 		</table>
