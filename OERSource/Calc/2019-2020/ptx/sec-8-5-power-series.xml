@@ -37,230 +37,92 @@
   </objectives>
 
   <introduction permid="NHK">
-    <p permid="mUo">
-      We have noted in our work with Taylor polynomials and Taylor series that polynomial functions are the simplest possible functions in mathematics,
-      in part because they require only addition and multiplication to evaluate.
-      From the point of view of calculus,
-      polynomials are especially nice:
-      we can easily differentiate or integrate any polynomial.
-      In light of our work in <xref ref="sec-8-6-taylor">Section</xref>,
-      we now know that several important non-polynomials have polynomial-like expansions.
-      For example, for any real number <m>x</m>,
-      <me permid="AXT">
-        e^x = 1 + x + \frac{x^2}{2!} + \frac{x^3}{3!} + \cdots + \frac{x^n}{n!} + \cdots
-      </me>.
+  
+   <p permid="Avd">
+      So far, each infinite series we have discussed has been a series of real numbers, such as
+      <men xml:id="E-geom12" permid="jbt">
+        1 + \frac{1}{2} + \frac{1}{4} + \cdots + \frac{1}{2^k} + \cdots = \sum_{k=0}^{\infty} \frac{1}{2^k}
+      </men>.
     </p>
 
-    <p permid="Tbx">
-      There are two settings where other series like the one for <m>e^x</m> arise:
-      we may be given an expression such as
-      <me permid="hfc">
-        1 + 2x + 3x^2 + 4x^3 + \cdots
-      </me>
-      and we seek the values of <m>x</m> for which the expression makes sense.
-      Or we may be trying to find an unknown function <m>f</m> that has expression
-      <me permid="Nml">
-        f(x) = a_0 + a_1 x + a_2 x^2 + \cdots + a_k x^k + \cdots
-      </me>,
-      and we try to determine the values of the constants <m>a_0</m>,
-      <m>a_1</m>, <m>\ldots</m>.
-      The latter situation is explored in <xref ref="PA-8-6">Example</xref>.
+    <p permid="gCm">
+      In the remainder of this chapter,
+      we will include series that involve a variable.
+      For instance,
+      if in the geometric series in <xref ref="E-geom12">Equation</xref>
+      we replace the ratio <m>r = \frac{1}{2}</m> with the variable <m>x</m>,
+      we have the infinite
+      (still geometric)
+      series
+      <men xml:id="E-geomx" permid="PiC">
+        1 + x + x^2 + \cdots + x^k + \cdots = \sum_{k=0}^{\infty} x^k
+      </men>.
     </p>
 
-<example xml:id="PA-8-6" permid="Glc">
-  <statement>
-    <p permid="QKh">
-      In <xref ref="C-7">Chapter</xref>,
-      we learned some of the many important applications of differential equations,
-      and learned some approaches to solve or analyze them.
-      Here, we consider an important approach that will allow us to solve a wider variety of differential equations.
-    </p>
+  <p> In this section we will focus on more general series of powers, and in the next sections we will use these to obtain polynomial approximations of functions. As a motivation, consider the following example.
+  </p>
 
-    <p permid="wRq">
-      Let's consider the familiar differential equation from exponential population growth given by
-      <men xml:id="eq-PA-8-6-Resistance-ode" permid="pmR">
-        y' = ky
-      </men>,
-      where <m>k</m> is the constant of proportionality.
-      While we can solve this differential equation using methods we have already learned,
-      we take a different approach now that can be applied to a much larger set of differential equations.
-      For the rest of this example,
-      let's assume that <m>k=1</m>.
-      We will use our knowledge of Taylor series to find a solution to the differential equation <xref ref="eq-PA-8-6-Resistance-ode" />.
-    </p>
+<example xml:id="Ex-8-6-1" permid="pfa">
+      <statement>
+        <p permid="OrE">
+          Consider the power series defined by
+          <me permid="FHM">
+            f(x) = \sum_{k=0}^{\infty} \frac{x^k}{2^k}
+          </me>.
+        </p>
 
-    <p permid="cYz">
-      To do so, we assume that we have a solution <m>y=f(x)</m> and that <m>f(x)</m> has a Taylor series that can be written in the form
-      <me permid="Vua">
-        y = f(x) = \sum_{k=0}^{\infty} a_kx^k
-      </me>,
-      where the coefficients <m>a_k</m> are undetermined.
-      Our task is to find the coefficients.
-    </p>
+        <p permid="uyN">
+          What are <m>f(1)</m> and <m>f\left(\frac{3}{2}\right)</m>?
+          Find a general formula for <m>f(x)</m> and determine the values for which this power series converges.
+        </p>
+      </statement>
+      <solution permid="tOT">
+        <p permid="UgQ">
+          If we evaluate <m>f</m> at <m>x=1</m> we obtain the series
+          <me permid="lOV">
+            \sum_{k=0}^{\infty} \frac{1}{2^k}
+          </me>
+          which is a geometric series with ratio <m>\frac{1}{2}</m>.
+          So we can sum this series and find that
+          <me permid="RWe">
+            f(1) = \frac{1}{1-\frac{1}{2}} = 2
+          </me>.
+        </p>
 
-    <p permid="JfI">
-      <ol label="a." permid="Qan">
-        <li permid="whw">
-          <p permid="Klb">
-            Assume that we can differentiate a power series term by term.
-            By taking the derivative of <m>f(x)</m> with respect to <m>x</m> and substituting the result into the differential equation <xref ref="eq-PA-8-6-Resistance-ode" />, show that the equation
-            <me permid="BBj">
-              \sum_{k=1}^{\infty} ka_kx^{k-1} = \sum_{k=0}^{\infty} a_kx^{k}
-            </me>
-            must be satisfied in order for
-            <m>f(x) = \sum_{k=0}^{\infty} a_kx^k</m> to be a solution of the DE.
-          </p>
-        </li>
+        <p permid="AnZ">
+          Similarly,
+          <me permid="ydn">
+            f(3/2) = \sum_{k=0}^{\infty} \left(\frac{3}{4}\right)^k = \frac{1}{1-\frac{3}{4}} = 4
+          </me>.
+        </p>
 
-        <li permid="coF">
-          <p permid="qsk">
-            Two series are equal if and only if they have the same coefficients on like power terms.
-            Use this fact to find a relationship between <m>a_1</m> and <m>a_0</m>.
-          </p>
-        </li>
+        <p permid="gvi">
+          In general,
+          <m>f(x)</m> is a geometric series with ratio <m>\frac{x}{2}</m>, so
+          <me permid="ekw">
+            f(x) = \sum_{k=0}^{\infty} \left(\frac{x}{2}\right)^k = \frac{1}{1-\frac{x}{2}} = \frac{2}{2-x}
+          </me>
+          provided that <m>-1 \lt  \frac{x}{2} \lt  1</m>
+          (which ensures that the ratio is less than 1 in absolute value).
+          Thus, the power series that defines
+          <m>f(x)=\frac{2}{2-x}</m> converges for <m>-2 \lt  x \lt  2</m>.
+        </p>
+      </solution>
+    </example>
 
-        <li permid="IvO">
-          <p permid="Wzt">
-            Now write <m>a_2</m> in terms of <m>a_1</m>.
-            Then write <m>a_2</m> in terms of <m>a_0</m>.
-          </p>
-        </li>
 
-        <li permid="oCX">
-          <p permid="CGC">
-            Write <m>a_3</m> in terms of <m>a_2</m>.
-            Then write <m>a_3</m> in terms of <m>a_0</m>.
-          </p>
-        </li>
 
-        <li permid="UKg">
-          <p permid="iNL">
-            Write <m>a_4</m> in terms of <m>a_3</m>.
-            Then write <m>a_4</m> in terms of <m>a_0</m>.
-          </p>
-        </li>
 
-        <li permid="ARp">
-          <p permid="OUU">
-            Observe that there is a pattern in (b)-(e).
-            Find a general formula for <m>a_k</m> in terms of <m>a_0</m>.
-          </p>
-        </li>
-
-        <li permid="gYy">
-          <p permid="vcd">
-            Write the series expansion for <m>y</m> using only the unknown coefficient <m>a_0</m>.
-            From this,
-            determine what familiar functions satisfy the differential equation <xref ref="eq-PA-8-6-Resistance-ode" />.
-            (<em>Hint</em>: Compare to a familiar Taylor series.)
-          </p>
-        </li>
-      </ol>
-    </p>
-  </statement>
-  <solution permid="DLV">
-    <p permid="kCY">
-      <ol label="a." permid="jTe">
-        <li permid="NfH">
-          <p permid="bjm">
-            Differentiation term by term gives
-            <me permid="hIs">
-              y' = \sum_{k=1}^{\infty} ka_kx_{k-1}
-            </me>.
-          </p>
-
-          <p permid="Hqv">
-            We then substitute this series into the differential equation <xref ref="eq-PA-8-6-Resistance-ode" /> to obtain the equation
-          </p>
-          <!--This seems to end prematurely. -->
-        </li>
-
-        <li permid="tmQ">
-          <p permid="nxE">
-            When we write the first few terms of the series on either side of our differential equation we obtain
-            <md permid="NPB">
-              <mrow>\amp a_1 + (2)a_2x + (3)a_3x^2 + (4)a_4x^3 + \cdots + (k+1)a_{k+1}x^{k} + \cdots</mrow>
-              <mrow>\amp= a_0 + a_1x + a_2x^2 + \cdots + a_kx^k + \cdots</mrow>
-            </md>.
-          </p>
-
-          <p permid="TEN">
-            Equating the constant terms gives us <m>a_1 = a_0</m>.
-          </p>
-        </li>
-
-        <li permid="ZtZ">
-          <p permid="zLW">
-            Equating the degree 1 terms gives us
-            <m>2a_2 = a_1</m> or <m>a_2 = \frac{a_1}{2}</m>.
-            Since <m>a_1 = a_0</m>,
-            we have <m>a_2 = \frac{a_0}{2}</m>.
-          </p>
-        </li>
-
-        <li permid="lIr">
-          <p permid="fTf">
-            Equating the degree 2 terms gives us
-            <m>3a_3 = a_2</m> or <m>a_3 = \frac{a_2}{3}</m>.
-            Since <m>a_2 = \frac{a_0}{2}</m>,
-            we have <m>a_3 = \frac{a_0}{3!}</m>.
-          </p>
-        </li>
-
-        <li permid="RPA">
-          <p permid="Mao">
-            Equating the degree 3 terms gives us
-            <m>4a_4 = a_3</m> or <m>a_4 = \frac{a_3}{4}</m>.
-            Since <m>a_3 = \frac{a_0}{3!}</m>,
-            we have <m>a_4 = \frac{a_0}{4!}</m>.
-          </p>
-        </li>
-
-        <li permid="xWJ">
-          <p permid="shx">
-            Equating the degree <m>k-1</m> terms gives us
-            <m>ka_k = a_{k-1}</m> or <m>a_k = \frac{a_{k-1}}{k}</m>.
-            It appears that <m>a_{k-1} = \frac{a_0}{(k-1)!}</m>,
-            so we have
-            <me permid="tWK">
-              a_k = \frac{a_0}{k!}
-            </me>.
-          </p>
-        </li>
-
-        <li permid="edS">
-          <p permid="YoG">
-            Since <m>a_k = \frac{a_0}{k!}</m> we have
-            <me permid="adT">
-              y = a_0 \sum_{k=0}^{\infty} \frac{x^k}{k!}
-            </me>.
-          </p>
-
-          <p permid="EvP">
-            So the functions that satisfy the differential equation <xref ref="eq-PA-8-6-Resistance-ode" /> are the exponential functions of the form <m>y = a_0e^x</m>.
-          </p>
-        </li>
-      </ol>
-    </p>
-  </solution>
-</example>
-  </introduction>
+  
+  
+  
+      </introduction>
 
   <subsection permid="EnY">
     <title>Power Series</title>
     <idx><h>power series</h></idx>
 
-    <p permid="ziG">
-      As <xref ref="PA-8-6">Example</xref> shows,
-      it can be useful to treat an unknown function as if it has a Taylor series,
-      and then determine the coefficients from other information.
-      In other words,
-      we define a function as an infinite series of powers of <m>x</m> and then determine the coefficients based on something besides a formula for the function.
-      This method allows us to approximate solutions to many different types of differential equations,
-      even if we cannot solve them explicitly.
-      This is different from our work with Taylor series since we are not using an original function <m>f</m> to generate
-      the coefficients of the series.
-    </p>
+    
 
   <assemblage>
     <title> Power Series </title>
@@ -274,11 +136,42 @@
         </p>
      </assemblage>
      
+     <p> For example, the series  <me> 1 + (x-2) + (x-2)^2 + (x-2)^3 + \cdots </me> is a power series centered at <m> x = 2 </m> with <m>c_i = 1 </m> for <m> i \ge 1 </m>, and a geometric series <me> \sum_{n=1}^{\infty}  bx^n = b + bx + bx^2 + bx^3 + \cdots = \sum_{n=0}^{\infty} b(x-0)^n </me> is a power series centered at <m> x=0 </m> with <m>c_i = b </m> for <m> i \ge 1 </m>. 
+</p>
+
+     <p> Convergence of power series is similar to convergence of series. Namely, a power series will converge if its sequence of partial sums converges.  In general, a power series may converge for some values of <m> x </m>, and diverge for others. 
+     </p>
+     
+     
+ <assemblage>
+    <title> Convergence of Power Series </title> 
+   <p>  For a fixed value of <m> x </m>, the power series  <me>   \sum_{k=0}^{\infty} c_k(x-a)^k </me> <term> converges </term> to <m> L </m> if the sequence of partial sums <m> S_0(x), S_1(x), S_2(x), \ldots </m> converges to <m> L </m>. That is, 
+   <me> \lim_{n \rightarrow \infty} S_n(x) = L </me>. 
+   </p>
+   
+   <p permid="hmg">
+      The set of <m>x</m> values at which a power series <m> \sum_{k=0}^{\infty} c_k(x-a)^k </m> converges is always an interval centered at <m>x=a</m>.
+      For this reason,
+      the set on which a power series converges is called the
+      <term>interval of convergence</term>.
+      Half the length of the interval of convergence is called the
+      <term>radius of convergence</term>. </p>
+ </assemblage>    
+     
+     <example>
+     <statement>
+     <p> Consider the series <m> \sum_{n=0}^{\infty} \frac{ (x-1)^n}{2^n} </m>. This is a power series about <m>x = 1 </m>.  Does it converge or diverge when <m>x =2 </m>? Does it converge or diverge when <m> x = 3 </m>?  For what values of <m> x </m> will the series converge?
+     
+     </p>
+     </statement>
+     </example>
+     
+     
  </subsection>
  
  
  <subsection>
-     <title> Convergence of Power Series </title>
+     <title> Finding the Interval of Convergence </title>
 
     <p permid="fpP">
       A power series defines a function <m>f</m> whose domain is the set of <m>x</m> values for which the power series converges.
@@ -287,7 +180,6 @@
         f(x) = \sum_{k=0}^{\infty} c_k(x-a)^k
       </me>.
     </p>
-
 
 
 
@@ -375,16 +267,7 @@
       </ul>
     </p>
     
-    <assemblage>
-<title> Interval and Radius of Convergence </title>
-    <p permid="hmg">
-      The set of <m>x</m> values at which a power series <m> \sum_{k=0}^{\infty} c_k(x-a)^k </m> converges is always an interval centered at <m>x=a</m>.
-      For this reason,
-      the set on which a power series converges is called the
-      <term>interval of convergence</term>.
-      Half the length of the interval of convergence is called the
-      <term>radius of convergence</term>. </p>
-      </assemblage>
+
       
       <assemblage>
       <title> Finding the Interval of Convergence </title>
@@ -427,54 +310,7 @@
 
  
 
-    <example xml:id="Ex-8-6-1" permid="pfa">
-      <statement>
-        <p permid="OrE">
-          Consider the power series defined by
-          <me permid="FHM">
-            f(x) = \sum_{k=0}^{\infty} \frac{x^k}{2^k}
-          </me>.
-        </p>
-
-        <p permid="uyN">
-          What are <m>f(1)</m> and <m>f\left(\frac{3}{2}\right)</m>?
-          Find a general formula for <m>f(x)</m> and determine the values for which this power series converges.
-        </p>
-      </statement>
-      <solution permid="tOT">
-        <p permid="UgQ">
-          If we evaluate <m>f</m> at <m>x=1</m> we obtain the series
-          <me permid="lOV">
-            \sum_{k=0}^{\infty} \frac{1}{2^k}
-          </me>
-          which is a geometric series with ratio <m>\frac{1}{2}</m>.
-          So we can sum this series and find that
-          <me permid="RWe">
-            f(1) = \frac{1}{1-\frac{1}{2}} = 2
-          </me>.
-        </p>
-
-        <p permid="AnZ">
-          Similarly,
-          <me permid="ydn">
-            f(3/2) = \sum_{k=0}^{\infty} \left(\frac{3}{4}\right)^k = \frac{1}{1-\frac{3}{4}} = 4
-          </me>.
-        </p>
-
-        <p permid="gvi">
-          In general,
-          <m>f(x)</m> is a geometric series with ratio <m>\frac{x}{2}</m>, so
-          <me permid="ekw">
-            f(x) = \sum_{k=0}^{\infty} \left(\frac{x}{2}\right)^k = \frac{1}{1-\frac{x}{2}} = \frac{2}{2-x}
-          </me>
-          provided that <m>-1 \lt  \frac{x}{2} \lt  1</m>
-          (which ensures that the ratio is less than 1 in absolute value).
-          Thus, the power series that defines
-          <m>f(x)=\frac{2}{2-x}</m> converges for <m>-2 \lt  x \lt  2</m>.
-        </p>
-      </solution>
-    </example>
-
+    
     
 
     <example xml:id="Ex-8-6-2" permid="Vmj">
