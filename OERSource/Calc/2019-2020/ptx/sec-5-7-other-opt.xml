@@ -157,7 +157,7 @@
     <idx><h>partial fractions</h></idx>
 
     <p permid="Vlj">
-      The method of partial fractions is used to integrate some rational functions. A rational function is a function that can be written as a quotient of polynomials. The goal of partial fractions is to reverse the process of finding a common denominator, so this method works better when the denominator can be factored into smaller degree polynomials. It is an algebraic manipulation tool that can make integrals more manageable. The method of partial fractions will be demonstrated in the solutions of the next three examples. A summary of the method of partial fractions and why it helps with evaluating antiderivatives will follow these examples. 
+      The method of partial fractions is used to integrate some rational functions. A rational function is a function that can be written as a quotient of polynomials. The goal of partial fractions is to reverse the process of finding a common denominator, so this method works better when the denominator can be factored into smaller degree polynomials. It is an algebraic manipulation tool that can make integrals more manageable. The method of partial fractions will be demonstrated in the solutions of the next examples. A summary of the method of partial fractions and why it helps with evaluating antiderivatives will follow these examples. 
     </p>
 
     <example permid="LhD">
@@ -284,9 +284,59 @@
       </solution>  
     </example> 
 
-    <example> 
-      <p>Insert example that requires long division first </p>
+    <example>
+      <statement> 
+      <p> Evaluate  
+        <me> \int \frac{-3x^3+9x^2-9x+7}{-x^2+3x-2} \, dx.</me>
+       </p>
+    </statement>
+    <solution>
+      <p> 
+        Before decomposing the integrand into partial fractions, we need to perform polynomial long division because the degree of the numerator, <m> 3</m>, is greater than the degree of the denominator, <m> 2</m>. We need to do this because partial fraction decompsition leads to a sum of rational functions where the degree of the numerator is less than the degree of the denominator. 
 
+      </p>
+      
+      <p> After completing polynomial long division, we find that   
+        <me> 
+            \frac{-3x^3+9x^2-9x+7}{-x^2+3x-2}
+            = 3x + \frac{7-3x}{-x^2+3x-2} \, ,
+        </me>
+        hence, we can change the original integral
+        <me xmlid="E-PF-4"> 
+            \int \frac{-3x^3+9x^2-9x+7}{-x^2+3x-2} \, dx
+            = \int 3x \, dx + \int \frac{7-3x}{-x^2+3x-2} \, dx
+        </me>  
+      We'll proceed by using the method of partial fraction decomposition on the integrand <m> \frac{7-3x}{-x^2+3x-2} </m>.
+      </p>
+      <p>
+      Notice that the denominator factors as <m> -x^2+3x-2= (x-1)(2-x) </m>, so we'll suppose the integrand decomposes as
+      <me> \frac{7-3x}{(x-1)(2-x)}= \frac{A}{x-1}+ \frac{B}{2-x}</me>
+
+      and we'll look for constants <m> A </m> and <m> B </m>.
+      </p>
+      <p>
+        Multiplying both sides of the equation by the denominator of the left hand side, <m> (x-1)(2-x)</m>, we find that 
+        <me> 7-3x = A(2-x) + B(x-1) </me>
+
+        To find <m> A</m> and <m> B</m>, we will rearrange the right hand side of the equation so that similar terms are grouped.
+        <me> 7-3x=2A-Ax+Bx-B </me>
+        <me> 7-3x=(B-A)x+(2A-B)</me>
+
+        To make sure the coefficients of <m> x</m> match on each side of the equation and that the constant terms are the same on each side of the equation, we obtain the following system of equations: 
+        <me> -3=B-A \text{ and } 7=2A-B</me>
+
+        We find that <m> A=4 </m> and <m> B=1 </m>. Thus, using <xref ref="E-PF-4"> Equation </xref>, we can rewrite the original integral as 
+        <me> \int \frac{-3x^3+9x^2-9x+7}{-x^2+3x-2} \, dx
+            = \int 3x \, dx + \int \frac{7-3x}{-x^2+3x-2} \, dx 
+        </me>
+        <me> 
+          = \int 3x \, dx + \int \frac{4}{x-1} + \frac{1}{2-x} \, dx 
+        </me> 
+        These integrals can be evaluated by using the antidifferentiation rules from <xref ref="T-4-4-Act2_2"> Table </xref> and using appropriate substitutions, and hence we find that 
+        <me> \int \frac{-3x^3+9x^2-9x+7}{-x^2+3x-2} \, dx = \int 3x \, dx + \int \frac{4}{x-1}\, dx + \int \frac{1}{2-x} \, dx</me>
+        <me>=\frac{3}{2}x^2 + 4\ln|x-1| - \ln|2-x|+C </me> 
+      </p>  
+    </solution>  
     </example> 
     <p>
       These examples have demonstrated how to use the method of partial fraction decomposition in different situations including when the demoninator of a rational function is a product of distinct linear factors, when there is a repeated linear factor in the denominator, when there is an irreducible quadratic factor in the denominator, and when the degree of the numerator is greater than the degree of the denominator. 
@@ -294,6 +344,7 @@
     <assemblage>
       <title> Method of Partial Fraction Decomposition for a Rational Function <m> R(x)=\frac{P(x)}{Q(x)} </m> </title>
       <p> 
+        Note: This method works best on rational functions when <m> Q(x)</m> can be factored into linear and irreducible quadratic terms. 
         <ul> 
           <li>
             <p> If the degree of <m> P(x) </m> is greater than or equal to the degree <m> Q(x) </m>, then perform polynomial long division to calculate <m> \frac{P(x)}{Q(x)}</m>, else move on to the next step. The result gives a new way to write <m>R(x)</m>. We know that <m> R(x)= S(x)+ \frac{P_2(x)}{Q(x)} </m> where <m> S(x) </m> is the quotient of the polynomial long division and <m> P_2 (x) </m> is the remainder of the polynomial long division. Now the degree of <m> P_2(x) </m> is less than the degree of <m> Q(x) </m>, so follow the remaining steps to decompose <m> \frac{P_2(x)}{Q(x)}</m> . </p>
@@ -329,9 +380,9 @@
     </assemblage>  
     </p> 
     <p>
-      These smaller blocks, or partial fractions, that <m> R(x) </m> is broken into often leads to more manageable antidifferentiation. For example if <m> A </m> and <m> k </m> are real numbers, then <m> \int \frac{A}{x-k} \, dx = A \ln |x-k| + C</m> by using the substitution <m> u=x-k </m>. There are still some cases where we must find the antiderivative of rational functions like 
+      These smaller blocks, or partial fractions, that <m> R(x) </m> is broken into often leads to more manageable antidifferentiation. For example if <m> A </m> and <m> k </m> are real numbers, then <m> \int \frac{A}{x-k} \, dx = A \ln |x-k| + C</m> by using the substitution <m> u=x-k </m>. We also know the antiderivative of some other partial fractions like <m> \int \frac{A}{x^2+1} \, dx= \arctan(x) + C </m>. In many cases, partial fraction decomposition helps the process of finding algebraic antiderivatives. But(!), there are still some cases where we must find the antiderivative of rational functions like 
       <me> \int \frac{1}{x^2+4x+13} \, dx </me>
-      where we still need to develop more tools to find an algebraic antiderivative. The topic of <xref ref="Trig-Sub"> Trigonometric Substitutions </xref> will allow us to tackle antiderivatives of some ill-behaved functions.
+      for which we still need to develop different tools to find an algebraic antiderivative. The topic of <xref ref="Trig-Sub"> Trigonometric Substitutions </xref> will allow us to tackle antiderivatives of some ill-behaved functions.
     </p>  
     <assemblage> <title> Possibly get rid of this paragraph </title>
     <p permid="hzB">
@@ -386,7 +437,16 @@
           </answer> 
           <solution>
             <p permid="qHb">
-            <me>\int \frac{1}{x^2 - 2x - 3} \, dx = \int \frac{1/4}{x-3} - \frac{1/4}{x+1} \, dx = \frac{1}{4}\ln|x-3| - \frac{1}{4}\ln|x+1| + C</me>.
+              To use partial fraction decomposition on the integrand, we'll assume that 
+              <me> \frac{1}{x^2-2x-2}=\frac{1}{(x-3)(x+1)}=\frac{A}{x-3}+ \frac{B}{x+1} </me>
+              To solve for <m> A </m> and <m> B</m>, we'll multiply both sides of the equation by the denominator of the left side of the equation and rearrange like the earlier exmaples. We'll have the following sequence of steps: 
+              <me> 1=A(x+1) + B(x-3) </me>
+              <me> 1=(A+B)x + (A-3B)</me>
+              We know that 
+              <me> A+B=0 \, \text{ and } A-3B=1, </me>
+              so <m> A=1/4 </m> and <m> B=-1/4 </m>. This implies that 
+            <me>\int \frac{1}{x^2 - 2x - 3} \, dx = \int \frac{1/4}{x-3} - \frac{1/4}{x+1} \, dx </me>
+            <me> = \frac{1}{4}\ln|x-3| - \frac{1}{4}\ln|x+1| + C</me>.
           </p>
           </solution> 
         </li>
@@ -405,12 +465,21 @@
           </hint>
           <answer>
             <p permid="esJ">
-            <me>\int \frac{x^2+1}{x^3 - x^2} \, dx = -\ln(x) + x^{-1} + 2\ln(x-1) + C</me>.
+            <me>\int \frac{x^2+1}{x^3 - x^2} \, dx = -\ln|x| + x^{-1} + 2\ln|x-1| + C</me>.
           </p>
           </answer>
           <solution>
             <p permid="WOk">
-            <me>\int \frac{x^2+1}{x^3 - x^2} \, dx = \int\left(-\frac{1}{x} - \frac{1}{x^2} + \frac{2}{x-1} \right) \, dx = -\ln(x) + x^{-1} + 2\ln(x-1) + C</me>.
+              To use partial fraction decomposition on the integrand, we'll assume that 
+              <me> \frac{x^2+1}{x^3-x^2}=\frac{x^2+1}{x^2(x-1)}=\frac{A}{x}+ \frac{B}{x^2}+ \frac{C}{x-1} </me>
+              To solve for <m> A </m>, <m> B</m>, and <m> C </m>, we'll multiply both sides of the equation by the denominator of the left side of the equation and rearrange like the earlier exmaples. We'll have the following sequence of steps: 
+              <me> x^2+1=Ax(x-1) + B(x-1) + Cx^2 </me>
+              <me> x^2+0x+1=(A+C)x^2 +(B-A)x+ (-B)</me>
+              We know that 
+              <me> A+C=1 \ , B-A=0 \ , \text{ and } -B=1, </me>
+              so <m> A=-1 </m>, <m>B=-1</m>, and <m>C=2</m>. This implies that
+            <me>\int \frac{x^2+1}{x^3 - x^2} \, dx = \int\left(-\frac{1}{x} - \frac{1}{x^2} + \frac{2}{x-1} \right) \, dx </me>
+            <me>= -\ln|x| + x^{-1} + 2\ln|x-1| + C</me>.
           </p>
           </solution>  
         </li>
@@ -429,14 +498,20 @@
           </hint>
           <answer>
             <p permid="KzS">
-            <me>\int \frac{x-2}{x^4 + x^2}\, dx = \ln|x| + 2x^{-1} - \frac{1}{2} \ln(1+x^2) + 2\arctan(x) + C</me>.
+            <me>\int \frac{x-2}{x^4 + x^2}\, dx = \ln|x| + 2x^{-1} - \frac{1}{2} \ln|1+x^2| + 2\arctan(x) + C</me>.
           </p>
           </answer>  
           <solution>
            <p permid="CVt">
-            By the partial fractions decomposition,
-            <me>\int \frac{x-2}{x^4 + x^2}\, dx = \int \frac{1}{x} - \frac{2}{x^2} + \frac{-x+2}{1+x^2} \, dx </me>.
-            Observing that <m>\frac{-x+2}{1+x^2} = \frac{-x}{1+x^2}+\frac{2}{1+x^2}</m>,
+            To use partial fraction decomposition on the integrand, we'll assume that 
+              <me> \frac{x-2}{x^4+x^2}=\frac{x-2}{x^2(x^2+1)}=\frac{A}{x}+ \frac{B}{x^2} + \frac{Cx+D}{x^2+1} </me>
+              To solve for <m> A </m>, <m> B</m>, <m>C</m>, and <m>D</m>, we'll multiply both sides of the equation by the denominator of the left side of the equation and rearrange like the earlier exmaples. We'll have the following sequence of steps: 
+              <me> x-2=Ax(x^2+1) + B(x^2+1) + (Cx+D)x^2 </me>
+              <me> x-2=(A+C)x^3 + (B+D)x^2 + Ax+ B</me>
+              We know that 
+              <me> A+C=0 \ , B+D=0 \ , A=1 \text{ and } B=-2, </me>
+              so <m> A=1 </m>, <m> B=-2 </m>, <m>C=-1</m>, and <m>D=2</m>. 
+              Observing that <m>\frac{-x+2}{1+x^2} = \frac{-x}{1+x^2}+\frac{2}{1+x^2}</m>,
             it now follows that
             <me permid="HFm">
               \int \frac{x-2}{x^4 + x^2}\, dx = \int \frac{1}{x} - \frac{2}{x^2} - \frac{x}{1+x^2} + \frac{2}{1+x^2} \, dx
