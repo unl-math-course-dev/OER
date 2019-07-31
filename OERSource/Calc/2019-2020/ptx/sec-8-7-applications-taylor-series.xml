@@ -27,158 +27,36 @@
 				We have now built several examples of Taylor series using the definition, and we have seen in the process that nearly all 
 				of the work needed to find a Taylor series is done in finding the coefficients. This can be done for any function by taking derivatives;
 				however, some functions have very complicated derivatives, and the process of finding these derivatives can take a serious
-				amount of time and effort. In many situations, we can use the Taylor series that we already know to find Taylor series for more
-				complicated functions. 
-				</p>
+				amount of time and effort.  </p>
 				
-				
-<example permid="jgG">
-    <statement>
-      <p permid="LCl">
-        We can use power series to approximate definite integrals to which known techniques of integration do not apply.
-        We will illustrate this in this exercise with the definite integral <m>\int_0^1 \sin(x^2) \,ds</m>.
-
-        <ol label="a." permid="JyD">
-          <li permid="awO">
-            <p permid="zJs">
-              Use the Taylor series for <m>\sin(x)</m> to find the Taylor series for <m>\sin(x^2)</m>.
-              What is the interval of convergence for the Taylor series for <m>\sin(x^2)</m>?
-              Explain.
-            </p>
-          </li>
-
-          <li permid="GDX">
-            <p permid="fQB">
-              Integrate the Taylor series for
-              <m>\sin(x^2)</m> term by term to obtain a power series expansion for <m>\int \sin(x^2)\,dx</m>.
-            </p>
-          </li>
-
-          <li permid="mLg">
-            <p permid="LXK">
-              Use the result from part (b) to explain how to evaluate <m>\int_0^1 \sin(x^2) \ dx</m>.
-              Determine the number of terms you will need to approximate <m>\int_0^1 \sin(x^2) \,dx</m> to 3 decimal places.
-            </p>
-          </li>
-        </ol>
-      </p>
-    </statement>
-    <answer permid="nQz">
-      <p permid="TgK">
-        <ol label="a." permid="xkl">
-          <li permid="SSp">
-            <p permid="seT">
-              <m>
-              \sin(x^2) = \sum_{k=0}^{\infty} (-1)^k\frac{x^{2(2k+1)}}{(2k+1)!}
-              </m>,
-              with interval of convergence <m>(-\infty, \infty)</m>.
-            </p>
-          </li>
-
-          <li permid="yZy">
-            <p permid="Ymc">
-              <m>
-              \int \sin(x^2) \, dx = \sum_{k=0}^{\infty} (-1)^k\frac{x^{4k+3}}{(2k+1)!(4k+3)} + C
-              </m>.
-            </p>
-          </li>
-
-          <li permid="fgH">
-            <p permid="Etl">
-              <m>
-              \int_0^1 \sin(x^2) \, dx = \sum_{k=0}^{\infty} (-1)^k\frac{1}{(2k+1)!(4k+3)}
-              </m>.
-              Use <m>n = 1</m> to generate the desired estimate.
-            </p>
-          </li>
-        </ol>
-      </p>
-    </answer>
-    <solution permid="HJq">
-      <p permid="aLj">
-        <ol label="a." permid="YHB">
-          <li permid="LnQ">
-            <p permid="kAu">
-              The Taylor series expansion for <m>\sin(x)</m> centered at <m>x=0</m> is
-              <me permid="IHF">
-                \sin(x) = \sum_{k=0}^{\infty} (-1)^k\frac{x^{2k+1}}{(2k+1)!}
-              </me>.
-              Substituting <m>x^2</m> for <m>x</m> gives us
-              <me permid="oOO">
-                \sin(x^2) = \sum_{k=0}^{\infty} (-1)^k\frac{x^{2(2k+1)}}{(2k+1)!}
-              </me>,
-              as the Taylor series for <m>\sin(x^2)</m> centered at <m>x=0</m>.
-              Since the interval of convergence for the Taylor series for <m>\sin(x)</m> is <m>(-\infty, \infty)</m>,
-              it follows that the interval of convergence of the Taylor series for
-              <m>\sin(x^2)</m> is also <m>(-\infty, \infty)</m>.
-            </p>
-          </li>
-
-          <li permid="ruZ">
-            <p permid="QHD">
-              We can integrate a Taylor series term by term on its interval of convergence, so
-              <md permid="UVX">
-                <mrow>\int \sin(x^2) \, dx &amp;= \int \sum_{k=0}^{\infty} (-1)^k\frac{x^{2(2k+1)}}{(2k+1)!} \, dx</mrow>
-                <mrow>&amp;= \sum_{k=0}^{\infty} \int (-1)^k\frac{x^{2(2k+1)}}{(2k+1)!} \, dx</mrow>
-                <mrow>&amp;= \sum_{k=0}^{\infty} \int (-1)^k\frac{x^{4k+2}}{(2k+1)!} \, dx</mrow>
-                <mrow>&amp;= \sum_{k=0}^{\infty} (-1)^k\frac{x^{4k+3}}{(2k+1)!(4k+3)} + C</mrow>
-              </md>.
-            </p>
-          </li>
-
-          <li permid="XCi">
-            <p permid="wOM">
-              To evaluate <m>\int_0^1 \sin(x^2) \ dx</m>,
-              we evaluate the antiderivative
-              <m>\sum_{k=0}^{\infty} (-1)^k\frac{x^{4k+3}}{(2k+1)!(4k+2)}</m> at <m>1</m> and <m>0</m> and subtract.
-              So
-              <md permid="hkp">
-                <mrow>\int_0^1 \sin(x^2) \, dx &amp;= \left. \sum_{k=0}^{\infty} (-1)^k\frac{x^{4k+3}}{(2k+1)!(4k+3)}\right|_{0}^{1}</mrow>
-                <mrow>&amp;= \sum_{k=0}^{\infty} (-1)^k\frac{1}{(2k+1)!(4k+3)}</mrow>
-              </md>.
-              The resulting series is an alternating series,
-              so we can find a value of <m>n</m> that makes the <m>n</m>th partial sum of the series approximate the sum of the series to <m>3</m> decimal places by determining a value of <m>n</m> such that
-              <me permid="Bdg">
-                a_{n+1} = \frac{1}{(2(n+1)+1)!(4(n+1)+3)} \lt 0.001
-              </me>.
-              This is not an inequality that we can solve algebraically,
-              so we use trial and error.
-              Doing so shows that <m>n = 1</m> will work.
-            </p>
-          </li>
-        </ol>
-      </p>
-    </solution>
-  </example>
-
-				
-				
-			</introduction>
-			
-		<subsection permid="kvh">
-			<title>Manipulating Taylor Series</title>
-				<p> 
-					Recall the Taylor series expansions about <m>x=0</m> for the following important functions: </p>
+					<p> Recall the Taylor series expansions about <m>x=0</m> for the following important functions:
+					 </p>
 					
 					<assemblage>
-					<title> Important Taylor Series </title>
+					<title> Important Taylor Series and their Intervals of Convergence</title>
 					<p>
 					    <md>
-						<mrow> \sin x \amp= x - \frac{x^3}{3!} + \frac{x^5}{5!} - \frac{x^7}{7!} + \frac{x^9}{9!} - \cdots </mrow>
-						<mrow> \cos x \amp= 1 - \frac{x^2}{2!} + \frac{x^4}{4!} - \frac{x^6}{6!} + \frac{x^8}{8!} - \cdots </mrow>
-						<mrow> e^x \amp= 1 + x + \frac{x^2}{2!} + \frac{x^3}{3!} + \frac{x^4}{4!} + \cdots </mrow>
-						<mrow> \frac{1}{1-x} \amp= 1 + x + x^2 + x^3 + x^4 + \cdots </mrow>
+						<mrow> \sin (x) \amp= x - \frac{x^3}{3!} + \frac{x^5}{5!} - \frac{x^7}{7!} +  \cdots =\sum_{k=0}^{\infty} \frac{(-1)^k x^{2k+1}}{(2k+1)!}\amp\text{for}\amp-\infty \lt  x \lt  \infty</mrow>
+						<mrow> \cos (x) \amp= 1 - \frac{x^2}{2!} + \frac{x^4}{4!} - \frac{x^6}{6!} +  \cdots =\sum_{k=0}^{\infty} \frac{(-1)^k x^{2k}}{(2k)!}\amp\text{for}\amp-\infty \lt  x \lt  \infty </mrow>
+						<mrow> e^x \amp= 1 + x + \frac{x^2}{2!} + \frac{x^3}{3!} + \frac{x^4}{4!} + \cdots =\sum_{k=0}^{\infty} \frac{x^{k}}{k!}\amp\text{for}\amp-\infty \lt  x \lt  \infty</mrow>
+						<mrow> \frac{1}{1-x} \amp= 1 + x + x^2 + x^3 + x^4 + \cdots =\sum_{k=0}^{\infty} x^k\amp\text{for}\amp-1 \lt  x \lt  1</mrow>
 					     </md>
 					 </p>
 					</assemblage>
 					
-					
-				
 			
-			<example>
+					
+					
+
+
+<p> In many situations, we can use the Taylor series that we already know to find Taylor series for more
+				complicated functions, as illustrated in the next example. 		
+				</p>
+				
+<example>
 				<statement>
 					<p>
-						Consider the function <m>f(x)=\sin(x^2)</m>. The goal is to find the Taylor series centered at 0 for <m>f(x)</m>.
+						The goal of this problem is to find the Taylor series centered at 0 for <m>f(x)=\sin(x^2)</m>.
 					</p>
 					<ol label="a.">
 						<li>
@@ -244,129 +122,18 @@
 					</ol>
 				</solution>
 			</example>
+				
+<p> We can also use Taylor series to obtain approximations of function values, and put functions in order. We will develop these methods in this section.	</p>
+				</introduction>
 			
-			<example xml:id="act-8-6-2" permid="XlW">
-  <statement>
-    <p permid="SCd">
-      Find a Taylor series for
-      <m>f(x) = \frac{1}{1+x^2}</m> centered at <m>x=0</m>.
-    </p>
+		<subsection permid="kvh">
+			<title>New Taylor Series from Old</title>
+									
+<p> 
 
-
-    <p permid="eQv">
-      <ol label="a." permid="blV">
-        <li permid="Hte">
-          <p permid="QMQ">
-            What is the Taylor series expansion for <m>g(x) = \frac{1}{1-x}</m>?
-            What is the interval of convergence of this series?
-          </p>
-        </li>
-
-        <li permid="nAn">
-          <p permid="wTZ">
-            How is <m>g(-x^2)</m> related to <m>f(x)</m>?
-            Explain,
-            and hence substitute <m>-x^2</m> for <m>x</m> in the power series expansion for <m>g(x)</m>.
-            Given the relationship between <m>g(-x^2)</m> and <m>f(x)</m>,
-            how is the resulting series related to <m>f(x)</m>?
-          </p>
-        </li>
-
-        <li permid="THw">
-          <p permid="dbi">
-            For which values of <m>x</m> will this power series expansion for <m>f(x)</m> be valid?
-            Why?
-          </p>
-        </li>
-      </ol>
-    </p>
-  </statement>
-  <hint permid="CJl">
-    <p permid="muU">
-      <ol label="a." permid="veM">
-        <li permid="zOF">
-          <p permid="Jir">
-            Small hints for each of the prompts above.
-          </p>
-        </li>
-      </ol>
-    </p>
-  </hint>
-  <answer permid="WCc">
-    <p permid="GnL">
-      <ol label="a." permid="OXD">
-        <li permid="fVO">
-          <p permid="ppA">
-            <m>
-            \frac{1}{1-x} = \sum_{k=0}^{\infty} x^k
-            </m>
-            for <m>-1 \lt x \lt 1</m>.
-          </p>
-        </li>
-
-        <li permid="McX">
-          <p permid="VwJ">
-            <m>f(x) = g(-x^2) = \sum_{k=0}^{\infty} (-1)^k x^{2k}</m>.
-          </p>
-        </li>
-
-        <li permid="skg">
-          <p permid="BDS">
-            <m>-1 \lt x \lt 1</m>.
-          </p>
-        </li>
-      </ol>
-    </p>
-  </answer>
-  <solution permid="quT">
-    <p permid="agC">
-      <ol label="a." permid="iQu">
-        <li permid="Yrp">
-          <p permid="hLb">
-            Recall that
-            <me permid="KXE">
-              g(x) = \frac{1}{1-x} = \sum_{k=0}^{\infty} x^k
-            </me>
-            for <m>-1 \lt  x \lt  1</m>.
-          </p>
-        </li>
-
-        <li permid="Eyy">
-          <p permid="NSk">
-            Substituting <m>-x^2</m> for <m>x</m> in the power series expansion for <m>g(x)</m> gives
-            <md permid="reN">
-              <mrow>f(x) \amp = g(-x^2)</mrow>
-              <mrow>\amp = \frac{1}{1-(-x^2)}</mrow>
-              <mrow>\amp = \sum_{k=0}^{\infty} \left(-x^2\right)^k</mrow>
-              <mrow>\amp = \sum_{k=0}^{\infty} (-1)^k x^{2k}</mrow>
-            </md>.
-          </p>
-        </li>
-
-        <li permid="kFH">
-          <p permid="tZt">
-            This power series expansion for <m>f(x)</m> will be valid as long as
-            <m>-1 \lt (-x)^2 \lt 1</m> or for <m>-1 \lt x \lt 1</m>.
-          </p>
-        </li>
-      </ol>
-    </p>
-  </solution>
-</example>
-		</subsection>
-		
-		
-  <subsection permid="kvh">
-    <title>Manipulating Power Series</title>
-    <p permid="XLq">
-      We know power series expansions for important functions such as <m>\sin(x)</m> and <m>e^x</m>.
-      Often, we can use a known power series expansion to find a power series for a different,
-      but related,
-      function.
-      The next example demonstrates one way to do this.
-    </p>
-
-<example xml:id="act-8-8-2" permid="XlW">
+There are several ways we can obtain Taylor series expansions for functions using known Taylor series expansions for different related functions. This includes the method of substitution, multiplying Taylor series, and differentiating and integrating Taylor series. The following examples will showcase these methods. </p>
+					
+			<example xml:id="act-8-8-2" permid="XlW">
   <statement>
     <p permid="SCd">
       Our goal in this example is to find a power series expansion for
@@ -374,7 +141,7 @@
     </p>
 
     <p permid="yJm">
-      While we could use the methods of <xref ref="sec-8-5-taylor">Section</xref>
+      While we could use the methods of <xref ref="sec-8-6-taylor">Section</xref>
       and differentiate <m>f(x) = \frac{1}{1+x^2}</m> several times to look for patterns and find the Taylor series for <m>f(x)</m>,
       we seek an alternate approach because of how complicated the derivatives of <m>f(x)</m> quickly become.
     </p>
@@ -479,28 +246,13 @@
     </p>
   </solution>
 </example>
-
-    <p permid="DSz">
-      In a previous section we found several important Maclaurin series and their intervals of convergence.
-      Here, we list these key functions and their corresponding expansions.
-    </p>
-
-    <assemblage permid="wJz">
-      <p permid="jZI">
-        <md permid="Pby">
-          <mrow>\sin(x) \amp =\sum_{k=0}^{\infty} \frac{(-1)^k x^{2k+1}}{(2k+1)!}\amp\text{for}\amp-\infty \lt  x \lt  \infty</mrow>
-          <mrow>\cos(x) \amp =\sum_{k=0}^{\infty} \frac{(-1)^k x^{2k}}{(2k)!}\amp\text{for}\amp-\infty \lt  x \lt  \infty</mrow>
-          <mrow>e^x \amp =\sum_{k=0}^{\infty} \frac{x^{k}}{k!}\amp\text{for}\amp-\infty \lt  x \lt  \infty</mrow>
-          <mrow>\frac{1}{1-x} \amp =\sum_{k=0}^{\infty} x^k\amp\text{for}\amp-1 \lt  x \lt  1</mrow>
-        </md>
-      </p>
-    </assemblage>
-
-    <p permid="QgR">
-      As we saw in <xref ref="act-8-6-2">Example</xref>,
-      we can use these known series to find other power series expansions for related functions such as <m>\sin(x^2)</m>,
-      <m>e^{5x^3}</m>, and <m>\cos(x^5)</m>.
-    </p>
+			
+			
+<example>
+<p> Find the Taylor series expansion of <m> f(t) = t \sin(t^2) - t^3</m>  or something of this sort that involves multiplication and possibly division or add/subtracting.
+</p> 
+</example>			
+				
 
 <example xml:id="act-8-6-3" permid="wyA">
   <statement>
@@ -620,7 +372,7 @@
 </example>
 
     <p permid="woa">
-      Our work in <xref ref="act-8-6-2">Example</xref> holds more generally.
+      Our work in <xref ref="act-8-6-3">Example</xref> holds more generally.
       The corresponding theorem, which we will not prove,
       states that we can differentiate a power series for a function <m>f</m> term by term and obtain the series expansion for <m>f'</m>,
       and similarly we can integrate a series expansion for a function <m>f</m> term by term and obtain the series expansion for <m>\int f(x) \ dx</m>.
@@ -664,11 +416,163 @@
       we can use use the approach of differentiating or integrating a series term by term to find new series.
     </p>
 
-    <example xml:id="Ex-8-6-3" permid="Bts">
+        
+    <example permid="jgG">
+    <statement>
+      <p permid="LCl">
+        We can use Taylor series to approximate definite integrals to which known techniques of integration do not apply.
+        We will illustrate this in this exercise with the definite integral <m>\int_0^1 \sin(x^2) \,dx</m>.
+
+        <ol label="a." permid="JyD">
+
+          <li permid="GDX">
+            <p permid="fQB">
+              Integrate the Taylor series for
+              <m>\sin(x^2)</m> term by term to obtain a power series expansion for <m>\int \sin(x^2)\,dx</m>.
+            </p>
+          </li>
+
+          <li permid="mLg">
+            <p permid="LXK">
+              Use the result from part (a) to explain how to evaluate <m>\int_0^1 \sin(x^2) \ dx</m>.
+              Determine the number of terms you will need to approximate <m>\int_0^1 \sin(x^2) \,dx</m> to 3 decimal places.
+            </p>
+          </li>
+        </ol>
+      </p>
+    </statement>
+    <answer permid="nQz">
+      <p permid="TgK">
+        <ol label="a." permid="xkl">
+          <li permid="yZy">
+            <p permid="Ymc">
+              <m>
+              \int \sin(x^2) \, dx = \sum_{k=0}^{\infty} (-1)^k\frac{x^{4k+3}}{(2k+1)!(4k+3)} + C
+              </m>.
+            </p>
+          </li>
+
+          <li permid="fgH">
+            <p permid="Etl">
+              <m>
+              \int_0^1 \sin(x^2) \, dx = \sum_{k=0}^{\infty} (-1)^k\frac{1}{(2k+1)!(4k+3)}
+              </m>.
+              Use <m>n = 1</m> to generate the desired estimate.
+            </p>
+          </li>
+        </ol>
+      </p>
+    </answer>
+    <solution permid="HJq">
+      <p permid="aLj">
+        <ol label="a." permid="YHB">
+          <li permid="ruZ">
+            <p permid="QHD">
+             Substituting <m>x^2</m> for <m>x</m> in the Taylor series expansion for <m> \sin(x) </m> gives us
+              <me permid="oOO">
+                \sin(x^2) = \sum_{k=0}^{\infty} (-1)^k\frac{x^{2(2k+1)}}{(2k+1)!}
+              </me>,
+              as the Taylor series for <m>\sin(x^2)</m> centered at <m>x=0</m>.
+              We can integrate a Taylor series term by term on its interval of convergence, so
+              <md permid="UVX">
+                <mrow>\int \sin(x^2) \, dx &amp;= \int \sum_{k=0}^{\infty} (-1)^k\frac{x^{2(2k+1)}}{(2k+1)!} \, dx</mrow>
+                <mrow>&amp;= \sum_{k=0}^{\infty} \int (-1)^k\frac{x^{2(2k+1)}}{(2k+1)!} \, dx</mrow>
+                <mrow>&amp;= \sum_{k=0}^{\infty} \int (-1)^k\frac{x^{4k+2}}{(2k+1)!} \, dx</mrow>
+                <mrow>&amp;= \sum_{k=0}^{\infty} (-1)^k\frac{x^{4k+3}}{(2k+1)!(4k+3)} + C</mrow>
+              </md>.
+            </p>
+          </li>
+
+          <li permid="XCi">
+            <p permid="wOM">
+              To evaluate <m>\int_0^1 \sin(x^2) \ dx</m>,
+              we evaluate the antiderivative
+              <m>\sum_{k=0}^{\infty} (-1)^k\frac{x^{4k+3}}{(2k+1)!(4k+2)}</m> at <m>1</m> and <m>0</m> and subtract.
+              So
+              <md permid="hkp">
+                <mrow>\int_0^1 \sin(x^2) \, dx &amp;= \left. \sum_{k=0}^{\infty} (-1)^k\frac{x^{4k+3}}{(2k+1)!(4k+3)}\right|_{0}^{1}</mrow>
+                <mrow>&amp;= \sum_{k=0}^{\infty} (-1)^k\frac{1}{(2k+1)!(4k+3)}</mrow>
+              </md>.
+              The resulting series is an alternating series,
+              so we can find a value of <m>n</m> that makes the <m>n</m>th partial sum of the series approximate the sum of the series to <m>3</m> decimal places by determining a value of <m>n</m> such that
+              <me permid="Bdg">
+                a_{n+1} = \frac{1}{(2(n+1)+1)!(4(n+1)+3)} \lt 0.001
+              </me>.
+              This is not an inequality that we can solve algebraically,
+              so we use trial and error.
+              Doing so shows that <m>n = 1</m> will work.
+            </p>
+          </li>
+        </ol>
+      </p>
+    </solution>
+  </example>
+    
+
+<example xml:id="act-8-6-4" permid="euW">
+  <statement>
+    <p permid="tDU">
+      Find a power series expansion for
+      <m>\ln(1+x)</m> centered at <m>x=0</m> and determine its interval of convergence.
+    </p>
+  </statement>
+  <hint permid="oUb">
+    <p permid="NwL">
+      Use the Taylor series expansion for
+      <m>\frac{1}{1+x}</m> centered at <m>x=0</m>.
+    </p>
+  </hint>
+  <answer permid="IMS">
+    <p permid="hpC">
+      <m>
+      \ln(1+x) = \sum_{k=0}^{\infty} (-1)^k \frac{x^{k+1}}{k+1}
+      </m>.
+      for <m>-1 \lt x \lt 1</m>.
+    </p>
+  </answer>
+  <solution permid="cFJ">
+    <p permid="Vbk">
+      Using the Taylor series
+      <me permid="ZLd">
+        \frac{1}{1-x} = \sum_{k=0}^{\infty} x^k
+      </me>
+      for <m>-1 \lt  x \lt  1</m> we have that
+      <me permid="FSm">
+        \frac{1}{1+x} = \sum_{k=0}^{\infty} (-1)^k x^k
+      </me>.
+    </p>
+
+    <p permid="Bit">
+      Integrating the left and right sides of this last equation gives us
+      <me permid="lZv">
+        \ln(1+x) = \sum_{k=0}^{\infty} (-1)^k \frac{x^{k+1}}{k+1} + C
+      </me>
+      for <m>-1 \lt  x \lt  1</m>.
+      Since <m>\ln(1) = 0</m> we have that
+      <me permid="SgE">
+        0 = \sum_{k=0}^{\infty} (-1)^k \frac{0^{k+1}}{k+1} + C
+      </me>
+      and so <m>C = 0</m>.
+      We conclude that
+      <me permid="ynN">
+        \ln(1+x) = \sum_{k=0}^{\infty} (-1)^k \frac{x^{k+1}}{k+1}
+      </me>.
+      for <m>-1 \lt  x \lt  1</m>.
+    </p>
+  </solution>
+</example>
+  </subsection>
+
+<subsection>
+<title> Using Taylor Series to Approximate Values and Order </title>
+
+</subsection>
+
+<example xml:id="Ex-8-6-3" permid="Bts">
       <statement>
         <p permid="GNf">
           Find a series expansion centered at <m>x = 0</m> for <m>\arctan(x)</m>,
-          as well as its interval of convergence.
+          as well as its interval of convergence. Make a second part of this example to use this series to approximate <m> \pi </m>. See HH example 6 in section 10.3.
         </p>
       </statement>
       <solution permid="Gdl">
@@ -734,60 +638,33 @@
         </p>
       </solution>
     </example>
-
-<example xml:id="act-8-6-4" permid="euW">
-  <statement>
-    <p permid="tDU">
-      Find a power series expansion for
-      <m>\ln(1+x)</m> centered at <m>x=0</m> and determine its interval of convergence.
-    </p>
-  </statement>
-  <hint permid="oUb">
-    <p permid="NwL">
-      Use the Taylor series expansion for
-      <m>\frac{1}{1+x}</m> centered at <m>x=0</m>.
-    </p>
-  </hint>
-  <answer permid="IMS">
-    <p permid="hpC">
-      <m>
-      \ln(1+x) = \sum_{k=0}^{\infty} (-1)^k \frac{x^{k+1}}{k+1}
-      </m>.
-      for <m>-1 \lt x \lt 1</m>.
-    </p>
-  </answer>
-  <solution permid="cFJ">
-    <p permid="Vbk">
-      Using the Taylor series
-      <me permid="ZLd">
-        \frac{1}{1-x} = \sum_{k=0}^{\infty} x^k
-      </me>
-      for <m>-1 \lt  x \lt  1</m> we have that
-      <me permid="FSm">
-        \frac{1}{1+x} = \sum_{k=0}^{\infty} (-1)^k x^k
-      </me>.
-    </p>
-
-    <p permid="Bit">
-      Integrating the left and right sides of this last equation gives us
-      <me permid="lZv">
-        \ln(1+x) = \sum_{k=0}^{\infty} (-1)^k \frac{x^{k+1}}{k+1} + C
-      </me>
-      for <m>-1 \lt  x \lt  1</m>.
-      Since <m>\ln(1) = 0</m> we have that
-      <me permid="SgE">
-        0 = \sum_{k=0}^{\infty} (-1)^k \frac{0^{k+1}}{k+1} + C
-      </me>
-      and so <m>C = 0</m>.
-      We conclude that
-      <me permid="ynN">
-        \ln(1+x) = \sum_{k=0}^{\infty} (-1)^k \frac{x^{k+1}}{k+1}
-      </me>.
-      for <m>-1 \lt  x \lt  1</m>.
-    </p>
-  </solution>
+    
+<example>
+<p> Put an example here where series should be used to order functions. Add a second part where a function at a particular x value is approximated. For example, 
+<m> \sin(1) </m>.
+</p>
 </example>
-  </subsection>
+
+
+<example>
+<p> Put an example similar to : Consider the series  <m> 1 - \frac{2^2}{2!} + \frac{2^4}{4!} - \frac{2^6}{6!} + \cdots </m>. This is the Taylor series for some function centered at <m>  0 </m> evaluated at some value <m> x = a </m>.  What is the function <m> f(x) </m>? What is the sum of the series? The answer is <m> f(x) = \cos(x) </m> and the sum is <m> \cos(2) </m>.
+</p>
+</example>
+
+
+<subsection>
+<title> Summary </title>
+
+</subsection>
+
+<exercises xmlns:xi="http://www.w3.org/2001/XInclude"> 
+
+  <exercise>
+    <title>Placeholder for an exercise</title>
+    
+  </exercise>
+  
+  </exercises>
 
 
 </section>
