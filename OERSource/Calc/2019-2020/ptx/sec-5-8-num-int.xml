@@ -44,7 +44,7 @@
   <introduction permid="ejw">
     <p permid="snb">
       When we first explored finding the net signed area bounded by a curve,
-      we developed the concept of a Riemann sum as a helpful estimation tool and a key step in the definition of the definite integral.
+      we developed the concept of a <xref ref="sec-4-2-Riemann"> Riemann sum </xref> as a helpful estimation tool and a key step in the definition of the definite integral.
       Recall that the left, right,
       and middle Riemann sums of a function <m>f</m> on an interval <m>[a,b]</m> are given by
       <mdn permid="Fln">
@@ -76,12 +76,40 @@
       <image width="100%" source="images/5_6_LRMsum" />
     </figure>
 
+    <assemblage> <title>Types of Errors of <m> L_n </m> and <m> R_n </m> for approximating <m> \int_a^b f(x) \, dx </m> </title>
+      <p>
+        <xref ref="act-4-2-2" > Example </xref> part d) explores how to determine if <m>L_n</m> and <m>R_n</m> are underestimates or overestimates of <m> \int_a^b f(x) \, dx</m> when <m>f(x)</m> is increasing. Similar statements can be made when <m>f(x)</m> is decreasing. 
+        
+        <!-- This example technically only discussed the positive case because the section it is in had not yetdiscussed negative portions of Riemann sums-->
+
+        <ul>
+          <li>
+            <p>
+              If <m>f(x)</m> is increasing, then <m>L_n</m> underestimates <m> \int_a^b f(x) \, dx</m> and <m>R_n</m> overestimates <m> \int_a^b f(x) \, dx</m>. 
+            </p>
+            <figure>
+              <caption>A cool pic to show it</caption>
+            </figure>
+          </li>
+          <li>
+            <p>
+              If <m>f(x)</m> is decreasing, then <m>L_n</m> overestimates <m> \int_a^b f(x) \, dx</m> and <m>R_n</m> underestimates <m> \int_a^b f(x) \, dx</m>.
+              <figure>
+              <caption>A cool pic to show it</caption>
+            </figure>
+            </p>
+          </li>
+        </ul>
+
+
+      </p>
+    </assemblage>  
     <p permid="EBt">
       While it is a good exercise to compute a few Riemann sums by hand,
       just to ensure that we understand how they work and how varying the function,
       the number of subintervals,
       and the choice of endpoints or midpoints affects the result,
-      using computing technology is the best way to determine <m>L_n</m>,
+      using computing technology is the best way to quickly determine <m>L_n</m>,
       <m>R_n</m>, and <m>M_n</m>.
       Any computer algebra system will offer this capability.
     </p>
@@ -96,62 +124,135 @@
     As we begin to investigate ways to approximate definite integrals,
     it will be insightful to compare results to integrals whose exact values we know.
     To that end,
-    the following sequence of questions centers on <m>\int_0^3 x^2 \, dx</m>.
+    the following sequence of questions centers on <m>\int_0^3 x^3 \, dx</m>.
 
     <ol label="a." permid="DLI">
       <li permid="jSR">
+        <statement>
         <p permid="UJT">
           Use the applet at
           <url href="http://gvsu.edu/s/a9">http://gvsu.edu/s/a9</url>
           with the function
-          <m>f(x) = x^2</m> on the window of <m>x</m> values from <m>0</m> to <m>3</m> to compute <m>L_3</m>,
+          <m>f(x) = x^3</m> on the window of <m>x</m> values from <m>0</m> to <m>3</m> to compute <m>L_3</m>,
           the left Riemann sum with three subintervals.
         </p>
+        </statement>
+        <answer>
+          <p><m>L_3=9</m> </p>
+        </answer>  
+        <solution>
+          <p>
+           In addition to changing <m> f(x) </m> to <m> f(x)=x^3 </m> and the number of subintervals to <m> 3 </m>, make sure to change the Sample Point Placement so that "Relative" is checked and the slide bar is all the way to the left. You'll see that now it is sampling <m> f(x) </m> values from the left side of each sub-interval. 
+           <me> L_3=9 </me>
+          </p> 
+        </solution>
       </li>
 
       <li permid="Qaa">
+        <statement>
         <p permid="ARc">
           Likewise,
           use the applet to compute <m>R_3</m> and <m>M_3</m>,
           the right and middle Riemann sums with three subintervals,
           respectively.
         </p>
+        <answer>
+          <p> <m> M_3=19.125 \ , R_3=36 </m> </p>
+        </answer>
+        <solution>
+          <p>
+            First change <m> f(x) </m> and the number of subintervals to <m>f(x)=x^3</m> and <m>n=3</m>. For <m>R_3</m>, make sure to change the Sample Point Placement so that "Relative" is checked and the slide bar is all the way to the right. You'll see that now it is sampling <m> f(x) </m> values from the right side of each subinterval. For <m>M_3</m>, make sure to change the Sample Point Placement so that "Relative" is checked and the slide bar is in the middle and the "midpoint" label shows. You'll see that now it is sampling <m> f(x) </m> values from the middle of each interval.
+            <me> M_3=19.125 \ , R_3=36 </me>
+          </p>
+        </solution>
+        </statement>
       </li>
 
       <li permid="whj">
+        <statement>
         <p permid="gYl">
-          Use the Fundamental Theorem of Calculus to compute the exact value of <m>I = \int_0^3 x^2 \, dx</m>.
+          Use the Fundamental Theorem of Calculus to compute the exact value of <m>I = \int_0^3 x^3 \, dx</m>.
         </p>
+        </statement>
+        <solution>
+          <p>
+            <me> I=\int_0^3 x^3 \, dx = \left.\frac{1}{4}x^4 \right|_{0}^{3} </me>
+            <me> =\frac{3^4}{4}-\frac{0^4}{4}</me>
+            <me> =20.25</me>
+          </p>
+        </solution>
       </li>
 
       <li permid="cos">
+        <statement>
         <p permid="Nfu">
           We define the <em>error</em>
-          in an approximation of a definite integral to be the difference between the integral's exact value and the approximation's value.
+          in an approximation of a definite integral to be the difference between the integral's exact value and the approximation's value. 
           What is the error that results from using <m>L_3</m>?
           From <m>R_3</m>?
           From <m>M_3</m>?
         </p>
+        </statement>
+        <answer>
+          <me> E_{L,3}= 11.25</me>
+          <me> E_{R,3}=-15.75</me>
+          <me> E_{M,3}=1.125</me>
+        </answer>
+        <solution>
+          <p>
+            Denote the error from each approximation <m>E_{L,3}, E_{R,3}, \text{ and } E_{M,3}</m>. Then <me> E_{L,3}=I-L_3=20.25-9 =11.25</me>
+            <me> E_{R,3}=I-R_3=20.25-36=-15.75</me>
+            <me>E_{M,3}=I-M_3=20.25-19.125=1.125</me>
+          </p>
+        </solution>
       </li>
 
       <li permid="IvB">
+        <statement>
         <p permid="tmD">
           In what follows in this section,
-          we will learn a new approach to estimating the value of a definite integral known as the Trapezoid Rule.
+          we will learn a new approach to estimating the value of a definite integral known as the <term> Trapezoid Rule </term>.
           The basic idea is to use trapezoids,
           rather than rectangles,
           to estimate the area under a curve.
           What is the formula for the area of a trapezoid with bases of length <m>b_1</m> and <m>b_2</m> and height <m>h</m>?
         </p>
+        </statement>
+        <solution>
+          <p>
+            The area of a trapezoid with bases of length <m>b_1</m> and <m>b_2</m> and height <m>h</m> is <me>A=\frac{h(b_1+b_2)}{2}</me>.
+          </p>
+        </solution>  
       </li>
 
       <li permid="oCK">
+        <statement>
         <p permid="ZtM">
           Working by hand, estimate the area under
-          <m>f(x) = x^2</m> on <m>[0,3]</m> using three subintervals and three corresponding trapezoids.
+          <m>f(x) = x^3</m> on <m>[0,3]</m> using three subintervals and three corresponding trapezoids.
           What is the error in this approximation?
           How does it compare to the errors you calculated in (d)?
+          <figure>
+            <image width="100%" source="images/5_8_trap_ex.pdf"/> 
+              <caption> Using 3 trapezoids to approximate <m> \int_0^3 x^3 \, dx </m> </caption>
+              
+            </figure>
         </p>
+        </statement>
+        <answer>
+          <p>
+            <me> T_3=\frac{45}{2}=22.5</me>
+            <me> E_{T,3}=-2.25</me>
+          </p>
+        </answer>
+        <solution>
+          <p>
+            The left-most trapezoid has base lengths 0 and 1 and height 1, so the area of the first trapezoid is <m> \frac{1}{2} (0+1)\cdot 1=\frac{1}{2}</m>. The middle trapezoid has base lengths 1 and 8 and height 1, so the area of the second trapezoid is <m> \frac{1}{2}(1+8) \cdot 1=\frac{9}{2} </m>. The right-most trapezoid has base lengths 8 and 27 and height 1, so the area of the third trapezoid is <m> \frac{1}{2}(8+27)\cdot 1=\frac{35}{2}</m>. Therefore, the approximate area under the graph of <m> f(x)=x^3 </m> from <m> 0 </m> to <m> 3 </m> using the trapezoid rule with 3 subintervals is <m> T_3= \frac{1}{2} + \frac{9}{2} + \frac{35}{2}=\frac{45}{2}=22.5</m>.  
+          </p>
+          <p>
+            The error is <m> E_{T,3}=20.25-22.5=-2.25 </m>. Using trapezoids creates a smaller error compared to <m> L_3 </m> and <m> R_3 </m>. The magnitude of the error from approximating using <m> M_3 </m> is half the magnitude of the error from approximating using <m> T_3 </m>, but they have opposite signs. 
+          </p>
+        </solution>
       </li>
     </ol>
   </p>
@@ -593,6 +694,31 @@
       <caption>Comparing the error in estimating <m>\int_a^b f(x) \  dx</m> using a single subinterval: in red, the error from the Trapezoid rule; in light red, the error from the Midpoint rule.</caption>
       <image width="47%" source="images/5_6_MidTrapError" />
     </figure>
+
+<assemblage> <title>Types of Errors of <m> M_n </m> and <m> T_n </m> for approximating <m> \int_a^b f(x) \, dx </m> </title>
+      <p>
+        The preceding discussion explores how to determine if <m>M_n</m> and <m>T_n</m> are underestimates or overestimates of <m> \int_a^b f(x) \, dx</m> if <m>f(x)</m> is concave up. Similar statements can be made when <m>f(x)</m> is concave down. 
+
+        <ul>
+          <li>
+            <p>
+              If <m>f(x)</m> is concave up, then <m>M_n</m> underestimates <m> \int_a^b f(x) \, dx</m> and <m>T_n</m> overestimates <m> \int_a^b f(x) \, dx</m>. 
+            </p>
+            <figure>
+              <caption>A cool pic to show it</caption>
+            </figure>
+          </li>
+          <li>
+            <p>
+              If <m>f(x)</m> is concave down, then <m>M_n</m> overestimates <m> \int_a^b f(x) \, dx</m> and <m>T_n</m> underestimates <m> \int_a^b f(x) \, dx</m>.
+              <figure>
+              <caption>A cool pic to show it</caption>
+            </figure>
+            </p>
+          </li>
+        </ul>
+      </p>
+    </assemblage>  
 
     <p permid="SEY">
       These observations extend easily to the situation where the function's concavity remains consistent but we use larger values of <m>n</m> in the Midpoint and Trapezoid Rules.
