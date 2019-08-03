@@ -13,7 +13,7 @@
 <!-- their respective owners.                                              -->
 <!-- **********************************************************************-->
 <section xmlns:xi="http://www.w3.org/2001/XInclude" xml:id="sec-7-5-modeling" permid="Ugq">
-  <title>Modeling with differential equations</title>
+  <title>Modeling with Differential Equations</title>
   <objectives permid="YQj">
     <ul permid="xsT">
       <li permid="JHl">
@@ -117,7 +117,7 @@
   </introduction>
 
   <subsection permid="Anz">
-    <title>Developing a differential equation</title>
+    <title>Developing a Differential Equation</title>
     <p permid="CMG">
       <xref ref="PA-7-5">Example</xref>
       demonstrates the kind of thinking we will be doing in this section.
@@ -780,6 +780,230 @@
   </solution>
 </example>
   </subsection>
+  
+  <subsection>
+  <title> Using Taylor Series to Solve Differential Equations </title>
+  <p>
+      We now know that several important non-polynomials have polynomial-like expansions.
+      For example, for any real number <m>x</m>,
+      <me permid="AXT">
+        e^x = 1 + x + \frac{x^2}{2!} + \frac{x^3}{3!} + \cdots + \frac{x^n}{n!} + \cdots
+      </me>.
+    </p>
+
+    <p permid="Tbx">
+      There are two settings where other series like the one for <m>e^x</m> arise:
+      we may be given an expression such as
+      <me permid="hfc">
+        1 + 2x + 3x^2 + 4x^3 + \cdots
+      </me>
+      and we seek the values of <m>x</m> for which the expression makes sense.
+      Or we may be trying to find an unknown function <m>f</m> that has expression
+      <me permid="Nml">
+        f(x) = a_0 + a_1 x + a_2 x^2 + \cdots + a_k x^k + \cdots
+      </me>,
+      and we try to determine the values of the constants <m>a_0</m>,
+      <m>a_1</m>, <m>\ldots</m>.
+      The latter situation is explored in <xref ref="PA-8-6">Example</xref>.
+    </p>
+  
+ 
+  <example xml:id="PA-8-6" permid="Glc">
+  <statement>
+    <p permid="QKh">
+      We have learned some of the many important applications of differential equations,
+      and learned some approaches to solve or analyze them.
+      Here, we consider an important approach that will allow us to solve a wider variety of differential equations.
+    </p>
+
+    <p permid="wRq">
+      Let's consider the familiar differential equation from exponential population growth given by
+      <men xml:id="eq-PA-8-6-Resistance-ode" permid="pmR">
+        y' = ky
+      </men>,
+      where <m>k</m> is the constant of proportionality.
+      While we can solve this differential equation using methods we have already learned,
+      we take a different approach now that can be applied to a much larger set of differential equations.
+      For the rest of this example,
+      let's assume that <m>k=1</m>.
+      We will use our knowledge of Taylor series to find a solution to the differential equation <xref ref="eq-PA-8-6-Resistance-ode" />.
+    </p>
+
+    <p permid="cYz">
+      To do so, we assume that we have a solution <m>y=f(x)</m> and that <m>f(x)</m> has a Taylor series that can be written in the form
+      <me permid="Vua">
+        y = f(x) = \sum_{k=0}^{\infty} a_kx^k
+      </me>,
+      where the coefficients <m>a_k</m> are undetermined.
+      Our task is to find the coefficients.
+    </p>
+
+    <p permid="JfI">
+      <ol label="a." permid="Qan">
+        <li permid="whw">
+          <p permid="Klb">
+            Assume that we can differentiate a power series term by term.
+            By taking the derivative of <m>f(x)</m> with respect to <m>x</m> and substituting the result into the differential equation <xref ref="eq-PA-8-6-Resistance-ode" />, show that the equation
+            <me permid="BBj">
+              \sum_{k=1}^{\infty} ka_kx^{k-1} = \sum_{k=0}^{\infty} a_kx^{k}
+            </me>
+            must be satisfied in order for
+            <m>f(x) = \sum_{k=0}^{\infty} a_kx^k</m> to be a solution of the DE.
+          </p>
+        </li>
+
+        <li permid="coF">
+          <p permid="qsk">
+            Two series are equal if and only if they have the same coefficients on like power terms.
+            Use this fact to find a relationship between <m>a_1</m> and <m>a_0</m>.
+          </p>
+        </li>
+
+        <li permid="IvO">
+          <p permid="Wzt">
+            Now write <m>a_2</m> in terms of <m>a_1</m>.
+            Then write <m>a_2</m> in terms of <m>a_0</m>.
+          </p>
+        </li>
+
+        <li permid="oCX">
+          <p permid="CGC">
+            Write <m>a_3</m> in terms of <m>a_2</m>.
+            Then write <m>a_3</m> in terms of <m>a_0</m>.
+          </p>
+        </li>
+
+        <li permid="UKg">
+          <p permid="iNL">
+            Write <m>a_4</m> in terms of <m>a_3</m>.
+            Then write <m>a_4</m> in terms of <m>a_0</m>.
+          </p>
+        </li>
+
+        <li permid="ARp">
+          <p permid="OUU">
+            Observe that there is a pattern in (b)-(e).
+            Find a general formula for <m>a_k</m> in terms of <m>a_0</m>.
+          </p>
+        </li>
+
+        <li permid="gYy">
+          <p permid="vcd">
+            Write the series expansion for <m>y</m> using only the unknown coefficient <m>a_0</m>.
+            From this,
+            determine what familiar functions satisfy the differential equation <xref ref="eq-PA-8-6-Resistance-ode" />.
+            (<em>Hint</em>: Compare to a familiar Taylor series.)
+          </p>
+        </li>
+      </ol>
+    </p>
+  </statement>
+  <solution permid="DLV">
+    <p permid="kCY">
+      <ol label="a." permid="jTe">
+        <li permid="NfH">
+          <p permid="bjm">
+            Differentiation term by term gives
+            <me permid="hIs">
+              y' = \sum_{k=1}^{\infty} ka_kx_{k-1}
+            </me>.
+          </p>
+
+          <p permid="Hqv">
+            We then substitute this series into the differential equation <xref ref="eq-PA-8-6-Resistance-ode" /> to obtain the equation
+          </p>
+          <!--This seems to end prematurely. -->
+        </li>
+
+        <li permid="tmQ">
+          <p permid="nxE">
+            When we write the first few terms of the series on either side of our differential equation we obtain
+            <md permid="NPB">
+              <mrow>\amp a_1 + (2)a_2x + (3)a_3x^2 + (4)a_4x^3 + \cdots + (k+1)a_{k+1}x^{k} + \cdots</mrow>
+              <mrow>\amp= a_0 + a_1x + a_2x^2 + \cdots + a_kx^k + \cdots</mrow>
+            </md>.
+          </p>
+
+          <p permid="TEN">
+            Equating the constant terms gives us <m>a_1 = a_0</m>.
+          </p>
+        </li>
+
+        <li permid="ZtZ">
+          <p permid="zLW">
+            Equating the degree 1 terms gives us
+            <m>2a_2 = a_1</m> or <m>a_2 = \frac{a_1}{2}</m>.
+            Since <m>a_1 = a_0</m>,
+            we have <m>a_2 = \frac{a_0}{2}</m>.
+          </p>
+        </li>
+
+        <li permid="lIr">
+          <p permid="fTf">
+            Equating the degree 2 terms gives us
+            <m>3a_3 = a_2</m> or <m>a_3 = \frac{a_2}{3}</m>.
+            Since <m>a_2 = \frac{a_0}{2}</m>,
+            we have <m>a_3 = \frac{a_0}{3!}</m>.
+          </p>
+        </li>
+
+        <li permid="RPA">
+          <p permid="Mao">
+            Equating the degree 3 terms gives us
+            <m>4a_4 = a_3</m> or <m>a_4 = \frac{a_3}{4}</m>.
+            Since <m>a_3 = \frac{a_0}{3!}</m>,
+            we have <m>a_4 = \frac{a_0}{4!}</m>.
+          </p>
+        </li>
+
+        <li permid="xWJ">
+          <p permid="shx">
+            Equating the degree <m>k-1</m> terms gives us
+            <m>ka_k = a_{k-1}</m> or <m>a_k = \frac{a_{k-1}}{k}</m>.
+            It appears that <m>a_{k-1} = \frac{a_0}{(k-1)!}</m>,
+            so we have
+            <me permid="tWK">
+              a_k = \frac{a_0}{k!}
+            </me>.
+          </p>
+        </li>
+
+        <li permid="edS">
+          <p permid="YoG">
+            Since <m>a_k = \frac{a_0}{k!}</m> we have
+            <me permid="adT">
+              y = a_0 \sum_{k=0}^{\infty} \frac{x^k}{k!}
+            </me>.
+          </p>
+
+          <p permid="EvP">
+            So the functions that satisfy the differential equation <xref ref="eq-PA-8-6-Resistance-ode" /> are the exponential functions of the form <m>y = a_0e^x</m>.
+          </p>
+        </li>
+      </ol>
+    </p>
+  </solution>
+</example>
+
+  <p permid="ziG">
+      As <xref ref="PA-8-6">Example</xref> shows,
+      it can be useful to treat an unknown function as if it has a Taylor series,
+      and then determine the coefficients from other information.
+      In other words,
+      we define a function as an infinite series of powers of <m>x</m> and then determine the coefficients based on something besides a formula for the function.
+      This method allows us to approximate solutions to many different types of differential equations,
+      even if we cannot solve them explicitly.
+      This is different from our work with Taylor series since we are not using an original function <m>f</m> to generate
+      the coefficients of the series.
+    </p>
+
+  
+  
+  </subsection>
+
+  
+  
+  
 
   <subsection permid="guI">
     <title>Summary</title>
@@ -793,10 +1017,10 @@
 
         <li permid="uyn">
           <p permid="Lwy">
-            We may use the tools we have developed so far<mdash />slope
+            We may use the tools we have developed so far (slope
             fields, Euler's methods,
-            and our method for solving separable
-            equations<mdash />to understand a quantity described by a differential
+          the method for solving separable
+            equations, and approximating solutions using Taylor series) to understand a quantity described by a differential
             equation.
           </p>
         </li>
@@ -1576,6 +1800,304 @@
       </p>
     </solution>
   </exercise>
+  
+  <exercise permid="bCh">
+  <title> Finding the coefficients of the solution to Airy's Equation </title>
+    <statement>
+      <p permid="cAw">
+        Airy's equation<fn>
+        The general differential equations of the form
+        <m>y'' \pm k^2xy = 0</m> is called Airy's equation.
+        These equations arise in many problems,
+        such as the study of diffraction of light,
+        diffraction of radio waves around an object, aerodynamics,
+        and the buckling of a uniform column under its own weight.
+        </fn><men xml:id="eq-PA-8-6-Airy-equation" permid="PgL">
+          y'' - xy = 0
+        </men>,
+        can be used to model an undamped vibrating spring with spring constant <m>x</m>
+        (note that <m>y</m> is an unknown function of <m>x</m>).
+        So the solution to this differential equation will tell us the behavior of a spring-mass system as the spring ages
+        (like an automobile shock absorber).
+        Assume that a solution <m>y=f(x)</m> has a Taylor series that can be written in the form
+        <me permid="iZC">
+          y = \sum_{k=0}^{\infty} a_kx^k
+        </me>,
+        where the coefficients are undetermined.
+        Our job is to find the coefficients.
+      </p>
+
+      <ol permid="BUe">
+        <li permid="Ndd">
+          <p permid="qZA">
+            Differentiate the series for <m>y</m> term by term to find the series for <m>y'</m>.
+            Then repeat to find the series for <m>y''</m>.
+          </p>
+        </li>
+
+        <li permid="tkm">
+          <p permid="XgJ">
+            Substitute your results from part (a) into the Airy equation and show that we can write Equation <xref ref="eq-PA-8-6-Airy-equation" /> in the form
+            <men xml:id="eq-PA-8-6-Airy-1" permid="vnU">
+              \sum_{k=2}^{\infty} (k-1)ka_kx^{k-2} - \sum_{k=0}^{\infty} a_kx^{k+1} = 0
+            </men>.
+          </p>
+        </li>
+
+        <li permid="Zrv">
+          <p permid="DnS">
+            At this point,
+            it would be convenient if we could combine the series on the left in <xref ref="eq-PA-8-6-Airy-1" />,
+            but one written with terms of the form <m>x^{k-2}</m> and the other with terms in the form <m>x^{k+1}</m>.
+            Explain why
+            <men xml:id="eq-PA-8-6-Airy-sum-1" permid="bvd">
+              \sum_{k=2}^{\infty} (k-1)ka_kx^{k-2} = \sum_{k=0}^{\infty} (k+1)(k+2)a_{k+2}x^{k}
+            </men>.
+          </p>
+        </li>
+
+        <li permid="FyE">
+          <p permid="jvb">
+            Now show that
+            <men xml:id="eq-PA-8-6-Airy-sum-2" permid="HCm">
+              \sum_{k=0}^{\infty} a_kx^{k+1} = \sum_{k=1}^{\infty} a_{k-1}x^k
+            </men>.
+          </p>
+        </li>
+
+        <li permid="lFN">
+          <p permid="PCk">
+            We can now substitute <xref ref="eq-PA-8-6-Airy-sum-1" /> and <xref ref="eq-PA-8-6-Airy-sum-2" /> into <xref ref="eq-PA-8-6-Airy-1" /> to obtain
+            <men xml:id="eq-PA-8-6-Airy-2" permid="nJv">
+              \sum_{n=0}^{\infty} (n+1)(n+2)a_{n+2}x^{n} - \sum_{n=1}^{\infty} a_{n-1}x^{n} = 0
+            </men>.
+          </p>
+
+          <p permid="vJt">
+            Combine the like powers of <m>x</m> in the two series to show that our solution must satisfy
+            <men xml:id="eq-PA-8-6-Airy-sum-3" permid="TQE">
+              2a_2 + \sum_{k=1}^{\infty} \left[(k+1)(k+2)a_{k+2}-a_{k-1} \right] x^{k} = 0
+            </men>.
+          </p>
+        </li>
+
+        <li permid="RMW">
+          <p permid="bQC">
+            Use equation <xref ref="eq-PA-8-6-Airy-sum-3" /> to show the following:
+          </p>
+
+          <p permid="HXL">
+            <ol label="i." permid="mEc">
+              <li permid="apK">
+                <p permid="Obs">
+                  <m>a_{3k+2} = 0</m> for every positive integer <m>k</m>,
+                </p>
+              </li>
+
+              <li permid="xUf">
+                <p permid="oeU">
+                  <m>a_{3k} = \frac{1}{(2)(3)(5)(6) \cdots (3k-1)(3k)} a_0 \text{ for } k \geq 1</m>,
+                </p>
+              </li>
+
+              <li permid="ebo">
+                <p permid="Umd">
+                  <m>a_{3k+1} = \frac{1}{(3)(4)(6)(7) \cdots (3k)(3k+1)} a_1 \text{ for } k \geq 1</m>.
+                </p>
+              </li>
+            </ol>
+          </p>
+        </li>
+
+        <li permid="TCj">
+          <p permid="Atm">
+            Use the previous part to conclude that the general solution to the Airy equation <xref ref="eq-PA-8-6-Airy-equation" /> is
+            <md permid="zXN">
+              <mrow>y \amp= a_0\left( 1+\sum_{k=1}^{\infty} \frac{x^{3k}}{(2)(3)(5)(6) \cdots (3k-1)(3k)} \right)</mrow>
+              <mrow>\amp\phantom{={}}+ a_1 \left( x + \sum_{k=1}^{\infty} \frac{x^{3k+1}}{(3)(4)(6)(7) \cdots (3k)(3k+1)} \right)</mrow>
+            </md>.
+          </p>
+
+          <p permid="gAv">
+            Any values for <m>a_0</m> and <m>a_1</m> then determine a specific solution that we can approximate as closely as we like using this series solution.
+          </p>
+        </li>
+      </ol>
+    </statement>
+    <answer permid="sAs">
+      <p permid="fvc">
+        The results from the various part of this exercise show that
+        <md permid="geW">
+          <mrow>y\amp = a_0\left( 1+\sum_{k=1}^{\infty} \frac{x^{3k}}{(2)(3)(5)(6) \cdots (3k-1)(3k)} \right)</mrow>
+          <mrow>\amp\phantom{={}}+ a_1 \left( x + \sum_{k=1}^{\infty} \frac{x^{3k+1}}{(3)(4)(6)(7) \cdots (3k)(3k+1)} \right)</mrow>
+        </md>.
+      </p>
+    </answer>
+    <solution permid="Mtj">
+      <p permid="mZB">
+        <ol label="a." permid="Rdc">
+          <li permid="Kix">
+            <p permid="MHE">
+              <md permid="Mmf">
+                <mrow>y' \amp = \sum_{k=1}^{\infty} ka_kx^{k-1}</mrow>
+                <mrow>y'' \amp = \sum_{k=2}^{\infty} (k-1)na_kx^{k-2}</mrow>
+              </md>.
+            </p>
+          </li>
+
+          <li permid="qpG">
+            <p permid="sON">
+              We substitute our series from (a) into the Airy equation to obtain the equation
+              <me permid="sto">
+                \sum_{k=2}^{\infty} (k-1)ka_kx^{k-2} + x\sum_{k=0}^{\infty} a_kx^{k} = 0
+              </me>.
+            </p>
+
+            <p permid="YVW">
+              Distributing the <m>x</m> in the second term on the left yields the desired equation.
+            </p>
+          </li>
+
+          <li permid="WwP">
+            <p permid="Fdf">
+              Note that
+              <md permid="YAx">
+                <mrow>\amp\sum_{k=2}^{\infty} (k-1)ka_kx_{k-2}</mrow>
+                <mrow>\amp = (1)(2)a_2 + (2)(3)a_3x + (3)(4)a_4x^2 + (4)(5)a_5x^3 + \cdots + (k-1)(k)a_{k+2}x^{k-2} + \cdots</mrow>
+                <mrow>\amp = (0+1)(0+2)x^0 + (1+1)(1+2)x^1 + (2+1)(2+2)x^2 + \cdots + (k+1)(k+2)x^k + \cdots</mrow>
+              </md>.
+            </p>
+
+            <p permid="lko">
+              In other words,
+              we can re-index this series by increasing every <m>k</m> by 2, or replacing <m>k-2</m> with <m>k</m>,
+              <m>k-1</m> with <m>k+1</m> and <m>k</m> with <m>k+2</m>.
+              This gives us the next desired equation.
+            </p>
+          </li>
+
+          <li permid="CDY">
+            <p permid="Rrx">
+              As we did in the previous part,
+              <md permid="EHG">
+                <mrow>\sum_{k=0}^{\infty} a_kx_{k+1} \amp = a_0x + a_1x^2 + a_2x^3 +  \cdots + a_kx^{k+1} + \cdots</mrow>
+                <mrow>\amp = a_0x + a_1x^2 + a_2x^3 +  \cdots + a_{k-1}x^{k} + \cdots</mrow>
+                <mrow>\amp = \sum_{k=1}^{\infty} a_{k-1}x^k</mrow>
+              </md>.
+            </p>
+          </li>
+
+          <li permid="iLh">
+            <p permid="xyG">
+              Notice that we have like powers of <m>x</m> in the two series,
+              so we can combine them and obtain
+              <md permid="kOP">
+                <mrow>0 \amp = \sum_{k=0}^{\infty} (k+1)(k+2)a_{k+2}x^{k} + \sum_{k=1}^{\infty} a_{k-1}x^{k}</mrow>
+                <mrow>\amp = \left[(1)(2)a_2 + \sum_{k=1}^{\infty} (k+1)(k+2)a_{k+2}x^{k} \right] + \sum_{k=1}^{\infty} a_{k-1}x^{k}</mrow>
+                <mrow>\amp = 2a_2 + \sum_{k=1}^{\infty} \left[(k+1)(k+2)a_{k+2}+a_{k-1} \right] x^{k}</mrow>
+              </md>.
+            </p>
+          </li>
+
+          <li permid="OSq">
+            <p permid="dFP">
+              Equation <xref ref="eq-PA-8-6-Airy-sum-3" /> implies that <m>a_2 = 0</m> and
+              <m>(k+1)(k+2)a_{k+2}+a_{k-2} = 0</m> for all <m>k \geq 1</m>.
+            </p>
+
+            <p permid="JMY">
+              Solving for <m>a_{k+2}</m> in the second equation shows that
+              <md permid="QVY">
+                <mrow>a_2 \amp = 0</mrow>
+                <mrow>a_{k+2} \amp = -\frac{1}{(k+1)(k+2)}a_{k-1} \text{ for }   k \geq 1</mrow>
+              </md>.
+            </p>
+
+            <p permid="pUh">
+              These last equations are called
+              <em>recurrence relations</em>
+              and allow us to write every coefficient of <m>y</m> in terms of <m>a_0</m> and <m>a_1</m>.
+              For example,
+              <m>k=1</m> shows that <m>a_3 = \frac{1}{(2)(3)} a_0 = \frac{1}{6}a_0</m>.
+              We can continue in this way to obtain the first 10 coefficients in terms of <m>a_0</m> and <m>a_1</m>:
+              <md permid="xdh">
+                <mrow>a_3 \amp = \frac{1}{(2)(3)}a_0</mrow>
+                <mrow>a_4 \amp = \frac{1}{(3)(4)}a_1</mrow>
+                <mrow>a_5 \amp = \frac{1}{(4)(5)} a_2 = 0</mrow>
+                <mrow>a_6 \amp = \frac{1}{(5)(6)} a_3 = \frac{1}{(5)(6)} \left(\frac{1}{(2)(3)} a_0 \right) = \frac{1}{(2)(3)(5)(6)} a_0</mrow>
+                <mrow>a_7 \amp = \frac{1}{(6)(7)} a_4 = \frac{1}{(6)(7)} \left(\frac{1}{(3)(4)} a_1 \right) = \frac{1}{(3)(4)(6)(7)} a_1</mrow>
+                <mrow>a_8 \amp = \frac{1}{(7)(8)} a_5 = 0</mrow>
+                <mrow>a_9 \amp = \frac{1}{(8)(9)} a_6 = \frac{1}{(8)(9)} \left(\frac{1}{(2)(3)(5)(6)} a_0 \right) = \frac{1}{(2)(3)(5)(6)(8)(9)} a_0</mrow>
+                <mrow>a_{10} \amp = \frac{1}{(9)(10)} a_7 = \frac{1}{(9)(10)} \left(\frac{1}{(3)(4)(6)(7)} a_1 \right) = \frac{1}{(3)(4)(6)(7)(9)(10)} a_1</mrow>
+              </md>.
+            </p>
+
+            <p permid="Wbq">
+              It may not be obvious, but there is a pattern.
+
+              <ul permid="kVT">
+                <li permid="ibn">
+                  <p permid="uEa">
+                    All of the terms involving <m>a_2</m> are 0.
+                    These terms are <m>a_2</m>,
+                    <m>a_5</m>, <m>a_8</m>, etc.
+                    The subscripts of these terms are all of the form <m>3k+2</m>.
+                    So <m>a_{3k+2} = 0</m> for every positive integer <m>k</m>.
+                  </p>
+                </li>
+
+                <li permid="Oiw">
+                  <p permid="Ciz">
+                    The terms that involve <m>a_0</m> have the form <m>a_3</m>,
+                    <m>a_6</m>,
+                    <m>a_{9}</m>,
+                    etc. and are all of the form <m>a_{3k}</m> for positive integers <m>k</m>.
+                    The pattern in the denominators of the coefficient for <m>a_{3k}</m> is <m>(2)(3)(5)(6) \cdots (3k-1)(3k)</m>.
+                    So
+                    <me permid="dkq">
+                      a_{3k} = \frac{1}{(2)(3)(5)(6) \cdots (3k-1)(3k)} a_0 \text{ for }  k \geq 1
+                    </me>.
+                  </p>
+                </li>
+
+                <li permid="upF">
+                  <p permid="ipI">
+                    The terms that involve <m>a_1</m> have the form <m>a_4</m>,
+                    <m>a_7</m>, <m>a_{10}</m>,
+                    etc. and are all of the form
+                    <m>a_{3k+1}</m> for positive integers <m>k</m>.
+                    The pattern in the denominators of the coefficient for
+                    <m>a_{3k+1}</m> is <m>(3)(4)(6)(7) \cdots (3k)(3k+1)</m>.
+                    So
+                    <me permid="Jrz">
+                      a_{3k+1} = \frac{1}{(3)(4)(6)(7) \cdots (3k)(3k+1)} a_1 \text{ for }  k \geq 1
+                    </me>.
+                  </p>
+                </li>
+              </ul>
+            </p>
+          </li>
+
+          <li permid="uZz">
+            <p permid="OwR">
+              We can write the solution <m>y</m> in three pieces as
+              <me permid="pyI">
+                y = \sum_{k = 0}^{\infty} a_kx^k = \sum_{k=0}^{\infty} a_{3k}x^{3k} + \sum_{k=0}^{\infty} a_{3k+1}x^{3k+1} + \sum_{k=0}^{\infty} a_{3k+2}x^{3k+2}
+              </me>
+              and so our results from the previous part of this exercise show that
+              <md permid="VFR">
+                <mrow>y\amp = a_0\left( 1+\sum_{k=1}^{\infty} \frac{x^{3k}}{(2)(3)(5)(6) \cdots (3k-1)(3k)} \right)</mrow>
+                <mrow>\amp\phantom{={}}+ a_1 \left( x + \sum_{k=1}^{\infty} \frac{x^{3k+1}}{(3)(4)(6)(7) \cdots (3k)(3k+1)} \right)</mrow>
+              </md>.
+            </p>
+          </li>
+        </ol>
+      </p>
+    </solution>
+  </exercise>
+
+  
+  
 
  </exercises>
 </section>
