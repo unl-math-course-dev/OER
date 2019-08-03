@@ -159,7 +159,7 @@ There are several ways we can obtain Taylor series expansions for functions usin
           <p permid="wTZ">
             How is <m>g(-x^2)</m> related to <m>f(x)</m>?
             Explain,
-            and hence substitute <m>-x^2</m> for <m>x</m> in the power series expansion for <m>g(x)</m>.
+            and then substitute <m>-x^2</m> for <m>x</m> in the power series expansion for <m>g(x)</m>.
             Given the relationship between <m>g(-x^2)</m> and <m>f(x)</m>,
             how is the resulting series related to <m>f(x)</m>?
           </p>
@@ -249,15 +249,41 @@ There are several ways we can obtain Taylor series expansions for functions usin
 			
 			
 <example>
-<p> Find the Taylor series expansion of <m> f(t) = t \sin(t^2) - t^3</m>  or something of this sort that involves multiplication and possibly division or add/subtracting.
+<statement>
+<p> Find the Taylor series expansion of <m> f(t) = t \sin(t^3) - t^4</m> about <m>t=0</m>.
 </p> 
+</statement>
+
+	<answer><p> <md>
+				<mrow> t\sin(t^3)-t^4 \amp= -\frac{t^{10}}{3!} + \frac{t^{16}}{5!} - \frac{t^{22}}{7!} + \cdots </mrow>
+				<mrow> \amp = \sum_{k=1}^\infty (-1)^k \frac{t^{6k+4}}{(2k+1)!}</mrow>
+			</md>
+			</p>
+	</answer>
+	<solution> 
+		<p>
+		We'll begin with the Taylor series for <m>\sin(x)</m> about <m>x=0</m>, and build the desired series from there. 
+		<me> \sin(x)=x-\frac{x^3}{3!}+\frac{x^5}{5!}-\frac{x^7}{7!} + \cdots </me>
+		Next, substitute <m>t^3</m> in for <m>x</m>:
+		<md> 
+			<mrow> \sin(t^3) \amp= t^3 - \frac{(t^3)^3}{3!} + \frac{(t^3)^5}{5!} - \frac{(t^3)^7}{7!} + \cdots </mrow>
+			<mrow> \amp = t^3 - \frac{t^9}{3!} + \frac{t^{15}}{5!} - \frac{t^{21}}{7!} + \cdots </mrow>
+		</md>
+		Now multiply the entire series by <m>t</m>:
+		<me> t \sin (t^3) = t^4 - \frac{t^{10}}{3!} + \frac{t^{16}}{5!} - \frac{t^{22}}{7!} + \cdots </me>
+		And finally, subtract t^4:
+		<me> t\sin(t^3)-t^4 = -\frac{t^{10}}{3!} + \frac{t^{16}}{5!} - \frac{t^{22}}{7!} + \cdots </me>
+		Now that we've got the final series, we can write this with <m>\Sigma</m>-notation, as well:
+		<me> t\sin(t^3)-t^4 = \sum_{k=1}^\infty (-1)^{k}\frac{t^{3(2k+1)+1}}{(2k+1)!} = \sum_{k=1}^\infty (-1)^k \frac{t^{6k+4}}{(2k+1)!} </me>
+		</p>
+	</solution>
 </example>			
 				
 
 <example xml:id="act-8-6-3" permid="wyA">
   <statement>
     <p permid="fAp">
-      Let <m>f</m> be the function given by the power series expansion
+      Let <m>f</m> be the function given by the Taylor series expansion
       <me permid="rOH">
         f(x) = \sum_{k=0}^{\infty} (-1)^k \frac{x^{2k}}{(2k)!}
       </me>.
@@ -294,17 +320,7 @@ There are several ways we can obtain Taylor series expansions for functions usin
       </ol>
     </p>
   </statement>
-  <hint permid="PHx">
-    <p permid="ztg">
-      <ol label="a." permid="IcY">
-        <li permid="MMR">
-          <p permid="WgD">
-            Small hints for each of the prompts above.
-          </p>
-        </li>
-      </ol>
-    </p>
-  </hint>
+
   <answer permid="jAo">
     <p permid="TlX">
       <ol label="a." permid="bVP">
@@ -564,18 +580,65 @@ There are several ways we can obtain Taylor series expansions for functions usin
   </subsection>
 
 <subsection>
-<title> Using Taylor Series to Approximate Values and Order </title>
-
-</subsection>
+<title> Using Taylor Series to Approximate Numbers and Function Values </title>
+<p> There are many applications of Taylor series, but most are based on the idea of using Taylor series to approximate function values.
+For example, say we have a function <m>f(x)</m> and we knew the Taylor series for <m>f(x)</m> and we really need to get an approximate value
+for <m>f(1)</m>. Assuming that the Taylor series converges for <m>x=1</m>, we can then substitute <m>x=1</m> into the series, and use the first
+few terms of the series to approximate the number. Of course, using more terms of the series gives a better approximation. The examples below
+walk through how this is done in more details, and highlights some of the different ways in which it can be useful. </p>
 
 <example xml:id="Ex-8-6-3" permid="Bts">
       <statement>
         <p permid="GNf">
-          Find a series expansion centered at <m>x = 0</m> for <m>\arctan(x)</m>,
-          as well as its interval of convergence. Make a second part of this example to use this series to approximate <m> \pi </m>. See HH example 6 in section 10.3.
-        </p>
+			<ol label="a.">
+				<li>
+					<p>
+						Find a series expansion centered at <m>x = 0</m> for <m>\arctan(x)</m>, as well as its interval of convergence.
+					</p>
+				</li>
+				<li> 
+					<p>
+						Recall that <m>\arctan(1)=\frac{\pi}{4}</m>, and therefore <m>4\arctan(1)=\pi</m>. Use the first <m>n</m> terms of the 
+						Taylor series for <m>\arctan(x)</m> with <m>n=1,2,3,4,5</m> to get approximate values for <m>\pi</m>, and fill in the table below. 
+						
+					</p>
+					<table>
+						<caption> Approximate Values for <m>\pi</m> </caption>
+						<tabular top="minor" bottom="minor">
+							<row>
+								<cell><m>n</m></cell>
+								<cell>Approximate Value</cell>
+							</row>
+							<row>
+								<cell>1</cell>
+								<cell></cell>
+							</row>
+							<row>
+								<cell>2</cell>
+								<cell></cell>
+							</row>
+							<row>
+								<cell>3</cell>
+								<cell></cell>
+							</row>
+							<row>
+								<cell>4</cell>
+								<cell></cell>
+							</row>
+							<row>
+								<cell>5</cell>
+								<cell></cell>
+							</row>
+						</tabular>
+					</table>
+				</li>
+        
+			</ol>
+		</p>
       </statement>
       <solution permid="Gdl">
+	  <ol label="a.">
+		<li>
         <p permid="dAC">
           While we could differentiate
           <m>\arctan(x)</m> repeatedly and look for patterns in the derivative values at <m>x = 0</m> in an attempt to find the Maclaurin series for <m>\arctan(x)</m> from the definition,
@@ -636,6 +699,57 @@ There are several ways we can obtain Taylor series expansions for functions usin
           and thus the interval of convergence for the series expansion for
           <m>\arctan(x)</m> in Equation<nbsp /><xref ref="E-arctanseries" /> is <m>-1 \le x \le 1</m>.
         </p>
+		</li>
+		
+		<li>
+			<p> To make the computations a little easier, let's write out the first five terms of the Taylor series explicitly:
+			<me> \arctan(x)= x-\frac{x^3}{3}+\frac{x^5}{5}-\frac{x^7}{7}+\frac{x^9}{9} - \cdots </me>
+			With <m> x=1</m>, we have
+			<me> \arctan(1)=1-\frac{1}{3}+\frac{1}{5}-\frac{1}{7}+\frac{1}{9}-\cdots </me>
+			So, if we use just the first term to approximate, we would have 
+			<me> \pi = 4\arctan(1) \approx 4(1)=4, </me>
+			giving the table entry for <m>n=1</m>. For <m>n=2</m>, we use the first two terms:
+			<me> \pi = 4 \arctan(1) \approx 4\left(1-\frac{1}{3}\right)=4\left(\frac{2}{3}\right) \approx 2.6667. </me>
+			Continuing, for <m>n=3</m>:
+			<me> \pi \approx 4\left(1-\frac{1}{3}+\frac{1}{5}\right) = 4 \left(\frac{13}{15}\right)\approx 3.4667. </me>
+			The completed table is as follows.
+			</p>
+			
+					<table>
+						<caption> Approximate Values for <m>\pi</m> </caption>
+						<tabular top="minor" bottom="minor">
+							<row>
+								<cell><m>n</m></cell>
+								<cell>Approximate Value</cell>
+							</row>
+							<row>
+								<cell>1</cell>
+								<cell>4</cell>
+							</row>
+							<row>
+								<cell>2</cell>
+								<cell>2.6667</cell>
+							</row>
+							<row>
+								<cell>3</cell>
+								<cell>3.4667</cell>
+							</row>
+							<row>
+								<cell>4</cell>
+								<cell>2.8952</cell>
+							</row>
+							<row>
+								<cell>5</cell>
+								<cell>3.3397</cell>
+							</row>
+						</tabular>
+					</table>
+			<p> Since we know that <m>\pi</m> is about 3.14159, we haven't gotten extremely accurate yet, but we are getting there, and continuing 
+				to use more terms would yield more accuracy.</p>
+			
+		</li>
+		
+		</ol>
       </solution>
     </example>
     
@@ -647,10 +761,23 @@ There are several ways we can obtain Taylor series expansions for functions usin
 
 
 <example>
-<p> Put an example similar to : Consider the series  <m> 1 - \frac{2^2}{2!} + \frac{2^4}{4!} - \frac{2^6}{6!} + \cdots </m>. This is the Taylor series for some function centered at <m>  0 </m> evaluated at some value <m> x = a </m>.  What is the function <m> f(x) </m>? What is the sum of the series? The answer is <m> f(x) = \cos(x) </m> and the sum is <m> \cos(2) </m>.
+<statement>
+<p> Consider the series  <m> 1 - \frac{2^2}{2!} + \frac{2^4}{4!} - \frac{2^6}{6!} + \cdots </m>. This is the Taylor series for some function centered at
+	<m>  0 </m> evaluated at some value <m> x = a </m>.  What is the function <m> f(x) </m>? What is the sum of the series?
 </p>
+</statement>
+<answer> <p> The function is <m> f(x)=\cos(x)</m> and the sum of the series is <m>\cos(2)</m>. </p>
+</answer>
+<solution>
+	<p> This series looks a lot like 
+	<me> 1 - \frac{x^2}{2!} + \frac{x^4}{4!} - \frac{x^6}{6!} + \cdots </me>
+	where <m>x=2</m> has been plugged in. We can recognize that this is the Taylor series for <m>\cos(x)</m> centered at 0, and since it converges for all real numbers <m>x</m>,
+		the sum of the series must be <m>\cos(2)</m>.
+	</p>
+</solution>
 </example>
 
+</subsection>
 
 <subsection>
 <title> Summary </title>
