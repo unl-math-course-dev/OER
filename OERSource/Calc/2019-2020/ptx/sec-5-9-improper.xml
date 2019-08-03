@@ -69,7 +69,7 @@
 
     <p permid="vRO">
       Thus about 14.22<percent /> of all lightbulbs fail between <m>t = 2</m> and <m>t = 3</m>.
-      Clearly we could adjust the limits of integration to measure the fraction of light bulbs that fail during any time period of interest.
+      We could adjust the limits of integration to measure the fraction of light bulbs that fail during any time period of interest.  
     </p>
 
 <example xml:id="PA-6-5" permid="tAY">
@@ -87,7 +87,9 @@
   <p permid="hmG">
     Use this information to answer the following questions.
 
+    <statement>
     <ol label="a." permid="nbS">
+      
       <li permid="Tjb">
         <p permid="khm">
           Determine the fraction of callers who wait between 5 and 10 minutes.
@@ -131,17 +133,103 @@
         <p permid="oRf">
           Let <m>F(b)</m> represent the fraction of callers who wait between <m>0</m> and <m>b</m> minutes.
           Find a formula for <m>F(b)</m> that involves a definite integral,
-          and then use the First FTC to find a formula for <m>F(b)</m> that does not involve a definite integral.
+          and then use the <xref ref="sec-4-4-FTC">First Fundamental Theorem of Calculus </xref> to find a formula for <m>F(b)</m> that does not involve a definite integral.
         </p>
       </li>
 
       <li permid="Ead">
         <p permid="UYo">
-          What is the value of the limit <m>\lim_{b \to \infty} F(b)</m>?
+          What is the value of the limit <m>\lim\limits_{b \to \infty} F(b)</m>?
           What is its meaning in the context of the problem?
         </p>
       </li>
+
     </ol>
+    </statement>
+    <answer>
+      <p> 
+        <ol label="a.">
+          <li>
+            <m>\int_5^{10} 0.25 e^{0.25t} \, dt = e^{-5/4} -e^{-10/4} \approx 0.2044</m>
+          </li>
+          <li>
+            <m>\int_{10}^{20} 0.25 e^{0.25t} \, dt=e^{-10/4} - e^{-20/4} \approx 0.0753</m>
+          </li>
+          <li>
+            <ol label="i.">
+              <li>
+                <m>1-e^{-5/4}\approx 0.7135</m>
+              </li>
+              <li>
+                <m>1-e^{-10/4}\approx 0.9179</m>
+              </li>
+              <li>
+                <p><m>1-e^{-15/4}\approx 0.9765 </m></p>
+                <p><m>1-e^{-20/4}\approx 0.9933</m></p>
+              </li>
+            </ol>
+          </li>
+          <li>
+            <me>F(b)=\int_0^b p(t) \, dt=1-e^{-b/4}</me>
+          </li>
+          <li>
+            <me>\lim_{b \to \infty} F(b)=1</me>
+            <p>
+              The limit has the following meaning: All customers, or 100% of customers, have to wait at least 0 minutes.
+            </p>
+          </li>
+        </ol>
+      </p>
+    </answer>  
+    <solution>
+      <p> 
+        The general antiderivative of <m>p(t)</m> can be found by using the <xref ref="sec-5-5-substitution"> substitution </xref> <m>u=-0.25t \ , du=-0.25 dt</m>. Then <m>\int p(t) \, dt= -e^{-0.25t} + C</m>. We'll use the general antiderivative to efficiently find the definite integrals in parts (a), (b), (c), and (d). 
+        <ol label="a.">
+          <li>
+            <me>\int_5^{10} 0.25 e^{0.25t} \, dt=\left.\left(-e^{-t/4}\right) \right|_{5}^{10}=-e^{-10/4}+e^{-5/4}  </me>
+            <me> = e^{-5/4} -e^{-10/4} \approx 0.2044</me>
+          </li>
+          <li>
+            <me>\int_{10}^{20} 0.25 e^{0.25t} \, dt=\left.\left(-e^{-t/4}\right) \right|_{10}^{20}=-e^{-20/4}+e^{-10/4}  </me>
+            <me>=e^{-10/4} - e^{-20/4} \approx 0.0753</me>
+          </li>
+          <li>
+            <ol label="i.">
+              <li>
+                <me>\int_{0}^{5} 0.25 e^{0.25t} \, dt=\left.\left(-e^{-t/4}\right) \right|_{0}^{5}=-e^{-5/4}+e^{0/4}  </me>
+                <me>=1-e^{-5/4}\approx 0.7135</me>
+              </li>
+              <li>
+                <me>\int_{0}^{10} 0.25 e^{0.25t} \, dt=\left.\left(-e^{-t/4}\right) \right|_{0}^{10}=-e^{-10/4}+e^{0/4}  </me>
+                <me>=1-e^{-10/4}\approx 0.9179</me>
+              </li>
+              <li>
+                <p>
+                  <me>\int_{0}^{15} 0.25 e^{0.25t} \, dt=\left.\left(-e^{-t/4}\right) \right|_{0}^{15}=-e^{-15/4}+e^{0/4}  </me>
+                  <me>=1-e^{-15/4}\approx 0.9765 </me>
+                </p>
+                <p>
+                  <me>\int_{0}^{20} 0.25 e^{0.25t} \, dt=\left.\left(-e^{-t/4}\right) \right|_{0}^{20}=-e^{-20/4}+e^{0/4}  </me>
+                  <me>=1-e^{-20/4}\approx 0.9933</me>
+                </p>
+              </li>
+            </ol>
+          </li>
+          <li>
+            <p> 
+            <me>F(b)=\int_0^b p(t) \, dt = \left.\left(-e^{-t/4}\right) \right|_{0}^{b}=1-e^{-b/4}</me>
+            </p>
+          </li>
+          <li>
+            <me>\lim_{b \to \infty} F(b)= \lim_{b \to \infty} \left(1-e^{-b/4} \right)=1-\lim_{b \to \infty} e^{-b/4} </me>
+            <me>=1-\lim_{b \to \infty} \frac{1}{e^{b/4}}=1 </me>
+            <p>
+              The limit has the following meaning: All customers, or 100% of customers, have to wait at least 0 minutes.
+            </p>
+          </li>
+        </ol>
+      </p>
+    </solution>
   </p>
 </example>
   </introduction>
@@ -192,7 +280,7 @@
 
     <p permid="Uuy">
       We first attempt to evaluate
-      <m>\int_0^b f(x) \,dx</m> using the First FTC, and then evaluate the limit.
+      <m>\int_0^b f(x) \,dx</m> using the <xref ref="sec-4-4-FTC" >First Fundamental Theorem of Calculus </xref>, and then evaluate the limit.
       Is it even possible for the area of an unbounded region to be finite?
       The following example explores this issue and others in more detail.
     </p>
@@ -215,18 +303,18 @@
             <ol label="i." permid="Vvj">
               <li permid="cZI">
                 <p permid="kEh">
-                  Use the First FTC to determine the exact values of <m>\int_1^{10} \frac{1}{x} \, dx</m>,
+                  Use the First Fundamental Theorem of Calculus to determine the exact values of <m>\int_1^{10} \frac{1}{x} \, dx</m>,
                   <m>\int_1^{1000} \frac{1}{x} \, dx</m>,
                   and <m>\int_1^{100000} \frac{1}{x} \, dx</m>.
-                  Then, use your computational device to compute a decimal approximation of each result.
+                  Then, use your computational tool to compute a decimal approximation of each result.
                 </p>
               </li>
 
               <li permid="WWb">
                 <p permid="LrD">
-                  Use the First FTC to evaluate the definite integral
+                  Use the First Fundamental Theorem of Calculus to evaluate the definite integral
                   <m>\int_1^{b} \frac{1}{x} \, dx</m>
-                  (which results in an expression that depends on <m>b</m>).
+                  which results in an expression that depends on <m>b</m>.
                 </p>
               </li>
 
@@ -250,7 +338,7 @@
             <ol label="i." permid="KHJ">
               <li permid="jkt">
                 <p permid="vdm">
-                  Use the First FTC to determine the exact values of <m>\int_1^{10} \frac{1}{x^{3/2}} \, dx</m>,
+                  Use the First Fundamental Theorem of Calculus to determine the exact values of <m>\int_1^{10} \frac{1}{x^{3/2}} \, dx</m>,
                   <m>\int_1^{1000} \frac{1}{x^{3/2}} \, dx</m>,
                   and <m>\int_1^{100000} \frac{1}{x^{3/2}} \, dx</m>.
                   Then,
@@ -260,7 +348,7 @@
 
               <li permid="PrC">
                 <p permid="DNe">
-                  Use the First FTC to evaluate the definite integral
+                  Use the First Fundamental Theorem of Calculus to evaluate the definite integral
                   <m>\int_1^{b} \frac{1}{x^{3/2}} \, dx</m>
                   (which results in an expression that depends on <m>b</m>).
                 </p>
@@ -726,7 +814,7 @@
                   <me permid="vrH">
                     \lim_{b \to \infty} \left( -\frac{b^{1-p}}{p-1} + \frac{1}{p-1} \right) = \infty
                   </me>
-                  Using this and equation<nbsp />(1),
+                  Using this and the equation above ,
                   we see that <m> \int_1^\infty \frac{1}{x^p} dx</m> diverges.
                 </p>
               </li>
@@ -739,7 +827,7 @@
                   <me permid="HFZ">
                     \lim_{b \to \infty} \left( -\frac{b^{1-p}}{p-1} + \frac{1}{p-1} \right) = \frac{1}{p-1}
                   </me>
-                  Using this and equation<nbsp />(1),
+                  Using this and the equation above,
                   we see that <m> \int_1^\infty \frac{1}{x^p} dx</m> converges to <m>\dfrac{1}{p-1}</m>.
                 </p>
               </li>
@@ -755,7 +843,7 @@
   <subsection permid="wXh">
     <title>Improper Integrals Involving Unbounded Integrands</title>
     <p permid="Zer">
-      An integral is also called improper if the integrand is unbounded on the interval of integration.
+      An integral is also called <term> improper </term> if the integrand is unbounded on the interval of integration.
       For example, consider
       <me permid="nhW">
         \int_0^1 \frac{1}{\sqrt{x}} \, dx
@@ -809,7 +897,7 @@
     <p permid="RzS">
       At first glance we might think that we can simply apply the Fundamental Theorem of Calculus by antidifferentiating <m>\frac{1}{(x-2)^2}</m> to get
       <m>-\frac{1}{x-2}</m> and then evaluating from <m>1</m> to <m>3</m>.
-      Were we to do so, we would be erroneously applying the FTC because
+      Were we to do so, we would be erroneously applying the Fundamental Theorem of Calculus because
       <m>f(x) = \frac{1}{(x-2)^2}</m> fails to be continuous throughout the interval,
       as seen in <xref ref="F-6-5-InfIntegrand2">Figure</xref>.
     </p>
@@ -820,7 +908,7 @@
     </figure>
 
     <p permid="xHb">
-      Such an incorrect application of the FTC leads to an impossible result (<m>-2</m>),
+      Such an incorrect application of the Fundamental Theorem of Calculus leads to an impossible result (<m>-2</m>),
       which would itself suggest that something we did must be wrong.
       Instead, we must address the vertical asymptote at <m>x = 2</m> by writing
       <me permid="LKG">
@@ -842,14 +930,75 @@
       we can conclude that that the original integral,
       <m>\int_1^3 \frac{1}{(x-2)^2} \, dx</m> diverges, too.
     </p>
+<assemblage>
+  <title>Types of Improper Integrals and Strategies to Evaluate Them</title>
+  <p>
+    There are two main classes of improper integrals: 
+    <ol label="1."> 
+      <li>
+        <p> Integrals can be improper because one limit is infinite or both limits are infinite, and</p>
+      </li>
+      <li>
+        <p> Integrals can be improper because the integrand is unbounded on the interval of integration.</p>
+      </li>
+    </ol> 
+    Introducing new variables to represent a bound of integration in combination with a limit allows us to still evaluate improper integrals. First, find the antiderivative with a placeholder variable then take the appropriate limit. We'll always take these steps in that order. Below is a summary of how to pick the placeholder variables and how to set up the appropriate limits. 
+  </p>
 
+  <p> In all cases, we say that the improper integral <term> converges </term> if the limit exists, otherwise, we say the improper integral <term> diverges </term>. 
+    <ol lable="1.">
+      <li>
+        <p>Integrals can be improper because one limit is infinite or both limits are infinite. 
+          <ol label="a.">
+            <li>
+              <p> To evaluate the improper integral <m>\int_a^{\infty} f(x) \, dx</m>, use a new variable <m> b </m> for the upper bound of integration and let <m> b \to \infty </m>. In other words, find the definite integral <m> \int_a^b f(x) \, dx </m> then take the limit as <m> b \to \infty </m>:  
+              <me> \int_a^{\infty} f(x) \, dx= \lim_{b \to \infty} \int_a^b f(x) \, dx</me>.
+              </p>
+            </li>
+            <li>
+              <p> To evaluate the improper integral <m>\int_{-\infty}^{b} f(x) \, dx</m>, use a new variable <m> a </m> for the lower bound of integration and let <m> a \to -\infty </m>. In other words, find the definite integral <m> \int_a^b f(x) \, dx </m> then take the limit as <m> a \to -\infty </m>:  
+              <me> \int_{-\infty}^{b} f(x) \, dx= \lim_{a \to -\infty} \int_a^b f(x) \, dx</me>.
+              </p>
+            </li>
+            <li>
+              <p> To evaluate the improper integral <m>\int_{-\infty}^{\infty} f(x) \, dx</m>, use a new variables <m> a </m>, <m> b </m>, and <m> c </m>. The variable <m> a </m> will represent the lower bound tending towards <m> -\infty </m>. The variable <m> b </m> will represent the upper bound tending towards <m> \infty </m>. The variable <m> c </m> will represent any real number. Find the definite integral <m> \int_a^c f(x) \, dx </m> then take the limit as <m> a \to -\infty </m>, and find the definite integral <m> \int_c^b f(x) \, dx </m> then take the limit as <m> b \to \infty </m>:  
+              <me> \int_{-\infty}^{\infty} f(x) \, dx= \lim_{a \to -\infty} \int_a^c f(x) \, dx + \lim_{b \to \infty} \int_c^b f(x) \, dx </me>.
+              </p>
+            </li>
+          </ol>
+        </p>
+      </li>
+      <li>
+        <p> Integrals can be improper because the integrand is unbounded on the interval of integration.
+          <ol lable="a.">
+            <li>
+              <p> If <m> f(x) </m> is unbounded at <m> x=a </m>, then <m> \int_a^b f(x) \, dx </m> is an improper integral. To evaluate the improper integral <m>\int_a^b f(x) \, dx </m>, use a new variable <m> d </m> for the lower bound of integration and let <m> d \to a^{+} </m> (<m> d </m> approaches <m> a </m> from the right). Find the definite integral <m>\int_d^b f(x) \, dx</m> then take the limit <m>d \to a^+</m>: 
+                <me>\int_a^b f(x) \, dx= \lim_{d \to a^+} \int_d^b f(x) \, dx</me>
+              </p>
+            </li>
+            <li>
+              <p> If <m> f(x) </m> is unbounded at <m> x=b </m>, then <m> \int_a^b f(x) \, dx </m> is an improper integral. To evaluate the improper integral <m>\int_a^b f(x) \, dx </m>, use a new variable <m> c </m> for the upper bound of integration and let <m> c \to b^{-} </m> (<m> c </m> approaches <m> b </m> from the left). Find the definite integral <m>\int_a^c f(x) \, dx</m> then take the limit <m>c \to b^-</m>: 
+                <me>\int_a^b f(x) \, dx= \lim_{c \to b^-} \int_a^c f(x) \, dx</me>
+              </p>
+            </li>
+            <li>
+              <p> If <m> f(x) </m> is unbounded at <m> x=p </m> and <m> p </m> lies inside the interval <m> [a,b] </m>, then <m> \int_a^b f(x) \, dx </m> is an improper integral. To evaluate the improper integral <m>\int_a^b f(x) \, dx </m>, use new variables <m> c</m> and <m> d </m> to represent location where <m> f(x) </m> is unbounded in the interval <m> [a,b] </m> and split the original integral into two improper integrals. Find the definite integral <m>\int_a^c f(x) \, dx</m> then take the limit <m>c \to p^-</m>, and find the definite integral <m>\int_d^b f(x) \, dx</m> then take the limit <m>d \to p^+</m>: 
+                <me>\int_a^b f(x) \, dx=\lim_{c \to p^-} \int_a^c f(x) \, dx + \lim_{d \to p^+} \int_d^b f(x) \, dx</me>
+              </p>
+            </li>
+          </ol>
+        </p>
+      </li>
+    </ol>
+  </p>
+</assemblage>
 <example xml:id="act-6-5-3" permid="IZN">
   <statement>
     <p permid="LUt">
       For each of the following definite integrals,
       decide whether the integral is improper or not.
       If the integral is proper,
-      evaluate it using the First FTC. If the integral is improper,
+      evaluate it using the First Fundamental Theorem of Calculus. If the integral is improper,
       determine whether or not the integral converges or diverges;
       if the integral converges, find its exact value.
 
