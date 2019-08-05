@@ -59,7 +59,7 @@
     </p>
 
     <p permid="Yuk">
-      A <term> Riemann sum </term> is a sum of
+      A <em> Riemann sum </em> is a sum of
       (possibly signed)
       areas of rectangles.
       The value of <m>n</m> determines the number of rectangles,
@@ -76,11 +76,16 @@
       <image width="100%" source="images/5_6_LRMsum" />
     </figure>
 
-    <assemblage> <title>Types of Errors of <m> L_n </m> and <m> R_n </m> for approximating <m> \int_a^b f(x) \, dx </m> </title>
-      <p>
-        <xref ref="act-4-2-2" > Example </xref> part d) explores how to determine if <m>L_n</m> and <m>R_n</m> are underestimates or overestimates of <m> \int_a^b f(x) \, dx</m> when <m>f(x)</m> is increasing. Similar statements can be made when <m>f(x)</m> is decreasing. 
+<p>
+     Part (d) of   <xref ref="act-4-2-2" > Example </xref> explored how to determine if <m>L_n</m> and <m>R_n</m> are underestimates or overestimates of <m> \int_a^b f(x) \, dx</m> when <m>f(x)</m> is increasing. Similar statements can be made when <m>f(x)</m> is decreasing. These are summarized next.
         
-        <!-- This example technically only discussed the positive case because the section it is in had not yetdiscussed negative portions of Riemann sums-->
+        <!-- This example technically only discussed the positive case because the section it is in had not yet discussed negative portions of Riemann sums-->
+        </p>
+
+
+    <assemblage> <title> Error types when approximating area using left and right Riemann sums  </title>
+      <p>
+
 
         <ul>
           <li>
@@ -103,7 +108,7 @@
       just to ensure that we understand how they work and how varying the function,
       the number of subintervals,
       and the choice of endpoints or midpoints affects the result,
-      using computing technology is the best way to quickly determine <m>L_n</m>,
+      using computing technology is a quick way to determine <m>L_n</m>,
       <m>R_n</m>, and <m>M_n</m>.
       Any computer algebra system will offer this capability.
     </p>
@@ -205,7 +210,7 @@
         <statement>
         <p permid="tmD">
           In what follows in this section,
-          we will learn a new approach to estimating the value of a definite integral known as the <term> Trapezoid Rule </term>.
+          we will learn a new approach to estimating the value of a definite integral known as the <em> Trapezoid Rule </em>.
           The basic idea is to use trapezoids,
           rather than rectangles,
           to estimate the area under a curve.
@@ -365,11 +370,7 @@
 
         <li permid="YhY">
           <p permid="qVw">
-            Let the <em>error</em>
-              <idx><h>error</h></idx>
-              <idx><h>trapezoid rule</h><h>error</h></idx>
-              <idx><h>midpoint rule</h><h>error</h></idx>
-            of an approximation be the difference between the exact value of the definite integral and the resulting approximation.
+            Recall that the error of an approximation is the difference between the exact value of the definite integral and the resulting approximation.
             For instance,
             if we let <m>E_{T,4}</m> represent the error that results from using the trapezoid rule with 4 subintervals to estimate the integral, we have
             <me permid="VXm">
@@ -608,7 +609,7 @@
 
         <li permid="SsM">
           <p permid="lgk">
-            From the errors in comparision to the known exact value,
+            From the errors in comparison to the known exact value,
             we see that the trapezoid rule overestimates this definite integral and the midpoint rule underestimates this definite integral.
           </p>
         </li>
@@ -689,9 +690,13 @@
       <image width="47%" source="images/5_6_MidTrapError" />
     </figure>
 
-<assemblage> <title>Types of Errors of <m> M_n </m> and <m> T_n </m> for approximating <m> \int_a^b f(x) \, dx </m> </title>
+<p>
+The preceding discussion explores how to determine if <m>M_n</m> and <m>T_n</m> are underestimates or overestimates of <m> \int_a^b f(x) \, dx</m> if <m>f(x)</m> is concave up. Similar statements can be made when <m>f(x)</m> is concave down. These are summarized next.
+</p>
+
+<assemblage> <title> Error types when approximating using Midpoint and Trapezoid Rules </title>
       <p>
-        The preceding discussion explores how to determine if <m>M_n</m> and <m>T_n</m> are underestimates or overestimates of <m> \int_a^b f(x) \, dx</m> if <m>f(x)</m> is concave up. Similar statements can be made when <m>f(x)</m> is concave down. 
+        
 
         <ul>
           <li>
@@ -836,24 +841,29 @@
     </p>
 
     <p permid="IfT">
-      We've just observed that <m>M_n</m> is typically about twice as accurate as <m>T_n</m>.
-      So we use the weighted average
-          <idx><h>weighted average</h></idx>
-      <men xml:id="E-Simpson" permid="CqH">
-        S_{2n} = \frac{2M_n + T_n}{3}
-      </men>.
-    </p>
-
-    <p permid="onc">
-      The rule for <m>S_{2n}</m> giving by <xref ref="E-Simpson">Equation</xref>
-      is usually known as <term>Simpson's Rule</term>.<fn>
+      We've just observed that <m>M_n</m> is typically about twice as accurate as <m>T_n</m>. This leads to an approximation method known as <em> Simpson's Rule </em> <fn>
       Thomas Simpson was an 18th century mathematician;
       his idea was to extend the Trapezoid rule,
       but rather than using straight lines to build trapezoids,
       to use quadratic functions to build regions whose area was bounded by parabolas
       (whose areas he could find exactly).
       Simpson's Rule is often developed from the more sophisticated perspective of using interpolation by quadratic functions.
-      </fn> Note that we use
+      </fn> which is a weighted average of the Midpoint and Trapezoid approximations. </p>
+      
+      <assemblage>
+      <title> Simpson's Rule </title>
+      <p> The Simpson's Rule approximation <m> S_{2n} </m> of the area <m> \int_a^b f(x) \ dx </m> is the
+       weighted average
+          <idx><h>weighted average</h></idx>
+      <men xml:id="E-Simpson" permid="CqH">
+        S_{2n} = \frac{2M_n + T_n}{3}
+      </men>.
+      where <m> M_n </m> and <m> T_n </m> are the Midpoint and Trapezoid rule approximations using <m> n </m> subintervals.
+    </p>
+    </assemblage>
+
+    <p permid="onc">
+      Note that we use
       <q><m>S_{2n}</m></q> rather that <q><m>S_n</m></q>
       since the <m>n</m> points the Midpoint Rule uses are different from the <m>n</m> points the Trapezoid Rule uses,
       and thus Simpson's Rule is using <m>2n</m> points at which to evaluate the function.
@@ -1202,7 +1212,7 @@
   </subsection>
 
   <subsection permid="FGM">
-    <title>Overall observations regarding <m>L_n</m>, <m>R_n</m>, <m>T_n</m>, <m>M_n</m>, and <m>S_{2n}</m>.</title>
+    <title>Comparing <m>L_n</m>, <m>R_n</m>, <m>T_n</m>, <m>M_n</m>, and <m>S_{2n}</m>.</title>
     <p permid="gID">
       As we conclude our discussion of numerical approximation of definite integrals,
       it is important to summarize general trends in how the various rules over- or under-estimate the true value of a definite integral,
@@ -1536,9 +1546,9 @@
       The results seen in <xref ref="act-5-6-3">Example</xref> generalize nicely.
       For instance,
       if <m>f</m> is decreasing on <m>[a,b]</m>,
-      <m>L_n</m> will over-estimate the exact value of <m>\int_a^b f(x) \,dx</m>,
+      <m>L_n</m> will overestimate the exact value of <m>\int_a^b f(x) \,dx</m>,
       and if <m>f</m> is concave down on <m>[a,b]</m>,
-      <m>M_n</m> will over-estimate the exact value of the integral.
+      <m>M_n</m> will overestimate the exact value of the integral.
       An excellent exercise is to write a collection of scenarios of possible function behavior,
       and then categorize whether each of <m>L_n</m>, <m>R_n</m>,
       <m>T_n</m>, and <m>M_n</m> is an over- or under-estimate.
@@ -1553,7 +1563,7 @@
       In one of the pleasant surprises of numerical analysis,
       it turns out that even though it was designed to be exact for quadratic polynomials, Simpson's Rule is exact for any cubic polynomial:
       that is, if we are interested in an integral such as <m>\int_2^5 (5x^3 - 2x^2 + 7x - 4)\, dx</m>,
-      <m>S_{2n}</m> will always be exact,
+       the approximation <m> S_{2n}</m> will always be exact,
       regardless of the value of <m>n</m>.
       This is just one more piece of evidence that shows how effective Simpson's Rule is as an approximation tool for estimating definite integrals.<fn>
       One reason that Simpson's Rule is so effective is that <m>S_{2n}</m> benefits from using <m>2n+1</m> points of data.
