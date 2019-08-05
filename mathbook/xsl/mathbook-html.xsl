@@ -6277,6 +6277,12 @@ along with MathBook XML.  If not, see <http://www.gnu.org/licenses/>.
     </em>
 </xsl:template>
 
+<xsl:template match="q">
+    <q>
+        <xsl:apply-templates />
+    </q>
+</xsl:template>
+
 <!-- CSS for ins, del, s -->
 <!-- http://html5doctor.com/ins-del-s/           -->
 <!-- http://stackoverflow.com/questions/2539207/ -->
