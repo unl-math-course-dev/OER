@@ -51,6 +51,7 @@
     </p>
 
 <example xml:id="PA-6-2" permid="hIf">
+  <statement>
   <p permid="pmE">
     Consider a circular cone of radius 3 and height 5, which we view horizontally as pictured in <xref ref="F-PA-6-2">Figure</xref>.
     Our goal in this example is to use a definite integral to determine the volume of the cone.
@@ -100,12 +101,269 @@
       </li>
     </ol>
   </p>
+  </statement>
+   <solution>
+        <p>
+        <ol label="a.">
+           
+           <li>
+           <p>
+      		We are trying to find the formula for a linear function <m>y=f(x)</m> which passes through the points <m>(0,3)</m> and <m>(5,m)</m>.
+      		The <m>y</m>-intercept is therefore 3, and the slope is <m>\frac{0-3}{5-0}= -\frac 35 </m>, so the linear equation if <m>f(x)=-\frac 35 x +3 </m>.
+           </p>
+           </li>
+
+           <li>
+           <p>
+           The radius at some <m>x</m> value will be <m>f(x)=-\frac 35 x +3 </m>.
+           </p>
+           </li>
+
+           <li>
+           <p>
+           A cylinder of radius <m> r </m> and height <m>h </m> will have volume <m> \pi r^2 h </m>.
+           For this cylinder, the radius is <m>f(x)=-\frac 35 x +3 </m> and the height is <m>\Delta x </m>, so the volume of this cylinder is
+           
+           <me>
+           V_{cylinder}= \pi (-\frac 35 x +3)^2 \Delta x
+           </me>
+           </p>
+           </li>
+
+           <li> 
+           <p>
+           To find the volume of the cone, we will sum up a bunch of cylinders, and take the limit as the width of the cylinders <m>\Delta x </m> goes to 0. 
+           When we do this, the sum turns into an integral and <m> \Delta x </m> turns into <m>dx</m>. Thus the volume of the cone is 
+           
+           <me>
+           V_{cone}= \int_0^5 \pi (-\frac 35 x +3)^2  \, dx \\
+           = \pi \int_0^5 \frac{9}{25} x^2 -\frac {18}{5}x +9 \, dx \\
+           = \pi \left( \frac{3}{25} x^3 -\frac {9}{5}x^2 +9x \right)\Large |_0^5 \\
+           = \pi \left( \frac{3}{25} (125) -\frac {9}{5} (25) +9(5) \right) - 0
+           = 15 \pi
+           </me>
+           </p>
+           </li>
+
+           <li>
+           <p>
+           The two methods for finding the volume agree: the volume formula for the cone gives <m>V_{cone} = \frac 13 \pi (3)^2(5) = 15\pi</m>, the same as the integral method.
+           
+           </p>
+           </li>
+           
+                 <li permid="EvC">
+        <p permid="Jfv">
+          Compare the result of your work in (d) to the volume of the cone that comes from using the formula <m>V_{\text{cone} } = \frac{1}{3} \pi r^2 h</m>.
+        </p>
+      </li>
+           </ol>
+        </p>
+      </solution>
 </example>
   </introduction>
   
   <subsection>
 <title> Volume as the Integral of Cross-Sectional Area </title>
 
+
+<p>
+In the previous section, we saw that the way we find area of a 2D region is to slice it into thin rectangles, and then integrate the height of the rectangles.
+The same principle lets us find the volume of a 3D shape: slice it into thin "cross-sections", and then integrate the area of the cross-sections.
+So while the formula for area is
+
+<me>
+\text{Area}= \int_a^b f(x)\, dx
+</me>
+
+where <m> f(x) </m> is the height of the rectangle at <m> x </m>, and <m> a </m> and <m> b </m> are the endpoints, the formula for volume is
+
+<me>
+\text{Volume}= \int_a^b A(x)\, dx
+</me>
+
+where <m> A(x) </m> is the area of the cross-section at <m> x </m>, and <m> a </m> and <m> b </m> are the endpoints. 
+In <xref ref="PA-6-2">Example</xref>, we saw that the cross-sections were circles, so we used the circle area formula to get <m>A(x)=\pi r^2=\pi (-\frac 35 x +3)^2</m>,
+and integrated from <m>x=0</m> to <m>x=5</m> since those were the top and bottom of the cone.
+
+</p>
+
+<p>
+For 2D shapes, it is sometimes more convenient to integrate with respect to <m>y</m> instead of <m>x</m>, and the same is true for 3D shapes. 
+In fact, one may want to integrate with respect to <m>x</m>, <m>y</m>, or <m>z</m>, and you should try to choose the variable of integration so that all of your cross-sections are the same shape.
+For instance, in <xref ref="PA-6-2">Example</xref>, we integrated with respect to <m>x</m> so that the cross-sections were all circles. 
+If we had taken slices in another direction, the area of a cross-section would have been much more complicated and the integral would have been much harder!
+
+
+</p>
+
+<example>
+  <statement>
+    <p>
+    Consider a pyramid with a 1-by-1 square base along the <m>xy</m>-plane with corners at <m> (0,0,0), (0,1,0), (1,1,0), (1,0,0)</m>, and tapering up to a point at <m>(0,0,2)</m>. 
+    [Include a figure.]
+    Notice that every <m>z</m>-cross-section (parallel to the <m>xy</m>-plane) is a square, so we will want to integrate with respect to <m>z</m>.
+    	<ol label="a.">
+           
+           <li>
+           <p>
+      		   Slicing the pyramid at a <m>z</m>-value (height) between 0 and 2 gives a square shape. 
+      		   Find the linear function <m>f(z)</m> that gives the side-length of this square.
+      		   </p>
+           </li>
+          <li>
+          <p>
+             Since the <m>z</m>-cross-sections are squares, we will want to integrate with respect to <m>z</m>. Therefore, the volume of the pyramid is 
+             <me>
+             Volume = \int_a^b A(z) dz
+             </me>
+             The endpoints <m>a</m> and <m>b</m> represent the <m>z</m>-values (heights) where the pyramid starts and stops. What are <m>a</m> and <m>b</m>?
+           </p>
+           </li>
+             <li>
+             <p>
+             Combine your answers to the previous parts to set up a definite integral that represents the volume of the pyramid,
+              then evaluate that integral to find the volume of the pyramid.
+           </p>
+           </li>
+           
+            <li>
+             <p>
+             The volume of a square pyramid is given by the formula <m>V=\frac 1 3 l^2h </m> where <m>l</m> is the side length of the base and <m>h</m> is the height. 
+             Use this formula to find the volume of the pyramid and compare to your answer to the previous part.
+           </p>
+           </li>
+		</ol>
+   
+    
+    </p>
+
+  </statement>
+  
+  <solution>
+  <p>
+     <ol label="a.">        
+           <li>
+           <p>
+      		   Slicing at <m> z=0 </m> gives the base of the pyramid, which is a square of side length 1, so <m> f(0)=1</m>.
+      		   Slicing at <m> z=2 </m> gives the peak of the pyramid, which can be thought of as a square of side length 0, so <m> f(2)=0</m>.
+      		   Therefore the linear function will have intercept <m>b=1</m> and slope <m>m=\frac{0-1}{2-0}=-\frac 12</m>, so <m>f(z)=-\frac 12 z+1 </m>.
+      		   </p>
+           </li>
+          <li>
+          <p>
+             We will integrate from the bottom of the pyramid to the top, so from <m> z=0 </m> to <m> z=2 </m>. Thus <m> a=0 </m> and <m> b=2 </m>.
+           </p>
+           </li>
+             <li>
+             <p>
+             Since the area of a square is the side length squared, then <m>A(z)=(-\frac 12 z+1)^2 </m>. Therefore,
+             <me>
+             \text{Volume}=\int_a^b A(z)dz = \int _0^2 (-\frac 12 z+1)^2 dz \\
+             = \frac 1{12} z^3 -\frac 1 2 z^2 +z\Large |_0^2 \\
+             =(\frac 1 {12} (8)-\frac 1 2(4)+2) -(0)=2/3 \\
+             </me>
+           </p>
+           </li>
+           
+            <li>
+             <p>
+             Since our base length is 1 and our height is 2, then the volume is
+             <m>V=\frac 1 3 l^2h=\frac 1 3 (1)^2(2)=\frac 23 </m>, which is the same as our answer from the integral method.
+           </p>
+           </li>
+		</ol>
+   
+  </p>
+  </solution>
+</example>
+
+
+
+
+<example>
+  <statement>
+    <p>
+    We can use the same technique to find the volume of a sphere of radius 5 centered at the origin <m>(0,0,0)</m>.
+    
+    
+       	<ol label="a.">
+           
+           <li>
+           <p>
+      		   Since a sphere is symmetrical in all directions, it doesn't matter which direction we slice it. Let's slice in the <m>x</m>-direction.
+      		   Each cross-section will be a circle of radius <m>r(x)</m>. Use the Pythagorean theorem to find a formula for <m>r(x)</m>.
+      	   </p>
+           </li>
+           
+           <li>
+           <p>
+             The volume of the sphere is 
+             <me>
+             Volume = \int_a^b A(x) dx
+             </me>
+             where <m>A(x)</m> is the area of a circular cross section and <m>a</m> and <m>b</m> represent the <m>x</m>-values where the sphere starts and stops. 
+             What are <m>a</m> and <m>b</m>?
+           
+           </p>
+           </li>
+           
+            <li>
+             <p>
+             Combine your answers to the previous parts to set up a definite integral that represents the volume of the sphere,
+              then evaluate that integral to find the volume of the sphere.
+           </p>
+           </li>
+           
+            <li>
+             <p>
+             The volume of a sphere is given by the formula <m>V=\frac 4 3 \pi R^3 </m> where <m>R</m> is the radius of the sphere.
+             Use this formula to find the volume of the pyramid and compare to your answer to the previous part.
+           </p>
+           </li>
+		</ol>
+   
+    
+    </p>
+
+  </statement>
+  
+  <solution>
+  <p>
+     <ol label="a.">        
+           <li>
+           <p>
+      		   [Include graphic] Slicing at an <m>x</m>-value lets us make a right triangle with hypotenuse 5 and side lengths <m>x</m> and <m>r(x)</m>,
+      		   so the Pythagorean theorem tell us that <m>5^2=x^2+(r(x))^2</m>, and solving for <m>r(x)</m> gives <m>r(x)=\sqrt{25-x^2} </m>.
+      		   </p>
+           </li>
+          <li>
+          <p>
+             The sphere has a radius of 5, so it begins at <m> x=-5 </m> and ends at <m> x=5 </m>. Thus <m> a=-5 </m> and <m> b=5 </m>.
+           </p>
+           </li>
+             <li>
+             <p>
+             Since the area of a circle is <m>\pi r^2 </m>, then <m>A(x)=\pi (r(x))^2= \pi (25-x^2) </m>. Therefore,
+             <me>
+             \text{Volume}=\int_a^b A(x)dx = \int _{-5}^5 \pi(25-x^2) dx \\
+             = \pi(25x-\frac 1 3 x^3)\Large |_{-5}^5 \\
+             =\pi(25(5)-\frac 1 3(125))- \pi(25(-5)-\frac 1 3(-125))=\pi \frac {500}{3} \\
+             </me>
+           </p>
+           </li>
+           
+            <li>
+             <p>
+             Since our radius is 5, then the volume is
+             <m>V=\frac 4 3 \pi R^3=\frac 4 3 \pi(5)^3=\pi\frac {500}3 </m>, which is the same as our answer from the integral method.
+           </p>
+           </li>
+		</ol>
+   
+  </p>
+  </solution>
+</example>
 
 
 
@@ -1448,7 +1706,7 @@
           <li permid="RiG">
             <p permid="OXU">
               Revolving <m>R</m> about the <m>y</m>-axis,
-              the resulting figure has solid cross sections that are disks perpendicular to the <m>y</m>-axis with thickness <m>\triangle x</m>,
+              the resulting figure has solid cross-sections that are disks perpendicular to the <m>y</m>-axis with thickness <m>\triangle x</m>,
               but the radius <m>R(y)</m> that governs the radius of each disk changes at the height where
               <m>y = \frac{\sqrt{2}}{2}</m> in the interval from <m>y = 0</m> to <m>y = 1</m>.
               We also need to express the two curves that bound the region with <m>x</m> as a function of <m>y</m>.
@@ -1492,7 +1750,7 @@
           <li permid="dwY">
             <p permid="bmm">
               Revolving <m>R</m> about the line <m>x = -1</m>,
-              the resulting figure has solid cross sections that are washers perpendicular to the <m>y</m>-axis with thickness <m>\triangle x</m>;
+              the resulting figure has solid cross-sections that are washers perpendicular to the <m>y</m>-axis with thickness <m>\triangle x</m>;
               the inner radius is always <m>r(y) = 1</m>,
               but the outer radius <m>R(y)</m> that governs the larger radius of each washer changes at the height where
               <m>y = \frac{\sqrt{2}}{2}</m> in the interval from <m>y = 0</m> to <m>y = 1</m>.
@@ -1618,7 +1876,7 @@
             <p permid="kFY">
               (You should draw a picture of the solid,
               based on the figure above,
-              with the region <m>R</m> revolved about <m>y = -1</m>.)  We slice vertically so that our cross sections are washers with thickness <m>\triangle x</m>.
+              with the region <m>R</m> revolved about <m>y = -1</m>.)  We slice vertically so that our cross-sections are washers with thickness <m>\triangle x</m>.
               Because we are revolving about <m>y = -1</m>,
               the outer radius is <m>R(x) = 2+\frac{1}{2}(x-2)^2</m>,
               while the inner radius is <m>1+\frac{1}{2}x^2</m>.
@@ -1638,7 +1896,7 @@
             <p permid="QNh">
               (Draw a picture of the solid,
               based on revolving the region <m>R</m> about the <m>y</m>-axis.)
-              We slice horizontally and thus the resulting cross sections are cylinders with thickness <m>\triangle y</m>.
+              We slice horizontally and thus the resulting cross-sections are cylinders with thickness <m>\triangle y</m>.
               The radius of the disks changes as <m>y</m> passes through <m>f\left(\frac{3}{2}\right) = \frac{9}{8} = 1.125</m>,
               so we need two different integrals to find the total volume.
               Since we are slicing horizontally,
