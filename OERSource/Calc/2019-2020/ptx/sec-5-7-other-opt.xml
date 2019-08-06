@@ -563,8 +563,8 @@
     </p>
   </assemblage>
   <p>
-    First, let's look at the substitution <m> x=a\sin(\theta) </m> where <m>-\frac{\pi}{2}\leq \theta \leq \frac{\pi}{2}</m> <fn>Example TBA will show why we need these bounds on <m> \theta </m> </fn> and <m> a </m> is a real number and see how it can be used to find the antiderivative of <m> \frac{1}{\sqrt{1-x^2}} </m>. 
-    <example>
+    First, let's look at the substitution <m> x=a\sin(\theta) </m> where <m>-\frac{\pi}{2}\leq \theta \leq \frac{\pi}{2}</m> <fn> <xref ref="E-TS-1"> Example </xref> will show why we need these bounds on <m> \theta </m> </fn> and <m> a </m> is a real number and see how it can be used to find the antiderivative of <m> \frac{1}{\sqrt{1-x^2}} </m>. 
+    <example xml:id="E-TS-1">
       <p> 
         Use the substitution <m>x=\sin(\theta) </m> where <m>-\frac{\pi}{2} \leq \theta \leq \frac{\pi}{2} </m> to find the general antiderivative 
         <me>\int \frac{1}{\sqrt{1-x^2}}\, dx.</me>
@@ -587,10 +587,13 @@
         <me> \int\frac{1}{\sqrt{1-x^2}} \, dx= \arcsin(x) + C </me>
       </p>
     </example> 
-
+    From now on, we'll usually omit the explanation that <m> \sqrt{\cos^2(\theta)}=|\cos(\theta)|=\cos(\theta)</m> since we additionally assume that <m> -\frac{\pi}{2} \leq \theta \leq \frac{\pi}{2} </m> in order to force <m> \cos(\theta) \geq 0 </m>. It is still incredibly important so that the calculation of the antiderivative is seamless, but since we always assume that <m> -\frac{\pi}{2} \leq \theta \frac{\pi}{2} </m> the same reasoning always applies. 
+  </p>
+  <p>
+    The style of substitution that was demonstrated in the previous example can be extended to help find more algebraic antiderivatives especially when the integrand contains <m> a^2-u^2 </m> where <m> a </m> is a real number and <m> u </m> is a variable. The changes that will be made to the substitution are necessary so that Pythagorean's Identity can still be applied. The following examples will explore exactly what alterations should be made to the substitution <m> x=\sin(\theta) </m>.
     <example> 
       <p> 
-        <ol>
+        <ol label="a.">
           <li>
             <statement>
             <p>
@@ -599,13 +602,59 @@
             </p>
             </statement>
             <hint> 
-              <p> Use the substitution <m> x=4\tan(\theta) </m>. How does including the factor of <m> 4 </m> affect our ability to use Pythagorean's Identity? </p>
+              <p> Use the substitution <m> x=4\sin(\theta) </m> with <m> -\frac{\pi}{2} \leq \theta \leq \frac{\pi}{2} </m>. How does including the factor of <m> 4 </m> affect our ability to use Pythagorean's Identity? </p>
             </hint>
+            <answer>
+              <p> <me>\int \frac{1}{\sqrt{16-x^2}} \, dx= \arcsin\left(\frac{x}{4}\right) + C </me></p>
+            </answer>
+            <solution>
+              <p> 
+                Use the substitution <m> x=4\sin(\theta) </m> with <m> -\frac{\pi}{2} \leq \theta \leq \frac{\pi}{2} </m>. Then <m> x^2=16\sin^2(\theta) </m> and <m> dx=4\cos(\theta) d\theta </m>. This implies that 
+                <md> 
+                  <mrow>\int \frac{1}{\sqrt{16-x^2}} \, dx \amp = \int \frac{4\cos(\theta)}{\sqrt{16-16\sin^2(\theta)}} \, d\theta </mrow>
+                  <mrow>\amp = \int \frac{4\cos(\theta)}{\sqrt{16(1-\sin^2(\theta))}} \, d\theta</mrow>
+                  <mrow>\amp = \int \frac{4\cos(\theta)}{\sqrt{16\cos^2(\theta)}} \, d\theta</mrow>
+                  <mrow>\amp = \int \frac{4\cos(\theta)}{4\cos(\theta)} \, d\theta</mrow>
+                  <mrow>\amp = \int 1 \, d\theta</mrow>
+                  <mrow>\amp = \theta + C</mrow>
+                  <mrow>\amp = \arcsin\left(\frac{x}{4}\right) + C</mrow>
+                </md>
+              </p>
+            </solution>
           </li>
           <li> 
-            <p> 
-              Special note: we didn't need a trig sub to solve this. We could have used some algebra, a u-sub, and the antidifferentiation rulel <m> \int \frac{1}{\sqrt{1-u^2}} \, du =\arcsin(u) + C</m>. 
-            </p>
+            <statement>
+              <p> 
+                It's possible to find the answer to part (a) by using some algebra, a u-sub, and the antidifferentiation rule <m> \int \frac{1}{\sqrt{1-u^2}} \, du =\arcsin(u) + C</m>. 
+                Without using a trigonometric substitution, find the antiderivative of 
+                <me>\int \frac{1}{\sqrt{16-x^2}} \, dx</me>
+              </p>
+            </statement>
+            <hint>
+              <p> Factor out 16 from the expression inside the square root, so 
+                <me> \sqrt{16-x^2}=\sqrt{16(1-\frac{x^2}{16})}=\sqrt{16(1-\frac{x^2}{4^2})}. </me>
+              </p>
+            </hint>
+            <answer>
+              <p> <me>\int \frac{1}{\sqrt{16-x^2}} \, dx= \arcsin\left(\frac{x}{4}\right) + C </me></p>
+            </answer>
+            <solution>
+              <p> 
+                We'll factor out 16 from the expression inside the square root and continue to rearrange the denominator in preparation of using a substitution: 
+                <md> 
+                  <mrow>\int \frac{1}{\sqrt{16-x^2}} \, dx \amp = \int \frac{1}{\sqrt{16(1-\frac{x^2}{16})}} \, dx </mrow>
+                  <mrow> \amp = \int \frac{1}{\sqrt{16(1-\frac{x^2}{4^2})}} \, dx</mrow>
+                  <mrow> \amp = \int \frac{1}{\sqrt{16(1-\frac{x^2}{4^2})}} \, dx</mrow>
+                  <mrow> \amp =\int \frac{1}{4\sqrt{1-(x/4)^2}} \, dx</mrow>
+                </md> 
+                Use the substitution <m> u=\frac{x}{4} </m>, <m> du= \frac{1}{4} \, dx</m>:
+                <md>
+                  <mrow> \int \frac{1}{4\sqrt{1-(x/4)^2}} \, dx \amp= \int\frac{1}{\sqrt{1-u^2}} \, du</mrow>
+                  <mrow> \amp= \arcsin(u) + C</mrow>
+                  <mrow> \amp= \arcsin\left(\frac{x}{4} \right) + C</mrow>
+                </md>
+              </p>
+            </solution>
           </li>  
         </ol>
       </p>
@@ -614,19 +663,66 @@
       
     </p>
     <example>
+      <statement>
       <p>
-        Find the antiderivative of 
-        <me> \int \frac{1}{\sqrt{8-4x^2}}</me>
+        Use a trigonometric substitution to find the antiderivative 
+        <me> \int \frac{1}{\sqrt{9-4x^2}} \, dx.</me>
       </p>
+      </statement>
+      <hint>
+        <p> Notice that <m> \sqrt{9-4x^2}=\sqrt{9-(2x)^2}</m>, so we'll want to replace <m> 2x </m> by an appropriate trigonometric function.</p>
+      </hint>
+      <answer>
+        <p> \int \frac{1}{\sqrt{9-4x^2}} \, dx=\frac{1}{2} \arcsin \left(\frac{2x}{3}\right) + C </p>
+      </answer>
+      <solution>
+        <p> 
+          Compared to the first example, where the substitution <m> x=\sin(\theta) </m> worked, we'll need to make two adjustments so that we can still use Pythagoren's Identity. Since <m> \sqrt{9-4x^2}=\sqrt{9-(2x)^2}</m>, we'll want to substitute <m> 2x=3\sin(\theta) </m> so that we can factor out the 9 and obtain the expression <m> 1-\sin^2(\theta) </m>. Assuming <m> 2x=3\sin(\theta) </m> then <m>(2x)^2=9 \sin^2(\theta)</m> and <m>2 dx=3 \cos(\theta)d\theta</m>.
+          <md>
+            <mrow> \int \frac{1}{\sqrt{9-4x^2}} \, dx \amp = \int \frac{1}{\sqrt{9-(2x)^2}} \, dx</mrow>
+            <mrow> \amp = \int \frac{1}{\sqrt{9-(2x)^2}} \, dx</mrow>
+            <mrow> \amp = \int \frac{(3/2)\cos(\theta)}{\sqrt{9-9\sin^2(\theta)}} \, d\theta</mrow>
+            <mrow> \amp = \frac{3}{2}\int \frac{\cos(\theta)}{\sqrt{9(1-\sin^2(\theta))}} \, d\theta</mrow>
+            <mrow> \amp = \frac{3}{2}\int \frac{\cos(\theta)}{3\sqrt{\cos^2(\theta)}} \, d\theta</mrow>
+            <mrow> \amp = \frac{3}{2}\int \frac{\cos(\theta)}{3\cos(\theta)} \, d\theta</mrow>
+            <mrow> \amp = \frac{3}{6}\int 1 \, d\theta</mrow>
+            <mrow> \amp = \frac{1}{2}\theta+ C \</mrow>
+          </md>
+          We can solve for <m> \theta </m> in our substitution equation to find that the antiderivative is: 
+          <me> \int \frac{1}{\sqrt{9-4x^2}} \, dx=\frac{1}{2} \arcsin\left(\frac{2x}{3} \right) + C</me>
+        </p>
+      </solution>      
     </example>
 
     <example>
-      <p>
-        
-      </p>
+      <statement>
+        <p>
+          Find the antiderivative 
+          <me> \int \frac{9}{(9-x^2)^{3/2}} \, dx </me>
+        </p>
+      </statement>
+      <hint>
+        <p> Use the substitution <m> x=3\sin(\theta) </m> and treat <m> (9-x^2)^{3/2}</m> as <m>((9-x^2)^{1/2})^3 </m>. </p>
+      </hint>
+      <answer>
+        <p> <m> \int \frac{9}{(9-x^2)^{3/2}} \, dx=\dfrac{x}{9-x^2} + C </m></p>
+      </answer>
+      <solution>
+        <p> 
+          Use the substitution <m> x=3\sin(\theta) </m>. Then <m>x^2=9\sin^2(\theta)</m> and <m>dx=3\cos(\theta) d\theta</m>. As stated in the hint, we'll use that <m>(9-x^2)^{3/2}=((9-x^2)^{1/2})^3</m> and simplify the inner most set of parentheses before cubing.
+          <md>
+            <mrow> \int \frac{9}{(9-x^2)^{3/2}} \, dx \amp = \int \frac{9\cdot 3\cos(\theta)}{(9-9\sin^2(\theta))^{3/2}} \, d\theta </mrow>
+            <mrow> \amp = 27\int \frac{\cos(\theta)}{(9(1-\sin^2(\theta)))^{3/2}} \, d\theta </mrow>
+            <mrow> \amp = 27\int \frac{\cos(\theta)}{9^{3/2}((1-\sin^2(\theta))^{1/2})^3} \, d\theta </mrow>
+            <mrow> \amp = \frac{27}{27}\int \frac{\cos(\theta)}{((\cos^2(\theta))^{1/2})^3} \, d\theta </mrow>
+            <mrow> \amp =\int \frac{\cos(\theta)}{(\cos(\theta))^3} \, d\theta </mrow>
+            <mrow> \amp =\int \frac{1}{\cos^2(\theta)} \, d\theta </mrow>
+            <mrow> \amp = \tan(\theta) + C</mrow>
+          </md>
+        </p>
+      </solution>      
     </example>  
 
-    -example that requires substituting for <m> \theta </m> back to <m> x </m> in the answer
   </p>
   
   <assemblage>  
