@@ -754,9 +754,80 @@ walk through how this is done in more details, and highlights some of the differ
     </example>
     
 <example>
-<p> Put an example here where series should be used to order functions. Add a second part where a function at a particular x value is approximated. For example, 
-<m> \sin(1) </m>.
+<statement>
+<p>
+	<ol label="a.">
+		<li> <p> For values near 0, put the following functions in order from smallest to largest:
+			<ul>
+				<li> 
+					<m>\sin(y^2) </m>
+				</li>
+				<li>
+					<m> 1-\cos(y) </m>
+				</li>
+				<li>
+					<m> \ln(1+y^2) </m>
+				</li>
+			</ul> </p>
+		</li>
+		<li> <p> Use the first four terms of the Taylor series for <m>\sin(y^2)</m> to estimate the value of <m>\sin(1)</m>. </p>
+		</li>
+	</ol>
 </p>
+</statement>
+<answer>
+	<ol label="a.">
+		<li> <p> <m> 1-\cos(y) \leq \ln(1+y^2)\leq \sin(y^2) </m> </p>
+		</li>
+		<li> <p> About 0.84145.</p>
+		</li>
+	</ol>
+</answer>
+<solution>
+	<ol label="a.">
+		<li>
+			<p> We'll need to build all three Taylor series, and then compare them. There's a brief outline of each construction below.
+			</p>
+			<p> For <m>\sin(y^2)</m>:
+			<md>
+				<mrow> \sin(x)\amp=x-\frac{x^3}{3!}+\frac{x^5}{5!}-\frac{x^7}{7!} + \frac{x^9}{9!} - \cdots </mrow>
+				<mrow> \sin(y^2) \amp=y^2 - \frac{y^6}{3!} +\frac{x^{10}}{5!} - \frac{x^{14}}{7!} + \frac{x^{18}}{9!} </mrow>
+			</md>
+			For <m> 1-\cos(y)</m>:
+			<md>
+				<mrow> \cos(y)\amp=1-\frac{y^2}{2!}+\frac{y^4}{4!}-\frac{y^6}{6!} +\frac{y^8}{8!} - \cdots </mrow>
+				<mrow> 1-\cos(y) \amp= \frac{y^2}{2!} - \frac{y^4}{4!} + \frac{y^6}{6!} - \frac{y^8}{8!} + \cdots </mrow>
+			</md> 
+			For <m>\ln(1+y^2)</m>
+			<md>
+				<mrow> \ln(1+t) \amp= t-\frac{t^2}{2}+\frac{t^3}{3}-\frac{t^4}{4} + \frac{t^5}{5} - \cdots </mrow>
+				<mrow> \ln(1+y^2)\amp= y^2 - \frac{y^4}{2}+\frac{y^6}{3}-\frac{y^8}{4} + \frac{y^{10}}{5} - \cdots </mrow>
+			</md>
+			
+			Now, let's use, say, the degree six taylor polynomials as an estimate, and compare the three series. For values of <m>y</m> near 0, we have
+			<md>
+				<mrow> \sin(y^2) \amp\approx y^2 - \frac{y^6}{3!} </mrow>
+				<mrow> 1-\cos(y) \amp\approx \frac{y^2}{2!} - \frac{y^4}{4!} + \frac{y^6}{6!}</mrow>
+				<mrow> \ln(1+y^2) \amp\approx y^2 - \frac{y^4}{2} + \frac{y^6}{3} </mrow>
+			</md>
+			We can compare term-by-term and decide which is smaller, or we can plug in a value near 0 to all three approximations; say, <m>y=0.5</m>
+			<md>
+				<mrow> \sin((0.5)^2) \amp \approx (0.5)^2 - \frac{(0.5)^6}{3!} \approx 0.2474 </mrow>
+				<mrow> 1-\cos(0.5) \amp\approx \frac{(0.5)^2}{2!} - \frac{(0.5)^4}{4!} + \frac{(0.5)^6}{6!} \approx 0.1224</mrow>
+				<mrow> \ln(1+(0.5)^2) \amp\approx (0.5)^2 - \frac{(0.5)^4}{2} + \frac{(0.5)^6}{3} \approx 0.2234 </mrow>
+			</md>
+			
+			Thus, the order is <m> 1-\cos(y) \leq \ln(1+y^2)\leq \sin(y^2) </m>
+			
+			</p>
+		</li>
+		<li>
+			<p> We'll plug in <m>y=1</m> to the Taylor series for <m>sin(y^2)</m>:
+				<me> \sin(1) \approx 1^2 - \frac{1^6}{3!} + \frac{1^{10}}{5!} - \frac{1^{14}}{7!} \approx 0.84145 </me>
+			</p>
+		</li>
+	</ol>
+</solution>
 </example>
 
 
@@ -781,7 +852,15 @@ walk through how this is done in more details, and highlights some of the differ
 
 <subsection>
 <title> Summary </title>
-
+<ul>
+	<li> Taylor series for complicated functions can often be found by manipulating Taylor series for known functions.
+		Some techniques for manipulation are addition, substraction, multiplication, division, substitution, differentiation, and integration.
+	</li>
+	<li>
+		Taylor series are especially useful to approximate function values, where of course the accuracy of the approximation can be improved
+		by using more terms in the series. These approximations have various applications. 
+	</li>
+</ul>
 </subsection>
 
 <exercises xmlns:xi="http://www.w3.org/2001/XInclude"> 
