@@ -43,11 +43,17 @@
   </objectives>
 
   <introduction permid="VzR">
-    <p permid="jDw">
-      Another important application of the definite integral
-      measures the likelihood of certain events.
-      For instance,
-      consider a company that manufactures incandescent light bulbs.
+   
+     <p>
+ So far we have considered integrals of continuous functions over finite intervals of integration. However, in many applications, we may need to integrate over an unbounded interval. That is, at least one of the limits of integration is infinite. In other cases, we may have an integrand that becomes infinite at a point within the interval or at an endpoint of the interval.  Such cases are called <em> improper integrals </em>.  
+    </p> 
+    
+    <p> In this section we learn how to evaluate these integrals. It may be surprising that despite having regions that appear infinite, in many cases the area is finite. We first look at some examples of how such integrals may arise. 
+    </p>
+    
+    <example>
+       <p> 
+      Consider a company that manufactures incandescent light bulbs.
       Based on a large volume of test results,
       they have determined that the fraction of light bulbs that fail between times <m>t = a</m> and <m>t = b</m> of use
       (where <m>t</m> is measured in months)
@@ -69,10 +75,93 @@
 
     <p permid="vRO">
       Thus about 14.22<percent /> of all lightbulbs fail between <m>t = 2</m> and <m>t = 3</m>.
-      We could adjust the limits of integration to measure the fraction of light bulbs that fail during any time period of interest.  
+      </p>
+
+      
+   
+
+
+    
+
+    <p permid="bYX">
+       We can adjust the limits of integration to measure the fraction of light bulbs that fail during any time period of interest.  
+      For example, to find the fraction of light bulbs that fail <em>eventually</em>,
+      we wish to find
+      <me permid="iyd">
+        \lim_{b \to \infty} \int_0^b 0.3e^{-0.3t} \, dt
+      </me>,
+      for which we will also use the notation
+      <men xml:id="E-ImpInt1" permid="OFm">
+        \int_0^\infty 0.3e^{-0.3t} \, dt
+      </men>.
+    </p>
+    </example>
+
+    <p permid="Igg">
+     The integral in EXAMPLE ADD REFERENCE can be interpreted as the area of an unbounded region,
+      as pictured at right in <xref ref="F-6-5-InfReg">Figure</xref>.
     </p>
 
-<example xml:id="PA-6-5" permid="tAY">
+    <figure xml:id="F-6-5-InfReg" permid="ABH">
+      <caption>At left, the area bounded by <m>p(t) = 0.3e^{-0.3t}</m> on the finite interval <m>[0,b]</m>; at right, the result of letting <m>b \to \infty</m>.  By <q><m>\cdots</m></q> in the righthand figure, we mean that the region extends to the right without bound.</caption>
+      <image width="80%" source="images/6_5_InfReg" />
+    </figure>
+
+    <assemblage>
+    <title> Improper integrals </title>
+    <p> An integral <m> \int_a^b f(x) \ dx </m> is <term> improper </term> if one of the following holds.
+        <ol label="1."> 
+      <li>
+        <p>  The interval of integration is infinite. That is, <m> a = \infty </m> and/or <m> b = \infty </m>.</p>
+      </li>
+      <li>
+        <p> The integrand is unbounded on <m> [a,b] </m>.</p>
+      </li>
+    </ol> 
+    
+    </p>
+    </assemblage>
+   
+      
+  </introduction>
+
+  <subsection permid="kIP">
+    <title>Improper Integrals Involving Unbounded Intervals</title>
+    <idx><h>improper integral</h></idx>
+    
+
+    <p>  In view of the above example, 
+      we see that we may want to integrate over an interval whose upper limit grows without bound.
+  </p>
+    
+    
+    
+    
+
+    <p permid="onp">
+      We call an integral for which the interval of integration is unbounded <em>improper</em>.
+          <idx><h>improper integral</h><h>unbounded region of integration</h></idx>
+      For instance, the integrals
+      <me permid="uMv">
+        \int_1^{\infty} \frac{1}{x^2} \, dx, \ \ \int_{-\infty}^0 \frac{1}{1+x^2} \, dx, \ \ \text{and}  \int_{-\infty}^{\infty} e^{-x^2} \, dx
+      </me>
+      are all improper because they have limits of integration that involve <m>\infty</m>.
+      To evaluate an improper integral we replace it with a limit of proper integrals.
+      That is,
+      <me permid="aTE">
+        \int_0^\infty f(x) \, dx = \lim_{b \to \infty} \int_0^b f(x) \,dx
+      </me>.
+    </p>
+
+    <p permid="Uuy">
+      We first attempt to evaluate
+      <m>\int_0^b f(x) \,dx</m> using the <xref ref="sec-4-4-FTC" >First Fundamental Theorem of Calculus </xref>, and then evaluate the limit.
+      Is it even possible for the area of an unbounded region to be finite?
+      The following examples explore this issue and others in more detail.
+    </p>
+    
+    
+    <example xml:id="PA-6-5" permid="tAY">
   <p permid="Bfx">
     A company with a large customer base has a call center that receives thousands of calls a day.
     After studying the data that represents how long callers wait for assistance,
@@ -232,58 +321,10 @@
     </solution>
   </p>
 </example>
-  </introduction>
 
-  <subsection permid="kIP">
-    <title>Improper Integrals Involving Unbounded Intervals</title>
-    <idx><h>improper integral</h></idx>
-
-    <p permid="bYX">
-      In view of the above examples, 
-      we see that we may want to integrate over an interval whose upper limit grows without bound.
-      For example,
-      to find the fraction of light bulbs that fail <em>eventually</em>,
-      we wish to find
-      <me permid="iyd">
-        \lim_{b \to \infty} \int_0^b 0.3e^{-0.3t} \, dt
-      </me>,
-      for which we will also use the notation
-      <men xml:id="E-ImpInt1" permid="OFm">
-        \int_0^\infty 0.3e^{-0.3t} \, dt
-      </men>.
-    </p>
-
-    <p permid="Igg">
-      Such an integral can be interpreted as the area of an unbounded region,
-      as pictured at right in <xref ref="F-6-5-InfReg">Figure</xref>.
-    </p>
-
-    <figure xml:id="F-6-5-InfReg" permid="ABH">
-      <caption>At left, the area bounded by <m>p(t) = 0.3e^{-0.3t}</m> on the finite interval <m>[0,b]</m>; at right, the result of letting <m>b \to \infty</m>.  By <q><m>\cdots</m></q> in the righthand figure, we mean that the region extends to the right without bound.</caption>
-      <image width="80%" source="images/6_5_InfReg" />
-    </figure>
-
-    <p permid="onp">
-      We call an integral for which the interval of integration is unbounded <term>improper</term>.
-          <idx><h>improper integral</h><h>unbounded region of integration</h></idx>
-      For instance, the integrals
-      <me permid="uMv">
-        \int_1^{\infty} \frac{1}{x^2} \, dx, \ \ \int_{-\infty}^0 \frac{1}{1+x^2} \, dx, \ \ \text{and}  \int_{-\infty}^{\infty} e^{-x^2} \, dx
-      </me>
-      are all improper because they have limits of integration that involve <m>\infty</m>.
-      To evaluate an improper integral we replace it with a limit of proper integrals.
-      That is,
-      <me permid="aTE">
-        \int_0^\infty f(x) \, dx = \lim_{b \to \infty} \int_0^b f(x) \,dx
-      </me>.
-    </p>
-
-    <p permid="Uuy">
-      We first attempt to evaluate
-      <m>\int_0^b f(x) \,dx</m> using the <xref ref="sec-4-4-FTC" >First Fundamental Theorem of Calculus </xref>, and then evaluate the limit.
-      Is it even possible for the area of an unbounded region to be finite?
-      The following example explores this issue and others in more detail.
-    </p>
+    
+    
+    
 
 <example xml:id="act-6-5-1" permid="EwY">
   <statement>
@@ -838,6 +879,31 @@
     </p>
   </solution>
 </example>
+
+<assemblage>
+<title> Strategies: When the interval of integration is unbounded </title>
+<p>
+          <ol label="a.">
+            <li>
+              <p> To evaluate the improper integral <m>\int_a^{\infty} f(x) \, dx</m>, use a new variable <m> b </m> for the upper bound of integration and let <m> b \to \infty </m>. In other words, find the definite integral <m> \int_a^b f(x) \, dx </m> then take the limit as <m> b \to \infty </m>:  
+              <me> \int_a^{\infty} f(x) \, dx= \lim_{b \to \infty} \int_a^b f(x) \, dx</me>.
+              </p>
+            </li>
+            <li>
+              <p> To evaluate the improper integral <m>\int_{-\infty}^{b} f(x) \, dx</m>, use a new variable <m> a </m> for the lower bound of integration and let <m> a \to -\infty </m>. In other words, find the definite integral <m> \int_a^b f(x) \, dx </m> then take the limit as <m> a \to -\infty </m>:  
+              <me> \int_{-\infty}^{b} f(x) \, dx= \lim_{a \to -\infty} \int_a^b f(x) \, dx</me>.
+              </p>
+            </li>
+            <li>
+              <p> To evaluate the improper integral <m>\int_{-\infty}^{\infty} f(x) \, dx</m>, use a new variables <m> a </m>, <m> b </m>, and <m> c </m>. The variable <m> a </m> will represent the lower bound tending towards <m> -\infty </m>. The variable <m> b </m> will represent the upper bound tending towards <m> \infty </m>. The variable <m> c </m> will represent any real number. Find the definite integral <m> \int_a^c f(x) \, dx </m> then take the limit as <m> a \to -\infty </m>, and find the definite integral <m> \int_c^b f(x) \, dx </m> then take the limit as <m> b \to \infty </m>:  
+              <me> \int_{-\infty}^{\infty} f(x) \, dx= \lim_{a \to -\infty} \int_a^c f(x) \, dx + \lim_{b \to \infty} \int_c^b f(x) \, dx </me>.
+              </p>
+            </li>
+          </ol>
+
+</p>
+</assemblage>
+
   </subsection>
 
   <subsection permid="wXh">
@@ -930,47 +996,12 @@
       we can conclude that that the original integral,
       <m>\int_1^3 \frac{1}{(x-2)^2} \, dx</m> diverges, too.
     </p>
-<assemblage>
-  <title>Types of Improper Integrals and Strategies to Evaluate Them</title>
-  <p>
-    There are two main classes of improper integrals: 
-    <ol label="1."> 
-      <li>
-        <p> Integrals can be improper because one limit is infinite or both limits are infinite, and</p>
-      </li>
-      <li>
-        <p> Integrals can be improper because the integrand is unbounded on the interval of integration.</p>
-      </li>
-    </ol> 
-    Introducing new variables to represent a bound of integration in combination with a limit allows us to still evaluate improper integrals. First, find the antiderivative with a placeholder variable then take the appropriate limit. We'll always take these steps in that order. Below is a summary of how to pick the placeholder variables and how to set up the appropriate limits. 
-  </p>
 
-  <p> In all cases, we say that the improper integral <term> converges </term> if the limit exists, otherwise, we say the improper integral <term> diverges </term>. 
-    <ol lable="1.">
-      <li>
-        <p>Integrals can be improper because one limit is infinite or both limits are infinite. 
+      
+  <assemblage>
+  <title> Strategies: When the integrand is unbounded on the interval of integration</title>    
+        <p> 
           <ol label="a.">
-            <li>
-              <p> To evaluate the improper integral <m>\int_a^{\infty} f(x) \, dx</m>, use a new variable <m> b </m> for the upper bound of integration and let <m> b \to \infty </m>. In other words, find the definite integral <m> \int_a^b f(x) \, dx </m> then take the limit as <m> b \to \infty </m>:  
-              <me> \int_a^{\infty} f(x) \, dx= \lim_{b \to \infty} \int_a^b f(x) \, dx</me>.
-              </p>
-            </li>
-            <li>
-              <p> To evaluate the improper integral <m>\int_{-\infty}^{b} f(x) \, dx</m>, use a new variable <m> a </m> for the lower bound of integration and let <m> a \to -\infty </m>. In other words, find the definite integral <m> \int_a^b f(x) \, dx </m> then take the limit as <m> a \to -\infty </m>:  
-              <me> \int_{-\infty}^{b} f(x) \, dx= \lim_{a \to -\infty} \int_a^b f(x) \, dx</me>.
-              </p>
-            </li>
-            <li>
-              <p> To evaluate the improper integral <m>\int_{-\infty}^{\infty} f(x) \, dx</m>, use a new variables <m> a </m>, <m> b </m>, and <m> c </m>. The variable <m> a </m> will represent the lower bound tending towards <m> -\infty </m>. The variable <m> b </m> will represent the upper bound tending towards <m> \infty </m>. The variable <m> c </m> will represent any real number. Find the definite integral <m> \int_a^c f(x) \, dx </m> then take the limit as <m> a \to -\infty </m>, and find the definite integral <m> \int_c^b f(x) \, dx </m> then take the limit as <m> b \to \infty </m>:  
-              <me> \int_{-\infty}^{\infty} f(x) \, dx= \lim_{a \to -\infty} \int_a^c f(x) \, dx + \lim_{b \to \infty} \int_c^b f(x) \, dx </me>.
-              </p>
-            </li>
-          </ol>
-        </p>
-      </li>
-      <li>
-        <p> Integrals can be improper because the integrand is unbounded on the interval of integration.
-          <ol lable="a.">
             <li>
               <p> If <m> f(x) </m> is unbounded at <m> x=a </m>, then <m> \int_a^b f(x) \, dx </m> is an improper integral. To evaluate the improper integral <m>\int_a^b f(x) \, dx </m>, use a new variable <m> d </m> for the lower bound of integration and let <m> d \to a^{+} </m> (<m> d </m> approaches <m> a </m> from the right). Find the definite integral <m>\int_d^b f(x) \, dx</m> then take the limit <m>d \to a^+</m>: 
                 <me>\int_a^b f(x) \, dx= \lim_{d \to a^+} \int_d^b f(x) \, dx</me>
@@ -988,10 +1019,11 @@
             </li>
           </ol>
         </p>
-      </li>
-    </ol>
-  </p>
+      
+ 
 </assemblage>
+
+
 <example xml:id="act-6-5-3" permid="IZN">
   <statement>
     <p permid="LUt">
@@ -1196,6 +1228,21 @@
     </p>
   </solution>
 </example>
+
+
+
+  <assemblage>
+  <title> Important integrals </title>
+  <p> Add convergence results for <m> \int_1^{\infty} \frac{1}{x^p} \ dx </m>, and <m> \int_0^{1} \frac{1}{x^p} \ dx </m>, and <m> \int_0^{\infty} \frac{1}{e^{ax}} \ dx </m>
+  </p>
+  
+  <p> Perhaps put the derivation of the first and third one in the infinite interval subsection as an example. Perhaps put the middle one in the unbounded integrand section. OR, make a new third subsection called "Important classes of improper integrals" and derive all three there. the n refer to that section in the comparison section.  Whatever you think!</p>
+</assemblage>
+
+
+
+
+
   </subsection>
   
   
@@ -1396,7 +1443,7 @@
   
   
   
-  
+
   
   
   
