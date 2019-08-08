@@ -552,7 +552,7 @@
     </p>
   </assemblage>
   <p>
-    First, let's look at the substitution <m> x=a\sin(\theta) </m> where <m>-\frac{\pi}{2}\leq \theta \leq \frac{\pi}{2}</m> <fn> <xref ref="E-TS-1"> Example </xref> will show why we need these bounds on <m> \theta </m> </fn> and <m> a </m> is a real number and see how it can be used to find the antiderivative of <m> \frac{1}{\sqrt{1-x^2}} </m>. 
+    First, let's look at the substitution <m> x=\sin(\theta) </m> where <m>-\frac{\pi}{2}\leq \theta \leq \frac{\pi}{2}</m> <fn> <xref ref="E-TS-1"> Example </xref> will show why we need these bounds on <m> \theta </m> </fn> to see how it can be used to find the antiderivative of <m> \frac{1}{\sqrt{1-x^2}} </m>. 
     <example xml:id="E-TS-1">
       <p> 
         Use the substitution <m>x=\sin(\theta) </m> where <m>-\frac{\pi}{2} \leq \theta \leq \frac{\pi}{2} </m> to find the general antiderivative 
@@ -576,7 +576,7 @@
         <me> \int\frac{1}{\sqrt{1-x^2}} \, dx= \arcsin(x) + C </me>
       </p>
     </example> 
-    From now on, we'll usually omit the explanation that <m> \sqrt{\cos^2(\theta)}=|\cos(\theta)|=\cos(\theta)</m> since we additionally assume that <m> -\frac{\pi}{2} \leq \theta \leq \frac{\pi}{2} </m> in order to force <m> \cos(\theta) \geq 0 </m>. It is still incredibly important so that the calculation of the antiderivative is seamless, but since we always assume that <m> -\frac{\pi}{2} \leq \theta \frac{\pi}{2} </m> the same reasoning always applies. 
+    From now on, we'll usually omit the explanation that <m> \sqrt{\cos^2(\theta)}=|\cos(\theta)|=\cos(\theta)</m> since we additionally assume that <m> -\frac{\pi}{2} \leq \theta \leq \frac{\pi}{2} </m> in order to force <m> \cos(\theta) \geq 0 </m>. It is still incredibly important so that the calculation of the antiderivative is seamless, but since we always assume that <m> -\frac{\pi}{2} \leq \theta \leq \frac{\pi}{2} </m> the same reasoning always applies. 
   </p>
   <p>
     The style of substitution that was demonstrated in the previous example can be extended to help find more algebraic antiderivatives especially when the integrand contains <m> a^2-u^2 </m> where <m> a </m> is a real number and <m> u </m> is a variable. The changes that will be made to the substitution are necessary so that Pythagorean's Identity can still be applied. The following examples will explore exactly what alterations should be made to the substitution <m> x=\sin(\theta) </m>.
@@ -708,25 +708,128 @@
             <mrow> \amp =\int \frac{1}{\cos^2(\theta)} \, d\theta </mrow>
             <mrow> \amp = \tan(\theta) + C</mrow>
           </md>
+          When we solve for <m> \theta </m> and replace it with a function of <m> x </m>, we obtain 
+          <me> \int \frac{9}{(9-x^2)^{3/2}} \, dx = \tan(\arcsin(x/3)) + C </me>. In other words, the general antiderivative is <q> the tangent of the angle whose sine is <m> \frac{x}{3} </m></q>. To simplify this expression, we can look at a right triangle that has <m> \theta </m> as one of its angles and use some trigonometry. Since <m> \sin(\theta) = \frac{x}{3} </m>, we'll assume that the hypotenuse has length 3 and the side opposite the angle <m> \theta </m> has length <m> x </m>. The missing side length is found by using Pythagorean's Theorem. Then using this right triangle, we find that <m> \tan(\theta)=\frac{x}{\sqrt{9-x^2}} </m>.
+          Therefore, 
+          <me> \int \frac{9}{(9-x^2)^{3/2}} \, dx = \frac{x}{\sqrt{9-x^2}} + C </me>
+
+          <figure> 
+            <caption>A right triangle corresponding to <m> \sin(\theta)=\frac{x}{3}</m> </caption>
+            <image width="33%" source="images/5_7_TS_1.jpg"/>
+          </figure>
+
         </p>
       </solution>      
     </example>  
 
   </p>
   
-  <assemblage>  
-    <p>Blue box item: summarize when and how to use this substitution </p>
+  <assemblage> <title>Trigonometric Substitution: <m> u=a\sin(\theta) </m></title> 
+    <p>
+      The substitution <m> u=a\sin(\theta) </m> where <m> u </m> is some function of <m> x </m>, <m> a </m> is a real number, and <m>-\frac{\pi}{2} \leq \theta \leq \frac{\pi}{2} </m> is often helpful when the integrand contains an expression of the form <m> a^2-u^2 </m>. When this substitution is used, then <m> u^2=a^2\sin^2(\theta)</m> and after factoring out <m> a^2 </m>, Pythagorean's Identity <fn><m>1-\sin^2(\theta)=\cos^2(\theta) </m> </fn> can be used to simplify part of the integrand: 
+      <me> a^2-u^2=a^2-a^2\sin^2(\theta)=a^2(1-\sin^2(\theta))=a^2\cos^2(\theta) </me>.
+    </p>
   </assemblage>
 
   <p>
-    For <m> x=a\tan(\theta) </m>, 
-    -derive <m> \arctan(x) </m> rule
-    -example with <m> \frac{1}{a^2+x^2} </m>
-    -example with <m> \frac{1}{a^2+u^2} </m> and <m> u=bx </m> and another with <m> u=x-c </m>
-    -example that requires substituting for <m> \theta </m> back to <m> x </m> in the answer
+    Another important trigonometric substitution is <m> x=\tan(\theta) </m> where <m>-\frac{\pi}{2} &lt; \theta &lt; \frac{\pi}{2}</m>. This substitution can be used to show that <m> \int \frac{1}{1+x^2} \, dx= \arctan(x) + C </m>.
+
+    <example>
+        <p>
+          Use the trigonometric substitution <m> x=\tan(\theta) </m> to find the antiderivative
+          <me>\int \frac{1}{1+x^2} \, dx </me>.
+        </p>
+        <p>
+          Insert the solution into this paragraph.
+        </p>
+    </example>
+
+    <example>
+      <statement>
+        <p>
+          Use a trigonometric substitution to find the antiderivative 
+          <me>\int \frac{1}{16 + x^2} \, dx </me>.
+        </p>
+      </statement>
+      <hint>
+        <p>
+          
+        </p>
+      </hint>
+      <answer>
+        <p>
+          
+        </p>
+      </answer>
+      <solution>
+        <p>
+          
+        </p>
+      </solution>
+    </example>
+
+    <example>
+      <ol lable="a.">
+        <li> 
+      <statement>
+        
+          <p>
+            Find the antiderivative of 
+            <me>\int \frac{1}{\sqrt{25+9x^2}} \, dx </me>
+          </p>
+      </statement>
+      <hint>
+        <p>
+          
+        </p>
+      </hint>
+      <answer>
+        <p>
+          
+        </p>
+      </answer>
+      <solution>
+        <p>
+          
+        </p>
+      </solution>
+      </li>
+      <li> 
+        Find the antiderivative of 
+        <me> \int \frac{1}{x^2+4x+13} \, dx</me>.
+      </li>  
+      </ol>
+    </example>
+
+    <example>
+      <statement>
+        <p>
+          Find the antiderivative of 
+          <me>\int \frac{1}{\sqrt{9x^2+1}} \, dx </me>.
+        </p>
+      </statement>
+      <hint>
+        <p>
+          
+        </p>
+      </hint>
+      <answer>
+        <p>
+          
+        </p>
+      </answer>
+      <solution>
+        <p>
+          
+        </p>
+      </solution>
+    </example>
   </p> 
-  <assemblage>
-   <p> Blue box item: summarize when and how to use this substitution </p>
+  <assemblage> <title>Trigonometric Substitution: <m> u=a\tan(\theta) </m></title> 
+    <p>
+      The substitution <m> u=a\tan(\theta) </m> where <m> u </m> is some function of <m> x </m>, <m> a </m> is a real number, and <m>-\frac{\pi}{2} &lt; \theta &lt; \frac{\pi}{2} </m> is often helpful when the integrand contains an expression of the form <m> a^2+u^2 </m>. When this substitution is used, then <m> u^2=a^2\tan^2(\theta)</m> and after factoring out <m> a^2 </m>, a modified Pythagorean's Identity <fn> <m>1+\tan^2(\theta)=\sec^2(\theta) </m></fn> can be used to simplify part of the integrand: 
+      <me> a^2+u^2=a^2+a^2\tan^2(\theta)=a^2(1+\tan^2(\theta))=a^2\sec^2(\theta) </me>.
+    </p>
   </assemblage>
   <p>
   Final example with no direction for which trig sub to use. (Throw in "THE" Gateway problem) 
