@@ -1119,6 +1119,200 @@
     </p>
   </solution>
 </example>
+
+<p>
+The same technique can be applied to parametric curves. For now consider a curve 
+<m>f(t)=(x(t), y(t))</m> travelling in just two dimensions (but see <xref ref="6-1-3D-Curve-Length">Example</xref> for curves in 3D).
+As before, the length of a small segment will be <m>\sqrt{(\Delta x)^2+(\Delta y)^2}</m>, but here we will factor out a factor of <m>\Delta t</m> to get:
+
+<me>
+L_{slice}\approx \sqrt{\left(\frac{\Delta x}{\Delta t} \right)^2+\left(\frac{\Delta y}{\Delta t} \right)^2} \cdot \Delta t
+</me>
+
+now, taking the limit as <m>\Delta t \rightarrow 0 </m>, <m>\frac{\Delta x}{\Delta t}</m> and
+<m>\frac{\Delta y}{\Delta t}</m> turn into <m>\frac{dx}{dt}</m> and <m>\frac{dy}{dt}</m>,
+so the length of the segment is <m> L=\int_{t=a}^{t=b} \sqrt{\left(\frac{dx}{dt}\right)^2+\left(\frac{dy}{dt}\right)^2}\, dt  </m>.
+
+</p>
+
+<assemblage>
+    <title> Arc Length for a Parametric Curve</title>
+      <p>
+        Given two differentiable functions <m>x(t), y(t)</m> on an interval 
+        <m>a \leq t \leq b</m>, the total arc length <m>L</m> along the parametric curve
+        <m>(x(t), y(t))</m> from <m>t = a</m> to <m>t = b</m> is given by
+        <me>
+          L=\int_{t=a}^{t=b} \sqrt{\left(\frac{dx}{dt}\right)^2+\left(\frac{dy}{dt}\right)^2} dt
+        </me>.
+      </p>
+</assemblage>
+
+
+<example>
+	<statement>
+	<p>
+		<ol label="a.">
+		<li>
+		<p>
+			Recall that the unit circle is traced out by the parametric equations <m>x(t)=\cos(t)</m>
+			and <m>y(t)=\sin(t)</m>. Set up and evaluate the arc length integral to find the circumference of the unit circle.
+		</p>
+		</li>
+		
+		<li>
+		<p>
+			An ellipse (a stretched circle) can be traced out by the parametric equations <m>x(t)=2\cos(t)</m>
+			and <m>y(t)=\sin(t)</m>. Set up the arc length integral to find the perimeter of this ellipse. 
+			You do not have to evaluate the integral.
+		</p>
+		</li>
+		
+		</ol>
+	</p>
+	</statement>
+	
+	<hint>
+	<p>
+		<ol label="a.">
+		<li>
+		<p>
+			Use the "Arc Length for a Parametric Curve" formula to set up the integral.
+			Recall also the Pythagorean Identity for trig functions: <m>\sin^2(t)+\cos^2(t)=1</m>.
+
+		</p>
+		</li>
+		
+		<li>
+		<p>
+			Use the "Arc Length for a Parametric Curve" formula to set up the integral.
+		</p>
+		</li>
+		
+		</ol>
+	</p>
+	</hint>
+	
+	<answer>
+	<p>
+		<ol label="a.">
+		<li>
+		<p>
+			<m>
+			L= \displaystyle \int_0^{2\pi}1 \, dt=2\pi
+			</m>
+		</p>
+		</li>
+		
+		<li>
+		<p>
+			<m> 
+			L= \int_0^{2\pi}\sqrt{(-2\sin(t)^2)+(\cos(t))^2} \, dt 
+			</m>
+			</p>
+		</li>
+		
+		</ol>
+	</p>
+	</answer>	
+	
+	<solution>
+	<p>
+		<ol label="a.">
+		<li>
+		<p>
+			Since <m> \frac{dx}{dt}= -\sin(t)</m> and <m> \frac{dy}{dt}= \cos(t)</m>, then
+			<me> 
+			L= \int_0^{2\pi}\sqrt{(-\sin(t)^2)+(\cos(t))^2} \, dt = \int_0^{2\pi}1 \, dt=2\pi
+			</me>
+		</p>
+		</li>
+		
+		<li>
+		<p>
+			Since <m> \frac{dx}{dt}= -2\sin(t)</m> and <m> \frac{dy}{dt}= \cos(t)</m>, then
+			<me> 
+			L= \int_0^{2\pi}\sqrt{(-2\sin(t)^2)+(\cos(t))^2} \, dt = \int_0^{2\pi}\sqrt{4\sin^2(t)+\cos^2(t)} \, dt
+			</me>
+			
+			We do not need to evaluate this integral, and in fact it is an example of an "elliptical integral of the second kind",
+			which are a famous class of integrals without elementary antiderivatives.
+		</p>
+		</li>
+		
+		</ol>
+	</p>
+	</solution>	
+	
+	
+</example>
+
+
+<example>
+<statement>
+<p>
+Alex drives to work, and their route is along a path given by <m>x(t)=t^3</m>, <m>y(t)=t^4+t</m>
+for <m>0 \leq t \leq 1</m>. How long is their route to work? (You may wish to use a calculator or computer to numerically evaluate the integral.)
+</p>
+</statement>
+
+<hint>
+<p>
+Set up the integral using the "Arc Length for a Parametric Curve" formula, then use a computer to evaluate the integral.
+</p>
+</hint>
+
+<answer>
+<p>
+<m> L \approx 2.266</m>
+</p>
+</answer>
+
+<solution>
+<p>
+Since <m> \frac{dx}{dt}= 3t^2</m> and <m> \frac{dy}{dt}= 4t^3+1</m>, then
+			<me> 
+			L= \int_0^{1}\sqrt{(3t^2)^2+(4t^3+1)^2} \, dt \approx 2.266
+			</me>
+</p>
+</solution>
+
+
+</example>
+
+
+
+<example xml:id="6-1-3D-Curve-Length">
+	<statement>
+		<p> 
+			Suppose that one has a parametric curve travelling through 3 dimensions given by <m>f(t)=(x(t), y(t), z(t))</m>. 
+			How would you change the "Arc Length for a Parametric Curve" formula to include the third dimension?
+		</p>
+	</statement>
+	
+	<hint>
+		<p>
+			Treat the <m>z</m>-coordinate the same way the <m>x</m>- and <m>y</m>-coordinates are treated.
+		</p>
+	</hint>
+	
+	<answer>
+		<m>\displaystyle L=\int_{t=a}^{t=b} \sqrt{\left(\frac{dx}{dt}\right)^2+\left(\frac{dy}{dt}\right)^2+\left(\frac{dz}{dt}\right)^2} dt </m>
+	</answer>
+	
+	<solution>
+		<p>
+			The length of a 3D line segment is given by <m>\sqrt{(\Delta x)^2+(\Delta y)^2+(\Delta z)^2}</m>,
+			so factoring out a factor of <m>\Delta t</m> and taking the limit as <m>\Delta t \rightarrow 0</m>,
+			we get 
+				<me>
+				L=\int_{t=a}^{t=b} \sqrt{\left(\frac{dx}{dt}\right)^2+\left(\frac{dy}{dt}\right)^2+\left(\frac{dz}{dt}\right)^2} dt 
+				</me>
+		</p>
+	</solution>
+
+
+</example>
+
   </subsection>
 
   <subsection permid="fDk">
