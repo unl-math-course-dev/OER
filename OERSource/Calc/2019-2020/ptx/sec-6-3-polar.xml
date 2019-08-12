@@ -21,13 +21,13 @@
           How can we compute the area of a sector bounded by a curve?
         </p>
       </li>
-
+      
       <li permid="nKz">
         <p permid="YBB">
           How can we find the area between two curves?
         </p>
       </li>
-
+      
       <li permid="TRI">
         <p permid="EIK">
           How can we compute slope and arc length in polar coordinates?
@@ -35,16 +35,18 @@
       </li>
     </ul>
   </objectives>
-
+  
+  
+  
   <introduction permid="PhP">
     <p permid="JsD">
-       Any point <m> P = (x,y) </m> on the Cartesian plane can be represented in polar coordinates using its distance from the origin point <m> (0,0) </m> and the angle formed from the positive <m>x</m>-axis counterclockwise to the point. Sometimes this representation provides a more useful way of describing the point's location, or all of the points along a curve, than conventional Cartesian coordinates.
+      Any point <m> P = (x,y) </m> on the Cartesian plane can be represented in polar coordinates using its distance from the origin point <m> (0,0) </m> and the angle formed from the positive <m>x</m>-axis counterclockwise to the point. Sometimes this representation provides a more useful way of describing the point's location, or all of the points along a curve, than conventional Cartesian coordinates.
     </p>
     
     <p> Representing curves in polar coordinates, we can ask the same questions such as <q> What is the area under the curve? </q> and <q> How long is the curve? </q>. In this section we learn how the definite integral may be used to find answers to these questions. </p>
     
-      </introduction>
-
+  </introduction>
+  
   <subsection permid="FOd">
     <title>A Review of Polar Coordinates</title>
     <idx><h>polarcoordinates</h></idx>
@@ -52,272 +54,357 @@
     
     
     <assemblage>
-    <title> Polar coordinates </title>
-    <p>
+      <title> Polar coordinates </title>
+      <p>
         The <term>polar coordinates</term><idx>polar coordinates</idx> of a point consist of an ordered pair, <m>(r,\theta)</m>, where <m>r</m> is the distance from the point to the origin and <m>\theta</m> is the angle measured in standard position. </p>
-</assemblage>
-
-<p>
-    Notice that if we were to <q> grid </q> the plane for polar coordinates, it would look like the graph below, with circles at incremental radii and rays drawn at incremental angles. </p>
-
-<sidebyside width='75%'>
-	<image source="images/imagesChap15/polargrid.png"><description>polar grid</description></image></sidebyside>
+    </assemblage>
     
-    
-
-  <p>
-	To convert between polar coordinates and Cartesian coordinates, we can use known trigonometric relationships. </p>
-
-<assemblage>
-<title> Converting between polar and Cartesian </title>
     <p>
+      Notice that if we were to <q> grid </q> the plane for polar coordinates, it would look like the graph below, with circles at incremental radii and rays drawn at incremental angles. </p>
+    
+    <sidebyside width='75%'>
+      <image source="images/imagesChap15/polargrid.png"><description>polar grid</description></image></sidebyside>
+    
+    
+    
+    <p>
+      To convert between polar coordinates and Cartesian coordinates, we can use known trigonometric relationships. </p>
+    
+    <assemblage>
+      <title> Converting between polar and Cartesian </title>
+      <p>
         To convert between polar <m>(r,\theta)</m> and Cartesian <m>(x,y)</m> coordinates, we can use the following relationships </p>
-    <sidebyside widths='50% 40%'>
-    <paragraphs>
+      <sidebyside widths='50% 40%'>
+        <paragraphs>
+          <p>
+            <p> </p>
+            <md>
+              <mrow> \cos(\theta)\amp=\frac{x}{r} \hspace{.6in} x=r\cos(\theta) </mrow>
+              <mrow></mrow>
+              <mrow> \sin(\theta)\amp=\frac{y}{r} \hspace{.6in} y=r\sin(\theta) </mrow>
+              <mrow></mrow>
+              <mrow> \tan(\theta)\amp=\frac{y}{x} \hspace{.6in} x^2+y^2=r^2 </mrow> </md> </p> 
+        </paragraphs>
+        <image source="images/imagesChap15/xyrtheta.png"><description>triangle with (x,y) coordinates and (r,theta) labeled </description></image></sidebyside>
+    </assemblage>
+    
     <p>
+      From these relationships and our knowledge of the unit circle, if <m>r=1</m> and <m>\theta=\pi/3</m>, the polar coordinates would be
+      <me>(r,\theta)=\left(1,\frac{\pi}{3}\right)</me> and the corresponding Cartesian coordinates would be <me>(x,y)=\left(\frac{1}{2},\frac{\sqrt{3}}{2}\right)</me> </p>
+    
     <p> </p>
-    <md>
-        <mrow> \cos(\theta)\amp=\frac{x}{r} \hspace{.6in} x=r\cos(\theta) </mrow>
-        <mrow></mrow>
-        <mrow> \sin(\theta)\amp=\frac{y}{r} \hspace{.6in} y=r\sin(\theta) </mrow>
-        <mrow></mrow>
-        <mrow> \tan(\theta)\amp=\frac{y}{x} \hspace{.6in} x^2+y^2=r^2 </mrow> </md> </p> 
-    </paragraphs>
-			<image source="images/imagesChap15/xyrtheta.png"><description>triangle with (x,y) coordinates and (r,theta) labeled </description></image></sidebyside>
-</assemblage>
-
-<p>
-    From these relationships and our knowledge of the unit circle, if <m>r=1</m> and <m>\theta=\pi/3</m>, the polar coordinates would be
-    		<me>(r,\theta)=\left(1,\frac{\pi}{3}\right)</me> and the corresponding Cartesian coordinates would be <me>(x,y)=\left(\frac{1}{2},\frac{\sqrt{3}}{2}\right)</me> </p>
-
-<p> </p>
-
-<sidebyside width='75%'>
-    	<image source="images/imagesChap15/r1Example.png"><description>graph with (r,theta)=(1,\pi/3) labeled</description></image></sidebyside>
-
-<note>
-    <p> Remembering your unit circle values will come in very handy as you convert between Cartesian and polar coordinates. </p> </note>
-
-<example>
-    <statement>
-        <p>
-            Find the Cartesian coordinates of a point with the polar coordinates <me>(r,\theta)=\left(5,\frac{2\pi}{3}\right)</me> </p> </statement>
-    <solution>
-    	<p>
-    		Using the above relationships, the <m>x</m> and <m>y</m> coordinates of the point are
-    		<md>
-    		<mrow> x \amp= r\cos(\theta) = 5\cos\left(\frac{2\pi}{3}\right)=5\left(-\frac{1}{2}\right)=-\frac{5}{2}</mrow>
-    		<mrow></mrow>
-    		<mrow> y \amp= r\sin(\theta) = 5\sin\left(\frac{2\pi}{3}\right)=5\left(\frac{\sqrt{3}}{2}\right)=\frac{5\sqrt{3}}{2}</mrow></md></p>
-    	<p>
-    		Thus, the Cartesian coordinates are
-    		<me> (x,y)=\left(-\frac{5}{2},\frac{5\sqrt{3}}{2}\right)</me></p>
-    	<p>		
-    		Note that since <m>2\pi/3</m> is a common angle on the unit circle, we can find the <term>exact</term> Cartesian coordinates rather than using a calculator to find approximate values for <m>x</m> and <m>y</m>. </p> 
-    	<sidebyside width='85%'>
-    			<image source="images/imagesChap15/r5example.png"><description>graph with (r,theta)=(5,2pi/3)</description></image></sidebyside>
-    </solution>
-</example>
-
-<example>
-    <statement>
-        <p>
-            Find the Cartesian coordinates of a point with the polar coordinates <me>(r, \theta)=(2, \, 4.3)</me> </p> </statement>
-    <solution>
-    	<p>
-    		Using the above relationships, the <m>x</m> and <m>y</m> coordinates of the point are
-    		<me>x=r\cos(\theta)=2\cos(4.3) \hspace{.25in} \text{ and } \hspace{.25in} y=r\sin(\theta)=2\sin(4.3)</me>
-    		Since <m>\theta=4.3</m> radians is not a common angle on the unit circle, we need to use our calculators to find approximate values for <m>x</m> and <m>y</m>. Using our calculators, we get
-    		<md>
-    		<mrow> x \amp= 2\cos(4.3) \approx -0.8016</mrow>
-    		<mrow></mrow>
-    		<mrow> y \amp= 2\sin(4.3) \approx -1.8323</mrow></md></p>
-    	<p>
-    		Thus, the Cartesian coordinates are
-    		<me> (x,y)\approx(-0.8016, -1.8323)</me></p> 
-    	<sidebyside width='75%'>
-    			<image source="images/imagesChap15/xy4.3radians.png"><description>graph with (r,theta)=(2,4.3)</description></image></sidebyside>
-    </solution>
-</example>
-
-<example>
-    <statement>
-        <p>
-            Find the polar coordinates of a point with the Cartesian coordinates <me>(x,y)=(3,-4)</me> </p>
-    </statement>
-    <solution>
-    	<p>
-    		Let's start by plotting the point <m>(x,y)=(3,-4)</m> on a graph and using the Pythagorean theorem to find the corresponding radius of the point. We get that </p>
-    	<sidebyside widths='45% 45%'>
-    		<p>
-        	<md>
-        	<mrow> r^2 \amp= x^2 + y^2 </mrow>
-        	<mrow></mrow>
-        	<mrow> r^2 \amp= 3^2 + (-4)^2 </mrow>
-    		<mrow></mrow>
-        	<mrow> r^2 \amp= 9 + 16 </mrow>
-        	<mrow></mrow>
-        	<mrow> r^2 \amp= 25 </mrow>
-        	<mrow></mrow>
-        	<mrow> r \amp= 5 </mrow> </md></p>
-        	<image source="images/imagesChap15/xy3neg4Example.png"><description>graph with (x,y)=(3,-4)</description></image></sidebyside>
-    	<p>
-    		Now that we know the radius, we can find the angle using any of the three trigonometric relationships. Keep in mind that there may be more than one solution when solving for <m>\theta</m> and we will need to consider the quadrant that our <m>(x,y)</m> point is in to decide which solution to use. </p>
-    	<p>
-    		Using the cosine function, we get that
-    		<me> \cos(\theta) = \frac{x}{r} = \frac{3}{5} = 0.6 </me>
-    		Since this cosine value does not correspond to a common angle on the unit circle, we must use the inverse cosine function to solve for <m>\theta</m>, which gives us
-    		<me> \theta = \cos^{-1}(0.6) \approx 0.927 \text{ radians}</me></p>
-    	<p>
-    		Since <m>0.927</m> is greater than 0 and less than <m>\pi/2 \approx 1.571</m>, we know that <m>\theta=0.927</m> lies in Quadrant I. Since the point <m>(x,y)=(3,-4)</m> is located in Quadrant IV, we must find the other angle on the unit circle with <m>\cos(\theta) = 0.6</m> </p>
-    	<sidebyside width='75%'>
-    		<image source="images/imagesChap15/cos6Example1.png"><description>unit circle with cos(\theta)=0.6 one angle shown and labeled </description></image></sidebyside>
-    	<p>
-    		We can use the symmetry of the unit circle to find this second angle. By symmetry, the magnitudes of the two angles shown below are equal. Thus, <m>\theta=-0.927</m> is another angle that satisfies <m>\cos(\theta) = 0.6</m> </p>
-    	<sidebyside width='75%'>
-    		<image source="images/imagesChap15/cos6Example2.png"><description>unit circle with cos(\theta)=0.6 two angles shown and labeled </description></image></sidebyside>
-    	<p>		
-    		Therefore, the polar coordinates of the point are
-    		<me>(r,\theta)=(5, -0.927)</me> </p>
-    	<sidebyside width='75%'>
-    		<image source="images/imagesChap15/xy3neg4Example2.png"><description>graph with (x,y)=(3,-4)</description></image></sidebyside>
-    </solution>
-</example>
-
-<example>
-    <statement>
-        <p>
-            Find the polar coordinates of a point with the Cartesian coordinates <me>(x,y)=\left(-4\sqrt{2},4\sqrt{2}\right)</me> </p>
-    </statement>
-    <solution>
-    	<p>
-    		Let's start by plotting the point <m>(x,y)=(-4\sqrt{2},4\sqrt{2})</m> on a graph and using the Pythagorean theorem to find the corresponding radius of the point. We get that </p>
-    		<sidebyside widths='45% 50%'>
-    		<p>
-    		<md>
-        	<mrow> r^2 \amp= x^2 + y^2 </mrow>
-        	<mrow></mrow>
-        	<mrow> r^2 \amp= (-4\sqrt{2})^2 + (4\sqrt{2})^2 </mrow>
-    		<mrow></mrow>
-        	<mrow> r^2 \amp= 32 + 32 </mrow>
-        	<mrow></mrow>
-        	<mrow> r^2 \amp= 64 </mrow>
-        	<mrow></mrow>
-        	<mrow> r \amp= 8 </mrow> </md></p>
-        	<image source="images/imagesChap15/xy4sqrt2Example.png"><description>graph with (x,y)=(-4sqrt{2},4sqrt{2})</description></image></sidebyside>
-    	<p>
-    		Now that we know the radius, we can find the angle using any of the three trigonometric relationships. Keep in mind that there may be more than one solution when solving for <m>\theta</m> and we will need to consider the quadrant that our <m>(x,y)</m> point is in to decide which solution to use. </p>
-    	<p>
-    		Using the sine function, we get that
-    		<me> \sin(\theta) = \frac{y}{r} = \frac{4\sqrt{2}}{8}=\frac{\sqrt{2}}{2}</me></p>
-    	<p>
-    		Since <m>y=\sqrt{2}/2</m> corresponds to a common angle on the unit circle, we can find an exact angle. The two angles that have a sine value of <m>\sqrt{2}\2</m> on the unit circle are
-    		<me>\theta=\frac{\pi}{4} \hspace{.25in} \text{ and } \hspace{.25in} \theta=\frac{3\pi}{4}</me> </p>
-    	<p>
-    		Since the point <m>(x,y)=(-4\sqrt{2},4\sqrt{2})</m> is located in Quadrant II, we can determine that <m>\theta=3\pi/4</m>. Thus, the polar coordinates are
-    		<me>(r,\theta)=\left(8, \frac{3\pi}{4}\right)</me> </p>
-    		<sidebyside width='75%'>
-    		<image source="images/imagesChap15/xy4sqrt2Example2.png"><description>graph with (x,y)=(-4sqrt{2},4sqrt{2})</description></image></sidebyside>
-    </solution>
-</example>
-
-    </subsection>
     
+    <sidebyside width='75%'>
+      <image source="images/imagesChap15/r1Example.png"><description>graph with (r,theta)=(1,\pi/3) labeled</description></image></sidebyside>
     
-    <subsection>
-    <title> Examples of Graphs in Polar Coordinates </title>
-    <p> Any equation written in Cartesian coordinates can be converted to one in polar coordinates and vice-versa. In practice, it makes sense to use the representation that is most natural for the application, or simpler to express. For example, the unit circle of radius 1 about the origin may be expressed in Cartesian coordinates using the equation <me> x^2 + y^2 = 1. </me>
-    Since the points on the circle are precisely those points at distance <m> r </m> from the origin, in polar coordinates the equation may be written as <me> r = 1. </me> </p>
-    
-<p> Algebraically, we can see that this is correct by substituting <m> x = r \cos(\theta) </m> and <m> y = r \sin(\theta) </m> into the original equation to obtain <me> x^2 + y^2 = 1 </me>
-<me> r^2 \cos^2(\theta) + r^2 \sin^2(\theta) = 1 </me>
-<me> r^2( \cos^2(\theta) + \sin^2(\theta) ) = 1 </me>
-Using the trig identity <m> \cos^2(\theta) + \sin^2(\theta) =1 </m>, this becomes
-<me> r^2 = 1 </me>
-So, <m> r = 1. </m> 
-</p>
-    
- <p>   We now look at some special families of graphs in polar coordinates. </p>
+    <note>
+      <p> Remembering your unit circle values will come in very handy as you convert between Cartesian and polar coordinates. </p> </note>
     
     <example>
-    <p> One interesting family of graphs in polar coordinates are the <em> rose graphs </em>. These are curves of the form <me> r = a \cos (n \theta) </me>  or <me>    r = a \sin (n \theta), </me>
-    where <m> n </m> is a positive integer and <m> a \gt 0 </m>.
-    
-    </p>
+      <statement>
+        <p>
+          Find the Cartesian coordinates of a point with the polar coordinates <me>(r,\theta)=\left(5,\frac{2\pi}{3}\right)</me> </p> </statement>
+      <solution>
+        <p>
+          Using the above relationships, the <m>x</m> and <m>y</m> coordinates of the point are
+          <md>
+            <mrow> x \amp= r\cos(\theta) = 5\cos\left(\frac{2\pi}{3}\right)=5\left(-\frac{1}{2}\right)=-\frac{5}{2}</mrow>
+            <mrow></mrow>
+            <mrow> y \amp= r\sin(\theta) = 5\sin\left(\frac{2\pi}{3}\right)=5\left(\frac{\sqrt{3}}{2}\right)=\frac{5\sqrt{3}}{2}</mrow></md></p>
+        <p>
+          Thus, the Cartesian coordinates are
+          <me> (x,y)=\left(-\frac{5}{2},\frac{5\sqrt{3}}{2}\right)</me></p>
+        <p>		
+          Note that since <m>2\pi/3</m> is a common angle on the unit circle, we can find the <term>exact</term> Cartesian coordinates rather than using a calculator to find approximate values for <m>x</m> and <m>y</m>. </p> 
+        <sidebyside width='85%'>
+          <image source="images/imagesChap15/r5example.png"><description>graph with (r,theta)=(5,2pi/3)</description></image></sidebyside>
+      </solution>
     </example>
     
-        <example>
-    <p> Another noteworthy graph is the <em>Archimedean spiral </em>. This curve has the equation <me> r =  \theta </me> and is pictured below. The general class of spirals is given by the expression <me> r = a + b\theta </me> where <m> a \gt 0 </m>.
-   
-    
-    </p>
+    <example>
+      <statement>
+        <p>
+          Find the Cartesian coordinates of a point with the polar coordinates <me>(r, \theta)=(2, \, 4.3)</me> </p> </statement>
+      <solution>
+        <p>
+          Using the above relationships, the <m>x</m> and <m>y</m> coordinates of the point are
+          <me>x=r\cos(\theta)=2\cos(4.3) \hspace{.25in} \text{ and } \hspace{.25in} y=r\sin(\theta)=2\sin(4.3)</me>
+          Since <m>\theta=4.3</m> radians is not a common angle on the unit circle, we need to use our calculators to find approximate values for <m>x</m> and <m>y</m>. Using our calculators, we get
+          <md>
+            <mrow> x \amp= 2\cos(4.3) \approx -0.8016</mrow>
+            <mrow></mrow>
+            <mrow> y \amp= 2\sin(4.3) \approx -1.8323</mrow></md></p>
+        <p>
+          Thus, the Cartesian coordinates are
+          <me> (x,y)\approx(-0.8016, -1.8323)</me></p> 
+        <sidebyside width='75%'>
+          <image source="images/imagesChap15/xy4.3radians.png"><description>graph with (r,theta)=(2,4.3)</description></image></sidebyside>
+      </solution>
     </example>
     
-    </subsection>
+    <example>
+      <statement>
+        <p>
+          Find the polar coordinates of a point with the Cartesian coordinates <me>(x,y)=(3,-4)</me> </p>
+      </statement>
+      <solution>
+        <p>
+          Let's start by plotting the point <m>(x,y)=(3,-4)</m> on a graph and using the Pythagorean theorem to find the corresponding radius of the point. We get that </p>
+        <sidebyside widths='45% 45%'>
+          <p>
+            <md>
+              <mrow> r^2 \amp= x^2 + y^2 </mrow>
+              <mrow></mrow>
+              <mrow> r^2 \amp= 3^2 + (-4)^2 </mrow>
+              <mrow></mrow>
+              <mrow> r^2 \amp= 9 + 16 </mrow>
+              <mrow></mrow>
+              <mrow> r^2 \amp= 25 </mrow>
+              <mrow></mrow>
+              <mrow> r \amp= 5 </mrow> </md></p>
+          <image source="images/imagesChap15/xy3neg4Example.png"><description>graph with (x,y)=(3,-4)</description></image></sidebyside>
+        <p>
+          Now that we know the radius, we can find the angle using any of the three trigonometric relationships. Keep in mind that there may be more than one solution when solving for <m>\theta</m> and we will need to consider the quadrant that our <m>(x,y)</m> point is in to decide which solution to use. </p>
+        <p>
+          Using the cosine function, we get that
+          <me> \cos(\theta) = \frac{x}{r} = \frac{3}{5} = 0.6 </me>
+          Since this cosine value does not correspond to a common angle on the unit circle, we must use the inverse cosine function to solve for <m>\theta</m>, which gives us
+          <me> \theta = \cos^{-1}(0.6) \approx 0.927 \text{ radians}</me></p>
+        <p>
+          Since <m>0.927</m> is greater than 0 and less than <m>\pi/2 \approx 1.571</m>, we know that <m>\theta=0.927</m> lies in Quadrant I. Since the point <m>(x,y)=(3,-4)</m> is located in Quadrant IV, we must find the other angle on the unit circle with <m>\cos(\theta) = 0.6</m> </p>
+        <sidebyside width='75%'>
+          <image source="images/imagesChap15/cos6Example1.png"><description>unit circle with cos(\theta)=0.6 one angle shown and labeled </description></image></sidebyside>
+        <p>
+          We can use the symmetry of the unit circle to find this second angle. By symmetry, the magnitudes of the two angles shown below are equal. Thus, <m>\theta=-0.927</m> is another angle that satisfies <m>\cos(\theta) = 0.6</m> </p>
+        <sidebyside width='75%'>
+          <image source="images/imagesChap15/cos6Example2.png"><description>unit circle with cos(\theta)=0.6 two angles shown and labeled </description></image></sidebyside>
+        <p>		
+          Therefore, the polar coordinates of the point are
+          <me>(r,\theta)=(5, -0.927)</me> </p>
+        <sidebyside width='75%'>
+          <image source="images/imagesChap15/xy3neg4Example2.png"><description>graph with (x,y)=(3,-4)</description></image></sidebyside>
+      </solution>
+    </example>
     
+    <example>
+      <statement>
+        <p>
+          Find the polar coordinates of a point with the Cartesian coordinates <me>(x,y)=\left(-4\sqrt{2},4\sqrt{2}\right)</me> </p>
+      </statement>
+      <solution>
+        <p>
+          Let's start by plotting the point <m>(x,y)=(-4\sqrt{2},4\sqrt{2})</m> on a graph and using the Pythagorean theorem to find the corresponding radius of the point. We get that </p>
+        <sidebyside widths='45% 50%'>
+          <p>
+            <md>
+              <mrow> r^2 \amp= x^2 + y^2 </mrow>
+              <mrow></mrow>
+              <mrow> r^2 \amp= (-4\sqrt{2})^2 + (4\sqrt{2})^2 </mrow>
+              <mrow></mrow>
+              <mrow> r^2 \amp= 32 + 32 </mrow>
+              <mrow></mrow>
+              <mrow> r^2 \amp= 64 </mrow>
+              <mrow></mrow>
+              <mrow> r \amp= 8 </mrow> </md></p>
+          <image source="images/imagesChap15/xy4sqrt2Example.png"><description>graph with (x,y)=(-4sqrt{2},4sqrt{2})</description></image></sidebyside>
+        <p>
+          Now that we know the radius, we can find the angle using any of the three trigonometric relationships. Keep in mind that there may be more than one solution when solving for <m>\theta</m> and we will need to consider the quadrant that our <m>(x,y)</m> point is in to decide which solution to use. </p>
+        <p>
+          Using the sine function, we get that
+          <me> \sin(\theta) = \frac{y}{r} = \frac{4\sqrt{2}}{8}=\frac{\sqrt{2}}{2}</me></p>
+        <p>
+          Since <m>y=\sqrt{2}/2</m> corresponds to a common angle on the unit circle, we can find an exact angle. The two angles that have a sine value of <m>\sqrt{2}\2</m> on the unit circle are
+          <me>\theta=\frac{\pi}{4} \hspace{.25in} \text{ and } \hspace{.25in} \theta=\frac{3\pi}{4}</me> </p>
+        <p>
+          Since the point <m>(x,y)=(-4\sqrt{2},4\sqrt{2})</m> is located in Quadrant II, we can determine that <m>\theta=3\pi/4</m>. Thus, the polar coordinates are
+          <me>(r,\theta)=\left(8, \frac{3\pi}{4}\right)</me> </p>
+        <sidebyside width='75%'>
+          <image source="images/imagesChap15/xy4sqrt2Example2.png"><description>graph with (x,y)=(-4sqrt{2},4sqrt{2})</description></image></sidebyside>
+      </solution>
+    </example>
+    
+  </subsection>
+  
+  
+  <subsection>
+    <title> Examples of Graphs in Polar Coordinates </title>
+    <p> Any equation written in Cartesian coordinates can be converted to one in polar coordinates and vice-versa. In practice, it makes sense to use the representation that is most natural for the application, or simpler to express. For example, the unit circle of radius 1 about the origin may be expressed in Cartesian coordinates using the equation <me> x^2 + y^2 = 1. </me>
+      Since the points on the circle are precisely those points at distance <m> r </m> from the origin, in polar coordinates the equation may be written as <me> r = 1. </me> </p>
+    
+    <p> Algebraically, we can see that this is correct by substituting <m> x = r \cos(\theta) </m> and <m> y = r \sin(\theta) </m> into the original equation to obtain <me> x^2 + y^2 = 1 </me>
+      <me> r^2 \cos^2(\theta) + r^2 \sin^2(\theta) = 1 </me>
+      <me> r^2( \cos^2(\theta) + \sin^2(\theta) ) = 1 </me>
+      Using the trig identity <m> \cos^2(\theta) + \sin^2(\theta) =1 </m>, this becomes
+      <me> r^2 = 1 </me>
+      So, <m> r = 1. </m> 
+    </p>
+    
+    <p>   We now look at some special families of graphs in polar coordinates. </p>
+    
+    <example>
+      <p> One interesting family of graphs in polar coordinates are the <em> rose graphs </em>. These are curves of the form <me> r = a \cos (n \theta) </me>  or <me>    r = a \sin (n \theta), </me>
+        where <m> n </m> is a positive integer and <m> a \gt 0 </m>.
+        
+      </p>
+    </example>
+    
+    <example>
+      <p> Another noteworthy graph is the <em>Archimedean spiral </em>. This curve has the equation <me> r =  \theta </me> and is pictured below. The general class of spirals is given by the expression <me> r = a + b\theta </me> where <m> a \gt 0 </m>.
+        
+        
+      </p>
+    </example>
+    
+  </subsection>
+  
   <subsection permid="lVm">
     <title>Area</title>
     <p permid="DDr">
-   First consider a circle of radius <m> r </m>. To find the area of a sector with angle <m> \theta</m>, we calculate the fraction of the area of the sector compared to the area of the circle. Thus, <me>  Area of Sector   = \frac{\theta}{2\pi} (\pi r^2)  = \frac{1}{2}r^2 \theta </me>
-          </p>
+      First consider a circle of radius <m> r </m> as shown in the image below.	
+      <image source="images/6_3_Sector_Area" width="50%"/>
+      
+    </p>
+    
+    <p>
+      To find the area of a sector with angle <m> \theta</m>, we calculate the fraction of the area of the sector compared to the area of the circle. Thus, <me>  \text{Area of Sector}   = \frac{\theta}{2\pi} (\pi r^2)  = \frac{1}{2}r^2 \theta </me>.
+    </p>
+    
+    <p>
+      To find regions of more general shapes, we will consider slicing them into thin regions and approximating the areas of those regions with sectors.
+      
+    </p>
+    
+    <example>
+      <statement>
+        <p>
+          Consider the function <m>f(\theta)=\cos(2\theta)</m> and the region given by the graph of
+          <m>r=f(\theta)</m> on the interval <m>0 \leq \theta \leq 2 \pi</m> (pictured below).
+        </p>
+        <image source="images/6_3_Noncircular_Sector_Area" width="50%"/>
+        
+        <p>
+          How would we approximate the area of this region? Our normal strategy would be to cut the region into rectangles
+          and take a Riemann sum of the areas of those rectangles, but because we are working in polar coordinates,
+          it is more natural to approximate the region with the sectors of a circle. One such sector is drawn on the image.
+          That sector has an angle of <m>\Delta \theta</m> and a radius of <m>f(\theta_i)</m>, so 
           
-   <assemblage>
-   <title> Area in polar coordinates </title>
-   <p> For a curve <m> r = f(\theta) </m> where <m> f(\theta) \ge 0 </m>, the <term> area </term> under <m> f(\theta) </m> from <m> \alpha</m> to <m> \beta </m> is <me> Area = \frac{1}{2} \int_{\alpha}^{\beta} f(\theta)^2 \ d\theta </me>
-   </p>
-   </assemblage>       
-
-
-
-
-
+          <me>
+            \text{area}_{\text{slice}} \approx \text{area}_{\text{sector}}= \frac 12 (f(\theta_i))^2 \Delta \theta 
+          </me>.
+          
+          Taking the Riemann sum and taking the limit as <m>\Delta \theta \rightarrow 0 </m>, we get that the
+          area of the region is given by the integral <m>\int_\alpha^\beta \frac 12 (f(\theta))^2 \, d \theta </m>.
+          
+          
+          
+          
+        </p>
+      </statement>
+      
+    </example>
+    
+    We summarize our finding here:
+    
+    <assemblage>
+      <title> Area in polar coordinates </title>
+      <p> For a curve <m> r = f(\theta) </m> where <m> f(\theta) \ge 0 </m>, the <term> area </term> between the origin and the curve <m> f(\theta) </m> from 
+        <m> \alpha</m> to <m> \beta </m> is <me> \text{Area} = \frac{1}{2} \int_{\theta=\alpha}^{\theta=\beta} f(\theta)^2 \ d\theta </me>.
+      </p>
+    </assemblage>       
+    
+    
+    <example>
+      <statement>
+        <p>
+          Consider the Archimedes spiral given by <m>r=\theta</m>. Find the area traced out in the first loop of the archimedes spiral 
+          (from <m>\theta=0</m> to <m>\theta=2\pi</m>).
+        </p>
+      </statement>
+      
+      <solution>
+        <p>
+          Since <m>r=f(\theta)=\theta</m>, then by the "Area in polar coordinates" formula, 
+          
+          <me>
+          A= \frac 12 \int_{\theta=0}^{\theta=2\pi}\theta^2 \, d \theta =\\
+          \left. \frac 16 \theta^3 \right |_{\theta=0}^{\theta=2\pi}= \frac{3}{3} \pi^3 
+          </me>
+        </p>
+      </solution>
+    </example>
+    
+    <example>
+      <statement>
+        <p>
+          Consider the rose given by <m>r=\sin(4\theta)</m>. Find the area traced out by the rose 
+          (the entire rose is traced out from <m>\theta=0</m> to <m>\theta=2\pi</m>).
+        </p>
+      </statement>
+      
+      <solution>
+        <p>
+          Since <m>r=f(\theta)=\sin(4\theta)</m>, then by the "Area in polar coordinates" formula, 
+          
+          <me>
+          A= \frac 12 \int_{\theta=0}^{\theta=2\pi}(\sin(4\theta))^2 \, d \theta =\\
+          = \frac 12 \int_{\theta=0}^{\theta=2\pi}(\frac 1 2 \cos (8 \theta) \, d \theta =\\
+          \left. \frac 16 \theta^3 \right |_{\theta=0}^{\theta=2\pi}= \frac{3}{3} \pi^3 
+          </me>
+        </p>
+      </solution>
+    </example>
+    
+    
+    
+    
+    
     
   </subsection>
   
   
   <subsection permid="Scv">
     <title>Slope and Arc Length </title>
- <p>   We can think of a curve <m> r = f(\theta) </m> in terms of <m> x </m> and <m> y</m> using <m> x = r \cos(\theta) </m> and <m> y = r\sin(\theta) </m>. In this way, the curve may be seen as being parametrized by <m> \theta </m>. Thus, we may use the formulas for slope and arc length of parametric equations to obtain formulas for slope and arc length in polar coordinates.
- </p>
- 
-
- 
- <assemblage>
- <title> Slope in polar coordinates </title>
- <p> The <term> slope </term> of a curve <m> r = f(\theta) </m> is <me> \frac{dy}{dx} = \frac{(\frac{dy}{d\theta})}{(\frac{dx}{d\theta})} </me>
- </p>
- </assemblage>
- 
- 
-
+    <p>   We can think of a curve <m> r = f(\theta) </m> in terms of <m> x </m> and <m> y</m> using <m> x = r \cos(\theta) </m> and <m> y = r\sin(\theta) </m>. In this way, the curve may be seen as being parametrized by <m> \theta </m>. Thus, we may use the formulas for slope and arc length of parametric equations to obtain formulas for slope and arc length in polar coordinates.
+    </p>
+    
+    
+    
+    <assemblage>
+      <title> Slope in polar coordinates </title>
+      <p> The <term> slope </term> of a curve <m> r = f(\theta) </m> is <me> \frac{dy}{dx} = \frac{(\frac{dy}{d\theta})}{(\frac{dx}{d\theta})} </me>
+      </p>
+    </assemblage>
+    
+    
+    
     
     <assemblage permid="qFf">
       <title>Arc length in polar coordinates</title>
-   
-<p> The <term> arc length</term> of the curve <m> r = f(\theta) </m> where <m> x = r \cos(\theta) </m> and <m> y = r\sin(\theta) </m> is
-<me> Arc Length = \int_\alpha^\beta \sqrt{(\frac{dx}{d \theta})^2 + (\frac{dy}{d \theta})^2 }</me>
-    </p>
-           </assemblage>
+      
+      <p> The <term> arc length</term> of the curve <m> r = f(\theta) </m> where <m> x = r \cos(\theta) </m> and <m> y = r\sin(\theta) </m> is
+        <me> Arc Length = \int_\alpha^\beta \sqrt{(\frac{dx}{d \theta})^2 + (\frac{dy}{d \theta})^2 }</me>
+      </p>
+    </assemblage>
     
     
   </subsection>
-
+  
   <subsection permid="yjE">
     <title>Summary</title>
     <p permid="FsE">
       <ul permid="bwh">
         <li permid="zYR">
           <p permid="kPT">
-           Item 1
+            Item 1
           </p>
         </li>
-
+        
         <li permid="gga">
           <p permid="QXc">
             Item 2
-                      </p>
+          </p>
         </li>
-
+        
         <li permid="Mnj">
           <p permid="xel">
             Item 3
@@ -326,28 +413,28 @@ So, <m> r = 1. </m>
       </ul>
     </p>
   </subsection>
-
-<exercises xmlns:xi="http://www.w3.org/2001/XInclude"> 
-
-<exercise>
-    <statement><p>
-        Convert the following
-    </p>
-    <ol label="a">
-        <li><p> Convert the polar coordinates <m>(r,\theta)=(2,\pi)</m> to Cartesian coordinates. </p></li>
-        <li><p> Convert the Cartesian coordinates <m>(x,y)=(0,-4)</m> to polar coordinates. </p></li>
-    </ol>
-    </statement>
-    <answer><p>
-    </p></answer>
-</exercise>
-
- <exercise xml:id="ez-5-3-WW2" permid="YMF">
-    <title>Product involving <m>\sin(x^6)</m></title>
-    <webwork source="Library/Michigan/Chap8Sec3/Q17.pg" />
-  </exercise>
-
-
- </exercises>
+  
+  <exercises xmlns:xi="http://www.w3.org/2001/XInclude"> 
+    
+    <exercise>
+      <statement><p>
+          Convert the following
+        </p>
+        <ol label="a">
+          <li><p> Convert the polar coordinates <m>(r,\theta)=(2,\pi)</m> to Cartesian coordinates. </p></li>
+          <li><p> Convert the Cartesian coordinates <m>(x,y)=(0,-4)</m> to polar coordinates. </p></li>
+        </ol>
+      </statement>
+      <answer><p>
+        </p></answer>
+    </exercise>
+    
+    <exercise xml:id="ez-5-3-WW2" permid="YMF">
+      <title>Product involving <m>\sin(x^6)</m></title>
+      <webwork source="Library/Michigan/Chap8Sec3/Q17.pg" />
+    </exercise>
+    
+    
+  </exercises>
 </section>
 
