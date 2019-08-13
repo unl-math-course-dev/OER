@@ -156,7 +156,119 @@ That's it! We can describe the steps of this method as follows.
 
 <subsubsection><title>The mark-recapture method</title>
 
-	<p>Describe the method here.</p>
+	<p>
+		One-sample estimation assumes that we know the value of a large population, and then lets us find the size of a subpopulation. There are many situations, however, where the overall population itself is the unknown quantity we wish to determine. How can we do that?
+	</p>
+
+	<p>
+		One obvious solution is to conduct a census: that is, to directly count every member of the population. This method, however, has clear practical difficulties, especially if the population in question is large, widely dispersed, or hard to access. For example, suppose a state park wants to count all the deer in their territory. How could they ensure they have found all the deer, and also avoid double-counting?
+	</p>
+
+	<p>
+		One solution to this problem is called the <term>mark-recapture method</term>. It uses two samples to obtain an estimate of the population. We will describe it using the language of counting an animal population, but the same process can be applied to any enumeration problem.
+	</p>
+
+	<assemblage><title>The mark-recapture method of enumeration</title>
+		<p>
+			First, capture and count two samples according to the following process:
+			<ol>
+				<li>Catch a number, <m>M</m>, of animals (the first sample), and mark them in some way.</li>
+				<li>Release the captured animals into the wild and allow them to mix with the general population.</li>
+				<li>After a period of time has passed, capture a second group of animals. This is the second sample; denote its popultion value <m>C</m>.</li>
+				<li>Some of the <m>C</m> many animals in the second sample will have been previously marked, and some won't. Call the number of them that have been marked <m>R</m> (for <q>recapture</q>, since these are the animals that have been captured in both samples).</li>
+			</ol>
+			How do we use these figures to obtain a population estimate? The key to the mark recapture method is that we assume that the proportion of marked animals in our second sample is about the same as the proportion of marked animals in the overall population. In other words,
+			<me>\frac{R}{C}\approx\frac{M}{N}.</me>
+			We can solve this equation for <m>N</m>, and find that:
+			<me>N\approx\frac{MC}{R}.</me>
+		</p>
+	</assemblage>
+
+	<p>
+		 Let's illustrate this with an example.
+	</p>
+
+	<example>
+		<p>
+			Suppose state park officials are studying the local deer population. They capture and mark 228 deer, which they release back into the park. After a month, they capture a sample of 255 deer, of which 11 have been previously marked. Use these figures to estimate the deer population of the park.
+		</p>
+
+		<p>
+			Using the variable names defined above, <m>M=228</m>, <m>C=255,</m> and <m>R=11</m>. Our formula tells us that:
+			<me>\frac{11}{255}\approx \frac{228}{N}</me>
+			<me>N\approx 228\cdot\frac{255}{11}\approx5285.45</me>
+			Since we can't have 0.45 of a deer, we round to the nearest whole number, and find that the park has about 5285 deer.
+		</p>
+
+		<p>
+			The first equation above is significant. The fraction <m>\frac{11}{255}\approx0.431</m> is telling us that about 4.31% of the deer in the second sample were marked. The fraction <m>\frac{228}{N}</m> represents the proportion of deer in the overall population who were marked. Thus, we set them equal to estimate that about 4.31% of all the deer are probably marked, too.
+		</p>
+
+	</example>
+
+
+	<p>
+		As with all estimation methods, a number of factors can impact the accuracy of the mark-recapture method. One of the most important is the difference between <term>open and closed populations</term>. An open population is one in which individuals enter or exit the population between the first and second survey. This could mean physically entering or leaving the region, or it could mean birth and death. On the other hand, a closed population is one in which individauls do not enter or exit a population between the two surveys.
+	</p>
+
+	<p>
+		The mark-recapture method is more accurate when a population is more closed than open. Since we are measuring the population between two surveys taken at two different times, we want the population to be as similar as possible between those two times. Some factors that help make a population more closed include physical barriers, large survey areas, slow rates of reproduction and death, and a shorter time between surveys. For example, a population surveyed in a lake will be more closed than one in a small field.
+	</p>
+
+	<p>
+		There are other sources of inaccuracy, too. We can determine how they affect the count by considering how they impact the values of <m>M</m>, <m>C</m>, or <m>R</m>. Since our approximation formula is <m>N\approx \frac{MC}{R}</m>, increases in <m>M</m> and <m>C</m> should cause overestimates, while increases in <m>R</m> should cause underestimates.
+<!--		<ul>
+			<li></li>
+			<li></li>
+			<li></li>
+			<li></li>
+			<li></li>
+		</ul>-->
+	</p>
+
+	<table><caption></caption>
+		<tabular>
+			<row bottom="medium">
+				<cell>Source of error</cell>
+				<cell>Effect</cell>
+			</row>
+			<row>
+				<cell>Marks fall off</cell>
+				<cell>Decreases <m>R</m>, causing an overestimate</cell>
+			</row>
+			<row>
+				<cell>Marked animals more likely to be recaptured</cell>
+				<cell>Increases <m>R</m>, causing an underestimate</cell>
+			</row>
+			<!--workaround in absence of text wrapping option-->
+			<row>
+				<cell>(for instance, if the marks incapacitate them)</cell>
+				<cell></cell>
+			</row>
+			<row>
+				<cell>Marked animals likely to die</cell>
+				<cell>Decreases <m>R</m>, causing an overestimate</cell>
+			</row>
+			<row>
+				<cell>Not enough time for mixing between surveys</cell>
+				<cell>Could either increase or decrease <m>R</m></cell>
+			</row>
+		</tabular>
+	</table>
+
+	<p>
+		Notice that there are some tradeoffs. For example, if we allow too little time between surveys, the population won't have enough time to mix. But if we allow too much time, more members are likely to leave the population (from death or migration) which would make the population more open. Also notice that some of these errors can be avoided by good experimental design<mdash/>for example, choosing markings that do not harm or even kill the animal. On the other hand, there may be some situations, like a very open population, in which the mark-recapture method may not be as accurate.
+	</p>
+
+
+	<p>
+		The mark-recapture method is just one technique of many used by scientists to study populations. By keeping possible sources of error in mind and designing their studies carefully, they can achieve a good level of accuracy. One interesting example of this is the US Census.
+	</p>
+
+	<p>
+		Every ten years, the US government conducts a census of the population as required by the Constitution. US law states that the actual census data<mdash/>that is, the count of every single person<mdash/>be used as the official count (for instance, to apportion seats in the House of Representatives). However, not only is it difficult and expensive to count every person in the US directly, it can be less accurate than enumeration by sampling. In fact, the Census Bureau does a version of the mark-recapture procedure after each census, and uses that figure to estimate the error of the less accurate official tally. They describe this process at the following page:
+		<url href="https://www.census.gov/newsroom/blogs/director/2012/05/how-do-we-conduct-a-post-enumeration-survey.html"><q>How do we conduct a post-enumeration survey?</q></url>
+	</p>
 
 </subsubsection>
 
