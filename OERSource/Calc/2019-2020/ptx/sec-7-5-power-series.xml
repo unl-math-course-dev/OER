@@ -161,10 +161,53 @@
      
      <example>
      <statement>
-     <p> Consider the series <m> \sum_{n=0}^{\infty} \frac{ (x-1)^n}{2^n} </m>. This is a power series about <m>x = 1 </m>.  Does it converge or diverge when <m>x =2 </m>? Does it converge or diverge when <m> x = 3 </m>?  For what values of <m> x </m> will the series converge?
-     
+     <p> Consider the series <m> \sum_{n=0}^{\infty} \frac{ (x-1)^n}{2^n} </m>. This is a power series about <m>x = 1 </m>. 
+	 <ol label="a.">
+	 <li> <p> Does the series converge or diverge when <m>x =2 </m>? </p> </li>
+	 <li> <p> Does it converge or diverge when <m> x = 3 </m>? </p></li>
+	 <li> <p> For what values of <m> x </m> will the series converge? </p></li>
+     </ol>
      </p>
      </statement>
+	 <answer>
+		<ol label="a.">
+			<li> <p> The series converges at <m>x=2</m>.</p> </li>
+			<li> <p> It diverges at <m>x=3</m>.</p></li>
+			<li> <p> The series converges for values of <m>x</m> satisfying <m>-1 \lt x \lt 3 </m>.</p></li>
+		</ol>
+	 </answer>
+	 <solution>
+		<ol label="a.">
+			<li> <p> To test, we can substitute in <m>x=2</m> into the series, giving:
+			<me>\sum_{n=0}^\infty \frac{(2-1)^n}{2^n} = \sum_{n=0}^\infty \frac{1}{2^n}.</me>
+			This series is geometric with ratio <m>\frac{1}{2}</m>, so it converges (in fact, to 2).
+			</p>
+			</li>
+			<li> <p> We make the substitution <m>x=3</m> into the series, and get 
+			<me>\sum_{n=0}^\infty \frac{(3-1)^n}{2^n} = \sum_{n=0}^\infty \frac{2^n}{2^n} = \sum_{n=0}^\infty 1 = 1 + 1 + 1 + \cdots</me>.
+			Since this series is unbounded, it diverges.
+			</p>
+			</li>
+			<li> <p> To figure out exactly when the series converges, we'll start by using the Ratio Test.
+				Here <m>a_n= \frac{(x-1)^n}{2^n}</m>. So, notice
+				<me> \frac{a_{n+1}}{a_n} = \frac{|x-1|^{n+1}}{2^{n+1}} \cdot \frac{2^n}{|x-1|^n} = \frac{|x-1|}{2}.</me>
+				Thus, the series converges whenever <m> \frac{|x-1|}{2}\lt 1 </m> and diverges whenever <m> \frac{|x-1|}{2} \gt 1 </m>.
+				Examining that first inequality yields:
+				<md>
+					<mrow> \frac{|x-1|}{2} \amp \lt 1 </mrow>
+					<mrow> |x-1| \amp \lt 2 </mrow>
+					<mrow> -2 \amp\lt x-1 \lt 2 </mrow>
+					<mrow> -1 \amp\lt x \lt 3 </mrow>
+				</md>
+				So now we know that the series converges when <m>-1 \lt x \lt 3</m> and diverges when <m>x \lt -1</m> and when <m>x \gt 3 </m>. 
+				Unfortunately, the ratio test can't tell us what happens exactly at <m>x=-1</m> or at <m>x=3</m>, because that's when <m>\frac{a_{n+1}}{a_n}=1</m>.
+				However, we can just check those directly. We determined in part b. that the series diverges at <m>x=3</m>, so we just need to check <m>x=-1</m>:
+				<me> \sum_{n=0}^\infty \frac{(-1-1)^n}{2^n}= \sum_{n=0}^\infty \frac{(-2)^n}{2^n} = \sum_{n=0}^\infty -1 = -1 -1 -1 \cdots</me>.
+				This series is unbounded below, so it diverges.</p>
+				<p> Thus, the series converges exactly when <m>-1 \lt x \lt 3</m> and diverges everywhere else.</p>
+			</li>
+		</ol>
+	 </solution>
      </example>
      
      
