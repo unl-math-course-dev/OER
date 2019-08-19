@@ -37,18 +37,19 @@
       while the latter is used to reverse the product rule.
       But we have seen that each works only in specialized circumstances.
       For example,
-      while <m>\int xe^{x^2} \, dx</m> may be evaluated by <m>u</m>-substitution and
+      while <m>\int \frac{2x+4}{x^2+4x+13} \, dx</m> may be evaluated by <m>u</m>-substitution and
       <m>\int x e^x \, dx</m> by integration by parts,
-      neither method provides a route to evaluate <m>\int e^{x^2} \, dx</m>.
-      In fact, an elementary algebraic antiderivative for <m>e^{x^2}</m> does not exist.
-      No antidifferentiation method will provide us with a simple algebraic formula for a function <m>F(x)</m> that satisfies <m>F'(x) = e^{x^2}</m>. 
+      neither method provides a route to evaluate <m>\int \frac{1}{x^2+4x+13} \, dx</m>.
+      Many rational functions, a quotient of two polynomials, require more powerful algebraic manipulation techniques as well as more sophisticated integration techniques. 
     </p>
-    
+    <p> 
+      Insert paragraph about some rational expressions that trig subs helps with
+    </p>
     <p permid="pea">
       In this section,
-      our main goals are to identify some classes of functions that can be antidifferentiated,
-      and to learn some methods to do so.
-      We should also recognize that there are many functions for which an algebraic formula for an antiderivative does not exist,
+      our main goals are to identify some additional classes of functions that can be algebraically antidifferentiated,
+      and to learn some methods to do so. 
+      In Section 5.8(insert reference) we'll also recognize that there are many functions for which an algebraic formula for an antiderivative does not exist,
       and appreciate the role that computing technology can play in finding antiderivatives of other complicated functions.
     </p>
     
@@ -1049,22 +1050,22 @@
             <ol label="a.">
               <li>
                 <p> 
-                  
+                  There is a sum of squares, <m> 9x^2 + 1 =(3x)^2+1^2 </m>, so a tangent substitutuion is likely to help. 
                 </p>
               </li>
               <li>
                 <p> 
-                  
+                  There is a difference of squares since <m> 5-x^2=(\sqrt{5})^2-x^2</m>, so a sine substitution is likely to help.  
                 </p>
               </li>
               <li>
                 <p> 
-                  
+                  There is a difference of squares starting with a constant term <m>25-9x^2=5^2-(3x)^2 </m>, so a sine substitution is likely to help. 
                 </p>
               </li>
               <li>
                 <p> 
-                  
+                  First, complete the square in the denominator. Then, split the integrand into two rational expressions and use different methods for each of the resulting rational expressions.
                 </p>
               </li>
             </ol>
@@ -1084,12 +1085,12 @@
             </li>
             <li>
               <p>
-                <me>\int \frac{\sqrt{25-9x^2}}{9x^2} \, dx= \frac{\sqrt{25x^2-9}}{9x} + \frac{1}{3} \arcsin\left(\frac{3x}{5} \right) + C\ </me>
+                <me>\int \frac{\sqrt{25-9x^2}}{9x^2} \, dx=- \frac{\sqrt{25x^2-9}}{9x} - \frac{1}{3} \arcsin\left(\frac{3x}{5} \right) + C\ </me>
               </p>
             </li>
             <li>
               <p> 
-                <me> \int \frac{2x+7}{x^2+6x+18} \, dx= \ln|x^2+6x+18| + 4\arctan\left(\frac{x+3}{3} \right) + C</me>
+                <me> \int \frac{2x+7}{x^2+6x+18} \, dx= \ln|x^2+6x+18| + \frac{4}{3}\arctan\left(\frac{x+3}{3} \right) + C</me>
               </p>
             </li>
           </ol>
@@ -1098,22 +1099,86 @@
           <ol label="a.">
             <li>
               <p>
-                
+                Use the substitution <m>3x=\tan(\theta) </m>, so <m>(3x)^2=9x^2=\tan^2(\theta) </m> and <m>3dx=\sec^2(\theta)d\theta </m>. We can transform the orignal integral using this substitution: 
+                <md> 
+                  <mrow> \int \frac{3}{(9x^2+1)^{3/2}} \, dx&amp;=\int \frac{\sec^2(\theta)}{(\tan^2(\theta)+ 1)^{3/2}} \, d \theta</mrow>
+                  <mrow> &amp;=\int \frac{\sec^2(\theta)}{(\sec^2(\theta))^{3/2}} \, d \theta</mrow>
+                  <mrow> &amp;=\int \frac{\sec^2(\theta)}{\sec^3(\theta)} \, d \theta</mrow>
+                  <mrow> &amp;=\int \cos(\theta) \, d \theta</mrow>
+                  <mrow> &amp;=\sin(\theta) + C</mrow>
+                </md>
+                To find the antiderivative in terms of <m> x</m>, consider a right triangle with angle <m> \theta</m> and <m> \tan(\theta)=3x</m>.
+
+                <figure> 
+                  <caption>A right triangle with one interior angle measureing <m> \theta </m> and with <m> \tan(\theta)=3x </m> </caption>
+                  <image width="33%" source="images/5_7_TS_3.jpg"/>
+                </figure>
+                From the triangle, we can see that <m>\sin(\theta)=\frac{3x}{\sqrt{9x^2+1}} </m>, so 
+                <me> \int \frac{3}{(9x^2+1)^{3/2}} \, dx=\frac{3x}{\sqrt{9x^2+1}} + C</me>
               </p>
             </li>
             <li>
               <p>
-                
+                Use the substitution <m> x=\sqrt{5} \sin(\theta) </m>, then <m>x^2=5\sin^2(\theta)</m> and <m>dx=\sqrt{5} \cos(\theta) d\theta</m>.
+                <md>
+                  <mrow>\int \frac{1}{x^2\sqrt{5-x^2}} \, dx&amp;=\int \frac{\sqrt{5}\cos(\theta)}{5\sin^2(\theta) \sqrt{5-5\sin^2(\theta)}} \, d\theta</mrow>
+                  <mrow> &amp;=\int \frac{\sqrt{5}\cos(\theta)}{5\sin^2(\theta) \sqrt{5\cos^2(\theta)}} \, d\theta</mrow>
+                  <mrow> &amp;=\frac{\sqrt{5}}{5\sqrt{5}}\int \frac{\cos(\theta)}{\sin^2(\theta) \cos(\theta) } \, d\theta</mrow>
+                  <mrow> &amp;=\frac{1}{5}\int \frac{1}{\sin^2(\theta)} \, d\theta</mrow>
+                  <mrow>&amp;=-\frac{1}{5}\cot(\theta) + C </mrow>
+                </md>
+                Use a right triangle with one angle measuring <m> \theta </m> and with <m> \sin(\theta)=\frac{x}{\sqrt{5}} </m> to find the antiderivative with respect to <m> x </m>.
+                <figure> 
+                  <caption>A right triangle with one interior angle measureing <m> \theta </m> and with <m> \sin(\theta)=\frac{x}{\sqrt{5}} </m> </caption>
+                  <image width="33%" source="images/5_7_TS_5.jpg"/>
+                </figure>
+                We can see from the triangle that <m>\cot(\theta)=\frac{\sqrt{5-x^2}}{x}</m>. Therefore, 
+                <me>\int \frac{1}{x^2\sqrt{5-x^2}} \, dx =\frac{-\sqrt{5-x^2}}{5x} + C  </me>
               </p>
             </li>
             <li>
               <p>
-                
+                Use the substitution <m> 3x=5\sin(\theta) </m>, then <m>9x^2=25\sin^2(\theta) </m> and <m> 3dx=5\cos(\theta) d\theta </m>.
+                <md>
+                  <mrow>\int\frac{\sqrt{25-9x^2}}{9x^2} \, dx &amp;= \int \frac{\sqrt{25-25\sin^2(\theta)}}{25\sin^2(\theta)}  \frac{5}{3} \cos(\theta) \, d\theta </mrow>
+                  <mrow> &amp;= \int \frac{25\cos^2(\theta)}{75\sin^2(\theta)}  \, d\theta </mrow>
+                  <mrow> &amp;= \frac{1}{3}\int \frac{1-\sin^2(\theta)}{\sin^2(\theta)}  \, d\theta </mrow>
+                  <mrow> &amp;= \frac{1}{3}\int \frac{1}{\sin^2(\theta)} \, d\theta - \frac{1}{3} \int 1 \, d\theta </mrow>
+                  <mrow> &amp;= -\frac{1}{3}\cot(\theta) -\frac{1}{3} \arcsin(\theta) + C </mrow>
+                </md>
+                Use a right triangle with one angle measuring <m> \theta </m> and with <m> \sin(\theta) =\frac{3x}{5} </m> to find <m> \cot(\theta) </m>: 
+                <figure> 
+                  <caption>A right triangle with one interior angle measureing <m> \theta </m> and with <m> \tan(\theta)=3x </m> </caption>
+                  <image width="33%" source="images/5_7_TS_4.jpg"/>
+                </figure>
+                From the triangle, we can see that <m> \cot(\theta)=\frac{\sqrt{25-9x^2}}{3x} </m>. Therefore, 
+                <me>\int\frac{\sqrt{25-9x^2}}{9x^2} \, dx= -\frac{\sqrt{25-9x^2}}{9x} -\frac{1}{3}\arcsin\left(\frac{3x}{5} \right) + C</me>
               </p>
             </li>
             <li>
               <p>
-                
+                <md>
+                  <mrow> \int \frac{2x+7}{x^2+6x+18} \, dx&amp;=\int \frac{2x+ 7}{(x+3)^2+9} \, dx </mrow>
+                  <mrow>\text{use the substitution } u=x+3 &amp;\qquad du=dx </mrow>
+                  <mrow> &amp;=\int \frac{2(u-3)+ 7}{u^2+9} \, dx </mrow>
+                  <mrow> &amp;=\int \frac{2u}{u^2+9} \, du + \int \frac{4}{u^2+9} \, du  </mrow>
+                </md>
+                To integrate <m> \int \frac{2u}{u^2+9} \, du</m>, use the substitution <m> w=u^2+9 </m> and <m> dw= 2u \, du</m>. Thus, 
+                <md> 
+                  <mrow> \int \frac{2u}{u^2+9} \, du&amp;=\int \frac{1}{w} \, dw</mrow>
+                  <mrow>&amp;=\ln|w| + C_1</mrow>
+                  <mrow>&amp;=\ln|(x+3)^2 + 9| + C_1 </mrow>
+                </md>
+                To integrate <m> \int \frac{4}{u^2+9} \, du </m>, we can use a trigonometric substitution or we can factor out the 9, use the substitution <m> v=w/3 \text{ and }dv=dw/3</m> and use the antidifferentiation rule <m> \int\frac{1}{1+u^2} \, du=\arctan(u) + C</m>. The latter method will be shown: 
+                <md> 
+                  <mrow> \int \frac{4}{u^2+9} \, du &amp;=\frac{4}{9} \int \frac{1}{(u/3)^2 + 1} \, du</mrow>
+                  <mrow> &amp;=\frac{4}{3} \int \frac{1}{v^2 + 1} \, dv</mrow>
+                  <mrow> &amp;=\frac{4}{3} \arctan(v) + C_2 </mrow>
+                  <mrow> &amp;=\frac{4}{3} \arctan\left(\frac{x+3}{3}\right) + C_2 </mrow>
+                </md>
+
+                Therefore, 
+                <me>\int \frac{2x+7}{x^2+6x+18} \, dx= \ln|(x+3)^2 + 9|  + \frac{4}{3} \arctan\left(\frac{x+3}{3}\right) + C </me>
               </p>
             </li>
           </ol>
@@ -1144,7 +1209,7 @@
             
               <li> 
               and rational terms of the form <m>\frac{Bx+C}{t(x)}</m>
-              where <m>t(x)</m> is an irreducible quadratic (integrated using a trig substituion)
+              where <m>t(x)</m> is an irreducible quadratic (integrated using a <m> u </m>-substitution or a trigonometric substituion)
               </li>
               
             </ol>
@@ -1153,8 +1218,8 @@
                 
         <li permid="RGJ">
           <p permid="CxL">
-            Trig substitutions of the form <m>u=\sin(x)</m>, <m>u=\tan(x)</m>, or variants thereof
-        	let us find integrals like <m> \int \frac{1}{\sqrt{1-x^2}} dx</m> and <m> \int \frac{1}{1+x^2} dx</m>.
+            Trigonometric substitutions of the form <m>u=\sin(x)</m>, <m>u=\tan(x)</m>, or variants thereof
+        	let us find integrals like <m> \int \frac{1}{\sqrt{1-x^2}} dx</m>, <m> \int \frac{1}{1+x^2} dx</m>, and <m>\int \frac{1}{\sqrt{1-x^2}} \, dx </m>.
         	A tangent-based substitution is essential for finding integrals of the form <m>\frac{Bx+C}{t(x)}</m> where <m>t(x)</m> is an
         	irreducible quadratic.
         	
@@ -1194,9 +1259,9 @@
     
     
     <exercise>
-      <title>Trig Substitutions</title>
+      <title>Trigonometric Substitutions</title>
       <statement>
-        Use a trig substitution to find the following indefinite integrals:
+        Use a trigonometric substitution to find the following indefinite integrals:
         
         <ol label="a.">
           <li>
@@ -1250,7 +1315,7 @@
           
           <li>
             <p>
-              <m>\int \frac{1}{(x+3)^2+1} dx </m>
+              <m>\int \frac{1}{x^2+6x+10} dx </m>
             </p>
           </li>
           
