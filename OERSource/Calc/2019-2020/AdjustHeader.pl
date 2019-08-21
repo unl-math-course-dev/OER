@@ -19,7 +19,7 @@ my $data = read_file $file, {binmode => ':utf8'};
  $data =~ s/[^[:ascii:]]//g;
 
 
-  $data =~ s/<!-- Copyright(?s)(.*)Boelkins                                                      -->/<!-- Copyright 2019                                                        -->\n<!-- UNL Department of Mathematics                                         -->\n<!-- Based upon the work of                                                -->\n<!-- Matthew Boelkins                                                      -->\n<!-- Copyright 2012-2018                                                   -->/gs;
+  $data =~ s/<!-- Copyright(?s)(.*)Boelkins/<!-- Copyright 2019                                                        -->\n<!-- UNL Department of Mathematics                                         -->\n<!-- Based upon the work of                                                -->\n<!-- Matthew Boelkins                                                      -->\n<!-- Copyright 2012-2018                                                   -->/gs;
   $data =~ s/<!-- This file is part of Active Calculus.                                 -->/<!-- This file is part of Coordinated Calculus.                            -->\n<!-- This file is based on Active Calculus.                                -->/gs;
 
 
