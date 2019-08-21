@@ -1,7 +1,213 @@
 <section xmlns:xi="http://www.w3.org/2001/XInclude" xml:id="sec-5-3-irv">
+<title>Instant Runoff Voting and the Monotonicity Criterion</title>
 
-	<title>Instant Runoff Voting and the Monotonicity Criterion</title>
+<subsection><title>The Method of Instant Runoff Voting (IRV)</title>
 
-	<p>IRV is better than FPTP!</p>
+	<assemblage><title>Instant Runoff Voting (IRV)</title>
+		<p>
+			The method of <term>Instant Runoff Voting (IRV)</term> uses several rounds. Each round simulates a <q>runoff</q>, but they are all part of a single election. The rules are as follows:
+			<ol>
+				<li>For the first round, count how many first-choice votes each candidate has received. Check to see if a candidate has a majority of 1st place votes. If there is such a candidate, then this candidate wins the election. If there is not a majority winner, continue to the next step.</li>
+				<li>Eliminate the candidate with the fewest first-choice votes. This means that some voters will change their votes.</li>
+				<li>Use the preference lists of the voters who favored the eliminated candidate to cast their votes for their next choice among the remaining candidates.</li>
+				<li>For the next round, count how many votes each remaining candidate has. If a candidate has a majority, they are elected. If not, eliminate the candidate with the fewest votes in this round, and proceed to the next round.</li>
+				<li>Repeat the above steps until either a candidate wins with a majority, or until every candidate but one has been eliminated.</li>
+			</ol>
+		</p>
+	</assemblage>
 
-  </section>
+<example>
+
+	<table><caption></caption>
+	<tabular top="none" bottom="minor" left="minor" right="minor">
+		<row left="none">
+			<cell bottom="none" right="medium"></cell>
+			<cell colspan="4">Number of voters</cell>
+		</row>
+		<row bottom="medium">
+			<cell right="medium">Rankings</cell>
+			<cell>6</cell>
+			<cell>5</cell>
+			<cell>4</cell>
+			<cell>2</cell>
+		</row>
+		<row>
+			<cell right="medium">1st choice</cell>
+			<cell>A</cell>
+			<cell>D</cell>
+			<cell>C</cell>
+			<cell>B</cell>
+		</row>
+		<row>
+			<cell right="medium">2nd choice</cell>
+			<cell>B</cell>
+			<cell>B</cell>
+			<cell>D</cell>
+			<cell>C</cell>
+		</row>
+		<row>
+			<cell right="medium">3rd choice</cell>
+			<cell>D</cell>
+			<cell>C</cell>
+			<cell>B</cell>
+			<cell>D</cell>
+		</row>
+		<row>
+			<cell right="medium">4th choice</cell>
+			<cell>C</cell>
+			<cell>A</cell>
+			<cell>A</cell>
+			<cell>A</cell>
+		</row>
+	</tabular>
+	</table>
+
+	<sidebyside>
+	<tabular>
+		<row >
+			<cell>Round 1:</cell>
+			<cell>Votes for A: 6</cell>
+			<cell>D: 5</cell>
+			<cell>C: 4</cell>
+			<cell>B: 2</cell>
+		</row>
+		<row bottom="minor">
+			<cell></cell>
+			<cell colspan="4">B is eliminated, and 2 votes are transferred to thoe voters' second choice, C</cell>
+		</row>
+		<row>
+			<cell>Round 2:</cell>
+			<cell>Votes for A: 6</cell>
+			<cell>D: 5</cell>
+			<cell>C: 6</cell>
+			<cell></cell>
+		</row>
+		<row>
+			<cell></cell>
+			<cell colspan="4">D is eliminated, and 5 votes are transferred to those voters' third choice, C</cell>
+		</row>
+		<row bottom="minor">
+			<cell></cell>
+			<cell colspan="4">(since their second choice, B, was already eliminated)</cell>
+		</row>
+		<row>
+			<cell>Round 3:</cell>
+			<cell>Votes for A: 6</cell>
+			<cell></cell>
+			<cell>C: 11</cell>
+			<cell></cell>
+		</row>
+		<row>
+			<cell></cell>
+			<cell colspan="4">Candidate C wins the election.</cell>
+		</row>
+	</tabular>
+	</sidebyside>
+
+</example>
+
+<example><title>The 2009 mayoral election in Burlington, VT</title>
+
+	<p>
+		In 2009, the city of Burlington, Vermont used IRV to elect their mayor. The results of this election are shown below, in a simplified form to include only the three main candidates.
+		<fn>More complete details can be found at <url href="https://en.wikipedia.org/wiki/2009_Burlington_mayoral_election">the Wikipedia article</url>.</fn>
+		These three candidates were Bob Kiss, Kurt Wright, and Andy Montroll.
+	</p>
+
+	<table><caption></caption>
+	<tabular top="none" bottom="minor" left="minor" right="minor">
+		<row left="none">
+			<cell bottom="none" right="medium"></cell>
+			<cell colspan="5">Percent of voters</cell>
+		</row>
+		<row bottom="medium">
+			<cell right="medium">Rankings</cell>
+			<cell>34</cell>
+			<cell>37</cell>
+			<cell>15</cell>
+			<cell>9</cell>
+			<cell>5</cell>
+		</row>
+		<row>
+			<cell right="medium">1st choice</cell>
+			<cell>K</cell>
+			<cell>W</cell>
+			<cell>M</cell>
+			<cell>M</cell>
+			<cell>M</cell>
+		</row>
+		<row>
+			<cell right="medium">2nd choice</cell>
+			<cell>M</cell>
+			<cell>M</cell>
+			<cell>K</cell>
+			<cell>W</cell>
+			<cell></cell>
+		</row>
+		<row>
+			<cell right="medium">3rd choice</cell>
+			<cell>W</cell>
+			<cell>K</cell>
+			<cell>W</cell>
+			<cell>K</cell>
+			<cell></cell>
+		</row>
+	</tabular>
+	</table>
+
+	<p>
+		Using this information, we can find the winner of this election using IRV as follows.
+	</p>
+
+	<sidebyside>
+	<tabular>
+		<row >
+			<cell>Round 1:</cell>
+			<cell>Percent of votes for K: 34</cell>
+			<cell>W: 37</cell>
+			<cell>M: 15+9+5=29</cell>
+		</row>
+		<row bottom="minor">
+			<cell></cell>
+			<cell colspan="3">M is elimated, and votes are allocated to their different second choices.</cell>
+		</row>
+		<row>
+			<cell>Round 2:</cell>
+			<cell>K: 34+15=49</cell>
+			<cell>W: 37+9=46</cell>
+			<cell></cell>
+		</row>
+		<row>
+			<cell></cell>
+			<cell colspan="3">K wins the election.</cell>
+		</row>
+	</tabular>
+	</sidebyside>
+
+	<p>
+		In this example, the voters who ranked Montroll first had a variety of second choice candidates. When Montroll was eliminated, these votes were transferred to each of these different second choices, rather than all to one candidate.
+	</p>
+
+	<p>
+		Additionally, notice that the 5% of voters who did not rank any candidates other than Montroll did not have their votes transferred to any other candidate, since they did not indicate any second choice. Essentially they are saying that, if Montroll does not win, they have no preference between the other candidates.
+		<fn>Such votes are referred to as <q>exhausted ballots</q>. It may seem strange that their votes were not part of the final tally. However, their votes did count<mdash/>they just counted only for a candidate that happened to lose.</fn>
+	</p>
+
+</example>
+
+</subsection>
+
+<subsection><title>The Monotonicity Criterion</title>
+
+	<assemblage><title>The Monotonicity Criterion</title>
+		<p>
+			The <term>monotonicity criterion</term> states that moving a candidate higher on one’s preference list should not hurt that candidate.
+		</p>
+		<p>
+			More precisely, this means that if two elections are held, and the only difference is that the winner of the first election is ranked higher by some voters in the second election, then that candidate should still win the second election.
+		</p>
+	</assemblage>
+
+</subsection>
+
+</section>
