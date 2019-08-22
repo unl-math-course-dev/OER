@@ -7406,8 +7406,9 @@ function() { </xsl:text><xsl:value-of select="$applet-name" /><xsl:text>.inject(
                             </p>
                         </div>  <!-- title-container -->
                     </div>  <!-- container -->
-                    <xsl:call-template name="google-search-box" />
+                    
                 </div> <!-- banner -->
+                <xsl:call-template name="google-search-box" />
             <xsl:apply-templates select="." mode="primary-navigation" />
             </header> <!-- masthead -->
             <div class="page">
