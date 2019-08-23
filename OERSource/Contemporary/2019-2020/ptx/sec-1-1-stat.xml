@@ -165,30 +165,14 @@ That's it! We can describe the steps of this method as follows.
 	</p>
 
 	<p>
-		One solution to this problem is called the <term>mark-recapture method</term>. It uses two samples to obtain an estimate of the population. We will describe it using the language of counting an animal population, but the same process can be applied to any enumeration problem.
-	</p>
-
-	<assemblage><title>The mark-recapture method of enumeration</title>
-		<p>
-			First, capture and count two samples according to the following process:
-			<ol>
-				<li>Catch a number, <m>M</m>, of animals (the first sample), and mark them in some way.</li>
-				<li>Release the captured animals into the wild and allow them to mix with the general population.</li>
-				<li>After a period of time has passed, capture a second group of animals. This is the second sample; denote its popultion value <m>C</m>.</li>
-				<li>Some of the <m>C</m> many animals in the second sample will have been previously marked, and some won't. Call the number of them that have been marked <m>R</m> (for <q>recapture</q>, since these are the animals that have been captured in both samples).</li>
-			</ol>
-			How do we use these figures to obtain a population estimate? The key to the mark recapture method is that we assume that the proportion of marked animals in our second sample is about the same as the proportion of marked animals in the overall population. In other words,
-			<me>\frac{R}{C}\approx\frac{M}{N}.</me>
-			We can solve this equation for <m>N</m>, and find that:
-			<me>N\approx\frac{MC}{R}.</me>
-		</p>
-	</assemblage>
-
-	<p>
-		 Let's illustrate this with an example.
+		One solution to this problem is called the <term>mark-recapture method</term>. It uses two samples to obtain an estimate of the population. We will describe it using the language of counting an animal population, but the same process can be applied to any enumeration problem. Let's demonstrate it using an example.
 	</p>
 
 <example>
+
+	<p>
+		Suppose we are trying to find the size of a population, represented by the the black dots in the top box of <xref ref="mark-recapture"/>. This number, represented by <m>N</m>, is currently unknown.
+	</p>
 
 	<figure xml:id="mark-recapture">
 		<caption>Illustration of the mark-recapture enumeration method
@@ -197,7 +181,60 @@ That's it! We can describe the steps of this method as follows.
 		<image source="images/mark-recapture-pic.jpg" width="100%"/>
 	</figure>
 
+	<p>
+		We first take a sample of 12 individuals and mark them (assign them the variable <m>M=12</m>, for <q>marked</q>). They are represented by the red dots in the box labeled <q>Survey 1</q>. These individuals are then returned to the original population and allowed to mix with the unmarked members, represented by the box of both black and red dots at the bottom of <xref ref="mark-recapture"/>.
+	</p>
+
+	<p>
+		Next, we remove a second sample, represented by the box on the right. This sample contains fifteen <em>total</em> members (<m>C=15</m>, for <q>captured</q>), some marked and some unmarked. Of these 15 members, a total of <m>R=4</m> have been marked (called <m>R</m> for <q>recaptured</q>). Since <m>4/15\approx 0.267</m>, about 26.7% of the second sample is marked.
+	</p>
+
+	<p>
+		The key to the mark-recapture method is that we now assume that about 26.7% of the <em>total</em> population (<m>N</m>) is also marked. We know that we originally makred a total of 12 individuals, so 12 must be about 26.7% of the unknown value, <m>N</m>. This gives us the equation:
+		<me>12\approx 0.267\cdot N</me>
+		<me>N\approx 12/0.267\approx 44.9</me>
+		Since there must be a whole number of dots, we estimate that there are about 45 members of the original population.
+	</p>
+
+	<p>
+		Recall that 26.7% came from the calculation <m>4/15\approx 0.267</m>. Thus, we can rewrite the last equation as follows:
+		<me>N\approx\frac{12}{0.267}\approx\frac{12}{4/15}=\frac{12\cdot 15}{4}=45.</me>
+		This is no different than what we just did above, but it allows us to perform the whole process in a single step.
+	</p>
+
+<!--
+	<p>
+		We can think of this same equation another way, using the variables we've introduced. The assumption that the proportion of marked individuals is about the same in both the sample and the general population can be expressed as:
+		<me>\frac{R}{C}\approx\frac{M}{N}.</me>
+		or, applying the numerical values of this example,
+		<me>\frac{4}{15}\approx\frac{12}{N}.</me>
+		Solving for <m>N</m> gives us
+		<me>N\approx\frac{12\cdot 15}{4}=45.</me>
+		So, once again, we estimate that the population is about <m>N=45</m> individuals.
+	</p>
+-->
+
 </example>
+
+<p>
+	We can collect the steps we've just performed into the following set of general directions for the mark-recapture method.
+</p>
+
+<assemblage><title>The mark-recapture method of enumeration</title>
+	<p>
+		We are looking to find the total size of a population, which is an unknown number <m>N</m>. First, capture and count two samples according to the following process:
+		<ol>
+			<li>Catch a number, <m>M</m>, of animals (the first sample), and mark them in some way.</li>
+			<li>Release the captured animals into the wild and allow them to mix with the general population.</li>
+			<li>After a period of time has passed, capture a second group of animals. This is the second sample; denote its popultion value <m>C</m>.</li>
+			<li>Some of the <m>C</m> many animals in the second sample will have been previously marked, and some won't. Call the number of them that have been marked <m>R</m> (for <q>recapture</q>, since these are the animals that have been captured in both samples).</li>
+		</ol>
+		Now we assume that the proportion of marked animals in our second sample is about the same as the proportion of marked animals in the overall population. In other words,
+		<me>\frac{R}{C}\approx\frac{M}{N}.</me>
+		We can solve this equation for <m>N</m>, and find that:
+		<me>N\approx\frac{MC}{R}.</me>
+	</p>
+</assemblage>
 
 	<example>
 		<p>
@@ -211,9 +248,9 @@ That's it! We can describe the steps of this method as follows.
 			Since we can't have 0.45 of a deer, we round to the nearest whole number, and find that the park has about 5285 deer.
 		</p>
 
-		<p>
+		<!--<p>
 			The first equation above is significant. The fraction <m>\frac{11}{255}\approx0.431</m> is telling us that about 4.31% of the deer in the second sample were marked. The fraction <m>\frac{228}{N}</m> represents the proportion of deer in the overall population who were marked. Thus, we set them equal to estimate that about 4.31% of all the deer are probably marked, too.
-		</p>
+		</p>-->
 
 	</example>
 
@@ -291,7 +328,7 @@ That's it! We can describe the steps of this method as follows.
 	</p>
 
 	<p>
-		Every ten years, the US government conducts a census of the population as required by the Constitution. US law states that the actual census data<mdash/>that is, the count of every single person<mdash/>be used as the official count (for instance, to apportion seats in the House of Representatives). However, not only is it difficult and expensive to count every person in the US directly, it can be less accurate than enumeration by sampling. In fact, the Census Bureau does a version of the mark-recapture procedure after each census, and uses that figure to estimate the error of the less accurate official tally. They describe this process at the following page:
+		Every ten years, the US government conducts a census of the population as required by the Constitution. US law states that the actual census data<mdash/>that is, the count of every single person<mdash/>be used as the official count (for instance, to apportion seats in the House of Representatives). However, not only is it difficult and expensive to count every person in the US directly, but it can even be less accurate than enumeration by sampling. In fact, the Census Bureau does a version of the mark-recapture procedure after each census, and uses that figure to estimate the error of the less accurate official tally. They describe this process at the following page:
 		<url href="https://www.census.gov/newsroom/blogs/director/2012/05/how-do-we-conduct-a-post-enumeration-survey.html"><q>How do we conduct a post-enumeration survey?</q></url>
 	</p>
 
