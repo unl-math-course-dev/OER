@@ -1213,31 +1213,156 @@
     </p>
   </solution>
 </example>
+  </subsection>
 
-
+<subsection>
+  <title> Important Classes of Improper Integrals</title>
+  <p>
+    There are three important classes of improper integrals that we will use in the subsection <xref ref="ComparingImpInt"> Comparing Improper Integrals </xref>. The three classes are <m> \int_1^{\infty} \frac{1}{x^p} \, dx </m> where <m> p </m> is a real number, <m> \int_0^1 \frac{1}{x^p} \, dx </m> where <m> p </m> is a real number, and <m>\int_0^{\infty} \frac{1}{e^{ax}}\, dx </m> where <m>a </m> is a real number. We will use the convergence behavior of these improper integrals which have simple integrands to gain understanding of the convergence behavior of improper integrals whose integrands are more complex. For each of these classes, the value of <m> p</m> or <m> a </m> will determine if the improper integral converges or diverges. 
+  </p>
+  <example>
+    <statement> 
+      <p> 
+        Determine the values of <m> p </m> so that <m> \int_1^{\infty} \frac{1}{x^p} \, dx </m> converges. In addition, determine the values of <m> p </m> so that <m> \int_1^{\infty} \frac{1}{x^p} \, dx </m> diverges. 
+      </p>
+    </statement>
+    <answer>
+      <p>
+        <m> \int_1^{\infty} \frac{1}{x^p} \ dx </m> converges if <m>p>1 </m> and diverges if <m>p\leq 1 </m>
+      </p>
+    </answer>
+    <solution> 
+      <p>
+        First, set up a limit to properly evaluate the improper integral.
+        <me>\int_1^{\infty} \frac{1}{x^p} \, dx = \lim_{b \to \infty} \int_1^b x^{-p} \, dx </me>
+        Notice that the antiderivative is different if <m> p=1 </m> or <m> p \neq 1 </m>, so we'll calculate these cases separately. Assume <m> p\neq 1 </m>. 
+        <md> 
+          <mrow>\int_1^{\infty} \frac{1}{x^p} \, dx &amp;= \lim_{b \to \infty} \int_1^b x^{-p} \, dx </mrow>
+          <mrow> &amp;= \lim_{b \to \infty} \left. \frac{x^{-p+1}}{-p+1} \right|_1^b </mrow>
+          <mrow> &amp;= \lim_{b \to \infty} \frac{b^{-p+1}}{-p+1} - \frac{1}{-p+1} </mrow>
+          <mrow> &amp;= -\frac{1}{-p+1} + \frac{1}{-p+1} \lim_{b \to \infty} b^{-p+1} </mrow>
+        </md>
+        If <m> -p+1 &gt;0 </m> (so <m>p &lt;1 </m>) then this limit diverges which implies that the improper integral diverges. 
+      </p>
+      <p> 
+        If <m> -p+1 &lt; 0 </m> (so <m>p &gt; 1 </m>) then this limit converges which implies that the improper integral converges. 
+      </p>
+      <p> 
+        Now, assume <m> p=1 </m>. 
+        <md> 
+          <mrow>\int_1^{\infty} \frac{1}{x} \, dx &amp;= \lim_{b \to \infty} \int_1^b \frac{1}{x} \, dx </mrow>
+          <mrow> &amp; =\lim_{b \to \infty} \left. \ln |x| \right|_1^b </mrow>
+          <mrow> &amp; =\lim_{b \to \infty} \ln|b| - \ln|1|</mrow>
+          <mrow> &amp;= \lim_{b \to \infty} \ln |b| </mrow>
+        </md>
+        This limit diverges, so the improper integral also diverges. Therefore <m> \int_1^{\infty} \frac{1}{x^p} \ dx </m> converges if <m>p>1 </m> and diverges if <m>p\leq 1 </m>.
+      </p>
+    </solution>
+  </example>
+  <example>
+    <statement> 
+      <p> 
+        Determine the values of <m> p </m> so that <m> \int_0^1 \frac{1}{x^p} \, dx </m> converges. In addition, determine the values of <m> p </m> so that <m> \int_0^1 \frac{1}{x^p} \, dx </m> diverges. 
+      </p>
+    </statement>
+    <answer>
+      <p>
+        <m> \int_0^{1} \frac{1}{x^p} \ dx </m> converges if <m>p &lt; 1 </m> and diverges if <m>p \geq 1 </m>
+      </p>
+    </answer>
+    <solution> 
+      <p>
+        The integrand is undefined at <m> x=0 </m>, so we need to set up a limit that approaches 0 from the right for the lower bound of the integral. 
+        <me> \int_0^1 \frac{1}{x^p} \, dx = \lim_{a \to 0^{+}} \int_a^1  x^{-p} \, dx</me>
+        The gereral antiderivative is different if <m> p=1 </m> or <m> p \neq 1 </m>, so we will handle each case separately. Assume <m> p \neq 1 </m>. 
+        <md> 
+          <mrow>\int_0^1 \frac{1}{x^p} \, dx &amp;= \lim_{a \to 0^{+}} \int_a^1  x^{-p} \, dx </mrow>
+          <mrow> &amp;= \lim_{a \to 0^{+}} \left. \frac{x^{-p+1}}{-p+1} \right|  </mrow>
+          <mrow> &amp;= \lim_{a \to 0^{+}} \frac{1}{-p+1} - \frac{a^{-p+1}}{-p+1} </mrow>
+          <mrow> &amp;= \frac{1}{-p+1} -\frac{1}{-p+1} \lim_{a \to 0^{+}} a^{-p+1} </mrow>
+        </md>
+        If <m>-p+1&gt;0 </m> (so <m> p&lt; 1</m>) then the limit converges so the improper integral converges. 
+      </p>
+      <p>
+        If <m>-p+1&lt;0 </m> (so <m>p&gt; 1 </m>) then the limit diverges so that improper integral diverges. 
+      </p>
+      <p> 
+        Assume <m> p=1</m>.
+        <md>
+          <mrow> \int_0^1 \frac{1}{x} \, dx &amp;= \lim_{a \to 0^{+}} \int_a^1 \frac{1}{x} \, dx </mrow>
+          <mrow> &amp; =\lim_{a \to 0^{+}}\left. \ln |x| \right|_a^1</mrow>
+          <mrow> &amp; =\lim_{a \to 0^{+}} \ln (1) - \ln(a) </mrow>
+          <mrow> &amp; =\lim_{a \to 0^{+}} 0 - \ln(a) </mrow>
+        </md>
+        This limit diverges so the improper integral diverges. Therefore, <m> \int_0^{1} \frac{1}{x^p} \ dx </m> converges if <m>p &lt; 1 </m> and diverges if <m>p \geq 1 </m>.
+      </p>
+    </solution>
+  </example>
+  <example>
+    <statement> 
+      <p> 
+        Determine the values of <m> a </m> so that <m> \int_0^{\infty} \frac{1}{e^{ax}} \, dx </m> converges. In addition, determine the values of <m> a </m> so that <m> \int_0^{\infty} \frac{1}{e^{ax}} \, dx </m> diverges. 
+      </p>
+    </statement>
+    <answer>
+      <p>
+        <m> \int_0^{\infty} \frac{1}{e^{ax}} \ dx </m> converges if <m> a>0 </m> and diverges if <m> a\leq0 </m>
+      </p>
+    </answer>
+    <solution>
+      <p>
+        Set up a limit to carefully calculate the improper integral. 
+        <me> \int_0^{\infty} e^{-ax} \, dx = \lim_{b \to \infty} \int_0^b e^{-ax} \, dx </me>
+        The antiderivative is different if <m> a=0 </m> or if <m> a \neq 0</m>, so we'll calculate these cases separately. Assume <m> a \neq 0 </m>.
+        <md> 
+          <mrow> \int_0^{\infty} e^{-ax} \, dx &amp;= \lim_{b \to \infty} \int_0^b e^{-ax} \, dx  </mrow>
+          <mrow> &amp;= \lim_{b \to \infty} \left. -\frac{1}{a} e^{-ax} \right|_0^b </mrow>
+          <mrow> &amp;= -\frac{1}{a} \lim_{b \to \infty} \left( e^{-ab} -1 \right) </mrow> 
+          <mrow> &amp;=\frac{1}{a} -\frac{1}{a} \lim_{b \to \infty} e^{-ab} </mrow>
+        </md>
+        If <m>-ab \lt 0</m> (so <m>a\gt0</m>), then the limit converges which implies the improper integral converges. 
+      </p>
+      <p>
+        If <m>-ab \gt 0 </m> (so <m>a\lt0</m>), then the limit diverges which implies the improper integral diverges. 
+      </p>
+      <p>
+        Assume <m> a=0</m>. 
+        <md> 
+          <mrow> \int_0^{\infty} e^{0} \, dx &amp;= \lim_{b \to \infty} \int_0^b 1 \, dx </mrow>
+          <mrow> &amp;= \lim_{b \to \infty} \left. x \right|_0^b</mrow>
+          <mrow> &amp;= \lim_{b \to \infty} b</mrow>
+        </md>
+        This limit diverges, so the improper integral diverges. Therefore, <m> \int_0^{\infty} \frac{1}{e^{ax}} \ dx </m> converges if <m> a>0 </m> and diverges if <m> a\leq0 </m>. 
+      </p>
+    </solution>
+  </example>
 
   <assemblage>
-  <title> Important integrals </title>
-  <p> Add convergence results for <m> \int_1^{\infty} \frac{1}{x^p} \ dx </m>, and <m> \int_0^{1} \frac{1}{x^p} \ dx </m>, and <m> \int_0^{\infty} \frac{1}{e^{ax}} \ dx </m>
+  <title> Convergence Behavior of Important Classes of Improper Integrals </title>
+  <p>
+    <ul>  
+      <li> 
+        <p> 
+          <m> \int_1^{\infty} \frac{1}{x^p} \ dx </m> converges if <m>p>1 </m> and diverges if <m>p\leq1 </m>
+        </p>
+      </li>
+      <li> 
+        <p> 
+          <m> \int_0^{1} \frac{1}{x^p} \ dx </m> converges if <m>p &lt; 1 </m> and diverges if <m>p \geq 1 </m>
+        </p>
+      </li>
+      <li> 
+        <p>
+          <m> \int_0^{\infty} \frac{1}{e^{ax}} \ dx </m> converges if <m> a>0 </m> and diverges if <m> a\leq0 </m>
+        </p>
+      </li>
+    </ul>
   </p>
-  
-  <p> Perhaps put the derivation of the first and third one in the infinite interval subsection as an example. Perhaps put the middle one in the unbounded integrand section. OR, make a new third subsection called "Important classes of improper integrals" and derive all three there. the n refer to that section in the comparison section.  Whatever you think!</p>
 </assemblage>
+</subsection>
 
-
-
-
-
-  </subsection>
-  
-  
-  <subsection permid="QPY">
+  <subsection xml:id="ComparingImpInt" permid="QPY">
     <title>Comparing Improper Integrals</title>
-  </subsection>
-  
-  
-  <example permid="Hfn">
-    <statement>
       <p permid="NiU">
         Sometimes we may encounter an improper integral for which we cannot easily evaluate the limit of the corresponding proper integrals.
         For instance,
@@ -1268,7 +1393,9 @@
         <m>\int_1^\infty \frac{1}{1+x^3} \, dx</m> must converge,
         even though we never explicitly evaluated the corresponding limit of proper integrals.
         We use this idea and similar ones in the exercises that follow.
-
+      </p>
+  <example permid="Hfn">
+    <statement>
         <ol label="a." permid="QyZ">
           <li permid="Dfo">
             <p permid="fmy">
@@ -1301,7 +1428,6 @@
             </p>
           </li>
         </ol>
-      </p>
     </statement>
     <answer permid="fHX">
       <p permid="AUC">
@@ -1425,16 +1551,7 @@
    
     </assemblage>
 
-  
-  
-  
-
-  
-  
-  
-  
-  
-
+  </subsection>
   <subsection permid="deq">
     <title>Summary</title>
     <p permid="qcC">
@@ -1466,16 +1583,45 @@
 
         <li permid="SFl">
           <p permid="Dwn">
-            An important class of improper integrals is given by
-            <me permid="Egh">
-              \int_1^{\infty} \frac{1}{x^p} \, dx
-            </me>
-            where <m>p</m> is a positive real number.
-            We can show that this improper integral converges whenever <m>p \gt 1</m>,
-            and diverges whenever <m>0 \lt  p \le 1</m>.
-            A related class of improper integrals is <m>\int_0^1 \frac{1}{x^p} \, dx</m>,
-            which converges for <m>0 \lt  p \lt  1</m>,
-            and diverges for <m>p \ge 1</m>.
+            There are three important classes of improper integrals discussed in this section. 
+            <ul>
+              <li>
+                <p>
+                  One important class of improper integrals is given by
+                  <me permid="Egh">
+                    \int_1^{\infty} \frac{1}{x^p} \, dx
+                  </me>
+                  where <m>p</m> is a positive real number.
+                  We can show that this improper integral converges whenever <m>p \gt 1</m>
+                  and diverges whenever <m>  p \le 1</m>.
+                </p>              
+              </li>
+              <li>
+                <p>
+                  A related class of improper integrals is 
+                  <me>\int_0^1 \frac{1}{x^p} \, dx, </me>
+                  which converges for <m>  p \lt  1</m>
+                  and diverges for <m>p \ge 1</m>. 
+                </p>
+              </li>
+              <li>
+                <p>
+                  Another class of improper integrals is
+                  <me>\int_0^{\infty} e^{-ax} \, dx, </me> which converges when <m> a \gt 0 </m> and diverges when <m> a \leq 0 </m>.
+                </p>
+              </li>
+            </ul>
+          </p>
+        </li>
+        <li>
+          <p>
+            These important classes of improper integrals are used for comparisons in the Comparison Test for Improper Integrals. The Comparison Test for Improper Integrals allows us to determine if an improper integral converges or diverges without having to calculate the antiderivative. The actual test states the following:  
+          </p>
+          <p>
+            If <m>f(x) \ge g(x) \ge 0 </m>  and  <m>   \int_a^{\infty} f(x) \, dx </m> converges, then <m>   \int_a^{\infty} g(x) \, dx </m> converges. 
+          </p>
+          <p>
+            If <m> f(x) \ge g(x) \ge 0   </m>  and  <m>   \int_a^{\infty} g(x) \, dx </m> diverges, then <m>   \int_a^{\infty} f(x) \, dx </m> diverges.
           </p>
         </li>
       </ul>
