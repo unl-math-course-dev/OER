@@ -116,15 +116,15 @@
 
 	<p>When n=10, the explicit equation looks like:</p>
 
-	<p><m>P_{10} = (1+r)^{10}P_0</m></p>
+	<me>P_{10} = (1+r)^{10}P_0</me>
 
 	<p>We know the value for <m>P_0</m>, so we can put that into the equation:</p>
 
-	<p><m>P_{10} = (1+r)^{10}962</m></p>
+	<me>P_{10} = (1+r)^{10}962</me>
 
 	<p>We also know that <m>P_{10} = 1182</m>, so substituting that in, we get</p>
 
-	<p><m>1182 = (1+r)^{10}962</m></p>
+	<me>1182 = (1+r)^{10}962</me>
 
 	<p>We can now solve this equation for the growth rate <m>r</m>. Start by dividing by 962.</p>
 
@@ -173,14 +173,82 @@
 
 <assemblage>
 	<title>Evaluating roots on the calculator</title>
-	<p>In the previous example, we had to calculate the 10th root of a number. This is different than taking the basic square root, <m>\sqrt{}</m>.  Many scientific calculators have a button for general roots.  It is typically labeled like: <m>\sqrt[n]{\hspace{5mm}} \text{, } \sqrt[x]{\hspace{5mm}} \text{, or } \sqrt[y]{x} </m></p>
+	<p>In the previous example, we had to calculate the 10th root of a number. This is different than taking the basic square root, <m>\sqrt{}</m>.  Many scientific calculators have a button for general roots.  It is typically labeled like:  <m>\sqrt[n]{} \text{, } \sqrt[x]{} \text{, or } \sqrt[y]{x} </m></p>
 
-	<p>To evaluate the 3rd root of 8, for example, we'd either type 3 <m> \sqrt[3]{} </m> 8 or 8 <m>\sqrt[3]{x} </m> 3, depending on the calculator. Try it on yours to see which to use - you should get an answer of 2.</p>
+	<p>To evaluate the 3rd root of 8, for example, we'd either type <m>3 \sqrt[3]{} 8 </m>  or <m> 8 \sqrt[3]{x} 3</m>, depending on the calculator. Try it on yours to see which to use - you should get an answer of 2.</p>
 
 	<p>If your calculator does not have a general root button, all is not lost. You can instead use the property of exponents which states that <m>\sqrt[n]{a} = a^{\frac{1}{n}}</m>. So to compute the 3rd root of 8, you could use your calculator's exponent key to calculate <m>8^{\frac{1}{3}}</m>. To do this, type: <m>8 y^x (1 \div 3)</m>.</p>
 
 	<p>The parentheses tell the calculator to divide 1/3 before doing the exponent.</p>
 </assemblage>
+
+<exploration>
+	<statement><p>The number of users on a social networking site was 45 thousand in February when they officially went public, and grew to 60 thousand by October.  If the site is growing exponentially, and growth continues at the same rate, how many users should they expect two years after they went public?</p></statement>
+
+	<solution><p>Here we will measure n in months rather than years, with n = 0 corresponding to the February when they went public.  This gives <m>P_0 = 45</m> thousand.  October is 8 months later, so <m>P_8 = 60</m></p>
+
+	<me>P_8 = (1+r)^8 P_0</me>
+
+	<me>60 = (1+r)^8 45</me>
+
+	<me>\frac{60}{45} = (1+r)^8</me>
+
+	<me>\sqrt[8]{\frac{60}{45}} = 1 + r</me>
+
+	<me>r = \sqrt[8]{\frac{60}{45}} -1 = 0.0366 \text{ or } 3.66\%</me>
+
+	<p>The general explicit equation is <m>P_n = (1.0366)^n45</m>. Predicting 24 months (2 years) after they went public:</p>
+
+	<me>P_{24} = (1.0366)^{24}45 = 106.63 \text{ thousand users} </me>
+
+	</solution>
+</exploration>
+
+<example>
+	<p>Looking back at the last example, for the sake of comparison, what would the carbon emissions be in 2050 if emissions grow linearly at the same rate?</p>
+
+	<p>Again we will get n = 0 corresponds with 1990, giving <m>P_0 = 962</m>.  To find d, we could take the same approach as earlier, noting that the emissions increased by 220 million metric tons in 10 years, giving a common difference of 22 million metric tons each year.</p>
+
+	<p>Alternatively, we could use an approach similar to that which we used to find the exponential equation.  When n = 10, the explicit linear equation looks like:</p>
+
+	<me>P_{10} = P_0 + 10d</me>
+
+	<p>We know the value for <m>P_0</m>, so we can put that into the equation:</p>
+
+	<me>P_{10} = 962 + 10d</me>
+
+	<p>Since we know that <m>P_{10}</m> is 1182, substituting that in we get</p>
+
+	<me>1182 = 962 + 10d</me>
+
+	<p>We can now solve this equation for the common difference, d</p>
+
+	<me>1182-962 = 10d</me>
+
+	<me>220 = 10d</me>
+
+	<me>d = 22</me>
+
+	<p>This tells us that if the emissions are changing linearly, they are growing by 22 million metric tons each year.  Predicting the emissions in 2050,</p>
+
+	<me>P_{60} = 962 + 22(60) = 2282 \text{ million metric tons}</me>
+
+	<sidebyside>
+		<p>You will notice that this number is substantially smaller than the prediction from the exponential growth model.  Calculating and plotting more values helps illustrate the differences.</p>
+		<image source="images/lin-v-exp.png" width="70%" />
+	</sidebyside>
+
+</example>
+
+<p>So how do we know which growth model to use when working with data?  There are two approaches which should be used together whenever possible:
+
+	<ol>
+		<li>Find more than two pieces of data.  Plot the values, and look for a trend.  Does the data appear to be changing like a line, or do the values appear to be curving upwards?</li>
+
+		<li>Consider the factors contributing to the data.  Are they things you would expect to change linearly or exponentially?  For example, in the case of carbon emissions, we could expect that, absent other factors, they would be tied closely to population values, which tend to change exponentially.</li>
+	</ol>
+</p>
+
 
 </subsection>	
 
