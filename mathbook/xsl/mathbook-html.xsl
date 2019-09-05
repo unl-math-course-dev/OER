@@ -6755,9 +6755,9 @@ along with MathBook XML.  If not, see <http://www.gnu.org/licenses/>.
     </xsl:choose>
 </xsl:variable>
 <xsl:template match="mdash">
-    <xsl:value-of select="$emdash-space-char"/>
+    <!-- <xsl:value-of select="$emdash-space-char"/>-->
     <xsl:text>&#8212;</xsl:text>
-    <xsl:value-of select="$emdash-space-char"/>
+   <!--  <xsl:value-of select="$emdash-space-char"/>-->
 </xsl:template>
 <xsl:template match="ndash">
     <xsl:text>&#8211;</xsl:text>
