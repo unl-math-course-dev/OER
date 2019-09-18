@@ -1,6 +1,6 @@
 <section xmlns:xi="http://www.w3.org/2001/XInclude" xml:id="sec-10-1-compound-interest">
 
-	<title>Compount Interest</title>
+	<title>Compound Interest</title>
 
 <introduction>
 <p>We have to work with money every day.  While balancing your checkbook or calculating your monthly expenditures on espresso requires only arithmetic, when we start saving, planning for retirement, or need a loan, we need more mathematics.  </p>
@@ -564,19 +564,89 @@
 </table>
 </p>
 
-<p>EVERYTHING BELOW THIS POINT IS LEFTOVER FROM SECTION 9-2</p>
+<p>To find an equation to represent this, if Pm represents the amount of money after m months, then we could write the recursive equation:</p>
+<p><m>P_0 = $1000</m></p>
+<p><m>P_m = (1+0.0025)P_{m-1}</m></p>
+
+<p>You probably recognize this as the recursive form of exponential growth.  If not, we could go through the steps to build an explicit equation for the growth:
+<p><m>P_0 = $1000</m></p>
+<p><m>P_1 = 1.0025P_0 = 1.0025 (1000)</m></p>
+<p><m>P_2 = 1.0025P_1 = 1.0025 (1.0025 (1000)) = 1.0025^2(1000)</m></p>
+<p><m>P_3 = 1.0025P_2 = 1.0025 (1.0025^2(1000)) = 1.0025^3(1000)</m></p>
+<p><m>P_4 = 1.0025P_3 = 1.0025 (1.0025^3(1000)) = 1.0025^4(1000)</m></p>
+</p>
+
+<p>Observing a pattern, we could conclude</p>
+
+<p><m>P_m = (10025)^m($1000)</m></p>
+
+<p>Notice that the $1000 in the equation was <m>P_0</m>, the starting amount.  We found 1.0025 by adding one to the growth rate divided by 12, since we were compounding 12 times per year.
+Generalizing our result, we could write</p>
+
+<me>P_m = P_0 \left( 1+\frac{r}{k} \right)^m</me>
+
+<p>In this formula <m>m</m> is the number of compounding periods (months in our example), <m>r</m> is the annual interest rate, and <m>k</m> is the number of compounds per year.</p>
+
+<p>While this formula works fine, it is more common to use a formula that involves the number of years, rather than the number of compounding periods.  If <m>N</m> is the number of years, then  <m>m = N k</m>.  Making this change gives us the standard formula for compound interest.</p>
+
+<assemblage>
+	<title>Compound Interest</title>
+
+	<p><me>P_N = P_0 \left( 1+\frac{r}{k} \right)^{Nk}</me></p>
+
+	<p><m>P_N</m> is the balance in the account after <m>N</m> years.</p>
+	<p><m>P_0</m> is the starting balance of the account (also called initial deposit, or principal)</p>
+	<p><m>r</m> is the annual interest rate in decimal form</p>
+	<p><m>k</m> is the number of compounding periods in one year. </p>
+</assemblage>
+
+<p>If the compounding is done annually (once a year), <m>k = 1.</m> If the compounding is done quarterly, <m>k = 4.</m>
+If the compounding is done monthly, <m>k = 12</m>. If the compounding is done daily, <m>k = 365</m>.</p>
+<p>The most important thing to remember about using this formula is that it assumes that we put money in the account once and let it sit there earning interest.  </p>
+
+<example>
+<p>A certificate of deposit (CD) is a savings instrument that many banks offer.  It usually gives a higher interest rate, but you cannot access your investment for a specified length of time.  Suppose you deposit $3000 in a CD paying 6% interest, compounded monthly.  How much will you have in the account after 20 years?</p>
+
+<p>In this example,
+<m>P_0 = $3000 </m>	is the initial deposit;
+<m>r = 0.06</m> since the annual rate is 6%;
+<m>k = 12</m> since there are 12 months in 1 year; and
+<m>N = 20</m>	since we’re looking for how much we’ll have after 20 years.</p>
+
+<p>So  <m>P_{20} = 3000 \left( 1+\frac{0.06}{12} \right)^{20 \times 12} = $9930.61</m> (rounded to the nearest penny).</p>
+</example>
+
 
 <assemblage>
 	<title>Evaluating exponents on the calculator</title>
 
-	<p>To evaluate expressions like <m>(1.03)^6</m> it will be easier to use a calculator than multiply 1.06 by itself six times. Most scientific calculators have a button for exponents. It is typically either labeled like:</p>
+<p>When we need to calculate something like <m>5^3</m> it is easy enough to just multiply <m>5⋅5⋅5=125</m>.  But when we need to calculate something like <m>1.005^{240}</m>, it would be very tedious to calculate this by multiplying 1.005 by itself 240 times!  So to make things easier, we can harness the power of our scientific calculators.</p>
 
-	<p>^, <m>y^x</m>, or <m>x^y</m></p>
+<p>Most scientific calculators have a button for exponents.  It is typically either labeled like: </p>
 
-	<p>To evaluate <m>1.03^6</m>, we'd type 1.03 ^ 6 or 1.03 <m>y^x</m> 6. Try it out - you should get an answer around 1.1940523.</p>
+            	<p><m>[</m> ^ <m>]</m>, <m>[y^x]</m>, or <m>[ x^y ]</m></p>
 
+<p>To evaluate <m>1.005^{240}</m>  we'd type  [1.005]  [ ^ ]  [240]  or  [1.005]  [ <m>y^x</m> ]  [240].  Try it out - you should get something around 3.3102044758.</p>
 
 </assemblage>
+
+<example>
+	<p>You know that you will need $40,000 for your child’s education in 18 years.  If your account earns 4% compounded quarterly, how much would you need to deposit now to reach your goal?</p>
+
+<p>In this example, we’re looking for <m>P_0</m>.</p>
+<p>We know <m>r = 0.04 </m> (since the interest is	4%), <m>k = 4</m> (since there are 4 quarters in 1 year),
+<m>N = 18</m>	since this is when we want to have achieved the desired balance, and <m>P_{18} = $40,000</m>	since this is the amount we want in 18 years.</p>
+
+<p>In this case, we’re going to have to set up the equation, and solve for <m>P_0</m>:</p>
+<p><m>40000 = P_0 \left( 1+\frac{0.04}{4} \right)^{18 \times 4}</m></p>
+<p><m>40000 = P_0 (2.0471)</m></p>
+<p><m>P_0 = \frac{40000}{2.0471} = $19539.84</m></p>
+
+<p>So you would need to deposit $19,539.84 now to have $40,000 in 18 years. </p>
+
+</example>
+
+<!--<p>EVERYTHING BELOW THIS POINT IS LEFTOVER FROM SECTION 9-2</p>
 
 <exploration>
 	<statement>India is the second most populous country in the world, with a population in 2008 of about 1.14 billion people.  The population is growing by about 1.34% each year.  If this trend continues, what will India's population grow to by 2020?</statement>
@@ -585,15 +655,7 @@
 <me> P_{12} = (1+0.0314)^{12}(1.14) = \text{about } 1.137 \text{ billion people in 2020}</me> </solution>
 </exploration>
 
-<example>
-	<p>A friend is using the equation <m>P_n = 4600(1.072)^n</m> to predict the annual tuition at a local college. She says the formula is based on years after 2010. What does this equation tell us?</p>
 
-	<p>In the equation, <m>P_0</m> = 4600,which is the starting value of the tuition when n = 0. This tells us that the tuition in 2010 was $4,600.</p>
-
-	<p>The growth multiplier is 1.072, so the growth rate is 0.072, or 7.2%. This tells us that the tuition is expected to grow by 7.2% each year.</p>
-
-	<p>Putting this together, we could say that the tuition in 2010 was $4,600, and is expected to grow by 7.2% each year.</p>
-</example>
 
 <example>
 	<p>In 1990, the residential energy use in the US was responsible for 962 million metric tons of carbon dioxide emissions. By the year 2000, that number had risen to 1182 million metric tons. If the emissions grow exponentially and continue at the same rate, what will the emissions grow to by 2050?</p>
@@ -733,7 +795,7 @@
 
 		<li>Consider the factors contributing to the data.  Are they things you would expect to change linearly or exponentially?  For example, in the case of carbon emissions, we could expect that, absent other factors, they would be tied closely to population values, which tend to change exponentially.</li>
 	</ol>
-</p>
+</p> -->
 
 
 </subsection>
