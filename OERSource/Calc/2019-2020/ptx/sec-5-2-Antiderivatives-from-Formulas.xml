@@ -1,1000 +1,599 @@
-<?xml version="1.0" encoding="UTF-8" ?>
-<!-- **********************************************************************-->
-<!-- Copyright 2019                                                        -->
-<!-- UNL Department of Mathematics                                         -->
-<!-- Based upon the work of                                                -->
-<!-- Matthew Boelkins                                                      -->
-<!-- Copyright 2012-2018                                                   -->
-<!--                                                                       -->
-<!-- This file is part of Coordinated Calculus.                            -->
-<!-- This file is based on Active Calculus.                                -->
-<!--                                                                       -->
-<!-- Permission is granted to copy, distribute and/or modify this document -->
-<!-- under the terms of the Creative Commons BY-SA license.  The work      -->
-<!-- may be used for free by any party so long as attribution is given to  -->
-<!-- the author(s), the work and its derivatives are used in the spirit of -->
-<!-- "share and share alike".  All trademarks are the registered marks of  -->
-<!-- their respective owners.                                              -->
-<!-- **********************************************************************-->
-<section xmlns:xi="http://www.w3.org/2001/XInclude" xml:id="sec-5-2-AntiderivativesFromFormulas" permid="kOT">
-  <title>Antiderivatives from Formulas</title>
-  <objectives permid="pyM">
-    <ul permid="hUn">
-      <li permid="uiF">
-        <p permid="eZH">
-          If we have a function given by a formula, is there a way to write down the antiderivative?
-        </p>
-      </li>
-      
-            <li permid="uiF">
-        <p permid="eZH">
-          How can we find the area between two curves?
-        </p>
-      </li>
-
-
-    </ul>
-  </objectives>
-
-  <introduction permid="VFV">
-<p permid="PRj">
-      The general problem of finding an antiderivative is difficult.
-      In part, this is due to the fact that we are trying to undo the process of differentiating,
-      and the undoing is much more difficult than the doing.
-      For example,
-      while it is evident that an antiderivative of <m>f(x) = \sin(x)</m> is
-      <m>F(x) = -\cos(x)</m> and that an antiderivative of
-      <m>g(x) = x^2</m> is <m>G(x) = \frac{1}{3} x^3</m>,
-      combinations of <m>f</m> and <m>g</m> can be far more complicated.
-      Consider the functions
-      <me permid="rYt">
-        5\sin(x) - 4x^2, \ x^2 \sin(x), \ \frac{\sin(x)}{x^2}, \ \text{and}  \ \sin(x^2)
-      </me>.  In the above cases, the antiderivative might not be obvious and in some cases, for example, <m>\sin(x^2)</m> the antiderivative cannot be written down using elementary functions.  This warrants the question, how do we find an antiderivative from a function given by a formula in general?  We will begin to answer that question in this chapter.
-    </p>
-  
-  
-  </introduction>
-  
-    <subsection xml:id="sec-4-4-ss2" permid="XRh">
-    <title>Basic antiderivatives</title>
-    
-
-    <p permid="vYs">
-      What is involved in trying to find an antiderivative for each?
-      From our experience with derivative rules,
-      we know that derivatives of sums and constant multiples of basic functions are simple to execute, but
-      derivatives involving products, quotients,
-      and composites of familiar functions are more complicated.
-      Therefore, it stands to reason that antidifferentiating products,
-      quotients,
-      and composites of basic functions may be even more challenging.
-      We defer our study of all but the most elementary antiderivatives to later in the text.
-    </p>
-
-<p>Before proceeding any further it will be useful to state two properties.
-<assemblage><title>Properties of Antiderivatives: Sums and Constant Multiples</title>
-<p>
-Let <m>f</m> and <m>g</m> be functions that have an antiderivative and <m>c</m> a constant then
-      <md permid="wIm">
-        <mrow>\int\left(f(x) \pm g(x)\right) dx &amp;=  \int f(x)dx \pm \int g(x)dx</mrow>
-		<mrow>\int cf(x) dx &amp;=  c\int f(x)dx</mrow>
-       
-      </md>.
-      In other words, the antiderivative of a sum is the sum of the antiderivatives.
-</p>
-
-</assemblage>
-We forgo a formal proof of these properties but note that they are a consequence of the Constant Multiple Rule and Sum Rule for derivatives in <xref ref="sec-2-1-elem-rules">Section</xref>.
-</p>
-
-
-
-    <p permid="cfB">
-      We do note that whenever we know the derivative of a function,
-      we have a <em>function-derivative pair</em>,
-      so we also know the antiderivative of a function.
-      For instance, since we know that
-      <me permid="YfC">
-        \frac{d}{dx}[-\cos(x)] = \sin(x)
-      </me>,
-      we also know that <m>F(x) = -\cos(x)</m> is an antiderivative of <m>f(x) = \sin(x)</m>.
-      <m>F</m> and <m>f</m> together form a function-derivative pair.
-      Clearly, every basic derivative rule leads us to such a pair,
-      and thus to a known antiderivative.
-    </p>
-
-    <p permid="ImK">
-      In <xref ref="act-4-4-2">Example</xref>,
-      we will construct a list of the basic antiderivatives we know at this time.
-      Those rules will help us  antidifferentiate sums and constant multiples of basic functions.
-      For example,
-      since <m>-\cos(x)</m> is an antiderivative of <m>\sin(x)</m> and
-      <m>\frac{1}{3}x^3</m> is an antiderivative of <m>x^2</m>,
-      it follows that
-      <me permid="EmL">
-        F(x) = -5\cos(x) - \frac{4}{3}x^3
-      </me>
-      is an antiderivative of <m>f(x) = 5\sin(x) - 4x^2</m>.
-    </p>
-
-    <p permid="otT">
-      Finally, before proceeding to build a list of common functions whose antiderivatives we know,
-      we recall that each function has more than one antiderivative.
-      Because the derivative of any constant is zero,
-      we may add a constant of our choice to 
-      any antiderivative.
-      For instance, we know that
-      <m>G(x) = \frac{1}{3}x^3</m> is an antiderivative of <m>g(x) = x^2</m>.
-      But we could also have chosen <m>G(x) = \frac{1}{3}x^3 + 7</m>,
-      since in this case as well, <m>G'(x) = x^2</m>.
-
-      If <m>g(x) = x^2</m>, we say that the
-      <em>general antiderivative</em>
-          <idx><h>antiderivative</h><h>general</h></idx>
-      of <m>g</m> is
-      <me permid="ktU">
-        G(x) = \frac{1}{3}x^3 + C
-      </me>,
-      where <m>C</m> represents an arbitrary real number constant.
-      Regardless of the formula for <m>g</m>,
-      including <m>+C</m> in the formula for its antiderivative <m>G</m> results in the most general possible antiderivative.
-    </p>
-
-
-
-    <p permid="MWD">
-      In the following example,
-      we work to build a list of basic functions whose antiderivatives we already know.
-    </p>
-
-<example xml:id="act-4-4-2" permid="ovP">
-  <statement>
-    <p permid="yUU">
-      Use your knowledge of derivatives of basic functions to complete the above table of antiderivatives.
-      For each entry,
-      your task is to find a function <m>F</m> whose derivative is the given function <m>f</m>.
-
-    </p>
-
-    <table xml:id="T-4-4-Act2" permid="PTf">
-      <caption>Familiar basic functions.</caption>
-      <tabular top="minor" bottom="minor" permid="wao">
-        <row bottom="medium">
-          <cell>given function, <m>f(x)</m></cell>
-          <cell>antiderivative, <m>F(x)</m>   <nbsp /></cell>
-        </row>
-        <row>
-          <cell  ><m>k</m>, (<m>k</m> is constant)</cell>
-          <cell></cell>
-        </row>
-        <row>
-          <cell><m>x^n</m>, <m>n \ne -1</m></cell>
-          <cell></cell>
-        </row>
-        <row>
-          <cell><m>\frac{1}{x}</m>, <m>x \gt 0</m></cell>
-          <cell></cell>
-        </row>
-        <row>
-          <cell><m>\sin(x)</m></cell>
-          <cell></cell>
-        </row>
-        <row>
-          <cell><m>\cos(x)</m></cell>
-          <cell></cell>
-        </row>
-        <row>
-          <cell><m>\sec(x) \tan(x)</m></cell>
-          <cell></cell>
-        </row>
-        <row>
-          <cell><m>\csc(x) \cot(x)</m></cell>
-          <cell></cell>
-        </row>
-        <row>
-          <cell><m>\sec^2 (x)</m></cell>
-          <cell></cell>
-        </row>
-        <row>
-          <cell><m>\csc^2 (x)</m></cell>
-          <cell></cell>
-        </row>
-        <row>
-          <cell><m>e^x</m></cell>
-          <cell></cell>
-        </row>
-        <row>
-          <cell><m>a^x</m> <m>(a \gt 1)</m></cell>
-          <cell></cell>
-        </row>
-        <row>
-          <cell><m>\frac{1}{1+x^2}</m></cell>
-          <cell></cell>
-        </row>
-        <row>
-          <cell><m>\frac{1}{\sqrt{1-x^2}}</m></cell>
-          <cell></cell>
-        </row>
-      </tabular>
-
-    </table>
-
-   
-  </statement>
-  <hint permid="bxD">
-    <p permid="SNL">
-      You might start by constructing a list of all the basic functions whose derivative you know.
-
-    </p>
-  </hint>
-  <answer permid="vqu">
-    <sidebyside permid="chx">
-
-      <tabular top="minor" bottom="minor" permid="jLW">
-        <row bottom="medium">
-          <cell>given function, <m>f(x)</m></cell>
-          <cell>antiderivative, <m>F(x)</m>   <nbsp /></cell>
-        </row>
-        <row>
-          <cell  ><m>k</m>, (<m>k \ne 0</m>)</cell>
-          <cell><m>kx+C</m></cell>
-        </row>
-        <row>
-          <cell><m>x^n</m>, <m>n \ne -1</m></cell>
-          <cell><m>\frac{1}{n+1}x^{n+1}+C</m></cell>
-        </row>
-        <row>
-          <cell><m>\frac{1}{x}</m>, <m>x \gt 0</m></cell>
-          <cell><m>\ln(x)+C</m></cell>
-        </row>
-        <row>
-          <cell><m>\sin(x)</m></cell>
-          <cell><m>-\cos(x)+C</m></cell>
-        </row>
-        <row>
-          <cell><m>\cos(x)</m></cell>
-          <cell><m>\sin(x)+C</m></cell>
-        </row>
-        <row>
-          <cell><m>\sec(x) \tan(x)</m></cell>
-          <cell><m>\sec(x)+C</m></cell>
-        </row>
-        <row>
-          <cell><m>\csc(x) \cot(x)</m></cell>
-          <cell><m>-\csc(x)+C</m></cell>
-        </row>
-        <row>
-          <cell><m>\sec^2 (x)</m></cell>
-          <cell><m>\tan(x)+C</m></cell>
-        </row>
-        <row>
-          <cell><m>\csc^2 (x)</m></cell>
-          <cell><m>\cot(x)+C</m></cell>
-        </row>
-        <row>
-          <cell><m>e^x</m></cell>
-          <cell><m>e^x+C</m></cell>
-        </row>
-        <row>
-          <cell><m>a^x</m> <m>(a \gt 1)</m></cell>
-          <cell><m>\frac{1}{\ln(a)} a^x+C</m></cell>
-        </row>
-        <row>
-          <cell><m>\frac{1}{1+x^2}</m></cell>
-          <cell><m>\arctan(x)+C</m></cell>
-        </row>
-        <row>
-          <cell><m>\frac{1}{\sqrt{1-x^2}}</m></cell>
-          <cell><m>\arcsin(x)+C</m></cell>
-        </row>
-      </tabular>
-
-    </sidebyside>
-
-   
-  </answer>
-  <solution permid="Pjl">
-    <sidebyside permid="IoG">
-
-
-<table xml:id="T-4-4-Act2_2" permid="PTf">
-      <caption>Familiar basic functions and their antiderivatives.</caption>
-      <tabular top="minor" bottom="minor" permid="DEN">
-        <row bottom="medium">
-          <cell>given function, <m>f(x)</m></cell>
-          <cell>antiderivative, <m>F(x)</m>   <nbsp /></cell>
-        </row>
-        <row>
-          <cell  ><m>k</m>, (<m>k \ne 0</m>)</cell>
-          <cell><m>kx+C</m></cell>
-        </row>
-        <row>
-          <cell><m>x^n</m>, <m>n \ne -1</m></cell>
-          <cell><m>\frac{1}{n+1}x^{n+1}+C</m></cell>
-        </row>
-        <row>
-          <cell><m>\frac{1}{x}</m>, <m>x \gt 0</m></cell>
-          <cell><m>\ln(x)+C</m></cell>
-        </row>
-        <row>
-          <cell><m>\sin(x)</m></cell>
-          <cell><m>-\cos(x)+C</m></cell>
-        </row>
-        <row>
-          <cell><m>\cos(x)</m></cell>
-          <cell><m>\sin(x)+C</m></cell>
-        </row>
-        <row>
-          <cell><m>\sec(x) \tan(x)</m></cell>
-          <cell><m>\sec(x)+C</m></cell>
-        </row>
-        <row>
-          <cell><m>\csc(x) \cot(x)</m></cell>
-          <cell><m>-\csc(x)+C</m></cell>
-        </row>
-        <row>
-          <cell><m>\sec^2 (x)</m></cell>
-          <cell><m>\tan(x)+C</m></cell>
-        </row>
-        <row>
-          <cell><m>\csc^2 (x)</m></cell>
-          <cell><m>\cot(x)+C</m></cell>
-        </row>
-        <row>
-          <cell><m>e^x</m></cell>
-          <cell><m>e^x+C</m></cell>
-        </row>
-        <row>
-          <cell><m>a^x</m> <m>(a \gt 1)</m></cell>
-          <cell><m>\frac{1}{\ln(a)} a^x+C</m></cell>
-        </row>
-        <row>
-          <cell><m>\frac{1}{1+x^2}</m></cell>
-          <cell><m>\arctan(x)+C</m></cell>
-        </row>
-        <row>
-          <cell><m>\frac{1}{\sqrt{1-x^2}}</m></cell>
-          <cell><m>\arcsin(x)+C</m></cell>
-        </row>
-      </tabular>
-      </table>
-
-    </sidebyside>
-
-    
-  </solution>
-</example>
-  </subsection>
-  
-  <subsection><title>Evaluating Definite Integrals Involving Expressions</title>
-  <p>Now that we have some basic antiderivatives in hand we can proceed to solve problems involving the definite integral when the integrand is an expression.  Specifically, we seek to use antiderivatives and the Fundamental Theorem of Calculus to evaluate expressions like <m>\displaystyle \int_0^1 \left(x^3 - x - e^x + 2\right) \,dx</m>.
-  
-  </p>
-  
-      <p permid="UBc">
-      Since our current interest in antiderivatives is so that we can evaluate definite integrals 
-      by the Fundamental Theorem of Calculus the constant <m>C</m> is actually irrelevant,
-      and mathematicians genrally omit it in these types of problems.
-      To see why, consider the definite integral
-      <me permid="QBd">
-        \int_0^1 x^2 \, dx
-      </me>.
-    </p>
-
-    <p permid="AIl">
-      For the integrand <m>g(x) = x^2</m>,
-      suppose we find and use the general antiderivative <m>G(x) = \frac{1}{3} x^3 + C</m>.
-      Then, by the Fundamental Theorem of Calculus,
-      <md permid="wIm">
-        <mrow>\int_0^1 x^2 \, dx &amp;=  \left. \frac{1}{3} x^3 + C \right|_0^1</mrow>
-        <mrow>&amp;= \left(\frac{1}{3} (1)^3 + C  \right) - \left(\frac{1}{3} (0)^3 + C  \right)</mrow>
-        <mrow>&amp;= \frac{1}{3} + C - 0 - C</mrow>
-        <mrow>&amp;= \frac{1}{3}</mrow>
-      </md>.
-    </p>
-
-    <p permid="gPu">
-      Observe that the <m>C</m>-values appear as opposites in the evaluation of the integral and thus do not affect the definite integral's value.
-    </p>
-    
-    <example xml:id="act-5-2-3" permid="ovP">
-  <statement>
-    <p permid="yUU">
-      Use the FTC and the results in <xref ref="T-4-4-Act2_2">Table</xref> to evaluate the three given definite integrals.
-    </p>
-
-
-    <p permid="fcd">
-      <ol label="a." permid="TTe">
-        <li permid="Aan">
-          <p permid="dmQ">
-            <m>\displaystyle \int_0^1 \left(x^3 - x - e^x + 2\right) \,dx</m>
-          </p>
-        </li>
-
-        <li permid="ghw">
-          <p permid="JtZ">
-            <m>\displaystyle \int_0^{\frac{\pi}{3}} (2\sin (t) - 4\cos(t) + \sec^2(t) - \pi) \, dt</m>
-          </p>
-        </li>
-
-        <li permid="MoF">
-          <p permid="pBi">
-            <m>\displaystyle \int_0^1 (\sqrt{x}-x^2) \, dx</m>
-          </p>
-        </li>
-      </ol>
-    </p>
-  </statement>
-  <hint permid="bxD">
-    <p permid="SNL">
-      Be sure to recall the sum and constant multiple rules,
-      which work not only for differentiating,
-      but also for antidifferentiating.
-    </p>
-  </hint>
-  <answer permid="vqu">
-
-
-    <p permid="mGC">
-      <ol label="a." permid="nLV">
-        <li permid="svO">
-          <p permid="VIr">
-            <m> \int_0^1 \left(x^3 - x - e^x + 2\right) \,dx = \frac{11}{4} - 3</m>.
-          </p>
-        </li>
-
-        <li permid="YCX">
-          <p permid="BPA">
-            <m> \int_0^{\frac{\pi}{3}} (2\sin (t) - 4\cos(t) + \sec^2(t) - \pi) \, dt = 1 - \sqrt{3} - \frac{\pi^2}{3}</m>.
-          </p>
-        </li>
-
-        <li permid="EKg">
-          <p permid="hWJ">
-            <m> \int_0^1 (\sqrt{x} - x^2) \, dx = \frac{1}{3}</m>.
-          </p>
-        </li>
-      </ol>
-    </p>
-  </answer>
-  <solution permid="Pjl">
-
-
-    <p permid="Gzt">
-      <ol label="a." permid="HEM">
-        <li permid="kRp">
-          <p permid="OdS">
-            By standard antiderivative rules and the FTC,
-            <md permid="Ljm">
-              <mrow>\int_0^1 \left(x^3 - x - e^x + 2\right) \,dx =\mathstrut \amp  \left. \frac{1}{4} x^4 - \frac{1}{2}x^2 - e^x + 2x \right|_0^1</mrow>
-              <mrow>=\mathstrut \amp  \left(\frac{1}{4} (1)^4 - \frac{1}{2}(1)^2 - e^1 + 2(1) \right) -   \left(\frac{1}{4} (0)^4 - \frac{1}{2}(0)^2 - e^0 + 2(0) \right)</mrow>
-              <mrow>=\mathstrut \amp  \frac{1}{4} - \frac{1}{2} - e + 2 -  \left(0 - 0 - 1 + 0 \right)</mrow>
-              <mrow>=\mathstrut \amp  -\frac{1}{4} - e + 3</mrow>
-              <mrow>=\mathstrut \amp  \frac{11}{4} - 3</mrow>
-            </md>.
-          </p>
-        </li>
-
-        <li permid="QYy">
-          <p permid="ulb">
-            Calculating the needed antiderivative and applying the FTC,
-            <md permid="rqv">
-              <mrow>\int_0^{\frac{\pi}{3}} (2\sin (t) - 4\cos(t) + \sec^2(t) - \pi) \, dt =\mathstrut \amp  \left. \left(-2\cos(t) - 4\sin(t) + \tan(t) - \pi t \right) \right|_0^{\frac{\pi}{3}}</mrow>
-              <mrow>=\mathstrut \amp  \left(-2\cos(\frac{\pi}{3}) - 4\sin(\frac{\pi}{3}) + \tan(\frac{\pi}{3}) - \pi (\frac{\pi}{3}) \right) -</mrow>
-              <mrow>\ \amp   \left(-2\cos(0)) - 4\sin(0) + \tan(0) - \pi (0) \right)</mrow>
-              <mrow>=\mathstrut \amp  -2 \cdot \frac{1}{2} - 4 \cdot \frac{\sqrt{3}}{2} + \sqrt{3} - \frac{\pi^2}{3} - (-2 - 0 + 0 - 0)</mrow>
-              <mrow>=\mathstrut \amp  1 - \sqrt{3} - \frac{\pi^2}{3}</mrow>
-            </md>.
-          </p>
-        </li>
-
-        <li permid="xfH">
-          <p permid="ask">
-            Noting that <m>\frac{d}{dx}[\frac{2}{3} x^{\frac{3}{2}}] = x^{\frac{1}{2}}</m>,
-            we find that
-            <md permid="XxE">
-              <mrow>\int_0^1 (\sqrt{x} - x^2) \, dx =\mathstrut \amp  \left. \frac{2}{3}x^{\frac{3}{2}} - \frac{1}{3}x^3 \right|_0^1</mrow>
-              <mrow>=\mathstrut \amp  \frac{2}{3} - \frac{1}{3} - (0 - 0 )</mrow>
-              <mrow>=\mathstrut \amp  \frac{1}{3}</mrow>
-            </md>.
-          </p>
-        </li>
-      </ol>
-    </p>
-  </solution>
-</example>
-    
-  </subsection>
-  
- <subsection><title>Integration and the Area between Two Curves</title>
- <p>Integration allows us to find the area between a curve and the <m>x</m>-axis.  In fact, by visually inspecting the graphs of two different curves we can develop a technique for finding the area between two curves.  Consider the graphs of the curves <m>y=x^2+1</m> and <m>y=x+3</m> displayed in <xref ref="F-5-2-SS4">Figure</xref>.  We might ask if there is a way to find the area enclosed by these two curves as is colored in the figure.
- 
- </p>
- 
-      
-             <figure xml:id="F-5-2-SS4" permid="SlM">
-        <caption>Graphs of the curves <m>y=x^2+1</m> and <m>y=x+3</m>.</caption>
-        <image width="50%" source="images/5-2-SS4.jpg" />
-      </figure>
- 
- <p>
- In fact, using the knowledge we have about integration, we can figure out this quantity exactly.
- </p>
- 
- <example>
- <statement>
- <p>What is the exact area enclosed by the curves given by the functions <m>f(x)=x^2+1</m> and <m>g(x)=x+3</m>?</p>
- </statement>
- <hint>
- <p>
- It might help to answer the following questions:
- <ul>
- <li>Where do the curves intersect?</li>
- <li>Based upon <xref ref="F-5-2-SS4">Figure</xref> how would you calculate exact area between <m>g(x)</m> and the <m>x</m>-axis between the points of intersection?</li>
-<li>Based upon <xref ref="F-5-2-SS4">Figure</xref> how would you calculate exact area between <m>f(x)</m> and the <m>x</m>-axis between the points of intersection?</li>
-<li>What is the relationship between the areas you calculated above?</li>
- </ul>
- </p>
- </hint>
-<answer>
-	<p><m>\frac{9}{2}</m></p>
-</answer>
- 
-
- <solution>
- <p>
- The first step in solving this problem is to determine where the curves intersect.  We can find the point of intersection by setting the two curves equal to each other.
- <md>
- <mrow>x^2+1 \amp=x+3</mrow>
-  <mrow>x^2-x-2 \amp=x+3</mrow>
-  <mrow>x^2-x-2 \amp=0</mrow>
-  <mrow>(x+1)(x-2) \amp=0</mrow>
- </md>
- Therefore, the curves intersect at two <m>x</m>-values, <m>x=-1,2</m>.  This means were are concerned with the interval <m>[-2,2]</m>.
- </p>
- <p>
- We next note that on the interval in question, <m>[-2,2]</m>, the curve <m>g(x)=x+3</m> is above the curve <m>f(x)=x^2+1</m>.  We also note that <m>\int_{-1}^{2}(x+3)dx</m> would give the area shown in <xref ref="F-5-2-SS5">Figure</xref> and <m>\int_{-1}^{2}(x^2+1)dx</m> <xref ref="F-5-2-SS6">Figure</xref>.
- </p>
-              <figure xml:id="F-5-2-SS5" permid="SlM">
-        <caption>Graph of the curve <m>y=x+3</m>.</caption>
-        <image width="25%" source="images/5-2-SS5.jpg" />
-      </figure>
-                    <figure xml:id="F-5-2-SS6" permid="SlM">
-        <caption>Graph of the curve <m>y=x+3</m>.</caption>
-        <image width="25%" source="images/5-2-SS6.jpg" />
-      </figure>
-      <p>
-      By overlaying <xref ref="F-5-2-SS5">Figure</xref> and <xref ref="F-5-2-SS6">Figure</xref> as in <xref ref="F-5-2-SS7">Figure</xref> you can see that <xref ref="F-5-2-SS4">Figure</xref> should be given by subtracting <m>\int_{-1}^{2}(x^2+1)dx</m> from <m>\int_{-1}^{2}(x+3)dx</m>.
-      
-      
-    <figure xml:id="F-5-2-SS7" permid="SlM">
-    <caption>Graphs of the curves <m>y=x^2+1</m> and <m>y=x+3</m>.</caption>
-    <image width="25%" source="images/5-2-SS7.jpg" />
-    </figure>
-    </p>
-	 <p>Therefore, the area between the curves <m>y=x^2+1</m> and <m>y=x+3</m> is given by the following quantity: 
-		  <md>
- <mrow> \int_{-1}^{2}(x+3)dx-\int_{-1}^{2}(x^2+1)dx=\int_{-1}^{2}\left((x+3)-(x^2+1)\right)dx
-</mrow>
-  <mrow> \mathstrut \amp=\int_{-1}^{2}(-x^2+x+2)dx</mrow>
-  <mrow> \mathstrut \amp= -\frac{1}{3}x^3+\frac{1}{2}x^2+2x \right|_{-1}^{2}</mrow>
-  <mrow>\mathstrut \amp= -\frac{1}{3}(2)^3+\frac{1}{2}(2)^2+2(2)-\left(-\frac{1}{3}(-1)^3+\frac{1}{2}(-1)^2+2(-1)\right)</mrow>
-<mrow>\mathstrut \amp =-\frac{8}{3}+2+4-\left(\frac{1}{3}+\frac{1}{2}-2\right)</mrow>
-<mrow>\mathstrut \amp= \frac{9}{2}</mrow> 
-		 </md></p>
- </solution>
-  </example>
- </subsection> 
-  
-  
-<exercises xmlns:xi="http://www.w3.org/2001/XInclude"> 
-
-  <exercise xml:id="ez-5-2-WW0" permid="laK">
-    <title>Finding Antiderivatives</title>
-    <webwork source="Library/Michigan/Chap6Sec2/Q31.pg" />
-  </exercise>
-  
-  <exercise xml:id="ez-5-2-WW0-1" permid="laK">
-    <title>Finding Antiderivatives (Constants)</title>
-    <webwork source="Library/Valdosta/APEX_Calculus/5.1/APEX_5.1_11-12.pg" />
-  </exercise>
-  
-    <exercise xml:id="ez-5-2-WW0-2" permid="laK">
-    <title>Finding Antiderivatives (Polynomials)</title>
-    <webwork source="Library/Valdosta/APEX_Calculus/5.1/APEX_5.1_26.pg" />
-  </exercise>
-  
-    <exercise xml:id="ez-5-2-WW0-5" permid="laK">
-    <title>Finding Antiderivatives</title>
-    <webwork source="Library/Michigan/Chap6Sec2/Q55.pg" />
-  </exercise>
-  
-      <exercise xml:id="ez-5-2-WW0-6" permid="laK">
-    <title>Finding Antiderivatives (Power Functions)</title>
-    <webwork source="Library/Valdosta/APEX_Calculus/5.4/APEX_5.4_18-24.pg" />
-  </exercise>
-  
-        <exercise xml:id="ez-5-2-WW0-7" permid="laK">
-    <title>Finding Antiderivatives (<m>n^{th}</m>-Roots)</title>
-    <webwork source="Library/Valdosta/APEX_Calculus/5.4/APEX_5.4_15-17.pg" />
-  </exercise>
-  
-          <exercise xml:id="ez-5-2-WW0-8" permid="laK">
-    <title>Definite Integrals from Antiderivatives</title>
-    <webwork source="Library/Valdosta/APEX_Calculus/5.4/APEX_5.4_5-7.pg" />
-  </exercise>
-  
-            <exercise xml:id="ez-5-2-WW0-9" permid="laK">
-    <title>Definite Integrals from Antiderivatives (Trigonometric Functions)</title>
-    <webwork source="Library/Valdosta/APEX_Calculus/5.4/APEX_5.4_8-9.pg" />
-  </exercise>
-
-  <exercise xml:id="ez-5-2-WW1" permid="laK">
-    <title>Finding exact displacement</title>
-    <webwork source="Library/Rochester/setIntegrals3Definite/osu_in_3_1a.pg" />
-  </exercise>
-
-  <exercise xml:id="ez-5-2-WW2" permid="RhT">
-    <title>Evaluating the definite integral of a rational function</title>
-    <webwork source="Library/Rochester/setIntegrals3Definite/c4s4p6.pg" />
-  </exercise>
-
-  <exercise xml:id="ez-5-2-WW3" permid="xpc">
-    <title>Evaluating the definite integral of a linear function</title>
-    <webwork source="Library/Rochester/setIntegrals3Definite/s4_4_17.pg" />
-  </exercise>
-
-  <exercise xml:id="ez-5-2-WW4" permid="dwl">
-    <title>Evaluating the definite integral of a quadratic function</title>
-    <webwork source="Library/Rochester/setIntegrals3Definite/s4_4_21.pg" />
-  </exercise>
-
-  <exercise xml:id="ez-5-2-WW5" permid="JDu">
-    <title>Simplifying an integrand before integrating</title>
-    <webwork source="Library/Rochester/setIntegrals3Definite/s4_4_27.pg" />
-  </exercise>
-
-  <exercise xml:id="ez-5-2-WW6" permid="pKD">
-    <title>Evaluating the definite integral of a trigonometric function</title>
-    <webwork source="Library/Rochester/setIntegrals3Definite/s4_4_41.pg" />
-  </exercise>
-
-  <exercise permid="VRM">
-   <title>Analyzing a velocity function</title>
-    <statement>
-      <p permid="GXj">
-        The instantaneous velocity
-        (in meters per minute)
-        of a moving object is given by the function <m>v</m> as pictured in <xref ref="F-4-4-Ez2">Figure</xref>.
-        Assume that on the interval <m>0 \le t \le 4</m>,
-        <m>v(t)</m> is given by <m>v(t) = -\frac{1}{4}t^3 + \frac{3}{2}t^2 + 1</m>,
-        and that on every other interval <m>v</m> is piecewise linear,
-        as shown.
-      </p>
-
-      <figure xml:id="F-4-4-Ez2" permid="TlB">
-        <caption>The velocity function of a moving body.</caption>
-        <image width="47%" source="images/4_4_Ez2" />
-      </figure>
-
-      <p permid="nes">
-        <ol label="a." permid="cqS">
-          <li permid="UMt">
-            <p permid="ppe">
-              Determine the exact distance traveled by the object on the time interval <m>0 \le t \le 4</m>.
-            </p>
-          </li>
-
-          <li permid="ATC">
-            <p permid="Vwn">
-              What is the object's average velocity on <m>[12,24]</m>?
-            </p>
-          </li>
-
-          <li permid="haL">
-            <p permid="BDw">
-              At what time is the object's acceleration greatest?
-            </p>
-          </li>
-
-          <li permid="NhU">
-            <p permid="hKF">
-              Suppose that the velocity of the object is increased by a constant value <m>c</m> for all values of <m>t</m>.
-              What value of <m>c</m> will make the object's total distance traveled on <m>[12,24]</m> be 210 meters?
-            </p>
-          </li>
-        </ol>
-      </p>
-    </statement>
-    <answer permid="aBF">
-      <p permid="iuz">
-        <ol label="a." permid="jVr">
-          <li permid="tpd">
-            <p permid="NRO">
-              <m>20</m> meters.
-            </p>
-          </li>
-
-          <li permid="Zwm">
-            <p permid="tYX">
-              <m>
-              \displaystyle v_{\operatorname{AVG} [12,24]} = 12.5
-              </m>
-              meters per minute.
-            </p>
-          </li>
-
-          <li permid="FDv">
-            <p permid="agg">
-              The object's maximum acceleration is <m>3</m> meters per minute per minute at the instant <m>t = 2</m>.
-            </p>
-          </li>
-
-          <li permid="lKE">
-            <p permid="Gnp">
-              <m>c = \frac{60}{24} = 2.5</m>.
-            </p>
-          </li>
-        </ol>
-      </p>
-    </answer>
-    <solution permid="uuw">
-      <p permid="JRP">
-        <ol label="a." permid="rzQ">
-          <li permid="RRN">
-            <p permid="muy">
-              Since velocity is positive,
-              distance traveled is the definite integral of velocity.
-              Thus, on <m>[0,4]</m>, the total distance, <m>D</m>, is
-              <me permid="kjM">
-                D = \int_0^4 v(t) \, dt = \int_0^4 \left( -\frac{1}{4}t^3 + \frac{3}{2}t^2 + 1 \right) \, dt
-              </me>.
-              By the Fundamental Theorem of Calculus,
-              <md permid="QqV">
-                <mrow>\int_0^4 \left( -\frac{1}{4}t^3 + \frac{3}{2}t^2 + 1 \right) \, dt &amp;= \left. \left( -\frac{1}{16}t^4 + \frac{1}{2}t^3 + t \right) \right|_{t=0}^{t=4}</mrow>
-                <mrow>&amp;= -\frac{1}{16}4^4 + \frac{1}{2}4^3 + 4</mrow>
-                <mrow>&amp;= 20</mrow>
-              </md>,
-              so the distance traveled by the object on <m>[0,4]</m> is <m>20</m> meters.
-            </p>
-          </li>
-
-          <li permid="xYW">
-            <p permid="SBH">
-              To find the average velocity of the object on <m>[12,24]</m>,
-              we first evaluate <m>\int_{12}^{24} v(t) \, dt</m>.
-              To do so, we use the fact that <m>v</m> is piecewise linear and employ standard geometric formulas to determine the value of the integral.
-              The area of the trapezoid formed by <m>v(t)</m> and the vertical line segments at <m>t = 12</m> and <m>t = 16</m> is
-              <me permid="wye">
-                A_1 = \frac{1}{2}(f(12) + f(16))(4) = 2(9 + 15) = 48
-              </me>.
-              The area of the rectangle formed by <m>v(t)</m> and the vertical line segments at <m>t = 16</m> and <m>t = 20</m> is
-              <me permid="cFn">
-                A_2 = 4 \cdot 15 = 60
-              </me>.
-              Finally, the area of the trapezoid formed by <m>v(t)</m> and the vertical line segments at <m>t = 20</m> and <m>t = 24</m> is
-              <me permid="IMw">
-                A_3 = \frac{1}{2}(f(20) + f(24))(4) = 2(15 + 6) = 42
-              </me>.
-              Thus,
-              <me permid="oTF">
-                \int_{12}^{24} v(t) \, dt = A_1 + A_2 + A_3 = 48 + 60 + 42 = 150
-              </me>,
-              from which it follows that
-              <me permid="VaO">
-                \displaystyle v_{\operatorname{AVG} [12,24]}  = \frac{1}{24-12} \int_{12}^{24} v(t) \, dt = \frac{150}{12} = 12.5
-              </me>
-              meters per minute.
-            </p>
-          </li>
-
-          <li permid="egf">
-            <p permid="yIQ">
-              To find where <m>a(t)</m> is greatest,
-              we recall that <m>a(t) = v'(t)</m>,
-              so we are seeking the location where the slope of the tangent line to <m>v(t)</m> is maximized on the interval <m>[0,24]</m>.
-              From the graph,
-              there are only two possible intervals where this can occur:
-              <m>0 \lt t \lt 4</m> and <m>12 \lt t \lt 16</m>,
-              as these are both where <m>v</m> is increasing and thus <m>a(t) = v'(t)</m> is positive.
-            </p>
-
-            <p permid="ePZ">
-              On <m>12 \lt t \lt 16</m>,
-              <m>a(t) = v'(t) = \frac{3}{2}</m> since this is the slope of the line that forms <m>v(t)</m> on this interval.
-              On <m>0 \lt t \lt 4</m>,
-              <m>v(t) = -\frac{1}{4}t^3 + \frac{3}{2}t^2 + 1</m>,
-              so <m>a(t) = v'(t) = -\frac{3}{4}t^2 + 3t</m>.
-              We see that <m>a(t)</m> is a quadratic function that opens down,
-              so its maximum occurs at its vertex,
-              which is located where <m>a'(t) = 0</m>.
-              We know that <m>a'(t) = -\frac{3}{2}t + 3</m>,
-              and <m>0 = -\frac{3}{2}t + 3</m> implies <m>t = 2</m>.
-              Moreover, <m>a(2) = v'(2) = -\frac{3}{4} \cdot 2^2 + 3(2) = 3</m>.
-              Clearly <m>a(2) = 3 \gt \frac{3}{2}</m>,
-              so the object's maximum acceleration is <m>3</m> meters per minute per minute at the instant <m>t = 2</m>.
-            </p>
-          </li>
-
-          <li permid="Kno">
-            <p permid="KXi">
-              Let <m>V(t) = v(t) + c</m> be the new velocity function that is the original velocity <m>v</m> increased by <m>c</m> at every time.
-              We want to know the value of <m>c</m> for which total distance traveled is <m>210</m> meters.
-              For this to be true, we must have that
-              <me permid="BhX">
-                210 = \int_{0}^{24} V(t) \, dt = \int_{0}^{24} \left( v(t) + c \right) \, dt
-              </me>.
-              Using the additive property of the definite integral and our earlier work in (b),
-              we can say that
-              <me permid="hpg">
-                210 = \int_{0}^{24} v(t) \, dt + \int_{0}^{24} c \, dt = 150 + \int_{0}^{24} c \, dt
-              </me>,
-              so
-              <me permid="Nwp">
-                \int_{0}^{24} c \, dt = 60
-              </me>.
-              Since the function <m>f(t) = c</m> is constant,
-              the integral <m>\int_{0}^{24} c \, dt</m> represents the area of a rectangle <m>24</m> units wide and <m>c</m> units tall,
-              so  <m>\int_{0}^{24} c \, dt = 24c</m>.
-              Hence,
-              <me permid="tDy">
-                24c = 60
-              </me>
-              so <m>c = \frac{60}{24} = 2.5</m>.
-            </p>
-          </li>
-        </ol>
-      </p>
-    </solution>
-  </exercise>
-
-  <exercise permid="BYV">
-   <title>Evaluating the definite integral of a piecewise function</title>
-    <statement>
-      <p permid="zsK">
-        A function <m>f</m> is given piecewise by the formula
-        <me permid="ZKH">
-          f(x) = 
-          \begin{cases}
-          -x^2 + 2x + 1, \amp  \ \text{if}  \ 0 \le x \lt  2 \\
-          -x + 3, \amp  \ \text{if}  \ 2 \le x \lt  3 \\
-          x^2 - 8x + 15, \amp  \ \text{if}  \ 3 \le x \le 5
-          \end{cases}
-        </me>.
-        <ol label="a." permid="Iyb">
-          <li permid="qux">
-            <p permid="rer">
-              Determine the exact value of the net signed area enclosed by <m>f</m> and the <m>x</m>-axis on the interval <m>[2,5]</m>.
-            </p>
-          </li>
-
-          <li permid="WBG">
-            <p permid="XlA">
-              Compute the exact average value of <m>f</m> on <m>[0,5]</m>.
-            </p>
-          </li>
-
-          <li permid="CIP">
-            <p permid="DsJ">
-              Find a formula for a function <m>g</m> on
-              <m>5 \le x \le 7</m> so that if we extend the above definition of <m>f</m> so that
-              <m>f(x) = g(x)</m> if <m>5 \le x \le 7</m>,
-              it follows that <m>\int_0^7 f(x) \, dx = 0</m>.
-            </p>
-          </li>
-        </ol>
-      </p>
-    </statement>
-    <answer permid="mPX">
-      <p permid="OBI">
-        <ol label="a." permid="QcA">
-          <li permid="iPY">
-            <p permid="jzS">
-              <m>-\frac{5}{6}</m>.
-            </p>
-          </li>
-
-          <li permid="OXh">
-            <p permid="PHb">
-              <m>
-              \displaystyle f_{\operatorname{AVG} [0,5]} = \frac{1}{2}</m>.
-            </p>
-          </li>
-
-          <li permid="veq">
-            <p permid="vOk">
-              <m>g(x) = f(x)</m> for <m>0 \le x \lt 5</m> and
-              <m>g(x) = -\frac{5}{4}(x - 5)</m> on <m>5 \le x \le 7</m>.
-            </p>
-
-            <sidebyside width="50%" permid="AjI">
-              <image source="images/4_4_Ez2Solnc" />
-            </sidebyside>
-
-          </li>
-        </ol>
-      </p>
-    </answer>
-    <solution permid="GIO">
-      <p permid="pYY">
-        <ol label="a." permid="XGZ">
-          <li permid="blz">
-            <p permid="bVt">
-              The net signed area enclosed by <m>f</m> and the <m>x</m>-axis on the interval <m>[2,5]</m> is <m>\int_2^5 f(x) \, dx</m>.
-              The figure below shows a graph of <m>f</m> on the interval <m>[0,5]</m>.
-              To calculate the definite integral of <m>f</m> on the interval <m>[2,5]</m>,
-              we consider the integrals on the subintervals <m>[2,3]</m> and <m>[3,5]</m>.
-              Doing so and using the Fundamental Theorem of Calculus,
-              <md permid="FRQ">
-                <mrow>\int_2^5 f(x) \, dx &amp;= \int_2^3 f(x) \, dx + \int_3^5 f(x) \, dx</mrow>
-                <mrow>&amp;= \int_2^3 -x+3 \, dx + \int_3^5 x^2-8x+15 \, dx</mrow>
-                <mrow>&amp;= \left. \left( -\frac{1}{2}x^2 + 3x \right)\right|_2^3 + \left. \left( \frac{1}{3}x^3 - 4x^2 + 15x  \right)\right|_3^5</mrow>
-                <mrow>&amp;= \left(\frac{9}{2}-4\right) + \left( \frac{50}{3}-18 \right)</mrow>
-                <mrow>&amp;= \frac{127}{6} - 22 = -\frac{5}{6}</mrow>
-              </md>.
-            </p>
-
-            <sidebyside width="50%" permid="gqR">
-              <image source="images/4_4_Ez2Soln" />
-            </sidebyside>
-
-          </li>
-
-          <li permid="HsI">
-            <p permid="IcC">
-              To find the average value of <m>f</m> on <m>[0,5]</m> we need to first calculate
-              <me permid="lYZ">
-                \int_0^5 f(x) \, dx
-              </me>.
-              Using our work in (a) and considering the subintervals <m>[0,2]</m> and <m>[2,5]</m>,
-              <md permid="ynr">
-                <mrow>\int_0^5 f(x) \, dx &amp;= \int_0^2 f(x) \, dx + \int_2^5 f(x) \, dx</mrow>
-                <mrow>&amp;= \int_0^2 -x^2 + 2x + 1 \, dx - \frac{5}{6}</mrow>
-                <mrow>&amp;= \left. \left( -\frac{1}{3}x^3 + x^2 + x \right)\right|_0^2 - \frac{5}{6}</mrow>
-                <mrow>&amp;= \frac{10}{3} - \frac{5}{6}</mrow>
-                <mrow>&amp;= \frac{5}{2}</mrow>
-              </md>.
-              Therefore, the average value of <m>f</m> on <m>[0,5]</m> is
-              <me permid="Sgi">
-                \displaystyle f_{\operatorname{AVG} [0,5]} = \frac{1}{5-0} \int_0^5 f(x) \, dx = \left(\frac{1}{5}\right) \left(\frac{5}{2}\right) = \frac{1}{2}
-              </me>.
-            </p>
-          </li>
-
-          <li permid="nzR">
-            <p permid="ojL">
-              Since <m>\int_0^5 f(x) \, dx = \frac{5}{2}</m>,
-              we need a function <m>g</m> that matches <m>f</m> but that is also defined on <m>[5,7]</m> so that <m>\int_5^7 g(x) \, dx = -\frac{5}{2}</m>.
-              To preserve continuity,
-              we will choose a formula for <m>g</m> that also satisfies <m>g(5) = 0</m>.
-              It's natural to pick a linear function whose graph encloses <m>5/2</m> units of area,
-              so one that has a slope of <m>5/4</m>.
-              To check, we compute
-              <md permid="euA">
-                <mrow>\int_5^7 -\frac{5}{4}(x - 5) \, dx &amp;= -\left(\frac{5}{4}\right) \left. \left(\frac{x^2}{2} - 5x\right) \right|_5^7</mrow>
-                <mrow>&amp;= -\left(\frac{5}{4}\right) \left( \frac{49-25}{2} - 5(7-5) \right)</mrow>
-                <mrow>&amp;= -\left(\frac{5}{4}\right) \left( 12 - 10 \right)</mrow>
-                <mrow>&amp;= -\left(\frac{5}{4}\right) \left( 2 \right) = -\frac{5}{2}</mrow>
-              </md>.
-              So <m>g</m> defined so that <m>g(x) = f(x)</m> for
-              <m>0 \le x \lt 5</m> and <m>g(x) = -\frac{5}{4}(x - 5)</m> on
-              <m>5 \le x \le 7</m> has the desired property.
-              A graph of <m>g</m> is shown in the figure below.
-            </p>
-
-            <sidebyside width="50%" permid="Mya">
-              <image source="images/4_4_Ez2Solnc" />
-            </sidebyside>
-
-          </li>
-        </ol>
-      </p>
-    </solution>
-  </exercise>
-
-
- </exercises>
-
-</section>
-
+<!DOCTYPE html>
+<!--**************************************-->
+<!--*    Generated from PreTeXt source   *-->
+<!--*    on 2019-11-15T17:17:38-06:00    *-->
+<!--*                                    *-->
+<!--*   http://mathbook.pugetsound.edu   *-->
+<!--*                                    *-->
+<!--**************************************-->
+<html lang="en-US">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>CC Antiderivatives from Formulas</title>
+<meta name="Keywords" content="Authored in PreTeXt">
+<meta name="viewport" content="width=device-width,  initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0">
+<script type="text/javascript" src="https://sagecell.sagemath.org/static/jquery.min.js"></script><script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [['\\(','\\)']],
+    },
+    TeX: {
+        extensions: ["extpfeil.js", "autobold.js", "https://aimath.org/mathbook/mathjaxknowl.js", ],
+        // scrolling to fragment identifiers is controlled by other Javascript
+        positionToHash: false,
+        equationNumbers: { autoNumber: "none", useLabelIds: true, },
+        TagSide: "right",
+        TagIndent: ".8em",
+    },
+    // HTML-CSS output Jax to be dropped for MathJax 3.0
+    "HTML-CSS": {
+        scale: 88,
+        mtextFontInherit: true,
+    },
+    CommonHTML: {
+        scale: 88,
+        mtextFontInherit: true,
+    },
+});
+</script><script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS_CHTML-full"></script><link href="https://math-webwork2.unl.edu//webwork2_files/js/apps/MathView/mathview.css" rel="stylesheet">
+<script type="text/javascript" src="https://math-webwork2.unl.edu//webwork2_files/js/vendor/iframe-resizer/js/iframeResizer.min.js"></script><script type="text/javascript" src="https://aimath.org/knowl.js"></script><script src="https://aimath.org/mathbook/js/lib/jquery.sticky.js"></script><script src="https://aimath.org/mathbook/js/lib/jquery.espy.min.js"></script><script src="https://aimath.org/mathbook/js/Mathbook.js"></script><link href="https://fonts.googleapis.com/css?family=Open+Sans:400,400italic,600,600italic" rel="stylesheet" type="text/css">
+<link href="https://fonts.googleapis.com/css?family=Inconsolata:400,700&amp;subset=latin,latin-ext" rel="stylesheet" type="text/css">
+<link href="https://aimath.org/mathbook/stylesheets/mathbook-3.css" rel="stylesheet" type="text/css">
+<link href="https://aimath.org/mathbook/mathbook-add-on.css" rel="stylesheet" type="text/css">
+</head>
+<body class="mathbook-book has-toc has-sidebar-left">
+<a class="assistive" href="#content">Skip to main content</a><div class="hidden-content">\(\newcommand{\dollar}{\$}
+\DeclareMathOperator{\erf}{erf}
+\DeclareMathOperator{\arctanh}{arctanh}
+\newcommand{\lt}{&lt;}
+\newcommand{\gt}{&gt;}
+\newcommand{\amp}{&amp;}
+\)</div>
+<header id="masthead" class="smallbuttons"><div class="banner"><div class="container">
+<a id="logo-link" href="https://mathbooks.unl.edu/Calculus" target="_blank"><img src="images/ActiveCalculusImage_sm.jpg" alt="Logo image"></a><div class="title-container">
+<h1 class="heading"><a href="index.html"><span class="title">Coordinated Calculus</span></a></h1>
+<p class="byline">Nathan Wakefield, Christine Kelley, Marla Williams, Michelle Haver, Lawrence Seminario-Romero, Robert Huben, Aurora Marks, Stephanie Prahl, Based upon Active Calculus by Matthew Boelkins</p>
+</div>
+</div></div>
+<nav id="primary-navbar" class="navbar"><div class="container">
+<div class="navbar-top-buttons">
+<button class="sidebar-left-toggle-button button active">Contents</button><div class="tree-nav toolbar toolbar-divisor-3">
+<a class="index-button toolbar-item button" href="index-1.html" title="Index" alt="Index">Index</a><span class="threebuttons"><a id="previousbutton" class="previous-button toolbar-item button" href="sec-5-1-antid-graphs.html" title="Previous" alt="Previous">Prev</a><a id="upbutton" class="up-button button toolbar-item" href="C-5.html" title="Up" alt="Up">Up</a><a id="nextbutton" class="next-button button toolbar-item" href="sec-5-3-diff.html" title="Next" alt="Next">Next</a></span>
+</div>
+<button class="sidebar-right-toggle-button button active">Annotations</button>
+</div>
+<div class="navbar-bottom-buttons toolbar toolbar-divisor-4">
+<button class="sidebar-left-toggle-button button toolbar-item active">Contents</button><a class="previous-button toolbar-item button" href="sec-5-1-antid-graphs.html" title="Previous" alt="Previous">Prev</a><a class="up-button button toolbar-item" href="C-5.html" title="Up" alt="Up">Up</a><a class="next-button button toolbar-item" href="sec-5-3-diff.html" title="Next" alt="Next">Next</a>
+</div>
+</div></nav></header><div class="page">
+<aside id="sidebar-left" class="sidebar"><div class="sidebar-content">
+<nav id="toc"><h2 class="link"><a href="frontmatter.html" data-scroll="frontmatter"><span class="title">Front Matter</span></a></h2>
+<ul>
+<li><a href="colophon-1.html" data-scroll="colophon-1">Colophon</a></li>
+<li><a href="acknowledgement-1.html" data-scroll="acknowledgement-1">Acknowledgements</a></li>
+<li><a href="preface-1.html" data-scroll="preface-1">About This Text</a></li>
+</ul>
+<h2 class="link"><a href="C-0.html" data-scroll="C-0"><span class="title">PreCalculus Review</span></a></h2>
+<ul>
+<li><a href="introfunctions.html" data-scroll="introfunctions">Functions</a></li>
+<li><a href="explog.html" data-scroll="explog">Exponential and Logarithmic Functions</a></li>
+<li><a href="trig.html" data-scroll="trig">Trigonometric Functions</a></li>
+</ul>
+<h2 class="link"><a href="C-1.html" data-scroll="C-1"><span class="codenumber">1</span><span class="title">Understanding the Derivative</span></a></h2>
+<ul>
+<li><a href="deriv.html" data-scroll="deriv">Introduction to Continuity</a></li>
+<li><a href="lims.html" data-scroll="lims">Introduction to Limits</a></li>
+<li><a href="sec-1-1-vel.html" data-scroll="sec-1-1-vel">How do we Measure Velocity?</a></li>
+<li><a href="sec-1-3-derivative-pt.html" data-scroll="sec-1-3-derivative-pt">The Derivative of a Function at a Point</a></li>
+<li><a href="sec-1-4-derivative-fxn.html" data-scroll="sec-1-4-derivative-fxn">The Derivative Function</a></li>
+<li><a href="sec-1-5-units.html" data-scroll="sec-1-5-units">Interpreting, Estimating, and Using the Derivative</a></li>
+<li><a href="sec-1-6-second-d.html" data-scroll="sec-1-6-second-d">The Second Derivative</a></li>
+<li><a href="sec-1-7-lim-cont-diff.html" data-scroll="sec-1-7-lim-cont-diff">Differentiability</a></li>
+</ul>
+<h2 class="link"><a href="C-2.html" data-scroll="C-2"><span class="codenumber">2</span><span class="title">Computing Derivatives</span></a></h2>
+<ul>
+<li><a href="sec-2-1-elem-rules.html" data-scroll="sec-2-1-elem-rules">Elementary Derivative Rules</a></li>
+<li><a href="sec-2-2-sin-cos.html" data-scroll="sec-2-2-sin-cos">The Sine and Cosine Functions</a></li>
+<li><a href="sec-2-3-prod-quot.html" data-scroll="sec-2-3-prod-quot">The Product and Quotient Rules</a></li>
+<li><a href="sec-2-4-other-trig.html" data-scroll="sec-2-4-other-trig">Derivatives of Other Trigonometric Functions</a></li>
+<li><a href="sec-2-5-chain.html" data-scroll="sec-2-5-chain">The Chain Rule</a></li>
+<li><a href="sec-2-6-inverse.html" data-scroll="sec-2-6-inverse">Derivatives of Inverse Functions</a></li>
+<li><a href="sec-2-7-implicit.html" data-scroll="sec-2-7-implicit">Derivatives of Functions Given Implicitly</a></li>
+<li><a href="sec-2-8-hyperbolic.html" data-scroll="sec-2-8-hyperbolic">Hyperbolic Functions</a></li>
+<li><a href="sec-1-8-tan-line-approx.html" data-scroll="sec-1-8-tan-line-approx">The Tangent Line Approximation</a></li>
+<li><a href="sec-2-10-MVT.html" data-scroll="sec-2-10-MVT">The Mean Value Theorem</a></li>
+</ul>
+<h2 class="link"><a href="C-3.html" data-scroll="C-3"><span class="codenumber">3</span><span class="title">Using Derivatives</span></a></h2>
+<ul>
+<li><a href="sec-3-1-tests.html" data-scroll="sec-3-1-tests">Using Derivatives to Identify Extreme Values</a></li>
+<li><a href="sec-3-3-optimization.html" data-scroll="sec-3-3-optimization">Global Optimization</a></li>
+<li><a href="sec-3-4-applied-opt.html" data-scroll="sec-3-4-applied-opt">Applied Optimization</a></li>
+<li><a href="sec-3-2-families.html" data-scroll="sec-3-2-families">Using Derivatives to Describe Families of Functions</a></li>
+<li><a href="sec-3-5-rel-rates.html" data-scroll="sec-3-5-rel-rates">Related Rates</a></li>
+<li><a href="sec-2-8-LHR.html" data-scroll="sec-2-8-LHR">Using Derivatives to Evaluate Limits</a></li>
+<li><a href="sec-3-7-parametric.html" data-scroll="sec-3-7-parametric">Parametric Equations</a></li>
+</ul>
+<h2 class="link"><a href="C-4.html" data-scroll="C-4"><span class="codenumber">4</span><span class="title">The Definite Integral</span></a></h2>
+<ul>
+<li><a href="sec-4-1-velocity-distance.html" data-scroll="sec-4-1-velocity-distance">Determining distance traveled from velocity</a></li>
+<li><a href="sec-4-2-Riemann.html" data-scroll="sec-4-2-Riemann">Riemann Sums</a></li>
+<li><a href="sec-4-3-definite-integral.html" data-scroll="sec-4-3-definite-integral">The Definite Integral</a></li>
+<li><a href="sec-4-4-FTC.html" data-scroll="sec-4-4-FTC">The Fundamental Theorem of Calculus</a></li>
+</ul>
+<h2 class="link active"><a href="C-5.html" data-scroll="C-5"><span class="codenumber">5</span><span class="title">Evaluating Integrals</span></a></h2>
+<ul>
+<li><a href="sec-5-1-antid-graphs.html" data-scroll="sec-5-1-antid-graphs">Constructing Accurate Graphs of Antiderivatives</a></li>
+<li><a href="sec-5-2-AntiderivativesFromFormulas.html" data-scroll="sec-5-2-AntiderivativesFromFormulas" class="active">Antiderivatives from Formulas</a></li>
+<li><a href="sec-5-3-diff.html" data-scroll="sec-5-3-diff">Differential Equations</a></li>
+<li><a href="sec-5-4-FTC2.html" data-scroll="sec-5-4-FTC2">The Second Fundamental Theorem of Calculus</a></li>
+<li><a href="sec-5-5-substitution.html" data-scroll="sec-5-5-substitution">Integration by Substitution</a></li>
+<li><a href="sec-5-6-parts.html" data-scroll="sec-5-6-parts">Integration by Parts</a></li>
+<li><a href="sec-5-7-other-opt.html" data-scroll="sec-5-7-other-opt">Other Options for Finding Algebraic Antiderivatives</a></li>
+<li><a href="sec-5-8-tables.html" data-scroll="sec-5-8-tables">Using Technology and Tables to Evaluate Integrals</a></li>
+<li><a href="sec-5-9-num-int.html" data-scroll="sec-5-9-num-int">Numerical Integration</a></li>
+<li><a href="sec-5-10-improper.html" data-scroll="sec-5-10-improper">Improper Integrals</a></li>
+</ul>
+<h2 class="link"><a href="C-6.html" data-scroll="C-6"><span class="codenumber">6</span><span class="title">Using Definite Integrals</span></a></h2>
+<ul>
+<li><a href="sec-6-1-area.html" data-scroll="sec-6-1-area">Using Definite Integrals to Find Area and Length</a></li>
+<li><a href="sec-6-2-volume.html" data-scroll="sec-6-2-volume">Using Definite Integrals to Find Volume</a></li>
+<li><a href="sec-6-3-polar.html" data-scroll="sec-6-3-polar">Area and Arc Length in Polar Coordinates</a></li>
+<li><a href="sec-6-4-mass.html" data-scroll="sec-6-4-mass">Density, Mass, and Center of Mass</a></li>
+<li><a href="sec-6-5-physics.html" data-scroll="sec-6-5-physics">Physics Applications:  Work, Force, and Pressure</a></li>
+</ul>
+<h2 class="link"><a href="C-7.html" data-scroll="C-7"><span class="codenumber">7</span><span class="title">Sequences and Series</span></a></h2>
+<ul>
+<li><a href="sec-7-1-sequences.html" data-scroll="sec-7-1-sequences">Sequences</a></li>
+<li><a href="sec-7-2-geometric.html" data-scroll="sec-7-2-geometric">Geometric Series</a></li>
+<li><a href="sec-7-3-series.html" data-scroll="sec-7-3-series">Convergence of Series</a></li>
+<li><a href="sec-7-4-alternating.html" data-scroll="sec-7-4-alternating">Alternating Series and Absolute Convergence</a></li>
+<li><a href="sec-7-5-powerseries.html" data-scroll="sec-7-5-powerseries">Power Series</a></li>
+<li><a href="sec-7-6-taylor.html" data-scroll="sec-7-6-taylor">Taylor Polynomials and Taylor Series</a></li>
+<li><a href="sec-7-7-applications--series.html" data-scroll="sec-7-7-applications--series">Applications of Taylor Series</a></li>
+</ul>
+<h2 class="link"><a href="C-8.html" data-scroll="C-8"><span class="codenumber">8</span><span class="title">Differential Equations</span></a></h2>
+<ul>
+<li><a href="sec-8-1-diff-eq-intro.html" data-scroll="sec-8-1-diff-eq-intro">An Introduction to Differential Equations</a></li>
+<li><a href="sec-8-2-qualitative.html" data-scroll="sec-8-2-qualitative">Qualitative Behavior of Solutions to DEs</a></li>
+<li><a href="sec-8-3-euler.html" data-scroll="sec-8-3-euler">Euler's Method</a></li>
+<li><a href="sec-8-4-separable.html" data-scroll="sec-8-4-separable">Separable differential equations</a></li>
+<li><a href="sec-8-5-modeling.html" data-scroll="sec-8-5-modeling">Modeling with Differential Equations</a></li>
+<li><a href="sec-8-6-logistic.html" data-scroll="sec-8-6-logistic">Population Growth and the Logistic Equation</a></li>
+</ul>
+<h2 class="link"><a href="backmatter.html" data-scroll="backmatter"><span class="title">Back Matter</span></a></h2>
+<ul>
+<li><a href="integral-table.html" data-scroll="integral-table">A Short Table of Integrals</a></li>
+<li><a href="index-1.html" data-scroll="index-1">Index</a></li>
+<li><a href="colophon-2.html" data-scroll="colophon-2">Colophon</a></li>
+</ul></nav><div class="extras"><nav><a class="feedback-link" href="https://forms.gle/qHK2UDN6PG2nH3ja7" target="_blank">Feedback</a><a class="mathbook-link" href="https://mathbook.pugetsound.edu">Authored in PreTeXt</a><a href="https://www.mathjax.org"><img title="Powered by MathJax" src="https://www.mathjax.org/badge/badge.gif" border="0" alt="Powered by MathJax"></a></nav></div>
+</div></aside><main class="main"><div id="content" class="mathbook-content"><section class="section" id="sec-5-2-AntiderivativesFromFormulas"><h2 class="heading hide-type" alt="Section 5.2 Antiderivatives from Formulas">
+<span class="type">Section</span><span class="codenumber">5.2</span><span class="title">Antiderivatives from Formulas</span>
+</h2>
+<a href="sec-5-2-AntiderivativesFromFormulas.html" class="permalink">¶</a><article class="objectives" id="objectives-31"><h6 class="heading"><span class="type">Motivating Questions</span></h6>
+<ul class="disc">
+<li id="li-3176"><p id="p-4901">If we have a function given by a formula, is there a way to write down the antiderivative?</p></li>
+<li id="li-3177"><p id="p-4902">How can we find the area between two curves?</p></li>
+</ul></article><section class="introduction" id="introduction-33"><p id="p-4903">The general problem of finding an antiderivative is difficult. In part, this is due to the fact that we are trying to undo the process of differentiating, and the undoing is much more difficult than the doing. For example, while it is evident that an antiderivative of \(f(x) = \sin(x)\) is \(F(x) = -\cos(x)\) and that an antiderivative of \(g(x) = x^2\) is \(G(x) = \frac{1}{3} x^3\text{,}\) combinations of \(f\) and \(g\) can be far more complicated. Consider the functions</p>
+<div class="displaymath">
+\begin{equation*}
+5\sin(x) - 4x^2, \ x^2 \sin(x), \ \frac{\sin(x)}{x^2}, \ \text{and}  \ \sin(x^2)\text{.}
+\end{equation*}
+</div>
+<p>In the above cases, the antiderivative might not be obvious and in some cases, for example, \(\sin(x^2)\) the antiderivative cannot be written down using elementary functions.  This warrants the question, how do we find an antiderivative from a function given by a formula in general?  We will begin to answer that question in this chapter.</p></section><section class="subsection" id="sec-4-4-ss2"><h3 class="heading hide-type" alt="Subsection  Basic antiderivatives">
+<span class="type">Subsection</span><span class="codenumber"></span><span class="title">Basic antiderivatives</span>
+</h3>
+<a href="sec-5-2-AntiderivativesFromFormulas.html#sec-4-4-ss2" class="permalink">¶</a><p id="p-4904">What is involved in trying to find an antiderivative for each? From our experience with derivative rules, we know that derivatives of sums and constant multiples of basic functions are simple to execute, but derivatives involving products, quotients, and composites of familiar functions are more complicated. Therefore, it stands to reason that antidifferentiating products, quotients, and composites of basic functions may be even more challenging. We defer our study of all but the most elementary antiderivatives to later in the text.</p>
+<p id="p-4905">Before proceeding any further it will be useful to state two properties. <article class="assemblage-like" id="assemblage-108"><h6 class="heading"><span class="title">Properties of Antiderivatives: Sums and Constant Multiples</span></h6>
+<p id="p-4906">Let \(f\) and \(g\) be functions that have an antiderivative and \(c\) a constant then</p>
+<div class="displaymath">
+\begin{align*}
+\int\left(f(x) \pm g(x)\right) dx &amp;=  \int f(x)dx \pm \int g(x)dx\\
+\int cf(x) dx &amp;=  c\int f(x)dx\text{.}
+\end{align*}
+</div>
+<p>In other words, the antiderivative of a sum is the sum of the antiderivatives.</p></article> We forgo a formal proof of these properties but note that they are a consequence of the Constant Multiple Rule and Sum Rule for derivatives in <a href="sec-2-1-elem-rules.html" class="xref" alt="Section 2.1 Elementary Derivative Rules" title="Section 2.1 Elementary Derivative Rules">Section 2.1</a>.</p>
+<p id="p-4907">We do note that whenever we know the derivative of a function, we have a <em class="emphasis">function-derivative pair</em>, so we also know the antiderivative of a function. For instance, since we know that</p>
+<div class="displaymath">
+\begin{equation*}
+\frac{d}{dx}[-\cos(x)] = \sin(x)\text{,}
+\end{equation*}
+</div>
+<p>we also know that \(F(x) = -\cos(x)\) is an antiderivative of \(f(x) = \sin(x)\text{.}\) \(F\) and \(f\) together form a function-derivative pair. Clearly, every basic derivative rule leads us to such a pair, and thus to a known antiderivative.</p>
+<p id="p-4908">In <a knowl="./knowl/act-4-4-2.html" knowl-id="xref-act-4-4-2" alt="Example 5.14 " title="Example 5.14 ">Example 5.14</a>, we will construct a list of the basic antiderivatives we know at this time. Those rules will help us  antidifferentiate sums and constant multiples of basic functions. For example, since \(-\cos(x)\) is an antiderivative of \(\sin(x)\) and \(\frac{1}{3}x^3\) is an antiderivative of \(x^2\text{,}\) it follows that</p>
+<div class="displaymath">
+\begin{equation*}
+F(x) = -5\cos(x) - \frac{4}{3}x^3
+\end{equation*}
+</div>
+<p>is an antiderivative of \(f(x) = 5\sin(x) - 4x^2\text{.}\)</p>
+<p id="p-4909">Finally, before proceeding to build a list of common functions whose antiderivatives we know, we recall that each function has more than one antiderivative. Because the derivative of any constant is zero, we may add a constant of our choice to any antiderivative. For instance, we know that \(G(x) = \frac{1}{3}x^3\) is an antiderivative of \(g(x) = x^2\text{.}\) But we could also have chosen \(G(x) = \frac{1}{3}x^3 + 7\text{,}\) since in this case as well, \(G'(x) = x^2\text{.}\) If \(g(x) = x^2\text{,}\) we say that the <em class="emphasis">general antiderivative</em>  of \(g\) is</p>
+<div class="displaymath">
+\begin{equation*}
+G(x) = \frac{1}{3}x^3 + C\text{,}
+\end{equation*}
+</div>
+<p>where \(C\) represents an arbitrary real number constant. Regardless of the formula for \(g\text{,}\) including \(+C\) in the formula for its antiderivative \(G\) results in the most general possible antiderivative.</p>
+<p id="p-4910">In the following example, we work to build a list of basic functions whose antiderivatives we already know.</p>
+<article class="example-like" id="act-4-4-2"><h6 class="heading">
+<span class="type">Example</span><span class="codenumber">5.14</span>
+</h6>
+<p id="p-4911">Use your knowledge of derivatives of basic functions to complete the above table of antiderivatives. For each entry, your task is to find a function \(F\) whose derivative is the given function \(f\text{.}\)</p>
+<figure class="figure-like" id="T-4-4-Act2"><table>
+<tr>
+<td class="l m b2 r0 l0 t1 lines">given function, \(f(x)\)</td>
+<td class="l m b2 r0 l0 t1 lines">antiderivative, \(F(x)\)    </td>
+</tr>
+<tr>
+<td class="l m b1 r0 l0 t0 lines">\(k\text{,}\) (\(k\) is constant)</td>
+<td class="l m b1 r0 l0 t0 lines"></td>
+</tr>
+<tr>
+<td class="l m b1 r0 l0 t0 lines">\(x^n\text{,}\) \(n \ne -1\)</td>
+<td class="l m b1 r0 l0 t0 lines"></td>
+</tr>
+<tr>
+<td class="l m b1 r0 l0 t0 lines">\(\frac{1}{x}\)</td>
+<td class="l m b1 r0 l0 t0 lines"></td>
+</tr>
+<tr>
+<td class="l m b1 r0 l0 t0 lines">\(\sin(x)\)</td>
+<td class="l m b1 r0 l0 t0 lines"></td>
+</tr>
+<tr>
+<td class="l m b1 r0 l0 t0 lines">\(\cos(x)\)</td>
+<td class="l m b1 r0 l0 t0 lines"></td>
+</tr>
+<tr>
+<td class="l m b1 r0 l0 t0 lines">\(\sec(x) \tan(x)\)</td>
+<td class="l m b1 r0 l0 t0 lines"></td>
+</tr>
+<tr>
+<td class="l m b1 r0 l0 t0 lines">\(\csc(x) \cot(x)\)</td>
+<td class="l m b1 r0 l0 t0 lines"></td>
+</tr>
+<tr>
+<td class="l m b1 r0 l0 t0 lines">\(\sec^2 (x)\)</td>
+<td class="l m b1 r0 l0 t0 lines"></td>
+</tr>
+<tr>
+<td class="l m b1 r0 l0 t0 lines">\(\csc^2 (x)\)</td>
+<td class="l m b1 r0 l0 t0 lines"></td>
+</tr>
+<tr>
+<td class="l m b1 r0 l0 t0 lines">\(e^x\)</td>
+<td class="l m b1 r0 l0 t0 lines"></td>
+</tr>
+<tr>
+<td class="l m b1 r0 l0 t0 lines">\(a^x\) \((a \gt 1)\)</td>
+<td class="l m b1 r0 l0 t0 lines"></td>
+</tr>
+<tr>
+<td class="l m b1 r0 l0 t0 lines">\(\frac{1}{1+x^2}\)</td>
+<td class="l m b1 r0 l0 t0 lines"></td>
+</tr>
+<tr>
+<td class="l m b1 r0 l0 t0 lines">\(\frac{1}{\sqrt{1-x^2}}\)</td>
+<td class="l m b1 r0 l0 t0 lines"></td>
+</tr>
+</table>
+<figcaption><span class="type">Table</span><span class="codenumber">5.15</span>Familiar basic functions.</figcaption></figure><article class="aside-like" id="aside-1"><h6 class="heading"><span class="title">Antiderivative of \(\frac{1}{x}\)</span></h6>
+<p id="p-4912">The antiderivative of \(\frac{1}{x}\) is \(\ln|x|+C\text{.}\) The absolute value sign comes about by considering two cases separately. For \(x&gt;0\text{,}\) we have that</p>
+<div class="displaymath">
+\begin{equation*}
+\frac{d}{dx}\left(\ln(x)\right)=\frac{1}{x}
+\end{equation*}
+</div>
+<p>On the other hand, for \(x&lt; 0\text{,}\) \(\ln|x|=\ln(-x)\text{,}\) so</p>
+<div class="displaymath">
+\begin{equation*}
+\frac{d}{dx}\left(\ln(-x)\right)=\frac{1}{-x}(-1)=\frac{1}{x}
+\end{equation*}
+</div></article><div class="solutions">
+<span class="solution"><a knowl="" class="id-ref" refid="hk-hint-130" id="hint-130"><span class="type">Hint</span></a></span><div id="hk-hint-130" class="hidden-content tex2jax_ignore"><span class="solution"><p id="p-4913">You might start by constructing a list of all the basic functions whose derivative you know.</p></span></div>
+<span class="solution"><a knowl="" class="id-ref" refid="hk-answer-221" id="answer-221"><span class="type">Answer</span></a></span><div id="hk-answer-221" class="hidden-content tex2jax_ignore"><span class="solution"><div class="sidebyside" id="sidebyside-235"><div class="sbsrow" style="margin-left:0%;margin-right:0%;"><div class="sbspanel fixed-width" style="width:100%;justify-content:flex-start;"><table>
+<tr>
+<td class="l m b2 r0 l0 t1 lines">given function, \(f(x)\)</td>
+<td class="l m b2 r0 l0 t1 lines">antiderivative, \(F(x)\)    </td>
+</tr>
+<tr>
+<td class="l m b1 r0 l0 t0 lines">\(k\text{,}\) (\(k \ne 0\))</td>
+<td class="l m b1 r0 l0 t0 lines">\(kx+C\)</td>
+</tr>
+<tr>
+<td class="l m b1 r0 l0 t0 lines">\(x^n\text{,}\) \(n \ne -1\)</td>
+<td class="l m b1 r0 l0 t0 lines">\(\frac{1}{n+1}x^{n+1}+C\)</td>
+</tr>
+<tr>
+<td class="l m b1 r0 l0 t0 lines">\(\frac{1}{x}\)</td>
+<td class="l m b1 r0 l0 t0 lines">\(\ln|x|+C\)</td>
+</tr>
+<tr>
+<td class="l m b1 r0 l0 t0 lines">\(\sin(x)\)</td>
+<td class="l m b1 r0 l0 t0 lines">\(-\cos(x)+C\)</td>
+</tr>
+<tr>
+<td class="l m b1 r0 l0 t0 lines">\(\cos(x)\)</td>
+<td class="l m b1 r0 l0 t0 lines">\(\sin(x)+C\)</td>
+</tr>
+<tr>
+<td class="l m b1 r0 l0 t0 lines">\(\sec(x) \tan(x)\)</td>
+<td class="l m b1 r0 l0 t0 lines">\(\sec(x)+C\)</td>
+</tr>
+<tr>
+<td class="l m b1 r0 l0 t0 lines">\(\csc(x) \cot(x)\)</td>
+<td class="l m b1 r0 l0 t0 lines">\(-\csc(x)+C\)</td>
+</tr>
+<tr>
+<td class="l m b1 r0 l0 t0 lines">\(\sec^2 (x)\)</td>
+<td class="l m b1 r0 l0 t0 lines">\(\tan(x)+C\)</td>
+</tr>
+<tr>
+<td class="l m b1 r0 l0 t0 lines">\(\csc^2 (x)\)</td>
+<td class="l m b1 r0 l0 t0 lines">\(\cot(x)+C\)</td>
+</tr>
+<tr>
+<td class="l m b1 r0 l0 t0 lines">\(e^x\)</td>
+<td class="l m b1 r0 l0 t0 lines">\(e^x+C\)</td>
+</tr>
+<tr>
+<td class="l m b1 r0 l0 t0 lines">\(a^x\) \((a \gt 1)\)</td>
+<td class="l m b1 r0 l0 t0 lines">\(\frac{1}{\ln(a)} a^x+C\)</td>
+</tr>
+<tr>
+<td class="l m b1 r0 l0 t0 lines">\(\frac{1}{1+x^2}\)</td>
+<td class="l m b1 r0 l0 t0 lines">\(\arctan(x)+C\)</td>
+</tr>
+<tr>
+<td class="l m b1 r0 l0 t0 lines">\(\frac{1}{\sqrt{1-x^2}}\)</td>
+<td class="l m b1 r0 l0 t0 lines">\(\arcsin(x)+C\)</td>
+</tr>
+</table></div></div></div></span></div>
+<span class="solution"><a knowl="" class="id-ref" refid="hk-solution-250" id="solution-250"><span class="type">Solution</span></a></span><div id="hk-solution-250" class="hidden-content tex2jax_ignore"><span class="solution"><div class="sidebyside" id="sidebyside-236">
+<div class="sbsrow" style="margin-left:0%;margin-right:0%;"><div class="sbspanel fixed-width" style="width:100%;justify-content:flex-start;"><table>
+<tr>
+<td class="l m b2 r0 l0 t1 lines">given function, \(f(x)\)</td>
+<td class="l m b2 r0 l0 t1 lines">antiderivative, \(F(x)\)    </td>
+</tr>
+<tr>
+<td class="l m b1 r0 l0 t0 lines">\(k\text{,}\) (\(k \ne 0\))</td>
+<td class="l m b1 r0 l0 t0 lines">\(kx+C\)</td>
+</tr>
+<tr>
+<td class="l m b1 r0 l0 t0 lines">\(x^n\text{,}\) \(n \ne -1\)</td>
+<td class="l m b1 r0 l0 t0 lines">\(\frac{1}{n+1}x^{n+1}+C\)</td>
+</tr>
+<tr>
+<td class="l m b1 r0 l0 t0 lines">\(\frac{1}{x}\)</td>
+<td class="l m b1 r0 l0 t0 lines">\(\ln|x|+C\)</td>
+</tr>
+<tr>
+<td class="l m b1 r0 l0 t0 lines">\(\sin(x)\)</td>
+<td class="l m b1 r0 l0 t0 lines">\(-\cos(x)+C\)</td>
+</tr>
+<tr>
+<td class="l m b1 r0 l0 t0 lines">\(\cos(x)\)</td>
+<td class="l m b1 r0 l0 t0 lines">\(\sin(x)+C\)</td>
+</tr>
+<tr>
+<td class="l m b1 r0 l0 t0 lines">\(\sec(x) \tan(x)\)</td>
+<td class="l m b1 r0 l0 t0 lines">\(\sec(x)+C\)</td>
+</tr>
+<tr>
+<td class="l m b1 r0 l0 t0 lines">\(\csc(x) \cot(x)\)</td>
+<td class="l m b1 r0 l0 t0 lines">\(-\csc(x)+C\)</td>
+</tr>
+<tr>
+<td class="l m b1 r0 l0 t0 lines">\(\sec^2 (x)\)</td>
+<td class="l m b1 r0 l0 t0 lines">\(\tan(x)+C\)</td>
+</tr>
+<tr>
+<td class="l m b1 r0 l0 t0 lines">\(\csc^2 (x)\)</td>
+<td class="l m b1 r0 l0 t0 lines">\(\cot(x)+C\)</td>
+</tr>
+<tr>
+<td class="l m b1 r0 l0 t0 lines">\(e^x\)</td>
+<td class="l m b1 r0 l0 t0 lines">\(e^x+C\)</td>
+</tr>
+<tr>
+<td class="l m b1 r0 l0 t0 lines">\(a^x\) \((a \gt 1)\)</td>
+<td class="l m b1 r0 l0 t0 lines">\(\frac{1}{\ln(a)} a^x+C\)</td>
+</tr>
+<tr>
+<td class="l m b1 r0 l0 t0 lines">\(\frac{1}{1+x^2}\)</td>
+<td class="l m b1 r0 l0 t0 lines">\(\arctan(x)+C\)</td>
+</tr>
+<tr>
+<td class="l m b1 r0 l0 t0 lines">\(\frac{1}{\sqrt{1-x^2}}\)</td>
+<td class="l m b1 r0 l0 t0 lines">\(\arcsin(x)+C\)</td>
+</tr>
+</table></div></div>
+<div class="sbsrow" style="margin-left:0%;margin-right:0%;"><figcaption class="sbscaption" style="width:100%;"><span class="type">Table</span><span class="codenumber">5.16</span>Familiar basic functions and their antiderivatives.</figcaption></div>
+</div></span></div>
+</div></article></section><section class="subsection" id="subsection-123"><h3 class="heading hide-type" alt="Subsection  Evaluating Definite Integrals Involving Expressions">
+<span class="type">Subsection</span><span class="codenumber"></span><span class="title">Evaluating Definite Integrals Involving Expressions</span>
+</h3>
+<p id="p-4914">Now that we have some basic antiderivatives in hand we can proceed to solve problems involving the definite integral when the integrand is an expression.  Specifically, we seek to use antiderivatives and the Fundamental Theorem of Calculus to evaluate expressions like \(\displaystyle \int_0^1 \left(x^3 - x - e^x + 2\right) \,dx\text{.}\)</p>
+<p id="p-4915">Since our current interest in antiderivatives is so that we can evaluate definite integrals by the Fundamental Theorem of Calculus the constant \(C\) is actually irrelevant, and mathematicians genrally omit it in these types of problems. To see why, consider the definite integral</p>
+<div class="displaymath">
+\begin{equation*}
+\int_0^1 x^2 \, dx\text{.}
+\end{equation*}
+</div>
+<p id="p-4916">For the integrand \(g(x) = x^2\text{,}\) suppose we find and use the general antiderivative \(G(x) = \frac{1}{3} x^3 + C\text{.}\) Then, by the Fundamental Theorem of Calculus,</p>
+<div class="displaymath">
+\begin{align*}
+\int_0^1 x^2 \, dx &amp;=  \left. \frac{1}{3} x^3 + C \right|_0^1\\
+&amp;= \left(\frac{1}{3} (1)^3 + C  \right) - \left(\frac{1}{3} (0)^3 + C  \right)\\
+&amp;= \frac{1}{3} + C - 0 - C\\
+&amp;= \frac{1}{3}\text{.}
+\end{align*}
+</div>
+<p id="p-4917">Observe that the \(C\)-values appear as opposites in the evaluation of the integral and thus do not affect the definite integral's value.</p>
+<article class="example-like" id="act-5-2-3"><h6 class="heading">
+<span class="type">Example</span><span class="codenumber">5.17</span>
+</h6>
+<p id="p-4918">Use the FTC and the results in <a knowl="./knowl/T-4-4-Act2_2.html" knowl-id="xref-T-4-4-Act2_2" alt="Table 5.16 " title="Table 5.16 ">Table 5.16</a> to evaluate the three given definite integrals.</p>
+<ol id="p-4919" class="lower-alpha">
+<li id="li-3178"><p id="p-4920">\(\displaystyle \int_0^1 \left(x^3 - x - e^x + 2\right) \,dx\)</p></li>
+<li id="li-3179"><p id="p-4921">\(\displaystyle \int_0^{\frac{\pi}{3}} (2\sin (t) - 4\cos(t) + \sec^2(t) - \pi) \, dt\)</p></li>
+<li id="li-3180"><p id="p-4922">\(\displaystyle \int_0^1 (\sqrt{x}-x^2) \, dx\)</p></li>
+</ol>
+<div class="solutions">
+<span class="solution"><a knowl="" class="id-ref" refid="hk-hint-131" id="hint-131"><span class="type">Hint</span></a></span><div id="hk-hint-131" class="hidden-content tex2jax_ignore"><span class="solution"><p id="p-4923">Be sure to recall the sum and constant multiple rules, which work not only for differentiating, but also for antidifferentiating.</p></span></div>
+<span class="solution"><a knowl="" class="id-ref" refid="hk-answer-222" id="answer-222"><span class="type">Answer</span></a></span><div id="hk-answer-222" class="hidden-content tex2jax_ignore"><span class="solution"><ol id="p-4924" class="lower-alpha">
+<li id="li-3181"><p id="p-4925">\(\int_0^1 \left(x^3 - x - e^x + 2\right) \,dx = \frac{11}{4} - 3\text{.}\)</p></li>
+<li id="li-3182"><p id="p-4926">\(\int_0^{\frac{\pi}{3}} (2\sin (t) - 4\cos(t) + \sec^2(t) - \pi) \, dt = 1 - \sqrt{3} - \frac{\pi^2}{3}\text{.}\)</p></li>
+<li id="li-3183"><p id="p-4927">\(\int_0^1 (\sqrt{x} - x^2) \, dx = \frac{1}{3}\text{.}\)</p></li>
+</ol></span></div>
+<span class="solution"><a knowl="" class="id-ref" refid="hk-solution-251" id="solution-251"><span class="type">Solution</span></a></span><div id="hk-solution-251" class="hidden-content tex2jax_ignore"><span class="solution"><ol id="p-4928" class="lower-alpha">
+<li id="li-3184">
+<p id="p-4929">By standard antiderivative rules and the FTC,</p>
+<div class="displaymath">
+\begin{align*}
+\int_0^1 \left(x^3 - x - e^x + 2\right) \,dx =\mathstrut \amp  \left. \frac{1}{4} x^4 - \frac{1}{2}x^2 - e^x + 2x \right|_0^1\\
+=\mathstrut \amp  \left(\frac{1}{4} (1)^4 - \frac{1}{2}(1)^2 - e^1 + 2(1) \right) -   \left(\frac{1}{4} (0)^4 - \frac{1}{2}(0)^2 - e^0 + 2(0) \right)\\
+=\mathstrut \amp  \frac{1}{4} - \frac{1}{2} - e + 2 -  \left(0 - 0 - 1 + 0 \right)\\
+=\mathstrut \amp  -\frac{1}{4} - e + 3\\
+=\mathstrut \amp  \frac{11}{4} - 3\text{.}
+\end{align*}
+</div>
+</li>
+<li id="li-3185">
+<p id="p-4930">Calculating the needed antiderivative and applying the FTC,</p>
+<div class="displaymath">
+\begin{align*}
+\int_0^{\frac{\pi}{3}} (2\sin (t) - 4\cos(t) + \sec^2(t) - \pi) \, dt =\mathstrut \amp  \left. \left(-2\cos(t) - 4\sin(t) + \tan(t) - \pi t \right) \right|_0^{\frac{\pi}{3}}\\
+=\mathstrut \amp  \left(-2\cos(\frac{\pi}{3}) - 4\sin(\frac{\pi}{3}) + \tan(\frac{\pi}{3}) - \pi (\frac{\pi}{3}) \right) -\\
+\ \amp   \left(-2\cos(0)) - 4\sin(0) + \tan(0) - \pi (0) \right)\\
+=\mathstrut \amp  -2 \cdot \frac{1}{2} - 4 \cdot \frac{\sqrt{3}}{2} + \sqrt{3} - \frac{\pi^2}{3} - (-2 - 0 + 0 - 0)\\
+=\mathstrut \amp  1 - \sqrt{3} - \frac{\pi^2}{3}\text{.}
+\end{align*}
+</div>
+</li>
+<li id="li-3186">
+<p id="p-4931">Noting that \(\frac{d}{dx}[\frac{2}{3} x^{\frac{3}{2}}] = x^{\frac{1}{2}}\text{,}\) we find that</p>
+<div class="displaymath">
+\begin{align*}
+\int_0^1 (\sqrt{x} - x^2) \, dx =\mathstrut \amp  \left. \frac{2}{3}x^{\frac{3}{2}} - \frac{1}{3}x^3 \right|_0^1\\
+=\mathstrut \amp  \frac{2}{3} - \frac{1}{3} - (0 - 0 )\\
+=\mathstrut \amp  \frac{1}{3}\text{.}
+\end{align*}
+</div>
+</li>
+</ol></span></div>
+</div></article></section><section class="subsection" id="subsection-124"><h3 class="heading hide-type" alt="Subsection  Integration and the Area between Two Curves">
+<span class="type">Subsection</span><span class="codenumber"></span><span class="title">Integration and the Area between Two Curves</span>
+</h3>
+<p id="p-4932">Integration allows us to find the area between a curve and the \(x\)-axis.  In fact, by visually inspecting the graphs of two different curves we can develop a technique for finding the area between two curves.  Consider the graphs of the curves \(y=x^2+1\) and \(y=x+3\) displayed in <a knowl="./knowl/F-5-2-SS4.html" knowl-id="xref-F-5-2-SS4" alt="Figure 5.18 " title="Figure 5.18 ">Figure 5.18</a>.  We might ask if there is a way to find the area enclosed by these two curves as is colored in the figure.</p>
+<figure class="figure-like" id="F-5-2-SS4"><img width="50%" src="images/5-2-SS4.jpg" alt=""><figcaption><span class="type">Figure</span><span class="codenumber">5.18</span>Graphs of the curves \(y=x^2+1\) and \(y=x+3\text{.}\)</figcaption></figure><p id="p-4933">In fact, using the knowledge we have about integration, we can figure out this quantity exactly.</p>
+<article class="example-like" id="example-200"><h6 class="heading">
+<span class="type">Example</span><span class="codenumber">5.19</span>
+</h6>
+<p id="p-4934">What is the exact area enclosed by the curves given by the functions \(f(x)=x^2+1\) and \(g(x)=x+3\text{?}\)</p>
+<div class="solutions">
+<span class="solution"><a knowl="" class="id-ref" refid="hk-hint-132" id="hint-132"><span class="type">Hint</span></a></span><div id="hk-hint-132" class="hidden-content tex2jax_ignore"><span class="solution"><p id="p-4935">It might help to answer the following questions: </p>
+<ul class="disc">
+<li id="li-3187">Where do the curves intersect?</li>
+<li id="li-3188">Based upon <a knowl="./knowl/F-5-2-SS4.html" knowl-id="xref-F-5-2-SS4" alt="Figure 5.18 " title="Figure 5.18 ">Figure 5.18</a> how would you calculate exact area between \(g(x)\) and the \(x\)-axis between the points of intersection?</li>
+<li id="li-3189">Based upon <a knowl="./knowl/F-5-2-SS4.html" knowl-id="xref-F-5-2-SS4" alt="Figure 5.18 " title="Figure 5.18 ">Figure 5.18</a> how would you calculate exact area between \(f(x)\) and the \(x\)-axis between the points of intersection?</li>
+<li id="li-3190">What is the relationship between the areas you calculated above?</li>
+</ul></span></div>
+<span class="solution"><a knowl="" class="id-ref" refid="hk-answer-223" id="answer-223"><span class="type">Answer</span></a></span><div id="hk-answer-223" class="hidden-content tex2jax_ignore"><span class="solution"><p id="p-4936">\(\frac{9}{2}\)</p></span></div>
+<span class="solution"><a knowl="" class="id-ref" refid="hk-solution-252" id="solution-252"><span class="type">Solution</span></a></span><div id="hk-solution-252" class="hidden-content tex2jax_ignore"><span class="solution"><p id="p-4937">The first step in solving this problem is to determine where the curves intersect.  We can find the point of intersection by setting the two curves equal to each other.</p>
+<div class="displaymath">
+\begin{align*}
+x^2+1 \amp=x+3\\
+x^2-x-2 \amp=x+3\\
+x^2-x-2 \amp=0\\
+(x+1)(x-2) \amp=0
+\end{align*}
+</div>
+<p>Therefore, the curves intersect at two \(x\)-values, \(x=-1,2\text{.}\)  This means were are concerned with the interval \([-2,2]\text{.}\)</p>
+<p id="p-4938">We next note that on the interval in question, \([-2,2]\text{,}\) the curve \(g(x)=x+3\) is above the curve \(f(x)=x^2+1\text{.}\)  We also note that \(\int_{-1}^{2}(x+3)dx\) would give the area shown in <a knowl="./knowl/F-5-2-SS5.html" knowl-id="xref-F-5-2-SS5" alt="Figure 5.20 " title="Figure 5.20 ">Figure 5.20</a> and \(\int_{-1}^{2}(x^2+1)dx\) <a knowl="./knowl/F-5-2-SS6.html" knowl-id="xref-F-5-2-SS6" alt="Figure 5.21 " title="Figure 5.21 ">Figure 5.21</a>.</p>
+<figure class="figure-like" id="F-5-2-SS5"><img width="25%" src="images/5-2-SS5.jpg" alt=""><figcaption><span class="type">Figure</span><span class="codenumber">5.20</span>Graph of the curve \(y=x+3\text{.}\)</figcaption></figure><figure class="figure-like" id="F-5-2-SS6"><img width="25%" src="images/5-2-SS6.jpg" alt=""><figcaption><span class="type">Figure</span><span class="codenumber">5.21</span>Graph of the curve \(y=x+3\text{.}\)</figcaption></figure><p id="p-4939">By overlaying <a knowl="./knowl/F-5-2-SS5.html" knowl-id="xref-F-5-2-SS5" alt="Figure 5.20 " title="Figure 5.20 ">Figure 5.20</a> and <a knowl="./knowl/F-5-2-SS6.html" knowl-id="xref-F-5-2-SS6" alt="Figure 5.21 " title="Figure 5.21 ">Figure 5.21</a> as in <a knowl="./knowl/F-5-2-SS7.html" knowl-id="xref-F-5-2-SS7" alt="Figure 5.22 " title="Figure 5.22 ">Figure 5.22</a> you can see that <a knowl="./knowl/F-5-2-SS4.html" knowl-id="xref-F-5-2-SS4" alt="Figure 5.18 " title="Figure 5.18 ">Figure 5.18</a> should be given by subtracting \(\int_{-1}^{2}(x^2+1)dx\) from \(\int_{-1}^{2}(x+3)dx\text{.}\) <figure class="figure-like" id="F-5-2-SS7"><img width="25%" src="images/5-2-SS7.jpg" alt=""><figcaption><span class="type">Figure</span><span class="codenumber">5.22</span>Graphs of the curves \(y=x^2+1\) and \(y=x+3\text{.}\)</figcaption></figure></p>
+<p id="p-4940">Therefore, the area between the curves \(y=x^2+1\) and \(y=x+3\) is given by the following quantity:</p>
+<div class="displaymath">
+\begin{align*}
+\int_{-1}^{2}(x+3)dx-\int_{-1}^{2}(x^2+1)dx=\int_{-1}^{2}\left((x+3)-(x^2+1)\right)dx\\
+\mathstrut \amp=\int_{-1}^{2}(-x^2+x+2)dx\\
+\mathstrut \amp= -\frac{1}{3}x^3+\frac{1}{2}x^2+2x \right|_{-1}^{2}\\
+\mathstrut \amp= -\frac{1}{3}(2)^3+\frac{1}{2}(2)^2+2(2)-\left(-\frac{1}{3}(-1)^3+\frac{1}{2}(-1)^2+2(-1)\right)\\
+\mathstrut \amp =-\frac{8}{3}+2+4-\left(\frac{1}{3}+\frac{1}{2}-2\right)\\
+\mathstrut \amp= \frac{9}{2}
+\end{align*}
+</div></span></div>
+</div></article></section><section class="exercises" id="exercises-34"><h3 class="heading hide-type" alt="Exercises  Exercises">
+<span class="type">Subsection</span><span class="codenumber"></span><span class="title">Exercises</span>
+</h3>
+<article class="exercise-like"><a knowl="" class="id-ref" refid="hk-ez-5-2-WW0" id="ez-5-2-WW0"><h6 class="heading">
+<span class="codenumber">1</span><span class="title">Finding Antiderivatives</span>
+</h6></a></article><div id="hk-ez-5-2-WW0" class="hidden-content tex2jax_ignore"><article class="exercise-like"><!--use 'format=debug' on 'webwork' tag to debug problem--><iframe width="100%" src="https://math-webwork2.unl.edu//webwork2/html2xml?&amp;answersSubmitted=0&amp;sourceFilePath=Library/Michigan/Chap6Sec2/Q31.pg&amp;problemSeed=123567890&amp;displayMode=MathJax&amp;courseID=OERSystem&amp;userID=anonymous&amp;course_password=anonymous&amp;outputformat=simple"></iframe><script type="text/javascript">iFrameResize({scrolling:true,minHeight:500,heightCalculationMethod:'max',log:true,inPageLinks:true,resizeFrom:'child',checkOrigin:["https://math-webwork2.unl.edu/"]})</script></article></div>
+<article class="exercise-like"><a knowl="" class="id-ref" refid="hk-ez-5-2-WW0-1" id="ez-5-2-WW0-1"><h6 class="heading">
+<span class="codenumber">2</span><span class="title">Finding Antiderivatives (Constants)</span>
+</h6></a></article><div id="hk-ez-5-2-WW0-1" class="hidden-content tex2jax_ignore"><article class="exercise-like"><!--use 'format=debug' on 'webwork' tag to debug problem--><iframe width="100%" src="https://math-webwork2.unl.edu//webwork2/html2xml?&amp;answersSubmitted=0&amp;sourceFilePath=Library/Valdosta/APEX_Calculus/5.1/APEX_5.1_11-12.pg&amp;problemSeed=123567890&amp;displayMode=MathJax&amp;courseID=OERSystem&amp;userID=anonymous&amp;course_password=anonymous&amp;outputformat=simple"></iframe><script type="text/javascript">iFrameResize({scrolling:true,minHeight:500,heightCalculationMethod:'max',log:true,inPageLinks:true,resizeFrom:'child',checkOrigin:["https://math-webwork2.unl.edu/"]})</script></article></div>
+<article class="exercise-like"><a knowl="" class="id-ref" refid="hk-ez-5-2-WW0-2" id="ez-5-2-WW0-2"><h6 class="heading">
+<span class="codenumber">3</span><span class="title">Finding Antiderivatives (Polynomials)</span>
+</h6></a></article><div id="hk-ez-5-2-WW0-2" class="hidden-content tex2jax_ignore"><article class="exercise-like"><!--use 'format=debug' on 'webwork' tag to debug problem--><iframe width="100%" src="https://math-webwork2.unl.edu//webwork2/html2xml?&amp;answersSubmitted=0&amp;sourceFilePath=Library/Valdosta/APEX_Calculus/5.1/APEX_5.1_26.pg&amp;problemSeed=123567890&amp;displayMode=MathJax&amp;courseID=OERSystem&amp;userID=anonymous&amp;course_password=anonymous&amp;outputformat=simple"></iframe><script type="text/javascript">iFrameResize({scrolling:true,minHeight:500,heightCalculationMethod:'max',log:true,inPageLinks:true,resizeFrom:'child',checkOrigin:["https://math-webwork2.unl.edu/"]})</script></article></div>
+<article class="exercise-like"><a knowl="" class="id-ref" refid="hk-ez-5-2-WW0-5" id="ez-5-2-WW0-5"><h6 class="heading">
+<span class="codenumber">4</span><span class="title">Finding Antiderivatives</span>
+</h6></a></article><div id="hk-ez-5-2-WW0-5" class="hidden-content tex2jax_ignore"><article class="exercise-like"><!--use 'format=debug' on 'webwork' tag to debug problem--><iframe width="100%" src="https://math-webwork2.unl.edu//webwork2/html2xml?&amp;answersSubmitted=0&amp;sourceFilePath=Library/Michigan/Chap6Sec2/Q55.pg&amp;problemSeed=123567890&amp;displayMode=MathJax&amp;courseID=OERSystem&amp;userID=anonymous&amp;course_password=anonymous&amp;outputformat=simple"></iframe><script type="text/javascript">iFrameResize({scrolling:true,minHeight:500,heightCalculationMethod:'max',log:true,inPageLinks:true,resizeFrom:'child',checkOrigin:["https://math-webwork2.unl.edu/"]})</script></article></div>
+<article class="exercise-like"><a knowl="" class="id-ref" refid="hk-ez-5-2-WW0-6" id="ez-5-2-WW0-6"><h6 class="heading">
+<span class="codenumber">5</span><span class="title">Finding Antiderivatives (Power Functions)</span>
+</h6></a></article><div id="hk-ez-5-2-WW0-6" class="hidden-content tex2jax_ignore"><article class="exercise-like"><!--use 'format=debug' on 'webwork' tag to debug problem--><iframe width="100%" src="https://math-webwork2.unl.edu//webwork2/html2xml?&amp;answersSubmitted=0&amp;sourceFilePath=Library/Valdosta/APEX_Calculus/5.4/APEX_5.4_18-24.pg&amp;problemSeed=123567890&amp;displayMode=MathJax&amp;courseID=OERSystem&amp;userID=anonymous&amp;course_password=anonymous&amp;outputformat=simple"></iframe><script type="text/javascript">iFrameResize({scrolling:true,minHeight:500,heightCalculationMethod:'max',log:true,inPageLinks:true,resizeFrom:'child',checkOrigin:["https://math-webwork2.unl.edu/"]})</script></article></div>
+<article class="exercise-like"><a knowl="" class="id-ref" refid="hk-ez-5-2-WW0-7" id="ez-5-2-WW0-7"><h6 class="heading">
+<span class="codenumber">6</span><span class="title">Finding Antiderivatives (\(n^{th}\)-Roots)</span>
+</h6></a></article><div id="hk-ez-5-2-WW0-7" class="hidden-content tex2jax_ignore"><article class="exercise-like"><!--use 'format=debug' on 'webwork' tag to debug problem--><iframe width="100%" src="https://math-webwork2.unl.edu//webwork2/html2xml?&amp;answersSubmitted=0&amp;sourceFilePath=Library/Valdosta/APEX_Calculus/5.4/APEX_5.4_15-17.pg&amp;problemSeed=123567890&amp;displayMode=MathJax&amp;courseID=OERSystem&amp;userID=anonymous&amp;course_password=anonymous&amp;outputformat=simple"></iframe><script type="text/javascript">iFrameResize({scrolling:true,minHeight:500,heightCalculationMethod:'max',log:true,inPageLinks:true,resizeFrom:'child',checkOrigin:["https://math-webwork2.unl.edu/"]})</script></article></div>
+<article class="exercise-like"><a knowl="" class="id-ref" refid="hk-ez-5-2-WW0-8" id="ez-5-2-WW0-8"><h6 class="heading">
+<span class="codenumber">7</span><span class="title">Definite Integrals from Antiderivatives</span>
+</h6></a></article><div id="hk-ez-5-2-WW0-8" class="hidden-content tex2jax_ignore"><article class="exercise-like"><!--use 'format=debug' on 'webwork' tag to debug problem--><iframe width="100%" src="https://math-webwork2.unl.edu//webwork2/html2xml?&amp;answersSubmitted=0&amp;sourceFilePath=Library/Valdosta/APEX_Calculus/5.4/APEX_5.4_5-7.pg&amp;problemSeed=123567890&amp;displayMode=MathJax&amp;courseID=OERSystem&amp;userID=anonymous&amp;course_password=anonymous&amp;outputformat=simple"></iframe><script type="text/javascript">iFrameResize({scrolling:true,minHeight:500,heightCalculationMethod:'max',log:true,inPageLinks:true,resizeFrom:'child',checkOrigin:["https://math-webwork2.unl.edu/"]})</script></article></div>
+<article class="exercise-like"><a knowl="" class="id-ref" refid="hk-ez-5-2-WW0-9" id="ez-5-2-WW0-9"><h6 class="heading">
+<span class="codenumber">8</span><span class="title">Definite Integrals from Antiderivatives (Trigonometric Functions)</span>
+</h6></a></article><div id="hk-ez-5-2-WW0-9" class="hidden-content tex2jax_ignore"><article class="exercise-like"><!--use 'format=debug' on 'webwork' tag to debug problem--><iframe width="100%" src="https://math-webwork2.unl.edu//webwork2/html2xml?&amp;answersSubmitted=0&amp;sourceFilePath=Library/Valdosta/APEX_Calculus/5.4/APEX_5.4_8-9.pg&amp;problemSeed=123567890&amp;displayMode=MathJax&amp;courseID=OERSystem&amp;userID=anonymous&amp;course_password=anonymous&amp;outputformat=simple"></iframe><script type="text/javascript">iFrameResize({scrolling:true,minHeight:500,heightCalculationMethod:'max',log:true,inPageLinks:true,resizeFrom:'child',checkOrigin:["https://math-webwork2.unl.edu/"]})</script></article></div>
+<article class="exercise-like"><a knowl="" class="id-ref" refid="hk-ez-5-2-WW1" id="ez-5-2-WW1"><h6 class="heading">
+<span class="codenumber">9</span><span class="title">Finding exact displacement</span>
+</h6></a></article><div id="hk-ez-5-2-WW1" class="hidden-content tex2jax_ignore"><article class="exercise-like"><!--use 'format=debug' on 'webwork' tag to debug problem--><iframe width="100%" src="https://math-webwork2.unl.edu//webwork2/html2xml?&amp;answersSubmitted=0&amp;sourceFilePath=Library/Rochester/setIntegrals3Definite/osu_in_3_1a.pg&amp;problemSeed=123567890&amp;displayMode=MathJax&amp;courseID=OERSystem&amp;userID=anonymous&amp;course_password=anonymous&amp;outputformat=simple"></iframe><script type="text/javascript">iFrameResize({scrolling:true,minHeight:500,heightCalculationMethod:'max',log:true,inPageLinks:true,resizeFrom:'child',checkOrigin:["https://math-webwork2.unl.edu/"]})</script></article></div>
+<article class="exercise-like"><a knowl="" class="id-ref" refid="hk-ez-5-2-WW2" id="ez-5-2-WW2"><h6 class="heading">
+<span class="codenumber">10</span><span class="title">Evaluating the definite integral of a rational function</span>
+</h6></a></article><div id="hk-ez-5-2-WW2" class="hidden-content tex2jax_ignore"><article class="exercise-like"><!--use 'format=debug' on 'webwork' tag to debug problem--><iframe width="100%" src="https://math-webwork2.unl.edu//webwork2/html2xml?&amp;answersSubmitted=0&amp;sourceFilePath=Library/Rochester/setIntegrals3Definite/c4s4p6.pg&amp;problemSeed=123567890&amp;displayMode=MathJax&amp;courseID=OERSystem&amp;userID=anonymous&amp;course_password=anonymous&amp;outputformat=simple"></iframe><script type="text/javascript">iFrameResize({scrolling:true,minHeight:500,heightCalculationMethod:'max',log:true,inPageLinks:true,resizeFrom:'child',checkOrigin:["https://math-webwork2.unl.edu/"]})</script></article></div>
+<article class="exercise-like"><a knowl="" class="id-ref" refid="hk-ez-5-2-WW3" id="ez-5-2-WW3"><h6 class="heading">
+<span class="codenumber">11</span><span class="title">Evaluating the definite integral of a linear function</span>
+</h6></a></article><div id="hk-ez-5-2-WW3" class="hidden-content tex2jax_ignore"><article class="exercise-like"><!--use 'format=debug' on 'webwork' tag to debug problem--><iframe width="100%" src="https://math-webwork2.unl.edu//webwork2/html2xml?&amp;answersSubmitted=0&amp;sourceFilePath=Library/Rochester/setIntegrals3Definite/s4_4_17.pg&amp;problemSeed=123567890&amp;displayMode=MathJax&amp;courseID=OERSystem&amp;userID=anonymous&amp;course_password=anonymous&amp;outputformat=simple"></iframe><script type="text/javascript">iFrameResize({scrolling:true,minHeight:500,heightCalculationMethod:'max',log:true,inPageLinks:true,resizeFrom:'child',checkOrigin:["https://math-webwork2.unl.edu/"]})</script></article></div>
+<article class="exercise-like"><a knowl="" class="id-ref" refid="hk-ez-5-2-WW4" id="ez-5-2-WW4"><h6 class="heading">
+<span class="codenumber">12</span><span class="title">Evaluating the definite integral of a quadratic function</span>
+</h6></a></article><div id="hk-ez-5-2-WW4" class="hidden-content tex2jax_ignore"><article class="exercise-like"><!--use 'format=debug' on 'webwork' tag to debug problem--><iframe width="100%" src="https://math-webwork2.unl.edu//webwork2/html2xml?&amp;answersSubmitted=0&amp;sourceFilePath=Library/Rochester/setIntegrals3Definite/s4_4_21.pg&amp;problemSeed=123567890&amp;displayMode=MathJax&amp;courseID=OERSystem&amp;userID=anonymous&amp;course_password=anonymous&amp;outputformat=simple"></iframe><script type="text/javascript">iFrameResize({scrolling:true,minHeight:500,heightCalculationMethod:'max',log:true,inPageLinks:true,resizeFrom:'child',checkOrigin:["https://math-webwork2.unl.edu/"]})</script></article></div>
+<article class="exercise-like"><a knowl="" class="id-ref" refid="hk-ez-5-2-WW5" id="ez-5-2-WW5"><h6 class="heading">
+<span class="codenumber">13</span><span class="title">Simplifying an integrand before integrating</span>
+</h6></a></article><div id="hk-ez-5-2-WW5" class="hidden-content tex2jax_ignore"><article class="exercise-like"><!--use 'format=debug' on 'webwork' tag to debug problem--><iframe width="100%" src="https://math-webwork2.unl.edu//webwork2/html2xml?&amp;answersSubmitted=0&amp;sourceFilePath=Library/Rochester/setIntegrals3Definite/s4_4_27.pg&amp;problemSeed=123567890&amp;displayMode=MathJax&amp;courseID=OERSystem&amp;userID=anonymous&amp;course_password=anonymous&amp;outputformat=simple"></iframe><script type="text/javascript">iFrameResize({scrolling:true,minHeight:500,heightCalculationMethod:'max',log:true,inPageLinks:true,resizeFrom:'child',checkOrigin:["https://math-webwork2.unl.edu/"]})</script></article></div>
+<article class="exercise-like"><a knowl="" class="id-ref" refid="hk-ez-5-2-WW6" id="ez-5-2-WW6"><h6 class="heading">
+<span class="codenumber">14</span><span class="title">Evaluating the definite integral of a trigonometric function</span>
+</h6></a></article><div id="hk-ez-5-2-WW6" class="hidden-content tex2jax_ignore"><article class="exercise-like"><!--use 'format=debug' on 'webwork' tag to debug problem--><iframe width="100%" src="https://math-webwork2.unl.edu//webwork2/html2xml?&amp;answersSubmitted=0&amp;sourceFilePath=Library/Rochester/setIntegrals3Definite/s4_4_41.pg&amp;problemSeed=123567890&amp;displayMode=MathJax&amp;courseID=OERSystem&amp;userID=anonymous&amp;course_password=anonymous&amp;outputformat=simple"></iframe><script type="text/javascript">iFrameResize({scrolling:true,minHeight:500,heightCalculationMethod:'max',log:true,inPageLinks:true,resizeFrom:'child',checkOrigin:["https://math-webwork2.unl.edu/"]})</script></article></div>
+<article class="exercise-like"><a knowl="" class="id-ref" refid="hk-exercise-302" id="exercise-302"><h6 class="heading">
+<span class="codenumber">15</span><span class="title">Analyzing a velocity function</span>
+</h6></a></article><div id="hk-exercise-302" class="hidden-content tex2jax_ignore"><article class="exercise-like"><p id="p-4941">The instantaneous velocity (in meters per minute) of a moving object is given by the function \(v\) as pictured in <a knowl="./knowl/F-4-4-Ez2.html" knowl-id="xref-F-4-4-Ez2" alt="Figure 5.23 " title="Figure 5.23 ">Figure 5.23</a>. Assume that on the interval \(0 \le t \le 4\text{,}\) \(v(t)\) is given by \(v(t) = -\frac{1}{4}t^3 + \frac{3}{2}t^2 + 1\text{,}\) and that on every other interval \(v\) is piecewise linear, as shown.</p>
+<figure class="figure-like" id="F-4-4-Ez2"><img src="images/4_4_Ez2.svg" width="47%" style="display: block; margin: 0 auto;" alt=""><figcaption><span class="type">Figure</span><span class="codenumber">5.23</span>The velocity function of a moving body.</figcaption></figure><ol id="p-4942" class="lower-alpha">
+<li id="li-3191"><p id="p-4943">Determine the exact distance traveled by the object on the time interval \(0 \le t \le 4\text{.}\)</p></li>
+<li id="li-3192"><p id="p-4944">What is the object's average velocity on \([12,24]\text{?}\)</p></li>
+<li id="li-3193"><p id="p-4945">At what time is the object's acceleration greatest?</p></li>
+<li id="li-3194"><p id="p-4946">Suppose that the velocity of the object is increased by a constant value \(c\) for all values of \(t\text{.}\) What value of \(c\) will make the object's total distance traveled on \([12,24]\) be 210 meters?</p></li>
+</ol></article></div>
+<article class="exercise-like"><a knowl="" class="id-ref" refid="hk-exercise-303" id="exercise-303"><h6 class="heading">
+<span class="codenumber">16</span><span class="title">Evaluating the definite integral of a piecewise function</span>
+</h6></a></article><div id="hk-exercise-303" class="hidden-content tex2jax_ignore"><article class="exercise-like"><p id="p-4958">A function \(f\) is given piecewise by the formula</p>
+<div class="displaymath">
+\begin{equation*}
+f(x) =
+\begin{cases}
+-x^2 + 2x + 1, \amp  \ \text{if}  \ 0 \le x \lt  2 \\
+-x + 3, \amp  \ \text{if}  \ 2 \le x \lt  3 \\
+x^2 - 8x + 15, \amp  \ \text{if}  \ 3 \le x \le 5
+\end{cases}\text{.}
+\end{equation*}
+</div>
+<ol class="lower-alpha">
+<li id="li-3203"><p id="p-4959">Determine the exact value of the net signed area enclosed by \(f\) and the \(x\)-axis on the interval \([2,5]\text{.}\)</p></li>
+<li id="li-3204"><p id="p-4960">Compute the exact average value of \(f\) on \([0,5]\text{.}\)</p></li>
+<li id="li-3205"><p id="p-4961">Find a formula for a function \(g\) on \(5 \le x \le 7\) so that if we extend the above definition of \(f\) so that \(f(x) = g(x)\) if \(5 \le x \le 7\text{,}\) it follows that \(\int_0^7 f(x) \, dx = 0\text{.}\)</p></li>
+</ol></article></div></section></section></div></main>
+</div>
+</body>
+</html>
