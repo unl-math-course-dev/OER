@@ -115,6 +115,8 @@ a {
   <div class="dropdown-content">
   <p><a href="https://www.geogebra.org">Geogebra</a></p>
   <p><a href="https://www.desmos.com">Desmos</a></p>
+  <p><a href="https://www.integral-calculator.com">Integral Calculator</a></p>
+  <p><a href="https://www.symbolab.com/solver/integral-calculator">Symbolab Integral Calculator</a></p>
   </div>
   </th>
 
