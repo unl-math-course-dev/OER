@@ -1,0 +1,2167 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!-- **********************************************************************-->
+<!-- Copyright 2019                                                        -->
+<!-- UNL Department of Mathematics                                         -->
+<!-- Based upon the work of                                                -->
+<!-- Matthew Boelkins                                                      -->
+<!-- Copyright 2012-2018                                                   -->
+<!--                                                                       -->
+<!-- This file is part of Coordinated Calculus.                            -->
+<!-- This file is based on Active Calculus.                                -->
+<!--                                                                       -->
+<!-- Permission is granted to copy, distribute and/or modify this document -->
+<!-- under the terms of the Creative Commons BY-SA license.  The work      -->
+<!-- may be used for free by any party so long as attribution is given to  -->
+<!-- the author(s), the work and its derivatives are used in the spirit of -->
+<!-- "share and share alike".  All trademarks are the registered marks of  -->
+<!-- their respective owners.                                              -->
+<!-- **********************************************************************-->
+<section xmlns:xi="http://www.w3.org/2001/XInclude" xml:id="sec-5-5-substitution" permid="wBi">
+  <title>Integration by Substitution</title>
+  <objectives permid="ZNL">
+    <ul permid="Sjm">
+      <li permid="exE">
+        <p permid="vvP">
+          How can we begin to find algebraic formulas for antiderivatives of more complicated algebraic functions?
+        </p>
+      </li>
+
+      <li permid="KEN">
+        <p permid="bCY">
+          What is an indefinite integral and how is its notation used in discussing antiderivatives?
+        </p>
+      </li>
+
+      <li permid="qLW">
+        <p permid="HKh">
+          How does the technique of <m>u</m>-substitution work to help us evaluate certain indefinite integrals,
+          and how does this process rely on identifying function-derivative pairs?
+        </p>
+      </li>
+    </ul>
+  </objectives>
+
+  <introduction permid="FUU">
+    <p permid="dsl">
+      In <xref ref="sec-4-4-FTC">Section</xref>,
+      we learned the key role that antiderivatives play in the process of evaluating definite integrals exactly.
+      The Fundamental Theorem of Calculus tells us that if <m>F</m> is any antiderivative of <m>f</m>, then
+      <me permid="UIt">
+        \int_a^b f(x) \, dx = F(b) - F(a)
+      </me>.
+    </p>
+
+    <p permid="Jzu">
+      Furthermore,
+      we realized that each elementary derivative rule developed in <xref ref="C-2">Chapter</xref>
+      leads to a corresponding elementary antiderivative,
+      as summarized in <xref ref="T-4-4-Act2_2">Table</xref>.
+      Thus, if we wish to evaluate an integral such as
+      <me permid="APC">
+        \int_0^1 \left(x^3 - \sqrt{x} + 5^x \right) \,dx
+      </me>,
+      it is straightforward to do so,
+      since we can easily antidifferentiate <m>f(x) = x^3 - \sqrt{x} + 5^x</m>.
+      Because one antiderivative of <m>f</m> is <m>F(x) = \frac{1}{4}x^4 - \frac{2}{3}x^{\frac{3}{2}} + \frac{1}{\ln(5)}5^x</m>,
+      the Fundamental Theorem of Calculus tells us that
+      <md permid="gWL">
+        <mrow>\int_0^1 \left(x^3 - \sqrt{x} + 5^x\right) \,dx &amp;=  \left. \frac{1}{4}x^4 - \frac{2}{3}x^{\frac{3}{2}} + \frac{1}{\ln(5)}5^x\right|_0^1</mrow>
+        <mrow>&amp;= \left( \frac{1}{4}(1)^4 - \frac{2}{3}(1)^{\frac{3}{2}} + \frac{1}{\ln(5)}5^1 \right) - \left( 0 - 0 + \frac{1}{\ln(5)}5^0 \right)</mrow>
+        <mrow>&amp;= -\frac{5}{12} + \frac{4}{\ln(5)}</mrow>
+      </md>.
+    </p>
+
+    <p permid="pGD">
+      We see that we have a natural interest in being able to find such algebraic antiderivatives.
+      We emphasize <em>algebraic</em> antiderivatives,
+      as opposed to any antiderivative,
+      since we know by the Second Fundamental Theorem of Calculus that
+      <m>G(x) = \int_a^x f(t) \, dt</m> is indeed an antiderivative of the given function <m>f</m>,
+      but one that still involves a definite integral.
+      Our goal in this section is to <q>undo</q>
+      the process of differentiation to find an algebraic antiderivative for a given function.
+    </p>
+
+
+	<subsection>
+	<title>Using the Chain Rule to Guess Antiderivatives</title> 
+		<p permid="HbN">
+    	In <xref ref="sec-2-5-chain">Section</xref>,
+    	we learned the Chain Rule and how it can be applied to find the derivative of a composite function.
+    	In particular,
+    	if <m>u</m> is a differentiable function of <m>x</m>,
+    	and <m>f</m> is a differentiable function of <m>u(x)</m>, then
+    	<me permid="zxo">
+      		\frac{d}{dx} \left[ f(u(x))  \right] = f'(u(x)) \cdot u'(x)
+    	</me>.
+  		</p>
+
+  		<p permid="niW">
+	Here, <m>f</m> is considered the <q>outer</q>
+    	function and <m>u</m> the <q>inner</q> function.
+    	Thus, the chain rule says that the derivative of a composite function <m>c(x) = f(u(x))</m>
+    	is <q>the derivative of the outer function,
+    	evaluated at the inner function,
+    	times the derivative of the inner function.</q>
+  		</p>
+   
+	<example xml:id="PA-5-3" permid="fEx">
+  
+  	
+
+  <p permid="Tqf">
+    <ol label="a." permid="akK">
+    	
+      <li permid="SGl">
+      	<statement>
+        <p permid="MQZ">
+          For each of the following functions,
+          use the Chain Rule to find the function's derivative.
+          Be sure to label each derivative by name (e.g., the derivative of <m>g(x)</m> should be labeled <m>g'(x)</m>).
+        </p>
+
+        <p permid="sYi">
+          <ol label="i." permid="XZY">
+            <li permid="rSP">
+              <p permid="LLG">
+                <m>g(x) = e^{3x}</m>
+              </p>
+            </li>
+
+            <li permid="yNu">
+              <p permid="Zfr">
+                <m>h(t) = \sin(5t+1)</m>
+              </p>
+            </li>
+
+            <li permid="eUD">
+              <p permid="FmA">
+                <m>p(x) = \arctan(2x)</m>
+              </p>
+            </li>
+
+            <li permid="LbM">
+              <p permid="ltJ">
+                <m>q(t) = (2-7t)^4</m>
+              </p>
+            </li>
+
+            <li permid="riV">
+              <p permid="RAS">
+                <m>r(x) = 3^{4-11x}</m>
+              </p>
+            </li>
+          </ol>
+        </p>
+	      </statement>
+	      <hint>
+	      <p permid="sYi">
+          <ol label="i." permid="XZY">
+            <li permid="rSP">
+              <p permid="LLG">
+		      <m>g(x)=u(v(x)),</m> where <m>v(x)=3x</m> and <m>u(x)=e^x</m>
+              </p>
+            </li>
+
+            <li permid="yNu">
+              <p permid="Zfr">
+                <m>h(t)=u(v(t)),</m> where <m>v(t)=5t+1</m> and <m>u(t)=\sin(t)</m>
+              </p>
+            </li>
+
+            <li permid="eUD">
+              <p permid="FmA">
+		      <m>p(x)=u(v(x)),</m> where <m>v(x)=2x</m> and <m>u(x)=\arctan(x)</m>
+              </p>
+            </li>
+
+            <li permid="LbM">
+              <p permid="ltJ">
+		      <m>q(t)=u(v(t)),</m> where <m>v(t)=2-7t</m> and <m>u(t)=t^4</m>
+              </p>
+            </li>
+
+            <li permid="riV">
+              <p permid="RAS">
+		      <m>r(x)=u(v(x)),</m> where <m>v(x)=4-11x</m> and <m>u(x)=3^x</m>
+              </p>
+            </li>
+          </ol>
+        </p>
+	      </hint>
+      	<answer>
+      		<sidebyside>
+      			<ol label="i.">
+      			<li>
+      				<p>
+      					<m>g'(x)=3e^{3x} </m>
+      				</p>	
+      			</li>
+      			<li>
+      				<p>
+      					<m>h'(t)=5\cos(5t+1) </m>
+      				</p>	
+      			</li>
+      			<li>
+      				<p>
+      					<m>p'(x)=\dfrac{2}{1+4x^2} </m>
+      				</p>	
+      			</li>
+      			<li>
+      				<p>
+      					<m>q'(t)=-28(2-7t)^3 </m>
+      				</p>	
+      			</li>
+      			<li>
+      				<p>
+      					<m>r'(x)=-\dfrac{11}{\ln(3)}3^{4-11x} </m>
+      				</p>	
+      			</li>
+      			</ol>	
+      		</sidebyside>	
+      	</answer>
+      	<solution>
+      		<sidebyside>
+      			<ol label="i.">
+      			<li>
+      				<p>
+      					<md>
+                  <mrow> g'(x)&amp;=e^{3x}\cdot \frac{d}{dx}[3x] </mrow>
+                  <mrow> &amp;=e^{3x}\cdot 3</mrow>
+                  <mrow> &amp;=3e^{3x} </mrow>
+                </md>
+      				</p>	
+      			</li>
+      			<li>
+      				<p>
+      					<md>
+                  <mrow> h'(t)&amp;=\cos(5t+1)\cdot \frac{d}{dt}[5t+1] </mrow>
+                  <mrow>  &amp;=\cos(5t+1)\cdot 5 </mrow>
+                  <mrow>  &amp;=5\cos(5t+1) </mrow>
+                </md>
+      				</p>	
+      			</li>
+      			<li>
+      				<p>
+      					<md>
+                  <mrow> p'(x)&amp;=\dfrac{1}{1+(2x)^2}\cdot \frac{d}{dx}[2x] </mrow>
+                  <mrow> &amp;=\dfrac{1}{1+4x^2}\cdot 2</mrow>
+                  <mrow> &amp;=\dfrac{2}{1+4x^2} </mrow>
+                </md>
+      				</p>	
+      			</li>
+      			<li>
+      				<p>
+      					<md>
+                  <mrow> q'(t)&amp;=4(2-7t)^3\cdot \frac{d}{dt}[2-7t] </mrow>
+                  <mrow> &amp;=4(2-7t)^3\cdot(-7) </mrow>
+                  <mrow> &amp;=-28(2-7t)^3 </mrow>
+                </md>
+      				</p>	
+      			</li>
+      			<li>
+      				<p>
+      					<md>
+                  <mrow> r'(x)=\frac{1}{\ln(3)}3^{4-11x}\cdot \frac{d}{dx}[4-11x] </mrow>
+                  <mrow> &amp;=\frac{1}{\ln(3)}3^{4-11x}\cdot(-11) </mrow>
+                  <mrow> &amp;=-\dfrac{11}{\ln(3)}3^{4-11x} </mrow> 
+                </md>
+      				</p>	
+      			</li>
+      			</ol>	
+      		</sidebyside>	
+      	</solution>	
+      </li>
+
+      	
+      <li permid="ACH">
+      	<statement>
+        <p permid="xIb">
+          For each of the following functions,
+          use your work in (a) to help you determine the general antiderivative<fn>
+          Recall that the general antiderivative of a function includes <q><m>+C</m></q>
+          to reflect the entire family of functions that share the same derivative.
+          </fn> of the function.
+          Label each antiderivative by name (e.g., the antiderivative of <m>m</m> should be called <m>M</m>).
+          In addition,
+          check your work by computing the derivative of each proposed antiderivative.
+
+          <ol label="i." permid="GrT">
+            <li permid="Xqe">
+              <p permid="uNv">
+                <m>m(x) = e^{3x}</m>
+              </p>
+            </li>
+
+            <li permid="Dxn">
+              <p permid="dPk">
+                <m>n(t) = \cos(5t+1)</m>
+              </p>
+            </li>
+
+            <li permid="PLF">
+              <p permid="JWt">
+                <m>s(x) = \frac{1}{1+4x^2}</m>
+              </p>
+            </li>
+
+            <li permid="vSO">
+              <p permid="qdC">
+                <m>v(t) = (2-7t)^3</m>
+              </p>
+            </li>
+
+            <li permid="bZX">
+              <p permid="WkL">
+                <m>w(x) = 3^{4-11x}</m>
+              </p>
+            </li>
+          </ol>
+        </p>
+    </statement>
+        <hint>
+      		<p>
+      		Compare the coefficients of the functions of part b) to the answers of the corresponding problems of part a). 
+      		</p>
+      	</hint>
+      	<answer>
+      		<sidebyside>
+      			<ol label="i.">
+      			<li>
+      				<p>
+      					<m>M(x)=\frac{1}{3}e^{3x} + C </m>
+      				</p>	
+      			</li>
+      			<li>
+      				<p>
+      					<m>N(t)=\frac{1}{5}\sin(5t+1)+C </m>
+      				</p>	
+      			</li>
+      			<li>
+      				<p>
+      					<m>S(x)=\frac{1}{2}\arctan(2x) + C </m>
+      				</p>	
+      			</li>
+      			<li>
+      				<p>
+      					<m>V(t)=\frac{1}{28}(2-7t)^4+C </m>
+      				</p>	
+      			</li>
+      			<li>
+      				<p>
+      					<m>W(x)=-\frac{\ln(3)}{11}3^{4-11x}+C </m>
+      				</p>	
+      			</li>
+      			</ol>      			      			      					
+      		</sidebyside>	
+      	</answer>
+      	<solution>
+      		<sidebyside>
+      			<ol label="i.">
+      			<li>
+      				<p>
+      					We want to find a function whose derivative is <m> e^{3x} </m>. The derivative of <m> e^{3x}</m> is <m> 3e^{3x}</m> and this is nearly what we want; it's off by a factor of 3. If, instead, we differentiate the function <m> \frac{1}{3}e^{3x}</m>, we'll obtain <m> e^{3x} </m> which is what we want. The general antiderivative is <m> M(x)=\frac{1}{3}e^{3x} + C</m> where <m> C </m> is any constant.
+      				</p>	
+      			</li>
+      			<li>
+      				<p>
+      					We want to find a function whose derivative is <m> \cos(5t+1) </m>. The derivative of <m> \sin(5t+1)</m> is <m> 5\cos(5t+1)</m> and this is nearly what we want; it's off by a factor of 5. If, instead, we differentiate the function <m> \frac{1}{5}\sin(5t+1)</m>, we'll obtain <m> \cos(5t+1) </m> which is what we want. The general antiderivative is <m> N(t)=\frac{1}{5}\sin(5t+1) + C</m> where <m> C </m> is any constant.
+      				</p>	
+      			</li>
+      			<li>
+      				<p>
+      					We want to find a function whose derivative is <m> \frac{1}{1+4x^2} </m>. The derivative of <m> \arctan(2x)</m> is <m> \frac{2}{1+4x^2}</m> and this is nearly what we want; it's off by a factor of 2. If, instead, we differentiate the function <m> \frac{1}{2}\arctan(2x)</m>, we'll obtain <m> \frac{1}{1+4x^2} </m> which is what we want. The general antiderivative is <m> S(x)=\frac{1}{2}\arctan(2x) + C</m> where <m> C </m> is any constant.
+      				</p>	
+      			</li>
+      			<li>
+      				<p>
+      					We want to find a function whose derivative is <m> (2-7t)^3 </m>. The derivative of <m> (2-7t)^4</m> is <m> -28(2-7t)^3</m> and this is nearly what we want; it's off by a factor of -28. If, instead, we differentiate the function <m> -\frac{1}{28}(2-7t)^4</m>, we'll obtain <m> (2-7t)^3 </m> which is what we want. The general antiderivative is <m> V(t)=-\frac{1}{28}(2-7t)^4 + C</m> where <m> C </m> is any constant.
+      				</p>	
+      			</li>
+      			<li>
+      				<p>
+      					We want to find a function whose derivative is <m> 3^{4-11x} </m>. The derivative of <m> 3^{4-11x}</m> is <m> -\frac{11}{\ln(3)}3^{4-11x}</m> and this is nearly what we want; it's off by a factor of <m>-\frac{11}{\ln(3)} </m>. If, instead, we differentiate the function <m> -\frac{\ln(3)}{11}3^{4-11x}</m>, we'll obtain <m> 3^{4-11x} </m> which is what we want. The general antiderivative is <m> W(x)=-\frac{\ln(3)}{11}3^{4-11x} + C</m> where <m> C </m> is any constant.
+      				</p>	
+      			</li>
+      			</ol>	
+      		</sidebyside>	
+      	</solution>	
+      </li>
+
+      <li permid="gJQ">
+      	<statement>
+        <p permid="CrU">
+          Based on your experience in parts (a) and (b),
+          conjecture an antiderivative for each of the following functions.
+          Test your conjectures by computing the derivative of each proposed antiderivative.
+
+          <ol label="i."  permid="mzc">
+            <li permid="Ihg">
+              <p permid="aUE">
+                <m>a(t) = \cos(\pi t)</m>
+              </p>
+            </li>
+
+            <li permid="oop">
+              <p permid="izd">
+                <m>b(x) = (4x+7)^{11}</m>
+              </p>
+            </li>
+
+            <li permid="Uvy">
+              <p permid="OGm">
+                <m>c(x) = xe^{x^2}</m>
+              </p>
+            </li>
+          </ol>
+        </p>
+    	</statement>
+	      <hint>
+	      <p>Think about what the composed function will do to the antiderivative. You may want to refer to the relationship between the functions in parta (a) and (b).</p>
+	      </hint>
+      	<answer>
+      		<sidebyside>
+      			<ol label="i.">
+      			<li>
+      				<p>
+      					<m>A(t)=\frac{1}{\pi}\sin(\pi t) + 1 </m>
+      				</p>	
+      			</li>
+      			<li>
+      				<p>
+      					<m>B(x)=\frac{1}{48}(4x+7)^{12} -3 </m>
+      				</p>	
+      			</li>
+      			<li>
+      				<p>
+      					<m>C(x)=\frac{1}{2}e^{x^2} </m>
+      				</p>	
+      			</li>
+      			</ol>	
+      		</sidebyside>	
+      	</answer>
+      	<solution>
+      		<sidebyside>
+      			<ol label="i.">
+      			<li>
+      				<p>
+      					Using similar reasoning demonstrated in the solution for part b), the general antiderivative is <m> \frac{1}{\pi}\sin(\pi t) + C</m>. One possible antiderivative is <m> A(t)=\frac{1}{\pi} \sin(\pi t) + 1 </m>, and <m> A'(t)=\frac{\pi}{\pi}\cos(\pi t) + 0=\cos(\pi t)</m>.
+              </p>	
+      			</li>
+      			<li>
+      				<p>
+      					Using similar reasoning demonstrated in the solution for part b), the general antiderivative is <m> \frac{1}{48}(4x+7)^{12} + C</m>. One possible antiderivative is <m> B(x)=\frac{1}{48}(4x+7)^{12}-3 </m>, and <m> B'(x)=\frac{48}{48}(4x+7)^{11} + 0=(4x+7)^{11}</m>.
+      				</p>	
+      			</li>
+      			<li>
+      				<p>
+      					Using similar reasoning demonstrated in the solution for part b), the general antiderivative is <m> \frac{1}{2}e^{x^2} + C</m>. One possible antiderivative is <m> C(x)=\frac{1}{2}e^{x^2} </m>, and <m> C'(x)=\frac{2x}{2}e^{x^2}=xe^{x^2}</m>.
+      				</p>	
+      			</li>
+      			</ol>	
+      		</sidebyside>	
+      	</solution>	
+      </li>
+    </ol>
+  </p>
+</example>
+</subsection>
+  </introduction>
+
+  <subsection permid="cIr">
+    <title>Reversing the Chain Rule: First Steps</title>
+    <p permid="VNM">
+      Whenever <m>f</m> is a familiar function whose antiderivative is known and <m>u(x)</m> is a linear function,
+      it is  straightforward to antidifferentiate a function of the form
+      <me permid="NdU">
+        h(x) = f(u(x))
+      </me>.
+    </p>
+
+    <example permid="Nzt">
+      <statement>
+        <p permid="EPB">
+          The following example will demonstrate how to determine the general antiderivative of
+          <me permid="tld">
+            h(x) = (5x-3)^6
+          </me>.
+          We can check the result by differentiating.
+        </p>
+
+        <p permid="kWK">
+          For this composite function, the outer function <m>f</m> is <m>f(u) = u^6</m>,
+          while the inner function is <m>u(x) = 5x - 3</m>.
+          Since the antiderivative of <m>f</m> is <m>F(u) = \frac{1}{7}u^7+C</m>, we
+          see that the antiderivative of <m>h</m> is
+          <me permid="Zsm">
+            H(x) = \frac{1}{7} (5x-3)^7 \cdot \frac{1}{5} + C = \frac{1}{35} (5x-3)^7 + C
+          </me>.
+        </p>
+
+        <p permid="RdT">
+          The inclusion of the constant
+          <m>\frac{1}{5}</m> is essential precisely because the derivative of the inner function is <m>u'(x) = 5</m>.
+          Indeed, if we now compute <m>H'(x)</m>, we find by the Chain Rule
+          (and Constant Multiple Rule)
+          that
+          <me permid="Fzv">
+            H'(x) = \frac{1}{35} \cdot 7(5x-3)^6 \cdot 5 = (5x-3)^6 = h(x)
+          </me>,
+          and thus <m>H</m> is indeed the general antiderivative of <m>h</m>.
+        </p>
+      </statement>
+    </example>
+
+    <p permid="BUV">
+      Hence, in the special case where the outer function is familiar and the inner function is linear,
+      we can antidifferentiate composite functions according to the following rule.
+    </p>
+
+    <assemblage permid="Blb">
+      <p permid="ice">
+        If <m>h(x) = f(ax + b)</m> and <m>F</m> is a known algebraic antiderivative of <m>f</m>,
+        then the general antiderivative of <m>h</m> is given by
+        <me permid="lGE">
+          H(x) = \frac{1}{a} F(ax+b) + C
+        </me>.
+      </p>
+    </assemblage>
+
+    <p permid="Ojn">
+      It is useful to have shorthand notation that indicates the instruction to find an antiderivative.
+      Thus, in a similar way to how the notation
+      <me permid="RNN">
+        \frac{d}{dx} \left[ f(x) \right]
+      </me>
+      represents the derivative of <m>f(x)</m> with respect to <m>x</m>,
+      we use the notation of the <em>indefinite integral</em>,
+          <idx><h>indefinite integral</h></idx>
+      <me permid="xUW">
+        \int f(x) \, dx
+      </me>
+      to represent the general antiderivative of <m>f</m> with respect to <m>x</m>.
+      Returning to the earlier example with <m>h(x) = (5x-3)^6</m>,
+      we can rephrase the relationship between <m>h</m> and its antiderivative <m>H</m> through the notation
+      <me permid="ecf">
+        \int (5x-3)^6 \, dx = \frac{1}{35} (5x-6)^7 + C
+      </me>.
+    </p>
+
+    <p permid="uqw">
+      When we find an antiderivative,
+      we will often say that we <em>evaluate an indefinite integral</em>.
+          <idx><h>indefinite integral</h><h>evaluate</h></idx>
+      Just as the notation <m>\frac{d}{dx} [ \Box ]</m> means
+      <q>find the derivative with respect to <m>x</m> of <m>\Box</m>,</q>
+      the notation <m>\int \Box \, dx</m> means
+      <q>find a function of <m>x</m> whose derivative is <m>\Box</m>.</q>
+    </p>
+
+<example xml:id="act-5-3-1" permid="YRF">
+  <statement>
+    <p permid="sKw">
+      Evaluate each of the following indefinite integrals.
+      Check each antiderivative that you find by differentiating.
+
+      <ol label="a." permid="Fun">
+        <li permid="lBw">
+          <p permid="cRE">
+            <m>\int \sin(8-3x) \, dx</m>
+          </p>
+        </li>
+
+        <li permid="RIF">
+          <p permid="IYN">
+            <m>\int \sec^2 (4x) \, dx</m>
+          </p>
+        </li>
+
+        <li permid="xPO">
+          <p permid="pfW">
+            <m>\int \frac{1}{11x - 9} \, dx</m>
+          </p>
+        </li>
+
+        <li permid="dWX">
+          <p permid="Vnf">
+            <m>\int \csc(2x+1) \cot(2x+1) \, dx</m>
+          </p>
+        </li>
+
+        <li permid="Keg">
+          <p permid="Buo">
+            <m>\int \frac{1}{\sqrt{1-16x^2}}\, dx</m>
+          </p>
+        </li>
+
+        <li permid="qlp">
+          <p permid="hBx">
+            <m>\int 5^{-x}\, dx</m>
+          </p>
+        </li>
+      </ol>
+    </p>
+  </statement>
+  <hint permid="gRD">
+    <p permid="MDn">
+      <ol label="a." permid="Zne">
+        <li permid="Wsy">
+          <p permid="tPP">
+            Think <m>\int \sin(u) \, du</m>.
+          </p>
+        </li>
+
+        <li permid="CzH">
+          <p permid="ZWY">
+            Think <m>\int \sec^2 (u) \, du</m>.
+          </p>
+        </li>
+
+        <li permid="iGQ">
+          <p permid="Geh">
+            Think <m>\int \frac{1}{u}\, du</m>.
+          </p>
+        </li>
+
+        <li permid="ONZ">
+          <p permid="mlq">
+            Think <m>\int \csc(u) \cot(u) \, du</m>.
+          </p>
+        </li>
+
+        <li permid="uVi">
+          <p permid="Ssz">
+            Think <m>\int \frac{1}{\sqrt{1-u^2}} \, du</m>.
+          </p>
+        </li>
+
+        <li permid="bcr">
+          <p permid="yzI">
+            Think <m>\int 5^{u} \, du</m>.
+          </p>
+        </li>
+      </ol>
+    </p>
+  </hint>
+  <answer permid="AKu">
+    <p permid="gwe">
+      <ol label="a." permid="tfV">
+        <li permid="HjA">
+          <p permid="eGR">
+            <me>\int \sin(8-3x) \, dx = -\frac{1}{3} (-\cos(8-3x)) + C</me>.
+          </p>
+        </li>
+
+        <li permid="nqJ">
+          <p permid="KOa">
+            <me>\int \sec^2 (4x) \, dx = \frac{1}{4} \tan(4x) + C</me>.
+          </p>
+        </li>
+
+        <li permid="TxS">
+          <p permid="qVj">
+            <me>\int \frac{1}{11x - 9} \, dx = \frac{1}{11} \ln|11x - 9| + C</me>.
+          </p>
+        </li>
+
+        <li permid="zFb">
+          <p permid="Xcs">
+            <me>\int \csc(2x+1) \cot(2x+1) \, dx = -\frac{1}{2}\cot(2x+1) + C</me>.
+          </p>
+        </li>
+
+        <li permid="fMk">
+          <p permid="DjB">
+            <me>\int \frac{1}{\sqrt{1-16x^2}}\, dx = \frac{1}{4} \arcsin(4x) + C</me>
+          </p>
+        </li>
+
+        <li permid="LTt">
+          <p permid="jqK">
+            <me>\int 5^{-x}\, dx = -\frac{1}{\ln(5)}5^{-x} + C</me>.
+          </p>
+        </li>
+      </ol>
+    </p>
+  </answer>
+  <solution permid="UDl">
+    <p permid="AoV">
+      <ol label="a." permid="MYM">
+        <li permid="saC">
+          <p permid="PxT">
+            Since <m>u=8-3x</m> is linear and <m>\int \sin(u) \, du = -\cos(u) + C</m>,
+            it follows that <m>\int \sin(8-3x) \, dx = -\frac{1}{3} (-\cos(8-3x)) + C</m>.
+          </p>
+        </li>
+
+        <li permid="YhL">
+          <p permid="vFc">
+            Since <m>4x</m> is linear and <m>\int \sec^2(u) \, du = \tan(u) + C </m>,
+            we see <m>\int \sec^2 (4x) \, dx = \frac{1}{4} \tan(4x) + C</m>.
+          </p>
+        </li>
+
+        <li permid="EoU">
+          <p permid="bMl">
+            Using the fact that <m>\int \frac{1}{u} \, du = \ln |u| + C</m>,
+            we have <m>\int \frac{1}{11x - 9} \, dx = \frac{1}{11} \ln|11x - 9| + C</m>.
+          </p>
+        </li>
+
+        <li permid="kwd">
+          <p permid="HTu">
+            We know <m>\int \csc(u) \cot(u) \, du = -\cot(u) + C</m>,
+            so <m>\int \csc(2x+1) \cot(2x+1) \, dx = -\frac{1}{2}\cot(2x+1) + C</m>.
+          </p>
+        </li>
+
+        <li permid="QDm">
+          <p permid="oaD">
+            Observe that <m>\int \frac{1}{\sqrt{1-u^2}}\, dx = \arcsin(u) + C</m>,
+            and thus viewing <m>16x^2 = (4x)^2</m>,
+            we see that <m>\int \frac{1}{\sqrt{1-16x^2}}\, dx = \frac{1}{4} \arcsin(4x) + C</m>
+          </p>
+        </li>
+
+        <li permid="wKv">
+          <p permid="UhM">
+            Since <m>\int 5^{u}\, du = \frac{1}{\ln(5)}5^u + C</m>,
+            we have that <m>\int 5^{-x}\, dx = -\frac{1}{\ln(5)}5^{-x} + C</m>.
+          </p>
+        </li>
+      </ol>
+    </p>
+  </solution>
+</example>
+  </subsection>
+
+  <subsection permid="IPA">
+    <title>Reversing the Chain Rule: <m>u</m>-substitution</title>
+    <idx><h><m>u</m>-substitution</h></idx>
+
+    <p permid="axF">
+      A natural question arises from our recent work:
+      what happens when the inner function is not linear?
+      For example, can we find antiderivatives of such functions as
+      <me permid="Kjo">
+        g(x) = x e^{x^2} \ \text{and}  \ h(x) = e^{x^2}?
+      </me>
+    </p>
+
+    <p permid="GEO">
+      It is important to remember that differentiation and antidifferentiation are almost-inverse processes
+      (that they are not is due to the <m>+C</m> that arises when antidifferentiating).
+      This almost-inverse relationship enables us to take any known derivative rule and rewrite it as a corresponding rule for an indefinite integral.
+      For example, since
+      <me permid="qqx">
+        \frac{d}{dx} \left[x^5\right] = 5x^4
+      </me>,
+      we can equivalently write
+      <me permid="WxG">
+        \int 5x^4 \, dx = x^5 + C
+      </me>.
+    </p>
+
+    <p permid="mLX">
+      Recall that the Chain Rule states that
+      <me permid="CEP">
+        \frac{d}{dx} \left[ f(g(x)) \right] = f'(g(x)) \cdot g'(x)
+      </me>.
+    </p>
+
+    <p permid="STg">
+      Restating this relationship in terms of an indefinite integral,
+      <men xml:id="E-usubst" permid="iLY">
+        \int f'(g(x)) g'(x) \, dx = f(g(x))+C
+      </men>.
+    </p>
+
+    <p permid="zap">
+      <xref ref="E-usubst">Equation</xref>
+      tells us that if we can view a given function as
+      <m>f'(g(x)) g'(x)</m> for some appropriate choices of <m>f</m> and <m>g</m>,
+      then we can antidifferentiate the function by reversing the Chain Rule.
+      Note that both <m>g(x)</m> and <m>g'(x)</m> appear in the form of <m>f'(g(x)) g'(x)</m>;
+      we will sometimes say that we seek to
+      <em>identify a function-derivative pair</em>
+          <idx><h>function-derivative pair</h></idx>
+      (<m>g(x)</m> and <m>g'(x)</m>) when trying to apply the rule in <xref ref="E-usubst">Equation</xref>.
+    </p>
+
+    <p permid="fhy">
+      If we can identify a function-derivative pair,
+      we will introduce a new variable <m>u</m> to represent the function <m>g(x)</m>.
+      With <m>u = g(x)</m>,
+      it follows in Leibniz notation that <m>\frac{du}{dx} = g'(x)</m>,
+      so that in terms of differentials<fn>
+      If we recall from the definition of the derivative that
+      <m>\frac{du}{dx} \approx \frac{\Delta{u}}{\Delta{x}}</m> and use the fact that <m>\frac{du}{dx} = g'(x)</m>,
+      then we see that <m>g'(x) \approx \frac{\Delta{u}}{\Delta{x}}</m>.
+      Solving for <m>\Delta u</m>,
+      <m>\Delta u \approx g'(x) \Delta x</m>.
+      It is this last relationship that,
+      when expressed in <q>differential</q>
+      notation enables us to write
+      <m>du = g'(x) \, dx</m> in the change of variable formula.
+      </fn>,
+      <m>du = g'(x)\, dx</m>.
+      Now converting the indefinite integral to a new one in terms of <m>u</m>, we have
+      <me permid="OTh">
+        \int f'(g(x)) g'(x) \, dx = \int f'(u) \,du
+      </me>.
+    </p>
+
+    <p permid="LoH">
+      Provided that <m>f'</m> is an elementary function whose antiderivative is known,
+      we can easily evaluate the indefinite integral in <m>u</m>,
+      and then go on to determine the desired overall antiderivative of <m>f'(g(x)) g'(x)</m>.
+      We call this process <em><m>u</m>-substitution</em>,
+      and summarize the rule as follows:
+    </p>
+
+    <assemblage permid="hsk">
+    <title> Method of Substitution  </title>
+      <p permid="rvQ">
+        With the substitution <m>u = g(x)</m>,
+        <me permid="vaq">
+          \int f'(g(x)) g'(x) \, dx = \int f'(u) \,du = f(u) + C = f(g(x)) + C
+        </me>.
+        This method is often referred to as <term> <m> u </m>-substitution. </term>
+      </p>
+    </assemblage>
+    
+    <p permid="XCZ">
+      To see <m>u</m>-substitution at work,
+      we consider the following example.
+    </p>
+
+    <example xml:id="Ex-5-3-usub" permid="tGC">
+      <statement>
+        <p permid="xlc">
+          Evaluate the indefinite integral
+          <me permid="bhz">
+            \int x^3 \cdot \sin (7x^4 + 3) \, dx
+          </me>
+          and check the result by differentiating.
+        </p>
+      </statement>
+	    <hint><p>Let <m>u=7x^4+3</m>.</p></hint>
+	    <answer><p><me>\int x^3 \cdot \sin (7x^4 + 3) \, dx=-\frac{1}{28}\cos(7x^4+3)+C</me></p></answer>
+      <solution permid="mcd">
+        <p permid="gmR">
+          We can make two algebraic observations regarding the integrand,
+          <m>x^3 \cdot \sin (7x^4 + 3)</m>.
+          First, <m>\sin (7x^4 + 3)</m> is a composite function;
+          as such, we know we'll need a more sophisticated approach to antidifferentiating.
+          Second, <m>x^3</m> is almost the derivative of <m>7x^4 + 3</m>;
+          the only issue is a missing constant.
+          Thus, <m>x^3</m> and <m>(7x^4 + 3)</m> are nearly a function-derivative pair.
+          Furthermore,
+          we know the antiderivative of <m>f(u) = \sin(u)</m>.
+          The combination of these observations suggests that we can evaluate the given indefinite integral by reversing the chain rule through <m>u</m>-substitution.
+        </p>
+
+        <p permid="Mua">
+          Letting <m>u</m> represent the inner function of the composite function <m>\sin (7x^4 + 3)</m>,
+          we have <m>u = 7x^4 + 3</m>,
+          and thus <m>\frac{du}{dx} = 28x^3</m>.
+          In differential notation,
+          it follows that <m>du = 28x^3 \, dx</m>,
+          and thus <m>x^3 \, dx = \frac{1}{28} \, du</m>.
+          The original indefinite integral may be slightly rewritten as
+          <me permid="HoI">
+            \int \sin (7x^4 + 3) \cdot x^3 \, dx
+          </me>,
+          and so by substituting <m>u</m> for <m>7x^4 + 3</m> and
+          <m>\frac{1}{28} \, du</m> for <m>x^3 \, dx</m>,
+          it follows that
+          <me permid="nvR">
+            \int \sin (7x^4 + 3) \cdot x^3 \, dx = \int \sin(u) \cdot \frac{1}{28} \, du
+          </me>.
+        </p>
+
+        <p permid="sBj">
+          Now we may evaluate the easier integral in <m>u</m>,
+          and then replace <m>u</m> by the expression <m>7x^4 + 3</m>.
+          Doing so, we find
+          <md permid="TDa">
+            <mrow>\int \sin (7x^4 + 3) \cdot x^3 \, dx &amp;= \int \sin(u) \cdot \frac{1}{28} \, du</mrow>
+            <mrow>&amp;= \frac{1}{28} \int \sin(u) \, du</mrow>
+            <mrow>&amp;= \frac{1}{28} (-\cos(u)) + C</mrow>
+            <mrow>&amp;= -\frac{1}{28} \cos(7x^4 + 3) + C</mrow>
+          </md>.
+        </p>
+
+        <p permid="YIs">
+          To check our work, we observe by the Chain Rule that
+          <me permid="zKj">
+            \frac{d}{dx} \left[ -\frac{1}{28}\cos(7x^4 + 3) \right] = -\frac{1}{28} \cdot (-1)\sin(7x^4 + 3) \cdot 28x^3 = \sin(7x^4 + 3) \cdot x^3
+          </me>,
+          which is indeed the original integrand.
+        </p>
+      </solution>
+    </example>
+    <subsection>
+      <title> A Cautionary Tale </title>
+    <p permid="DKi">
+      The <m>u</m>-substitution worked because the function multiplying <m>\sin (7x^4 + 3)</m> was <m>x^3</m>.
+      If instead that function was <m>x^2</m> or <m>x^4</m>,
+      the substitution process would not have worked.
+      This is one of the primary challenges of antidifferentiation:
+      slight changes in the integrand make tremendous differences.
+      For instance,
+      we can use <m>u</m>-substitution with <m>u = x^2</m> and <m>du = 2xdx</m> to find that
+      <md permid="fRs">
+        <mrow>\int xe^{x^2} \, dx &amp;=  \int e^u \cdot \frac{1}{2} \, du</mrow>
+        <mrow>&amp;= \frac{1}{2} \int e^u \, du</mrow>
+        <mrow>&amp;= \frac{1}{2} e^u + C</mrow>
+        <mrow>&amp;= \frac{1}{2} e^{x^2} + C</mrow>
+      </md>.
+    </p>
+
+    <p permid="jRr">
+      However, for the similar indefinite integral
+      <me permid="LYB">
+        \int e^{x^2} \, dx
+      </me>,
+      the <m>u</m>-substitution <m>u = x^2</m> is no longer possible because the factor of <m>x</m> is missing.
+      Hence, part of the lesson of <m>u</m>-substitution is just how specialized the process is:
+      it only applies to situations where, up to a missing constant,
+      the integrand is the result of applying the Chain Rule to a different,
+      related function.
+    </p>
+  </subsection>
+  <assemblage>
+    <title> Finding Antiderivatives using Substitution</title>
+    <p>
+    <ul permid="pPQ">
+        <li permid="Cei">
+          <p permid="cwf">
+            Find two functions within the integrand that form
+            (up to a possible missing constant)
+            a function-derivative pair;
+          </p>
+        </li>
+
+        <li permid="ilr">
+          <p permid="IDo">
+            Make a substitution and convert the integral to one involving <m>u</m> and <m>du</m>;
+          </p>
+        </li>
+
+        <li permid="OsA">
+          <p permid="oKx">
+            Evaluate the new integral in <m>u</m>;
+          </p>
+        </li>
+
+        <li permid="uzJ">
+          <p permid="URG">
+            Convert the resulting function of <m>u</m> back to a function of <m>x</m> by using your earlier substitution;
+          </p>
+        </li>
+
+        <li permid="aGS">
+          <p permid="AYP">
+            Check your work by differentiating the function of <m>x</m>.
+            You should come up with the original integrand.
+          </p>
+        </li>
+      </ul>
+      </p>  
+    </assemblage> 
+<example xml:id="act-5-3-2" permid="bqM">
+  <statement>
+    <p permid="vjD">
+      Evaluate each of the following indefinite integrals by using a <m> u </m>-substitution.
+
+      <ol label="a." permid="VWZ">
+        <li permid="GOb">
+          <p permid="hfY">
+            <m>\int \frac{x^2}{5x^3+1} \, dx</m>
+          </p>
+        </li>
+
+        <li permid="mVk">
+          <p permid="Nnh">
+            <m>\int e^x \sin(e^x) \, dx</m>
+          </p>
+        </li>
+
+        <li permid="Tct">
+          <p permid="tuq">
+            <m>\int \frac{\cos(\sqrt{x})}{\sqrt{x}} \, dx</m>
+          </p>
+        </li>
+      </ol>
+    </p>
+  </statement>
+  <hint permid="Rng">
+    <p permid="Pcu">
+      <ol label="a." permid="JIH">
+        <li permid="zjC">
+          <p permid="ZBz">
+            Note that <m>5x^3 + 1</m> and <m>15x^2</m> form a function-derivative pair.
+          </p>
+        </li>
+
+        <li permid="fqL">
+          <p permid="FII">
+            Recall that <m>e^{x}</m> is its own derivative.
+          </p>
+        </li>
+
+        <li permid="LxU">
+          <p permid="lPR">
+            Observe that <m>x^{-\frac{1}{2}} = \frac{1}{\sqrt{x}}</m>.
+          </p>
+        </li>
+      </ol>
+    </p>
+  </hint>
+  <answer permid="lfX">
+    <p permid="iVl">
+      <ol label="a." permid="dBy">
+        <li permid="rFd">
+          <p permid="RXa">
+            <m>\int \frac{x^2}{5x^3+1} \, dx = \frac{1}{15} \ln|5x^3 + 1| + C</m>.
+          </p>
+        </li>
+
+        <li permid="XMm">
+          <p permid="yej">
+            <m>\int e^x \sin(e^x) \, dx = -\cos(e^x) + C</m>.
+          </p>
+        </li>
+
+        <li permid="DTv">
+          <p permid="els">
+            <m>\int \frac{\cos(\sqrt{x})}{\sqrt{x}} \, dx = 2\sin(\sqrt{x}) + C</m>.
+          </p>
+        </li>
+      </ol>
+    </p>
+  </answer>
+  <solution permid="EYO">
+    <p permid="COc">
+      <ol label="a." permid="xup">
+        <li permid="kaE">
+          <p permid="KsB">
+            Since <m>5x^3 + 1</m> and <m>15x^2</m> form a function-derivative pair,
+            we let <m>u=5x^3+1</m>,
+            and observe that <m>du=15x^2dx</m>,
+            and thus <m>x^2dx=\frac{1}{15}du</m>.
+            Applying this substitution,
+            integrating, and substituting back,
+            <me>\int \frac{x^2}{5x^3+1} \, dx = \int \frac{\frac{1}{15}du}{u} = \frac{1}{15} \ln|u| + C = \frac{1}{15} \ln|5x^3 + 1| + C</me>.
+          </p>
+        </li>
+
+        <li permid="QhN">
+          <p permid="qzK">
+            Because <m>\frac{d}{dx}[e^x] = e^x</m>,
+            if we let <m>u=e^x</m>,
+            it follows <m>du = e^x dx</m>.
+            Substituting and integrating,
+            <me>\int e^x \sin(e^x) \, dx = \int \sin(u) \, du = -\cos(u) + C = -\cos(e^x) + C</me>.
+          </p>
+        </li>
+
+        <li permid="woW">
+          <p permid="WGT">
+            Let <m>u = \sqrt{x}</m>,
+            so that <m>du = \frac{1}{2}x^{-\frac{1}{2}}dx = \frac{dx}{2\sqrt{x}}</m>.
+            We observe that <m>\frac{dx}{\sqrt{x}} = 2 du</m>,
+            and thus <me>\int \frac{\cos(\sqrt{x})}{\sqrt{x}}~dx = \int 2 \cos(u) \, du = 2\sin(u) + C = 2\sin(\sqrt{x}) + C</me>.
+          </p>
+        </li>
+      </ol>
+    </p>
+  </solution>
+</example>
+  </subsection>
+
+  <subsection permid="oWJ">
+    <title>Evaluating Definite Integrals via <m>u</m>-substitution</title>
+    <p permid="PYA">
+      We have introduced <m>u</m>-substitution as a means to evaluate indefinite integrals of functions that can be written,
+      up to a constant multiple, in the form <m>f(g(x))g'(x)</m>.
+      This same technique can be used to evaluate definite integrals involving such functions,
+      though we need to be careful with the corresponding limits of integration.
+      Consider, for instance, the definite integral
+      <me permid="sfK">
+        \int_2^5 xe^{x^2} \, dx
+      </me>.
+    </p>
+
+    <p permid="wfJ">
+      Whenever we write a definite integral,
+      it is implicit that the limits of integration correspond to the variable of integration.
+      To be more explicit, observe that
+      <me permid="YmT">
+        \int_2^5 xe^{x^2} \, dx = \int_{x=2}^{x=5} xe^{x^2} \, dx
+      </me>.
+    </p>
+
+    <p permid="cmS">
+      When we execute a <m>u</m>-substitution,
+      we change the <em>variable</em> of integration;
+      it is essential to note that this also changes the
+      <em>limits</em> of integration.
+      For instance,
+      with the substitution <m>u = x^2</m> and <m>du = 2x \, dx</m>,
+      it also follows that when <m>x = 2</m>,
+      <m>u = 2^2 = 4</m>, and when <m>x = 5</m>, <m>u = 5^2 = 25</m>.
+      Thus, under the change of variables of <m>u</m>-substitution,
+      we now have
+      <md permid="Euc">
+        <mrow>\int_{x=2}^{x=5} xe^{x^2} \, dx    &amp;= \int_{u=4}^{u=25} e^{u} \cdot \frac{1}{2} \, du</mrow>
+        <mrow>&amp;= \left. \frac{1}{2}e^u \right|_{u=4}^{u=25}</mrow>
+        <mrow>&amp;= \frac{1}{2}e^{25} - \frac{1}{2}e^4</mrow>
+      </md>.
+    </p>
+
+    <p permid="Iub">
+      Alternatively,
+      we could consider the related indefinite integral <m>\int xe^{x^2} \, dx</m>,
+      find the antiderivative <m>\frac{1}{2}e^{x^2}</m> through <m>u</m>-substitution,
+      and then evaluate the original definite integral.
+      With that method, we'd have
+      <md permid="kBl">
+        <mrow>\int_{2}^{5} xe^{x^2} \, dx    &amp;= \left. \frac{1}{2}e^{x^2} \right|_{2}^{5}</mrow>
+        <mrow>&amp;= \frac{1}{2}e^{25} - \frac{1}{2}e^4</mrow>
+      </md>,
+      which is, of course, the same result.
+    </p>
+
+<assemblage>
+	<title> Two Methods to Evaluate a Definite Integral with <m> u </m>-substitution </title>
+	<p>To evaluate the definite integral <m> \int_a^b h(x) \, dx </m> while using a <m>u </m>-substitution, there are two different methods to apply the <xref ref="FTC_2"> Fundamental Theorem of Calculus </xref>. Either method is correct. They are summarized below: 
+		<ol label="A.">
+			<li>
+				<p>Change the limits to the corresponding <m> u </m>-values. Then find the antiderivative with respect to <m> u</m> and evaluate it according to the Fundamental Theorem of Calculus, using the limits corresponding to <m> u </m>.  </p>
+			</li>
+			<li>
+				<p>Start with the indefinite integral <m> \int h(x) \, dx </m> and find an antiderivative with respect to <m> x </m>.  Make sure your resulting expression is in terms of <m> x </m>. Then evaluate it according to the Fundamental Theorem of Calculus, using the limits corresponding to <m> x </m>. </p>
+			</li>
+		</ol>
+	</p>	
+</assemblage>
+
+<example xml:id="act-5-3-3" permid="ooY">
+  <statement>
+    <p permid="IhP">
+      Evaluate each of the following definite integrals exactly through an appropriate <m>u</m>-substitution.
+
+      <ol label="a." permid="soX">
+        <li permid="Ywg">
+          <p permid="uek">
+            <m>\int\limits_1^2 \frac{x}{1 + 4x^2} \, dx</m>
+          </p>
+        </li>
+
+        <li permid="EDp">
+          <p permid="alt">
+            <m>\int\limits_0^1 e^{-x} (2e^{-x}+3)^{9} \, dx</m>
+          </p>
+        </li>
+
+        <li permid="kKy">
+          <p permid="GsC">
+            <m>\int\limits_{2/\pi}^{4/\pi} \frac{\cos\left(\frac{1}{x}\right)}{x^{2}} \,dx</m>
+          </p>
+        </li>
+      </ol>
+    </p>
+  </statement>
+  <hint permid="TMn">
+    <p permid="caG">
+      <ol label="a." permid="MhO">
+        <li permid="QRH">
+          <p permid="mzL">
+            Let <m>u = 1+4x^2</m>.
+          </p>
+        </li>
+
+        <li permid="wYQ">
+          <p permid="SGU">
+            <m>(2e^{-x}+3)</m> and <m>e^{-x}</m> form a function-derivative pair
+          </p>
+        </li>
+
+        <li permid="dfZ">
+          <p permid="yOd">
+            <m>\frac{d}{dx}\left[\frac{1}{x}\right] = -\frac{1}{x^2}</m>
+          </p>
+        </li>
+      </ol>
+    </p>
+  </hint>
+  <answer permid="nFe">
+    <p permid="vTx">
+      <ol label="a." permid="gaF">
+        <li permid="Jni">
+          <p permid="eVm">
+            <md><mrow>\int\limits_{x=1}^{x=2} \frac{x}{1 + 4x^2} \, dx = \frac{1}{8} (\ln(17) - \ln(5))</mrow></md>.
+          </p>
+        </li>
+
+        <li permid="pur">
+          <p permid="Lcv">
+            <md><mrow>\int\limits_0^1 e^{-x} (2e^{-x}+3)^{9} \, dx = -\frac{1}{20}(2e^{-1}+3)^{10} + \frac{1}{20}(2e^{0}+3)^{10}</mrow></md>.
+          </p>
+        </li>
+
+        <li permid="VBA">
+          <p permid="rjE">
+            <md><mrow>\int\limits_{2/\pi}^{4/\pi} \frac{\cos\left(\frac{1}{x}\right)}{x^{2}} \,dx = 1 - \frac{\sqrt{2}}{2}</mrow></md>.
+          </p>
+        </li>
+      </ol>
+    </p>
+  </answer>
+  <solution permid="HxV">
+    <p permid="PMo">
+      <ol label="a." permid="zTw">
+        <li permid="BIJ">
+          <p permid="XqN">
+            Let <m>u = 1+4x^2</m>, so
+            <m>du=8x dx</m> and <m>xdx = \frac{1}{8} du</m>.
+            Note that <m>x=1</m> implies <m>u=5</m> and <m>x=2</m> implies <m>u=17</m>.
+            Thus using method A.,
+            <md>
+            	<mrow>\int\limits_{x=1}^{x=2} \frac{x}{1 + 4x^2} \, dx = \frac{1}{8} \int\limits_{u=5}^{u=17} \frac{du}{u} = \left. \frac{1}{8} \ln|u| \right|_5^{17} = \frac{1}{8} (\ln(17) - \ln(5))
+            	</mrow>
+            </md>.
+          </p>
+        </li>
+
+        <li permid="hPS">
+          <p permid="DxW">
+            We'll use method B., so first consider the corresponding indefinite integral,
+            <m>\int e^{-x} (2e^{-x}+3)^{9} \, dx</m>, 
+            and let <m>u=2e^{-x}+3</m> so that <m>du = -2e^{-x}dx</m>.
+            We see <m>e^{-x}dx = -\frac{1}{2}du</m>,
+            and thus <m>\int e^{-x} (2e^{-x}+3)^{9} \, dx = -\frac{1}{2} \int u^9 \, du = -\frac{1}{2} \cdot \frac{1}{10} u^{10} + C = -\frac{1}{20}(2e^{-x}+3)^{10}</m>.
+            Applying this antiderivative to the definite integral,
+            we see that 
+
+            <md>
+            	<mrow> \int\limits_0^1 e^{-x} (2e^{-x}+3)^{9} \, dx &amp;= \left. -\frac{1}{20}(2e^{-x}+3)^{10} \right|_0^1 </mrow>
+            	<mrow> &amp;= -\frac{1}{20}(2e^{-1}+3)^{10} + \frac{1}{20}(2e^{0}+3)^{10}.</mrow>
+            </md>	
+          </p>
+        </li>
+
+        <li permid="NXb">
+          <p permid="jFf">
+            Using method B. and using the substitution <m>u=\frac{1}{x}</m>,
+            it follows that <me>\int \frac{\cos\left(\frac{1}{x}\right)}{x^{2}} \,dx = -\int \cos(u) \, du = -\sin(u) + C</me>.
+            Hence,
+            <me>\int\limits_{\frac{2}{\pi}}^{\frac{4}{\pi}} \frac{\cos\left(\frac{1}{x}\right)}{x^{2}} \,dx = \left.-\sin\left(\frac{1}{x}\right) \right|_{\frac{2}{\pi}}^{\frac{4}{\pi}} = -\sin(\frac{\pi}{4} + \sin(\frac{\pi}{2}) = 1 - \frac{\sqrt{2}}{2}</me>.
+          </p>
+        </li>
+      </ol>
+    </p>
+  </solution>
+</example>
+
+<example>
+  <statement>
+    <p>
+      Show the two definite integrals are equal by using a substitution. 
+      <ol label="a.">
+        <li>
+          <p>
+            <m> \int_0^{10} 10x \, dx= \frac{1}{10} \int_0^{100} u \, du </m>
+          </p>  
+        </li>
+        <li>
+          <p>
+            <m> 2\int_{\frac{\pi}{4}}^{\frac{\pi}{2}} x \sin(2x) \, dx= \frac{1}{2} \int_{\frac{\pi}{2}}^{\pi} u\sin(u) \, du </m>
+          </p>  
+        </li>
+      </ol> 
+    </p>
+  </statement>
+  <hint>
+  	<p>
+  	  <ol label="a.">
+  	  	<li>
+  	  		<p>
+  	  			Start with the left hand side of the equation and use the substitution <m> u=10x</m>.
+  	  		</p>
+  	  	</li>
+  	  	<li>
+  	  		<p>
+  	  			Start with the left hand side of the equation and use the substitution <m> u=2x </m>. 
+  	  		</p>
+  	  	</li>	 
+  	  </ol>
+  	</p>
+  </hint>
+  <solution>
+  	<p>
+  	  <ol label="a.">
+  	  	<li>
+  	  		<p>
+  	  			Start with the left hand side of the equation and use the substitution <m> u=10x</m>. (We could have started with the right hand side and use the substitution <m>x=\frac{u}{10}</m>.) Then <m> du= 10 \, dx </m>, so <m> \frac{du}{10}=dx </m>. The new limits will be <m>u=10(0)=0 </m> and <m> u=10(10)=100</m>. Using this substitution, we can find that the original integral  transforms to the desired integral 
+  	  			<md>
+  	  			<mrow>  \int_0^{10} 10x \, dx =\int_{0}^{100} u \, \frac{du}{10}= \frac{1}{10} \int_{0}^{100} u \, du </mrow>.
+  	  			</md>
+
+  	  		</p>
+  	  	</li>
+  	  	<li>
+  	  		<p>
+  	  			Start with the left hand side of the equation and use the substitution <m> u=2x</m>. (We could have started with the right hand side and use the substitution <m>x=\frac{u}{2}</m>.) Then <m> du= 2 \, dx </m>, so <m> \frac{du}{2}=dx </m>. The new limits will be <m>u=2(\frac{\pi}{4})=\frac{\pi}{2} </m> and <m> u=2(\frac{\pi}{2})=\pi</m>. We also need to rearrange the equation for the substitution to write <m> x </m> in terms of <m> u </m>, so we also need <m> x=\frac{u}{2} </m>. Using this substitution, we can find that the original integral  transforms to the desired integral 
+  	  			<md>
+  	  			<mrow>  2\int_{\frac{\pi}{4}}^{\frac{\pi}{2}} x \sin(2x) \, dx =2\int_{\frac{\pi}{2}}^{\pi} \frac{u}{2} \sin(u)\, \frac{du}{2}= \frac{1}{2} \int_{\frac{\pi}{2}}^{\pi} u \sin(u) \, du .</mrow>
+  	  			</md>
+  	  		</p>
+  	  	</li>	 
+  	  </ol>
+  	</p>
+  </solution>
+</example>
+
+  </subsection>
+  
+  
+
+  <subsection permid="VdS">
+    <title>Summary</title> 
+    <p permid="oBk">
+      <ul permid="yqv">
+        <li permid="Dao">
+          <p permid="nRq">
+            To find algebraic formulas for antiderivatives of more complicated algebraic functions,
+            we need to think carefully about how we can reverse known differentiation rules.
+            To that end,
+            it is essential that we understand and recall known derivatives of basic functions,
+            as well as the standard derivative rules.
+          </p>
+        </li>
+
+        <li permid="jhx">
+          <p permid="TYz">
+            The indefinite integral provides notation for antiderivatives.
+            When we write <q><m>\int f(x) \, dx</m>,</q>
+            we mean <q>the general antiderivative of <m>f</m>.</q>  In particular,
+            if we have functions <m>f</m> and <m>F</m> such that <m>F' = f</m>,
+            the following two statements say the exact thing:
+            <me permid="QIu">
+              \frac{d}{dx}[F(x)] = f(x) \ \text{and}  \ \int f(x) \, dx = F(x) + C
+            </me>.
+            That is, <m>f</m> is the derivative of <m>F</m>,
+            and <m>F</m> is an antiderivative of <m>f</m>.
+          </p>
+        </li>
+
+        <li permid="PoG">
+          <p permid="AfI">
+            The technique of <m>u</m>-substitution helps us to evaluate indefinite integrals of the form
+            <m>\int f(g(x))g'(x) \, dx</m> through the substitutions
+            <m>u = g(x)</m> and <m>du = g'(x) \, dx</m>, so that
+            <me permid="wPD">
+              \int f(g(x))g'(x) \, dx = \int f(u) \, du
+            </me>.
+            A key part of choosing the expression in <m>x</m> to be represented by <m>u</m> is the identification of a function-derivative pair.
+            To do so, we often look for an <q>inner</q>
+            function <m>g(x)</m> that is part of a composite function,
+            while investigating whether <m>g'(x)</m> (or a constant multiple of <m>g'(x)</m>) is present as a multiplying factor of the integrand.
+          </p>
+        </li>
+        <li> 
+          <p> 
+            There are two methods to use <m> u</m>-substitution with a definite integral. In one method, first find the general antiderivative in terms of <m> x </m> and use the bounds of integration corresponding to <m> x </m> when using the Fundamental Theorem of Calculus. For the other method, change the bounds of integration  to correspond to <m> u </m> as a step of a <m> u</m>-substitution, integrate with respect to <m> u </m>, and use the bounds corresponding to <m> u </m> when using the Fundamental Theorem of Calculus.
+          </p>
+        </li>
+      </ul>
+    </p>
+  </subsection>
+
+<exercises xmlns:xi="http://www.w3.org/2001/XInclude"> 
+
+  <exercise xml:id="ex-5-5-WW0">
+    <title> Practice the steps of the method of substitution </title>
+    <webwork source="Library/maCalcDB/setIntegrals14Substitution/osu_in_14_1.pg" />
+  </exercise>
+  <exercise xml:id="ez-5-3-WW1" permid="sFw">
+    <title>Product involving a 4th power polynomial</title>
+    <webwork source="Library/Michigan/Chap7Sec1/Q11.pg" />
+  </exercise>
+
+  <exercise xml:id="ez-5-3-WW2" permid="YMF">
+    <title>Product involving <m>\sin(x^6)</m></title>
+    <webwork source="Library/Michigan/Chap7Sec1/Q49.pg" />
+  </exercise>
+
+  <exercise xml:id="ez-5-3-WW3" permid="ETO">
+    <title>Fraction involving <m>\ln^9(x)</m></title>
+    <webwork source="Library/Michigan/Chap7Sec1/Q27.pg" />
+  </exercise>
+
+  <exercise xml:id="ez-5-3-WW4" permid="laX">
+    <title>Fraction involving <m>e^{5 x}</m></title>
+    <webwork source="Library/Michigan/Chap7Sec1/Q33.pg" />
+  </exercise>
+
+  <exercise xml:id="ez-5-3-WW5" permid="Rig">
+    <title>Fraction involving <m>e^{5 \sqrt{y}}</m></title>
+    <webwork source="Library/Michigan/Chap7Sec1/Q31.pg" />
+  </exercise>
+
+  <exercise xml:id="ez-5-3-WW6" permid="xpp">
+    <title>Definite integral involving <m>e^{-\cos(q)}</m></title>
+    <webwork source="Library/Michigan/Chap7Sec1/Q55.pg" />
+  </exercise>
+
+  <exercise>
+    <title> Working with negative exponents </title>
+    <webwork source="Library/WHFreeman/Rogawski_Calculus_Early_Transcendentals_Second_Edition/4_Applications_of_the_Derivative/4.9_Antiderivatives/4.9.25.pg"/>
+  </exercise>
+  
+  
+  <exercise>
+    <title> Product involving <m>\sin(9\sin(t)) </m> </title>
+    <webwork source="Library/Wiley/setAnton_Section_5.3/Anton_5_3_Q48.pg"/>
+  </exercise>
+  
+  <exercise>
+    <title>Fraction involving <m>\sin(9/x) </m> </title>
+    <webwork source="Library/Union/setIntSubstitution/an6_3_06.pg"/>
+  </exercise>
+  
+  <exercise>
+    <title>Fraction involving sums of exponential functions</title>
+    <webwork source="Library/Wiley/setAnton_Section_5.3/Anton_5_3_Q34.pg"/>
+  </exercise>
+  
+  <exercise>
+    <title> Integral involving a rational function</title>
+    <webwork source="Library/Valdosta/APEX_Calculus/6.1/APEX_6.1_51.pg"/>
+  </exercise>
+  <exercise>
+    <title> Integral of a partial fraction </title>
+    <webwork source="Library/Valdosta/APEX_Calculus/6.1/APEX_6.1_76.pg"/>
+  </exercise>
+
+  <exercise>
+    <title> Find the value of a definite integral based on another</title>
+    <webwork source="Library/ma122DB/set12/s5_5_77.pg"/>
+  </exercise>
+
+  <exercise permid="dwy">
+   <title>Using the method of substitution to derive some other trignonometric antiderivative rules </title>
+    <statement>
+      <p permid="pDM">
+        This problem centers on finding antiderivatives for the basic trigonometric functions other than <m>\sin(x)</m> and <m>\cos(x)</m>.
+
+        <ol label="a." permid="wjW">
+          <li permid="UMG">
+            <p permid="Ayq">
+              Consider the indefinite integral <m>\int \tan(x) \, dx</m>.
+              By rewriting the integrand as
+              <m>\tan(x) = \frac{\sin(x)}{\cos(x)}</m> and identifying an appropriate function-derivative pair,
+              make a <m>u</m>-substitution and hence evaluate <m>\int \tan(x) \, dx</m>.
+            </p>
+          </li>
+
+          <li permid="ATP">
+            <p permid="gFz">
+              In a similar way, evaluate <m>\int \cot(x) \, dx</m>.
+            </p>
+          </li>
+
+          <li permid="haY">
+            <p permid="MMI">
+              Consider the indefinite integral
+              <me permid="unF">
+                \int \frac{\sec^2(x) + \sec(x) \tan(x)}{\sec(x) + \tan(x)} \, dx
+              </me>.
+              Evaluate this integral using the substitution <m>u = \sec(x) + \tan(x)</m>.
+            </p>
+          </li>
+
+          <li permid="Nih">
+            <p permid="sTR">
+              Simplify the integrand in (c) by factoring the numerator.
+              What is a far simpler way to write the integrand?
+            </p>
+          </li>
+
+          <li permid="tpq">
+            <p permid="Zba">
+              Combine your work in (c) and (d) to determine <m>\int \sec(x) \, dx</m>.
+            </p>
+          </li>
+
+          <li permid="Zwz">
+            <p permid="Fij">
+              Using (c)-(e) as a guide,
+              evaluate <m>\int \csc(x) \, dx</m>.
+            </p>
+          </li>
+        </ol>
+      </p>
+    </statement>
+    <answer permid="igr">
+      <p permid="Rbc">
+        <ol label="a." permid="XHm">
+          <li permid="FDI">
+            <p permid="lps">
+              <m>\int \tan(x) \, dx = \ln\left(|\sec(x)|\right) + C</m>.
+            </p>
+          </li>
+
+          <li permid="lKR">
+            <p permid="RwB">
+              <m>\int \cot(x) \, dx = -\ln\left(|\csc(x)|\right) + C</m>.
+            </p>
+          </li>
+
+          <li permid="RSa">
+            <p permid="xDK">
+              <m>\int \frac{\sec^2(x) + \sec(x) \tan(x)}{\sec(x) + \tan(x)} \, dx = \ln\left(|\sec(x) + \tan(x)|\right) + C</m>.
+            </p>
+          </li>
+
+          <li permid="xZj">
+            <p permid="dKT">
+              <m>
+              \frac{\sec^2(x) + \sec(x) \tan(x)}{\sec(x) + \tan(x)} = \sec(x)</m>.
+            </p>
+          </li>
+
+          <li permid="egs">
+            <p permid="JSc">
+              <m>
+              \int \sec(x) \, dx = \ln\left(|\sec(x) + \tan(x)|\right) + C</m>.
+            </p>
+          </li>
+
+          <li permid="KnB">
+            <p permid="pZl">
+              <m>
+              \int \csc(x) \, dx = -\ln\left(|\csc(x) + \cot(x)|\right) + C</m>.
+            </p>
+          </li>
+        </ol>
+      </p>
+    </answer>
+    <solution permid="BZi">
+      <p permid="sys">
+        <ol label="a." permid="zeC">
+          <li permid="quK">
+            <p permid="Wgu">
+              We let <m>u = \cos(x)</m>, so <m>du = -\sin(x) \ dx</m>.
+              This change of variable transforms the integral into one we can integrate as follows:
+              <md permid="auO">
+                <mrow>\int \tan(x) \, dx &amp;= \int \frac{\sin(x)}{\cos(x)} \ dx</mrow>
+                <mrow>&amp;= -\int \frac{1}{u} \ du</mrow>
+                <mrow>&amp;= -\ln(|u|) + C</mrow>
+                <mrow>&amp;= -\ln(|\cos(x)| + C</mrow>
+                <mrow>&amp;= \ln\left(|\cos(x)|^{-1}\right) + C</mrow>
+                <mrow>&amp;= \ln\left(|\sec(x)|\right) + C</mrow>
+              </md>.
+              Note that we used the property of the logarithm that
+              <m>p \ln (z) = \ln(z^p)</m> as well as the fact that
+              <m>\frac{1}{\cos(x)} = \sec(x)</m> in order to simplify the result.
+            </p>
+          </li>
+
+          <li permid="WBT">
+            <p permid="CnD">
+              We let <m>u = \sin(x)</m>, so <m>du = \cos(x) \ dx</m>.
+              This change of variable transforms the integral into one we can integrate as follows:
+              <md permid="GBX">
+                <mrow>\int \cot(x) \, dx &amp;= \int \frac{\cos(x)}{\sin(x)} \ dx</mrow>
+                <mrow>&amp;= \int \frac{1}{u} \ du</mrow>
+                <mrow>&amp;= \ln(|u|) + C</mrow>
+                <mrow>&amp;= \ln(|\sin(x)| + C</mrow>
+                <mrow>&amp;= -\ln\left(|\sin(x)|^{-1}\right) + C</mrow>
+                <mrow>&amp;= -\ln\left(|\csc(x)|\right) + C</mrow>
+              </md>.
+              Note that here we used the fact that
+              <m>\ln(z) = (-1)(-1)\ln(z) = (-1) \ln(z^{-1})</m> in order to simplify the result.
+            </p>
+          </li>
+
+          <li permid="CJc">
+            <p permid="iuM">
+              We let <m>u = \sec(x) + \tan(x)</m>,
+              so it follows that <m>du = \left(\sec(x)\tan(x)+\sec^2(x)\right) \ dx</m>.
+              This change of variable shows that the basic structure of the integrand is simple and can be integrated as follows:
+              <md permid="mJg">
+                <mrow>\int \frac{\sec^2(x) + \sec(x) \tan(x)}{\sec(x) + \tan(x)} \, dx &amp;= \int \frac{1}{u} \ du</mrow>
+                <mrow>&amp;= \ln(|u|) + C</mrow>
+                <mrow>&amp;= \ln\left(|\sec(x) + \tan(x)|\right) + C</mrow>
+              </md>.
+            </p>
+          </li>
+
+          <li permid="iQl">
+            <p permid="OBV">
+              The numerator of <m>\frac{\sec^2(x) + \sec(x) \tan(x)}{\sec(x) + \tan(x)}</m> can be rewritten by removing the common factor of <m>\sec(x)</m> to obtain
+              <me permid="SQp">
+                \sec(x)\left(\sec(x) + \tan(x)\right)
+              </me>.
+              The integrand can then be simplified to
+              <me permid="yXy">
+                \frac{\sec^2(x) + \sec(x) \tan(x)}{\sec(x) + \tan(x)} = \frac{\sec(x)\left(\sec(x) + \tan(x)\right)}{\sec(x) + \tan(x)} = \sec(x)
+              </me>.
+            </p>
+          </li>
+
+          <li permid="OXu">
+            <p permid="uJe">
+              Using the results of (c) and (d), we see that
+              <me permid="feH">
+                \int \sec(x) \, dx = \int \frac{\sec^2(x) + \sec(x) \tan(x)}{\sec(x) + \tan(x)} \, dx = \ln\left(|\sec(x) + \tan(x)|\right) + C
+              </me>.
+            </p>
+          </li>
+
+          <li permid="veD">
+            <p permid="aQn">
+              Following (c)-(e) we can evaluate <m>int \csc(x) \, dx</m> as follows.
+              First, rewrite <m>\csc(x)</m> by multiplying by <m>1 = \frac{\csc(x) + \cot(x)}{\csc(x) + \cot(x)}</m>, so that
+              <me permid="LlQ">
+                \int \csc(x) \, dx = \int \frac{\csc(x)\left(\csc(x) + \cot(x)\right)}{\csc(x) + \cot(x)} \, dx = \int \frac{\csc^2(x) + \csc(x) \cot(x)}{\csc(x) + \cot(x)} \, dx
+              </me>.
+              Now we evaluate the last integral in the preceding equation with the substitution <m>u = \csc(x) + \cot(x)</m>.
+              Then <m>du = -\left(\csc(x)\cot(x)+\csc^2(x)\right) \ dx</m>.
+              This change of variable transforms the integral so that we can integrate:
+              <md permid="XAi">
+                <mrow>\int \frac{\csc^2(x) + \csc(x) \cot(x)}{\csc(x) + \cot(x)} \, dx &amp;= - \int \frac{1}{u} \ dx</mrow>
+                <mrow>&amp;= -\ln(|u|) + C</mrow>
+                <mrow>&amp;= -\ln\left(|\csc(x) + \cot(x)|\right) + C</mrow>
+              </md>.
+              Connecting the equalities we have established in our work,
+              we have shown that
+              <me permid="rsZ">
+                \int \csc(x) \, dx = -\ln\left(|\csc(x) + \cot(x)|\right) + C
+              </me>.
+            </p>
+          </li>
+        </ol>
+      </p>
+    </solution>
+  </exercise>
+
+  <exercise>
+    <title> Integral of <m> \sec(x) </m></title>
+    <webwork source="Library/Rochester/setIntegrals5Trig/S07.02.TrigIntegrals.PTP19.pg"/>
+  </exercise>
+
+  <exercise>
+    <title> Products involoving <m> \sec(x) </m> and <m> \tan(x) </m> </title>
+    <webwork source="Library/Union/setIntSubstitution/an6_3_03and04.pg"/>
+  </exercise>
+
+  <exercise>
+    <title> Definite integral of <m> \tan(8 t) </m> </title>
+    <webwork source="Library/Wiley/setAnton_Section_5.9/Anton_5_9_Q40.pg"/>
+  </exercise>
+
+  <exercise>
+    <title> Integrals of <m> \tan(5 x) </m> and <m> \sec(5x) </m></title>
+    <webwork source="Library/Valdosta/APEX_Calculus/6.1/APEX_6.1_18.pg"/>
+  </exercise>
+
+  <exercise permid="JDH">
+   <title>A clever substitution</title>
+    <statement>
+      <p permid="VKV">
+        Consider the indefinite integral <m>\int x \sqrt{x-1} \, dx</m>.
+
+        <ol label="a." permid="crf">
+          <li permid="blM">
+            <p permid="GXw">
+              At first glance,
+              this integrand may not seem suited to substitution due to the presence of <m>x</m> in separate locations in the integrand.
+              Nonetheless, using the composite function
+              <m>\sqrt{x-1}</m> as a guide, let <m>u = x-1</m>.
+              Determine expressions for both <m>x</m> and <m>dx</m> in terms of <m>u</m>.
+            </p>
+          </li>
+
+          <li permid="HsV">
+            <p permid="neF">
+              Convert the given integral in <m>x</m> to a new integral in <m>u</m>.
+            </p>
+          </li>
+
+          <li permid="nAe">
+            <p permid="TlO">
+              Evaluate the integral in (b) by noting that
+              <m>\sqrt{u} = u^{\frac{1}{2}}</m> and observing that it is now possible to rewrite the integrand in <m>u</m> by expanding through multiplication.
+            </p>
+          </li>
+
+          <li permid="THn">
+            <p permid="zsX">
+              Evaluate each of the integrals
+              <m>\int x^2 \sqrt{x-1} \, dx</m> and <m>\int x \sqrt{x^2 - 1} \, dx</m>.
+              Write a paragraph to discuss the similarities among the three indefinite integrals in this problem and the role of substitution and algebraic rearrangement in each.
+            </p>
+          </li>
+        </ol>
+      </p>
+    </statement>
+    <answer permid="uuJ">
+      <p permid="xil">
+        <ol label="a." permid="DOv">
+          <li permid="zOw">
+            <p permid="LHp">
+              <m>
+              \int x \sqrt{x-1} \, dx = \int (u+1) \sqrt{u} \, du</m>.
+            </p>
+          </li>
+
+          <li permid="fVF">
+            <p permid="rOy">
+              <m>\int x \sqrt{x-1} \, dx = \frac{2}{5} (x-1)^{\frac{5}{2}} + \frac{2}{3} (x-1)^{\frac{3}{2}} + C</m>.
+            </p>
+          </li>
+
+          <li permid="McO">
+            <p permid="XVH">
+              <m>
+              \int x^2 \sqrt{x-1} \, dx = \frac{2}{7} (x-1)^{\frac{7}{2}} + \frac{4}{5} (x-1)^{\frac{5}{2}} + \frac{2}{3} (x-1)^{\frac{3}{2}} + C</m>.
+            </p>
+
+            <p permid="EcQ">
+              <m>
+              \int x \sqrt{x^2 - 1} \, dx = \frac{1}{3} (x^2-1)^{\frac{3}{2}} + C</m>.
+            </p>
+          </li>
+        </ol>
+      </p>
+    </answer>
+    <solution permid="OnA">
+      <p permid="YFB">
+        <ol label="a." permid="flL">
+          <li permid="sjX">
+            <p permid="kjZ">
+              Letting <m>u = x-1</m>,
+              we find that <m>x = u+1</m> and thus <m>dx = du</m>.
+            </p>
+          </li>
+
+          <li permid="Yrg">
+            <p permid="Qri">
+              Using the change of variables in (a),
+              <me permid="DHr">
+                \int x \sqrt{x-1} \, dx = \int (u+1) \sqrt{u} \, du
+              </me>.
+            </p>
+          </li>
+
+          <li permid="Eyp">
+            <p permid="wyr">
+              Using the fact that <m>\sqrt{u} = u^{\frac{1}{2}}</m> and distributing,
+              we can evaluate the integral as follows:
+              <md permid="jOA">
+                <mrow>\int x \sqrt{x-1} \, dx &amp;= \int (u+1) u^{\frac{1}{2}} \, du</mrow>
+                <mrow>&amp;= \int \left(u^{\frac{3}{2}} + u^{\frac{1}{2}} \right) \, du</mrow>
+                <mrow>&amp;= \frac{2}{5} u^{\frac{5}{2}} + \frac{2}{3} u^{\frac{3}{2}} + C</mrow>
+                <mrow>&amp;= \frac{2}{5} (x-1)^{\frac{5}{2}} + \frac{2}{3} (x-1)^{\frac{3}{2}} + C</mrow>
+              </md>.
+            </p>
+          </li>
+
+          <li permid="kFy">
+            <p permid="cFA">
+              First, for <m>\int x^2 \sqrt{x-1} \, dx</m>,
+              we let <m>u = x-1</m> so that <m>x = u+1</m> and <m>dx = du</m>.
+              From there, our work is very similar to what we did in (b):
+              <md permid="PVJ">
+                <mrow>\int x^2 \sqrt{x-1} \, dx &amp;= \int (u+1)^2 u^{\frac{1}{2}} \, du</mrow>
+                <mrow>&amp;= \int \left(u^2 + 2u + 1 \right) u^{\frac{1}{2}} \, du</mrow>
+                <mrow>&amp;= \int \left(u^{\frac{5}{2}} + 2u^{\frac{3}{2}} + u^{\frac{1}{2}} \right) \, du</mrow>
+                <mrow>&amp;= \frac{2}{7} u^{\frac{7}{2}} + \frac{4}{5} u^{\frac{5}{2}} + \frac{2}{3} u^{\frac{3}{2}} + C</mrow>
+                <mrow>&amp;= \frac{2}{7} (x-1)^{\frac{7}{2}} + \frac{4}{5} (x-1)^{\frac{5}{2}} + \frac{2}{3} (x-1)^{\frac{3}{2}} + C</mrow>
+              </md>.
+            </p>
+
+            <p permid="IMJ">
+              For <m>\int x \sqrt{x^2 - 1} \, dx</m>,
+              despite the fact that the integral looks remarkably similar,
+              the situation is quite different.
+              We observe that with <m>u = x^2 - 1</m>,
+              it follows <m>du = 2x \, dx</m>,
+              so we have a standard function-derivative pair.
+              Noting that <m>x \, dx = \frac{1}{2} \, du</m>, it follows that
+              <md permid="wcS">
+                <mrow>\int x \sqrt{x^2 - 1} \, dx &amp;= \int \sqrt{u} \cdot \frac{1}{2} \, du</mrow>
+                <mrow>&amp;= \frac{1}{2} \cdot \frac{2}{3}u^{\frac{3}{2}} + C</mrow>
+                <mrow>&amp;= \frac{1}{3} u^{\frac{3}{2}} + C</mrow>
+                <mrow>&amp;= \frac{1}{3} (x^2-1)^{\frac{3}{2}} + C</mrow>
+              </md>.
+            </p>
+
+            <p permid="oTS">
+              In the situation where we have <m>(x-a)</m> under a square root and a polynomial outside the square root,
+              the substitution <m>u = x-a</m> will allow us to convert the integrand into an expression we can integrate by changing the form of the radical from <m>\sqrt{x-a}</m> to <m>\sqrt{u}</m>.
+              From there we are able to distribute and integrate an expression that is essentially a sum of (fractional) powers of <m>u</m>.
+              In the situation where a polynomial of degree higher than <m>1</m>
+              (such as <m>x^2 - 1</m>)
+              is under the radical,
+              we likely have to be fortunate enough to have the derivative of said polynomial
+              (up to a constant)
+              outside the radical in order to be able to integrate,
+              as we were in the last example.
+            </p>
+          </li>
+        </ol>
+      </p>
+    </solution>
+  </exercise>
+
+  <exercise>
+    <title> Fractions involving a square root or trigonometric functions</title>
+    <webwork source="Library/ma122DB/set12/s5_5_43.pg"/>
+  </exercise>
+
+  <exercise>
+    <title> Definite integral with a clever substitution</title>
+    <webwork source="Library/Wiley/setAnton_Section_5.9/Anton_5_9_Q10.pg"/>
+  </exercise>
+
+  <exercise>
+    <title> Product involving trigonometric functions and square roots </title>
+    <webwork source="Library/Union/setIntSubstitution/an6_3_13.pg"/>
+  </exercise>
+
+  <exercise>
+    <title> Integral involving a square root of a linear expression </title>
+    <webwork source="Library/Wiley/setAnton_Section_5.3/Anton_5_3_Q54.pg"/>
+  </exercise>
+
+  <exercise permid="pKQ">
+   <title>Re-writing a function in order to use substitution</title>
+    <statement>
+      <p permid="BSe">
+        Consider the indefinite integral <m>\int \sin^3(x) \, dx</m>.
+
+        <ol label="a." permid="Iyo">
+          <li permid="QMH">
+            <p permid="Vbb">
+              Explain why the substitution
+              <m>u = \sin(x)</m> will not work to help evaluate the given integral.
+            </p>
+          </li>
+
+          <li permid="wTQ">
+            <p permid="Bik">
+              Recall the Fundamental Trigonometric Identity,
+              which states that <m>\sin^2(x) + \cos^2(x) = 1</m>.
+              By observing that <m>\sin^3(x) = \sin(x) \cdot \sin^2(x)</m>,
+              use the Fundamental Trigonometric Identity to rewrite the integrand as the product of <m>\sin(x)</m> with another function.
+            </p>
+          </li>
+
+          <li permid="daZ">
+            <p permid="hpt">
+              Explain why the substitution
+              <m>u = \cos(x)</m> now provides a possible way to evaluate the integral in (b).
+            </p>
+          </li>
+
+          <li permid="Jii">
+            <p permid="NwC">
+              Use your work in (a)-(c) to evaluate the indefinite integral <m>\int \sin^3(x) \, dx</m>.
+            </p>
+          </li>
+
+          <li permid="ppr">
+            <p permid="tDL">
+              Use a similar approach to evaluate <m>\int \cos^3(x) \, dx</m>.
+            </p>
+          </li>
+        </ol>
+      </p>
+    </statement>
+    <answer permid="GJb">
+      <p permid="dpu">
+        <ol label="a." permid="jVE">
+          <li permid="VwA">
+            <p permid="ZKU">
+              We don't have a function-derivative pair.
+            </p>
+          </li>
+
+          <li permid="BDJ">
+            <p permid="FSd">
+              <m>
+              \sin^3(x) = \sin(x) (1-\cos^2(x))</m>.
+            </p>
+          </li>
+
+          <li permid="hKS">
+            <p permid="lZm">
+              <m>u = \cos(x)</m> and <m>du = -\sin(x) \, dx</m>.
+            </p>
+          </li>
+
+          <li permid="NSb">
+            <p permid="Sgv">
+              <m>
+              \int \sin^3(x) \, dx = \frac{1}{3}\cos^3(x) - \cos(x) + C</m>.
+            </p>
+          </li>
+
+          <li permid="tZk">
+            <p permid="ynE">
+              <m>
+              \int \cos^3(x) \, dx = \sin(x) - \frac{1}{3}\sin^3(x) + C</m>.
+            </p>
+          </li>
+        </ol>
+      </p>
+    </answer>
+    <solution permid="aBS">
+      <p permid="EMK">
+        <ol label="a." permid="LsU">
+          <li permid="agt">
+            <p permid="euN">
+              If we let <m>u = \sin(x)</m>,
+              then <m>du = \cos(x) \, dx</m>.
+              Since there is no cosine function present in the integrand,
+              we don't have the needed function-derivative pair present in order to transform the integral into one we can evaluate.
+            </p>
+          </li>
+
+          <li permid="GnC">
+            <p permid="KBW">
+              Using the Fundamental Trigonometric Identity,
+              we observe that <m>\sin^2(x) = 1-\cos^2(x)</m>, and thus
+              <me permid="ckb">
+                \sin^3(x) = \sin(x) \cdot \sin^2(x) = \sin(x) (1-\cos^2(x))
+              </me>.
+            </p>
+          </li>
+
+          <li permid="muL">
+            <p permid="qJf">
+              By our work in (b),
+              we see that <m>\int \sin^3(x) \, dx = \int \sin(x) (1-\cos^2(x)) \, dx</m>,
+              and in this integral we have the function-derivative pair that corresponds to
+              <m>u = \cos(x)</m> and <m>du = -\sin(x) \, dx</m>.
+            </p>
+          </li>
+
+          <li permid="SBU">
+            <p permid="WQo">
+              Using this substitution and evaluating the resulting integral,
+              <md permid="Irk">
+                <mrow>\int \sin^3(x) \, dx &amp;= \int \sin(x) (1-\cos^2(x)) \, dx</mrow>
+                <mrow>&amp;= \int (-1)(1-u^2) \, du</mrow>
+                <mrow>&amp;= \int (u^2-1) \, du</mrow>
+                <mrow>&amp;= \frac{1}{3}u^3 - u + C</mrow>
+                <mrow>&amp;= \frac{1}{3}\cos^3(x) - \cos(x) + C</mrow>
+              </md>.
+            </p>
+          </li>
+
+          <li permid="yJd">
+            <p permid="CXx">
+              Here we observe that <m>\cos^3(x) = \cos(x) \cdot \cos^2(x) = \cos(x) (1-\sin^2(x))</m>,
+              so letting <m>u = \sin(x)</m> and thus <m>du = \cos(x) \, dx</m>, we have
+              <md permid="oyt">
+                <mrow>\int \cos^3(x) \, dx &amp;= \int \cos(x) (1-\sin^2(x)) \, dx</mrow>
+                <mrow>&amp;= \int (1-u^2) \, du</mrow>
+                <mrow>&amp;= u - \frac{1}{3}u^3 + C</mrow>
+                <mrow>&amp;= \sin(x) - \frac{1}{3}\sin^3(x) + C</mrow>
+              </md>.
+            </p>
+          </li>
+        </ol>
+      </p>
+    </solution>
+  </exercise>
+
+  <exercise>
+    <title> Fraction involving <m>\sin(4t-1) </m></title>
+    <webwork source="Library/Utah/AP_Calculus_I/set9_Basic_Methods_of_Integration/1220s10p5.pg"/>
+  </exercise>
+
+  <exercise>
+    <title> An integral that requires rewriting before integrating </title>
+    <webwork source="Library/UCSB/Stewart5_5_5/Stewart5_5_5_41.pg"/>
+  </exercise>
+
+  <exercise permid="VRZ">
+   <title>Power Consumption</title>
+    <statement>
+      <p permid="hZn">
+        For the town of Mathland, MI, residential power consumption has shown certain trends over recent years.
+        Based on data reflecting average usage,
+        engineers at the power company have modeled the town's rate of energy consumption by the function
+        <me permid="UFC">
+          r(t) = 4 + \sin(0.263t + 4.7) + \cos(0.526t+9.4)
+        </me>.
+      </p>
+
+      <p permid="Ogw">
+        Here, <m>t</m> measures time in hours after midnight on a typical weekday,
+        and <m>r</m> is the rate of consumption in megawatts<fn>
+        The unit
+        <em>megawatt</em> is itself a rate,
+        which measures energy consumption per unit time.
+        A <em>megawatt-hour</em>
+        is the total amount of energy that is equivalent to a constant stream of 1 megawatt of power being sustained for 1 hour.
+        </fn> at time <m>t</m>.
+        Units are critical throughout this problem.
+
+        <ol label="a." permid="oFx">
+          <li permid="eQm">
+            <p permid="jeG">
+              Sketch a carefully labeled graph of <m>r(t)</m> on the interval [0,24] and explain its meaning.
+              Why is this a reasonable model of power consumption?
+            </p>
+          </li>
+
+          <li permid="KXv">
+            <p permid="PlP">
+              Without calculating its value,
+              explain the meaning of <m>\int_0^{24} r(t) \, dt</m>.
+              Include appropriate units on your answer.
+            </p>
+          </li>
+
+          <li permid="reE">
+            <p permid="vsY">
+              Determine the exact amount of energy Mathland consumes in a typical day.
+            </p>
+          </li>
+
+          <li permid="XlN">
+            <p permid="bAh">
+              What is Mathland's average rate of power consumption in a given 24-hour period?
+              What are the units on this quantity?
+            </p>
+          </li>
+        </ol>
+      </p>
+    </statement>
+    <answer permid="SXt">
+      <p permid="JwD">
+        <ol label="a." permid="QcN">
+          <li permid="DsW">
+            <p permid="HHq">
+              The model is reasonable because it appears to be periodic and the rate of consumption seems to peak at the times of day where people are most active in their homes.
+            </p>
+
+            <sidebyside width="50%" permid="gre">
+              <image source="images/5_3_Ez4Soln" />
+            </sidebyside>
+
+          </li>
+
+          <li permid="jAf">
+            <p permid="nOz">
+              The total power consumed in <m>24</m> hours,
+              measured in megawatt-hours.
+            </p>
+          </li>
+
+          <li permid="PHo">
+            <p permid="TVI">
+              <m>
+              \int_0^{24} r(t) \, dt \approx 95.7809 
+              </m>
+              megawatts of power used in <m>24</m> hours.
+            </p>
+          </li>
+
+          <li permid="vOx">
+            <m>
+            \displaystyle r_{\operatorname{AVG} [0,24]} \approx 3.99087
+            </m>
+            megawatts.
+          </li>
+        </ol>
+      </p>
+    </answer>
+    <solution permid="mQk">
+      <p permid="kTT">
+        <ol label="a." permid="rAd">
+          <li permid="bVG">
+            <p permid="AcR">
+              In the following plot,
+              we see that the model is reasonable because it appears to be periodic and repeats every <m>24</m> hours,
+              as well as that the rate of consumption seems to peak at the times of day where people are most active in their homes:
+              around <m>7</m> a.m. and around <m>5</m> p.m.
+            </p>
+
+            <sidebyside width="50%" permid="Myn">
+              <image source="images/5_3_Ez4Soln" />
+            </sidebyside>
+
+          </li>
+
+          <li permid="IcP">
+            <p permid="gka">
+              The meaning of <m>\int_0^{24} r(t) \, dt</m> is the total power consumed in <m>24</m> hours,
+              measured in megawatt-hours.
+              This is because <m>r(t)</m> is measured in megawatts and <m>\triangle t</m> in hours,
+              and thus in the Riemann sum that corresponds to the definite integral,
+              the terms in the sum of the form
+              <m>r(t) \cdot \triangle t</m> have units ``megawatt-hours''. Moreover,
+              by integrating the rate of power consumption we get the total change in power consumed.
+            </p>
+          </li>
+
+          <li permid="ojY">
+            <p permid="Mrj">
+              In a typical day, we know that Mathland consumes
+              <m>\int_0^{24} r(t) \, dt</m> megawatt-hours of power,
+              and thus we seek to evaluate the integral
+              <me permid="AML">
+                \int_0^{24} r(t) \, dt = \int_0^{24} \left[ 4 + \sin(0.263t + 4.7) + \cos(0.526t+9.4) \right] \, dt
+              </me>.
+              To do so, we use the subtitutions <m>u = 0.263t + 4.7</m>
+              (so <m>du = 0.263 \, dt</m>)
+              and <m>w = 0.526t + 9.4</m>
+              (so <m>dw = 0.526 \, dt</m>)
+              to help us antidifferentiate the two trigonometric expressions,
+              and thus we find that
+              <me permid="gTU">
+                \int \sin(0.263t + 4.7) \, dt = \frac{1}{0.263} \int \sin(u) \, du = -\frac{1}{0.263} \cos(u) = -\frac{1}{0.263} \cos(0.263t + 4.7)
+              </me>
+              and
+              <me permid="Nbd">
+                \int \cos(0.526t + 9.4) \, dt = \frac{1}{0.526} \int \cos(w) \, dw = \frac{1}{0.526} \sin(w) = \frac{1}{0.526} \sin(0.526t + 9.4)
+              </me>.
+              Putting this all together and using the Fundamental Theorem of Calculus, we have
+              <md permid="tim">
+                <mrow>\int_0^{24} r(t) \, dt &amp;= \left. 4t -\frac{1}{0.263} \cos(0.263t + 4.7) + \frac{1}{0.526} \sin(0.526t + 9.4) \right|_0^{24}</mrow>
+                <mrow>&amp;= \left[ 4 \cdot 24 -\frac{1}{0.263} \cos(0.263 \cdot 24 + 4.7) + \frac{1}{0.526} \sin(0.526 \cdot 24 + 9.4) \right] - \left[ -\frac{1}{0.263} \cos(4.7) + \frac{1}{0.526} \sin(9.4) \right]</mrow>
+                <mrow>&amp;\approx 95.7809</mrow>
+              </md>
+              megawatts of power used in <m>24</m> hours.
+            </p>
+          </li>
+
+          <li permid="Urh">
+            We know that the average value of the rate function <m>r</m> on <m>[0,24]</m> is
+            <me permid="Zpv">
+              \displaystyle r_{\operatorname{AVG} [0,24]}  = \frac{1}{24-0} \int_{0}^{24} r(t) \, dt
+            </me>.
+            Thus, by our work in (c), we have that
+            <me permid="FwE">
+              \displaystyle r_{\operatorname{AVG} [0,24]}  \approx \frac{1}{24} \cdot 95.7809 = 3.99087
+            </me>
+            which is measured in megawatts.
+          </li>
+        </ol>
+      </p>
+    </solution>
+  </exercise>
+
+ </exercises>
+</section>
+
