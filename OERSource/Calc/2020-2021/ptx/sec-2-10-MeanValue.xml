@@ -1,0 +1,275 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!-- **********************************************************************-->
+<!-- Copyright 2019                                                        -->
+<!-- UNL Department of Mathematics                                         -->
+<!-- Based upon the work of                                                -->
+<!-- Matthew Boelkins                                                      -->
+<!-- Copyright 2012-2018                                                   -->
+<!--                                                                       -->
+<!-- This file is part of Coordinated Calculus.                            -->
+<!-- This file is based on Active Calculus.                                -->
+<!--                                                                       -->
+<!-- Permission is granted to copy, distribute and/or modify this document -->
+<!-- under the terms of the Creative Commons BY-SA license.  The work      -->
+<!-- may be used for free by any party so long as attribution is given to  -->
+<!-- the author(s), the work and its derivatives are used in the spirit of -->
+<!-- "share and share alike".  All trademarks are the registered marks of  -->
+<!-- their respective owners.                                              -->
+<!-- **********************************************************************-->
+<section xmlns:xi="http://www.w3.org/2001/XInclude" xml:id="sec-2-10-MVT" permid="kOT">
+  <title>The Mean Value Theorem</title>
+  <objectives permid="pyM">
+    <ul permid="hUn">
+      <li permid="uiF">
+        <p permid="eZH">
+          Can we use <em>global</em> information about a function (for instance, the average rate of change) to say anything about the <em>local</em> behavior of the function (such as the instantaneous rate of change)?
+        </p>
+      </li>
+
+    </ul>
+  </objectives>
+
+  <introduction><p>
+  When you know how a function behaves at every point, you know quite a lot about that function. This is the whole idea behind plotting points on a coordinate plane in order to determine what the graph of a function looks like. Indeed, given enough local information about a function, we can describe it very well globally. However, the opposite is not generally true. Suppose, for instance, that you know the graph of <m>y=f(x)</m> is a parabola. Knowing that, can you determine the value of <m>f(3)</m>? The answer, of course, is that you do not have enough information. 
+  </p>
+  <p>
+  In general, global information is not enough to determine local information. In other words, knowing how a function behaves overall is not usually enough to say anything about how the function behaves at a specific point. However, there are some exceptions to this generalization. One such special case is the <term>mean value theorem</term>. 
+</p>
+  </introduction>
+<subsection><title>The Mean Value Theorem</title>
+<example>
+<p>
+Suppose it took you exactly three quarters of an hour to drive the <m>59</m> miles 
+from Lincoln, Nebraska to Omaha, Nebraska.  Is it possible that you drove less than 
+<m>75</m> miles per hour the entire trip?  
+</p>
+<p>
+Since <m>59</m> miles were driven in <m>\frac34</m> hours, the average speed (i.e. 
+average rate of change) on the trip was 
+<me>\frac{59\text{ miles}}{\frac34\text{ hours}}=\frac{59\cdot4}3\approx78.67\text{ mph}</me>. 
+Because this is an average, our intuition tells us that at some point on the trip the 
+car must have been going at least as fast as <m>78.67</m> miles per hour. This is 
+precisely what the mean value theorem addresses.  
+</p>
+</example>
+<p permid="MVTs">
+<assemblage><title>The Mean Value Theorem</title><p>
+<idx><h>mean value theorem</h></idx>
+Let <m>f</m> be a function that is continuous on the closed interval <m>[a,b]</m> 
+and differentiable on the open interval <m>(a,b)</m>. Then there exists a number 
+<m>c</m>, with <m>a\lt c \lt b</m>, such that <me>f'(c)=\dfrac{f(b)-f(a)}{b-a}.</me>  
+In other words, <m>f(b)-f(a)=f'(c)(b-a)</m>.</p>
+</assemblage>
+</p>
+
+<p>
+While a proof of the mean value theorem is beyond the scope of this textbook, it is 
+worth rephrasing the theorem in a way that is perhaps more clear. The mean value 
+theorem essentially states that given any two points on a continuous curve, there is a 
+point somewhere in the middle at which the line tangent to the curve is parallel to 
+the secant line that connects the two points. A geometric representation of this is illustrated 
+below in <xref ref="mvt">Figure</xref>.
+</p>
+<figure xml:id="mvt">
+    <caption>A geometric representation of the Mean Value Theorem. The blue curve is the graph of <m>y=f(t)</m>, where <m>f</m> is some function that is continuous on <m>[a,b]</m> and differentiable on <m>(a,b)</m>. The secant line connecting the points <m>(a,f(a))</m> and <m>(b,f(b))</m> is shown in black and has slope <m>\frac{f(b)-f(a)}{b-a}</m>. There appears to be at least one point, <m>c</m>, between <m>a</m> and <m>b</m> at which the slope of the tangent line (shown in red) is precisely the same as the slope of the secant line.</caption>
+    <image width="60%" source="images/2-10-MVT2.jpg" />
+</figure>
+
+<example>
+<statement>
+  <p>
+  Consider the function <m>f(x)=2x^3-x</m> on the interval <m>[1,3]</m>. Find a value 
+  of <m>c</m> on the interval <m>(1,3)</m> such that 
+  <me>f'(c)=\frac{f(3)-f(1)}{3-1}.</me>
+  </p>
+</statement>
+<hint>
+<p>Use differentiation rules to find the derivative, then evaluate at <m>x=c</m> and 
+solve for <m>c</m>.</p>
+</hint>
+<answer>
+<p><m>c=\sqrt{\frac{13}{3}}</m>.</p>
+</answer>
+<solution>
+<p>
+We start by evaluating the function at the endpoints of the interval, finding that  
+<me>f(3)=2(27)-3=51, \quad \text{and} \quad f(1)=2(1)-1=1</me>. So we are trying to find 
+<m>c</m> in the interval <m>(1,3)</m> such that <m>f'(c)=\frac{51-1}{3-1}=25.</m> 
+</p>
+<p>Using the power rule and the sum rule, we have that <m>f'(x)=6x^2-1</m>, 
+so <m>f'(c)=6c^2-1</m>. Solving the equation <m>6c^2-1=25</m>, we find that 
+<m>c=\pm\sqrt{\frac{13}{3}}</m>. Since we are looking only on the interval <m>(1,3)</m>, 
+<!--we find that the value of <m>c</m> on the interval <m>(1,3)</m> such that 
+<m>f'(c)=\frac{f(3)-f(1)}{3-1}</m>--> 
+the value we want 
+is <m>c=+\sqrt{\frac{13}{3}}\approx2.082</m>.
+</p>
+</solution>
+</example>
+
+
+</subsection>
+<subsection><title>Consequences of the Mean Value Theorem</title>
+<p>
+The mean value theorem has several important consequences that confirm some intuitive ideas that you may already hold.  
+First, the <term>increasing function theorem</term> establishes that continuous functions with a positive derivative on an interval are increasing on that interval.  More formally,
+</p>
+
+<p permid="IFTs">
+<assemblage><title>The Increasing Function Theorem</title>
+<idx><h>increasing function theorem</h></idx>
+<p>
+Suppose that <m>f</m> is continuous on <m>a \leq x \leq b</m> and differentiable on <m>a \lt x \lt b</m>.
+<ul>
+<li> If <m>f'(x)>0</m> on <m>a \lt x \lt b</m>, then <m>f</m> is increasing on <m>a \leq x \leq  b</m>.</li>
+<li> If <m>f'(x) \geq 0</m> on <m>a \lt x \lt b</m>, then <m>f</m> is non-decreasing on <m>a \leq x \leq  b</m>.</li>
+</ul></p>
+</assemblage>
+</p>
+  <p>This theorem is demonstrated in <xref ref="ift">Figure</xref>. When the slope of the tangent line is positive for all <m>x</m> values on a given interval, we see that the function is increasing. </p>
+  <figure xml:id="ift">
+    <caption>A geometric representation of the increasing function theorem. The blue curve is the graph of <m>y=f(t)</m>, where <m>f</m> is some function that is continuous on <m>[a,b]</m> and differentiable on <m>(a,b)</m>. The tangent lines are positive where the function is increasing.</caption>
+    <image width="60%" source="images/2-10-increasingfunction.gif" />
+</figure>
+  
+<p>
+We can also state that a function with a derivative equal to zero on an interval is constant on that interval.
+</p>
+<p permid="CFTs">
+<assemblage><title>Constant Function Theorem</title>
+<idx><h>constant function theorem</h></idx>
+<p>
+Suppose that <m>f</m> is continuous on <m>a \leq x \leq b</m> and differentiable on <m>a \lt x \lt b</m>.  If <m>f '(x) = 0</m> on <m>a \lt x \lt b</m>, then <m>f</m> is constant on <m>a \leq x \leq b</m>.
+Equivalently, if <m>f</m> is <em>not</em> constant everywhere on <m>[a,b]</m>, then there is some point <m>c</m> on the interval <m>(a,b)</m> at which <m>f'(c)\neq0</m>.
+</p>
+</assemblage>
+</p>
+
+  <p>The following example will provide some intuition for the constant function theorem.</p>
+
+  <example>
+  <p>
+  Suppose a car is being driven with cruise control set to <m>55</m> miles per hour, and that the drive continues for <m>30</m> minutes. 
+  Thinking of the car's velocity (in miles per hour) as a function of time (in minutes), the instantaneous rate of change of velocity (i.e., the instantaneous acceleration) at each 
+  minute of the drive is <m>0</m> miles per hour per minute. In terms of function notation, we have 
+  <m>v=f(t)</m> denoting the velocity as a function of time, and <m>a=f'(t)</m> denoting the 
+  acceleration as the derivative of velocity, with <m>f'(t)=0</m> for each <m>0\lt t\lt30</m>. 
+  </p>
+  <p>
+  Suppose now that the car approaches a red light, leading the driver to turn off cruise control in order to slow down and eventually stop.
+  However, cruise control is only off for <m>15</m> seconds before the light turns green again, at which point the driver resets the cruise control and regains a speed of <m>55</m> mph within a further <m>15</m> seconds. 
+  When cruise control was turned off, the car slowed down a little bit before returning to cruising speed. Consequently, 
+  the instantaneous acceleration was nonzero during that <m>30</m> second period. In other words, 
+  when the (velocity) function is not constant over an interval, its derivative (acceleration) is nonzero on that same interval. 
+  </p>
+  </example>
+
+
+<p>
+We have one final result that can be used to formalize another intuitive idea.  The <term>racetrack principle</term> argues that if two objects begin at the same place and the same time and one is traveling faster than the other, then the faster object will be ahead of the slower object.  Formally, we write the principle in terms of functions.
+</p>
+
+<p permid="trtp">
+<assemblage><title>The Racetrack Principle</title>
+<idx><h>racetrack principle</h></idx>
+<p>
+Suppose that <m>g</m> and <m>h</m> are continuous on <m>a \leq x \leq b</m> and differentiable on <m>a\lt x\lt b</m>, and that <m>g'(x) \leq h'(x)</m> for <m>a\lt x \lt b</m>.
+<ul>
+<li>If <m>g(a)=h(a)</m>, then <m>g(x) \leq h(x)</m> for <m>a \leq x \leq b</m>.</li>
+<li> If <m>g(b)=h(b)</m>, then <m>g(x) \geq h(x)</m> for <m>a \leq x \leq b</m>.</li>
+</ul>
+</p>
+</assemblage>
+</p>
+  
+  
+  <example><p>
+  Erica and Mason want to race each other down the street. After choosing start and finish lines, they get set to race. 
+  Starting together, Erica runs faster than Mason the entire time. 
+  Because of this, Erica is ahead of Mason for the whole race and reaches the finish line first.
+  </p>
+  <p> 
+  Now suppose that Mason wants a rematch, but he isn't willing to play fair this time. 
+  Mason and Erica line up at the starting line, but Mason takes an early start. 
+  Erica again runs faster than Mason the entire time, and they reach the finish line together. 
+  This means Erica spent the race catching up to Mason, who was ahead of her for the whole race.
+  </p>
+  </example>
+  
+
+<example>
+  <statement><p>
+    Use the racetrack principle to show that <m>\ln(x)\leq x-1</m> for all <m>x\geq 1.</m> Is the statement also true for all <m> 0\lt x \leq 1</m>?
+    </p></statement>
+    <hint>
+    <p>
+    Compare function values at <m>x=1</m>. How do the derivatives compare on the interval in question?
+    </p>
+    </hint>
+    <answer>
+    <p>
+    <m>\ln(x)\le x-1</m> for every positive value of <m>x</m>.
+    </p>
+    </answer>
+    <solution><p>Set <m>g(x)=\ln(x)</m> and <m>h(x)=x-1</m>. Both functions are continuous on <m>[1,\infty)</m> and differentiable on <m>(1,\infty)</m>. </p>
+      <p>We take the derivative of each function:
+        <me>g'(x)=\frac{1}{x},</me>
+        <me> h'(x)=1.</me></p>
+      <p>Since <q><m>x\ge1</m></q> and <q><m>\frac1x\le1</m></q> are equivalent statements,
+      we thus have <m>g'(x)\leq h'(x)</m> for all <m>x\geq 1</m>.</p>
+      <p>Comparing function values when <m>x=1</m>, we see that <m>g(1)=\ln(1)=0</m> and <m>h(1)=1-1=0</m>.
+      Therefore the racetrack principle says <m>g(x)\leq h(x)</m> (i.e. <m>\ln(x)\leq x-1 </m>) for all <m> x\geq 1</m>.</p>
+      
+      <p>Similarly, if we consider values <m> 0\lt x \leq 1</m>, we have that <m>g'(x)\geq h'(x)</m>. Since <m>g(1)=h(1)</m>, we have that <m>h(x)\geq g(x)</m> or <m>x-1\geq \ln(x)</m> for all <m>0\lt x\leq 1</m>.
+      Note that we have to be careful in applying the racetrack principle here, since <m>\ln(x)</m> is not continuous (because it's undefined) at <m>x=0</m>. But we can choose the lower bound of the interval to be any positive number less than <m>1</m>, and then take the limit as that number approaches <m>0</m> to obtain the result.</p>
+    </solution>
+</example>
+
+</subsection>
+
+
+<exercises xmlns:xi="http://www.w3.org/2001/XInclude"> 
+  <exercise>
+    <title>Understanding the Statement of the Mean Value Theorem</title>
+    <webwork source="Library/Michigan/Chap3Sec10/Q07.pg" />
+  </exercise>
+  
+    <exercise>
+    <title>Applying Theorems</title>
+    <webwork source="local/Derivatives_Theorems/TrueFalseApplyingTheorems.pg" />
+  </exercise>
+  
+      <exercise>
+    <title>Conclusion of the Mean Value Theorem</title>
+    <webwork source="Library/Wiley/setAnton_Section_4.8/Question8.pg" />
+  </exercise>
+  
+  
+        <exercise>
+    <title>Conclusion of the Mean Value Theorem</title>
+    <webwork source="Library/WHFreeman/Rogawski_Calculus_Early_Transcendentals_Second_Edition/4_Applications_of_the_Derivative/4.3_The_Mean_Value_Theorem_and_Monotonicity/4.3.1.pg" />
+  </exercise>
+  
+
+          <exercise>
+    <title>Applying the Mean Value Theorem</title>
+    <webwork source="Library/Valdosta/APEX_Calculus/3.2/APEX_3.2_12.pg" />
+  </exercise>
+  
+            <exercise>
+    <title>Applying the Mean Value Theorem</title>
+    <webwork source="Library/Valdosta/APEX_Calculus/3.2/APEX_3.2_18.pg" />
+  </exercise>
+  
+              <exercise>
+    <title>Applying the Mean Value Theorem</title>
+    <webwork source="Library/UVA-Stew5e/setUVA-Stew5e-C04S02-MeanValThm/4-2-13.pg" />
+  </exercise>
+  
+ </exercises>  
+
+
+
+
+</section>
+

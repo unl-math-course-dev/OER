@@ -1,0 +1,1343 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!-- **********************************************************************-->
+<!-- Copyright 2019                                                        -->
+<!-- UNL Department of Mathematics                                         -->
+<!-- Based upon the work of                                                -->
+<!-- Matthew Boelkins                                                      -->
+<!-- Copyright 2012-2018                                                   -->
+<!--                                                                       -->
+<!-- This file is part of Coordinated Calculus.                            -->
+<!-- This file is based on Active Calculus.                                -->
+<!--                                                                       -->
+<!-- Permission is granted to copy, distribute and/or modify this document -->
+<!-- under the terms of the Creative Commons BY-SA license.  The work      -->
+<!-- may be used for free by any party so long as attribution is given to  -->
+<!-- the author(s), the work and its derivatives are used in the spirit of -->
+<!-- "share and share alike".  All trademarks are the registered marks of  -->
+<!-- their respective owners.                                              -->
+<!-- **********************************************************************-->
+<section xmlns:xi="http://www.w3.org/2001/XInclude" xml:id="sec-3-4-applied-opt" permid="ZGh">
+  <title>Applied Optimization</title>
+  <objectives permid="SbI">
+    <ul permid="qEs">
+      <li permid="CSK">
+        <p permid="zYe">
+          In a setting where a situation is described for which optimal parameters are sought,
+          how do we develop a function that models the situation and then use calculus to find the desired maximum or minimum?
+        </p>
+      </li>
+    </ul>
+  </objectives>
+
+  <introduction permid="yiR">
+    <p permid="dkH">
+      Near the conclusion of <xref ref="sec-3-3-optimization">Section</xref>,
+      we considered two optimization problems in which determining the function to be optimized was part of the problem.
+      <xref ref="Ex-3-3-1">Example</xref> sought to maximize the total area enclosed by the combination of 
+      an equilateral triangle and a square built from a single piece of wire (cut in two).
+      <xref ref="act-3-3-3">Example</xref> subsequently investigated how the volume of 
+      a box constructed by removing squares from the corners of a piece of cardboard 
+      is dependent on the size of the squares removed.
+    </p>
+
+    <p permid="JrQ">
+      Neither of these problems explicitly provided a function to optimize.
+      Instead, we first tried to understand the problem by
+      drawing a figure and introducing variables,
+      and then sought to develop a formula for a function that modeled the quantity
+      to be optimized.
+      Upon establishing a function, we chose an appropriate domain and then 
+      were finally ready to apply the ideas of calculus to determine the absolute minimum or maximum.
+    </p>
+
+    <p permid="pyZ">
+      In this section
+      the primary emphasis is on the reader solving problems.
+      Initially, some substantial guidance is provided,
+      but the problems progress to require greater independence as we move along.
+    </p>
+
+<example xml:id="PA-3-4" permid="uUz">
+<statement>
+  <p permid="iGh">
+    According to U.S.<nbsp />postal regulations,
+    the girth plus the length of a parcel sent by mail may not exceed 108 inches,
+    where by <q>girth</q> we mean the perimeter of the smallest end.
+    What is the largest possible volume of a rectangular parcel with a square end that can be sent by mail?
+    What are the dimensions of such a package?
+    The process of answering these questions has been broken up into a sequence of tasks:
+  </p>
+
+  <p permid="ONq">
+    <ol label="a." permid="ovt">
+      <li permid="UCC">
+        <p permid="lAN">
+          Let <m>x</m> represent the length of one side of the square end and <m>y</m> the length of the longer side.
+          Label these quantities appropriately on an image like the one shown in <xref ref="F-3-4-PA1">Figure</xref> below.
+        </p>
+
+        <figure xml:id="F-3-4-PA1" permid="RHW">
+          <caption>A rectangular parcel with a square end.</caption>
+          <image width="47%" source="images/3_4_PA1" />
+        </figure>
+
+      </li>
+
+      <li permid="AJL">
+        <p permid="xPf">
+          What is the quantity to be optimized in this problem?
+          Find a formula for this quantity in terms of <m>x</m> and <m>y</m>.
+        </p>
+      </li>
+
+      <li permid="gQU">
+        <p permid="dWo">
+          The problem statement tells us that the parcel's girth plus length may not exceed 108 inches.
+          In order to maximize volume,
+          we assume that we will actually need the girth plus length to equal 108 inches.
+          What equation does this produce involving <m>x</m> and <m>y</m>?
+        </p>
+      </li>
+
+      <li permid="MYd">
+        <p permid="Kdx">
+          Solve the equation you found in (c) for one of <m>x</m> or <m>y</m>
+          (whichever is easier).
+        </p>
+      </li>
+
+      <li permid="tfm">
+        <p permid="qkG">
+          Now use your work in (b) and (d) to determine a formula for the volume of the parcel so that this formula is a function of a single variable.
+        </p>
+      </li>
+
+      <li permid="Zmv">
+        <p permid="WrP">
+          Over what domain should we consider this function?
+          Note that both <m>x</m> and <m>y</m> must be positive;
+          how does the constraint that girth plus length is 108 inches produce intervals of possible values for <m>x</m> and <m>y</m>?
+        </p>
+      </li>
+
+      <li permid="FtE">
+        <p permid="CyY">
+          Find the absolute maximum of the volume of the parcel on the domain you established in (f) and hence also determine the dimensions of the box of greatest volume.
+          Justify that you've found the maximum using calculus.
+        </p>
+      </li>
+    </ol>
+  </p>
+</statement>
+<hint>
+  <p>
+  <ol label="a">
+    <li>
+    <p>
+    Sketch a picture of a box with a square end; you'll want to add to it as the 
+    problem progresses. Note that the question's wording suggests the square end should 
+    be the smallest end. What does that tell you about which of <m>x</m> and <m>y</m> 
+    is bigger?
+    </p>
+    </li>
+    <li>
+    <p>
+    What are you trying to maximize or minimize?
+    </p>
+    </li>
+    <li>
+    <p>
+    Recall that the girth is the perimeter of the smallest end. 
+    </p>
+    </li>
+    <li>
+    <p>
+    Pick a variable to isolate and use basic algebra to solve for it.
+    </p>
+    </li>
+    <li>
+    <p>
+    Substitute your answer to (d) into your formula from (b).
+    </p>
+    </li>
+    <li>
+    <p>
+    Each term in the sum has to be between <m>0</m> and <m>108</m>. 
+    </p>
+    </li>
+    <li>
+    <p>
+    Find the critical numbers of the volume function and use the first or second 
+    derivative test to ascertain which is a maximum.
+    Once you have an answer, don't forget to check that it actually works: the fact that 
+    the girth measures the <em>smallest</em> end of the box tells you which of <m>x</m>
+    or <m>y</m> should be bigger (based on the formulas you used). Does that relationship 
+    hold with the dimensions you found? If not, you'll need to rework the problem.
+    </p>
+    </li>
+  </ol>
+  </p>
+</hint>
+<answer>
+  <p>
+  <ol label="a">
+    <li>
+    <p>
+    Since the problem says <m>y</m> is the length of the <em>longer</em> side, we assume
+    <m>x\le y</m> and that the square end is smallest.
+    <figure>
+      <caption>A rectangular parcel with smallest end a square.</caption>
+      <image width="47%" source="images/3_3_labeledbox.jpg" />
+    </figure>
+    </p>
+    </li>
+    <li>
+    <p>
+    We want to maximize volume: <m>V=x^2y</m>.
+    </p>
+    </li>
+    <li>
+    <p>
+    If the square end is smallest, then <m>4x+y=108</m> and <m>x\le y</m>.
+    </p>
+    </li>
+    <li>
+    <p>
+    <m>y=108-4x</m>.
+    </p>
+    </li>
+    <li>
+    <p>
+    <m>V(x)=x^2(108-4x)</m>.
+    </p>
+    </li>
+    <li>
+    <p>
+    <m>0\lt x\le 21.6</m>, and <m>x\le y\lt 108</m>.
+    </p>
+    </li>
+    <li>
+    <p>
+    The maximum volume is <m>11,664\text{ in}^3</m> when the box is 
+    <m>18''\times18''\times36''</m>.
+    </p>
+    </li>
+  </ol>
+  </p>
+</answer>
+<solution>
+  <p>
+  <ol label="a">
+    <li>
+    <p>
+    Since the problem says <m>y</m> is the length of the <em>longer</em> side, we assume
+    <m>x\le y</m> and that the square end is smallest. However, we recognize that this 
+    may not end up being the case, and if necessary are prepared to rework the problem 
+    with the square end as the largest side.
+    <figure>
+      <caption>A rectangular parcel with smallest end a square.</caption>
+      <image width="47%" source="images/3_3_labeledbox.jpg" />
+    </figure>
+    </p>
+    </li>
+    <li>
+    <p>
+    We are asked to maximize the volume of the box. Since the box has a square end with 
+    side length <m>x</m> inches and is <m>y</m> inches long, the volume formula is 
+    <me>V=x^2y</me>, measured in cubic inches.
+    </p>
+    </li>
+    <li>
+    <p>
+    We are working under the assumption that the square end is the smallest end, which 
+    means the perimeter of the square face will be the girth and the other side will 
+    be the length. This yields the relation <me>4x+y=108</me>. We note again that we have 
+    the assumed constraint <m>x\le y</m>. 
+    </p>
+    </li>
+    <li>
+    <p>
+    Since <m>4x+y=108</m>, we can say that <m>y=108-4x</m>.
+    </p>
+    </li>
+    <li>
+    <p>
+    Since <m>V=x^2y</m> and <m>y=108-4x</m>, an alternate expression for the parcel's 
+    volume is <me>V(x)=x^2(108-4x)=108x^2-4x^3</me>.
+    </p>
+    </li>
+    <li>
+    <p>
+    We know that <m>x</m> and <m>y</m> must both be positive, so we have <m>0\lt x,y</m>. 
+    Additionally, because the girth is given by <m>4x</m> rather than by <m>2x+2y</m> 
+    (the perimeter of the other sides), we can say that <m>x\le y</m>.
+    Finally, since <m>4x+y=108</m> and <m>x\le y</m>, it must be the case that 
+    <m>5x\le4x+y=108</m>, so <m>x\le 108/5=21.6</m>. Likewise, since <m>x</m> is positive, we must 
+    have <m>y\lt 108</m>. 
+    In sum, we have the intervals: <me>0\lt x\le21.6 \text{ and }x\le y\lt108</me>.
+    </p>
+    </li>
+    <li>
+    <p>
+    We now need to maximize the function <m>V(x)=108x^2-4x^3</m> on the interval <m>(0,21.6]</m>. 
+    We begin by differentiating <m>V</m>, finding <me>V'(x)=216x-12x^2=12x(18-x)</me>.
+    As <m>V'(x)</m> is a polynomial, it is defined everywhere; to find the critical numbers 
+    of <m>V</m>, then, we need only solve the equation <m>V'(x)=0</m>. 
+    Doing so yields the critical numbers <m>x=0</m> and <m>x=18</m>. On the interval 
+    <m>0\lt x\le21.6</m>, the only critical number is <m>18</m>. 
+    </p>
+    <p>
+    Testing to check that this is a maximum, the first derivative test says <m>V'(x)\gt0</m>
+    for <m>0\lt x\lt 18</m> and <m>V'(x)\lt0</m> for <m>18\lt x</m>. Thus <m>V(18)</m> is
+    a relative maximum and, on the interval <m>(0,21.6]</m> (or more generally, the 
+    interval <m>(0,\infty)</m>), an absolute maximum. 
+    Further supporting this conclusion is the second derivative test, where <m>V''(x)=216-24x</m> 
+    is zero only when <m>x=9</m>, and <m>V''(18)\lt0</m>, showing that <m>V</m> is concave 
+    down on (at least) the interval <m>(9,21.6)</m>.
+    </p>
+    <p>
+    We have firmly established that the maximum volume occurs when <m>x=18</m>. This coincides 
+    with the length <m>y=108-4(18)=36</m> and the volume <m>V=(18)^2(36)=11,664</m>. Therefore the maximum volume 
+    of a parcel with a square end (provided that end is the smallest end of the box<fn>
+    It turns out that when we assume the square end is the larger end, we end up with 
+    the dimensions <m>24\times24\times18</m> and a volume of <m>10,368\text{ in}^3</m>, 
+    so our process did indeed find the maximum volume of a parcel with a square end.</fn>) subject 
+    to the dimension constraints of the USPS is <m>11,664</m> cubic inches. This volume 
+    is achieved when the package is <m>18</m> inches by <m>18</m> inches by <m>36</m> inches. 
+    </p>
+    </li>
+  </ol>
+  </p>
+</solution>
+</example>
+  </introduction>
+
+  <subsection permid="FNq">
+    <title>More Applied Optimization Problems</title>
+    <p permid="VGi">
+      Many of the steps in <xref ref="PA-3-4">Example</xref>
+      are ones that we will execute in any applied optimization problem.
+      We briefly summarize those steps here to provide an overview of our approach in subsequent questions:
+    </p>
+
+      <p permid="xdy">
+        <ol permid="Kxj">
+          <li permid="iZT">
+            <p permid="gfn">
+              <em>Draw a picture and introduce variables.</em>
+            </p>
+            <p>
+              It is essential to first understand what quantities are allowed to vary in the problem and then to represent those values with variables.
+              Drawing a picture with these variables labeled is a particularly helpful way to accomplish this;
+              in some cases, drawing several pictures might be useful.
+              A nice example of this can be seen at <url href="http://gvsu.edu/s/99">http://gvsu.edu/s/99</url>,
+              where the choice of where to bend a piece of wire into the shape of a rectangle determines both the rectangle's shape and area.
+            </p>
+          </li>
+
+          <li permid="Phc">
+            <p permid="Mmw">
+              <em>Identify the quantity to be optimized as well as any key relationships among the variable quantities.</em>
+            </p>
+            <p>
+              Essentially this step involves writing equations that involve the variables that have been introduced:
+              one equation will represent the quantity whose minimum or maximum is sought;
+              there may be additional equations showing how multiple variables in the problem are interrelated.
+            </p>
+          </li>
+
+          <li permid="vol">
+            <p permid="stF">
+              <em>Determine a function of a single variable that models the quantity to be optimized.</em>
+            </p>
+            <p>
+              It may be necessary to eliminate one or more variables in the function formula 
+              using the secondary equations that were found in the previous step.
+              For example, in <xref ref="PA-3-4">Example</xref>
+              we initially found that <m>V = x^2 y</m>;
+              the additional relationship that <m>4x + y = 108</m>
+              allowed us to substitute <m>108-4x</m> for <m>y</m> in the volume equation, thus
+              expressing the volume as a function of the single variable <m>x</m>.
+            </p>
+          </li>
+
+          <li permid="bvu">
+            <p permid="YAO">
+              <em>Decide the domain on which to consider the function being optimized.</em>
+            </p>
+            <p>
+              Often the physical constraints of the problem will limit the possible values that the independent variable can take on.
+              Thinking back to the picture that describes the overall situation and any relationships among variables in the problem often helps identify the smallest and largest values of the input variable.
+            </p>
+          </li>
+
+          <li permid="HCD">
+            <p permid="EHX">
+              <em>Use calculus to identify the absolute maximum and/or minimum of the quantity being optimized.</em>
+            </p>
+            <p>
+              This always involves finding the critical numbers of the function first.
+              Then depending on the domain,
+              we either construct a first derivative sign chart
+              (for an open or unbounded interval)
+              or evaluate the function at the endpoints and critical numbers
+              (for a closed, bounded interval).
+            </p>
+          </li>
+
+          <li permid="nJM">
+            <p permid="kPg">
+              <em>Finally, we make certain we have answered the question that was posed.</em>
+            </p>
+            <p>
+              Does the question seek the absolute maximum of a quantity,
+              or do we need the values of the variables that produce the maximum?
+              In other words, 
+              finding the maximum volume of a parcel is different from finding the dimensions of the parcel that yield that volume.
+            </p>
+          </li>
+        </ol>
+      </p>
+    <p>
+    The remaining examples involve a variety of quantities to be optimized.
+    Each task presents an opportunity to practice the above steps, possibly with some 
+    adaptations to suit the context of the problem.
+    </p>
+    
+<example xml:id="act-3-4-1" permid="LZK">
+  <statement>
+    <p permid="nxa">
+      A soup can in the shape of a right circular cylinder is to be made from two materials.
+      The material for the side of the can costs <dollar />0.015 per square inch and the material for the lids costs <dollar /><m>0.027</m> per square inch.
+      Suppose that we desire to construct a can that has a volume of 16 cubic inches.
+      What dimensions minimize the cost of the can?
+
+      <ol label="a." permid="ayO">
+        <li permid="GFX">
+          <p permid="AQL">
+            Draw a picture of the can and label its dimensions with appropriate variables.
+          </p>
+        </li>
+
+        <li permid="mNg">
+          <p permid="gXU">
+            Use your variables to determine expressions for the volume,
+            surface area, and cost of the can.
+          </p>
+        </li>
+
+        <li permid="SUp">
+          <p permid="Nfd">
+            Determine the total cost function as a function of a single variable.
+            What is the domain on which you should consider this function?
+          </p>
+        </li>
+
+        <li permid="zby">
+          <p permid="tmm">
+            Find the absolute minimum cost and the dimensions that produce this value.
+          </p>
+        </li>
+      </ol>
+    </p>
+  </statement>
+  <hint permid="BWe">
+    <p permid="HpR">
+      <ol label="a." permid="urF">
+        <li permid="fiH">
+          <p permid="Ztv">
+            Note that both the radius and the height of the can are variable.
+          </p>
+        </li>
+
+        <li permid="LpQ">
+          <p permid="FAE">
+            Remember that volume is the area of the base times the height,
+            while surface area can be thought of in terms of the area of the two lids,
+            plus the area of the <q>side</q> of the can.
+          </p>
+        </li>
+
+        <li permid="rwZ">
+          <p permid="lHN">
+            Use the fact that <m>V = 16</m> to write one of the variables in terms of the other.
+          </p>
+        </li>
+
+        <li permid="XEi">
+          <p permid="ROW">
+            Differentiate the total cost function and find its critical number(s) first.
+          </p>
+        </li>
+      </ol>
+    </p>
+  </hint>
+  <answer permid="VOV">
+    <p permid="biI">
+      <ol label="a." permid="Okw">
+        <li permid="DLr">
+          <p permid="xWf">
+            Let the can have radius <m>r</m> and height <m>h</m>.
+          </p>
+        </li>
+
+        <li permid="jSA">
+          <p permid="edo">
+            The volume is <m>V = \pi r^2 h</m>;
+            the surface area is <m>S = 2 \pi r^2 + 2 \pi r h</m>;
+            the total cost is <m> C = 2 \pi r^2 \cdot 0.027 + 2 \pi r h \cdot 0.015</m>.
+          </p>
+        </li>
+
+        <li permid="PZJ">
+          <p permid="Kkx">
+            The cost as a single-variable function is <m>C(r) = 0.054 \pi r^2 + 0.48 \frac{1}{r}</m>,
+            considered on the interval <m>r \gt 0</m>.
+          </p>
+        </li>
+
+        <li permid="wgS">
+          <p permid="qrG">
+            The minimizing radius is <m>r = \sqrt[3]{ \frac{0.48}{0.108 \pi} } \approx 1.123</m> inches;
+            the minimizing height is <m>h \approx 4.041</m> inches;
+            the minimum cost is <m>C(1.12259) \approx \$0.642</m>.
+          </p>
+        </li>
+      </ol>
+    </p>
+  </answer>
+  <solution permid="pHM">
+    <p permid="vbz">
+      <ol label="a." permid="idn">
+        <li permid="cob">
+          <p permid="WyP">
+            We let <m>r</m> be the radius of the base of the cylindrical can and <m>h</m> be its height.
+          </p>
+        </li>
+
+        <li permid="Ivk">
+          <p permid="CFY">
+            The volume of a cylinder is the area of the base times the height,
+            so <m>V = \pi r^2 h</m>.
+            Surface area is the area of the lids plus the area of the <q>side</q>;
+            we can think of the side as a rectangle (if we were to cut it and unroll it)
+            with height <m>h</m> and width <m>2\pi r</m>, the perimeter of the base. 
+            Hence the surface area of the can is <me>S = 2 \pi r^2 + 2 \pi r h</me>.
+            Finally,
+            the total cost (in dollars) is the cost of the lids plus the cost of the sides, which is
+            <me permid="TEj">
+              C = 2 \pi r^2 \cdot 0.027 + 2 \pi r h \cdot 0.015
+            </me>.
+          </p>
+        </li>
+
+        <li permid="oCt">
+          <p permid="iNh">
+            Because the volume is fixed at 16 cubic inches,
+            we know that <m>16 =  \pi r^2 h</m>.
+            Choosing to solve for <m>h</m>, we find that <m>h = \frac{16}{\pi r^2}</m>.
+            We can then substitute this expression into the total cost formula in 
+            place of <m>h</m>, yielding 
+            <md permid="zLs">
+              <mrow>C(r) =\mathstrut\amp 2 \pi r^2 \cdot 0.027 + 2 \pi r \left( \frac{16}{\pi r^2} \right) \cdot 0.015</mrow> 
+              <mrow>=\mathstrut\amp 0.054 \pi r^2 + \frac{0.48}{r}</mrow>
+            </md>.
+            We note that the only constraint on <m>r</m> is that <m>r \gt 0</m>,
+            hence this is the domain on which we seek to minimize <m>C</m>.
+          </p>
+        </li>
+
+        <li permid="UJC">
+          <p permid="OUq">
+            To differentiate the cost function, we first recall that <m>\frac1r=r^{-1}</m> 
+            and then find 
+            <md>
+            <mrow>C'(r)=\mathstrut\amp 0.108\pi r-0.48r^{-2}</mrow>
+            <mrow>=\mathstrut\amp 0.108 \pi r - \frac{0.48}{r^2}</mrow>
+            </md>.
+            Note that <m>C'(r)</m> is undefined at <m>r=0</m>, but this point is not in 
+            the domain of <m>C</m>,<fn>
+            Here, we mean both that <m>C(0)</m> is undefined and that contextually we 
+            require <m>r\gt0</m> as discussed in (c). Because <m>C(0)</m> is undefined, 
+            <m>0</m> is not a true critical number of <m>C</m>; however, it is still a 
+            value at which the sign of <m>C'</m> can change, and we can only disregard 
+            it here because the contextual supposition that <m>r\gt0</m> stipulates 
+            that we need only find critical numbers on the interval <m>(0,\infty)</m>.
+            </fn> so we only need to consider critical numbers at 
+            which the derivative is zero. 
+            Hence we set <m>C'(r) = 0</m> and solve for <m>r</m>, finding that
+            <me permid="fSB">
+              0.108 \pi r = \frac{0.48}{r^2}
+            </me>,
+            so that <m>r^3 = \frac{0.48}{0.108 \pi} \approx 1.415</m>,
+            from which it follows that
+            <m>r = \sqrt[3]{ \frac{0.48}{0.108 \pi} } \approx 1.123</m> is the only critical number of <m>C</m>.
+            At this point
+            we can use either the first or second derivative test to justify that <m>C</m> 
+            has an absolute minimum at <m>r = \sqrt[3]{ \frac{0.48}{0.108 \pi} }</m>.
+            We choose to use the second derivative test;
+            note that <m>C''(r) = 0.108 \pi + 0.96 \frac{1}{r^3}</m>,
+            which is always positive for <m>r \gt 0</m>.
+            Thus <m>C</m> is always concave up on the relevant domain (<m>r \gt 0</m>),
+            and consequently <m>r = \sqrt[3]{ \frac{0.48}{0.108 \pi} } \approx 1.123</m> 
+            is where the absolute minimum of <m>C</m> occurs.
+            In addition, we note that since <m>h = \frac{16}{\pi r^2}</m>,
+            the corresponding <m>h</m> value is <m>h \approx 4.041</m>,
+            and the overall minimum value is <m>C\left(\sqrt[3]{ \frac{0.48}{0.108 \pi} }\right) \approx 0.641</m>.
+          </p>
+          <p>
+          Thus a can with radius approximately <m>1.123</m> inches and height approximately 
+          <m>4.041</m> inches will be cheapest among all cans with a volume of <m>16</m> 
+          cubic inches. The cost of constructing a can with these dimensions is about 
+          <m>\$0.641</m>, or roughly <m>64</m> cents.
+          </p>
+        </li>
+      </ol>
+    </p>
+  </solution>
+</example>
+
+    <p permid="BNr">
+      Familiarity with common geometric formulas is particularly helpful in problems such as the one in <xref ref="act-3-4-1">Example</xref>.
+      Sometimes those involve perimeter,
+      area, volume, or surface area.
+      At other times,
+      the constraints of a problem introduce right triangles
+      (where the Pythagorean Theorem applies)
+      or other functions whose formulas provide relationships among the variables.
+    </p>
+
+<example xml:id="act-3-4-2" permid="eNi">
+  <statement>
+    <p permid="NOX">
+      A hiker starting at a point <m>P</m> on a straight road walks east towards point <m>Q</m>,
+      which is on the road and three kilometers from point <m>P</m>.
+    <!--</p>-->
+    <!--<sidebyside widths="47% 47%" margins="0%">-->
+    <!--<p permid="tWg">-->
+      Two kilometers due north of point <m>Q</m> is a cabin.
+      The hiker will walk down the road for a while,
+      at a pace of <m>8</m> kilometers per hour.
+      At some point <m>Z</m> between <m>P</m> and <m>Q</m>,
+      the hiker leaves the road and makes a straight line towards the cabin through the woods,
+      hiking at a pace of <m>3</m> kph,
+      as pictured below in <xref ref="F-3-4-Act2">Figure</xref>.
+      In order to minimize the time to go from <m>P</m> to <m>Z</m> to the cabin,
+      where should the hiker turn into the forest?
+    </p>
+
+    <figure xml:id="F-3-4-Act2" permid="adp">
+      <caption>A hiker walks from <m>P</m> to <m>Z</m> to the cabin, as pictured.</caption>
+      <image width="47%" source="images/3_4_Act2" />
+    </figure>
+<!--</sidebyside>-->
+  </statement>
+  <hint permid="Evl">
+    <p permid="hHO">
+      Let <m>x</m> be the distance from <m>Z</m> to <m>Q</m>.
+      What is the distance from <m>P</m> to <m>Z</m> in terms of <m>x</m>?
+      How about the distance from <m>Z</m> to the cabin?
+      How does time depend on distance and walking speed?
+    </p>
+  </hint>
+  <answer permid="Yoc">
+    <p permid="BAF">
+      The absolute minimum time the hiker can achieve is about <m>0.993</m> hours,
+      which is attained by hiking about <m>2.2</m> km from <m>P</m> towards <m>Q</m> 
+      and then turning into the woods for the remainder of the trip.
+    </p>
+  </answer>
+  <solution permid="sgT">
+    <p permid="kCu">
+      We begin by letting <m>x</m> be the distance from <m>Z</m> to <m>Q</m>.
+      Since it is <m>3</m> km from <m>P</m> to <m>Q</m>,
+      the distance from <m>P</m> to <m>Z</m> is <m>3-x</m> km.
+      Furthermore, we can use the Pythagorean Theorem to find that
+      the distance from <m>Z</m> to the cabin is <m>\sqrt{4+x^2}</m> km.
+    </p>
+
+    <p permid="QJD">
+      Next we want to determine the hiker's time as a function of <m>x</m>.
+      Because distance equals rate times time,
+      it follows that time is distance divided by rate.
+      The hiker travels along the road for <m>3-x</m> km at a pace of <m>8</m> km/hr,
+      thus her time on the road is
+      <me permid="Gky">
+        T_r = \frac{3-x}{8} \text{ hr}
+      </me>.
+    </p>
+
+    <p permid="wQM">
+      Once she enters the woods,
+      her pace drops to <m>3</m> km/hr and she continues for <m>\sqrt{4+x^2}</m> km 
+      before reaching the cabin.
+      She spends a total of 
+      <me permid="mrH">
+        T_w = \frac{\sqrt{4+x^2}}{3}
+      </me>
+      hours hiking in the woods.
+    </p>
+
+    <p permid="cXV">
+      Altogether, the time it takes the hiker to reach the cabin is given by the function 
+      <me permid="SyQ">
+        T(x) = \frac{3-x}{8} + \frac{\sqrt{4+x^2}}{3}
+      </me>.
+    </p>
+
+    <p permid="Jfe">
+      Because the only values of <m>x</m> that make sense to use are <m>0 \le x \le 3</m>
+      (since walking away from or past <m>Q</m> before turning to the cabin both add unnecessary time to the trip),
+<!--      (using either negative values or values greater than <m>3</m> add unnecessary time to the trip),-->
+      we use this domain for <m>T</m> and now seek the absolute minimum of <m>T</m> on <m>[0,3]</m>.
+      We find that
+      <me permid="yFZ">
+        T'(x) = -\frac{1}{8} + \frac{1}{3} \cdot \frac{1}{2} \left(4+x^2\right)^{-\frac{1}{2}} (2x) = -\frac{1}{8} + \frac{x}{3\sqrt{4+x^2}}
+      </me>.
+    </p>
+
+    <p permid="pmn">
+      Note that since <m>4+x^2\ge2</m> for every value of <m>x</m>, <m>T'</m> is defined everywhere. 
+      Setting <m>T'(x) = 0</m> and solving for <m>x</m>,
+      we have <m>\frac{x}{3\sqrt{4+x^2}} = \frac{1}{8}</m>,
+      so <m>8x = 3\sqrt{4+x^2}</m>.
+      Squaring both sides yields <me>64x^2 = 9(4+x^2) = 36 + 9x^2</me>.
+      Hence <m>55x^2 = 36</m>,
+      so <m>x = \sqrt{\frac{36}{55}} \approx 0.809</m>.
+      (We don't consider the critical number
+      <m>x = -\sqrt{\frac{36}{55}}</m> because this doesn't lie in the relevant domain of <m>T</m>.)
+    </p>
+
+    <p permid="Vtw">
+      Finally, we evaluate <m>T</m> at the only critical number in the interval and at the interval's endpoints.
+      Doing so, we find <m>T(0) = \frac{3}{8} + \frac{2}{3} \approx 1.0417</m>,
+      <m>T(3) = \frac{\sqrt{13}}{3} \approx 1.202</m>,
+      and <m>T\left(\sqrt{\frac{36}{55}}\right) = \frac{3}{8} + \frac{\sqrt{55}}{12} \approx 0.993</m>.
+      Thus the absolute minimum time the hiker can achieve is about <m>0.993</m> hours,
+      which is attained by hiking about <m>2.2</m> km from <m>P</m> towards <m>Q</m> and then turning into the woods for the remainder of the trip.
+    </p>
+  </solution>
+</example>
+
+    <p permid="hUA">
+      In more geometric problems,
+      we often use curves or functions to provide natural constraints.
+      For instance,
+      we could investigate which isosceles triangle that circumscribes a unit circle has the smallest area<fn>
+      You can explore for this problem for yourself at
+      <url href="http://gvsu.edu/s/9b">http://gvsu.edu/s/9b</url>.
+      </fn>,
+      or we might seek the rectangle of largest area that fits within a region bounded by a parabola<fn>
+      An example of this is shown at
+      <url href="http://gvsu.edu/s/9c">http://gvsu.edu/s/9c</url>.
+      </fn>.
+      The next example is similar to the latter problem.
+    </p>
+
+<example xml:id="act-3-4-3" permid="YXW">
+  <statement>
+    <p permid="Uod">
+      Consider the region in the <m>xy</m>-plane that is bounded by the <m>x</m>-axis and the function <m>f(x) = 25-x^2</m>. 
+      Construct a rectangle whose base lies on the <m>x</m>-axis and is centered at the origin,
+      and whose sides extend vertically until they intersect the curve <m>y = 25-x^2</m>.
+      Which such rectangle has the maximum possible area?
+      Which such rectangle has the greatest perimeter?
+      Which has the greatest combined perimeter and area? (Challenge:
+      answer the same questions in terms of positive parameters <m>a</m> and <m>b</m> for the function <m>f(x) = b-ax^2</m>.)
+    </p>
+  </statement>
+  <hint permid="XiJ">
+    <p permid="ogU">
+      Start with a sketch of the region and a rectangle within it that satisfies the description. 
+      Let <m>x</m> represent half the width of the rectangle's base.
+      How does the rectangle's height depend on <m>x</m>?
+    </p>
+  </hint>
+  <answer permid="rbA">
+    <p permid="HZL">
+      The maximum area is <m>\frac{500}{3\sqrt3}\approx96.225</m> square units when the 
+      rectangle's base is <m>\frac{10}{\sqrt3}</m> units long. 
+      The maximum perimeter is <m>52</m> units when the rectangle's base is <m>2</m> units long. 
+      The maximum combined perimeter and area is about <m>141.858</m>, occurring when the 
+      rectangle's base is <m>\frac{2\sqrt{82}-2}3\approx5.370</m> units long.
+    </p>
+  </answer>
+  <solution permid="KUr">
+  <p> 
+  We start by drawing a picture of the region described, along with a rectangle satisfying the 
+  description in the problem. Shown below in <xref ref="F-3-3-region">Figure</xref>, this 
+  picture will be a useful reference throughout the problem.
+  </p>
+  
+    <figure xml:id="F-3-3-region">
+      <caption>The region in the <m>xy</m>-plane bounded below by the <m>x</m>-axis and above by the graph of <m>y=25-x^2</m>.
+      Within this region is a rectangle whose base lies on the <m>x</m>-axis and is centered at the origin, and whose top corners lie 
+      on the curve. Note that if <m>x</m> represents half the width of the rectangle's base, 
+      then the rectangle's height is <m>f(x)=25-x^2</m>.</caption>
+      <image width="50%" source="images/3-3-region.jpg"/>
+    </figure>
+  
+    <p permid="DpS">
+      As shown in <xref ref="F-3-3-region">Figure</xref>, the area of the rectangle is 
+      <me permid="Avm">
+        A(x) = (2x)(25-x^2) = 50x - 2x^3
+      </me>.
+    </p>
+
+    <p permid="jxb">
+      Based on the region and our definition of <m>x</m>, 
+      the only possible values of <m>x</m> are for <m>0 \le x \le 5</m>;
+      moreover, it is evident that for either <m>x = 0</m> or <m>x = 5</m>,
+      the area of the corresponding rectangle is zero. 
+      Thus the endpoints of the domain <m>[0,5]</m> both minimize the area.
+      Differentiating <m>A</m> with respect to <m>x</m> yields
+      <me permid="gCv">
+        A'(x) = 50 - 6x^2
+      </me>,
+      so we find the critical numbers of <m>A</m> by solving <m>6x^2 = 50</m>.
+      This yields <m>x = \pm\frac{5}{\sqrt{3}} \approx \pm2.8868</m>, but we need only 
+      the positive value in this context.
+      Taking <m>x=\frac5{\sqrt3}</m> gives the maximum possible area of 
+      <me permid="MJE">
+        A\left(\frac{5}{\sqrt{3}}\right) = \frac{500}{3\sqrt3} \approx 96.225
+      </me>
+      square units.
+    </p>
+
+    <p permid="PEk">
+    We next want to maximize the perimeter. We can see in <xref ref="F-3-3-region">Figure</xref>
+    that the rectangle's perimeter is
+      <me permid="sQN">
+        P(x) = 2(2x) + 2(25-x^2)= -2x^2 + 4x + 50
+      </me>.
+    </p>
+
+    <p permid="vLt">
+      It is straightforward to show that the only critical number of the quadratic function <m>P</m> occurs when <m>x = 1</m> and that the corresponding (maximum) perimeter is <m>P(1) = 52</m> units.
+    </p>
+
+    <p permid="bSC">
+      Finally, to consider combined area and perimeter,
+      examine the function <m>C(x) = A(x) + P(x)</m> on the interval <m>0 \le x \le 5</m>.
+      You should find that the only relevant critical number is
+      <m>x = \frac{\sqrt{82}-1}{3}</m> and that the absolute maximum of <m>C</m> occurs at that value.
+    </p>
+    
+    <p>
+    To summarize, the rectangle with the largest area has vertices at <m>\left(0,\pm\frac5{\sqrt3}\right)</m> 
+    and <m>\left(\frac{50}3,\pm\frac5{\sqrt3}\right)</m>, and has an area of <m>\frac{500}{3\sqrt3}\approx96.225</m> square units. 
+    The rectangle with the largest perimeter has vertices at <m>\left(0,\pm1\right)</m> 
+    and <m>\left(24,\pm1\right)</m>, and has a perimeter of <m>52</m> units. 
+    The rectangle with the largest combined total of perimeter and area has vertices at 
+    <m>\left(0,\pm\frac{\sqrt{82}-1}3\right)</m> and 
+    <m>\left(\frac{142+2\sqrt{82}}9,\pm\frac{\sqrt{82}-1}3\right)</m>, and the 
+    combined total is approximately <m>141.858</m>.
+    </p>
+  </solution>
+</example>
+
+<example xml:id="act-3-4-4" permid="zpT">
+  <statement>
+    <p permid="OyR">
+      A trough is being constructed by bending a <m>4 \times 24</m>
+      (measured in feet)
+      rectangular piece of sheet metal.
+    </p>
+    <!--<sidebyside widths="47% 47%" margins="0%">-->
+    <p permid="uGa">
+      Two symmetric folds <m>2</m> feet apart will be made parallel to the longest side of the rectangle so that the trough has cross-sections in the shape of a trapezoid,
+      as pictured below in <xref ref="F-3-4-Act4">Figure</xref>.
+      At what angle should the folds be made to produce the trough of maximum volume?
+    </p>
+
+    <figure xml:id="F-3-4-Act4" permid="aNj">
+      <caption>A cross-section of the trough formed by folding each side to an angle of <m>\theta</m>.
+      The base of the trough is two feet across; the angled sides are each a foot long.</caption>
+      <image width="47%" source="images/3_4_Act4" />
+    </figure>
+<!--</sidebyside>-->
+  </statement>
+  <hint permid="Rtx">
+    <p permid="irI">
+    How tall is the trough in terms of <m>\theta</m>? How wide is the top of the trough,
+    also in terms of <m>\theta</m>? Find (or add) some useful right triangles to the given diagram to complete the picture.
+    Also, is there a slightly simpler quantity that will be maximized at the same time as the volume? 
+<!--      Drop altitudes from the top of the trough to the base of length 2.
+      In the two triangles that are formed,
+      what are the lengths of the legs in terms of <m>\theta</m>? -->
+    </p>
+  </hint>
+  <answer permid="lmo">
+    <p permid="Ckz">
+<!--      <m>A(1.19606) \approx 2.2018</m> is the absolute maximum cross-sectional area,
+      which leads to the absolute maximum volume. -->
+      The volume is maximized when <m>\theta\approx1.196</m> radians.
+    </p>
+  </answer>
+  <solution permid="Fff">
+    <p permid="xAG">
+      Once we choose the angle <m>\theta</m>,
+      the two right triangles in the trapezoid are determined
+      and each has a horizontal leg of length
+      <m>\cos(\theta)</m> and a vertical leg of length <m>\sin(\theta)</m>.
+      Thus the sum of the areas of the two triangles is <m>\cos(\theta) \sin(\theta)</m>,
+      the area of the rectangle between them is <m>2\sin(\theta)</m>, 
+      and the total area of the trapezoidal cross-section is <me>A(\theta) = \cos(\theta) \sin(\theta) + 2 \sin(\theta)</me>.
+      Because the length of the trough is constant,
+      the trough's volume will be maximized by maximizing cross-sectional area.
+      Note, too, that the domain for <m>\theta</m> is <m>0 \le \theta \le \frac{\pi}{2}</m>.
+    </p>
+
+    <p permid="dHP">
+      Differentiating the area function, we find that
+      <me permid="GUs">
+        A'(\theta) =  -\sin^2(\theta) + \cos^2(\theta) + 2 \cos(\theta)
+      </me>.
+    </p>
+
+    <p permid="JOY">
+      Using the identity <m>\sin^2(\theta) = 1 - \cos^2(\theta)</m>,
+      it follows that
+      <md permid="nbB">
+        <mrow>A'(\theta) =\mathstrut\amp \cos^2(\theta) - 1 + \cos^2(\theta) + 2 \cos(\theta)</mrow>
+        <mrow> =\mathstrut\amp 2\cos^2(\theta) + 2 \cos(\theta) - 1</mrow>
+      </md>.
+    </p>
+
+    <p permid="pWh">
+      This most recent equation is quadratic in <m>\cos(\theta)</m>,
+      so we can solve the equation
+      <m>A'(\theta) = 0</m> by letting <m>u=\cos(\theta)</m> and 
+      first solving <m>2u^2 + 2u - 1 = 0</m>.<fn>
+      Note that since <m>0\le\theta\le\frac{\pi}2</m>, we have <m>0\le u\le1</m>.</fn> 
+      Doing so yields
+      <me permid="TiK">
+        u = \frac{-1 \pm \sqrt{3}}{2} \approx 0.366, -1.366
+      </me>,
+      so only <m>u = \frac{-1 + \sqrt{3}}{2}</m> might be a value of the cosine function from an angle that lies in the interval <m>[0,\frac{\pi}{2}]</m>.
+      To find the corresponding critical number <m>\theta</m>,
+      we solve <m>\cos(\theta) = \frac{-1 + \sqrt{3}}{2}</m>,
+      which implies <m>\theta = \arccos\left(\frac{-1 + \sqrt{3}}{2}\right) \approx 1.196</m> radians,
+      or <m>\theta \approx 68.529^\circ</m>.
+    </p>
+
+    <p permid="Wdq">
+      Finally, to confirm that <m>A</m> has an absolute maximum at <m>\theta = \arccos\left(\frac{-1 + \sqrt{3}}{2}\right)</m>,
+      we evaluate <m>A</m> at this value and at the interval endpoints
+      to find that <m>A(0) = 0</m>,
+      <m>A(\frac{\pi}{2}) = 2</m>,
+      and <m>A(1.196) \approx 2.202</m> ft<m>^2</m>,
+      which is the absolute maximum possible cross-sectional area.
+    </p>
+    
+    <p>
+    Therefore the volume of the trough is maximized (at around <m>52.844</m> cubic feet) 
+    when the sides are folded at an angle of approximately <m>1.196</m> radians. 
+    </p>
+  </solution>
+</example>
+  </subsection>
+
+  <subsection permid="lUz">
+    <title>Summary</title>
+    <p permid="ObJ">
+      <ul permid="WLB">
+        <li permid="TQV">
+          <p permid="QWp">
+            While there is no single algorithm that works in every situation where optimization is used,
+            the following steps are helpful in most of the problems we consider:
+            draw a picture and introduce variables;
+            identify the quantity to be optimized and find relationships among the variables;
+            determine a function of a single variable that models the quantity to be optimized;
+            decide the domain on which to consider the function being optimized;
+            use calculus to identify the absolute maximum and/or minimum of the quantity being optimized;
+            check that the question that was asked has indeed been answered.
+          </p>
+        </li>
+      </ul>
+    </p>
+  </subsection>
+
+<exercises xmlns:xi="http://www.w3.org/2001/XInclude"> 
+
+  <exercise xml:id="ez-3-4-WW1" permid="zsk">
+    <title>Maximizing the volume of a box</title>
+    <webwork source="Library/UVA-Stew5e/setUVA-Stew5e-C04S07-Optimization/4-7-08.pg" />
+  </exercise>
+
+  <exercise xml:id="ez-3-4-WW2" permid="fzt">
+    <title>Minimizing the cost of a container</title>
+    <webwork source="Library/UVA-Stew5e/setUVA-Stew5e-C04S07-Optimization/4-7-12.pg" />
+  </exercise>
+
+  <exercise xml:id="ez-3-4-WW3" permid="LGC">
+    <title>Maximizing area contained by a fence</title>
+    <webwork source="Library/Rochester/setDerivatives10_5Optim/S04.07.Optimization.PTP01.pg" />
+  </exercise>
+
+  <exercise xml:id="ez-3-4-WW4" permid="rNL">
+    <title>Minimizing the area of a poster</title>
+    <webwork source="Library/Rochester/setDerivatives10_5Optim/S04.07.Optimization.PTP04.pg" />
+  </exercise>
+
+  <exercise xml:id="ez-3-4-WW5" permid="XUU">
+    <title>Maximizing the area of a rectangle</title>
+    <webwork source="Library/Rochester/setDerivatives10_5Optim/S04.07.Optimization.PTP05.pg" />
+  </exercise>
+
+  <exercise permid="Ecd">
+  <title>Maximizing the volume of a closed box</title>
+    <statement>
+      <p permid="ELX">
+        A rectangular box with a square bottom and closed top is to be made from two materials.
+        The material for the side costs <dollar />1.50 per square foot and the material for the top and bottom costs <dollar />3.00 per square foot.
+        If you are willing to spend <dollar />15 on the box,
+        what is the largest volume it can contain?
+        Justify your answer completely using calculus.
+      </p>
+    </statement>
+    <answer permid="ILW">
+      <p permid="gjn">
+        The absolute maximum volume is <m>V\left( \sqrt{\frac{5}{3}} \right) = \frac{15}{12}\left( \sqrt{\frac{5}{3}} \right) - \frac{1}{4}\left( \sqrt{\frac{5}{3}} \right)^3 \approx 1.07583</m> cubic feet.
+      </p>
+    </answer>
+    <solution permid="cEN">
+      <p permid="ZKh">
+        Let <m>x</m> be the length of one side of the square bottom and <m>h</m> the height of one of the sides.
+        We first note that the volume, <m>V</m>,
+        of the box is <m>V = x^2 h</m>,
+        and the surface area of the box is <m>S = 2x^2 +  4xh</m>,
+        since there are two square sides
+        (bottom and top)
+        of area <m>x^2</m> and four identical sides of area <m>xh</m>.
+        Since the material for the top and bottom costs <dollar />3.00 per square foot and the material for the sides costs <dollar />1.50 per square foot,
+        it follows that the total cost of a box with surface area <m>S</m> is
+        <me permid="doH">
+          C = 1.50 (2x^2) +  3.00 (4xh) = 3x^2 + 12xh
+        </me>.
+      </p>
+
+      <p permid="FRq">
+        We are interested in building box of largest volume for which we spend <dollar />15.
+        This cost constraint implies that
+        <me permid="JvQ">
+          15 = 3x^2 + 12xh
+        </me>,
+        which allows us to express <m>h</m> as a function of <m>x</m> by solving for <m>h</m>.
+        Doing so, we see that <m>12xh = 15 - 3x^2</m>, so
+        <me permid="pCZ">
+          h = \frac{15-3x^2}{12x}
+        </me>.
+        Using this relationship, we are now able to express the volume,
+        <m>V</m>,
+        of the box as a function of the single variable <m>x</m>.
+        Subsituting the expression for <m>h</m>, we have
+        <me permid="VKi">
+          V = x^2 h = x^2 \frac{15-3x^2}{12x} = \frac{1}{12}x(15 - 3x^2) = \frac{15}{12}x - \frac{1}{4}x^3
+        </me>.
+        Note particularly that in order to have a box,
+        we require that both <m>x \gt 0</m> and <m>h \gt 0</m>.
+        The latter condition along with the fact that
+        <m>h = \frac{15-3x^2}{12x}</m> shows that we need <m>15 - 3x^2 \gt 0</m>,
+        and thus <m>x^2 \lt 5</m>, so <m>x \lt \sqrt{5}</m>.
+        Hence we are considering <m>V(x)</m> on the domain <m>0 \lt x \lt \sqrt{5}</m>.
+      </p>
+
+      <p permid="lYz">
+        It is apparent that the box vanishes
+        (and its volume tends to zero)
+        as either <m>x \to 0^+</m> or <m>x \to \sqrt{5}^-</m>,
+        and thus the absolute maximum volume must appear between these values at a critical number.
+        Differentiating <m>V</m>,
+        we find that <m>V'(x) = \frac{15}{12} - \frac{3}{4}x^2</m>.
+        Solving <m>V'(x) = 0</m> to find all critical numbers of <m>V</m> in the domain,
+        we see that <m>x^2 = \frac{15}{12} \cdot \frac{4}{3} = \frac{5}{3}</m>,
+        and thus <m>x = \pm \sqrt{\frac{5}{3}}</m>,
+        so only <m>x = \sqrt{\frac{5}{3}}</m> is a critical number that lies in <m>0 \lt x \lt \sqrt{5}</m>.
+        Noting that the absolute minimum volume <m>V = 0</m> occurs at each endpoint,
+        it must be the case that the absolute maximum volume is <m>V\left( \sqrt{\frac{5}{3}} \right) = \frac{15}{12}\left( \sqrt{\frac{5}{3}} \right) - \frac{1}{4}\left( \sqrt{\frac{5}{3}} \right)^3 \approx 1.07583</m> cubic feet.
+      </p>
+    </solution>
+  </exercise>
+
+  <exercise permid="kjm">
+  <title>Maximizing pasture area with limited fencing</title>
+    <statement>
+      <p permid="kTg">
+        A farmer wants to start raising cows, horses, goats, and sheep,
+        and desires to have a rectangular pasture for the animals to graze in.
+        However, no two different kinds of animals can graze together.
+        In order to minimize the amount of fencing she will need,
+        she has decided to enclose a large rectangular area and then divide it into four equally sized pens by adding three segments of fence inside the large rectangle that are parallel to two existing sides.
+        She has decided to purchase 7500 ft of fencing.
+        What is the maximum possible area that each of the four pens will enclose?
+      </p>
+    </statement>
+    <answer permid="Vao">
+      <p permid="Mqw">
+        Exercise Answer
+      </p>
+    </answer>
+    <solution permid="oTf">
+      <p permid="SfI">
+        The farmer will fence a rectangular area whose length <m>x</m> and width <m>y</m> are unknown.
+        The total area of the rectangular area is composed of 4 equal area rectangles.
+        There are two ways to do this as shown in the figure below.
+      </p>
+
+      <sidebyside permid="ndS">
+        <image source="images/3_4_Ez2Soln" />
+      </sidebyside>
+
+      <p permid="ymR">
+        We want to maximize the area of each subrectangular region,
+        which is the same as maximizing the total area 
+        <m>A = xy</m> of the entire rectangular region.
+        Since <m>A</m> has two variables,
+        we can't yet directly apply calculus techniques to it.
+        We use the information about the amount of fencing to relate <m>x</m> and <m>y</m> in order to write <m>A</m> in terms of just one variable.
+      </p>
+
+      <p permid="eua">
+        In the case of the fencing option on the left in the figure,
+        the total amount of fencing that is needed to enclose the four grazing areas is <m>2x+5y</m>.
+        We assume that all of the <m>7500</m> feet of fencing will be used,
+        so <m>2x+5y=7500</m>.
+        Solving for <m>x</m>, <m>x = 3750 - 2.5y</m>.
+        Substituting this expression for <m>x</m> into the area formula allows us to write <m>A</m> in terms of <m>y</m> alone:
+        <me permid="BRr">
+          A(y) = (3750-2.5y)y = 3750y - 2.5y^2
+        </me>.
+        To enclose any area,
+        we of course must have <m>y \gt 0</m> and <m>x \gt 0</m>,
+        and since <m>x = 3750 - 2.5y</m>,
+        it follows that we need to have
+        <m>2.5y \lt 3750</m> so <m>y \lt 1500</m>.
+        To find the maximum value of <m>A</m> on this domain,
+        we find the critical numbers of <m>A</m>.
+        Since <m>A'(y) = 3750 - 5y</m>,
+        we see that <m>A'(y) = 0</m> when and only when <m>y = 750</m>.
+        For <m>0 \lt y \lt 750</m>,
+        we see that <m>A'(y) \gt 0</m> and for
+        <m>750 \lt y \lt 1500</m> we have <m>A'(y) \lt 0</m>.
+        So <m>A(750) = 1406250</m> square feet is the absolute maximum value of <m>A</m>.
+        The maximum possible area that each of the four pens can enclose is one quarter of the total,
+        or <m>351562.5</m> square feet.
+      </p>
+
+      <p permid="KBj">
+        In the case of the fencing option on the right in the figure,
+        the total amount of fencing that is needed to enclose the four grazing areas is <m>3x+3y</m>.
+        We assume that all of the <m>7500</m> feet of fencing will be used,
+        so <m>3x + 3y = 7500</m>.
+        Solving for <m>x</m> and substituting into <m>A</m>,
+        we find <m>x = 2500 - y</m> and
+        <me permid="hYA">
+          A(y) = (2500-y)y = 2500y - y^2
+        </me>.
+        To enclose any area,
+        we of course must have <m>y \gt 0</m> and <m>x \gt 0</m>,
+        and since <m>x = 2500 - y</m>,
+        it follows that we need to have <m>y \lt 2500</m>.
+        To find the maximum value of <m>A</m> on this domain,
+        we find the critical numbers of <m>A</m>.
+        Since <m>A'(y) = 2500 - 2y</m>,
+        we see that <m>A'(y) = 0</m> when and only when <m>y = 1250</m>.
+        For <m>0 \lt y \lt 1250</m>,
+        we see that <m>A'(y) \gt 0</m> and for
+        <m>1250 \lt y \lt 2500</m> we have <m>A'(y) \lt 0</m>.
+        So <m>A(1250) = 1406250</m> square feet is the absolute maximum value of <m>A</m>.
+        The maximum possible area that each of the four pens can enclose is one quarter of the total,
+        or <m>390625</m> square feet.
+      </p>
+
+      <p permid="qIs">
+        So the maximum possible area that each of the four pens can enclose is 390625 square feet.
+      </p>
+    </solution>
+  </exercise>
+
+  <exercise permid="Qqv">
+  <title>Minimizing cable length</title>
+    <statement>
+      <p permid="Rap">
+        Two vertical poles of heights 60 ft and 80 ft stand on level ground,
+        with their bases 100 ft apart.
+        A cable that is stretched from the top of one pole to some point on the ground between the poles,
+        and then to the top of the other pole.
+        What is the minimum possible length of cable required?
+        Justify your answer completely using calculus.
+      </p>
+    </statement>
+    <answer permid="hoG">
+      <p permid="sxF">
+        <m>172.047</m> feet of cable.
+      </p>
+    </answer>
+    <solution permid="Bhx">
+      <p permid="WPB">
+        We start by constructing a careful diagram of the overall situation.
+        Let <m>x</m> be the distance from the first pole to the second pole where the cable touches the ground,
+        and let <m>y</m> be the length of the cable from the top of the first tower to the ground,
+        and <m>z</m> the length of cable from the ground to the top of the second tower,
+        as pictured in the following figure.
+        Note that we have included the given heights of the towers and the distance between them.
+      </p>
+
+      <sidebyside width="65%" permid="Tlb">
+        <image source="images/3_4_Ez3Soln" />
+      </sidebyside>
+
+      <p permid="CWK">
+        The total amount of cable, <m>L</m>, used
+        (which we wish to minimize)
+        is given by <m>L = y + z</m>.
+        We can use the geometry of the situation to write both <m>y</m> and <m>z</m> in terms of <m>x</m>.
+        In the first right triangle,
+        by the Pythagorean Theorem we know that <m>x^2 + 60^2 = y^2</m>,
+        and thus <m>y = \sqrt{x^2 + 3600}</m>.
+        In the second right triangle,
+        note that the horizontal leg of the triangle has length <m>100-x</m>,
+        and thus <m>(100-x)^2 + 80^2 = z^2</m>,
+        so <m>z = \sqrt{(100-x)^2 + 6400}</m>.
+        It follows that with <m>L = y + z</m>,
+        <me permid="OfJ">
+          L(x) = \sqrt{x^2 + 3600} + \sqrt{6400 + (100-x)^2}
+        </me>.
+        It is also apparent from the given situation that the relevant domain for <m>L</m> is <m>0 \le x \le 100</m>.
+        Given that we want to minimize <m>L</m> on this closed interval,
+        it remains to find any critical numbers of <m>L</m>.
+      </p>
+
+      <p permid="jdT">
+        We note by the chain rule that
+        <me permid="umS">
+          L'(x) = \frac{2x}{2(x^2+3600)^{1/2}} + \frac{-2(100-x)}{2((100-x)^2 + 6400)^{1/2}}
+        </me>
+        We use technology to solve the equation
+        <m>L'(x) = 0</m> and find that it has a single solution in the interval <m>0 \le x \le 100</m>:
+        <m>x \approx 42.85714</m>.
+      </p>
+
+      <p permid="Plc">
+        To find the absolute minimum of <m>L</m> on the relevant domain,
+        we evaluate <m>L</m> at the endpoints and the only critical number.
+        Doing so, we fine <m>L(0) \approx 188.062</m>,
+        <m>L(100) \approx 196.619</m>,
+        and <m>L(42.85714) \approx 172.047</m>.
+        Hence the least amount of cable we can use is approximately <m>172.047</m> feet and is accomplished by anchoring the cable about
+        <m>42.85714</m> feet from the first tower.
+      </p>
+    </solution>
+  </exercise>
+
+  <exercise permid="wxE">
+  <title>Minimizing construction costs</title>
+    <statement>
+      <p permid="xhy">
+        A company is designing propane tanks that are cylindrical with hemispherical ends.
+        Assume that the company wants tanks that will hold 1000 cubic feet of gas,
+        and that the ends are more expensive to make,
+        costing <dollar />5 per square foot,
+        while the cylindrical barrel between the ends costs <dollar />2 per square foot.
+        Use calculus to determine the minimum cost to construct such a tank.
+      </p>
+    </statement>
+    <answer permid="tCY">
+      <p permid="YEO">
+        The minimum cost is <dollar />1165.70.
+      </p>
+    </answer>
+    <solution permid="NvP">
+      <p permid="vsl">
+        We let the length of the cylindrical part of the tank be <m>h</m> with the radius of the cylinder given by <m>r</m>.
+        It follows that the radius of the hemispherical ends of the tank is also <m>r</m>.
+        We first identify formulas for both the volume and surface area of the tank by looking at the cylindrical and hemispherical pieces.
+      </p>
+
+      <p permid="bzu">
+        The cylindrical part of the tank has volume <m>V_c = \pi r^2 h</m>,
+        and the surface area of its sides is <m>A_c = 2\pi r h</m>
+        (which is the circumference of the cylinder's base times the cylinder's height -- think about how a cylinder unfurls to form a rectangle).
+        The two hemispherical ends together constitute a full sphere,
+        and the volume of a sphere is <m>V_s = \frac{4}{3} \pi r^3</m>,
+        while the surface area of a sphere is <m>A_s = 4 \pi r^2</m>.
+      </p>
+
+      <p permid="HGD">
+        The overall volume of the tank is therefore
+        <me permid="aub">
+          V = V_c + V_s = \pi r^2 h + \frac{4}{3} \pi r^3
+        </me>,
+        and its total surface area is
+        <me permid="GBk">
+          A = A_c + A_s = 2\pi r h + 4 \pi r^2
+        </me>.
+        Moreover, taking into account the different costs of material for the cylindrical sides and hemispherical ends,
+        we find that the total cost of the tank is
+        <me permid="mIt">
+          C = 2(2\pi r h) + 5(4 \pi r^2) = 4 \pi r h + 20 \pi r^2
+        </me>.
+      </p>
+
+      <p permid="nNM">
+        Our goal is to minimize the total cost of the tank given that we want it to hold 1000 cubic meters of volume.
+        From this constraint,
+        we have the equation <m>1000 = \pi r^2 h + \frac{4}{3} \pi r^3</m>,
+        which we can solve for <m>h</m> to get <m>\pi r^2 h = 1000 - \frac{4}{3} \pi r^3</m>, so
+        <me permid="SPC">
+          h = \frac{1000 - \frac{4}{3} \pi r^3}{\pi r^2}
+        </me>.
+        This allows us to now write cost as a function of the single variable <m>r</m> by substituting the expression for <m>h</m> into the earlier formula we found for cost.
+        In particular,
+        <me permid="yWL">
+          C(r) = 4 \pi r \frac{1000 - \frac{4}{3} \pi r^3}{\pi r^2} + 20 \pi r^2 = 4 \frac{1000 - \frac{4}{3} \pi r^3}{r} + 20\pi r^2
+        </me>
+        Simplifying further, we have found that
+        <me permid="fdU">
+          C(r) = \frac{4000}{r} - \frac{16}{3}\pi r^2 + 20 \pi r^2 = \frac{4000}{r} + \frac{44}{3}r^2
+        </me>.
+        Based on the physical constraints of the problem,
+        we obviously will only consider values of <m>r \gt 0</m> and <m>h \gt 0</m>.
+        Since <m>h = \frac{1000 - \frac{4}{3} \pi r^3}{\pi r^2}</m>,
+        we must have
+        <me permid="Lld">
+          \frac{4}{3} \pi r^3 \lt 1000
+        </me>
+        so <m>r^3 \lt \frac{3}{4} \cdot 1000 = 750</m>,
+        and thus <m>r \lt \sqrt[3]{750} \approx 9.086</m>.
+        We now work to minimize <m>C(r)</m> on the interval <m>0 \lt r \lt \sqrt[3]{750}</m>.
+      </p>
+
+      <p permid="TUV">
+        Taking the derivative of <m>C</m>,
+        we find that <m>C'(r) = -\frac{4000}{r^2} + \frac{88}{3}r</m>.
+        Setting <m>C'(r) = 0</m>, it follows that
+        <me permid="rsm">
+          \frac{4000}{r^2} = \frac{88}{3}r
+        </me>
+        and thus
+        <me permid="Xzv">
+          4000 \cdot \frac{3}{88} = r^3
+        </me>.
+        Therefore, <m>r^3 = \frac{1500}{11}</m>,
+        so <m>r = \sqrt[3]{\frac{1500}{11}} \approx 5.147</m> is the only critical number of <m>C</m>;
+        observe that it lies within the interval <m>0 \lt r \lt \sqrt[3]{750}</m>.
+      </p>
+
+      <p permid="Ace">
+        If we plot the derivative function, <m>y = C'(r)</m>,
+        on the interval <m>0 \lt r \lt \sqrt[3]{750}</m>,
+        we see that for <m>0 \lt r \lt 5.147</m>,
+        <m>C'(r) \lt 0</m>,
+        and for <m>5.147 \lt r \lt 9.086</m>, <m>C'(r) \gt 0</m>,
+        which shows that <m>C</m> is decreasing before the critical number and increasing after the critical number,
+        and hence <m>C</m> has a global minimum of <m>C(\sqrt[3]{\frac{1500}{11}}) \approx 1165.70</m>,
+        so <dollar />1165.70 is the minimum cost to build the desired tank under the given constraints.
+      </p>
+    </solution>
+  </exercise>
+
+ </exercises>
+</section>
+
