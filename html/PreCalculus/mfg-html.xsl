@@ -45,5 +45,5 @@
 <xsl:param name="exercise.backmatter.statement" select="'no'"/>
 <xsl:param name="exercise.backmatter.hint" select="'yes'"/>
 <xsl:param name="exercise.backmatter.answer" select="'yes'"/>
-<xsl:param name="exercise.backmatter.solution" select="'yes'"/>
+<xsl:param name="exercise.backmatter.solution" select="'no'"/>
 </xsl:stylesheet>
