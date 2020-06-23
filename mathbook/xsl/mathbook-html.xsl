@@ -898,7 +898,7 @@ along with MathBook XML.  If not, see <http://www.gnu.org/licenses/>.
                 <xsl:if test="answer and $exercise.backmatter.answer='yes'">
                     <xsl:apply-templates select="answer" />
                 </xsl:if>
-                <xsl:if test="solution and $exercise.backmatter.solution='yes'">
+                <xsl:if test="solution and $exercise.backmatter.solution='no'">
                     <xsl:apply-templates select="solution" />
                 </xsl:if>
             </div>
