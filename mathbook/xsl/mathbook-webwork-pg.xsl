@@ -158,7 +158,7 @@
 <!-- default template, for solution -->
 <xsl:template match="webwork/stage/solution|webwork/solution">
     <xsl:call-template name="begin-block">
-        <xsl:with-param name="block-title">Solution</xsl:with-param>
+        <xsl:with-param name="block-title">Written Solution</xsl:with-param>
     </xsl:call-template>
     <xsl:text>BEGIN_PGML_SOLUTION&#xa;</xsl:text>
     <xsl:apply-templates />
