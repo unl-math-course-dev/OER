@@ -11,7 +11,7 @@ git pull
 cd /var/www/html/PreCalculus/
 
 #Run xsltproc
-xsltproc --xinclude /var/www/html/PreCalculus/mfg-html.xsl /var/www/OERSource/PreCalc/2019-2020/update.xml 
+xsltproc --xinclude /var/www/html/PreCalculus/mfg-html.xsl /var/www/OERSource/PreCalc/2020-2021/update.xml 
 
 #Add the Google Analytics code
 perl /var/www/html/PreCalculus/GoogleAnalytics.pl 
