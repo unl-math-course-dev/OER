@@ -1538,7 +1538,8 @@
     </solution>
   </example>
   <p>
-    Part (b) demonstrates that if we bound an improper integral from below by one that diverges with the same bounds, then we know the improper integral in question also diverges. The goal for the inequality needed for a comparison is different if we want to show convergence or divergence. Because of this difference when trying to use a comparison to determine the convergence of an improper integral, you first need to make a guess<fn> Example ***with reference*** discusses how to guess an appropriate comparison function, and by doing so guessing if the improper integral converges or diverges. </fn> if the improper integral converges or diverges. The general principle for using comparisons to test the convergence of improper integrals is summarized in the box below. 
+    Part (b) demonstrates that if an improper integral can be bounded below by one that diverges, then the improper integral in question also diverges. The same logic can be used to show that if an improper integral can be bounded above by one that converges, it also converges. We formalize these principles as the Comparison Test for Imroper Integrals. 
+  </p>
   <assemblage>
     <title>Comparison Test for Improper Integrals</title>
       <p>
@@ -1548,7 +1549,9 @@
         If <m> f(x) \ge g(x) \ge 0   </m>  and  <m>   \int_a^{\infty} g(x) \, dx </m> diverges, then <m>   \int_a^{\infty} f(x) \, dx </m> diverges.
       </p>
     </assemblage>
-    In Part (b), we needed to know that <m>\int_2^{\infty} \frac{1}{x} \, dx </m> diverges, but we've technically only discussed that <m>\int_1^{\infty} \frac{1}{x} \, dx</m> diverges. Both of these improper integrals diverge because the integral <m>\int_1^2 \frac{1}{x} \, dx </m> is finite, so choosing to exclude the area under <m>\frac{1}{x}</m> on the interval <m>[1,2]</m> from the area under <m> \frac{1}{x}</m> on the interval <m>[1, \infty]</m> does not change that the area under the curve is infinite. Thus, <m>\int_2^{\infty} \frac{1}{x} \, dx</m> diverges since <m>\int_1^{\infty} \frac{1}{x} \, dx </m> diverges. In fact, <m> \int_a^{\infty} \frac{1}{x} \, dx</m> diverges for any real number <m>a \geq 1</m> since <m>\frac{1}{x} </m> is continuous on the interval <m>[1, a]</m>. 
+    <p>
+    For Part (b), we claimed that <m>\int_2^{\infty} \frac{1}{x} \, dx </m> diverges, but we've technically only discussed that <m>\int_1^{\infty} \frac{1}{x} \, dx</m> diverges. However, since <m>\int_{1}^{\infty} \frac{1}{x} \, dx = \int_{2}^{\infty}\frac{1}{x} \, dx + \int_{1}^{2}\frac{1}{x}\, dx </m> and <m>\int_1^2 \frac{1}{x} \, dx </m> is finite, <m>\int_2^{\infty} \frac{1}{x} \, dx</m> must diverge; otherwise, the right-hand side of the equation would be finite. In fact, <m> \int_a^{\infty} \frac{1}{x} \, dx</m> diverges for any real number <m>a \geq 1</m> for the same reason. More generally:
+  </p>
     <assemblage>
       <title>  </title>
       <p>
@@ -1567,10 +1570,94 @@
         </ul>
       </p>
     </assemblage>
-  </p>
   <p>
-    Insert an example here
+    We'll finish this section with a few guided examples of applications of the Comparison Test. A useful strategy for these types of problems goes as follows: first, make an educated guess about whether the given integral converges or diverges; then, based on this guess, bound the integrand above or below by a simpler function whose integral over the same interval converges or diverges, respectively.
   </p>
+
+  <example>
+    <statement>
+      <p>
+        Use the Comparison Test for Improper Integrals to determine whether the following improper integrals converge or diverge. Be sure to justify any inequalities used when applying the Test. 
+      </p>
+      <ol label = "a.">
+        <li>
+          <m> \int_{1}^{\infty} \frac{\sin^{2}(x)}{x^{2}} \,dx </m>
+        </li>
+        <li>
+          <m> \int_{1}^{\infty} \frac{1}{\sqrt{x^{3}+6}} \,dx </m>
+        </li>
+        <li>
+          <m> \int_{10}^{\infty} \frac{3x}{(x+4)^{2}} \,dx </m>
+        </li>
+        <li>
+          <m> \int_{1}^{\infty} \frac{2+\cos(x)}{\sqrt{x+12}} \,dx </m>
+        </li>
+      </ol>
+    </statement>
+    <hint>
+      <ol label = "a.">
+        <li>
+          Since <m> -1 \leq \sin(x) \leq 1 </m> for any <m> x \in \mathbb{R} </m>, we have <m> 0 \leq \sin^{2}(x) \leq 1 </m> for any <m> x \in \mathbb{R} </m>.
+        </li>
+        <li>
+          When <m> x </m> is large, observe that <m> \sqrt{x^{3}+6} \approx \sqrt{x^{3}} = x^{3/2}. </m> 
+        </li>
+        <li>
+          When <m> x </m> is large, <m> \frac{3x}{(x+4)^{2}} \approx \frac{3x}{x^{2}} = \frac{3}{x}. </m>
+        </li>
+        <li>
+          Since <m> \cos(x) \geq -1 </m> for all <m> x \in \mathbb{R} </m>, the numerator is at least <m> 1 </m>. For the denominator, when <m> x </m> is large we have <m> \sqrt{x+12} \approx \sqrt{x}.</m>
+        </li>
+      </ol>
+    </hint>
+    <answer>
+      <ol label = "a.">
+        <li> 
+          Converges, via comparison with e.g. <m> \frac{1}{x^{2}} </m>.
+        </li>
+        <li>
+          Converges, via comparison with e.g. <m> \frac{1}{x^{3/2}} </m>.
+        </li>
+        <li>
+          Diverges, via comparison with e.g. <m> \frac{3}{4x} </m>.
+        </li>
+        <li>
+          Diverges, via comparison with e.g. <m> \frac{1}{2\sqrt{x}} </m> on the interval <m> [4, \infty) </m>.
+        </li>
+      </ol>
+    </answer>
+    <solution>
+      <ol label = "a." >
+        <li>
+          From the hint, we know <m> 0 \leq \sin^{2}(x) \leq 1 </m> for any <m> x \in \mathbb{R} </m>. Therefore, <m> 0 \leq \frac{\sin^{2}(x)}{x^{2}} \leq \frac{1}{x^{2}} </m> for any <m> x \in \mathbb{R} </m>. (In particular, this inequality holds on the interval <m> [1, \infty) </m>.) Since <m> \int_{1}^{\infty}\frac{1}{x^{2}} \,dx </m> converges, by the Comparison Test it follows that <m> \int_{1}^{\infty} \frac{\sin^{2}(x)}{x^{2}} \,dx </m> converges.
+        </li>
+        <li>
+          <p>
+            From the hint, we should expect our improper integral to behave like <m> \int_{1}^{\infty} \frac{1}{x^{3/2}} \,dx </m>, which converges. Indeed, we can compare our integral directly to this one.
+          </p>
+          <p>
+            For any <m> x \in \mathbb{R} </m>, we have <m> x^{3}+6 > x^{3} </m>. Therefore, <m> \sqrt{x^{3}+6} > \sqrt{x^{3}} = x^{3/2} </m> whenever both <m> x^{3}+6 </m> and <m> x^{3} </m> are non-negative, i.e., for all <m> x \geq 0 </m>. This, along with the assumption that we use the positive square root, yields the inequality <m> \frac{1}{x^{3/2}} > \frac{1}{\sqrt{x^{3}+6}} > 0 </m> for all <m> x > 0 </m>. Specifically, the inequality holds on the interval <m> [1, \infty) </m>. Because <m> \int_{1}^{\infty}\frac{1}{x^{3/2}} \,dx </m> converges, by the Comparison Test we conclude that <m> \int_{1}^{\infty} \frac{1}{\sqrt{x^{3}+6}} \,dx </m> converges.
+          </p>
+        </li>
+        <li> 
+          <p>
+            From the hint, we should expect our imroper integral to behave like <m> \int_{10}^{\infty}\frac{3}{x} \,dx </m>, which diverges. However, since <m> (x+4)^{2} > x^{2} </m> for all <m> x \in \mathbb{R} </m> it's actually the case that <m> \frac{3x}{(x+4)^{2}} \lt \frac{3x}{x^{2}} = \frac{3}{x} </m> for <m> x \in \mathbb{R} </m>. So we cannot compare our function to <m> \frac{3}{x} </m> to conclude divergence. More care is needed to find an appropriate lower bound for <m> \frac{3x}{(x+4)^{2}}.</m>
+          </p>
+          <p>
+            Observe that if <m> x \geq 4 </m>, we have <m> 2x \geq x+4 </m>. (In fact, these inequalities are equivalent.) So <m> (2x)^{2} \geq (x+4)^{2} </m> for <m> x \geq 4 </m> and thus we may write <m> \frac{3x}{(x+4)^{2}} \geq \frac{3x}{(2x)^{2}} = \frac{3}{4x} \geq 0</m>. Now, <m> \int_{10}^{\infty}\frac{3}{4x} \,dx =\frac{3}{4} \int_{10}^{\infty}\frac{1}{x} \, dx </m> diverges, so it follows from the Comparison Test that  <m> \int_{10}^{\infty} \frac{3x}{(x+4)^{2}} \,dx </m> diverges.
+          </p>
+        </li>
+        <li>
+          <p> From the hint, for large enough <m> x </m> the function <m> \frac{2+\cos(x)}{\sqrt{x+12}} </m> is approximately bounded below by <m> \frac{1}{\sqrt{x}} </m>. Since <m> \int_{1}^{\infty}\frac{1}{\sqrt{x}} \,dx </m> diverges, we should expect our integral to diverge as well. However, a direct comparison to <m> \frac{1}{\sqrt{x}} </m> won't show divergence, since <m> \frac{1}{\sqrt{x+12}} \lt \frac{1}{\sqrt{x}} </m>. 
+          </p>
+          <p>
+            Note, however, that for <m> x \geq 4 </m> we have <m> x + 12 \leq 4x </m>. (These inequalities are indeed equivalent.) So when <m> x \geq 4 </m>, we know <m> \frac{2+\cos(x)}{\sqrt{x+12}} \geq \frac{1}{\sqrt{4x}} = \frac{1}{2\sqrt{x}} > 0 </m>. Since <m> \int_{4}^{\infty}\frac{1}{2\sqrt{x}} \,dx = \frac{1}{2} \int_{4}^{\infty} \frac{1}{\sqrt{x}} \,dx </m> diverges, by the Comparison Test <m> \int_{4}^{\infty} \frac{2+\cos(x)}{\sqrt{x+12}} \,dx </m> diverges. It follows that <m> \int_{1}^{\infty} \frac{2+\cos(x)}{\sqrt{x+12}} \,dx </m> diverges as well.
+          </p>
+        </li>
+      </ol>
+    </solution>
+  </example>
+
   </subsection>
   <subsection permid="deq">
     <title>Summary</title>

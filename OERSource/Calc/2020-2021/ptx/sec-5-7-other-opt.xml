@@ -35,7 +35,7 @@
   
   <introduction permid="DDe">
     <p permid="IWR">
-      We have learned two antidifferentiation techniques:
+      We have learned two integration techniques:
       <m>u</m>-substitution and integration by parts.
       The former is used to reverse the chain rule,
       while the latter is used to reverse the product rule.
@@ -44,17 +44,10 @@
       while <m>\int \frac{2x+4}{x^2+4x+13} \, dx</m> may be evaluated by <m>u</m>-substitution and
       <m>\int x e^x \, dx</m> by integration by parts,
       neither method provides a route to evaluate <m>\int \frac{1}{x^2+4x+13} \, dx</m>.
-      Many rational functions, a quotient of two polynomials, require more powerful algebraic manipulation techniques as well as more sophisticated integration techniques. 
     </p>
-    <p> 
-      Insert paragraph about some rational expressions that trig subs helps with
-    </p>
-    <p permid="pea">
-      In this section,
-      our main goals are to identify some additional classes of functions that can be algebraically antidifferentiated,
-      and to learn some methods to do so. 
-      In Section 5.8(insert reference) we'll also recognize that there are many functions for which an algebraic formula for an antiderivative does not exist,
-      and appreciate the role that computing technology can play in finding antiderivatives of other complicated functions.
+
+    <p>
+      In this section, we'll study two new integration techniques: the method of partial fractions and trigonometric substitution. Before introducing them, we'll walk through an example to help build intuition about the techniques we've already learned, and where they might fall short.
     </p>
     
     <example xml:id="PA-5-5" permid="XEz">
@@ -163,24 +156,22 @@
       but algebraically rewriting the integrand will make it easy:
       
       <me>
-        \frac{1}{x(x-1)}= \frac{1}{x}-\frac{1}{x-1}
+        \frac{1}{x(x-1)} = \frac{1}{x}-\frac{1}{x-1}
       </me>.
       
-      Thus,
+      One can check that this equality holds by finding a common denominator for the right-hand side and simplifying. Now, integrating becomes much easier:
       
       <me>
       \int \frac{1}{x(x-1)}dx= \int\frac{1}{x}dx - \int \frac{1}{x-1}dx = \ln|x|-\ln|x-1|+C
       </me>.
       
-      The algebraic rewriting <m> \frac{1}{x(x-1)}= \frac{1}{x}-\frac{1}{x-1}</m> is called a <term>partial fraction decomposition</term>,
-      and we will use this technique throughout the section to find the integrals of rational functions.
+      The expression <m> \frac{1}{x}-\frac{1}{x-1}</m> is called a <term>partial fraction decomposition</term> of <m> \frac{1}{x(x-1)} </m>. 
+      
       </p>
       
       <p>
-      The goal of partial fractions is to reverse the process of finding a common denominator, 
-      so the method works best when the denominator can be factored into smaller degree polynomials. 
-      Let's look at another example of partial fractions.
-      A summary of the method of partial fractions and why it helps with evaluating integrals will follow these examples. 
+      A partial fraction decomposition can be thought of as reversing the process of finding a common denominator. 
+      Thus, the method works best when the denominator can be factored into smaller degree polynomials. In the examples that follow, we'll demonstrate how to find more complicated partial fraction decompositions and use them to integrate rational functions. 
     </p>
     
     <example permid="LhD">
@@ -367,7 +358,7 @@
       </solution>  
     </example> 
     <p>
-      These examples have demonstrated how to use the method of partial fraction decomposition in different situations including when the demoninator of a rational function is a product of distinct linear factors, when there is a repeated linear factor in the denominator, when there is an irreducible quadratic factor in the denominator, and when the degree of the numerator is greater than the degree of the denominator. 
+      Now that we've seen some examples, we'll give a general description of the method of partial fractions. 
       
       <assemblage>
         <title> Method of Partial Fraction Decomposition for a Rational Function <m> R(x)=\frac{P(x)}{Q(x)} </m> </title>
@@ -410,7 +401,7 @@
       </assemblage>  
     </p> 
     <p>
-      The smaller blocks, or partial fraction terms, that <m> R(x) </m> is broken into often leads to more manageable antidifferentiation.
+      The smaller blocks that <m> R(x) </m> is broken into often lead to more manageable antidifferentiation.
       For example if <m> A </m> and <m> k </m> are real numbers, then <m> \int \frac{A}{x-k} \, dx = A \ln |x-k| + C</m> by using the substitution <m> u=x-k </m>. 
       We also know the antiderivative of other common partial fractions like <m> \int \frac{A}{x^2+1} \, dx= A \arctan(x) + C </m>. 
     </p>
@@ -595,10 +586,7 @@
     <title>Trigonometric Substitutions</title>
     <idx><h>trig subs</h></idx>
     <p>
-      In the partial fraction section, we saw that this algebraic tool allowed us to break rational functions into manageable chunks, but we didn't yet have the right tool to handle indefinite integrals like <m>\int \frac{1}{x^2+4x+13} \, dx</m>. 
-      In <xref ref="E-TS-T4"> Example </xref>, we will complete the square to algebraically rewrite the integrand as <m> \frac{1}{(x+2)^2 + 9} </m>. 
-      Now, the integrand looks similar to the derivative of <m> \arctan(x+2) </m>, but we can see that this is not correct antiderivative since <m> \frac{d}{dx} [\arctan(x+2)]=\frac{1}{(x+2)^2+1}</m>. 
-      Using a substitution of a trigonometric function (<m> x=\sin(\theta) </m>, <m>x=\tan(\theta)</m>, and variations thereof) will allow us to leverage the Pythagorean Identity to find these integrals. 
+      In <xref ref="sec-5-5-substitution">Section</xref>, we saw that certain integrals could be simplified considerably by making a <m> u </m>-substitution. Here, we'll see an extension of this idea that will allow us to compute some integrals which don't immediately appear amenable to traditional substitutions. Making a substitution of the form <m> x=\sin(\theta) </m> or <m> x=\tan(\theta) </m> and applying of one of the following trigonometric identities will be our <em> modus operandi </em>.
     </p>
     
     <assemblage><title> Key Trigonometric Identities </title>
@@ -643,37 +631,50 @@
           <me> \int\frac{1}{\sqrt{1-x^2}} \, dx= \arcsin(x) + C </me>
         </p>
       </example> 
+    </p>
+    <p>
       From now on, we'll usually omit the explanation that <m> \sqrt{\cos^2(\theta)}=|\cos(\theta)|=\cos(\theta)</m> since we additionally assume that <m> -\frac{\pi}{2} \leq \theta \leq \frac{\pi}{2} </m> in order to force <m> \cos(\theta) \geq 0 </m>. It is still incredibly important so that the calculation of the antiderivative is seamless, but since we always assume that <m> -\frac{\pi}{2} \leq \theta \leq \frac{\pi}{2} </m> the same reasoning always applies. 
     </p>
     <p>
-      The style of substitution that was demonstrated in the previous example can be extended to help find more algebraic antiderivatives especially when the integrand contains <m> a^2-u^2 </m> where <m> a </m> is a real number and <m> u </m> is a variable and other methods like <m> u</m>-substitution and partial fractions have failed. The changes that will be made to the substitution are necessary so that the Pythagorean Identity can still be applied. The following examples will explore exactly what alterations should be made to the substitution <m> x=\sin(\theta) </m>.
+      The substitution demonstrated in the previous example can be generalized to situations in which the integrand contains <m> a^2-x^2 </m>, where <m> a </m> is a real number and <m> x </m> is a variable. In this case, setting <m> x = a\sin(\theta) </m> results in the simplification <m> a^{2}-x^{2} = a^{2}(1-\sin^{2}(\theta))=a^{2}\cos^{2}(\theta) </m>.  
       <example> 
         <p> 
+          In this example, we'll evaluate the definite integral <m> \int_{0}^{4} \sqrt{16-x^{2}} \,dx </m>.
           <ol label="a.">
             <li>
               <statement>
                 <p>
-                  Use a trigonometric substitution to evaluate 
-                  <me>\int \frac{1}{\sqrt{16-x^2}} \, dx</me>
+                  Use a trigonometric substitution of the form <m> x = a\sin(\theta) </m>, with <m> a </m> a real number, to find an antiderivative of  
+                  <me>\int \sqrt{16-x^{2}} \, dx.</me>
+                  Leave the antiderivative in terms of <m> \theta </m>. 
                 </p>
               </statement>
               <hint> 
-                <p> Use the substitution <m> x=4\sin(\theta) </m> with <m> -\frac{\pi}{2} \leq \theta \leq \frac{\pi}{2} </m>. How does including the factor of <m> 4 </m> affect our ability to use the Pythagorean Identity? </p>
+                <p> Use the substitution <m> x=4\sin(\theta) </m> with <m> -\frac{\pi}{2} \leq \theta \leq \frac{\pi}{2} </m>. The double angle formula <m> \cos^{2}(\theta) = \frac{1+\cos(2\theta)}{2} </m> will be useful in evaluating the integral that results from this substitution.
+                </p>
               </hint>
               <answer>
-                <p> <me>\int \frac{1}{\sqrt{16-x^2}} \, dx= \arcsin\left(\frac{x}{4}\right) + C </me></p>
+                <p> 
+                  With <m> x = 4\sin(\theta) </m>, a general antiderivative in terms of <m> \theta </m> is given by
+                <me>8\theta +4\sin(2\theta) + C </me>
+                </p>
               </answer>
               <solution>
                 <p> 
-                  Use the substitution <m> x=4\sin(\theta) </m> with <m> -\frac{\pi}{2} \leq \theta \leq \frac{\pi}{2} </m>. Then <m> x^2=16\sin^2(\theta) </m> and <m> dx=4\cos(\theta) d\theta </m>. This implies that 
+                  Use the substitution <m> x=4\sin(\theta) </m>. Then <m> x^2=16\sin^2(\theta) </m> and <m> dx=4\cos(\theta) d\theta </m>. So 
                   <md> 
-                    <mrow>\int \frac{1}{\sqrt{16-x^2}} \, dx \amp = \int \frac{4\cos(\theta)}{\sqrt{16-16\sin^2(\theta)}} \, d\theta </mrow>
-                    <mrow>\amp = \int \frac{4\cos(\theta)}{\sqrt{16(1-\sin^2(\theta))}} \, d\theta</mrow>
-                    <mrow>\amp = \int \frac{4\cos(\theta)}{\sqrt{16\cos^2(\theta)}} \, d\theta</mrow>
-                    <mrow>\amp = \int \frac{4\cos(\theta)}{4\cos(\theta)} \, d\theta</mrow>
-                    <mrow>\amp = \int 1 \, d\theta</mrow>
-                    <mrow>\amp = \theta + C</mrow>
-                    <mrow>\amp = \arcsin\left(\frac{x}{4}\right) + C</mrow>
+                    <mrow>\int \sqrt{16-x^{2}} \, dx \amp = \int \sqrt{16-16\sin^2(\theta)}\cdot 4\cos(\theta) \, d\theta </mrow>
+                    <mrow>\amp = \int \sqrt{16(1-\sin^2(\theta))}\cdot 4\cos(\theta) \, d\theta </mrow>
+                    <mrow>\amp = \int \sqrt{16\cos^2(\theta)}\cdot 4\cos(\theta) \, d\theta</mrow>
+                    <mrow>\amp = \int 4\cos(\theta) \cdot 4\cos(\theta) \, d\theta</mrow>
+                    <mrow>\amp = 16\int \cos^{2}(\theta) \, d\theta </mrow> 
+                  </md>
+                  From the hint, we may write <m> \cos^{2}(\theta) = \frac{1+\cos(2\theta)}{2} </m>. Thus,
+                  <md>
+                    <mrow> 16\int \cos^{2}(\theta) \, d\theta \amp = 16\int\frac{1+\cos(2\theta)}{2} \, d\theta </mrow>
+                    <mrow> \amp = 8 \int 1+\cos(2\theta) \,d \theta </mrow>
+                    <mrow> \amp = 8(\theta+\frac{1}{2}\sin(2\theta))+C </mrow>
+                    <mrow> \amp = 8\theta+4\sin(2\theta)+C </mrow>
                   </md>
                 </p>
               </solution>
@@ -681,34 +682,28 @@
             <li> 
               <statement>
                 <p> 
-                  It's possible to find the answer to part (a) by using some algebra, a u-sub, and the antidifferentiation rule <m> \int \frac{1}{\sqrt{1-u^2}} \, du =\arcsin(u) + C</m>. 
-                  Without using a trigonometric substitution, evaluate 
-                  <me>\int \frac{1}{\sqrt{16-x^2}} \, dx</me>
+                  Using the solution to part (a), evaluate the definite integral <m> \int_{0}^{4} \sqrt{16-x^{2}} \,dx </m> by writing the bounds of integration in terms of <m> \theta </m>.
                 </p>
               </statement>
               <hint>
-                <p> Factor out 16 from the expression inside the square root, so 
-                  <me> \sqrt{16-x^2}=\sqrt{16(1-\frac{x^2}{16})}=\sqrt{16(1-\frac{x^2}{4^2})}. </me>
+                <p> 
+                  To rewrite the bounds in terms of <m> \theta </m>, solve the equations <m> 0 = 4 \sin(\theta) </m> and <m> 4 = 4 \sin(\theta) </m> for <m> \theta \in [-\pi/2, \pi/2] </m>.
                 </p>
               </hint>
               <answer>
-                <p> <me>\int \frac{1}{\sqrt{16-x^2}} \, dx= \arcsin\left(\frac{x}{4}\right) + C </me></p>
+                <p> <me>\int_{0}^{4} \sqrt{16-x^{2}} \,dx = 4 \pi</me></p>
               </answer>
               <solution>
                 <p> 
-                  We'll factor out 16 from the expression inside the square root and continue to rearrange the denominator in preparation of using a substitution: 
-                  <md> 
-                    <mrow>\int \frac{1}{\sqrt{16-x^2}} \, dx \amp = \int \frac{1}{\sqrt{16(1-\frac{x^2}{16})}} \, dx </mrow>
-                    <mrow> \amp = \int \frac{1}{\sqrt{16(1-\frac{x^2}{4^2})}} \, dx</mrow>
-                    <mrow> \amp = \int \frac{1}{\sqrt{16(1-\frac{x^2}{4^2})}} \, dx</mrow>
-                    <mrow> \amp =\int \frac{1}{4\sqrt{1-(x/4)^2}} \, dx</mrow>
-                  </md> 
-                  Use the substitution <m> u=\frac{x}{4} </m>, <m> du= \frac{1}{4} \, dx</m>:
+                 Using <m> x = 4\sin(\theta) </m>, when <m> x = 0 </m> we must have <m> 0 = 4\sin(\theta) </m>, which implies <m> \theta = 0 </m> (recall <m> -\pi /2 \leq \theta \leq \pi/2 </m>). Similarly, when <m> x = 4 </m> we have <m> 4=4\sin(\theta) </m>, which has solution <m> \theta = \pi/2.</m>
+                </p>
+                <p> Thus, using part (a), we may write
                   <md>
-                    <mrow> \int \frac{1}{4\sqrt{1-(x/4)^2}} \, dx \amp= \int\frac{1}{\sqrt{1-u^2}} \, du</mrow>
-                    <mrow> \amp= \arcsin(u) + C</mrow>
-                    <mrow> \amp= \arcsin\left(\frac{x}{4} \right) + C</mrow>
+                    <mrow> \int_{0}^{4} \sqrt{16-x^{2}} \,dx \amp = 8\theta+4\sin(2\theta) \rvert_{0}^{\pi/2} </mrow>
+                    <mrow> \amp = 4\pi+4\sin(\pi)-(0+4\sin(0)) </mrow>
+                    <mrow> \amp = 4\pi </mrow>
                   </md>
+                  It is worth noting that the curve <m> y = \sqrt{16-x^{2}} </m> for <m>0 \leq x \leq 4 </m> is the part of the circle of radius <m> 4 </m> centered at the origin which lies in the first quadrant of the plane. The definite integral <m> \int_{0}^{4} \sqrt{16-x^{2}} \,dx </m> thus gives the area of the part of this circle which lies in the first quadrant. Since the circle in question has total area <m> 16 \pi </m> and the portion in the first quadrant compirese precisely <m> 1/4 </m> of the total area, we are assured our solution of <m> 4\pi </m> is correct.
                 </p>
               </solution>
             </li>  
@@ -749,8 +744,11 @@
           </p>
         </solution>      
       </example>
-      
-      <example>
+      <p>
+        Note that we could have also computed the integral above using a <m> u </m>-substitution and the fact that <m> \int \frac{1}{\sqrt{1-x^{2}}} \, dx = \arcsin(x)+C </m>. What is the right choice for <m> u </m> in this substitution?
+      </p>
+
+      <example xml:id = "E-TS-2">
         <statement>
           <p>
             Find the antiderivative 
@@ -790,7 +788,9 @@
       </example>  
       
     </p>
-    
+    <p>
+      We summarize the substitution <m> x = a \sin(\theta) </m> below.
+    </p>
     <assemblage> <title>Trigonometric Substitution: <m> u=a\sin(\theta) </m></title> 
       <p>
         The substitution <m> u=a\sin(\theta) </m> where <m> u </m> is some function of <m> x </m>, <m> a </m> is a real number, and <m>-\frac{\pi}{2} \leq \theta \leq \frac{\pi}{2} </m> is often helpful when the integrand contains an expression of the form <m> a^2-u^2 </m>. When this substitution is used, then <m> u^2=a^2\sin^2(\theta)</m> and after factoring out <m> a^2 </m>, the Pythagorean Identity <fn><m>1-\sin^2(\theta)=\cos^2(\theta) </m> </fn> can be used to simplify part of the integrand: 
@@ -802,13 +802,24 @@
     </assemblage>
     
     <p>
-      Another important trigonometric substitution is <m> x=\tan(\theta) </m> where <m>-\frac{\pi}{2} &lt; \theta &lt; \frac{\pi}{2}</m> <fn> Example TBA shows why we need these assumptions </fn>. This substitution can be used to show that <m> \int \frac{1}{1+x^2} \, dx= \arctan(x) + C </m>.
+      Another important trigonometric substitution is <m> x=\tan(\theta) </m> where <m>-\frac{\pi}{2} &lt; \theta &lt; \frac{\pi}{2}</m>. This substitution can be used to show that <m> \int \frac{1}{1+x^2} \, dx= \arctan(x) + C </m>.
       
       <example xml:id="E-TS-T1">
+        <statement>
         <p>
           Use the trigonometric substitution <m> x=\tan(\theta) </m> to find the antiderivative
           <me>\int \frac{1}{1+x^2} \, dx </me>.
         </p>
+      </statement>
+        <hint>
+          <p>
+            Proceed in a manner analogous to <xref ref="E-TS-1">Example</xref>.
+          </p>
+        </hint>
+        <answer>
+           <me> \int \frac{1}{1+x^2} \, dx = \arctan(x)+C </me>
+        </answer>
+        <solution>
         <p>
           When using the substitution <m> x=\tan(\theta) </m> where <m>-\frac{\pi}{2} &lt; \theta &lt; \frac{\pi}{2} </m>, we are regarding <m> x </m> as a function of <m> \theta </m>. The goal is to change the integrand to contain trigonometric functions so that a modified version of the Pythagorean Identity can be used. The version of the Pythagorean Identity we will use when simplifying after a tangent substitution is <m>\tan^2(\theta) + 1 =\sec^2(\theta) </m>. To achieve this goal, the integral will be changed to be in terms of the variable <m> \theta</m>. With this in mind, both <m> x </m> and <m> dx </m> will need to be changed. Starting from <m> x=\tan(\theta) </m>, take the derivative with respect to <m> \theta </m> to find that 
           <me> \frac{dx}{d\theta}=\sec^2(\theta) .</me>
@@ -824,77 +835,55 @@
           While we have computed an antiderivative successfully, we aren't quite done yet because the answer is not written in terms of the original variable <m> x </m>. Rearrange the substitution equation <m>x=\tan(\theta) </m> to find that <m> \theta=\arctan(x) </m> and use this to turn <m> \theta</m> back into a function of <m> x </m>. Therefore, 
           <me> \int\frac{1}{1+x^2} \, dx= \arctan(x) + C </me>
         </p>
+      </solution>
       </example>
-      The style of substitution that was demonstrated in the previous example can be extended to help find more algebraic antiderivatives especially when the integrand contains <m> a^2+u^2 </m> where <m> a </m> is a real number and <m> u </m> is a variable. The changes that will be made to the substitution are necessary so that a modified the Pythagorean Identity can still be applied. The following examples will explore exactly what alterations should be made to the substitution <m> x=\tan(\theta)</m>. 
+      <p>
+      Just as the substition <m> x = a\sin(\theta) </m> can be useful when <m> a^{2}-x^{2} </m> appears in the integrand, <m> x = a \tan(\theta) </m> may be the right substitution when dealing with terms involving <m> a^{2}+x^{2} </m>. The following examples will explore this idea.
+    </p>
       <example xml:id="E-TS-T2">
-        <ol label="a."> 
-          <li> 
             <statement>
               <p>
                 Use a trigonometric substitution to find the antiderivative 
-                <me>\int \frac{1}{16 + x^2} \, dx </me>.
+                <me>\int \frac{1}{x^{2}\sqrt{4 + x^{2}}} \, dx </me>.
               </p>
             </statement>
             <hint>
               <p>
-                Try the substitution <m> x=4\tan(\theta) </m>.
+                Try the substitution <m> x=2\tan(\theta) </m>. The integral that results from this substitution may require a <m>u</m>-substitution to compute.
               </p>
             </hint>
             <answer>
               <p>
-                <me>\int \frac{1}{16 + x^2} \, dx=\frac{1}{4}\arctan\left(\frac{x}{4} \right) + C </me>
+                <me> \int \frac{1}{x^{2}\sqrt{4 + x^{2}}} \, dx = -\frac{\sqrt{4+x^{2}}}{4x}+C.</me>
               </p>
             </answer>
             <solution>
               <p>
-                The denominator of the integrand can be written as <m> 4^2 + x^2 </m> which is why we pick the substitution <m> x=4\tan(\theta) </m>. The extra factor of <m> 4 </m> in front of <m> \tan(\theta) </m> is needed to use the modified the Pythagorean Identity in the process of simplifying the integrand. Since <m> x=4\tan(\theta) </m>, then <m> x^2=16\tan^2(\theta) </m> and <m> dx=4\sec^2(\theta) d\theta</m>. This implies that 
+                Set <m> x=2\tan(\theta) </m>, so that <m> dx=2\sec^2(\theta) d\theta</m>. Since <m> x^{2}=4\tan^{2}(\theta) </m>, we get 
                 <md> 
-                  <mrow> \int \frac{1}{16 + x^2} \, dx &amp;= \int \frac{4\sec^2(\theta)}{16 + 16\tan^2(\theta)} \, d \theta</mrow>
-                  <mrow> &amp;= 4\int \frac{\sec^2(\theta)}{16(1+\tan^2(\theta))} \, d\theta</mrow>
-                  <mrow> &amp;= \frac{4}{16}\int \frac{\sec^2(\theta)}{\sec^2(\theta)} \, d\theta</mrow>
-                  <mrow> &amp;= \frac{1}{4}\int 1 \, d\theta</mrow>
-                  <mrow> &amp;= \frac{1}{4} \theta + C</mrow>
-                  <mrow> &amp;= \frac{1}{4} \arctan\left(\frac{x}{4} \right) + C</mrow>
+                  <mrow> \int \frac{1}{x^{2}\sqrt{4 + x^2}} \, dx \amp= \int \frac{2\sec^2(\theta)}{4\tan^{2}(\theta)\sqrt{4 + 4\tan^2(\theta)}} \, d \theta</mrow>
+                  <mrow> \amp= \int \frac{2\sec^2(\theta)}{4\tan^{2}(\theta)\cdot 2\sec(\theta)} \, d \theta</mrow>
+                  <mrow> \amp= \frac{1}{4}\int \frac{\sec(\theta)}{\tan^{2}(\theta)} \, d \theta</mrow>
                 </md>
+                Since <m> \tan(\theta)=\frac{\sin(\theta)}{\cos(\theta)} </m> and <m> \sec(\theta) = \frac{1}{\cos(\theta)} </m>, we have
+                 <me> 
+                  \frac{\sec(\theta)}{\tan^{2}(\theta)}=\frac{\cos^{2}(\theta)}{\sin^{2}(\theta)}\frac{1}{\cos(\theta)}=\frac{\cos(\theta)}{\sin^{2}(\theta)}.
+                 </me>
+                 The integral <m> \frac{1}{4}\int \frac{\cos(\theta)}{\sin^{2}(\theta)}\, d\theta </m> can be evaluated via yet another substitution---this time, a <m>u</m>-substitution in which we set <m> u = \sin(\theta). </m> Then <m> du = \cos(\theta) d\theta </m>. Finally, 
+                 <md>
+                  <mrow>\frac{1}{4}\int \frac{\cos(\theta)}{\sin^{2}(\theta)}\, d\theta \amp = \frac{1}{4}\int\frac{1}{u^{2}}\,du </mrow>
+                  <mrow> \amp = -\frac{1}{4u}+C </mrow>
+                </md>
+                Substituting back for <m> u </m>, we reach <m> -\frac{1}{4u} = -\frac{1}{4\sin(\theta)}=-\frac{\csc(\theta)}{4} </m>.
               </p>
-            </solution>
-          </li>
-          <li> 
-            <statement>
-              <p> 
-                It's possible to find the answer to part (a) by using some algebra, a u-sub, and the antidifferentiation rule <m> \int \frac{1}{1+u^2} \, du=\arctan(u) + C </m>. Without using a trigonometric substitution, find the integral 
-                <me> \int \frac{1}{16 + x^2} \, dx </me>.
-              </p>
-            </statement>
-            <hint> 
               <p>
-                Factor out 16 from the denominator; in other words, <me> 16+x^2=16(1+x^2/16) </me>
-              </p>
-            </hint>
-            <answer>
-              <p> 
-                <me>\int \frac{1}{16 + x^2} \, dx=\frac{1}{4}\arctan\left(\frac{x}{4} \right) + C </me>
-              </p>
-            </answer>
-            <solution>
-              <p> 
-                Factor out 16 from the denominator and rearrange it so that it is in the form <m> a^2 + u^2 </m>: 
-                <md> 
-                  <mrow>\int \frac{1}{16+x^2} \, dx &amp;= \frac{1}{16} \int \frac{1}{1+x^2/16} \, dx</mrow>
-                  <mrow> &amp;= \frac{1}{16} \int \frac{1}{1+(x/4)^2} \, dx</mrow>
-                </md>
-                Now, we can use a substitution and the antidifferentiation rule <m> \int \frac{1}{1+u^2} \, du=\arctan(u) + C </m>. Let <m> u=\frac{x}{4}</m>, then <m> du=\frac{dx}{4} </m> and <m> 4 du=dx</m>.
-                <md> 
-                  <mrow> \frac{1}{16} \int \frac{1}{1+(x/4)^2} \, dx &amp;= \frac{1}{16} \int \frac{4}{1+u^2} \, du</mrow>
-                  <mrow> &amp;= \frac{4}{16} \arctan(u) + C</mrow>
-                  <mrow> &amp;=\frac{1}{4} \arctan(x/4) + C </mrow>
-                </md>
+                Now, one may establish a right triangle relating the angle <m> \theta </m> and the variable <m> x </m>, just as in <xref ref="E-TS-2">Example</xref>. Doing this yields <m> \sin(\theta) = \frac{x}{\sqrt{4+x^{2}}} </m>, and thus <m>-\frac{\csc(\theta)}{4} = -\frac{\sqrt{4+x^{2}}}{4x}.</m> We conclude <m> \int \frac{1}{x^{2}\sqrt{4 + x^{2}}} \, dx = -\frac{\sqrt{4+x^{2}}}{4x}+C.</m>
               </p>
             </solution>
-          </li>
-        </ol>
       </example>
-      In the following example, we'll see why it is important that we restrict <m> \theta </m> to be in the interval <m> -\frac{\pi}{2} &lt; \theta &lt; \frac{\pi}{2} </m> when we use a tangent substitution. 
+      <p>
+        In the following example, we'll see why it is important that we restrict <m> \theta </m> to be in the interval <m> -\frac{\pi}{2} &lt; \theta &lt; \frac{\pi}{2} </m> when we use a tangent substitution.
+      </p> 
       <example xml:id="E-TS-T3">
         <ol label="a.">
           <li>
@@ -971,10 +960,12 @@
           </li>
         </ol>
       </example>
+      <p>
       After using partial fraction decomposition, one of the partial fractions could have an irreducible quadratic in the denominator and a constant term in the numerator. For example, we might need to find the integral
       <me> \int \frac{1}{x^2+4x+13} \, dx.</me>
       We cannot use <m> u </m>-substitution since we would need a linear term in the numerator, and no other method of integration seems to work. 
       If we complete the square in the denominator to recognize it as <m> u^2+a^2</m> where <m> u </m> is a variable term and <m> a </m> is a real number, then a tangent substitution becomes a very promising method of integration. 
+    </p>
       <example xml:id="E-TS-T4">
         <statement>
           <p>
@@ -997,7 +988,7 @@
           <p>
             To complete the square in the denominator, we need to add and substract <m> 4 </m> so that we can factor a portion of the expression into a linear term that is squared:
             <me> \frac{1}{x^2+4x+13}=\frac{1}{x^2+4x+4-4+13}=\frac{1}{(x+2)^2+9}</me>
-            For more details on completing the square, go to INSERT REFERENCE TO PRECALC BOOK HERE :). Now, use the <m> u </m>-substitution <m> u=x+2 \ , du=dx </m>. 
+            Now, use the <m> u </m>-substitution <m> u=x+2 \ , du=dx </m>. 
             <me> \int \frac{1}{(x+2)^2+9} \, dx = \int \frac{1}{u^2+9} \, du</me>
             Use the tangent subsitution<fn>We could also factor out <m> 9 </m> from the denominator and use a substitution with <m> w=\frac{x+2}{3}</m> as demonstrated in <xref ref="E-TS-T2"> Example </xref>. </fn> <m> u=3\tan(\theta) </m>, so <m> u^2=9\tan^2(\theta) </m> and <m> du=3\sec^2(\theta) \, d\theta </m>.
             <md> 
@@ -1025,7 +1016,7 @@
     <p>
       <example xml:id="E-TS-End">
         <statement>
-          <p> Find the following antiderivatives using a trigonometric substitution and/or some careful algebra. 
+          <p> Find the following antiderivatives using a trigonometric substitution or some other method. 
             <ol label="a.">
               <li> 
                 <p> 
