@@ -21,7 +21,7 @@ git pull
 cd /var/www/html/Calculus/
 
 #Run xsltproc
-xsltproc --xinclude /var/www/html/Calculus/mfg-html.xsl /var/www/OERSource/Calc/2019-2020/index.xml 
+xsltproc --xinclude /var/www/html/Calculus/mfg-html.xsl /var/www/OERSource/Calc/2020-2021/index.xml 
 
 #Add the Google Analytics code
 perl /var/www/html/Calculus/GoogleAnalytics.pl 
