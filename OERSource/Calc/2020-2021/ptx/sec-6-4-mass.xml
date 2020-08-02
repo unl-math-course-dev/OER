@@ -341,15 +341,43 @@
       </p>
     </example>
     
-    <p permid="faH">
-      For objects whose cross-sectional area is constant and whose mass is distributed relative to horizontal 
-      location, <m>x</m>,
-      it makes sense to think of the density function <m>\rho(x)</m> with units
-      <q>mass per unit length,</q> such as g/cm.
-      Thus, when we compute <m>\rho(x) \cdot \Delta x</m> on a small slice <m>\Delta x</m>,
-      the resulting units are (g/cm) <m>\cdot</m> (cm) = g, which thus measures the mass of the slice.
-      The general principle follows.
+    <p>
+      In the example above, computing the mass of the rod was made easier by the fact that the rod had constant cross-sectional area. This meant that the volume of any thin slice was approximately
+        <me>1\text{cm}^{2} \cdot \Delta x\text{ cm} = \Delta x \text{ cm}^{3} </me>
+      indepdently of the value of <m> x </m>, which allowed us to conclude that the mass of a thin slice at <m> x </m> was approximately <m> \rho(x) \cdot \Delta x \text{ g} </m>. In general, it may be the case that the volume of our thin slices also varies with <m> x </m>. In these situations, if <m> A(x) </m> gives the area of a cross section at <m> x </m>, then the volume of a thin slice at <m> x </m> is approximately <m> A(x) \Delta x </m> and thus the mass of the slice will be approximately <m> \rho(x) \cdot A(x) \Delta x </m>. From this expression, we pass to a definite integral in the usual way to reach the following.
     </p>
+
+    <assemblage>
+      <title> Calculating Mass using a Definite Integral </title>
+      <p>
+        For an object whose mass is distributed along a single axis according to the function <m> \rho(x) </m> and whose cross-sectional area at <m> x </m> is given by the function <m> A(x) </m>, the total mass <m> M </m> of the object between <m> x = a </m> and <m> x = b </m> is 
+          <me> M = \int_{a}^{b} \rho(x) A(x) \, dx </me>
+      </p>
+    </assemblage>
+
+    <p>
+      Before embarking on an example, we require a short aside on units. The formula above implicitly assumes that the object in question is three-dimensional, since its cross sections have <em> area </em> <m> A(x) </m> and therefore its thin slices have <em> volume </em> <m> A(x) \Delta x \approx A(x)\, dx </m>. However, we can and often will consider mass and density in one- and two-dimensional settings. In these cases, cross sections don't have area, but rather they are points (in the one-dimensional case) or lengths (in the two-dimensional one). To avoid clashing with the usual convention that density is mass per unit volume, or <m> \frac{m}{V} </m>, we leave the formula above in terms of three-dimensional objects, albeit with the caveat that for some problems terms like "area" and "volume" must be interpreted in context.
+    </p>
+
+    <example>
+        <p>
+          Consider the triangle below, which has density given by <m> \rho(x) = 2x\text{ g/cm}^{2} </m> for <m> 0 \leq x \leq 4 </m>. That is, the density of the triangle along a vertical slice at <m> x </m> is <m> 2x \text{ g/cm}^{2} </m>.
+        </p>
+        <figure xml:id="triangle_mass">
+          <caption>A triangle with density function <m> \rho(x) = 2x\text{ g/cm}^{2} </m>.</caption>
+          <image width="50%" source="images/6_4_triangle_mass.png" />
+        </figure>
+        <p>
+          We'll compute the total mass <m> M </m> of the triangle using a definite integral. To accomplish this, we first find the height of a vertical cross section at <m> x </m> for <m> 0 \leq x \leq 4 </m>. The equations of the lines representing the top and bottom edges of the triangle are <m> y = -\frac{x}{2}+2 </m> and <m> y = \frac{x}{2}-2 </m>; therefore, the height of a vertical cross section at <m> x </m> is 
+            <me>-\frac{x}{2}+2 - \left(\frac{x}{2}-2\right) = -x+4. </me>
+          Thus the mass of a thin slice at <m> x </m> is 
+            <me> 2x\text{ g/cm}^{2} \cdot (-x+4) \, dx\text { cm}^{2} = 2x(-x+4) \, dx \text{ g} </me>
+          It follows that
+            <me> M = \int_{0}^{4}2x(-x+4) \,dx </me>
+          which evaluates to <m> \frac{64}{3}\text{ g} </m>.
+        </p>
+    </example>
+    
     
     <assemblage permid="KxW">
       <title> Calculating Mass using a Definite Integral </title>
@@ -389,7 +417,7 @@
               </p>
               
               <p>
-                Picture with the center of its base at the origin and think of the cone as a solid of revolution.
+                Picture the cone with the center of its base at the origin and think of the cone as a solid of revolution.
                 
                 <ol label="i." permid="CHy">
                   <li permid="KlX">
