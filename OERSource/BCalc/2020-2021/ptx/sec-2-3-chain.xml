@@ -1,0 +1,1282 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!-- **********************************************************************-->
+<!-- Copyright 2019                                                        -->
+<!-- UNL Department of Mathematics                                         -->
+<!-- Based upon the work of                                                -->
+<!-- Matthew Boelkins                                                      -->
+<!-- Copyright 2012-2018                                                   -->
+<!--                                                                       -->
+<!-- This file is part of Coordinated Calculus.                            -->
+<!-- This file is based on Active Calculus.                                -->
+<!--                                                                       -->
+<!-- Permission is granted to copy, distribute and/or modify this document -->
+<!-- under the terms of the Creative Commons BY-SA license.  The work      -->
+<!-- may be used for free by any party so long as attribution is given to  -->
+<!-- the author(s), the work and its derivatives are used in the spirit of -->
+<!-- "share and share alike".  All trademarks are the registered marks of  -->
+<!-- their respective owners.                                              -->
+<!-- **********************************************************************-->
+<section xmlns:xi="http://www.w3.org/2001/XInclude" xml:id="sec-2-5-chain" permid="omc">
+  <title>The Chain Rule</title>
+  <objectives permid="CpH">
+    <ul permid="zvb">
+      <li permid="LJt">
+        <p permid="kmd">
+          What is a composite function and how do we recognize its structure algebraically?
+        </p>
+      </li>
+
+      <li permid="rQC">
+        <p permid="Qtm">
+          Given a composite function
+          <m>C(x) = f(g(x))</m> that is built from differentiable functions <m>f</m> and <m>g</m>,
+          how do we compute <m>C'(x)</m> in terms of <m>f</m>,
+          <m>g</m>, <m>f'</m>, and <m>g'</m>?
+          What is the statement of the Chain Rule?
+        </p>
+      </li>
+    </ul>
+  </objectives>
+
+  <introduction permid="ODZ">
+    <p permid="AeV">
+
+In this section we will consider composite functions. </p>
+</introduction>
+
+<subsection><title>Composition of Functions</title>
+<p>
+   We encounter composite functions in the real world every day. As an example, suppose you and some friends are driving from Lincoln, NE to Omaha, NE. Once you arrive in Omaha you drive around the city to see all the beautiful sites. We know that Omaha is 60 miles away from Lincoln, and for each hour spent in Omaha, you drive an additional 5 miles. Then the function
+   <me>
+       m(x)=60+5x
+       </me>
+   represents the miles traveled if you and your friends spend <m>x</m> hours in Omaha.
+    </p>
+
+<p>
+    Now, suppose gas for your vehicle costs $0.15 per mile. We can represent this knowledge with the function
+    <me>
+        c(m)=.15m
+        </me>
+    where <m>m</m> is in miles. If we want to know how much you and your friends will spend on gas during your trip if you spend <m>x</m> hours in Omaha, we can now use these two functions we created. If you spend <m>x</m> hours in Omaha, you will have traveled <m>60+5x</m> miles. The cost of gas is <m>.15m</m> where <m>m</m> is miles. Then we need only replace <m>m</m> by <m>60+5x</m> to get
+    <me>
+        .15(60+5x)
+        </me>
+    as the cost of gas if you spend <m>x</m> hours in Omaha.
+    </p>
+
+<p>
+    In function notation, we write this as follows:
+    
+    <me>
+        c(f(x))=.15f(x)=.15(60+5x).
+        </me>
+    Here we are evaluating the function <m> c(m)</m> at the value <m>f(x)</m> since <m> f(x)</m> is the number of miles traveled. The function <m> c(f(x))</m> is called a <term>composite function</term><idx>piecewise</idx>, or a composition of functions.
+    </p>
+
+
+
+
+<example><statement>
+<p>Given the functions <m> f(x)=x^2-2x </m> and <m> g(x)=.5 x</m>, identify the function <m> f(g(x))</m> and find the value of <m> f(g(1))</m>.
+</p>
+</statement>
+<solution>
+<p>
+    First, let's find the function <m> f(g(x))</m>. To identify this function, we are plugging in <m> .5x</m> for <m>x</m> in the function <m> f(x)=x^2-2x</m>. We get the function
+    <me>
+        f(g(x))=f(.5x)=(.5x)^2-2(.5x)=.25x^2-x.
+        </me>
+    </p>
+<p>
+    Now, to find the value <m> f(g(1))</m> we simply evaluate the function <m> f(g(x))</m> at <m>1</m>. We have
+<me>
+    f(g(1))=.25(1)^2-1=.25-1=-.75.
+    </me>
+</p>
+</solution>
+</example>
+
+
+
+
+
+<p>
+    Looking back at our first example, from the functions <m> m(x)=60+5x</m> and <m> c(m)=.15m</m> we created the new function
+    <me>
+        c(m(x))=.15(60+5x).
+        </me>
+    Notice that this composition of functions, <m> c(m(x))</m>, has time in hours as its input and cost as its output.
+    </p>
+
+<p>
+    In general, given two functions <m> f(x)</m> and <m> g(x)</m>, the composition <m> f(g(x))</m> has the same input as <m> g </m>, but has the same output as <m> f </m>.
+    </p>
+
+<assemblage><title> Composing Functions</title>
+    <p>
+    Given two functions <m> f(x)</m> and <m> g(x)</m>, the composition <m> f(g(x))</m> has the same input as <m> g </m>, but has the same output as <m> f </m>.
+</p>
+    </assemblage>
+
+</subsection>
+
+
+
+
+
+<subsection>
+    <p permid="AeV">
+First let us consider why we need another derivative rule.
+<example xml:id="Chain-1" permid="vLx">
+<statement>
+  <p permid="PEo">
+    Consider the function  
+   <me permid="LnU">
+        f(x) = (x^2+3x)^2
+      </me>,
+     in order to take the derivative we would have to rewrite this as a product of two functions:
+   <me permid="LnU">
+        f(x) = (x^2+3x)^2=(x^2+3x)(x^2+3x)
+      </me>,
+and then use the product rule to find the derivative
+<me permid="LnU">
+        f'(x) = (2x+3)(x^2+3x)+(x^2+3x)(2x+3)=2(x^2+3x)(2x+3)
+      </me>.
+  </p>
+</statement>
+</example>
+When we have a composite function we could try to rewrite as we did in <xref ref="Chain-1">Example</xref>; however, often this is very hard. For example:
+<me permid="LnU">
+        r(x) = (x^2+3x)^{70}
+      </me>,
+we would not want to factor 70 times, or apply the product rule to the product of 70 functions. We need a rule for finding the derivative of composite functions <em>without</em> using algebra to rewrite.
+    </p>
+
+
+  </subsection>
+
+  <subsection permid="Utl">
+    <title>The Chain Rule</title>
+
+    <p permid="sVV">
+    <assemblage xml:id="chain-rule">
+      <title>Chain Rule</title>
+      <p permid="pFQ">
+            <idx><h>chain rule</h></idx>
+            <idx><h>derivative</h><h>chain rule</h></idx>
+        If <m>g</m> is differentiable at <m>x</m> and <m>f</m> is differentiable at <m>g(x)</m>,
+        then the composite function <m>C</m> defined by
+        <m>C(x) = f(g(x))</m> is differentiable at <m>x</m> and
+        <me permid="oAx">
+          C'(x) = f'(g(x)) g'(x)
+        </me>.
+      </p>
+    </assemblage>
+    </p>
+    
+
+    <p permid="VMZ">
+      As with the product and quotient rules,
+      it is often helpful to think verbally about what the chain rule says:
+      <q>If <m>C</m> is a composite function defined by an outer function <m>f</m> and an inner function <m>g</m>,
+      then <m>C'</m> is given by the derivative of the outer function
+      evaluated at the inner function,
+      times the derivative of the inner function.</q>
+    </p>
+
+    <p permid="BUi">
+      It is helpful to clearly identify the inner function <m>g</m> and outer function <m>f</m>,
+      compute their derivatives individually,
+      and then put all of the pieces together by the chain rule.
+    </p>
+
+    <example permid="lrw">
+      <statement>
+        <p permid="vvc">
+          Use the chain rule to determine the derivative of the function
+          <me permid="UHG">
+            r(x) = (x^2+3x)^{70}
+          </me>.
+First we want to identify an inside function. Here the inside function is:
+          <me permid="UHG">
+           \text{inside function=} g(x) = x^2+3x
+          </me>.
+Once you have found an inside function, what is left is the outside function, here:
+          <me permid="UHG">
+            \text{outside function= }f(x) = x^{70}          </me>.
+Then we apply the chain rule by taking the derivative of the outside function, with the inside unchanged, then multiply by the derivative of the inside:
+          <me permid="UHG">
+           r'(x)=70(x^2+3x)^{69}(2x+3)
+          </me>.
+
+
+        </p>
+      </statement>
+    </example>
+
+
+<example xml:id="act-2-5-1" permid="GFk">
+  <statement>
+    <p permid="Rep">
+      For each function given below,
+      identify an inner function <m>g</m> and outer function <m>f</m> to write the function in the form <m>f(g(x))</m>.
+      Determine <m>f'(x)</m>, <m>g'(x)</m>, and <m>f'(g(x))</m>,
+      and then apply the chain rule to determine the derivative of the given function.
+
+      <ol label="a." cols="2" permid="HaJ">
+        <li permid="nhS">
+          <p permid="FVq">
+            <m>\displaystyle h(x) = (2x^2+5x)^4</m>
+          </p>
+        </li>
+
+ <li permid="nhS">
+          <p permid="FVq">
+            <m>\displaystyle g(x) = 3(x^3+4x)^9</m>
+          </p>
+        </li>
+
+        <li permid="Tpb">
+          <p permid="mcz">
+            <m>\displaystyle p(x) = \sqrt{ 5x^2+7x+2}</m>
+          </p>
+        </li>
+
+        <li permid="zwk">
+          <p permid="SjI">
+            <m>\displaystyle s(x) = \frac{2}{(x^3+5)^2}</m>
+          </p>
+        </li>
+
+        <li permid="fDt">
+          <p permid="yqR">
+            <m>\displaystyle z(x) = \frac{1}{\sqrt{x^2+4}}</m>
+          </p>
+        </li>
+
+      </ol>
+    </p>
+  </statement>
+  <answer permid="CqQ">
+    <p permid="EPX">
+      <ol label="a." permid="uMr">
+        <li permid="wBE">
+          <p permid="Ppc">
+            <m> \displaystyle h'(x) = 4(2x^2+5x)^3(4x+5)</m>.
+          </p>
+        </li>
+
+        <li permid="cIN">
+          <p permid="vwl">
+            <m> \displaystyle  g'(x) = 27(x^3+4x)^8(3x^2+4x)</m>.
+          </p>
+        </li>
+
+        <li permid="IPW">
+          <p permid="bDu">
+            <m>\displaystyle  p'(x) = \frac12(5x^2+7x+2)^{-1/2}(10x+7)=\frac{10x+7}{2\sqrt{5x^2+7x+2}}</m>.
+          </p>
+        </li>
+
+        <li permid="oXf">
+          <p permid="HKD">
+            <m>\displaystyle  s'(x) = -4(x^3+5)^{-3}(3x^2)=\frac{-12x^2}{(x^3+5)^3}</m>.
+          </p>
+        </li>
+
+        <li permid="Veo">
+          <p permid="nRM">
+            <m> \displaystyle  z'(x) = \frac{-1}{2}(x^2+4)^{-3/2}(2x)=\frac{-x}{(x^2+4)^{3/2}}</m>.
+          </p>
+        </li>
+      </ol>
+    </p>
+  </answer>
+  <solution permid="WjH">
+    <p permid="YIO">
+      <ol label="a." permid="OFi">
+        <li permid="Blx">
+          <p permid="TYV">
+            The outer function is <m>f(x) = x^4</m>
+            while the inner function is <m>g(x) = 2x^2+5x</m>. We know that
+            <me permid="xly">
+              f'(x) = 4x^3,
+              g'(x) =4x+5
+            </me>.
+            Hence by the chain rule,
+            <me permid="dsH">
+              h'(x) = f'(g(x))g'(x) =  4(2x^2+5x)^3(4x+5)
+            </me>.
+          </p>
+        </li>
+
+        <li permid="hsG">
+          <p permid="Age">
+            The outer function is <m>f(x) = 3x^9</m>
+            and the inner function is <m>g(x) = x^3+4x</m>.
+            We know that
+            <me permid="JzQ">
+              f'(x) = 27x^8, g'(x) = 3x^2+4
+          </me>.
+            Thus by the chain rule,
+            <me permid="pGZ">
+              h'(x) = f'(g(x))g'(x) =  27(x^3+4x)^8(3x^2+4)
+            </me>.
+          </p>
+        </li>
+
+        <li permid="NzP">
+          <p permid="gnn">
+            The outer function is <m>f(x) = \sqrt{x}=x^{1/2}</m>
+            while the inner function is <m>g(x) = 5x^2+7x+2</m>.
+            We know that
+            <me permid="VOi">
+              f'(x) = \frac{1}{2}x^{-1/2},
+              g'(x) = 10x+7
+            </me>.
+            Thus by the chain rule,
+            <me permid="BVr">
+              p'(x) = f'(g(x))g'(x) = \frac12(5x^2+7x+2)^{-1/2}(10x+7)=\frac{10x+7}{2\sqrt{5x^2+7x+2}}
+            </me>.
+          </p>
+        </li>
+
+        <li permid="tGY">
+          <p permid="Muw">  
+            The outer function is <m>\displaystyle f(x) =\frac{2}{x^2}=2x^{-2}</m>
+            and the inner function is <m>g(x) = x^3+5</m>.
+            We know that
+            <me permid="icA">
+              s'(x) = -4x^{-3}=\frac{-4}{x^3}, g'(x) = 3x^2
+            </me>.
+            Hence by the chain rule,
+            <me permid="OjJ">
+              h'(x) = f'(g(x))g'(x) = -4(x^3+5)^{-3}(3x^2)=\frac{-12x^2}{(x^3+5)^3}
+            </me>.
+          </p>
+        </li>
+
+        <li permid="ZOh">
+          <p permid="sBF">
+            The outer function is <m>\displaystyle f(x) = \frac{1}{\sqrt{x}}=x^{-1/2}</m>
+            and the inner function is <m>g(x) = x^2+4</m>.
+            We know that
+            <me permid="uqS">
+              f'(x) = \frac{-1}{2}x^{-3/2}=\frac{-1}{2x^{3/2}}, g'(x) =2x
+            </me>.
+            Hence by the chain rule,
+            <me permid="ayb">
+              z'(x) = f'(g(x))g'(x) = \frac{-1}{2}(x^2+4)^{-3/2}(2x)=\frac{-x}{(x^2+4)^{3/2}}
+            </me>.
+          </p>
+        </li>
+      </ol>
+    </p>
+  </solution>
+</example>
+  </subsection>
+
+  <subsection permid="AAu">
+    <title>Using Multiple Rules Simultaneously</title>
+    <p permid="OiA">
+      The chain rule now joins the sum,
+      constant multiple, product,
+      and quotient rules in our collection of techniques for finding the derivative of a function through understanding its algebraic structure and the basic functions that constitute it.
+      It takes practice to get comfortable applying multiple rules to differentiate a single function, but
+      using proper notation and taking a few extra steps will help.
+    </p>
+
+    <example permid="xFO">
+
+        <p permid="bCl">
+          Find a formula for the derivative of <m>h(t) = \sqrt{t^2 + 2t}(3t^4+6t)^5</m>.
+        </p>
+
+        <p permid="mbq">
+          We first observe that <m>h</m> is the product of two functions:
+          <m>h(t) = a(t) \cdot b(t)</m>, where
+          <m>a(t) = \sqrt{t^2 + 2t}</m> and <m>b(t) = (3t^4+6t)^5</m>.
+          We will need to use the product rule to differentiate <m>h</m>.
+          And because <m>a</m> and <m>b</m> are composite functions,
+          we will also need
+          the chain rule.
+          We therefore begin by computing <m>a'(t)</m> and <m>b'(t)</m>.
+        </p>
+
+        <p permid="Siz">
+          Writing <m>a(t) = f(g(t)) = \sqrt{t^2+2t}</m>
+          and finding the derivatives of <m>f</m> and <m>g</m> with respect to <m>t</m>, we have
+        </p>
+
+        <sidebyside permid="dMX">
+
+          <tabular permid="WwT">
+            <row>
+              <cell><m>f(t) = \sqrt{t}</m>,</cell>
+              <cell></cell>
+              <cell><m>g(t) = t^2 + 2t</m>,</cell>
+            </row>
+            <row>
+              <cell><m>f'(t) = \frac{1}{2}t^{-1/2}</m>,</cell>
+              <cell></cell>
+              <cell><m>g'(t) = 2t+2</m>,</cell>
+            </row>
+            <row>
+              <cell><m>f'(g(t)) = \frac{1}{2(t^2+2t)^{1/2}}</m>.</cell>
+              <cell></cell>
+              <cell></cell>
+            </row>
+          </tabular>
+
+        </sidebyside>
+
+        <p permid="ypI">
+          Thus by the chain rule,
+          it follows that 
+          <me>a'(t) = f'(g(t))g'(t) = \frac{1}{2(t^2+2t)^{1/2}} (2t+2)=\frac{t+1}{\sqrt{t^2+2t}}</me>.
+        </p>
+
+        <p permid="ewR">
+          Turning next to the function <m>b</m>,
+          we write <m>b(t) = r(s(t)) = (3t^2+6t)^5 </m> and find the derivatives of <m>r</m> and <m>s</m>
+          with respect to <m>t</m>.
+        </p>
+
+        <sidebyside permid="JUg">
+
+          <tabular permid="CEc">
+            <row>
+              <cell><m>r(t) = t^5</m>,</cell>
+              <cell></cell>
+              <cell><m>s(t) = 3t^2+6t </m>,</cell>
+            </row>
+            <row>
+              <cell><m>r'(t) = 5t^4</m>,</cell>
+              <cell></cell>
+              <cell><m>s'(t) = 6t+6</m>,</cell>
+            </row>
+            <row>
+              <cell><m>r'(s(t)) = 5(3t^2+6t)^4</m>.</cell>
+              <cell></cell>
+              <cell></cell>
+            </row>
+          </tabular>
+
+        </sidebyside>
+
+        <p permid="KEa">
+          By the chain rule,
+          <me permid="gVY">
+            <mrow> b'(t) = r'(s(t))s'(t) </mrow>
+			<mrow> 5(3t^2+6t)^4(6t+6) </mrow>
+          </me>
+        </p>
+
+        <p permid="qLj">
+          Now we are finally ready to compute the derivative of the function <m>h</m>.
+          Recalling that <m>h(t) = \sqrt{t^2 + 2t}(3t^4+6t)^5</m>,
+          by the product rule we have
+          <me permid="Ndh">
+            h'(t) =  \frac{d}{dt}\left[\sqrt{t^2 + 2t}\right](3t^4+6t)^5+\sqrt{t^2 + 2t} \frac{d}{dt}\left[(3t^4+6t)^5\right] 
+          </me>.
+        </p>
+
+        <p permid="WSs">
+          From our work above with <m>a</m> and <m>b</m>,
+          we know the derivatives of
+          <m>\sqrt{t^2 + 2t}</m> and <m>(3t^4+6t)^5</m>. Therefore
+          <me permid="tkq">
+            h'(t) =\frac{t+1}{\sqrt{t^2+2t}}(3t^4+6t)^5  + \sqrt{t^2 + 2t} 5(3t^2+6t)^4(6t+6) 
+          </me>.
+        </p>
+<p>
+The above calculation may seem tedious.  However, by breaking the function down into small parts and calculating derivatives of those parts separately, we are able to accurately calculate the derivative of the entire function.
+</p>
+    </example>
+
+<example xml:id="act-2-5-2" permid="eMv">
+  <statement>
+    <p permid="hHb">
+      Differentiate each of the following functions.
+      State the rule(s) you use, label relevant derivatives appropriately,
+      and be sure to clearly identify your overall answer.
+
+      <ol label="a." cols="2" permid="XDv">
+        <li permid="DKE">
+          <p permid="Wyc">
+            <m>p(x) = 4x^2\sqrt{x^6 + 2x}</m>
+          </p>
+        </li>
+
+        <li permid="jRN">
+          <p permid="CFl">
+            <m>\displaystyle m(x) = \frac{x}{(x^2+2)^2}</m>
+          </p>
+        </li>
+
+        <li permid="PYW">
+          <p permid="iMu">
+            <m>\displaystyle h(x) = \frac{\sqrt{3x^2+5x}}{4x+3}</m>
+          </p>
+        </li>
+
+        <li permid="cno">
+          <p permid="vaM">
+            <m>c(x) = 4(x^4+5x)^7(7x^3+5x)^5</m>
+          </p>
+        </li>
+      </ol>
+    </p>
+  </statement>
+  <answer permid="STC">
+    <p permid="VsJ">
+      <ol label="a." permid="Lpd">
+        <li permid="Neq">
+          <p permid="fRO">
+                        <m> p'(x) = 8x\sqrt{x^6+2x}+4x^2\frac{3x^5+1}{\sqrt{x^6+2x}}</m>.
+          </p>
+        </li>
+
+        <li permid="tlz">
+          <p permid="LYX">
+                        <m> m'(x) =  \frac{(x^2+2)^2-x2(x^2+2)(2x)}{(x^2+2)^4}</m>.
+          </p>
+        </li>
+
+        <li permid="ZsI">
+          <p permid="sgg">
+                        <m> m'(x) = \frac{0.5(3x^2+5x)^{-1/2}(6x+5)(4x+3)-\sqrt{3x^2+5x}(4)}{(4x+3)^2}</m>.
+          </p>
+        </li>
+
+        <li permid="FzR">
+          <p permid="Ynp">
+                        <m> h'(x) = [28(x^4+5x)^6(4x^3+5)](7x^3+5x)^5+4(x^4+5x)^7[5(7x^3+5x)^4(21x^2+5)]</m>.
+          </p>
+        </li>
+
+      </ol>
+    </p>
+  </answer>
+  <solution permid="mMt">
+    <p permid="plA">
+      <ol label="a." permid="fhU">
+        <li permid="ROj">
+          <p permid="kBH">
+            By the product rule,
+                        <me>\displaystyle p'(x) = \frac{d}{dx}\left[4x^2\right]\sqrt{x^6 + 2x}+4x^2\frac{d}{dx}\left[\sqrt{x^6 + 2x}\right]</me>.
+            Using the chain rule to complete the second derivative as
+            <me permid="NOk">
+\frac{d}{dx}\left[\sqrt{x^6 + 2x}\right]=\frac{1}{2}(x^6+2x)^{-1/2}(6x^5+2)=\frac{3x^5+1}{\sqrt{x^6+2x}}
+</me>.
+Then put together, we see that
+            <me permid="NOk">
+              p'(x) = 8x\sqrt{x^6+2x}+4x^2\frac{3x^5+1}{\sqrt{x^6+2x}}
+            </me>.
+          </p>
+        </li>
+
+        <li permid="xVs">
+          <p permid="QIQ">
+            Observe that by the quotient rule,
+            <me>\displaystyle m'(x) = \frac{\frac{d}{dx}\left[x\right](x^2+2)^2-x\frac{d}{dx}\left[(x^2+2)^2\right]}{((x^2+2)^2)^2}</me>.
+            Applying the chain rule to differentiate
+            <me permid="NOk">
+\frac{d}{dx}\left[(x^2+2)^2\right]=2(x^2+2)(2x)
+</me>
+Then put together, we see that
+            <me permid="NOk">
+                      m'(x) =  \frac{(x^2+2)^2-x2(x^2+2)(2x)}{(x^2+2)^4}</me>.
+ </p>
+        </li>
+
+        <li permid="ecB">
+          <p permid="wPZ"> 
+            By the quotient rule,
+            <me permid="acC">
+              h'(y) = \frac{\frac{d}{dx}[\sqrt{3x^2+5x}](4x+3) - \sqrt{3x^2+5x} \frac{d}{dx}[(4x+3)]}{(4x+3)^2}
+            </me>.
+            Applying the chain rule to differentiate
+            <me permid="NOk">
+\frac{d}{dx}[\sqrt{3x^2+5x}]=\frac12(3x^2+5x)^{-1/2}(6x+5)=\frac{6x+5}{2\sqrt{3x^2+5x}}
+</me>, it follows that
+            <me permid="GjL">
+              h'(x) =\frac{0.5(3x^2+5x)^{-1/2}(6x+5)(4x+3)-\sqrt{3x^2+5x}(4)}{(4x+3)^2}
+            </me>.
+          </p>
+        </li>
+
+        <li permid="KjK">
+          <p permid="cXi">
+By the product rule
+            <me permid="GjL">
+         h'(x)=\frac{d}{dx}\left[4(x^4+5x)^7\right](7x^3+5x)^5+4(x^4+5x)^7\frac{d}{dx}\left[(7x^3+5x)^5\right]
+</me>.
+Use the chain rule to find each derivative:
+<me permid="GjL">
+\frac{d}{dx}\left[4(x^4+5x)^7\right]=28(x^4+5x)^6(4x^3+5)
+</me> 
+and
+<me permid="GjL">
+\frac{d}{dx}\left[(7x^3+5x)^5\right]=5(7x^3+5x)^4(21x^2+5)
+</me>.
+
+             Then with the product rule, we find that
+            <me permid="mqU">
+ h'(x) = [28(x^4+5x)^6(4x^3+5)](7x^3+5x)^5+4(x^4+5x)^7[5(7x^3+5x)^4(21x^2+5)]
+            </me>.
+          </p>
+        </li>
+
+             </ol>
+    </p>
+  </solution>
+</example>
+
+    <p permid="upJ">
+      The chain rule now adds substantially to our ability to compute derivatives.
+      Whether we are finding the equation of the tangent line to a curve,
+      the instantaneous velocity of a moving particle,
+      or the instantaneous rate of change of a certain quantity,
+      the chain rule is indispensable
+      if the function under consideration is a composition.
+    </p>
+
+<example xml:id="act-2-5-3" permid="NsL">
+  <statement>
+    <p permid="cBJ">
+      Use known derivative rules (including the chain rule)
+      as needed to answer each of the following questions.
+
+      <ol label="a." permid="vKG">
+        <li permid="bRP">
+          <p permid="pVu">
+            Find an equation for the tangent line to the curve
+            <m>y= \sqrt{x^3 +x+ 4}</m> at the point where <m>x=0</m>.
+          </p>
+        </li>
+
+        <li permid="HYY">
+          <p permid="WcD">
+            If <m>\displaystyle s(t) = \frac{1}{(t^2+1)^3}</m> represents the position function of a particle moving horizontally along an axis at time <m>t</m>
+            (where <m>s</m> is measured in inches and <m>t</m> in seconds),
+            find the particle's instantaneous velocity at <m>t=1</m>.
+            Is the particle moving to the left or right at that instant?<fn>
+            You may assume that this axis is like a number line, with <q>left</q> being
+            the negative direction, and <q>right</q> being the positive direction.</fn>
+          </p>
+        </li>
+
+      </ol>
+    </p>
+  </statement>
+  <answer permid="raN">
+    <p permid="Qnr">
+      <ol label="a." permid="jwo">
+        <li permid="YXj">
+          <p permid="ThX">
+            <m> y - 2 = \frac{1}{4}(x-0)</m>.
+          </p>
+        </li>
+        
+        
+                <li permid="xzT">
+          <p permid="rKH">
+            <m>s'(1) = -\frac{3}{8}</m> inches per second,
+            so the particle is moving left at the instant <m>t = 1</m>.
+          </p>
+        </li>
+
+      </ol>
+    </p>
+  </answer>
+  <solution permid="KTE">
+    <p permid="kgi">
+      <ol label="a." permid="Dpf">
+        <li permid="RsK">
+          <p permid="LDy">
+            Let <m>f(x) = \sqrt{x^3 + 4}</m>.
+            By the chain rule, <m>\displaystyle f'(x) = \frac{1}{2} (x^3+x+4)^{-1/2}(3x^2+1)</m>,
+            and thus <m>f'(0) = \frac{1}{4}</m>.
+            Note further that <m>f(0) = \sqrt{4} = 2</m>.
+            The tangent line is therefore the line through <m>(0,2)</m> with slope <m>\frac{1}{4}</m>, which is
+            <me permid="IIS">
+              y - 2 = \frac{1}{4}(x-0)
+            </me>.
+          </p>
+        </li>
+
+        <li permid="xzT">
+          <p permid="rKH">
+            Observe that <m>s(t) = (t^2 + 1)^{-3}</m>,
+            and thus by the chain rule,
+            <m>s'(t) = -3(t^2 + 1)^{-4}(2t)</m>.
+            We therefore see that <m>s'(1) = -\frac{6}{16} = -\frac{3}{8}</m> inches per second,
+            so the particle is moving left at the instant <m>t = 1</m>.
+          </p>
+        </li>
+
+      </ol>
+    </p>
+  </solution>
+</example>
+  </subsection>
+  <subsection permid="MOM">
+    <title>Summary</title>
+    <p permid="mLk">
+      <ul permid="fCk">
+
+        <li permid="EeU">
+          <p permid="cHE">
+            Given a composite function
+            <m>C(x) = f(g(x))</m> where <m>f</m> and <m>g</m> are differentiable functions,
+            the chain rule tells us that
+            <me permid="KiB">
+              C'(x) = f'(g(x)) g'(x)
+            </me>.
+          </p>
+        </li>
+      </ul>
+    </p>
+  </subsection>
+
+<exercises xmlns:xi="http://www.w3.org/2001/XInclude"> 
+
+  <exercise xml:id="ez-2-5-WW1" permid="Foa">
+    <title>Mixing rules:  chain, product, sum</title>
+    <webwork source="Library/Michigan/Chap3Sec4/Q11.pg" />
+  </exercise>
+
+  <exercise xml:id="ez-2-5-WW2" permid="lvj">
+    <title>Mixing rules:  chain and product</title>
+    <webwork source="Library/Michigan/Chap3Sec4/Q19.pg" />
+  </exercise>
+
+  <exercise xml:id="ez-2-5-WW3" permid="RCs">
+    <title>Using the chain rule repeatedly</title>
+    <webwork source="Library/Michigan/Chap3Sec4/Q45.pg" />
+  </exercise>
+
+  <exercise xml:id="ez-2-5-WW4" permid="xJB">
+    <title>Derivative involving arbitrary constants <m>a</m> and <m>b</m></title>
+    <webwork source="Library/Michigan/Chap3Sec4/Q51.pg" />
+  </exercise>
+
+  <exercise xml:id="ez-2-5-WW5" permid="dQK">
+    <title>Chain rule with graphs</title>
+    <webwork source="Library/Michigan/Chap3Sec4/Q53.pg" />
+  </exercise>
+
+  <exercise xml:id="ez-2-5-WW6" permid="JXT">
+    <title>Chain rule with function values</title>
+    <webwork source="Library/Michigan/Chap3Sec4/Q71.pg" />
+  </exercise>
+
+  <exercise xml:id="ez-2-5-WW7" permid="qfc">
+    <title>A product involving a composite function</title>
+    <webwork source="Library/Michigan/Chap3Sec5/Q21.pg" />
+  </exercise>
+
+  <exercise permid="Wml">
+  <title>Using the chain rule to compare composite functions</title>
+    <statement>
+      <p permid="bUt">
+        Consider the basic functions
+        <m>f(x) = x^3</m> and <m>g(x) = \sin(x)</m>.
+
+        <ol label="a." permid="oZJ">
+          <li permid="NCt">
+            <p permid="wiJ">
+              Let <m>h(x) = f(g(x))</m>.
+              Find the exact instantaneous rate of change of <m>h</m> at the point where <m>x = \frac{\pi}{4}</m>.
+            </p>
+          </li>
+
+          <li permid="tJC">
+            <p permid="cpS">
+              Which function is changing most rapidly at <m>x = 0.25</m>:
+              <m>h(x) = f(g(x))</m> or <m>r(x) = g(f(x))</m>?
+              Why?
+            </p>
+          </li>
+
+          <li permid="ZQL">
+            <p permid="Ixb">
+              Let <m>h(x) = f(g(x))</m> and <m>r(x) = g(f(x))</m>.
+              Which of these functions has a derivative that is periodic?
+              Why?
+            </p>
+          </li>
+        </ol>
+      </p>
+    </statement>
+    <answer permid="aWe">
+      <p permid="DrJ">
+        <ol label="a." permid="QwZ">
+          <li permid="FXU">
+            <p permid="oEk">
+              <m>h'\left( \frac{\pi}{4} \right) = \frac{3}{2\sqrt{2}}</m>.
+            </p>
+          </li>
+
+          <li permid="mfd">
+            <p permid="ULt">
+              <m>r'(0.25) = \cos(0.25^3) \cdot 3(0.25)^2 \approx 0.1875 \gt h'(0.25) = 3\sin^2(0.25) \cdot \cos(0.25) \approx 0.1779</m>;
+              <m>r</m> is changing more rapidly.
+            </p>
+          </li>
+
+          <li permid="Smm">
+            <p permid="ASC">
+              <m>h'(x)</m> is periodic; <m>r'(x)</m> is not.
+            </p>
+          </li>
+        </ol>
+      </p>
+    </answer>
+    <solution permid="uOV">
+      <p permid="eOZ">
+        <ol label="a." permid="rUp">
+          <li permid="ytv">
+            <p permid="gZL">
+              Since <m>h(x) = f(g(x))</m>,
+              by the chain rule we know that <m>h'(x) = f'(g(x)) \cdot g'(x)</m>.
+              Using the facts that <m>f(x)=x^3</m> and <m>g(x) = \sin(x)</m>,
+              it follows <m>f'(x) = 3x^2</m> and <m>f'(g(x)) = 3\sin^2(x)</m>,
+              and <m>g'(x) = \cos(x)</m>.
+              Therefore,
+              <me permid="MLv">
+                h'(x) = 3\sin^2(x) \cdot \cos(x)
+              </me>
+              and <m>h'\left( \frac{\pi}{4} \right) = 3 \left( \frac{1}{\sqrt{2}} \right)^2 \cdot \frac{1}{\sqrt{2}} = \frac{3}{2\sqrt{2}}</m>.
+            </p>
+          </li>
+
+          <li permid="eAE">
+            <p permid="NgU">
+              Note that <m>r'(x) = g'(f(x)) \cdot f'(x) = \cos(x^3) \cdot 3x^2</m>.
+              Thus, we have <m>r'(0.25) = \cos(0.25^3) \cdot 3(0.25)^2 \approx 0.1875</m>,
+              while using our work from (a),
+              <m>h'(0.25) = 3\sin^2(0.25) \cdot \cos(0.25) \approx 0.1779</m>,
+              so since <m>|h'(0.25) \lt r'(0.25)|</m>,
+              we see that <m>r</m> is changing more rapidly.
+            </p>
+          </li>
+
+          <li permid="KHN">
+            <p permid="tod">
+              We have observed in (a) and (b) that
+              <m>h'(x) = 3\sin^2(x) \cdot \cos(x)</m> and <m>r'(x) = \cos(x^3) \cdot 3x^2</m>.
+              Because both parts of the product in <m>h'(x)</m> are periodic functions,
+              <m>h'(x)</m> is periodic
+              (with period <m>2\pi</m>).
+              However, <m>r'(x)</m> is not periodic,
+              since <m>3x^2</m> grows without bound as <m>x</m> increases.
+            </p>
+          </li>
+        </ol>
+      </p>
+    </solution>
+  </exercise>
+
+  <exercise permid="Ctu">
+  <title>Chain rule with an arbitrary function <m>u</m></title>
+    <statement>
+      <p permid="IbC">
+        Let <m>u(x)</m> be a differentiable function.
+        For each of the following functions, determine the derivative.
+        Each response will involve <m>u</m> and/or <m>u'</m>.
+
+        <ol label="a." permid="VgS">
+          <li permid="qOW">
+            <p permid="Zvm">
+              <m>p(x) = e^{u(x)}</m>
+            </p>
+          </li>
+
+          <li permid="WWf">
+            <p permid="FCv">
+              <m>q(x) = u(e^x)</m>
+            </p>
+          </li>
+
+          <li permid="Ddo">
+            <p permid="lJE">
+              <m>r(x) = \cot(u(x))</m>
+            </p>
+          </li>
+
+          <li permid="jkx">
+            <p permid="RQN">
+              <m>s(x) = u(\cot(x))</m>
+            </p>
+          </li>
+
+          <li permid="PrG">
+            <p permid="xXW">
+              <m>a(x) = u(x^4)</m>
+            </p>
+          </li>
+
+          <li permid="vyP">
+            <p permid="eff">
+              <m>b(x) = u^4(x)</m>
+            </p>
+          </li>
+        </ol>
+      </p>
+    </statement>
+    <answer permid="nkw">
+      <p permid="jyS">
+        <ol label="a." permid="wEi">
+          <li permid="bFY">
+            <p permid="Kmo">
+              <m>p'(x) = e^{u(x)} \cdot u'(x)</m>.
+            </p>
+          </li>
+
+          <li permid="HNh">
+            <p permid="qtx">
+              <m>q'(x) = u'(e^x) \cdot e^x</m>.
+            </p>
+          </li>
+
+          <li permid="nUq">
+            <p permid="WAG">
+              <m>r'(x) = -\csc^2(u(x) \cdot u'(x)</m>.
+            </p>
+          </li>
+
+          <li permid="Ubz">
+            <p permid="CHP">
+              <m>s'(x) = u'(\cot(x)) \cdot (-\csc^2(x))</m>.
+            </p>
+          </li>
+
+          <li permid="AiI">
+            <p permid="iOY">
+              <m>a'(x) = u'(x^4) \cdot 4x^3</m>.
+            </p>
+          </li>
+
+          <li permid="gpR">
+            <p permid="OWh">
+              <m>b'(x) = 4(u(x))^3 \cdot u'(x)</m>.
+            </p>
+          </li>
+        </ol>
+      </p>
+    </answer>
+    <solution permid="Hdn">
+      <p permid="KWi">
+        <ol label="a." permid="Yby">
+          <li permid="Mxa">
+            <p permid="vdq">
+              By the chain rule, <m>p'(x) = e^{u(x)} \cdot u'(x)</m>.
+            </p>
+          </li>
+
+          <li permid="sEj">
+            <p permid="bkz">
+              By the chain rule, <m>q'(x) = u'(e^x) \cdot e^x</m>.
+            </p>
+          </li>
+
+          <li permid="YLs">
+            <p permid="HrI">
+              By the chain rule, <m>r'(x) = -\csc^2(u(x) \cdot u'(x)</m>.
+            </p>
+          </li>
+
+          <li permid="ESB">
+            <p permid="nyR">
+              By the chain rule, <m>s'(x) = u'(\cot(x)) \cdot (-\csc^2(x))</m>.
+            </p>
+          </li>
+
+          <li permid="kZK">
+            <p permid="TGa">
+              By the chain rule, <m>a'(x) = u'(x^4) \cdot 4x^3</m>.
+            </p>
+          </li>
+
+          <li permid="RgT">
+            <p permid="zNj">
+              By the chain rule, <m>b'(x) = 4(u(x))^3 \cdot u'(x)</m>.
+            </p>
+          </li>
+        </ol>
+      </p>
+    </solution>
+  </exercise>
+
+  <exercise permid="iAD">
+  <title>More on using the chain rule with graphs</title>
+    <statement>
+      <p permid="oiL">
+        Let functions <m>p</m> and <m>q</m> be the piecewise linear functions given by their respective graphs in <xref ref="F-2-5-Ez3">Figure</xref>.
+        Use the graphs to answer the following questions.
+      </p>
+
+      <figure xml:id="F-2-5-Ez3" permid="Axd">
+        <caption>The graphs of <m>p</m> (in blue) and <m>q</m> (in green).</caption>
+        <image width="50%" source="images/2_1_Ez3" />
+      </figure>
+
+      <p permid="UpU">
+        <ol label="a." permid="Bob">
+          <li permid="xoc">
+            <p permid="fUs">
+              Let <m>C(x) = p(q(x))</m>.
+              Determine <m>C'(0)</m> and <m>C'(3)</m>.
+            </p>
+          </li>
+
+          <li permid="dvl">
+            <p permid="MbB">
+              Find a value of <m>x</m> for which <m>C'(x)</m> does not exist.
+              Explain your thinking.
+            </p>
+          </li>
+
+          <li permid="JCu">
+            <p permid="siK">
+              Let <m>Y(x) = q(q(x))</m> and <m>Z(x) = q(p(x))</m>.
+              Determine <m>Y'(-2)</m> and <m>Z'(0)</m>.
+            </p>
+          </li>
+        </ol>
+      </p>
+    </statement>
+    <answer permid="zyO">
+      <p permid="PGb">
+        <ol label="a." permid="cLr">
+          <li permid="pJD">
+            <p permid="YpT">
+              <m>C'(0) = 0</m> and <m>C'(3) = -\frac{1}{2}</m>.
+            </p>
+          </li>
+
+          <li permid="VQM">
+            <p permid="Exc">
+              Consider <m>C'(1)</m>.
+              By the chain rule,
+              we'd expect that <m>C'(1) = p'(q(1)) \cdot q'(1)</m>,
+              but we know that <m>q'(1)</m> does not exist since <m>q</m> has a corner point at <m>x = 1</m>.
+              This means that <m>C'(1)</m> does not exist either.
+            </p>
+          </li>
+
+          <li permid="BXV">
+            <p permid="kEl">
+              Since <m>Y(x) = q(q(x))</m>,
+              the chain rule implies that <m>Y'(x) = q'(q(x)) \cdot q'(x)</m>,
+              and thus <m>Y'(-2) = q'(q(-2)) \cdot q'(-2) = q'(-1) \cdot q'(-2)</m>.
+              But <m>q'(-1)</m> does not exist,
+              so <m>Y'(-2)</m> also fails to exist.
+
+              Using <m>Z(x) = q(p(x))</m> and the chain rule,
+              we have <m>Z'(x) = q'(p(x)) \cdot p'(x)</m>.
+              Therefore <m>Z'(0) = q'(p(0)) \cdot p'(0) = q'(-0.5) \cdot p'(0) = 0 \cdot 0.5 = 0</m>.
+            </p>
+          </li>
+        </ol>
+      </p>
+    </answer>
+    <solution permid="TrF">
+      <p permid="rdr">
+        <ol label="a." permid="EiH">
+          <li permid="ife">
+            <p permid="QLu">
+              By the chain rule, <m>C'(x) = p'(q(x)) \cdot q'(x)</m>,
+              so <m>C'(0) = p'(q(0)) \cdot q'(0)</m> and <m>C'(3) = p'(q(3)) \cdot q'(3)</m>.  
+
+              From the graph, we see that <m>q(0) = 2</m>,
+              and thus <m>C'(0) = p'(2) \cdot q'(0)</m>.
+              Reading the slopes of the lines from the graph,
+              it follows <m>C'(0) = 2 \cdot 0 = 0</m>.
+              Similarly, <m>q(3) = 0</m>,
+              so <m>C'(3) = p'(0) \cdot q'(3) = \frac{1}{2} \cdot (-1) = -\frac{1}{2}</m>.
+            </p>
+          </li>
+
+          <li permid="Omn">
+            <p permid="wSD">
+              Consider <m>C'(1)</m>.
+              By the chain rule,
+              we'd expect that <m>C'(1) = p'(q(1)) \cdot q'(1)</m>,
+              but we know that <m>q'(1)</m> does not exist since <m>q</m> has a corner point at <m>x = 1</m>.
+              This means that <m>C'(1)</m> does not exist either.
+            </p>
+          </li>
+
+          <li permid="utw">
+            <p permid="cZM">
+              Since <m>Y(x) = q(q(x))</m>,
+              the chain rule implies that <m>Y'(x) = q'(q(x)) \cdot q'(x)</m>,
+              and thus <m>Y'(-2) = q'(q(-2)) \cdot q'(-2) = q'(-1) \cdot q'(-2)</m>.
+              But <m>q'(-1)</m> does not exist,
+              so <m>Y'(-2)</m> also fails to exist.
+
+              Using <m>Z(x) = q(p(x))</m> and the chain rule,
+              we have <m>Z'(x) = q'(p(x)) \cdot p'(x)</m>.
+              Therefore <m>Z'(0) = q'(p(0)) \cdot p'(0) = q'(-0.5) \cdot p'(0) = 0 \cdot 0.5 = 0</m>.
+            </p>
+          </li>
+        </ol>
+      </p>
+    </solution>
+  </exercise>
+
+  <exercise permid="OHM">
+  <title>Applying the chain rule in a physical context</title>
+    <statement>
+      <p permid="gEm">
+        If a spherical tank of radius 4 feet has <m>h</m> feet of water present in the tank,
+        then the volume of water in the tank is given by the formula
+        <me permid="sSE">
+          V = \frac{\pi}{3} h^2(12-h)
+        </me>.
+        <ol label="a." permid="hvk">
+          <li permid="aAF">
+            <p permid="JgV">
+              At what instantaneous rate is the volume of water in the tank changing with respect to the <em>height</em>
+              of the water at the instant <m>h = 1</m>?
+              What are the units on this quantity?
+            </p>
+          </li>
+
+          <li permid="GHO">
+            <p permid="poe">
+              Now suppose that the height of water in the tank is being regulated by an inflow and outflow (e.g., a faucet and a drain) so that the height of the water at time <m>t</m> is given by the rule <m>h(t) = \sin(\pi t) + 1</m>,
+              where <m>t</m> is measured in hours
+              (and <m>h</m> is still measured in feet).
+              At what rate is the height of the water changing with respect to time at the instant <m>t = 2</m>?
+            </p>
+          </li>
+
+          <li permid="mOX">
+            <p permid="Vvn">
+              Continuing under the assumptions in (b),
+              at what instantaneous rate is the volume of water in the tank changing with respect to
+              <em>time</em> at the instant <m>t = 2</m>?
+            </p>
+          </li>
+
+          <li permid="SWg">
+            <p permid="BCw">
+              What are the main differences between the rates found in (a) and (c)?
+              Include a discussion of the relevant units.
+            </p>
+          </li>
+        </ol>
+      </p>
+    </statement>
+    <answer permid="LNg">
+      <p permid="vNk">
+        <ol label="a." permid="ISA">
+          <li permid="zdp">
+            <p permid="hJF">
+              <m>
+              \frac{dV}{dh} = \pi \left(8h-h^2 \right)</m>,
+              cubic feet per foot.
+            </p>
+          </li>
+
+          <li permid="fky">
+            <p permid="NQO">
+              <m>
+              \frac{dV}{dt} = \frac{\pi}{3}\left[ 12 \cdot 2 (\sin(\pi t) + 1) \cdot \pi \cos(\pi t) - 3 (\sin(\pi t) + 1)^2 \cdot \pi \cos(\pi t) \right]
+              </m>
+              cubic feet per hour.
+            </p>
+          </li>
+
+          <li permid="LrH">
+            <p permid="tXX">
+              <m>
+              \left. \frac{dV}{dt} \right|_{t=0} = 7 \pi^2
+              </m>
+              cubic feet per hour.
+            </p>
+          </li>
+
+          <li permid="ryQ">
+            <p permid="afg">
+              In (a) we are determining the instantaneous rate at which the volume changes as we increase the height of the water in the tank,
+              while in (c) we are finding the instantaneous rate at which volume changes as we increase time.
+            </p>
+          </li>
+        </ol>
+      </p>
+    </answer>
+    <solution permid="fFX">
+      <p permid="XkA">
+        <ol label="a." permid="kpQ">
+          <li permid="XFZ">
+            <p permid="Gmp">
+              We are asked to find <m>\frac{dV}{dh}</m>
+              (the derivative of <m>V</m> with respect to the independent variable <m>h</m>)
+              at the instant <m>h = 1</m>.
+              If we first expand <m>V</m> to write
+              <me permid="YZN">
+                V = \frac{\pi}{3}\left(12h^2 - h^3\right)
+              </me>
+              we find that
+              <me permid="FgW">
+                \frac{dV}{dh} = \frac{\pi}{3} \left(24h - 3h^2\right) = \pi \left(8h-h^2 \right)
+              </me>,
+              with units ``cubic feet per foot''.
+            </p>
+          </li>
+
+          <li permid="DNi">
+            <p permid="mty">
+              Now we want to find <m>\frac{dV}{dt}</m>,
+              the derivative of <m>V</m> with respect to the independent variable <m>t</m>.
+              Here we can write <m>V</m> as a function of <m>t</m> by writing <m>V(t) = \frac{\pi}{3}\left(12(h(t))^2 - (h(t))^3\right)</m>,
+              where <m>h(t) = \sin(\pi t) + 1</m>.
+              By the chain rule, it follows that
+              <me permid="lof">
+                \frac{dV}{dt} = \frac{\pi}{3}\left( 12 \cdot 2 h(t) \cdot h'(t) - 3 (h(t))^2 \cdot h'(t) \right)
+              </me>
+              and hence using <m>h(t) = \sin(\pi t) + 1</m> and <m>h'(t) = \pi \cos(\pi t)</m>,
+              <me permid="Rvo">
+                \frac{dV}{dt} = \frac{\pi}{3}\left[ 12 \cdot 2 (\sin(\pi t) + 1) \cdot \pi \cos(\pi t) - 3 (\sin(\pi t) + 1)^2 \cdot \pi \cos(\pi t) \right]
+              </me>
+              with units ``cubic feet per hour''.
+            </p>
+          </li>
+
+          <li permid="jUr">
+            <p permid="SAH">
+              Now we want to find <m>\frac{dV}{dt}</m> when <m>t=0</m>.
+              Using the result from part (b), we have
+              <me permid="xCx">
+                \left. \frac{dV}{dt} \right|_{t=0} = \frac{\pi}{3}\left[ 12 \cdot 2 (\sin(0) + 1) \cdot \pi \cos(0) - 3 (\sin(0) + 1)^2 \cdot \pi \cos(0) \right] = 7 \pi^2
+              </me>
+              cubic feet per hour.
+            </p>
+          </li>
+
+          <li permid="QbA">
+            <p permid="yHQ">
+              In (a) we are determining the instantaneous rate at which the volume changes as we increase the height of the water in the tank,
+              while in (c) we are finding the instantaneous rate at which volume changes as we increase time.
+              The first calculation is a direct one,
+              while the second is more indirect,
+              as it involves the composition of <m>V</m> with <m>h</m> as a function of time.
+              In the latter case, both <m>h</m> and <m>V</m> are functions of time,
+              which allows us to think not only of how <m>V</m> is changing as a function of <m>h</m>,
+              but also as a function of <m>t</m>.
+            </p>
+          </li>
+        </ol>
+      </p>
+    </solution>
+  </exercise>
+
+ </exercises>
+</section>
+

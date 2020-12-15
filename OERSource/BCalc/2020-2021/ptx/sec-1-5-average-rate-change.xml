@@ -1,0 +1,1890 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!-- **********************************************************************-->
+<!-- Copyright 2019                                                        -->
+<!-- UNL Department of Mathematics                                         -->
+<!-- Based upon the work of                                                -->
+<!-- Matthew Boelkins                                                      -->
+<!-- Copyright 2012-2018                                                   -->
+<!--                                                                       -->
+<!-- This file is part of Coordinated Calculus.                            -->
+<!-- This file is based on Active Calculus.                                -->
+<!--                                                                       -->
+<!-- Permission is granted to copy, distribute and/or modify this document -->
+<!-- under the terms of the Creative Commons BY-SA license.  The work      -->
+<!-- may be used for free by any party so long as attribution is given to  -->
+<!-- the author(s), the work and its derivatives are used in the spirit of -->
+<!-- "share and share alike".  All trademarks are the registered marks of  -->
+<!-- their respective owners.                                              -->
+<!-- **********************************************************************-->
+<section xmlns:xi="http://www.w3.org/2001/XInclude" xml:id="sec-1-3-derivative-pt" permid="xyk">
+  <title>The Average Rate of Change</title>
+  <objectives permid="Cid">
+    <ul permid="Tgo">
+      <li permid="fuG">
+        <p permid="hjT">
+          How is the average rate of change of a function on a given interval defined,
+          and what does this quantity measure?
+        </p>
+      </li>
+
+      <li permid="LBP">
+        <p permid="Nrc">
+          How is the instantaneous rate of change of a function at a particular point defined?
+          How is the instantaneous rate of change linked to average rate of change?
+        </p>
+      </li>
+
+      <li permid="rIY">
+        <p permid="tyl">
+          What is the derivative of a function at a given point?
+          What does this derivative value measure?
+          How do we interpret the derivative value graphically?
+        </p>
+      </li>
+
+      <li permid="XQh">
+        <p permid="ZFu">
+          How are limits used formally in the computation of derivatives?
+        </p>
+      </li>
+    </ul>
+  </objectives>
+
+  <introduction permid="Owv">
+    <p permid="buH">
+      The <em>instantaneous rate of change</em>
+      of a function is an idea that sits at the foundation of calculus.
+    The  instantaneous rate of change could measure the number of cells added to a bacteria culture per day,
+      the number of additional gallons of gasoline consumed upon increasing a car's velocity by one mile per hour,
+      or the number of dollars added to a mortgage payment for each percentage point increase in interest rate.
+      The instantaneous rate of change can also be interpreted geometrically on the function's graph,
+      and this connection is fundamental to many of the main ideas in calculus.
+
+    </p>
+
+    <p permid="nIZ">
+    To determine the instantaneous rate of change, we must first examine the <em>average rate of change</em> of a function.
+      We make the following definition for an arbitrary function <m>y = f(x)</m>.
+    </p>
+
+    <p permid="ipm">
+    <idx><h>average rate of change</h></idx>
+    <assemblage xml:id="aroc-def" >
+    <title>Average Rate of Change</title>
+        <p permid="iZg">
+          For a function <m>f</m>, the <term>average rate of change
+          of <m>f</m> on the interval <m>[a,b]</m></term> is given by the formula
+          <me permid="BME">
+            AV_{[a,b]} = \frac{f(b)-f(a)}{b-a}
+          </me>.
+        </p>
+    </assemblage>
+    </p>
+
+    <p permid="zXr">
+
+
+<example xml:id="AvgRate-1-1" permid="udo">
+  <statement>
+    <p permid="hOW">
+            Consider the function <m>f(x)=4x^2+4x+1</m>. Compute the average rate of change of <m>f(x)</m> on the following intervals: <m>[0,3]</m>, <m>[1,3]</m>, and <m>[2,3]</m>.
+          </p>
+  </statement>
+ 
+  <solution>
+  <p>
+The average rate of change is given by the formula: 
+ <me permid="hTN">
+        AV_{[a,b]} = \frac{f(b)-f(a)}{b-a}
+      </me>.
+    Thus the average rate of change of <m>f(x)</m> on the interval <m>[0,3]</m> is
+ <me permid="hTN">
+        AV_{[0,3]} = \frac{f(3)-f(0)}{3-0}=\frac{(4(3)^2+4(3)+1)-(4(0)^2+4(0)+1)}{3}=\frac{48}{3}=16
+      </me>.
+
+    The average rate of change of <m>f(x)</m> on the interval <m>[1,3]</m> is
+ <me permid="hTN">
+        AV_{[1,3]} = \frac{f(3)-f(1)}{3-1}=\frac{(4(3)^2+4(3)+1)-(4(1)^2+4(1)+1)}{2}=\frac{40}{2}=20
+      </me>.
+
+    The average rate of change of <m>f(x)</m> on the interval <m>[2,3]</m> is
+ <me permid="hTN">
+        AV_{[2,3]} = \frac{f(3)-f(2)}{3-2}=\frac{(4(3)^2+4(3)+1)-(4(2)^2+4(2)+1)}{1}=\frac{28}{1}=28
+      </me>.
+
+    </p>
+  </solution>
+</example>
+</p>
+<p>
+In <xref ref="AvgRate-1-1">Example</xref> we note that the average rate of change varied greatly depending on the interval over which it was evaluated. To understand what the average rate of change tells you, it is essential that you understand how the average rate of change of <m>f</m> on an interval is connected to its graph.
+    </p>
+
+<example xml:id="AvgRate-1-2" permid="udo">
+  <statement>
+    <p permid="hOW">
+      Suppose that the height <m>s</m> of a ball at time <m>t</m>
+      (in seconds) is given by the formula <m>s(t) = 64 - 16(t-1)^2</m> (in feet).
+    </p> 
+
+      <ol label="a." permid="QQL">
+        <li permid="wXU">
+          <p permid="ptv">
+            Construct a graph of
+            <m>y = s(t)</m> on the time interval <m>0 \le t \le 3</m>.
+            Label at least six distinct points on the graph,
+            including the three points showing when the ball was released,
+            when the ball reaches its highest point, and when the ball lands.
+          </p>
+        </li>
+
+        <li permid="dfd">
+          <p permid="VAE">
+            Describe the behavior of the ball on the time interval
+            <m>0 \lt t \lt 1</m> and on the time interval <m>1 \lt t \lt 3</m>.
+            What occurs at the instant <m>t = 1</m>?
+          </p>
+        </li>
+
+        <li permid="Jmm">
+          <p permid="BHN">
+            Consider the expression
+            <me permid="NWf">
+              AV_{[0.5,1]} = \frac{s(1) - s(0.5)}{1-0.5}
+            </me>.
+            Compute the value of <m>AV_{[0.5,1]}</m>.
+            What does this value measure on the graph?
+            What does this value tell us about the motion of the ball?
+            In particular, what are the units on <m>AV_{[0.5,1]}</m>?
+          </p>
+        </li>
+      </ol>
+  </statement>
+  <hint>
+    <ol label="a.">
+      <li>
+        <m>s</m> is a quadratic function, so its graph is a parabola. 
+        Where is the vertex? What are the <m>t</m>-intercepts?
+      </li>
+      <li>
+        Where is the vertex?
+      </li>
+      <li>
+        How does this value relate to the points <m>(1,s(1))</m> and <m>(0.5,s(0.5))</m>
+        on the graph? What are the units of <m>s(t)</m>? What are the units of <m>t</m>?
+        How might these units inform the units of <m>AV_{[0.5,1]}</m>?
+      </li>
+    </ol>
+  </hint>
+  <answer>
+    <ol label="a.">
+      <li>
+        <p>
+        
+        <figure>
+          <caption>A graph of <m>y = s(t)</m> on the time interval <m>0 \le t \le 3</m>.  You can drag the point to check your points. </caption>
+          <interactive geogebra="cqs42zua" height="500" width="300" />
+        </figure>
+        </p>
+      </li>
+      <li>
+        <p>
+        The ball reaches its highest point at <m>t=1</m>, rising until then and falling after.
+        </p>
+      </li>
+      <li>
+        <p>
+        <m>AV_{[0.5,1]}=8</m> ft/s measures the slope of the line between <m>(0.5,s(0.5))</m> and
+        <m>(1,s(1))</m>, and is the average velocity of the ball between <m>t=0.5</m> seconds and <m>t=1</m> second. 
+        </p>
+      </li>
+    </ol>  
+  </answer>
+  <solution>
+  <ol label="a." permid="QQL">
+  <li permid="wXU">
+  <p>
+  
+<figure>
+    <caption>A graph of <m>y = s(t)</m> on the time interval <m>0 \le t \le 3</m>.  You can drag the point to check your points. </caption>
+    <interactive geogebra="cqs42zua" height="500" width="300" />
+</figure>
+  </p>
+  </li>
+  <li>
+    <p>
+    The ball is rising on the interval <m>0\lt t\lt1</m> and falling on the interval 
+    <m>1\lt t\lt3</m>. At the instant <m>t=1</m>, the ball reaches its highest point, 
+    stops, and changes direction.
+    </p>
+  </li>
+  <li>
+    <p>
+    We first compute <m>s(1)=64-16(1-1)^2=64</m> and <m>s(0.5)=64-16(0.5-1)^2=60</m>.
+    With these values, we can say 
+    <md>
+    <mrow>AV_{[0.5,1]}=\mathstrut \amp \frac{s(1)-s(0.5)}{1-0.5}</mrow>
+    <mrow>=\mathstrut \amp \frac{64-60}{0.5}</mrow>
+    <mrow>=\mathstrut \amp \frac{4}{0.5}</mrow>
+    <mrow>=\mathstrut \amp 8</mrow>
+    </md>.
+    Notice that in the numerator we have the values <m>s(1)</m> and <m>s(0.5)</m>, 
+    both measured in feet. In the denominator we have the corresponding time values
+    <m>t=1</m> and <m>t=0.5</m>, both measured in seconds. The units of the quotient, then, 
+    should be feet per second. These are units of velocity, and in fact the value of 
+    <m>AV_{[0.5,1]}</m> is the average velocity on the time interval <m>0.5\le t\le1</m>.
+    Moreover, the formula for <m>AV_{[0.5,1]}</m> is precisely the slope formula between 
+    the points <m>(0.5,s(0.5))</m> and <m>(1,s(1))</m>.
+    </p>
+  </li>
+  </ol>
+  </solution>
+</example>
+<example xml:id="AvgRate-1-3" permid="udo">
+  <statement>
+    <p permid="QAz">
+      The following questions concern the position function given by <m>s(t) = 64 - 16(t-1)^2</m>,
+      which we previously considered in <xref ref="AvgRate-1-2">Example </xref>.
+    </p>
+
+    <p permid="wHI">
+      <ol label="a." permid="DCn">
+        <li permid="jJw">
+          <p permid="dUk">
+            Compute the average velocity of the ball on each of the following time intervals:
+            <m>[0.4,0.8]</m>, <m>[0.7,0.8]</m>,
+            <m>[0.79, 0.8]</m>, <m>[0.799,0.8]</m>, <m>[0.8,1.2]</m>,
+            <m>[0.8,0.9]</m>, <m>[0.8,0.81]</m>, and <m>[0.8,0.801]</m>.
+            Include units for each value.
+          </p>
+        </li>
+
+        <li permid="PQF">
+          <p permid="Kbt">
+            On the graph provided below in <xref ref="F-1-1-Act1">Figure </xref>,
+
+            sketch the line that passes through the points
+            <m>A=(0.4, s(0.4))</m> and <m>B=(0.8, s(0.8))</m>.
+            What is the meaning of the slope of this line?
+            In light of this meaning,
+            what is a geometric way to interpret each of the values computed in the preceding question?
+          </p>
+        </li>
+
+        <li permid="vXO">
+          <p permid="qiC">
+            Use a graphing utility to plot the graph of
+            <m>s(t) = 64 - 16(t-1)^2</m> on an interval containing the value <m>t = 0.8</m>.
+            Then,
+            zoom in repeatedly on the point <m>(0.8, s(0.8))</m>.
+            What do you observe about how the graph appears as you view it more and more closely?
+          </p>
+        </li>
+
+        <li permid="ceX">
+          <p permid="WpL">
+            What do you think the velocity of the ball at the instant <m>t = 0.8</m> is?
+            Why?
+          </p>
+        </li>
+      </ol>
+    </p>
+
+    <figure xml:id="F-1-1-Act1" permid="cOR">
+      <caption>A partial plot of <m>s(t) = 64 - 16(t-1)^2</m>.</caption>
+      <image width="43%" source="images/1_1_Act1" />
+    </figure>
+  </statement>
+  <hint permid="eZD">
+    <p permid="ktq">
+      <ol label="a." permid="Xve">
+        <li permid="Img">
+          <p permid="CwU">
+            On <m>[0.4,0.8]</m>,
+            the average velocity is <m>AV_{[0.4,0.8]} = \frac{s(0.8)-s(0.4)}{0.8-0.4}</m> ft/sec.
+          </p>
+        </li>
+
+        <li permid="otp">
+          <p permid="iEd">
+            Remember that the slope of a line can be found by taking
+            <q>rise over run.</q> In this context,
+            the slope is found by computing
+            <q>change in <m>s</m> over change in <m>t</m>.</q>
+          </p>
+        </li>
+
+        <li permid="UAy">
+          <p permid="OLm">
+            Overall, the curve <m>y=s(t)</m> is a parabola;
+            how does it look up close on a very small interval?
+          </p>
+        </li>
+
+        <li permid="AHH">
+          <p permid="uSv">
+            <q>Instantaneous</q>
+            velocity can be approximated by average velocity on a very small interval.
+          </p>
+        </li>
+      </ol>
+    </p>
+  </hint>
+  <answer permid="ySu">
+    <p permid="Emh">
+      <ol label="a." permid="rnV">
+        <li permid="gOQ">
+          <p permid="aZE">
+            <m>AV_{[0.4,0.8]} = 12.8</m> ft/sec;
+            <m>AV_{[0.7,0.8]} = 8</m> ft/sec;
+            the other average velocities are,
+            respectively, 6.56, 6.416, 0, 4.8, 6.24, 6.384, all in ft/sec.
+          </p>
+        </li>
+
+        <li permid="MVZ">
+          <p permid="HgN">
+            <m>m = 12.8</m> is the average velocity of the ball between <m>t = 0.4</m> and <m>t = 0.8</m>.
+          </p>
+
+          <sidebyside width="30%" permid="IWa">
+            <image source="images/1_1_Act1Soln" />
+          </sidebyside>
+
+        </li>
+
+        <li permid="tdi">
+          <p permid="nnW">
+            Like a straight line with slope about 6.4.
+          </p>
+        </li>
+
+        <li permid="Zkr">
+          <p permid="Tvf">
+            About 6.4 feet per second.
+          </p>
+        </li>
+      </ol>
+    </p>
+  </answer>
+  <solution permid="SLl">
+    <p permid="YeY">
+      <ol label="a." permid="LgM">
+        <li permid="FrA">
+          <p permid="zCo">
+            On <m>[0.4,0.8]</m>,
+            the average velocity is <m>AV_{[0.4,0.8]} = \frac{s(0.8)-s(0.4)}{0.8-0.4} = \frac{63.36-58.24}{0.4} = 12.8</m> ft/sec.
+            On <m>[0.7,0.8]</m>, the average velocity is 8 ft/sec.
+            The other average velocities are, respectively
+            (in the order of the intervals listed in the problem statement),
+            6.56, 6.416, 0, 4.8, 6.24, 6.384,
+            all measured in feet per second.
+          </p>
+        </li>
+
+        <li permid="lyJ">
+          <p permid="fJx">
+            The slope of the line between <m>A=(0.4, s(0.4))</m> and
+            <m>B=(0.8, s(0.8))</m> is <m>\frac{s(0.8)-s(0.4)}{0.8-0.4} = 12.8</m>.
+            This is precisely the average velocity of the ball between <m>t = 0.4</m> and <m>t = 0.8</m>,
+            and indeed each of the average velocities computed in (a) can be viewed as the slope of the line joining the points <m>(a,s(a))</m> and <m>(b,s(b))</m>.
+          </p>
+
+          <sidebyside width="30%" permid="pdj">
+            <image source="images/1_1_Act1Soln" />
+          </sidebyside>
+
+        </li>
+
+        <li permid="RFS">
+          <p permid="LQG">
+            As we zoom in on the graph of 
+            <m>y=s(t)</m> at the point <m>(0.5, 60)</m>,
+            the graph begins to look like a straight line.
+            Specifically,
+            it appears to look like a straight line with slope about 6.4.
+          </p>
+        </li>
+
+        <li permid="xNb">
+          <p permid="rXP">
+            Observe that the average velocity of the ball on the intervals <m>[0.799,0.8]</m> and
+            <m>[0.8,0.801]</m> is 6.416 and 6.384 feet/sec respectively.
+            Hence it appears that the ball's velocity at the instant <m>t = 0.8</m> should be about 6.4 feet per second.
+          </p>
+        </li>
+      </ol>
+    </p>
+  </solution>
+</example>
+<p>
+Our goal is to understand how a function is changing at a particular point. In order to do so we will reconsider the average rate of change of a function by looking at the an interval <m>[a,a+h]</m>.</p>
+
+<example xml:id="PA-1-3" permid="ltw">
+  <statement>
+  <p permid="sXV">
+    Suppose that <m>f</m> is the function given by the graph below and that <m>a</m> and <m>a+h</m> are the input values as labeled on the <m>x</m>-axis.
+    Use the graph in <xref ref="F-1-3-PA1">Figure</xref>
+    to answer the following questions.
+  </p>
+
+  <figure xml:id="F-1-3-PA1" permid="Fmn">
+    <caption>Plot of <m>y = f(x)</m> for <xref ref="PA-1-3">Example</xref>.</caption>
+    <image width="47%" source="images/1_3_PA1" />
+  </figure>
+
+  <p permid="Zfe">
+    <ol label="a." permid="PLs">
+      <li permid="vSB">
+        <p permid="Uvl">
+          Locate and label the points
+          <m>(a,f(a))</m> and <m>(a+h, f(a+h))</m> on the graph.
+        </p>
+      </li>
+
+      <li permid="bZK">
+        <p permid="ACu">
+          Construct a right triangle whose hypotenuse is the line segment from
+          <m>(a,f(a))</m> to <m>(a+h,f(a+h))</m>.
+          What are the lengths of the respective legs of this triangle?
+        </p>
+      </li>
+
+      <li permid="IgT">
+        <p permid="gJD">
+          What is the slope of the line that connects the points
+          <m>(a,f(a))</m> and <m>(a+h, f(a+h))</m>?
+        </p>
+      </li>
+
+      <li permid="ooc">
+        <p permid="MQM">
+          Write a meaningful sentence that explains how the average rate of change of the function on a given interval and the slope of a related line are connected.
+        </p>
+      </li>
+    </ol>
+  </p>
+  </statement>
+  <hint>
+        <p>
+          <ol label="a.">
+            <li>
+              What are the coordinates of the two marked points on the graph of <m>f</m>?
+            </li>
+            <li>
+              Draw the triangle so that one of its legs is horizontal and the other is vertical.
+            </li>
+            <li>
+              Remember that the slope of a line segment can be thought of as <q>rise over run</q>.
+            </li>
+            <li>
+              How does the slope you found in (c) compare to the formula for the 
+              average rate of change of <m>f</m> on the interval <m>[a,a+h]</m>?
+            </li>
+          </ol>
+        </p>
+      </hint>
+  <answer>
+        <p>
+          <ol label="a.">
+            <li>
+              The left marked point on the graph in <xref ref="F-1-3-PA1">Figure</xref> 
+              is the point <m>(a,f(a))</m>, the right marked point on the graph 
+              is <m>(a+h,f(a+h))</m>.
+            </li>
+            <li>
+              The lengths of the legs of this triangle are <m>f(a+h)-f(a)</m> and <m>h</m>.
+            </li>
+            <li>
+              <m>\frac{f(a+h)-f(a)}{h}</m>
+            </li>
+            <li>
+              The average rate of change of the function <m>f</m> on the interval <m>[a,a+h]</m> is the same as the slope of the line segment from <m>(a,f(a))</m> to <m>(a+h,f(a+h))</m>.
+            </li>
+          </ol>
+        </p>
+      </answer>
+  <solution>
+        <p>
+          <ol label="a.">
+            <li>
+              The left marked point on the graph in <xref ref="F-1-3-PA1">Figure</xref> 
+              is the point <m>(a,f(a))</m>, the right marked point on the graph 
+              is <m>(a+h,f(a+h))</m>.
+            </li>
+            <li>
+              The length of the vertical leg of this triangle is <m>f(a+h)-f(a)</m>, and the length of the horizontal leg of this triangle is <m>a+h-a=h</m>.
+            </li>
+            <li>
+              The slope of the line connecting the two points is <m>\frac{f(a+h)-f(a)}{h}</m>, as shown by the triangle drawn in the previous part: 
+              the <q>rise</q> is the length of the vertical leg, and the <q>run</q> is the length of the horizontal leg.
+            </li>
+            <li>
+              The average rate of change of the function <m>f</m> on the interval <m>[a,a+h]</m> is <m>AV_{[a,a+h]}=\frac{f(a+h)-f(a)}{h}</m>, which is exactly what we found in the previous part as the slope of the line segment connecting the points <m>(a,f(a))</m> and <m>(a+h,f(a+h))</m>.
+            </li>
+          </ol>
+        </p>
+      </solution>
+</example>
+<p> Thus we have determined a second way to write the average rate of change.</p>
+ <idx><h>average rate of change</h></idx>
+    <assemblage xml:id="aroc-def2" >
+    <title>Average Rate of Change</title>
+        <p permid="iZg">
+          For a function <m>f</m>, the <term>average rate of change
+          of <m>f</m> on the interval <m>[a,a+h]</m></term> is given by the formula
+          <me permid="BME">
+            AV_{[a,a+h]} = \frac{f(a+h)-f(a)}{h}
+          </me>.
+        </p>
+    </assemblage>
+<p> The purpose of rewriting the average rate of change in this manner is to be able to understand <term> the instantaneous rate of change </term> of a function at a particular point. </p>
+
+<p>
+      As we saw in the examples above, the average rate of change is the slope of the line connecting the points <m>(a,f(a))</m> and <m>(a+h,f(a+h))</m>. We call the line the   <em>secant line</em>, the slope of the secant line is <m>m = \frac{f(a+h) - f(a)}{h}</m>, or in other words <term> the average rate of change is the slope of the secant line</term>. </p>
+
+<p>      To compute an <term> instantaneous rate of change </term>,
+      we allow the interval <m>[a,a+h]</m> to shrink as 
+      <m>h \to 0</m>.
+      We can think of one endpoint of the interval as
+      <q>sliding towards</q> the other. 
+      In particular,
+      provided that <m>f</m> has a derivative at <m>(a,f(a))</m>,
+      the point <m>(a+h,f(a+h))</m> will approach <m>(a,f(a))</m> as <m>h \to 0</m>.
+      Because the process of taking a limit is a dynamic one,
+      it can be helpful to visualize it.</p> 
+
+    <p permid="EHk">
+      <xref ref="F-1-3-SecToTanSeq">Figure</xref> below
+      shows a sequence of figures with several different lines through the points <m>(a, f(a))</m> and
+      <m>(a+h,f(a+h))</m>, generated by different values of <m>h</m>.</p>
+
+   <figure xml:id="F-1-3-SecToTanSeq" permid="djU">
+      <caption>A sequence of secant lines approaching the tangent line to <m>f</m> at <m>(a,f(a))</m>.</caption>
+      <image width="100%" source="images/1_3_SecToTanSeq" />
+    </figure>
+
+    <p permid="pTL">
+    <idx><h>derivative</h><h>definition</h></idx>
+    <assemblage xml:id="def-instratechange">
+    <title>Instantaneous Rate of Change</title>
+        <p permid="Pgp">
+          Let <m>f</m> be a function and <m>x = a</m> a value in the function's domain.
+          The <term>instantaneous rate of change of <m>f</m> with respect to <m>x</m> evaluated at <m>x = a</m></term> is defined by the formula
+          <me permid="OaW">
+             \lim_{h \to 0} \frac{f(a+h)-f(a)}{h}
+          </me>,
+          provided this limit exists.
+        </p>
+        </assemblage>
+    </p>
+
+<p> The instantaneous rate of change tells us how the function is changing at the point <m>x=a</m>. Another way to think about the instantaneous rate of change is the <term>the slope of the curve</term> at <m>x=a</m>, visualized as the green curve in the figure below.</p>
+
+
+      <p permid="CRX">
+        The instantaneous rate of change of <m>f</m> with respect to <m>x</m> at <m>x = a</m>,
+        which is the derivative value <m>f'(a)</m>,
+        also measures the slope of the tangent line to the curve <m>y = f(x)</m> at <m>(a,f(a))</m>.
+      </p>
+
+
+    <figure xml:id="F-1-3-SecToTan" permid="Jrd">
+      <caption>Shown here is a sequence of secant lines approaching the tangent line to <m>f</m> at <m>(a,f(a))</m>. At right, we zoom in on the point <m>(a,f(a))</m>. The slope of the tangent line (in green) to <m>f</m> at <m>(a,f(a))</m> is given by <m>f'(a)</m>.</caption>
+      <image width="60%" source="images/1_3_SecToTan" />
+    </figure>
+
+
+<p>We call this line the <em>tangent line</em>. Thus the instantaneous rate of change of <m>f(x)</m> gives the slope of the tangent line at <m>x=a</m>, that is, the slope of the curve at the point <m>x=a</m>.</p>
+
+<example permid="WaU">
+      <title>Finding the Instantaneous Rate of Change</title>
+      <statement>
+        <p permid="vny">
+          For the function <m>f(x) = x - x^2</m>,
+          use the limit definition to compute the instantaneous rate of change of  <m>f(x)</m> at <m>x=2</m>.
+          In addition,
+          discuss the meaning of this value and draw a labeled graph that supports your explanation.
+        </p>
+      </statement>
+      <hint>
+        <p>
+        The instantaneous rate of change of <m>f</m> with respect to <m>x</m> evaluated at <m>x=a</m> 
+        is <me>\lim_{h\to0}\frac{f(a+h)-f(a)}{h}</me>. 
+         </p>
+      </hint>
+      <answer>
+        <me>
+          Instantaneous rate of change at <m>x=2</m> is <m>-3</m>.
+        </me>
+        
+        <p>
+          The slope of the tangent line to <m>f</m> through the point <m>(2,-2)</m> is <m>-3</m>.
+        </p>
+      </answer>
+      <solution permid="uDE">
+        <p permid="FMD">
+          From the limit definition, we know that the instantaneous rate of change is
+          <me permid="uif">
+            \lim_{h \to 0} \frac{f(2+h)-f(2)}{h}
+          </me>.
+        </p>
+
+        <p permid="lTM">
+          Now we use the rule for <m>f</m>,
+          and observe that <m>f(2) = 2 - 2^2 = -2</m> and <m>f(2+h) = (2+h) - (2+h)^2</m>.
+          Substituting these values into the limit definition, we have that
+          <me permid="apo">
+            \lim_{h \to 0} \frac{(2+h) - (2+h)^2 -  (-2)}{h}
+          </me>.
+        </p>
+
+        <p permid="SaV">
+          In order to evaluate the limit,
+          we must simplify the quotient.
+          Expanding and distributing in the numerator gives us
+          <me permid="Gwx">
+            \lim_{h \to 0} \frac{2+h - 4 - 4h - h^2 + 2}{h}
+          </me>.
+        </p>
+
+        <p permid="yie">
+          Combining like terms, we have
+          <me permid="mDG">
+             \lim_{h \to 0} \frac{ -3h - h^2}{h}
+          </me>.
+        </p>
+
+        <p permid="epn">
+          Next, because <m>h\neq0</m> within the limit, we may remove a common factor of <m>h</m> in both the numerator and denominator and find that
+          <me permid="SKP">
+            \lim_{h \to 0} (-3-h)
+          </me>.
+        </p>
+
+        <p permid="Kww">
+          Finally, we are able to take the limit as <m>h</m> approaches <m>0</m>,
+          and thus conclude that the instantaneous rate of change is <m> -3</m>.
+         
+         this is also the slope of the tangent line to the graph of
+          <m>y = x - x^2</m> at the point <m>(2,-2)</m>.
+          <xref ref="F-1-3-Ex1">Figure</xref> below
+          shows both the function and the line 
+          through <m>(2,-2)</m> with slope <m>m = -3</m>.
+        </p>
+
+        <figure xml:id="F-1-3-Ex1" permid="qDF">
+          <caption>The tangent line to <m>y = x - x^2</m> at the point <m>(2,-2)</m>.</caption>
+          <image width = "40%" source="images/1_3_Ex1" />
+        </figure>
+      </solution>
+    </example>
+
+  </introduction>
+
+  <subsection permid="dFt">
+    <title>The Derivative of a Function at a Point</title>
+    <p permid="geA">
+      We  define the instantaneous rate of change of a function at a point in terms of the average rate of change of the function <m>f</m> over related intervals.
+
+      This instantaneous rate of change of <m>f</m> at <m>a</m>
+          <idx><h>instantaneous rate of change</h></idx>
+      is called <q>the <em>derivative</em>
+      of <m>f</m> at <m>a</m>,</q>
+      and is denoted by <m>f'(a)</m>.
+    </p>
+
+    <p permid="pTL">
+    <idx><h>derivative</h><h>definition</h></idx>
+    <assemblage xml:id="def-derivative">
+    <title>Derivative at a Point</title>
+        <p permid="Pgp">
+          Let <m>f</m> be a function and <m>x = a</m> a value in the function's domain.
+          The <term>derivative of <m>f</m> with respect to <m>x</m> evaluated at <m>x = a</m></term>,
+          denoted <m>f'(a)</m>, is defined by the formula
+          <me permid="OaW">
+            f'(a) = \lim_{h \to 0} \frac{f(a+h)-f(a)}{h}
+          </me>,
+          provided this limit exists.
+        </p>
+        <p>
+        This is sometimes referred to as the <q>limit definition</q> of the derivative at a point. 
+        </p>
+    </assemblage>
+    </p>
+
+    <p permid="MlJ">
+      Aloud, we read the symbol <m>f'(a)</m> as either
+      <q><m>f</m>-prime of <m>a</m></q>
+      or <q>the derivative of <m>f</m> evaluated at <m>x = a</m>.</q>
+      The next several chapters will be devoted to understanding,
+      computing,
+      applying, and interpreting derivatives.
+      For now, we observe the following important things.
+    </p>
+
+    <note permid="aKN">
+      <p permid="WKO">
+        <ul permid="mZf">
+          <li permid="DXq">
+            The derivative of <m>f</m> at the value <m>x = a</m> is defined as the limit of the average rate of change of <m>f</m> on the interval <m>[a,a+h]</m> as <m>h \to 0</m>.
+            This limit depends on both the function <m>f</m> and the point <m>x=a</m>. 
+            Since this limit may not exist, not every function has a derivative at every point.
+          </li>
+
+          <li permid="kez">
+            We say that a function is <em>differentiable</em>
+                <idx><h>differentiable</h></idx>
+            at <m>x = a</m> if it has a derivative at <m>x = a</m>.
+          </li>
+
+            <li permid="wsR">
+            Because the units of <m>\frac{f(a+h)-f(a)}{h}</m> are
+            <q>units of <m>f(x)</m> per unit of <m>x</m>,</q>
+            the derivative has these same units.
+            For instance,
+            if <m>s</m> measures position in feet and <m>t</m> measures time in seconds,
+            the units on <m>s'(a)</m> are feet per second.
+          </li>
+
+          <li permid="cAa">
+            The quantity
+            <m>\frac{f(a+h)-f(a)}{h}</m> represents the slope of the line through
+            <m>(a,f(a))</m> and <m>(a+h, f(a+h))</m>.
+            When we compute the derivative, we are actually taking the limit of a collection of slopes of lines.
+            Thus, the derivative itself represents the slope of a particularly important line.
+          </li>
+        </ul>
+      </p>
+    </note>
+
+    <p permid="ssS">
+      We first consider the derivative at a given value as the slope of a certain line at that value.
+    </p>
+
+   
+   
+    <p permid="xcL">
+      The following examples will help you explore a variety of key ideas related to derivatives.
+    </p>
+
+<example xml:id="act-1-3-1" permid="Mtw">
+  <statement>
+    <p permid="nQM">
+      Consider the function <m>f</m> whose formula is <m>\displaystyle f(x) = 3 - 2x</m>.
+    </p>
+
+    <p permid="TXV">
+      <ol label="a." permid="Bkx">
+        <li permid="hrG">
+          What familiar type of function is <m>f</m>?
+          What can you say about the slope of <m>f</m> at every value of <m>x</m>?
+        </li>
+
+        <li permid="NyP">
+          Compute the average rate of change of <m>f</m> on the intervals <m>[1,4]</m>,
+          <m>[3,7]</m>, and <m>[5,5+h]</m>;
+          simplify each result as much as possible.
+          What do you notice about these quantities?
+        </li>
+
+        <li permid="tFY">
+          Use the limit definition of the derivative to compute the exact instantaneous rate of change of <m>f</m> with respect to <m>x</m> at the value <m>a = 1</m>.
+          That is, compute <m>f'(1)</m> using the limit definition.
+          Show your work.
+          Is your result surprising?
+        </li>
+
+        <li permid="ZNh">
+          Without doing any additional computations,
+          what are the values of <m>f'(2)</m>,
+          <m>f'(\pi)</m>, and <m>f'(-\sqrt{2})</m>?
+          Why?
+        </li>
+      </ol>
+    </p>
+  </statement>
+  <hint permid="cHN">
+    <p permid="HJD">
+      <ol label="a." permid="Vdo">
+        <li permid="FUq">
+          If <m>f(x) = 3x^2 + 2x - 4</m>,
+          we say <q><m>f</m> is quadratic.</q>
+          If <m>f(x) = 5 e^{2x-1}</m>,
+          we say <q><m>f</m> is exponential.</q>
+          What do we say about <m>f(x) = 3-2x</m>?
+        </li>
+
+        <li permid="mbz">
+          Remember that to compute the average rate of change of <m>f</m> on <m>[a,b]</m>,
+          we calculate <m>\frac{f(b)-f(a)}{b-a}</m>.
+        </li>
+
+        <li permid="SiI">
+          Observe that <m>f(1+h) = 3 - 2(1+h) = 3 - 2 - 2h = 1 - 2h</m>.
+        </li>
+
+        <li permid="ypR">
+          Think about the how the graph of <m>f</m> appears.
+          What is the same at every point?
+        </li>
+      </ol>
+    </p>
+  </hint>
+  <answer permid="wAE">
+    <p permid="bCu">
+      <ol label="a." permid="oWf">
+        <li permid="exa"><m>f</m> is linear.</li>
+
+        <li permid="qLs">
+          The average rate of change on <m>[1,4]</m>,
+          <m>[3,7]</m>, and <m>[5,5+h]</m> is <m>-2</m>.
+        </li>
+
+        <li permid="KEj"><m>f'(1)=-2</m>.</li>
+
+        <li permid="WSB">
+          <m>f'(2)=-2</m>, <m>f'(\pi)=-2</m>,
+          and <m>f'(-\sqrt{2})=-2</m>,
+          since the slope of a linear function is the same at every point.
+        </li>
+      </ol>
+    </p>
+  </answer>
+  <solution permid="Qtv">
+    <p permid="vvl">
+      <ol label="a." permid="IOW">
+        <li permid="CZK">
+          Because <m>f(x) = 3 - 2x</m> is of the form <m>f(x) = mx + b</m>,
+          we call <m>f</m> a <em>linear</em> function.
+        </li>
+
+        <li permid="jgT">
+          The average rate of change on <m>[1,4]</m> is <m>\frac{f(4)-f(1)}{4-1} = \frac{-5 - 1}{3} = -2</m>.
+          Similar calculations show the average rate of change on <m>[3,7]</m> is also <m>-2</m>.
+          On <m>[5,5+h]</m>, observe that
+          <md permid="Afe">
+            <mrow>\frac{f(5+h)-f(5)}{h} \amp = \frac{(3-2(5+h)) - (3-10)}{h}</mrow>
+            <mrow>\amp = \frac{3 - 10 - 2h + 7}{h}</mrow>
+            <mrow>\amp = \frac{-2h}{h}</mrow>
+            <mrow>\amp = -2</mrow>
+          </md>.
+        </li>
+
+        <li permid="Poc">
+          Using the limit definition of the derivative, we find that
+          <md permid="gmn">
+            <mrow>f'(1) = \amp  \lim_{h \to 0} \frac{f(1+h) - f(1)}{h}</mrow>
+            <mrow>= \amp  \lim_{h \to 0} \frac{(3 - 2(1+h)) - (3-2)}{h}</mrow>
+            <mrow>= \amp  \lim_{h \to 0} \frac{3 - 2 - 2h - 1}{h}</mrow>
+            <mrow>= \amp  \lim_{h \to 0} \frac{-2h}{h}</mrow>
+            <mrow>= \amp  \lim_{h \to 0} -2</mrow>
+            <mrow>= \amp  -2</mrow>
+          </md>.
+        </li>
+      </ol>
+    </p>
+  </solution>
+</example>
+
+<example xml:id="act-1-3-2" permid="RNj">
+  <statement>
+    <p permid="Ndq">
+      A water balloon is tossed vertically in the air from a window.
+      The balloon's height in feet <m>t</m> seconds after being launched is given by <m>s(t) = -16t^2 + 16t + 32</m>.
+      Use this function to respond to each of the following questions.
+    </p>
+
+    <p permid="tkz">
+      <ol label="a." permid="drH">
+        <li permid="JyQ">
+          <p permid="cmo">
+            Sketch an accurate,
+            labeled graph of <m>y=s(t)</m> for <m>t=0</m> to <m>t=2</m>. 
+            Label the scale on the axes carefully. 
+            You should be able to do this without using computing technology.
+          </p>
+        </li>
+
+        <li permid="pFZ">
+          Compute the average rate of change of <m>s</m> on the time interval <m>[1,2]</m>.
+          Include units in your answer and write one sentence to explain the meaning of the value you found.
+        </li>
+
+        <li permid="VNi">
+          Use the limit definition of the derivative to compute the instantaneous rate of change of <m>s</m> with respect to time,
+          <m>t</m>, at the instant <m>a = 1</m>.
+          Show your work using proper notation,
+          include units in your answer,
+          and write one sentence to explain the meaning of the value you found.
+        </li>
+
+        <li permid="BUr">
+          On your graph in (a), sketch two lines:
+          one whose slope represents the average rate of change of <m>s</m> on <m>[1,2]</m>,
+          the other whose slope represents the instantaneous rate of change of <m>s</m> at the instant <m>a=1</m>.
+          Label each line clearly.
+        </li>
+
+        <li permid="ibA">
+          For what values of <m>a</m> do you expect <m>s'(a)</m> to be positive?
+          Why?
+          Answer the same questions when <q>positive</q>
+          is replaced by <q>negative</q> and <q>zero.</q>
+        </li>
+      </ol>
+    </p>
+  </statement>
+  <hint permid="EOX">
+    <p permid="gWh">
+      <ol label="a." permid="xky">
+        <li permid="OiJ">
+          Observe that <m>(t^2 - t - 2) = (t-2)(t+1)</m> and that <m>s(t)</m> has its vertex at <m>t = \frac{1}{2}</m>.
+        </li>
+
+        <li permid="upS">Recall the formula for average rate of change.</li>
+
+        <li permid="axb">
+          Note that <m>s(1+h) = -16(1+h)^2 + 16(1+h) + 32</m>.
+        </li>
+
+        <li permid="GEk">Think about a secant line and a tangent line.</li>
+
+        <li permid="mLt">
+          A line with positive slope is one that is rising;
+          a line with negative slope is one that is falling.
+        </li>
+      </ol>
+    </p>
+  </hint>
+  <answer permid="YHO">
+    <p permid="AOY">
+      <ol label="a." permid="Rdp">
+        <li permid="SSC">The vertex is <m>(\frac{1}{2},36)</m>; the full graph is below in (d).</li>
+
+        <li permid="yZL">
+          <m>\frac{s(2)-s(1)}{2-1} = -32</m> feet per second.
+        </li>
+
+        <li permid="fgU"><m>s'(1) = -16</m>.</li>
+
+        <li permid="Lod">
+
+          <sidebyside width="50%" permid="FyR">
+            <!--
+            <caption>Graph of <m>y = s(t)</m> in <xref ref="act-1-3-2">Example</xref>,
+            along with the two lines requested in (d).</caption>
+            -->
+            <image source="images/1_3_Act2Soln" />
+          </sidebyside>
+
+        </li>
+
+        <li permid="rvm">
+          <m>s'(a)</m> is positive whenever <m>0 \le a \lt \frac{1}{2}</m>;
+          <m>s'(a)</m> is negative whenever
+          <m>\frac{1}{2} \lt a \lt 2</m>;
+          <m>s'(\frac{1}{2}) = 0</m>.
+        </li>
+      </ol>
+    </p>
+  </answer>
+  <solution permid="sAF">
+    <p permid="UHP">
+      <ol label="a." permid="kWg">
+        <li permid="XCv">
+          Since <md>
+          <mrow>s(t) \amp= -16t^2 + 16t + 32 </mrow>
+          <mrow>\amp= -16(t^2 - t - 2) </mrow>
+          <mrow>\amp= -16(t-2)(t+1)</mrow>
+          </md>,
+          <m>s</m> has <m>t</m>-intercepts at <m>(2,0)</m> and <m>(-1,0)</m>;
+          the <m>s</m>-intercept is clearly <m>(0,32)</m>;
+          and the vertex is <m>(\frac{1}{2},36)</m>.
+          See the full graph of <m>y=s(t)</m> in part (d).
+        </li>
+
+        <li permid="DJE">
+          Observe that <m>\frac{s(2)-s(1)}{2-1} = \frac{0 - 32}{1} = -32</m> feet per second.
+          This value represents the average rate at which the balloon is falling over the time interval from <m>t = 1</m> to <m>t = 2</m>.
+        </li>
+
+        <li permid="jQN">
+          We compute <m>s'(1)</m> as follows:
+          <md permid="ZrI">
+            <mrow>s'(1) = \amp  \lim_{h \to 0} \frac{s(1+h)-s(1)}{h}</mrow>
+            <mrow>= \amp  \lim_{h \to 0} \frac{(-16(1+h)^2 + 16(1+h) + 32) - (-16(1)^2 + 16(1) + 32)}{h}</mrow>
+            <mrow>= \amp  \lim_{h \to 0} \frac{-16 - 32h - 16h^2 + 16 + 16h + 32 - 32}{h}</mrow>
+            <mrow>= \amp  \lim_{h \to 0} \frac{-16h - 16h^2}{h}</mrow>
+            <mrow>= \amp  \lim_{h \to 0} (-16-16h)</mrow>
+            <mrow>= \amp  -16</mrow>
+          </md>.
+        </li>
+
+        <li permid="PXW">
+          <p permid="oAG">
+            We plot and label the secant line through <m>(1,s(1))</m> and <m>(2,s(2))</m>,
+            as well as the tangent line through
+            <m>(1,s(1))</m> with slope <m>s'(1)</m>.
+          </p>
+
+          <sidebyside width="40%" permid="lGa">
+          <!--
+          <caption>Graph of <m>y = s(t)</m> in <xref ref="act-1-3-2">Example</xref>,
+          along with the two lines requested in (d).</caption>
+          -->
+            <image source="images/1_3_Act2Soln" />
+          </sidebyside>
+
+        </li>
+
+        <li permid="wff">
+          Observe that whenever the balloon is rising,
+          its position function is rising,
+          and thus the slope of its tangent line at any such point will be positive.
+          This means that we should find <m>s'(a)</m> to be positive whenever <m>0 \le a \lt \frac{1}{2}</m>,
+          and similarly <m>s'(a)</m> to be negative whenever
+          <m>\frac{1}{2} \lt a \lt 2</m>
+          (which is when the balloon is falling).
+          At the instant <m>a = \frac{1}{2}</m>,
+          the balloon is at its vertex and is neither rising nor falling,
+          and at that point, <m>s'(\frac{1}{2}) = 0</m>.
+        </li>
+      </ol>
+    </p>
+  </solution>
+</example>
+
+  </subsection>
+
+  <subsection permid="JMC">
+    <title>Summary</title>
+    <p permid="pym">
+      <ul permid="znx">
+        <li permid="IHj">
+          The average rate of change of a function <m>f</m> on the interval <m>[a,b]</m> is <m>\frac{f(b)-f(a)}{b-a}</m>.
+          The units on the average rate of change are units of <m>f(x)</m> per unit of <m>x</m>,
+          and the numerical value of the average rate of change represents the slope of the secant line between the points <m>(a,f(a))</m> and
+          <m>(b,f(b))</m> on the graph of <m>y = f(x)</m>.
+          If we view the interval as being <m>[a,a+h]</m> instead of <m>[a,b]</m>,
+          the meaning is still the same,
+          but the average rate of change is now computed by <m>\frac{f(a+h)-f(a)}{h}</m>.
+        </li>
+
+        <li permid="oOs">
+          The instantaneous rate of change with respect to <m>x</m> of a function <m>f</m> at a value <m>x = a</m> is denoted <m>f'(a)</m>
+          (read <q>the derivative of <m>f</m> evaluated at <m>a</m></q>
+          or <q><m>f</m>-prime of <m>a</m></q>)
+          and is defined by the formula
+          <me permid="yRY">
+            f'(a) = \lim_{h \to 0} \frac{f(a+h)-f(a)}{h}
+          </me>,
+          provided this limit exists.
+          Note particularly that the instantaneous rate of change at <m>x = a</m> is the limit of the average rate of change on <m>[a,a+h]</m> as <m>h</m> approaches <m>0</m>.
+        </li>
+
+        <li permid="UVB">
+          Provided the derivative <m>f'(a)</m> exists,
+          its value tells us the instantaneous rate of change of <m>f</m> with respect to <m>x</m> at <m>x = a</m>,
+          which geometrically is the slope of the tangent line to the curve
+          <m>y = f(x)</m> at the point <m>(a,f(a))</m>.
+          We even say that <m>f'(a)</m> is the
+          <q>slope of the curve</q>
+          at the point <m>(a,f(a))</m>.
+        </li>
+
+        <li permid="BcK">
+          Limits allow us to move from the rate of change over an interval to the rate of change at a single point.
+        </li>
+      </ul>
+    </p>
+  </subsection>
+
+  <exercises xmlns:xi="http://www.w3.org/2001/XInclude"> 
+  
+    <exercise xml:id="ez-1-3-WW1" permid="oDk">
+    <title>Estimating derivative values graphically</title>
+    <webwork source="Library/Michigan/Chap2Sec2/Q09.pg" />
+  </exercise>
+
+  <exercise xml:id="ez-1-3-WW2" permid="UKt">
+    <title>Tangent line to a curve</title>
+    <webwork source="Library/Michigan/Chap2Sec2/Q13.pg" />
+  </exercise>
+
+  <exercise xml:id="ez-1-3-WW3" permid="ARC">
+    <title>Interpreting values and slopes from a graph</title>
+    <webwork source="Library/Michigan/Chap2Sec2/Q15.pg" />
+  </exercise>
+
+  <exercise xml:id="ez-1-3-WW4" permid="gYL">
+    <title>Estimating a derivative value graphically</title>
+    <webwork source="Library/Michigan/Chap2Sec2/Q35.pg" />
+  </exercise>
+
+  <exercise xml:id="ez-1-3-WW5" permid="NfU">
+    <title>Estimating a derivative from the limit definition</title>
+    <webwork source="Library/Michigan/Chap2Sec2/Q07.pg" />
+  </exercise>
+
+  <exercise permid="tnd">
+    <!--
+    <title>Using a graph</title>
+    -->
+	<title>Using a graph</title>
+    <statement>
+      <p permid="GzK">
+        Consider the graph of <m>y = f(x)</m> provided in <xref ref="F-1-3-Ez1">Figure</xref>.
+      </p>
+
+      <sidebyside widths="47% 47%" margins="0%" permid="mNX">
+        <p permid="uls">
+          <ol label="a." permid="shK">
+            <li permid="NPO">
+              <p permid="EKx">
+                On the graph of <m>y = f(x)</m>,
+                sketch and label the following quantities:
+
+                <ul permid="MaB">
+                  <li permid="cYM">
+                    the secant line to
+                    <m>y = f(x)</m> on the interval <m>[-3,-1]</m> and the secant line to
+                    <m>y = f(x)</m> on the interval <m>[0,2]</m>.
+                  </li>
+
+                  <li permid="JfV">
+                    the tangent line to
+                    <m>y = f(x)</m> at <m>x = -3</m> and the tangent line to
+                    <m>y = f(x)</m> at <m>x = 0</m>.
+                  </li>
+                </ul>
+              </p>
+            </li>
+
+            <li permid="tWX">
+              What is the approximate value of the average rate of change of <m>f</m> on <m>[-3,-1]</m>?
+              On <m>[0,2]</m>?
+              How are these values related to your work in (a)?
+            </li>
+
+            <li permid="aeg">
+              What is the approximate value of the instantaneous rate of change of <m>f</m> at <m>x = -3</m>?
+              At <m>x = 0</m>?
+              How are these values related to your work in (a)?
+            </li>
+          </ol>
+        </p>
+
+        <figure xml:id="F-1-3-Ez1" permid="asB">
+          <caption>Plot of <m>y = f(x)</m>.</caption>
+          <image source="images/1_3_Ez1" />
+        </figure>
+      </sidebyside>
+    </statement>
+    <answer permid="xWW">
+      <p permid="VII">
+        <ol label="a." permid="nxR">
+          <li permid="Glp">
+
+            <sidebyside width="50%" permid="SVg">
+              <image source="images/1_3_Ez1Soln" />
+            </sidebyside>
+
+          </li>
+
+          <li permid="msy">
+            <p permid="LFc">
+              <m>AV_{[-3,-1]} \approx 1.15</m>;
+              <m>AV_{[0,2]} \approx -0.4</m>.
+            </p>
+          </li>
+
+          <li permid="SzH">
+            <p permid="rMl">
+              <m>f'(-3) \approx 3</m>; <m>f'(0) \approx -\frac{1}{2}</m>.
+            </p>
+          </li>
+        </ol>
+      </p>
+    </answer>
+    <solution permid="RPN">
+      <p permid="xfY">
+        <ol label="a." permid="OVh">
+          <li permid="yGQ">
+            <p permid="XTu">
+              The requested secant lines are drawn in green,
+              with the noted tangent lines in magenta.
+            </p>
+
+            <sidebyside width="50%" permid="zcp">
+              <image source="images/1_3_Ez1Soln" />
+            </sidebyside>
+
+          </li>
+
+          <li permid="eNZ">
+            <p permid="EaD">
+              First, <m>AV_{[-3,-1]} = \frac{f(-1)-f(-3)}{-1-(-3)} \approx \frac{2.3}{2} = 1.15</m>.
+              Similarly, <m>AV_{[0,2]} = \frac{f(2)-f(0)}{2-0} \approx -\frac{0.8}{2} = -0.4</m>.
+              These values are the respective slopes of the green secant lines plotted in (a).
+            </p>
+          </li>
+
+          <li permid="KVi">
+            <p permid="khM">
+              <m>f'(-3) \approx 3</m> and <m>f'(0) \approx -\frac{1}{2}</m>,
+              as these are estimates of the slopes of the tangent lines plotted in magenta.
+            </p>
+          </li>
+        </ol>
+      </p>
+    </solution>
+  </exercise>
+
+  <exercise permid="Zum">
+    <!--
+    <title>Creating graphs with certain properties</title>
+    -->
+	<title>Creating graphs with certain properties</title>
+    <statement>
+      <p permid="mGT">
+        For each of the following prompts,
+        sketch a graph on the provided axes in <xref ref="F-1-3-Ez2">Figure</xref>
+        of a function that has the stated properties.
+      </p>
+
+      <figure xml:id="F-1-3-Ez2" permid="yVl">
+        <caption>Axes for plotting <m>y = f(x)</m> in (a) and <m>y = g(x)</m> in (b).</caption>
+        <image width="99%" source="images/1_2_Ez3" />
+      </figure>
+
+      <p permid="SOc">
+        <ol label="a." permid="kDl">
+          <li permid="rcr">
+            <p permid="kRG">
+              <m>y = f(x)</m> such that
+
+              <ul permid="YoT">
+                <li permid="pne">
+                  the average rate of change of <m>f</m> on <m>[-3,0]</m> is <m>-2</m> and the average rate of change of <m>f</m> on <m>[1,3]</m> is 0.5, and
+                </li>
+
+                <li permid="Vun">
+                  the instantaneous rate of change of <m>f</m> at <m>x = -1</m> is <m>-1</m> and the instantaneous rate of change of <m>f</m> at <m>x = 2</m> is 1.
+                </li>
+              </ul>
+            </p>
+          </li>
+
+          <li permid="XjA">
+            <p permid="QYP">
+              <m>y = g(x)</m> such that
+
+              <ul permid="Ewc">
+                <li permid="BBw">
+                  <m>\frac{g(3)-g(-2)}{5} = 0</m> and <m>\frac{g(1)-g(-1)}{2} = -1</m>, and
+                </li>
+
+                <li permid="hIF"><m>g'(2) = 1</m> and <m>g'(-1) = 0</m></li>
+              </ul>
+            </p>
+          </li>
+        </ol>
+      </p>
+    </statement>
+    <answer permid="Klo">
+      <p permid="BPR">
+        <ol label="a." permid="TFa">
+          <li permid="DqJ">
+            <p permid="QoV">
+              For instance, you could let
+              <m>f(-3) = 3</m> and have <m>f</m> pass through the points <m>(-3,3)</m>,
+              <m>(-1,-2)</m>, <m>(0,-3)</m>, <m>(1,-2)</m>,
+              and <m>(3,-1)</m> and draw the desired tangent lines accordingly.
+            </p>
+          </li>
+
+          <li permid="jxS">
+            <p permid="wwe">
+              For instance,
+              you could draw a function <m>g</m> that passes through the points <m>(-2,3)</m>,
+              <m>(-1,2)</m>, <m>(1,0)</m>, <m>(2,0)</m>,
+              and <m>(3,3)</m> in such a way that the tangent line at <m>(-1,2)</m> is horizontal and the tangent line at <m>(2,0)</m> has slope <m>1</m>.
+            </p>
+          </li>
+        </ol>
+      </p>
+    </answer>
+    <solution permid="eef">
+      <p permid="dnh">
+        <ol label="a." permid="vcq">
+          <li permid="PFb">
+            <p permid="cDn">
+              For this problem,
+              you should draw a graph so that the slope of the secant line from
+              <m>(-3,f(-3))</m> to <m>(0,f(0))</m> is <m>-2</m>,
+              and similarly the slope of the secant line from
+              <m>(1,f(1))</m> to <m>(3,f(3))</m> is <m>0.5</m>,
+              while the slopes of the tangent lines at <m>x = -1</m> and <m>x = 2</m> are <m>-1</m> and <m>1</m>,
+              respectively.
+              For instance, you could let
+              <m>f(-3) = 3</m> and have <m>f</m> pass through the points <m>(-3,3)</m>,
+              <m>(-1,-2)</m>, <m>(0,-3)</m>, <m>(1,-2)</m>,
+              and <m>(3,-1)</m> and draw the desired tangent lines accordingly.
+            </p>
+          </li>
+
+          <li permid="vMk">
+            <p permid="IKw">
+              For this problem,
+              you should draw a graph so that the slope of the secant line from
+              <m>(-2,g(-2))</m> to <m>(3,f(3))</m> is <m>0</m>,
+              and similarly the slope of the secant line from
+              <m>(-1,g(-1))</m> to <m>(1,g(1))</m> is <m>-1</m>,
+              while the slopes of the tangent lines to
+              <m>y = g(x)</m> at <m>x=-1</m> and <m>x = 2</m> are <m>0</m> and <m>1</m>,
+              respectively.
+              For instance,
+              you could draw a function <m>g</m> that passes through the points <m>(-2,3)</m>,
+              <m>(-1,2)</m>, <m>(1,0)</m>, <m>(2,0)</m>,
+              and <m>(3,3)</m> in such a way that the tangent line at <m>(-1,2)</m> is horizontal and the tangent line at <m>(2,0)</m> has slope <m>1</m>.
+            </p>
+          </li>
+        </ol>
+      </p>
+    </solution>
+  </exercise>
+
+  <exercise permid="FBv">
+    <!--
+    <title>Population Growth</title>
+    -->
+	<title>Population Growth</title>
+    <statement>
+      <p permid="fcu">
+        Suppose that the population, <m>P</m>, of China
+        (in billions)
+        can be approximated by the function
+        <m>P(t) = 1.15(1.014)^t</m> where <m>t</m> is the number of years since the start of 1993.
+      </p>
+
+      <p permid="LjD">
+        <ol label="a." permid="QKu">
+          <li permid="bTt">
+            According to the model,
+            what was the total change in the population of China between January 1, 1993 and January 1, 2000?
+            What will be the average rate of change of the population over this time period?
+            Is this average rate of change greater or less than the instantaneous rate of change of the population on January 1, 2000?
+            Explain and justify,
+            being sure to include proper units on all your answers.
+          </li>
+
+          <li permid="IaC">
+            According to the model,
+            what is the average rate of change of the population of China in the ten-year period starting on January 1, 2012?
+          </li>
+
+          <li permid="ohL">
+            Write an expression involving limits that, if evaluated,
+            would give the exact instantaneous rate of change of the population on today's date.
+            Then estimate the value of this limit
+            (discuss how you chose to do so)
+            and explain the meaning
+            (including units)
+            of the value you have found.
+          </li>
+
+          <li permid="UoU">
+            Find an equation for the tangent line to the function
+            <m>y = P(t)</m> at the point where the <m>t</m>-value is given by today's date.
+          </li>
+        </ol>
+      </p>
+    </statement>
+    <answer permid="WzG">
+      <p permid="hXa">
+        <ol label="a." permid="zMj">
+          <li permid="Awd">
+            <p permid="oRF">
+              <m>AV_{[0,7]}=\frac{0.1175}{7} \approx 0.01679</m> billion people per year;
+              <m>P'(7) \approx 0.1762</m> billion people per year;
+              <m>P'(7) \gt AV_{[0,7]}</m>.
+            </p>
+          </li>
+
+          <li permid="gDm">
+            <p permid="UYO">
+              <m>
+              AV_{[19,29]} \approx 0.02234
+              </m>
+              billion people/year.
+            </p>
+          </li>
+
+          <li permid="MKv">
+            <p permid="BfX">
+              We will say that today's date is July 1, 2015,
+              which means that <m>t = 22.5</m>;
+              <me permid="jMn">
+                P'(22.5) = \lim_{h \to 0} \frac{115(1.014)^{22.5+h}-115(1.014)^{22.5}}{h};
+              </me>
+              <m>P'(22.5) \approx 0.02186</m> billions of people per year.
+            </p>
+          </li>
+
+          <li permid="sRE">
+            <p permid="hng">
+              <m>y - 1.57236 = 0.02186(t-22.5)</m>.
+            </p>
+          </li>
+        </ol>
+      </p>
+    </answer>
+    <solution permid="qsx">
+      <p permid="Juq">
+        <ol label="a." permid="bjz">
+          <li permid="YYN">
+            <p permid="Nup">
+              First, <m>P(7)-P(0) = 115(1.014)^7-115(1.014)^0 \approx 0.1175</m> billion people is the total population change.
+              It follows that the average rate of change over this time period is
+              <m>AV_{[0,7]}=\frac{0.1175}{7} \approx 0.01679</m> billion people per year.
+              The instantaneous rate of change of the population at <m>t = 7</m> is
+              <me permid="PTw">
+                P'(7) = \lim_{h \to 0} AV_{[7,7+h]} = \lim_{h \to 0} \frac{115(1.014)^{7+h}-115(1.014)^7}{h}
+              </me>,
+              and approximating this quantity with small values of <m>h</m>,
+              it follows that <m>P'(7) \approx 0.1762</m>.
+              Hence, the instantaneous rate of change at <m>t = 7</m> is greater than the average rate of change of <m>P</m>on the interval <m>[0,7]</m>.
+            </p>
+          </li>
+
+          <li permid="FfW">
+            <p permid="tBy">
+              Using the formula for average rate of change,
+              <me permid="waF">
+                AV_{[19,29]}=\frac{1.15(1.014)^{29}-1.15(1.014)^{19}}{29-19} \approx 0.02234
+              </me>
+              billion people/year.
+            </p>
+          </li>
+
+          <li permid="lnf">
+            <p permid="ZIH">
+              We will say that today's date is July 1, 2015,
+              which means that <m>t = 22.5</m>,
+              so we want to compute <m>P'(22.5)</m>.
+              The limit definition tells us that
+              <me permid="chO">
+                P'(22.5) = \lim_{h \to 0} \frac{115(1.014)^{22.5+h}-115(1.014)^{22.5}}{h}
+              </me>.
+              Estimating this limit by using small values of <m>h</m>,
+              we determine that <m>P'(22.5) \approx 0.02186</m>,
+              which is measured in billions of people per year.
+            </p>
+          </li>
+
+          <li permid="Ruo">
+            <p permid="FPQ">
+              We want the equation of the tangent line that has slope
+              <m>P'(22.5) \approx 0.02186</m> and that passes through the point <m>(22.5, P(22.5))</m>.
+              Using point-slope form, it follows that the line is given by
+              <me permid="IoX">
+                y - 1.57236 = 0.02186(t-22.5)
+              </me>.
+            </p>
+          </li>
+        </ol>
+      </p>
+    </solution>
+  </exercise>
+
+  <exercise permid="lIE">
+    <!--
+    <title>Using the limit definition of the derivative</title>
+    -->
+	<title>Using the limit definition of the derivative</title>
+    <statement>
+      <p permid="rqM">
+        The goal of this problem is to compute the value of the derivative at a point for several different functions,
+        where for each one we do so in three different ways,
+        and then to compare the results to see that each produces the same value.
+      </p>
+
+      <p permid="XxV">
+        For each of the following functions,
+        use the limit definition of the derivative to compute the value of <m>f'(a)</m> using three different approaches:
+        strive to use the algebraic approach first
+        (to compute the limit exactly),
+        then test your result using numerical evidence
+        (with small values of <m>h</m>),
+        and finally plot the graph of <m>y = f(x)</m> near
+        <m>(a,f(a))</m> along with the appropriate tangent line to estimate the value of <m>f'(a)</m> visually.
+        Compare your findings among all three approaches;
+        if you are unable to complete the algebraic approach,
+        still work numerically and graphically.
+      </p>
+
+      <p permid="DFe">
+        <ol label="a." cols="2" permid="wRD">
+          <li permid="xBx"><m>f(x) = x^2 - 3x</m>, <m>a = 2</m></li>
+
+          <li permid="dIG"><m>f(x) = \frac{1}{x}</m>, <m>a = 1</m></li>
+
+          <li permid="JPP"><m>f(x) = \sqrt{x}</m>, <m>a = 1</m></li>
+
+          <li permid="pWY"><m>f(x) = 2 - |x-1|</m>, <m>a = 1</m></li>
+
+          <li permid="Weh">
+            <m>f(x) = \sin(x)</m>,
+            <m>a = \frac{\pi}{2}</m>
+          </li>
+        </ol>
+      </p>
+    </statement>
+    <answer permid="iNY">
+      <p permid="Oej">
+        <ol label="a." permid="fTs">
+          <li permid="Clq">
+            <p permid="lWZ">
+              All three approaches show that <m>f'(2) = 1</m>.
+            </p>
+          </li>
+
+          <li permid="isz">
+            <p permid="Sei">
+              All three approaches show that <m>f'(1) = -1</m>.
+            </p>
+          </li>
+
+          <li permid="OzI">
+            <p permid="ylr">
+              All three approaches show that <m>f'(1) = \frac{1}{2}</m>.
+            </p>
+          </li>
+
+          <li permid="uGR">
+            <p permid="esA">
+              All three approaches show that <m>f'(1)</m> does not exist.
+            </p>
+          </li>
+
+          <li permid="aOa">
+            <p permid="KzJ">
+              The first two approaches show that <m>f'(\frac{\pi}{2}) = 0</m>.
+            </p>
+          </li>
+        </ol>
+      </p>
+    </answer>
+    <solution permid="CGP">
+      <p permid="pBz">
+        <ol label="a." permid="HqI">
+          <li permid="GVj">
+            <p permid="qGS">
+              The table below gives values of the difference quotient
+              <m>\frac{f(a+h)-f(a)}{h}</m> for <m>a=2</m> and several small values of <m>h</m>.
+              This table indicates that <m>f'(2)</m> is approximately <m>1</m>.
+            </p>
+
+            <sidebyside permid="fjy">
+
+              <tabular top="minor" bottom="minor" permid="RIJ">
+                <row>
+                  <cell><m>h</m></cell>
+                  <cell><m>-0.0001</m></cell>
+                  <cell><m>-0.001</m></cell>
+                  <cell><m>-0.01</m></cell>
+                  <cell><m>0.01</m></cell>
+                  <cell><m>0.001</m></cell>
+                  <cell><m>0.0001</m></cell>
+                </row>
+                <row>
+                  <cell><m>\frac{f(2+h)-f(2)}{h}</m></cell>
+                  <cell><m>0.9999</m></cell>
+                  <cell><m>0.9990</m></cell>
+                  <cell><m>0.9900</m></cell>
+                  <cell><m>1.0100</m></cell>
+                  <cell><m>1.0010</m></cell>
+                  <cell><m>1.0001</m></cell>
+                </row>
+              </tabular>
+
+            </sidebyside>
+
+            <p permid="WOb">
+              The tangent line to <m>f</m> at the point
+              <m>(2,f(2))</m> as shown in the following appears to have a slope that is approximately 1.
+            </p>
+
+            <sidebyside width="50%" permid="LqH">
+              <image source="images/1_3_Ez4a_soln" />
+            </sidebyside>
+
+            <p permid="CVk">
+              Finally, we verify these approximations using an algebraic approach.
+              The definition of the derivative of <m>f</m> at <m>x=a</m> shows that
+              <md permid="owg">
+                <mrow>f'(2) &amp;= \lim_{h \to 0} \frac{f(2+h)-f(2)}{h}</mrow>
+                <mrow>&amp;= \lim_{h \to 0} \frac{\left[(2+h)^2 - 3(2+h)\right] - (-2)}{h}</mrow>
+                <mrow>&amp;= \lim_{h \to 0} \frac{\left[4+4h+h^2 - 6 - 3h\right] + 2}{h}</mrow>
+                <mrow>&amp;= \lim_{h \to 0} \frac{h^2 + h}{h}</mrow>
+                <mrow>&amp;= \lim_{h \to 0} \frac{h(h+1)}{h}</mrow>
+                <mrow>&amp;= \lim_{h \to 0} h+1</mrow>
+                <mrow>&amp;= 1</mrow>
+              </md>
+              This confirms our conclusions using the numeric and geometric approaches.
+            </p>
+          </li>
+
+          <li permid="ncs">
+            <p permid="jct">
+              The following table gives values of the difference quotient
+              <m>\frac{f(a+h)-f(a)}{h}</m> for <m>a=1</m> and several small values of <m>h</m>.
+              This table indicates that <m>f'(1)</m> is approximately <m>-1</m>.
+            </p>
+
+            <sidebyside permid="rxQ">
+
+              <tabular top="minor" bottom="minor" permid="xPS">
+                <row>
+                  <cell><m>h</m></cell>
+                  <cell><m>-0.0001</m></cell>
+                  <cell><m>-0.001</m></cell>
+                  <cell><m>-0.01</m></cell>
+                  <cell><m>0.01</m></cell>
+                  <cell><m>0.001</m></cell>
+                  <cell><m>0.0001</m></cell>
+                </row>
+                <row>
+                  <cell><m>\frac{f(1+h)-f(1)}{h}</m></cell>
+                  <cell><m>-1.00010</m></cell>
+                  <cell><m>-1.001001</m></cell>
+                  <cell><m>-1.010101</m></cell>
+                  <cell><m>-0.990099</m></cell>
+                  <cell><m>-0.999001</m></cell>
+                  <cell><m>-0.999900</m></cell>
+                </row>
+              </tabular>
+
+            </sidebyside>
+
+            <p permid="PjC">
+              The tangent line to <m>f</m> at the point
+              <m>(1,f(1))</m> as shown in the following figure appears to have a slope that is approximately <m>-1</m>.
+            </p>
+
+            <sidebyside width="50%" permid="XEZ">
+              <image source="images/1_3_Ez4b_soln" />
+            </sidebyside>
+
+            <p permid="vqL">
+              Finally, we verify these approximations using an algebraic approach.
+              The definition of the derivative of <m>f</m> at <m>x=a</m> shows that
+              <md permid="UDp">
+                <mrow>f'(1) &amp;= \lim_{h \to 0} \frac{f(1+h)-f(1)}{h}</mrow>
+                <mrow>&amp;= \lim_{h \to 0} \frac{\frac{1}{1+h} - 1}{h}</mrow>
+                <mrow>&amp;= \lim_{h \to 0} \frac{\frac{1}{1+h} - 1}{h} \left(\frac{1+h}{1+h} \right)</mrow>
+                <mrow>&amp;= \lim_{h \to 0} \frac{1-(1+h)}{h(1+h)}</mrow>
+                <mrow>&amp;= \lim_{h \to 0} \frac{-h)}{h(1+h)}</mrow>
+                <mrow>&amp;= \lim_{h \to 0} -\frac{1}{1+h}</mrow>
+                <mrow>&amp;= -1</mrow>
+              </md>.
+              This confirms our conclusions using the numeric and geometric approaches.
+            </p>
+          </li>
+
+          <li permid="TjB">
+            <p permid="bxU">
+              The table below gives values of the difference quotient
+              <m>\frac{f(a+h)-f(a)}{h}</m> for <m>a=1</m> and several small values of <m>h</m>.
+              This table indicates that <m>f'(1)</m> is approximately <m>0.5</m>.
+            </p>
+
+            <sidebyside permid="DMi">
+
+              <tabular top="minor" bottom="minor" permid="dXb">
+                <row>
+                  <cell><m>h</m></cell>
+                  <cell><m>-0.0001</m></cell>
+                  <cell><m>-0.001</m></cell>
+                  <cell><m>-0.01</m></cell>
+                  <cell><m>0.01</m></cell>
+                  <cell><m>0.001</m></cell>
+                  <cell><m>0.0001</m></cell>
+                </row>
+                <row>
+                  <cell><m>\frac{f(1+h)-f(1)}{h}</m></cell>
+                  <cell><m>0.50001300</m></cell>
+                  <cell><m>0.50012510</m></cell>
+                  <cell><m>0.50125629</m></cell>
+                  <cell><m>0.49875620</m></cell>
+                  <cell><m>0.49987500</m></cell>
+                  <cell><m>0.49999000</m></cell>
+                </row>
+              </tabular>
+
+            </sidebyside>
+
+            <p permid="HFd">
+              The tangent line to <m>f</m> at the point
+              <m>(1,f(1))</m> as shown in the figure below appears to have a slope that is approximately <m>0.5</m>.
+            </p>
+
+            <sidebyside width="50%" permid="jTr">
+              <image source="images/1_3_Ez4c_soln" />
+            </sidebyside>
+
+            <p permid="nMm">
+              Finally, we verify these approximations using an algebraic approach.
+              The definition of the derivative of <m>f</m> at <m>x=a</m> shows that
+              <md permid="AKy">
+                <mrow>f'(1) &amp;= \lim_{h \to 0} \frac{f(1+h)-f(1)}{h}</mrow>
+                <mrow>&amp;= \lim_{h \to 0} \frac{\sqrt{1+h}-\sqrt{1}}{h}</mrow>
+                <mrow>&amp;= \lim_{h \to 0} \frac{\sqrt{1+h}-1}{h}</mrow>
+                <mrow>&amp;= \lim_{h \to 0} \frac{\sqrt{1+h}-1}{h} \left(\frac{\sqrt{1+h}+1}{\sqrt{1+h}+1} \right)</mrow>
+                <mrow>&amp;= \lim_{h \to 0} \frac{(1+h)-1}{h(\sqrt{1+h}+1)}</mrow>
+                <mrow>&amp;= \lim_{h \to 0} \frac{h}{h(\sqrt{1+h}+1)}</mrow>
+                <mrow>&amp;= \frac{1}{\sqrt{1+h}+1}</mrow>
+                <mrow>&amp;= \frac{1}{2}</mrow>
+              </md>.
+              This confirms our conclusions using the numeric and geometric approaches.
+            </p>
+          </li>
+
+          <li permid="zqK">
+            <p permid="TTv">
+              The data in the following table indicates that
+              <m>\frac{f(1+h)-f(1)}{h}</m> has values of <m>1</m> for <m>h \lt 0</m> and values of <m>-1</m> for <m>h \gt 0</m>.
+              This implies that <m>f'(1)</m> does not exist.
+            </p>
+
+            <sidebyside permid="QaA">
+
+              <tabular top="minor" bottom="minor" permid="Kek">
+                <row>
+                  <cell><m>h</m></cell>
+                  <cell><m>-0.0001</m></cell>
+                  <cell><m>-0.001</m></cell>
+                  <cell><m>-0.01</m></cell>
+                  <cell><m>0.01</m></cell>
+                  <cell><m>0.001</m></cell>
+                  <cell><m>0.0001</m></cell>
+                </row>
+                <row>
+                  <cell><m>\frac{f(1+h)-f(1)}{h}</m></cell>
+                  <cell><m>1</m></cell>
+                  <cell><m>1</m></cell>
+                  <cell><m>1</m></cell>
+                  <cell><m>-1</m></cell>
+                  <cell><m>-1</m></cell>
+                  <cell><m>-1</m></cell>
+                </row>
+              </tabular>
+
+            </sidebyside>
+
+            <p permid="AaE">
+              The graph of <m>f</m> in the figure below appears to show a sharp corner at the point <m>(1,f(1))</m>,
+              also implying that there is no tangent line to <m>f</m>at <m>(1,f(1))</m>.
+            </p>
+
+            <sidebyside width="50%" permid="whJ">
+              <image source="images/1_3_Ez4d_soln" />
+            </sidebyside>
+
+            <p permid="ghN">
+              Now we verify these approximations using an algebraic approach.
+              Notice first that
+              <md permid="tfZ">
+                <mrow>\frac{f(1+h)-f(1)}{h} &amp;= \frac{[2-|(1+h)-1|] - 2}{h}</mrow>
+                <mrow>&amp;= \frac{(2-|h|)-2}{h}</mrow>
+                <mrow>&amp;= \frac{-|h|}{h}</mrow>
+              </md>
+              The definition of the absolute value function tells us that <m>|h| = h</m> whenever <m>h \ge 0</m>,
+              while <m>|h| = -h</m> whenever <m>h \lt 0</m>.
+              Thus, for <m>h \gt 0</m>, we have
+              <me permid="gRH">
+                \frac{f(1+h)-f(1)}{h} = \frac{-|h|}{h} = -\frac{h}{h} = -1
+              </me>
+              and for <m>h \lt 0</m>, we have
+              <me permid="MYQ">
+                \frac{f(1+h)-f(1)}{h} = \frac{-|h|}{h} = -\frac{-h}{h} = 1
+              </me>.
+              This confirms that <m>\lim_{h \to 0} \frac{f(1+h)-f(1)}{h}</m> does not exist.
+            </p>
+          </li>
+
+          <li permid="fxT">
+            <p permid="MoW">
+              The data in the following table indicate that
+              <m>\frac{f(\frac{\pi}{2}+h)-f(\frac{\pi}{2})}{h}</m> approaches <m>0</m> as <m>h \to 0</m>.
+            </p>
+
+            <sidebyside permid="coS">
+
+              <tabular top="minor" bottom="minor" permid="qlt">
+                <row>
+                  <cell><m>h</m></cell>
+                  <cell><m>-0.0001</m></cell>
+                  <cell><m>-0.001</m></cell>
+                  <cell><m>-0.01</m></cell>
+                  <cell><m>0.01</m></cell>
+                  <cell><m>0.001</m></cell>
+                  <cell><m>0.0001</m></cell>
+                </row>
+                <row>
+                  <cell><m>\frac{f(1+h)-f(1)}{h}</m></cell>
+                  <cell><m>0.00005</m></cell>
+                  <cell><m>0.0005</m></cell>
+                  <cell><m>0.005</m></cell>
+                  <cell><m>-0.005</m></cell>
+                  <cell><m>-0.0005</m></cell>
+                  <cell><m>-0.00005</m></cell>
+                </row>
+              </tabular>
+
+            </sidebyside>
+
+            <p permid="swf">
+              The graph of <m>f</m> in the figure below shows a horizontal tangent line at the point <m>(\frac{\pi}{2},f(\frac{\pi}{2}))</m>,
+              which also suggests that <m>f'(\frac{\pi}{2}) = 0</m>.
+            </p>
+
+            <sidebyside width="50%" permid="Iwb">
+              <image source="images/1_3_Ez4e_soln" />
+            </sidebyside>
+
+            <p permid="YDo">
+              Finally, we attempt to verify these approximations using an algebraic approach.
+              Notice first that
+              <md permid="Fur">
+                <mrow>\frac{f(\frac{\pi}{2}+h)-f(\frac{\pi}{2})}{h} &amp;= \frac{\sin(\frac{\pi}{2}+h) - \sin \frac{\pi}{2}}{h}</mrow>
+                <mrow>&amp;= \frac{\sin(\frac{\pi}{2}+h) - 1}{h}</mrow>
+              </md>
+              Using the sum of two angles identity for the sine function,
+              it follows that
+              <me permid="Zni">
+                \sin(\frac{\pi}{2}+h) = \sin \frac{\pi}{2} \cos(h) + \cos \frac{\pi}{2} \sin(h) =  1 \cdot \cos(h) + 0 \cdot \sin(h) =  \cos(h)
+              </me>.
+              Hence,
+              <md permid="lBA">
+                <mrow>f'(\frac{\pi}{2}) &amp;= \lim_{h \to 0} \frac{f(\frac{\pi}{2}+h)-f(\frac{\pi}{2})}{h}</mrow>
+                <mrow>&amp;= \lim_{h \to 0} \frac{\cos(h) - 1}{h}</mrow>
+              </md>
+              At this point,
+              we encounter a limit that we are unable to evaluate further using algebraic means.
+              Like the earlier limit above,
+              we can estimate the limit using small values of <m>h</m>.
+              Doing so confirms that this limit also approaches <m>0</m>,
+              and we hence conclude that <m>f'(\frac{\pi}{2}) = 0</m>.
+            </p>
+          </li>
+        </ol>
+      </p>
+    </solution>
+  </exercise>
+
+  
+   </exercises>
+</section>
+

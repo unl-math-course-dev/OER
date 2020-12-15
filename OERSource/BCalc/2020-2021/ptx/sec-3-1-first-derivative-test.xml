@@ -1,0 +1,1266 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!-- **********************************************************************-->
+<!-- Copyright 2019                                                        -->
+<!-- UNL Department of Mathematics                                         -->
+<!-- Based upon the work of                                                -->
+<!-- Matthew Boelkins                                                      -->
+<!-- Copyright 2012-2018                                                   -->
+<!--                                                                       -->
+<!-- This file is part of Coordinated Calculus.                            -->
+<!-- This file is based on Active Calculus.                                -->
+<!--                                                                       -->
+<!-- Permission is granted to copy, distribute and/or modify this document -->
+<!-- under the terms of the Creative Commons BY-SA license.  The work      -->
+<!-- may be used for free by any party so long as attribution is given to  -->
+<!-- the author(s), the work and its derivatives are used in the spirit of -->
+<!-- "share and share alike".  All trademarks are the registered marks of  -->
+<!-- their respective owners.                                              -->
+<!-- **********************************************************************-->
+<section xmlns:xi="http://www.w3.org/2001/XInclude" xml:id="sec-3-1-first-derivative-test" permid="ubB">
+  <title>First Derivative Test</title>
+  <objectives permid="Dvn">
+
+      <li permid="AAH">
+        <p permid="lrJ">
+          How to tell when a function <m>f</m> is increasing or decreasing.
+        </p>
+      </li>
+    <ul permid="omp">
+      <li permid="AAH">
+        <p permid="lrJ">
+          What are the critical numbers of a function <m>f</m> and how are they connected to identifying the most extreme values the function achieves?
+        </p>
+      </li>
+
+      <li permid="gHQ">
+        <p permid="RyS">
+          How does the first derivative of a function reveal important information about the behavior of the function,
+          including the function's extreme values?
+        </p>
+      </li>
+
+    </ul>
+  </objectives>
+
+  <introduction permid="vQO">
+    <p permid="Vds">
+      In many different settings,
+      we are interested in knowing where a function achieves its least and greatest values.
+      These can be important in applications <ndash /> such as identifying a point at which maximum profit or minimum cost occurs <ndash /> or in theory such as characterizing the behavior of a function or of a family of related functions.
+    </p>
+</introduction>
+
+  <subsection permid="wlN">
+    <title>Increasing and Decreasing Functions</title>
+    <p permid="JjZ">
+      So far,
+      we have used the words
+      <em>increasing</em> and <em>decreasing</em> intuitively
+      to describe a function's graph.
+      Here we define these terms more formally.
+    </p>
+
+    <p permid="fXw">
+    <assemblage><title>Increasing and Decreasing Functions</title>
+        <p>
+          Given a function <m>f(x)</m> defined on the interval <m>(a,b)</m>,
+          we say that <term><m>f</m> is increasing on <m>(a,b)</m></term>
+            <idx><h>increasing</h></idx>
+          provided that <m>f(x)\lt f(y)</m> whenever <m>a\lt x\lt y\lt b</m>.
+          <!--for all <m>x</m>,
+          <m>y</m> in the interval <m>(a,b)</m>,
+          if <m>x \lt y</m>, then <m>f(x) \lt f(y)</m>. -->
+          Similarly, we say that <term><m>f</m> is decreasing on <m>(a,b)</m></term>
+            <idx><h>decreasing</h></idx>
+          provided that <m>f(x)\gt f(y)</m> whenever <m>a\lt x\lt y\lt b</m>.
+          <!--for all <m>x</m>,
+          <m>y</m> in the interval <m>(a,b)</m>,
+          if <m>x \lt y</m>, then <m>f(x) \gt f(y)</m>.-->
+        </p>
+    </assemblage>
+    </p>
+
+    <p permid="pri">
+      Simply put,
+      an increasing function is one that is rising as we move from left to right along the graph,
+      and a decreasing function is one that falls as the value of the input increases.
+     </p>
+<p permid="YsX">
+      Given a differentiable function <m>y= f(x)</m>,
+      we know that its derivative, <m>y = f'(x)</m>,
+      is a related function whose output at <m>x=a</m> tells us the slope of the tangent line to
+      <m>y = f(x)</m> at the point <m>(a,f(a))</m>.
+      That is, <m>y</m>-coordinates on the derivative graph tell us the values of slopes on the original function's graph.
+    </p>
+
+    <p permid="EAg">
+      At a point where <m>f'(x)</m> is positive,
+      the slope of the tangent line to <m>f</m> is positive.
+      Therefore, on an interval where <m>f'(x)</m> is positive,
+      the function <m>f</m> is increasing
+      (or rising).
+          <idx><h>increasing</h></idx>
+      Similarly,
+      if <m>f'(x)</m> is negative on an interval,
+      the graph of <m>f</m> is decreasing
+          <idx><h>decreasing</h></idx>
+      (or falling).
+    </p>
+
+    <p permid="kHp">
+      The derivative of <m>f</m> tells us not only <em>whether</em>
+      the function <m>f</m> is increasing or decreasing on an interval,
+      but also <em>how</em> the function <m>f</m> is increasing or decreasing.
+      Look at the two tangent lines shown below in <xref ref="F-1-6-Intro">Figure</xref>.
+      We see that at point <m>A</m>
+      the value of <m>f'(x)</m> is positive and relatively close to zero,
+      and at that point the graph is rising slowly.
+      By contrast, at point <m>B</m>,
+      the derivative is negative and relatively large in absolute value,
+      and <m>f</m> is decreasing rapidly at <m>B</m>.
+    </p>
+
+    <figure xml:id="F-1-6-Intro" permid="dcQ">
+      <caption>Two tangent lines on a graph.</caption>
+      <image width="45%" source="images/1_6_Intro" />
+    </figure>
+
+<p permid="Vyr">
+      Let <m>f</m> be a function that is differentiable on an interval <m>(a,b)</m>.
+      If the function <m>f</m> is increasing on <m>(a,b)</m> then
+      <m>f'(x) \geq 0</m> for every <m>x</m> in the interval <m>(a, b)</m>.
+      Conversely, if <m>f'(x) > 0</m> for every <m>x</m> in the interval, then
+      the function <m>f</m> must be increasing on the interval.
+      Notice that we have to have the derivative strictly positive to conclude that the function is increasing.
+      Letting <m>f</m> be a constant function shows that if the derivative can be zero, then the function
+      need not be increasing.  Also, knowing the function is increasing is not enough to conclude that the 
+      derivative is positive.  The function <m>f(x)=x^3</m> is increasing on <m>(-1,1)</m> but <m>f'(0)=0</m>.
+</p>
+<p>
+      Similarly, if the function <m>f</m> is decreasing on <m>(a,b)</m> then
+      <m>f'(x) \leq 0</m> for every <m>x</m> in the interval <m>(a, b)</m>.
+      Conversely, if <m>f'(x) \lt 0</m> for every <m>x</m> in the interval, then
+      the function <m>f</m> must be decreasing on the interval.
+  </p>
+
+    <p permid="BFA">
+      For example,
+      the function pictured below in <xref ref="F-1-6-Intro2">Figure</xref>
+      is increasing on the entire interval <m>-2 \lt x \lt 0</m>.
+      Note that at both <m>x = \pm 2</m> and <m>x = 0</m>,
+      we say that <m>f</m> is neither increasing nor decreasing,
+      because <m>f'(x) = 0</m> at these values.
+    </p>
+
+    <figure xml:id="F-1-6-Intro2" permid="hMJ">
+      <caption>A function that is decreasing on the intervals <m>-3 \lt  x \lt  -2</m> and <m>0 \lt  x  \lt  2</m> and increasing on <m>-2 \lt  x \lt  0</m> and <m>2 \lt  x \lt  3</m>.</caption>
+      <image width="47%" source="images/1_6_Intro2" />
+    </figure>
+<p>
+      If the function has a derivative,
+      the sign of the derivative tells us whether the function is increasing or decreasing.
+</p>
+
+<p permid="fXw">
+    <assemblage><title>Increasing and Decreasing Functions</title>
+        <p>
+          Given a function <m>f(x)</m> is differentiable on the interval <m>(a,b)</m>,</p>
+          <p>If <term><m>f'(x)\gt 0</m> then <m>f(x)</m>  is increasing on <m>(a,b)</m></term>.</p>
+        <p>  If <term><m>f'(x)\lt 0</m> then <m>f(x)</m>  is decreasing on <m>(a,b)</m></term>.
+         
+        </p>
+    </assemblage>
+    </p>
+
+
+
+
+
+
+</subsection>
+<subsection permid="wlN">
+    <title>Mins and Max</title>
+      <p permid="JjZ">
+      Consider the simple and familiar example of a parabolic function such as <m>s(t) = -16t^2 + 32t + 48</m>
+      (shown on the <em>left</em> of <xref ref="F-3-1-Intro">Figure</xref> below)
+      that represents the height of an object tossed vertically:
+      its maximum value occurs at the vertex of the parabola and represents the greatest height the object reaches.
+      This maximum value is an especially important point on the graph,
+      the point at which the curve changes from increasing to decreasing.
+    </p>
+
+    <p permid="PJF">
+              <idx><h>maximum</h><h>relative</h></idx>
+              <idx><h>maximum</h><h>relative</h></idx>
+              <idx><h>minimum</h><h>relative</h></idx>
+              <idx><h>minimum</h><h>relative</h></idx>
+    <assemblage>
+    <title>Relative Maximum and Minimum</title>
+        <p permid="Qtz">
+          We say that <m>f(c)</m> is a <term>
+          relative maximum</term>
+          of <m>f</m> provided that
+          <m>f(c) \ge f(x)</m> for all <m>x</m> near <m>c</m>.
+          Likewise, <m>f(c)</m> is called a <term>
+          relative minimum</term>
+          of <m>f</m> whenever <m>f(c) \le f(x)</m> for all <m>x</m> near <m>c</m>.
+        </p>
+    </assemblage>
+    </p>
+
+    <p permid="tGc">
+   The vertex in the graph <m>s(t) = -16t^2 + 32t + 48</m>
+      (shown on the <em>left</em> of <xref ref="F-3-1-Intro">Figure</xref> below) is a relative maximum.
+      If we consider the graph of <m>y=g(x)</m> on the <em>right</em> of <xref ref="F-3-1-Intro">Figure</xref> below;   <m>g</m> has a relative minimum of <m>g(b)</m> at the point
+      <m>(b,g(b))</m> and <em>two</em> relative maximum at both <m>(a,g(a))</m>, and <m>(c,g(c))</m>. It is important to note from this example that a function may have <em>many</em> relative maximum or minimum</p>
+<p>
+      Another piece of terminology to be familiar with is that 
+      any maximum or minimum may also be called an <term>extreme value</term>
+          <idx><h>extreme value</h></idx>
+      of <m>f</m>.
+    </p>
+
+    <figure xml:id="F-3-1-Intro" permid="ZNl">
+      <caption>On the left, the graph of <m>y=s(t)</m>, where <m>s(t) = -16t^2 + 24t + 32</m> is a parabola whose vertex is <m>\left(\frac{3}{4}, 41\right)</m>; on the right, the graph of <m>y=g(x)</m>, where <m>g</m> is a function that demonstrates several high and low points.</caption>
+      <image width="100%" source="images/3_1_Intro" />
+    </figure>
+
+ 
+
+    <p permid="tGc">
+      We would like to use calculus ideas to identify and classify key function behavior,
+      including the location of relative extrema.
+      Of course, if we are given a graph of a function,
+      it is often straightforward to locate these important behaviors visually.
+      We see this below in <xref ref="PA-3-1">Example</xref>.
+    </p>
+
+<example xml:id="PA-3-1" permid="svs">
+<statement>
+  <p permid="zZR">
+    Consider the function <m>h</m> given by the graph in <xref ref="F-3-1-PA1">Figure</xref> below.
+    Use the graph to answer each of the following questions.
+  </p>
+
+  <figure xml:id="F-3-1-PA1" permid="Moj">
+    <caption>The graph of <m>y=h(x)</m> on the interval <m>[-3,3]</m>.</caption>
+    <image width="50%" source="images/3_1_PA1" />
+  </figure>
+
+  <p permid="gha">
+    <ol label="a." permid="ZHU">
+      <li permid="FPd">
+        <p permid="CUx">
+          Identify all of the values of <m>c</m> for which <m>h(c)</m> is a relative maximum of <m>h</m>.
+        </p>
+      </li>
+
+      <li permid="lWm">
+        <p permid="jbG">
+          Identify all of the values of <m>c</m> for which <m>h(c)</m> is a relative minimum of <m>h</m>.
+        </p>
+      </li>
+
+      <li permid="KyW">
+        <p permid="HEq">
+          Identify all values of <m>c</m> for which <m>h'(c)</m> does not exist.
+        </p>
+      </li>
+
+      <li permid="qGf">
+        <p permid="nLz">
+          True or false:
+          every relative maximum and minimum of <m>h</m> occurs at a point where <m>h'(c)</m> is either zero or does not exist.
+        </p>
+      </li>
+
+      <li permid="WNo">
+        <p permid="TSI">
+          True or false:
+          at every point where <m>h'(c)</m> is zero or does not exist,
+          <m>h</m> has a relative maximum or minimum.
+        </p>
+      </li>
+    </ol>
+  </p>
+</statement>
+<answer>
+  <p>
+  <ol label="a.">
+    <li>
+    <p>
+    <m>c=-2</m> and <m>c=1</m>.
+    </p>
+    </li>
+    
+<li>
+    <p>
+    <m>c=-2</m>, <m>c=0</m>, and <m>c=1.5</m>. 
+    </p>
+    </li>
+    <li>
+    <p>
+    True.
+    </p>
+    </li>
+    <li>
+    <p>
+    False.
+    </p>
+    </li>
+  </ol>
+  </p>
+</answer>
+<solution>
+  <p>
+  <ol label="a.">
+    <li>
+    <p>
+    The graph shows that <m>h(x)\le-1=h(-2)</m> for every <m>x</m> near <m>-2</m> and 
+    <m>h(x)\le2=h(1)</m> for every <m>x</m> near <m>1</m>. We notice that these are points where <m>h</m>
+    switches from increasing to decreasing. Since there are no other points on the graph where the 
+    <m>y</m>-coordinate is larger than everything nearby, it follows that the only relative 
+    maxima of <m>h</m> on this domain occur at <m>c=-2</m> and <m>c=1</m>.
+    </p>
+    </li>
+
+    <li>
+    <p>
+    The graph shows that <m>h(x)\ge-2=h(0)</m> for every <m>x</m> near <m>0</m>, a point where 
+    <m>h</m> switches from decreasing to increasing. Since this is the only point shown where this occurs, 
+    we say that the only relative minimum of <m>h</m> on this domain occurs at <m>c=0</m>.
+    <!--However, because we are looking at a restricted domain, 
+    on the left we see that <m>h</m> starts out by going up, so <m>h(x)\ge-3=h(-3)</m> for every <m>x</m> near to 
+    (and greater than) <m>-3</m>. Similarly, on the right we see that <m>h</m> finishes by going down, 
+    so <m>h(x)\ge-1.25=h(3)</m> for all <m>x</m> near to (and less than) <m>3</m>. At the very least, then, 
+    we can say that the relative minima of <m>h</m> <em>on the domain <m>[-3,3]</m></em> are 
+    <m>c=-3</m>, <m>c=0</m>, and <m>c=3</m>. 
+    </p>
+    <p>
+    Again, we emphasize that the endpoints of the domain are special. If the graph extended to either side, 
+    we could not say with certainty whether the points <m>(-3,h(-3))</m> and <m>(3,h(3))</m> are relative minima or not.
+    They might be, if the graph changed direction again, but they would not be if the graph followed the existing trend. -->
+    </p>
+    </li>
+
+    <li>
+    <p>
+    Recall that <m>h'(c)</m> only exists when all of the following are true:
+    <ul>
+    <li><p><m>h(c)</m> is defined,</p></li>
+    <li><p><m>\displaystyle \lim_{x\to c}h(x)</m> exists,</p></li>
+    <li><p><m>\displaystyle \lim_{x\to c}h(x)=h(c)</m>, and </p></li>
+    <li><p><m>\displaystyle \lim_{a\to0}\frac{h(c+a)-h(c)}a</m> exists.</p></li>
+    </ul>
+    Assuming <m>h</m> is continuous at <m>c</m> (i.e. the first three points hold), 
+    the main consequence of the final point is that a corner or a cusp at <m>(c,h(c))</m> 
+    makes <m>h</m> nondifferentiable at <m>c</m>.
+    </p>
+    <p>
+    With all this in mind, we can say that <m>h'(c)</m> does not exist at <m>c=-2</m>, <m>c=0</m>, or <m>c=1.5</m>
+    because <m>h</m> has a cusp at these points. 
+    <!-- Moreover, <m>h'(-3)</m> does not exist because 
+    <m>\displaystyle \lim_{a\to0^-}\frac{h(-3+a)-h(-3)}a</m> is undefined, and <m>h'(3)</m> does not 
+    exist because <m>\displaystyle \lim_{a\to0^+}\frac{h(3+a)-h(3)}a</m> is undefined.-->
+    </p>
+    </li>
+    <li>
+    <p>
+    This is true. Every relative extremum of <m>h</m> occurs at a point where <m>h'(c)</m>
+    is either zero or does not exist. 
+    </p>
+    </li>
+    <li>
+    <p>
+    This is false. Some points at which <m>h'(c)</m> is zero or undefined are not relative extrema. 
+    In particular, <m>h'(-2.5)</m> is zero, but the graph is non-decreasing near <m>(-2.5,-2)</m>. 
+    Similarly, <m>h'(1.5)</m> is undefined, but the graph is non-increasing near <m>(1.5,1)</m>.
+    Neither of these points is a relative maximum or minimum.
+    </p>
+    </li>
+  </ol>
+  </p>
+</solution>
+</example>
+  </subsection>
+
+  <subsection permid="aiK">
+    <title>Critical Points and the First Derivative Test</title>
+    <figure xml:id="F-3-1-extremes" permid="exe">
+      <caption>From left to right: a function with a relative maximum where its derivative is zero; a function with a relative maximum where its derivative is undefined; a function with neither a maximum nor a minimum at a point where its derivative is zero; a function with a relative minimum where its derivative is zero; and a function with a relative minimum where its derivative is undefined.</caption>
+      <image width="100%" source="images/3_1_extremes" />
+    </figure>
+
+
+
+
+
+    <p permid="FUu">
+	Suppose a function <m>f</m> is continuous on an open interval <m>(a,b)</m>.  
+	If <m>f</m> has a relative <i>maximum</i> at some number <m>c</m> in this interval, then <m>f</m> must be increasing in some interval just before <m>c</m> and
+	decreasing in some interval just after <m>c</m>.  These intervals could be quite small.  Conversely, if <m>f</m> is increasing in an interval just before <m>c</m> and decreasing in an interval just after <m>c</m>, then
+	<m>f</m> must have a relative maximum at <m>c</m>.
+
+ </p>
+
+    <p permid="SiM">
+   
+	The natural analogue holds for relative minima: 
+	if <m>f</m> has a relative <i>minimum</i> at some number <m>c</m> in this interval, then <m>f</m> is <i>decreasing</i> in some interval just before <m>c</m> and
+	<i>increasing</i> just after <m>c</m>.  Conversely, if <m>f</m> is <i>decreasing</i> in some interval just before <m>c</m> and <i>decreasing</i> in an interval just after <m>c</m>, then
+	<m>f</m> must have a relative <i>minimum</i> at <m>c</m>.
+
+
+      (See <xref ref="F-3-1-extremes">Figure</xref> above.)
+      There are only two possible ways for these changes in behavior to occur:
+      either <m>f'(c) = 0</m> or <m>f'(c)</m> is undefined.
+      Because these values of <m>c</m> are so important,
+      we call the point <m>(c,f(c))</m> a critical point.
+    </p>
+    
+    
+    
+
+    <p permid="eSD">
+    <assemblage>
+    <title>Critical Point</title>
+        <p permid="wAI">
+          We say that a function <m>f</m> has a <term>critical point</term>
+              <idx><h>critical point</h></idx>
+          at <m>(c,f(c))</m> provided that <m>c</m> is in the domain of <m>f</m>,
+          and <m>f'(c) = 0</m> or <m>f'(c)</m> is undefined.
+          When <m>(c,f(c))</m> is a critical point, we say that <m>c</m> is a <term>critical number</term>
+              <idx><h>critical number</h></idx>
+          of the function, or that <m>f(c)</m> is a <term>critical value</term>.
+              <idx><h>critical value</h></idx>
+        </p>
+    </assemblage>
+    </p>
+
+    <p permid="mbD">
+      Critical points are the only possible locations where the function <m>f</m> may have relative<fn>
+      Absolute extrema occur only at critical points <em>or at endpoints for functions defined on a fixed domain</em>.
+      </fn> extrema.
+      Note that not every critical point produces a maximum or minimum;
+      in the middle graph of <xref ref="F-3-1-extremes">Figure</xref>,
+      the function pictured there has a horizontal tangent line at the noted point,
+      but the function is increasing before and increasing after,
+      so the critical point does not yield a maximum or minimum. 
+      Two other such points appeared earlier in <xref ref="F-3-1-PA1">Figure</xref> 
+      of <xref ref="PA-3-1">Example</xref>.
+    </p>
+
+    <p permid="SiM">
+      The first derivative test
+      summarizes how sign changes in the first derivative
+      (which can only occur at critical numbers)
+      indicate the presence of a relative maximum or minimum for a given function.
+    </p>
+
+    <assemblage xml:id="First-D-Test" permid="SEl">
+      <title>First Derivative Test</title>
+      <p permid="ypV">
+            <idx><h>first derivative test</h></idx>
+        If <m>x=c</m> is a critical number of a continuous function <m>f(x)</m> that is differentiable near <m>x=c</m>
+        (except possibly at <m>x = c</m>),
+        then <m>f</m> has a relative maximum at <m>x=c</m> if and only if <m>f'</m> changes sign from positive to negative at <m>p</m>,
+        and <m>f</m> has a relative minimum at <m>x=c</m> if and only if <m>f'</m> changes sign from negative to positive at <m>p</m>.
+      </p>
+    </assemblage>
+
+<example>
+<statement>
+<p>
+Consider the function <m>s(t) = -16t^2 + 24t + 32</m> (shown on the <em>left</em> of <xref ref="F-3-1-Intro">Figure</xref>). To find the relative extrema:
+</p>
+<p>
+<em>Step 1</em> Find the derivative of <m>s(t)</m>.
+<me>
+s'(t)=-32t+24
+</me>
+<em>Step 2</em> Find any critical points of <m>s(t)</m> by setting <m>s'(t)=0</m> and solving for <m>t</m> and considering when <m>s'(t)=DNE</m>.
+<me>
+s'(t)=-32t+24=0 \text{ solve by adding } 32t \text{ to both side and dividing by } 24 \text{ to get}  t=\frac{24}{32}=\frac{3}{4}
+</me>
+Thus we found a single critical point <m>t=\frac{3}{4}</m>. In this case the derivative always exists.</p>
+<p>
+<em>Step 3</em> Consider the sign of the derivative on either side of the critical point to determine if the function is increasing or decreasing. In this case <m>s'(0)=24\gt0</m>, thus <m>s(t)</m> is increasing to the left of the critical point. Also <m>s'(1)=-8\lt0</m>, thus <m>s(t)</m> is decreasing from the right of critical point.
+</p>
+<p>
+<em>Step 4</em> Interpret your results from Step 3. Here since the function goes from increasing to decreasing at <m>t=\frac{3}{4}</m> the function has a relative maximum at <m>(\frac{3}{4},s(\frac{3}{4}))</m> (shown on the <em>left</em> of <xref ref="F-3-1-Intro">Figure</xref>).
+</p>
+</statement>
+</example>
+
+<example>
+<statement>
+<p>
+Consider the function <m>f(x) =2x^3-3x^2-12x+1</m>, find the relative extrema:
+</p>
+<p>
+<em>Step 1</em> Find the derivative of <m>f(x)</m>.
+<me>
+f'(x)=6x^2-6x-12
+</me>
+<em>Step 2</em> Find any critical points of <m>f(x)</m> by setting <m>f'(x)=0</m> and solving for <m>x</m> and considering when <m>f'(x)=DNE</m>.
+<me>
+f'(x)=6x^2-6x-12=0 \text{ solve by factoring } f'(x)=6(x^2-x-2)=6(x-2)(x+1)=0
+</me>
+Thus we find two critical points <m>x=2,-1</m>. The derivative always exists.</p>
+<p>
+<em>Step 3</em> Consider the sign of the derivative on either side of the critical points to determine if the function is increasing or decreasing. In this case we need to test the sign at three points: <m>f'(-2)=24\gt0</m>, thus <m>f(x)</m> is increasing when <m>x\lt-1</m>; <m>f(0)=-12\lt0</m>, thus <m>f(x)</m> is decreasing for <m> -1 \lt x \lt 2</m>; and <m>f'(3)=24\gt0</m>, thus <m>f(x)</m> is increasing for <m>x\gt 2</m>.
+</p>
+<p>
+<em>Step 4</em> Interpret your results from Step 3. Since <m>f(x)</m> goes from  increasing to decreasing at <m>x=-1</m> <m>f(x)</m> has a relative maximum at <m>(-1,f(-1))</m>. Since <m>f(x)</m> goes from decreasing to increasing at <m>x=2</m> <m>f(x)</m> has a relative minimum  at <m>(2,f(2))</m>.
+</p>
+</statement>
+</example>
+
+
+    <example xml:id="Ex-f-from-f-prime" permid="KZM">
+      <statement>
+        <p permid="IPa">
+          Let <m>f</m> be a function whose derivative is given by the formula <m>f'(x) = e^{-2x}(3-x)(x+1)^2</m>.
+          Determine all critical numbers of <m>f</m> and decide whether a relative maximum,
+          relative minimum, or neither occurs at each.
+        </p>
+      </statement>
+      <answer>
+        <p>
+        <m>-1</m> is a critical number that is not a relative extremum. <m>3</m> is a relative maximum.
+        </p>
+      </answer>
+      <solution permid="bXX">
+        <p permid="WiL">
+          Since we already have <m>f'(x)</m> written in factored form,
+          it is straightforward to find the critical numbers of <m>f</m>.
+          Because <m>f'(x)</m> is defined for all values of <m>x</m>,
+          we need only determine where <m>f'(x) = 0</m>.
+          From the equation
+          <me permid="Afi">
+            e^{-2x}(3-x)(x+1)^2 = 0
+          </me>
+          and the zero product property<fn>
+          The zero product property says that if <m>ab=0</m>, where <m>a</m> and <m>b</m> are 
+          expressions representing real numbers (e.g. <m>a=(3-x)</m>, where <m>x</m> is a real number), 
+          then it must be the case that <m>a=0</m> or <m>b=0</m> (or both). 
+          </fn>,
+          it follows that <m>x = 3</m> and <m>x = -1</m> are critical numbers of <m>f</m>.
+          (There is no value of <m>x</m> that makes <m>e^{-2x} = 0</m>.)
+        </p>
+
+        <p permid="CpU">
+          Next, to apply the first derivative test,
+          we'd like to know the sign of <m>f'(x)</m> at inputs near the critical numbers.
+          Because the critical numbers are the only locations at which <m>f'</m> can change sign,
+          it follows that the sign of the derivative is the same on each of the intervals created by the critical numbers:
+          for instance,
+          the sign of <m>f'</m> must be the same for every <m>x \lt -1</m>.
+          What this means is that we can choose (carefully) where to evaluate the derivative 
+          in order to ascertain its sign on a given interval. Since <m>f'(-1.000001)</m> and 
+          <m>f'(-2)</m> must have the same sign, we may as well evaluate <m>f'(x)</m> at <m>-2</m>
+          to figure out the sign of <m>f'</m> for <m>x\lt -1</m>. 
+          We create a first derivative sign chart (displayed below, with explanation following) 
+          to summarize the sign of <m>f'</m> on the relevant intervals,
+          along with the corresponding behavior of <m>f</m>.
+        </p>
+
+        <figure xml:id="F-3-1-signchart" permid="uLv">
+          <caption>The first derivative sign chart for a function <m>f</m> whose derivative is given by the formula <m>f'(x) = e^{-2x}(3-x)(x+1)^2</m>.</caption>
+          <image width="65%" source="images/3_1_signchart" />
+        </figure>
+
+        <p permid="ixd">
+          To produce the first derivative sign chart in <xref ref="F-3-1-signchart">Figure</xref>, 
+          we start by marking the critical numbers <m>-1</m> and <m>3</m> on the number line.
+          We then identify the sign of each factor of <m>f'(x)</m> at one selected point in each interval.
+          The intervals in this example are <m>x\lt-1</m>, <m>-1\lt x\lt3</m>, and <m>x\gt3</m>; we will choose 
+          <m>x=-2</m>, <m>x=0</m>, and <m>x=5</m> for our selected points. The process with <m>x=-2</m> is laid out below:
+        </p>
+        <p>
+          For <m>x \lt -1</m>,
+          we use the value <m>x=-2</m> to determine the sign of <m>e^{-2x}</m>,
+          <m>(3-x)</m>, and <m>(x+1)^2</m>.
+          We note that <m>e^{-2x}</m> is positive regardless of the value of <m>x</m>, 
+          <m>(x+1)^2</m> is positive whenever it is nonzero <mdash /> which is everywhere 
+          within the intervals of interest since we intentionally plucked out the zeros <mdash />
+          and that <m>(3-x)</m> is also positive at <m>x = -2</m>.
+          Hence each of the three terms in <m>f'</m> is positive,
+          and we indicate this by writing <q><m>+++</m></q> above the interval <m>x\lt-1</m>.
+          Taking the product of three positive terms results in a positive value for <m>f'</m>,
+          so we denote the sign of <m>f'</m> by a <q><m>+</m></q> above the appropriate interval in the chart. 
+          Finally, since <m>f'</m> is positive on that interval,
+          we know that <m>f</m> is increasing,
+          so we write <q>INC</q>
+          to represent the behavior of <m>f</m>.
+        </p>
+        <p>
+          In a similar fashion,
+          we find that <m>f'</m> is positive (because <m>3-(0)\gt0</m> and the other terms are also still positive) and <m>f</m> is increasing on <m>-1 \lt x \lt 3</m>,
+          and that <m>f'</m> is negative (because <m>3-(5)\lt0</m> but the other terms are still positive) and <m>f</m> is decreasing for <m>x \gt 3</m>.
+        </p>
+
+        <p permid="OEm">
+          Now we look for critical numbers at which <m>f'</m> changes sign.
+          In this example, <m>f'</m> changes sign only at <m>x = 3</m>,
+          from positive to negative,
+          so <m>f</m> has a relative maximum at <m>x = 3</m>.
+          Although <m>f</m> has a critical number at <m>x = -1</m>,
+          since <m>f</m> is increasing both before and after <m>x = -1</m>,
+          <m>f</m> has neither a minimum nor a maximum at <m>x = -1</m>.
+        </p>
+      </solution>
+    </example>
+
+<example xml:id="act-3-1-1" permid="pte">
+  <statement>
+    <p permid="QQu">
+      Suppose <m>g</m> is a function that is continuous for every value of <m>x \neq 2</m>, 
+      and whose first derivative is <m>\displaystyle g'(x) = \frac{(x+4)(x-1)^2}{x-2}</m>.
+      Further, assume that it is known that <m>g</m> has a vertical asymptote at <m>x = 2</m>.
+
+      <ol label="a." permid="GMO">
+        <li permid="mTX">
+          <p permid="FHv">
+            Determine all critical numbers of <m>g</m>.
+          </p>
+        </li>
+
+        <li permid="Tbg">
+          <p permid="lOE">
+            By developing a carefully labeled first derivative sign chart,
+            decide whether <m>g</m> has as a relative maximum,
+            relative minimum,
+            or neither at each critical number.
+          </p>
+        </li>
+
+      </ol>
+    </p>
+  </statement>
+  <answer permid="CcV">
+    <p permid="ECc">
+      <ol label="a." permid="uyw">
+        <li permid="wnJ">
+          <p permid="Pbh">
+            <m>x = -4</m> or <m>x = 1</m>.
+          </p>
+        </li>
+
+        <li permid="cuS">
+          <p permid="viq">
+            <m>g</m> has a relative maximum at <m>x = -4</m> and neither a max nor min at <m>x = 1</m>.
+          </p>
+        </li>
+
+      </ol>
+    </p>
+  </answer>
+  <solution permid="VVM">
+    <p permid="YuT">
+      <ol label="a." permid="Orn">
+        <li permid="AXC">
+          <p permid="TLa">
+            Since <m>g'(x) = \frac{(x+4)(x-1)^2}{x-2}</m>,
+            we see that <m>g'(x) = 0</m> implies that <m>x = -4</m> or <m>x = 1</m>.
+            Although <m>x = 2</m> makes <m>g'</m> undefined,
+            we are told that <m>g</m> has a vertical asymptote at <m>x = 2</m>. 
+            So <m>x = 2</m> is not in the domain of <m>g</m>,
+            and hence is technically not a critical number of <m>g</m>.
+            Nonetheless,
+            we place <m>x = 2</m> on our first derivative sign chart since the vertical asymptote is a location at which <m>g'</m> may change sign.
+          </p>
+        </li>
+
+        <li permid="heL">
+          <p permid="zSj">
+            The first derivative sign chart shows that: 
+            <ul>
+            <li><m>g'(x) \gt 0</m> for <m>x \lt -4</m>,</li>
+            <li><m>g'(x) \lt 0</m> for <m>-4 \lt x \lt 1</m>,</li>
+            <li><m>g'(x) \lt 0</m> for <m>1 \lt x \lt 2</m>, and </li>
+            <li><m>g'(x) \gt 0</m> for <m>x \gt 2</m>.</li>
+            </ul>
+            By the first derivative test,
+            <m>g</m> has a relative maximum at <m>x = -4</m> and neither a max nor min at <m>x = 1</m>.
+            As these are the only two critical numbers,
+            these are the only two locations for possible extrema.
+            (Note:
+            although <m>g</m> changes from decreasing to increasing at <m>x = 2</m>,
+            this is due to a vertical asymptote,
+            and <m>g</m> does not have a minimum there.)
+          </p>
+        </li>
+
+      </ol>
+    </p>
+  </solution>
+</example>
+  </subsection>
+  <subsection permid="mxc">
+    <title>Summary</title>
+    <p permid="TXZ">
+      <ul permid="Uty">
+        <li permid="sWi">
+          <p permid="dNk">
+            The critical numbers of a continuous function <m>f</m> are the values of <m>p</m> for which
+            <m>f'(p) = 0</m> or <m>f'(p)</m> does not exist.
+            These values are important because they identify horizontal tangent lines or corner points on the graph,
+            which are the only possible locations at which a relative maximum or relative minimum can occur.
+          </p>
+        </li>
+
+        <li permid="Zdr">
+          <p permid="JUt">
+            Given a differentiable function <m>f</m>:
+            whenever <m>f'</m> is positive, <m>f</m> is increasing;
+            whenever <m>f'</m> is negative, <m>f</m> is decreasing.
+            The first derivative test tells us that at any point where <m>f</m> changes from increasing to decreasing,
+            <m>f</m> has a relative maximum,
+            while conversely at any point where <m>f</m> changes from decreasing to increasing <m>f</m> has a relative minimum.
+          </p>
+        </li>
+
+     </ul>
+    </p>
+  </subsection>
+
+<exercises xmlns:xi="http://www.w3.org/2001/XInclude"> 
+
+  <exercise xml:id="ez-3-1-WW1" permid="bkM">
+    <title>Finding critical points and inflection points</title>
+    <webwork source="Library/Michigan/Chap4Sec1/Q03.pg" />
+  </exercise>
+
+  <exercise xml:id="ez-3-1-WW2" permid="HrV">
+    <title>Finding inflection points</title>
+    <webwork source="Library/Michigan/Chap4Sec1/Q05.pg" />
+  </exercise>
+
+  <exercise xml:id="ez-3-1-WW3" permid="nze">
+    <title>Matching graphs of <m>f,f',f''</m></title>
+    <webwork source="Library/Michigan/Chap4Sec1/Q39.pg" />
+  </exercise>
+  <!--  WeBWorK exercise not compatible with PTX  -->
+  <!--
+  <exercise xml:id="ez-3-1-WW4">
+    <webwork source="Library/Rochester/setDerivatives22Graphing/S04.03.DerivativesShapeGraph.PTP02.pg" />
+  </exercise>
+  -->
+  <exercise permid="TGn">
+  <title>Using a derivative graph to analyze a function</title>
+    <statement>
+      <p permid="gSU">
+        This problem concerns a function about which the following information is known:
+
+        <ul permid="SAU">
+          <li permid="rdE">
+            <p permid="hot">
+              <m>f</m> is a differentiable function defined at every real number <m>x</m>
+            </p>
+          </li>
+
+          <li permid="XkN">
+            <p permid="NvC">
+              <m>f(0) = -\frac{1}{2}</m>
+            </p>
+          </li>
+
+          <li permid="DrW">
+            <p permid="tCL">
+              <m>y = f'(x)</m> has its graph given at center in <xref ref="F-3-1-Ez1">Figure</xref>
+            </p>
+          </li>
+        </ul>
+      </p>
+
+      <figure xml:id="F-3-1-Ez1" permid="thm">
+        <caption>At center, a graph of <m>y = f'(x)</m>; at left, axes for plotting <m>y = f(x)</m>; at right, axes for plotting <m>y = f''(x)</m>.</caption>
+        <image width="100%" source="images/3_1_Ez1" />
+      </figure>
+
+      <p permid="Nad">
+        <ol label="a." permid="yId">
+          <li permid="jzf">
+            <p permid="ZJU">
+              Construct a first derivative sign chart for <m>f</m>.
+              Clearly identify all critical numbers of <m>f</m>,
+              where <m>f</m> is increasing and decreasing,
+              and where <m>f</m> has relative extrema.
+            </p>
+          </li>
+
+          <li permid="PGo">
+            <p permid="FRd">
+              On the right-hand axes,
+              sketch an approximate graph of <m>y = f''(x)</m>.
+            </p>
+          </li>
+
+          <li permid="vNx">
+            <p permid="lYm">
+              Construct a second derivative sign chart for <m>f</m>.
+              Clearly identify where <m>f</m> is concave up and concave down,
+              as well as all inflection points.
+            </p>
+          </li>
+
+          <li permid="bUG">
+            <p permid="Sfv">
+              On the left-hand axes,
+              sketch a possible graph of <m>y = f(x)</m>.
+            </p>
+          </li>
+        </ol>
+      </p>
+    </statement>
+    <answer permid="Yqg">
+      <p permid="wbS">
+        <ol label="a." permid="NRb">
+          <li permid="IbP">
+            <p permid="ymE">
+              <m>f'</m> is positive for <m>-1 \lt x lt 1</m> and for <m>x \gt 1</m>;
+              <m>f'</m> is negative for all
+              <m>x \lt -1</m>. <m>f</m> has a relative minimum at <m>x = -1</m>.
+            </p>
+          </li>
+
+          <li permid="oiY">
+            <p permid="etN">
+              A possible graph of <m>y = f''(x)</m> is shown at right in the figure.
+            </p>
+          </li>
+
+          <li permid="Uqh">
+            <p permid="KAW">
+              <m>f''(x)</m> is negative for <m>-0.35 \lt x \lt 1</m>;
+              <m>f''(x)</m> is positive everywhere else;
+              <m>f</m> has points of inflection at <m>x \approx -0.35</m> and <m>x = 1</m>.
+            </p>
+          </li>
+
+          <li permid="Axq">
+            <p permid="qIf">
+              A possible graph of <m>y = f(x)</m> is shown at left in the figure.
+            </p>
+
+            <sidebyside permid="WAT">
+              <image source="images/3_1_Ez1Soln" />
+            </sidebyside>
+
+          </li>
+        </ol>
+      </p>
+    </answer>
+    <solution permid="siX">
+      <p permid="Xzi">
+        <ol label="a." permid="por">
+          <li permid="gEz">
+            <p permid="WPo">
+              From the given graph of <m>f'</m>,
+              the first derivative sign chart for <m>f</m> shows that <m>f</m> has critical numbers at
+              <m>x = -1, 1</m> and that <m>f'</m> is positive for
+              <m>-1 \lt x lt 1</m> and for <m>x \gt 1</m>,
+              while being negative for all <m>x \lt -1</m>.
+              Hence <m>f</m> is increasing for
+              <m>-1 \lt x lt 1</m> and for <m>x \gt 1</m>,
+              and decreasing for <m>x \lt -1</m>.
+              It follows by the first derivative test that <m>f</m> has a relative minimum at <m>x = -1</m> because <m>f</m> changes from decreasing to increasing there.
+            </p>
+          </li>
+
+          <li permid="MLI">
+            <p permid="CWx">
+              Based on where <m>f'(x)</m> has horizontal tangent lines and where its slope is positive and negative,
+              we can sketch an approximate graph of
+              <m>y = f''(x)</m> in the usual way that we sketch the derivative of a given function.
+              From the given graph of <m>y = f'(x)</m>,
+              we can see that <m>f''(x) = 0</m> at <m>x \approx -0.35</m> and at <m>x = 1</m>,
+              and that between these points,
+              <m>f''(x)</m> is negative because <m>f'(x)</m> is decreasing,
+              while <m>f''(x)</m> is positive everywhere else since <m>f'(x)</m> is increasing everywhere else.
+              A possible graph of <m>y = f''(x)</m> is shown at right in the following figure.
+            </p>
+          </li>
+
+          <li permid="sSR">
+            <p permid="jdG">
+              From our sketch of the second derivative in (b),
+              we can develop a second derivative sign chart for <m>f</m>.
+              In particular, we saw that
+              <m>f''(x) = 0</m> at <m>x \approx -0.35</m> and at <m>x = 1</m>,
+              and that between these points,
+              <m>f''(x)</m> is negative, while <m>f''(x)</m> is positive everywhere else.
+              This shows that <m>f</m> is concave down for
+              <m>-0.35 \lt x \lt 1</m> while being concave up everywhere else.
+              We thus see that <m>f</m> has points of inflection at both <m>x \approx -0.35</m> and <m>x = 1</m>.
+            </p>
+          </li>
+
+          <li permid="Zaa">
+            <p permid="PkP">
+              Now that we know where <m>f</m> is increasing and decreasing as well as where <m>f</m> is concave up and concave down,
+              along with the fact that <m>f(0) = -0.5</m>,
+              we can sketch an approximate graph of <m>y = f(x)</m>.
+              Note that we also know <m>f</m> has a horizontal tangent line at <m>x = 1</m> while being increasing on either side of <m>x = 1</m>,
+              and earlier we established that <m>f</m> has a relative minimum at <m>x = -1</m>.
+              After making a few rough sketches and shifting the graph vertically to pass through <m>(0,-0.5)</m>,
+              we arrive at the graph shown at left below.
+            </p>
+
+            <sidebyside permid="CIc">
+              <image source="images/3_1_Ez1Soln" />
+            </sidebyside>
+
+          </li>
+        </ol>
+      </p>
+    </solution>
+  </exercise>
+
+  <exercise permid="zNw">
+  <title>Using derivative tests</title>
+    <statement>
+      <p permid="Zov">
+        Suppose that <m>g</m> is a differentiable function and <m>g'(2) = 0</m>.
+        In addition, suppose that on <m>1 \lt x\lt 2</m> and
+        <m>2 \lt x \lt 3</m> it is known that <m>g'(x)</m> is positive.
+
+        <ol label="a." permid="ePm">
+          <li permid="Fhj">
+            <p permid="vrY">
+              Does <m>g</m> have a relative maximum,
+              relative minimum, or neither at <m>x = 2</m>?
+              Why?
+            </p>
+          </li>
+
+          <li permid="los">
+            <p permid="bzh">
+              Suppose that <m>g''(x)</m> exists for every <m>x</m> such that <m>1 \lt x \lt 3</m>.
+              Reasoning graphically,
+              describe the behavior of <m>g''(x)</m> for <m>x</m>-values near <m>2</m>.
+            </p>
+          </li>
+
+          <li permid="RvB">
+            <p permid="HGq">
+              Besides being a critical number of <m>g</m>,
+              what is special about the value <m>x = 2</m> in terms of the behavior of the graph of <m>g</m>?
+            </p>
+          </li>
+        </ol>
+      </p>
+    </statement>
+    <answer permid="kEy">
+      <p permid="cjb">
+        <ol label="a." permid="tYk">
+          <li permid="xCK">
+            <p permid="nNz">
+              Neither.
+            </p>
+          </li>
+
+          <li permid="dJT">
+            <p permid="TUI">
+              <m>g''(2) = 0</m>; <m>g''</m> is negative for
+              <m>1 \lt x \lt 2</m> and positive for <m>2 \lt x \lt 3</m>.
+            </p>
+          </li>
+
+          <li permid="JRc">
+            <p permid="AbR">
+              <m>g</m> has a point of inflection at <m>x = 2</m>.
+            </p>
+          </li>
+        </ol>
+      </p>
+    </answer>
+    <solution permid="Exp">
+      <p permid="DGr">
+        <ol label="a." permid="VvA">
+          <li permid="pYl">
+            <p permid="gja">
+              <m>g</m> has neither a relative maximum nor relative minimum at <m>x = 2</m> because <m>f'</m> does not change sign at <m>x = 2</m>.
+            </p>
+          </li>
+
+          <li permid="Wfu">
+            <p permid="Mqj">
+              Because <m>g'(2) = 0</m> and <m>g'</m> is positive for
+              <m>1 \lt x \lt 2</m> and for <m>2 \lt x \lt 3</m>,
+              it must be that <m>g'</m> is decreasing for
+              <m>1 \lt x \lt 2</m> and <m>g'</m> is increasing for <m>2 \lt x \lt 3</m>.
+              Since <m>g'</m> changes from decreasing to increasing at <m>x = 2</m>,
+              it follows that <m>g'</m> has a relative minimum at <m>x = 2</m> and thus <m>g''(2) = 0</m>.
+              In addition,
+              <m>g''(x)</m> must change sign from negative to positive at <m>x = 2</m>.
+              In particular, <m>g''</m> is negative for
+              <m>1 \lt x \lt 2</m> and positive for <m>2 \lt x \lt 3</m>.
+            </p>
+          </li>
+
+          <li permid="CmD">
+            <p permid="sxs">
+              <m>g</m> has a horizontal tangent line at <m>x = 2</m>,
+              is increasing before <m>x = 2</m> and decreasing after <m>x = 2</m>,
+              and concave down before <m>x = 2</m> and concave up after <m>x = 2</m>,
+              and thus <m>g</m> has a point of inflection at <m>x = 2</m>.
+            </p>
+          </li>
+        </ol>
+      </p>
+    </solution>
+  </exercise>
+
+  <exercise permid="fUF">
+  <title>Using a derivative graph to analyze a function</title>
+    <statement>
+      <p permid="FvE">
+        Suppose that <m>h</m> is a differentiable function whose first derivative is given by the graph in <xref ref="F-3-1-Ez3">Figure</xref>.
+      </p>
+
+      <sidebyside widths="47% 47%" margins="0%" permid="iPl">
+        <p permid="UEC">
+          <ol label="a." permid="mtL">
+            <li permid="itM">
+              <p permid="YEB">
+                How many real number solutions can the equation <m>h(x) = 0</m> have?
+                Why?
+              </p>
+            </li>
+
+            <li permid="OAV">
+              <p permid="ELK">
+                If <m>h(x) = 0</m> has two distinct real solutions,
+                what can you say about the signs of the two solutions?
+                Why?
+              </p>
+            </li>
+
+            <li permid="uIe">
+              <p permid="kST">
+                Assume that <m>\lim_{x \to \infty} h'(x) = 3</m>,
+                as appears to be indicated in <xref ref="F-3-1-Ez3">Figure</xref>.
+                How will the graph of
+                <m>y = h(x)</m> appear as <m>x \to \infty</m>?
+                Why?
+              </p>
+            </li>
+
+            <li permid="aPn">
+              <p permid="Rac">
+                Describe the concavity of
+                <m>y = h(x)</m> as fully as you can from the provided information.
+              </p>
+            </li>
+          </ol>
+        </p>
+
+        <figure xml:id="F-3-1-Ez3" permid="ALL">
+          <caption>The graph of <m>y = h'(x)</m>.</caption>
+          <image source="images/3_1_Ez3" />
+        </figure>
+      </sidebyside>
+    </statement>
+    <answer permid="wSQ">
+      <p permid="Iqk">
+        <ol label="a." permid="aft">
+          <li permid="GWw">
+            <p permid="xhl">
+              <m>h</m> can have no, one, or two real zeros.
+            </p>
+
+            <sidebyside width="50%" permid="OWu">
+              <image source="images/3_1_Ez3Soln" />
+            </sidebyside>
+
+          </li>
+
+          <li permid="ndF">
+            <p permid="dou">
+              One root is negative and the other positive.
+            </p>
+          </li>
+
+          <li permid="TkO">
+            <p permid="JvD">
+              <m>h</m> will look like a line with slope <m>3</m>.
+            </p>
+          </li>
+
+          <li permid="zrX">
+            <p permid="pCM">
+              <m>h</m> is concave up everywhere;
+              <m>h</m> is almost linear for large values of <m>|x|</m>.
+            </p>
+          </li>
+        </ol>
+      </p>
+    </answer>
+    <solution permid="QLH">
+      <p permid="jNA">
+        <ol label="a." permid="BCJ">
+          <li permid="fzg">
+            <p permid="VJV">
+              Since <m>h'</m> is negative to the left of <m>0</m> and positive to the right of <m>0</m>,
+              the function <m>h</m> is decreasing for <m>x \lt 0</m> and increasing for <m>x \gt 0</m>.
+              So <m>h</m> can have at most <m>2</m> real roots (solutions to <m>h(x)=0</m>.
+              As the graphs in the following figure show,
+              it is possible that <m>h</m> has no real zeros,
+              one real zero, or two real zeros.
+            </p>
+
+            <sidebyside width="50%" permid="vdD">
+              <image source="images/3_1_Ez3Soln" />
+            </sidebyside>
+
+          </li>
+
+          <li permid="LGp">
+            <p permid="BRe">
+              Given that <m>h</m> is decreasing for <m>x \lt 0</m> and increasing for <m>x \gt 0</m>,
+              the function <m>h</m> has an absolute minimum value at <m>x=0</m>.
+              So one root is to the left of this minimum and the other to the right.
+              Thus, one root is negative and the other positive.
+              See, for instance,
+              the lowest of the three possibilities for <m>h</m> shown in the figure in (a).
+            </p>
+          </li>
+
+          <li permid="rNy">
+            <p permid="hYn">
+              The slopes of the tangent lines to <m>h</m> will all be near <m>3</m>,
+              but less than <m>3</m>, as <m>x</m> gets large.
+              So the graph of <m>h</m> will look very much like a line with slope <m>3</m> for large values of <m>x</m>.
+            </p>
+          </li>
+
+          <li permid="XUH">
+            <p permid="Ofw">
+              We note that <m>h'</m> is increasing everywhere,
+              <m>h</m> is concave up everywhere.
+              Since the graph of <m>h'</m> levels off for large values of <m>|x|</m>,
+              the concavity of <m>h</m> is small when <m>|x|</m> is large.
+              Also, the largest value of the slope of the tangent line to <m>h'</m> occurs when <m>x=0</m>,
+              so <m>h</m> has its largest second dervitive when <m>x=0</m>.
+              So <m>h</m> is almost linear as <m>x</m> decreases without bound,
+              <m>h</m> has more bend as <m>x</m> approaches <m>0</m>,
+              has its greatest bend at <m>x=0</m>,
+              then the second derivative of <m>h</m> as <m>x</m> increases,
+              ultimately having <m>h</m> become almost linear as <m>x</m> increases without bound.
+            </p>
+          </li>
+        </ol>
+      </p>
+    </solution>
+  </exercise>
+
+  <exercise permid="MbO">
+  <title>Applying derivative tests</title>
+    <statement>
+      <p permid="lCN">
+        Let <m>p</m> be a function whose second derivative is <m>p''(x) = (x+1)(x-2)e^{-x}</m>.
+
+        <ol label="a." permid="KWv">
+          <li permid="EbQ">
+            <p permid="umF">
+              Construct a second derivative sign chart for <m>p</m> and determine all inflection points of <m>p</m>.
+            </p>
+          </li>
+
+          <li permid="kiZ">
+            <p permid="atO">
+              Suppose you also know that
+              <m>x = \frac{\sqrt{5}-1}{2}</m> is a critical number of <m>p</m>.
+              Does <m>p</m> have a relative minimum,
+              relative maximum, or neither at <m>x = \frac{\sqrt{5}-1}{2}</m>?
+              Why?
+            </p>
+          </li>
+
+          <li permid="Qqi">
+            <p permid="GAX">
+              If the point <m>(2, \frac{12}{e^2})</m> lies on the graph of
+              <m>y = p(x)</m> and <m>p'(2) = -\frac{5}{e^2}</m>,
+              find the equation of the tangent line to
+              <m>y = p(x)</m> at the point where <m>x = 2</m>.
+              Does the tangent line lie above the curve,
+              below the curve, or neither at this value?
+              Why?
+            </p>
+          </li>
+        </ol>
+      </p>
+    </statement>
+    <answer permid="Jhi">
+      <p permid="oxt">
+        <ol label="a." permid="GmC">
+          <li permid="wxr">
+            <p permid="mIg">
+              <m>p''(x)</m> is negative for
+              <m>-1 \lt x \lt 2</m> and positive for all other values of <m>x</m>;
+              <m>p</m> has points of inflection at <m>x = -1</m> and <m>x = 2</m>.
+            </p>
+          </li>
+
+          <li permid="cEA">
+            <p permid="SPp">
+              relative maximum.
+            </p>
+          </li>
+
+          <li permid="ILJ">
+            <p permid="yWy">
+              Neither.
+            </p>
+          </li>
+        </ol>
+      </p>
+    </answer>
+    <solution permid="cZZ">
+      <p permid="PUJ">
+        <ol label="a." permid="hJS">
+          <li permid="oSS">
+            <p permid="fdH">
+              Note that <m>p''(x)=0</m> at <m>x=-1</m> and <m>x=2</m>.
+              The second derivative sign chart for <m>p</m> shows that <m>p''(x)</m> is negative for
+              <m>-1 \lt x \lt 2</m> and positive for all other values of <m>x</m>.
+              Since <m>p''</m> changes sign at <m>x = -1</m> and <m>x = 2</m>,
+              <m>p</m> has points of inflection at <m>x = -1</m> and <m>x = 2</m>.
+              In particular, <m>p</m> is concave down for
+              <m>-1 \lt x \lt 2</m> and concave up for all other values of <m>x</m>.
+            </p>
+          </li>
+
+          <li permid="Vab">
+            <p permid="LkQ">
+              If we compute <m>p''\left(\frac{\sqrt{5}-1}{2} \right)</m>,
+              we find that <m>p''\left(\frac{\sqrt{5}-1}{2} \right) \approx -1.205</m>,
+              which means that <m>p</m> is concave down at <m>x = \frac{\sqrt{5}-1}{2}</m>.
+              Since <m>p</m> has a horizontal tangent line at this point,
+              it follows that <m>p</m> has a relative maximum at
+              <m>x = \frac{\sqrt{5}-1}{2}</m> by the second derivative test.
+            </p>
+          </li>
+
+          <li permid="Bhk">
+            <p permid="rrZ">
+              Since <m>p(2) = \frac{12}{e^2}</m> and <m>p'(2) = -\frac{5}{e^2}</m>,
+              the equation of the tangent line to <m>p</m> at <m>x = 2</m> is given by <m>y = -\frac{5}{e^2}(x-2) + \frac{12}{e^2}</m>.
+              To determine whether the tangent line lies above or below the graph of <m>y=p(x)</m> at <m>x = 2</m>,
+              we consider the concavity of <m>p</m>.
+              Recall we know that <m>p''(2) = 0</m> and that <m>p</m> is concave down to the left of <m>x = 2</m> and concave up to the right.
+              Thus, the tangent line lies neither solely below nor solely above the graph of <m>y = p(x)</m> at <m>x = 2</m>;
+              it lies below <m>y = p(x)</m> to the right of <m>x = 2</m> and above
+              <m>y = p(x)</m> to the left of <m>x = 2</m>.
+            </p>
+          </li>
+        </ol>
+      </p>
+    </solution>
+  </exercise>
+
+ </exercises>
+</section>
+
