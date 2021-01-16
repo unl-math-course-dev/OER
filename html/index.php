@@ -98,7 +98,7 @@ a {
   <div class="dropdown-content">
   <p><a href="http://mathbooks.unl.edu/PreCalculus">PreCalculus</a></p>
   <p><a href="http://mathbooks.unl.edu/Calculus">Calculus</a></p>
-    <p><a href="http://mathbooks.unl.edu/BCalculus">Calculus</a></p>
+    <p><a href="http://mathbooks.unl.edu/BCalculus">Business Calculus</a></p>
   <p><a href="http://mathbooks.unl.edu/Contemporary">Contemporary Mathematics</a></p>
   </div>
   </th>
