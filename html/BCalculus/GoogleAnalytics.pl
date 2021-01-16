@@ -25,7 +25,7 @@ my $data = read_file $file, {binmode => ':utf8'};
   }
   else
 { 
-  $data =~ s/<head>/<head>\n<script async src=\"https:\/\/www.googletagmanager.com\/gtag\/js?id=UA-141532039-1\"><\/script> <script> window.dataLayer = window.dataLayer \|\| \[\]; function gtag(){dataLayer.push(arguments);} gtag(\'js\', new Date()); gtag(\'config\', \'UA-141532039-1\');<\/script>/gs;
+  $data =~ s/<head>/<head>\n<script async src=\"https:\/\/www.googletagmanager.com\/gtag\/js?id=G-CQSZFCB62Y\"><\/script> <script> window.dataLayer = window.dataLayer \|\| \[\]; function gtag(){dataLayer.push(arguments);} gtag(\'js\', new Date()); gtag(\'config\', \'UA-141532039-1\');<\/script>/gs;
 #print "added the tracking code\n";
 
  }
