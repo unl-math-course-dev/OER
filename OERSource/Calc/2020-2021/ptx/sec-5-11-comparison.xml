@@ -1,0 +1,2010 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!-- **********************************************************************-->
+<!-- Copyright 2019                                                        -->
+<!-- UNL Department of Mathematics                                         -->
+<!-- Based upon the work of                                                -->
+<!-- Matthew Boelkins                                                      -->
+<!-- Copyright 2012-2018                                                   -->
+<!--                                                                       -->
+<!-- This file is part of Coordinated Calculus.                            -->
+<!-- This file is based on Active Calculus.                                -->
+<!--                                                                       -->
+<!-- Permission is granted to copy, distribute and/or modify this document -->
+<!-- under the terms of the Creative Commons BY-SA license.  The work      -->
+<!-- may be used for free by any party so long as attribution is given to  -->
+<!-- the author(s), the work and its derivatives are used in the spirit of -->
+<!-- "share and share alike".  All trademarks are the registered marks of  -->
+<!-- their respective owners.                                              -->
+<!-- **********************************************************************-->
+<section xmlns:xi="http://www.w3.org/2001/XInclude" xml:id="sec-5-11-comparison" permid="EBG">
+  <title>Improper Integrals</title>
+  <objectives permid="psI">
+    <ul permid="BHa">
+      <li permid="NVs">
+        <p permid="yMu">
+          What are improper integrals and why are they important?
+        </p>
+      </li>
+
+      <li permid="ucB">
+        <p permid="eTD">
+          What does it mean to say that an improper integral converges or diverges?
+        </p>
+      </li>
+
+      <li permid="ajK">
+        <p permid="LaM">
+          What are some typical improper integrals that we can classify as convergent or divergent?
+        </p>
+      </li>
+      
+      <li>
+      	<p> When can the convergence behavior of one improper integral be used to determine the convergence behavior of another improper integral?
+      	</p>
+      </li>
+      
+    </ul>
+  </objectives>
+
+  <introduction permid="VzR">
+   
+     <p>
+ So far we have considered integrals of continuous functions over finite intervals of integration. However, in many applications, we may need to integrate over an unbounded interval. That is, at least one of the limits of integration is infinite. In other cases, we may have an integrand that becomes infinite at a point within the interval or at an endpoint of the interval.  Such cases are called <em> improper integrals </em>.  
+    </p> 
+    
+    <p> In this section we learn how to evaluate these integrals. It may be surprising that despite having regions that appear infinite, in many cases the area is finite. We first look at some examples of how such integrals may arise. 
+    </p>
+    
+    <example xml:id="Ex-Imp-Int-1">
+       <p> 
+      Consider a company that manufactures incandescent light bulbs.
+      Based on a large volume of test results,
+      they have determined that the fraction of light bulbs that fail between times <m>t = a</m> and <m>t = b</m> of use
+      (where <m>t</m> is measured in months)
+      is given by
+      <me permid="WjL">
+        \int_a^b 0.3 e^{-0.3t} \, dt
+      </me>.
+    </p>
+
+    <p permid="PKF">
+      For example,
+      the fraction of light bulbs that fail during their third month of use is given by
+      <md permid="CqU">
+        <mrow>\int_2^3 0.3e^{-0.3t} \, dt \amp =\left. -e^{-0.3t} \right|_2^3</mrow>
+        <mrow>\amp = -e^{-0.9} + e^{-0.6}</mrow>
+        <mrow>\amp \approx  0.1422</mrow>
+      </md>.
+    </p>
+
+    <p permid="vRO">
+      Thus about 14.22<percent /> of all lightbulbs fail between <m>t = 2</m> and <m>t = 3</m>.
+      </p>
+
+      
+   
+
+
+    
+
+    <p permid="bYX">
+       We can adjust the limits of integration to measure the fraction of light bulbs that fail during any time period of interest.  
+      For example, to find the fraction of light bulbs that fail <em>eventually</em>,
+      we wish to find
+      <me permid="iyd">
+        \lim_{b \to \infty} \int_0^b 0.3e^{-0.3t} \, dt
+      </me>,
+      for which we will also use the notation
+      <men xml:id="E-ImpInt1" permid="OFm">
+        \int_0^\infty 0.3e^{-0.3t} \, dt
+      </men>.
+    </p>
+    </example>
+
+    <p permid="Igg">
+     The integral in <xref ref="Ex-Imp-Int-1"> Example </xref> can be interpreted as the area of an unbounded region,
+      as pictured at right in <xref ref="F-6-5-InfReg">Figure</xref>.
+    </p>
+
+    <figure xml:id="F-6-5-InfReg" permid="ABH">
+      <caption>At left, the area bounded by <m>p(t) = 0.3e^{-0.3t}</m> on the finite interval <m>[0,b]</m>; at right, the result of letting <m>b \to \infty</m>.  By <q><m>\cdots</m></q> in the righthand figure, we mean that the region extends to the right without bound.</caption>
+      <image width="80%" source="images/6_5_InfReg" />
+    </figure>
+
+    <assemblage>
+    <title> Improper integrals </title>
+    <p> An integral <m> \int_a^b f(x) \ dx </m> is <em> improper </em> if one of the following holds.
+        <ol label="1."> 
+      <li>
+        <p>  The interval of integration is infinite. That is, <m> a = \infty </m> and/or <m> b = \infty </m>.</p>
+      </li>
+      <li>
+        <p> The integrand is unbounded on <m> [a,b] </m>.</p>
+      </li>
+    </ol> 
+    
+    </p>
+    </assemblage>
+   
+      
+  </introduction>
+
+  <subsection permid="kIP">
+    <title>Improper Integrals Involving Unbounded Intervals</title>
+    <idx><h>improper integral</h></idx>
+    
+
+    <p>  In view of the above example, 
+      we see that we may want to integrate over an interval whose upper limit grows without bound.
+  </p>
+    
+    
+    
+    
+
+    <p permid="onp">
+      We call an integral for which the interval of integration is unbounded <em>improper</em>.
+          <idx><h>improper integral</h><h>unbounded region of integration</h></idx>
+      For instance, the integrals
+      <me permid="uMv">
+        \int_1^{\infty} \frac{1}{x^2} \, dx, \ \ \int_{-\infty}^0 \frac{1}{1+x^2} \, dx, \ \ \text{and}  \int_{-\infty}^{\infty} e^{-x^2} \, dx
+      </me>
+      are all improper because they have limits of integration that involve <m>\infty</m>.
+      To evaluate an improper integral we replace it with a limit of proper integrals.
+      That is,
+      <me permid="aTE">
+        \int_0^\infty f(x) \, dx = \lim_{b \to \infty} \int_0^b f(x) \,dx
+      </me>.
+    </p>
+
+    <p permid="Uuy">
+      We first attempt to evaluate
+      <m>\int_0^b f(x) \,dx</m> using the <xref ref="sec-4-4-FTC" >First Fundamental Theorem of Calculus </xref>, and then evaluate the limit.
+      Is it even possible for the area of an unbounded region to be finite?
+      The following examples explore this issue and others in more detail.
+    </p>
+    
+    
+    <example xml:id="PA-6-5" permid="tAY">
+  <p permid="Bfx">
+    A company with a large customer base has a call center that receives thousands of calls a day.
+    After studying the data that represents how long callers wait for assistance,
+    they find that the function
+    <m>p(t) = 0.25e^{-0.25t}</m> models the time customers wait in the following way:
+    the fraction of customers who wait between <m>t = a</m> and <m>t = b</m> minutes is given by
+    <me permid="NtP">
+      \int_a^b p(t) \, dt
+    </me>.
+  </p>
+
+  <p permid="hmG">
+    Use this information to answer the following questions.
+
+    <statement>
+    <ol label="a." permid="nbS">
+      
+      <li permid="Tjb">
+        <p permid="khm">
+          Determine the fraction of callers who wait between 5 and 10 minutes.
+        </p>
+      </li>
+
+      <li permid="fxt">
+        <p permid="wvE">
+          Next, let's study the fraction who wait up to a certain number of minutes:
+
+          <ol label="i." permid="lWz">
+            <li permid="FPq">
+              <p permid="ZIh">
+                What is the fraction of callers who wait between 0 and 5 minutes?
+              </p>
+            </li>
+
+            <li permid="LEC">
+              <p permid="cCN">
+                What is the fraction of callers who wait between 0 and 10 minutes?
+              </p>
+            </li>
+          </ol>
+        </p>
+      </li>
+
+      <li permid="XSU">
+        <p permid="oRf">
+          Let <m>F(b)</m> represent the fraction of callers who wait between <m>0</m> and <m>b</m> minutes.
+          Find a formula for <m>F(b)</m> that involves a definite integral,
+          and then use the <xref ref="sec-4-4-FTC">First Fundamental Theorem of Calculus </xref> to find a formula for <m>F(b)</m> that does not involve a definite integral.
+        </p>
+      </li>
+
+      <li permid="Ead">
+        <p permid="UYo">
+          What is the value of the limit <m>\lim\limits_{b \to \infty} F(b)</m>?
+          What is its meaning in the context of the problem?
+        </p>
+      </li>
+
+    </ol>
+    </statement>
+    <answer>
+      <p> 
+        <ol label="a.">
+          <li>
+            <m>\int_5^{10} 0.25 e^{0.25t} \, dt = e^{-5/4} -e^{-10/4} \approx 0.2044</m>
+          </li>
+
+          <li>
+            <ol label="i.">
+              <li>
+                <m>1-e^{-5/4}\approx 0.7135</m>
+              </li>
+              <li>
+                <m>1-e^{-10/4}\approx 0.9179</m>
+              </li>
+            </ol>
+          </li>
+          <li>
+            <me>F(b)=\int_0^b p(t) \, dt=1-e^{-b/4}</me>
+          </li>
+          <li>
+            <me>\lim_{b \to \infty} F(b)=1</me>
+            <p>
+              The limit has the following meaning: All customers, or 100% of customers, have to wait at least 0 minutes.
+            </p>
+          </li>
+        </ol>
+      </p>
+    </answer>  
+    <solution>
+      <p> 
+        The general antiderivative of <m>p(t)</m> can be found by using the <xref ref="sec-5-5-substitution"> substitution </xref> <m>u=-0.25t \ , du=-0.25 dt</m>. Then <m>\int p(t) \, dt= -e^{-0.25t} + C</m>. We'll use the general antiderivative to efficiently find the definite integrals in parts (a), (b), (c), and (d). 
+        <ol label="a.">
+          <li>
+            <md> 
+              <mrow>\int_5^{10} 0.25 e^{0.25t} \, dt&amp;=\left.\left(-e^{-t/4}\right) \right|_{5}^{10} </mrow>
+              <mrow> &amp;=-e^{-10/4}+e^{-5/4}  </mrow>
+              <mrow> &amp;= e^{-5/4} -e^{-10/4} \approx 0.2044</mrow>
+            </md>
+          </li>
+
+          <li>
+            <ol label="i.">
+              <li>
+                <md> 
+                  <mrow>\int_{0}^{5} 0.25 e^{0.25t} \, dt&amp;=\left.\left(-e^{-t/4}\right) \right|_{0}^{5} </mrow>
+                  <mrow> &amp;=-e^{-5/4}+e^{0/4}  </mrow>
+                  <mrow>&amp;=1-e^{-5/4}\approx 0.7135</mrow>
+                </md>
+              </li>
+              <li>
+                <md> 
+                  <mrow>\int_{0}^{10} 0.25 e^{0.25t} \, dt&amp;=\left.\left(-e^{-t/4}\right) \right|_{0}^{10}</mrow>
+                  <mrow> &amp;=-e^{-10/4}+e^{0/4}  </mrow>
+                  <mrow>&amp;=1-e^{-10/4}\approx 0.9179</mrow>
+                </md>
+              </li>
+            </ol>
+          </li>
+          <li>
+            <p> 
+            <me>F(b)=\int_0^b p(t) \, dt = \left.\left(-e^{-t/4}\right) \right|_{0}^{b}=1-e^{-b/4}</me>
+            </p>
+          </li>
+          <li>
+            <md> 
+              <mrow>\lim_{b \to \infty} F(b)&amp;= \lim_{b \to \infty} \left(1-e^{-b/4} \right)</mrow>
+              <mrow> &amp;=1-\lim_{b \to \infty} e^{-b/4} </mrow>
+              <mrow>&amp;=1-\lim_{b \to \infty} \frac{1}{e^{b/4}} </mrow>
+              <mrow>&amp;=1 </mrow>
+            </md>
+            <p>
+              The limit has the following meaning: All customers, or 100% of customers, have to wait at least 0 minutes.
+            </p>
+          </li>
+        </ol>
+      </p>
+    </solution>
+  </p>
+</example>
+
+    
+    
+    
+
+<example xml:id="act-6-5-1" permid="EwY">
+  <statement>
+    <p permid="fUo">
+      In this example we explore the improper integrals
+      <m>\int_1^{\infty} \frac{1}{x} \, dx</m> and <m>\int_1^{\infty} \frac{1}{x^{3/2}} \, dx</m>.
+    </p>
+
+    <p permid="Mbx">
+      <ol label="a." permid="eAA">
+        <li permid="qOS">
+          <p permid="zdl">
+            First we investigate <m>\int_1^{\infty} \frac{1}{x} \, dx</m>.
+          </p>
+
+          <p permid="fku">
+            <ol label="i." permid="Vvj">
+              <li permid="cZI">
+                <p permid="kEh">
+                  Use the First Fundamental Theorem of Calculus to determine the exact values of <m>\int_1^{10} \frac{1}{x} \, dx</m>,
+                  <m>\int_1^{1000} \frac{1}{x} \, dx</m>,
+                  and <m>\int_1^{100000} \frac{1}{x} \, dx</m>.
+                  Then, use your computational tool to compute a decimal approximation of each result.
+                </p>
+              </li>
+
+              <li permid="WWb">
+                <p permid="LrD">
+                  Use the First Fundamental Theorem of Calculus to evaluate the definite integral
+                  <m>\int_1^{b} \frac{1}{x} \, dx</m>
+                  which results in an expression that depends on <m>b</m>.
+                </p>
+              </li>
+
+              <li permid="Ddk">
+                <p permid="ryM">
+                  Now,
+                  use your work from (ii.) to evaluate the limit given by
+                  <me permid="siG">
+                    \lim_{b \to \infty}  \int_1^{b} \frac{1}{x} \, dx
+                  </me>.
+                </p>
+              </li>
+            </ol>
+          </p>
+        </li>
+
+        <li permid="GHK">
+          <p permid="XFV">
+            Next, we investigate <m>\int_1^{\infty} \frac{1}{x^{3/2}} \, dx</m>.
+
+            <ol label="i." permid="KHJ">
+              <li permid="jkt">
+                <p permid="vdm">
+                  Use the First Fundamental Theorem of Calculus to determine the exact values of <m>\int_1^{10} \frac{1}{x^{3/2}} \, dx</m>,
+                  <m>\int_1^{1000} \frac{1}{x^{3/2}} \, dx</m>,
+                  and <m>\int_1^{100000} \frac{1}{x^{3/2}} \, dx</m>.
+                  Then,
+                  use your calculator to compute a decimal approximation of each result.
+                </p>
+              </li>
+
+              <li permid="PrC">
+                <p permid="DNe">
+                  Use the First Fundamental Theorem of Calculus to evaluate the definite integral
+                  <m>\int_1^{b} \frac{1}{x^{3/2}} \, dx</m>
+                  (which results in an expression that depends on <m>b</m>).
+                </p>
+              </li>
+
+              <li permid="vyL">
+                <p permid="jUn">
+                  Now,
+                  use your work from (ii.) to evaluate the limit given by
+                  <me permid="YpP">
+                    \lim_{b \to \infty}  \int_1^{b} \frac{1}{x^{3/2}} \, dx
+                  </me>.
+                </p>
+              </li>
+            </ol>
+          </p>
+        </li>
+
+        <li permid="mOT">
+          <p permid="Qbw">
+            Plot the functions <m>y = \frac{1}{x}</m> and
+            <m>y = \frac{1}{x^{3/2}}</m> on the same coordinate axes for the values <m>x = 0 \ldots 10</m>.
+            How would you compare their behavior as <m>x</m> increases without bound?
+            What is similar?
+            What is different?
+          </p>
+        </li>
+
+        <li permid="SWc">
+          <p permid="wiF">
+            How would you characterize the value of
+            <m>\int_1^{\infty} \frac{1}{x} \, dx</m>? of <m>\int_1^{\infty} \frac{1}{x^{3/2}} \, dx</m>?
+            What does this tell us about the respective areas bounded by these two curves for <m>x \ge 1</m>?
+          </p>
+        </li>
+      </ol>
+    </p>
+  </statement>
+  <hint permid="tJy">
+    <p permid="zNf">
+      <ol label="a." permid="ytr">
+        <li permid="bFU">
+          <p permid="cpO">
+            <m>\frac{1}{x} = x^{-1}</m>.
+          </p>
+        </li>
+
+        <li permid="HNd">
+          <p permid="IwX">
+            <m>\frac{1}{x^{3/2}} = x^{-3/2}</m>
+          </p>
+        </li>
+
+        <li permid="nUm">
+          <p permid="oEg">
+            Compare how quickly the curves approach the <m>x</m>-axis as <m>x \to \infty</m>.
+          </p>
+        </li>
+
+        <li permid="Ubv">
+          <p permid="ULp">
+            Remember that <m>\lim_{b \to \infty} \frac{1}{b^k} = 0</m> as long as <m>k \gt 0</m>.
+          </p>
+        </li>
+      </ol>
+    </p>
+  </hint>
+  <answer permid="NCp">
+    <p permid="TFW">
+      <ol label="a." permid="meZ">
+        <li permid="AiE">
+          <p permid="ASy">
+            <ol label="i." permid="BCs">
+              <li permid="JgR">
+                <p permid="QLq">
+                  <m> \int_1^{10} \frac{1}{x} dx = \ln(10)</m>
+                  <m> \int_1^{1000} \frac{1}{x} dx = \ln(1000)</m> <m> \int_1^{100000} \frac{1}{x} dx = \ln(100000)</m>
+                </p>
+              </li>
+
+              <li permid="gpN">
+                <p permid="gZH">
+                  <m> \int_1^b \frac{1}{x} dx = \ln(b)</m>.
+                </p>
+              </li>
+
+              <li permid="MwW">
+                <p permid="NgQ">
+                  <m> \lim_{b \to \infty} \int_1^b \frac{1}{x} dx = \lim_{b \to \infty} \ln(b) = \infty</m>
+                </p>
+              </li>
+            </ol>
+          </p>
+        </li>
+
+        <li permid="Omj">
+          <p permid="tnZ">
+            <ol label="i." permid="Smi">
+              <li permid="sEf">
+                <p permid="bkv">
+                  <m> \int_1^{10} \frac{1}{x^{3/2}} dx = 2 - \frac{2}{\sqrt{10}}</m>
+                  <m> \int_1^{1000} \frac{1}{x^{3/2}} dx = 2 - \frac{2}{\sqrt{1000}}</m> <m> \int_1^{100000} \frac{1}{x^{3/2}} dx = 2 - \frac{2}{\sqrt{100000}}</m>
+                </p>
+              </li>
+
+              <li permid="YLo">
+                <p permid="Zvi">
+                  <m> \int_1^b \frac{1}{x^{3/2}} dx = 2 - \frac{2}{\sqrt{b}}</m>.
+                </p>
+              </li>
+
+              <li permid="ESx">
+                <p permid="FCr">
+                  <m> \lim_{b \to \infty} \int_1^b \frac{1}{x^{3/2}} dx = \lim_{b \to \infty} \left( 2 - \frac{2}{\sqrt{b}} \right) = 2</m>
+                </p>
+              </li>
+            </ol>
+          </p>
+        </li>
+
+        <li permid="uts">
+          <p permid="lJA">
+            Both graphs have a vertical asymptote at <m>x = 0</m> and for both graphs,
+            the <m>x</m>-axis is a horizontal asymptote.
+            However, the graph of
+            <m> y = \frac{1}{x^{3/2}}</m> will ''approach the <m>x</m>-axis faster'' than the graph of <m> y = \frac{1}{x}</m>.
+          </p>
+        </li>
+
+        <li permid="aAB">
+          <p permid="RQJ">
+            The area bounded by the graph of <m> y = \frac{1}{x}</m>,
+            the <m>x</m>-axis,
+            and the vertical line <m>x = 1</m> is infinite or unbounded.
+            However, The area bounded by the graph of <m> y = \frac{1}{x^{3/2}}</m>,
+            the <m>x</m>-axis, and the vertical line <m>x = 1</m> is equal to 2.
+          </p>
+        </li>
+      </ol>
+    </p>
+  </answer>
+  <solution permid="hvg">
+    <p permid="nyN">
+      <ol label="a." permid="ZQH">
+        <li permid="kZG">
+          <p permid="xXS">
+            <ol label="i." permid="hJB">
+              <li permid="poa">
+                <p permid="wSz">
+                  <m> \int_1^{10} \frac{1}{x} dx = \ln(10)</m>
+                  <m> \int_1^{1000} \frac{1}{x} dx = \ln(1000)</m> <m> \int_1^{100000} \frac{1}{x} dx = \ln(100000)</m>
+                </p>
+              </li>
+
+              <li permid="RgP">
+                <p permid="efb">
+                  <m> \int_1^b \frac{1}{x} dx = \ln(b)</m>.
+                </p>
+              </li>
+
+              <li permid="xnY">
+                <p permid="Kmk">
+                  <m> \lim_{b \to \infty} \int_1^b \frac{1}{x} dx = \lim_{b \to \infty} \ln(b) = \infty</m>
+                </p>
+              </li>
+            </ol>
+          </p>
+        </li>
+
+        <li permid="VQI">
+          <p permid="qtt">
+            <ol label="i." permid="FXQ">
+              <li permid="dvh">
+                <p permid="HrE">
+                  <m> \int_1^{10} \frac{1}{x^{3/2}} dx = 2 - \frac{2}{\sqrt{10}}</m>
+                  <m> \int_1^{1000} \frac{1}{x^{3/2}} dx = 2 - \frac{2}{\sqrt{1000}}</m> <m> \int_1^{100000} \frac{1}{x^{3/2}} dx = 2 - \frac{2}{\sqrt{100000}}</m>
+                </p>
+              </li>
+
+              <li permid="JCq">
+                <p permid="WAC">
+                  <m> \int_1^b \frac{1}{x^{3/2}} dx = 2 - \frac{2}{\sqrt{b}}</m>.
+                </p>
+              </li>
+
+              <li permid="pJz">
+                <p permid="CHL">
+                  <m> \lim_{b \to \infty} \int_1^b \frac{1}{x^{3/2}} dx = \lim_{b \to \infty} \left( 2 - \frac{2}{\sqrt{b}} \right) = 2</m>
+                </p>
+              </li>
+            </ol>
+          </p>
+        </li>
+
+        <li permid="BXR">
+          <p permid="iOU">
+            Both graphs have a vertical asymptote at <m>x = 0</m> and for both graphs,
+            the <m>x</m>-axis is a horizontal asymptote.
+            However, the graph of
+            <m> y = \frac{1}{x^{3/2}}</m> will ''approach the <m>x</m>-axis faster'' than the graph of <m> y = \frac{1}{x}</m>.
+          </p>
+        </li>
+
+        <li permid="ifa">
+          <p permid="OWd">
+            The area bounded by the graph of <m> y = \frac{1}{x}</m>,
+            the <m>x</m>-axis,
+            and the vertical line <m>x = 1</m> is infinite or unbounded.
+            However, The area bounded by the graph of <m> y = \frac{1}{x^{3/2}}</m>,
+            the <m>x</m>-axis, and the vertical line <m>x = 1</m> is equal to 2.
+          </p>
+        </li>
+      </ol>
+    </p>
+  </solution>
+</example>
+  </subsection>
+
+  <subsection permid="QPY">
+    <title>Convergence and Divergence</title>
+    <p permid="gIQ">
+      <xref ref="act-6-5-1">Example</xref>
+      suggests that <m>\lim\limits_{b \to \infty} \int_1^b f(x) \, dx</m> is either finite or infinite
+      (or it doesn't exist).
+      With these possibilities in mind,
+      we introduce the following terminology.
+    </p>
+
+    <assemblage permid="Jlz">
+    <title>Convergence of Improper Integrals</title>
+      <p permid="MPZ">
+        If <m>f(x)</m> is nonnegative for <m>x \ge a</m>,
+        then we say that the improper integral <m>\int_a^{\infty} f(x) \, dx</m>
+        <term>converges</term>
+            <idx><h>improper integral</h><h>converges</h></idx>
+        provided that
+        <me permid="HaN">
+          \lim_{b \to \infty} \int_a^{b} f(x) \, dx
+        </me>
+        exists and is finite.
+        Otherwise, we say that <m>\int_a^{\infty} f(x) \, dx</m> <term>diverges</term>.
+            <idx><h>improper integral</h><h>diverges</h></idx>
+           </p>
+            <p>
+        Similarly, if  <m>f(x)</m> is nonnegative for <m>x \le b</m>,
+             then we say that the improper integral <m>\int_{-\infty}^{b} f(x) \, dx</m>
+        <term>converges</term> 
+        provided that <me>  \lim_{a \to -\infty} \int_a^{b} f(x) \, dx
+        </me>
+            exists and is finite. Otherwise, we say that <m>\int_{-\infty}^{b} f(x) \, dx</m> <term>diverges.</term>
+      </p>
+    </assemblage>
+
+    <p permid="sXi">
+      We will restrict our interest to improper integrals for which the integrand is nonnegative.
+      Also, we require that <m>\lim_{x \to \infty} f(x) = 0</m>,
+      for if <m>f</m> does not approach <m>0</m> as <m>x \to \infty</m>,
+      then it is impossible for <m>\int_a^{\infty} f(x) \, dx</m> to converge.
+    </p>
+
+<example xml:id="act-6-5-2" permid="nNi">
+  <statement>
+    <p permid="KAF">
+      Determine whether each of the following improper integrals converges or diverges.
+      For each integral that converges, find its exact value.
+
+      <ol label="a." permid="eOV">
+        <li permid="Xkw">
+          <p permid="OAE">
+            <m>\int_1^{\infty} \frac{1}{x^2} \, dx</m>
+          </p>
+        </li>
+
+        <li permid="DrF">
+          <p permid="uHN">
+            <m>\int_0^{\infty} e^{-x/4} \, dx</m>
+          </p>
+        </li>
+
+        <li permid="jyO">
+          <p permid="aOW">
+            <m>\int_2^{\infty} \frac{9}{(x+5)^{2/3}} \, dx</m>
+          </p>
+        </li>
+
+        <li permid="PFX">
+          <p permid="GWf">
+            <m>\int_4^{\infty} \frac{3}{(x+2)^{5/4}} \, dx</m>
+          </p>
+        </li>
+
+        <li permid="vNg">
+          <p permid="ndo">
+            <m>\int_0^{\infty} x e^{-x/4} \, dx</m>
+          </p>
+        </li>
+
+        <li permid="bUp">
+          <p permid="Tkx">
+            <m>\int_1^{\infty} \frac{1}{x^p} \, dx</m>,
+            where <m>p</m> is a positive real number
+          </p>
+        </li>
+      </ol>
+    </p>
+  </statement>
+  <hint permid="afc">
+    <p permid="etw">
+      <ol label="a." permid="yHM">
+        <li permid="Iby">
+          <p permid="zrG">
+            <m>\frac{1}{x^2} = x^{-2}</m>.
+          </p>
+        </li>
+
+        <li permid="oiH">
+          <p permid="fyP">
+            Recall that for <m>k \gt 0</m>,
+            <m>e^{-kt} \to 0</m> as <m>t \to \infty</m>.
+          </p>
+        </li>
+
+        <li permid="UpQ">
+          <p permid="LFY">
+            <m>\frac{9}{(x+5)^{2/3}} = 9(x+5)^{-2/3}</m>.
+          </p>
+        </li>
+
+        <li permid="AwZ">
+          <p permid="rNh">
+            Compare (c).
+          </p>
+        </li>
+
+        <li permid="gEi">
+          <p permid="XUq">
+            Compare (b), after integrating by parts.
+          </p>
+        </li>
+
+        <li permid="MLr">
+          <p permid="Ebz">
+            Try two cases: <m>0 \lt p \lt 1</m> and <m>1 \lt p</m>.
+          </p>
+        </li>
+      </ol>
+    </p>
+  </hint>
+  <answer permid="tXT">
+    <p permid="ymn">
+      <ol label="a." permid="SAD">
+        <li permid="sSA">
+          <p permid="kiI">
+            <m>\int_1^\infty \frac{1}{x^2} dx = 1 </m>
+          </p>
+        </li>
+
+        <li permid="YZJ">
+          <p permid="QpR">
+            <m> \int_0^\infty e^{-x/4} dx = 4 </m>
+          </p>
+        </li>
+
+        <li permid="FgS">
+          <p permid="wxa">
+            <m> \int_2^\infty \frac{9}{(x+5)^{2/3}} dx = \infty </m>
+          </p>
+        </li>
+
+        <li permid="lob">
+          <p permid="cEj">
+            <m> \int_4^\infty \frac{3}{(x+2)^{5/4}} dx = \frac{12}{6^{1/4}} </m>
+          </p>
+        </li>
+
+        <li permid="Rvk">
+          <p permid="ILs">
+            <m> \int_0^\infty x e^{-x/4} dx = 16 </m>
+          </p>
+        </li>
+
+        <li permid="xCt">
+          <p permid="oSB">
+            If <m>0 \lt p \lt 1</m>,
+            <m> \int_1^\infty \frac{1}{x^p} dx</m> diverges,
+            while if <m>p \gt 1</m>, the integral converges.
+          </p>
+        </li>
+      </ol>
+    </p>
+  </answer>
+  <solution permid="NQK">
+    <p permid="Sfe">
+      <ol label="a." permid="mtu">
+        <li permid="dJC">
+          <p permid="UZK">
+            <md permid="qHO">
+              <mrow>\int_1^\infty \frac{1}{x^2} dx \amp = \lim_{b \to \infty} \int_1^b \frac{1}{x^2} dx</mrow>
+              <mrow>\amp = \lim_{b \to \infty} \left.-\frac{1}{x} \right|_1^b</mrow>
+              <mrow>\amp = \lim_{b \to \infty} \left( -\frac{1}{b} + 1 \right)</mrow>
+              <mrow>\amp = 1</mrow>
+            </md>
+          </p>
+        </li>
+
+        <li permid="JQL">
+          <p permid="BgT">
+            <md permid="WOX">
+              <mrow>\int_0^\infty e^{-x/4} dx \amp = \lim_{b \to \infty} \int_0^b e^{-x/4} dx</mrow>
+              <mrow>\amp = \lim_{b \to \infty} \left.\left( - 4e^{-x/4} \right) \right|_0^b</mrow>
+              <mrow>\amp = \lim_{b \to \infty} \left( -4e^{-b/4} + 4\right)</mrow>
+              <mrow>\amp = 4</mrow>
+            </md>
+          </p>
+        </li>
+
+        <li permid="pXU">
+          <p permid="hoc">
+            <md permid="CWg">
+              <mrow>\int_2^\infty \frac{9}{(x+5)^{2/3}} dx \amp = \lim_{b \to \infty} \int_2^b \frac{9}{(x+5)^{2/3}} dx</mrow>
+              <mrow>\amp = \lim_{b \to \infty} \left. 27(x+5)^{1/3} \right|_2^b</mrow>
+              <mrow>\amp = \lim_{b \to \infty} \left( 27(b+5)^{1/3} - 27(7)^{1/3} \right)</mrow>
+              <mrow>\amp = \infty</mrow>
+            </md>
+          </p>
+        </li>
+
+        <li permid="Wfd">
+          <p permid="Nvl">
+            <md permid="jdp">
+              <mrow>\int_4^\infty \frac{3}{(x+2)^{5/4}} dx \amp = \lim_{b \to \infty} \int_4^b \frac{3}{(x+2)^{5/4}} dx</mrow>
+              <mrow>\amp = \lim_{b \to \infty} \left( -\frac{12}{(b+2)^{1/4}} + \frac{12}{6^{1/4}} \right)</mrow>
+              <mrow>\amp = \frac{12}{6^{1/4}}</mrow>
+            </md>
+          </p>
+        </li>
+
+        <li permid="Cmm">
+          <p permid="tCu">
+            <md permid="Pky">
+              <mrow>\int_0^\infty x e^{-x/4} dx \amp = \lim_{b \to \infty} \int_0^b x e^{-x/4} dx</mrow>
+              <mrow>\amp = \lim_{b \to \infty} \left. \left( -4x e^{-x/4} -16e^{-x/4} \right) \right|_0^b</mrow>
+              <mrow>\amp = 16</mrow>
+            </md>
+          </p>
+        </li>
+
+        <li permid="itv">
+          <p permid="ZJD">
+            We assume that <m>p</m> is a positive real number.
+            <md permid="byQ">
+              <mrow>\int_1^\infty \frac{1}{x^p} dx \amp = \lim_{b \to \infty} \int_1^b x^{-p} dx</mrow>
+              <mrow>\amp = \lim_{b \to \infty} \left( -\frac{b^{1-p}}{p-1} + \frac{1}{p-1} \right)</mrow>
+            </md>
+            We now use two cases:
+
+            <ul permid="Gml">
+              <li permid="KWe">
+                <p permid="lXV">
+                  (Assume <m>0 \lt  p \lt  1</m>.)  In this case,
+                  <m>1 - p \gt 0</m> and so
+                  <m> \lim_{b \to \infty} b^{1-p} = \infty</m> and
+                  <me permid="vrH">
+                    \lim_{b \to \infty} \left( -\frac{b^{1-p}}{p-1} + \frac{1}{p-1} \right) = \infty
+                  </me>
+                  Using this and the equation above ,
+                  we see that <m> \int_1^\infty \frac{1}{x^p} dx</m> diverges.
+                </p>
+              </li>
+
+              <li permid="rdn">
+                <p permid="FQM">
+                  (Assume <m>p \gt 1</m>.)  In this case,
+                  <m>1 - p \lt  0</m> and so
+                  <m> \lim_{b \to \infty} b^{1-p} = 0</m> and
+                  <me permid="HFZ">
+                    \lim_{b \to \infty} \left( -\frac{b^{1-p}}{p-1} + \frac{1}{p-1} \right) = \frac{1}{p-1}
+                  </me>
+                  Using this and the equation above,
+                  we see that <m> \int_1^\infty \frac{1}{x^p} dx</m> converges to <m>\dfrac{1}{p-1}</m>.
+                </p>
+              </li>
+            </ul>
+          </p>
+        </li>
+      </ol>
+    </p>
+  </solution>
+</example>
+
+<assemblage>
+<title> Strategies: When the interval of integration is unbounded </title>
+<p>
+          <ol label="a.">
+            <li>
+              <p> To evaluate the improper integral <m>\int_a^{\infty} f(x) \, dx</m>, use a new variable <m> b </m> for the upper bound of integration and let <m> b \to \infty </m>. In other words, find the definite integral <m> \int_a^b f(x) \, dx </m> then take the limit as <m> b \to \infty </m>:  
+              <me> \int_a^{\infty} f(x) \, dx= \lim_{b \to \infty} \int_a^b f(x) \, dx</me>.
+              </p>
+            </li>
+            <li>
+              <p> To evaluate the improper integral <m>\int_{-\infty}^{b} f(x) \, dx</m>, use a new variable <m> a </m> for the lower bound of integration and let <m> a \to -\infty </m>. In other words, find the definite integral <m> \int_a^b f(x) \, dx </m> then take the limit as <m> a \to -\infty </m>:  
+              <me> \int_{-\infty}^{b} f(x) \, dx= \lim_{a \to -\infty} \int_a^b f(x) \, dx</me>.
+              </p>
+            </li>
+            <li>
+              <p> To evaluate the improper integral <m>\int_{-\infty}^{\infty} f(x) \, dx</m>, use new variables <m> a </m>, <m> b </m>, and <m> c </m>. The variable <m> a </m> will represent the lower bound tending towards <m> -\infty </m>. The variable <m> b </m> will represent the upper bound tending towards <m> \infty </m>. The variable <m> c </m> will represent any real number. Find the definite integral <m> \int_a^c f(x) \, dx </m> then take the limit as <m> a \to -\infty </m>, and find the definite integral <m> \int_c^b f(x) \, dx </m> then take the limit as <m> b \to \infty </m>:  
+              <me> \int_{-\infty}^{\infty} f(x) \, dx= \lim_{a \to -\infty} \int_a^c f(x) \, dx + \lim_{b \to \infty} \int_c^b f(x) \, dx </me>.
+              </p>
+            </li>
+          </ol>
+
+</p>
+</assemblage>
+
+  </subsection>
+
+  <subsection permid="wXh">
+    <title>Improper Integrals Involving Unbounded Integrands</title>
+    <p permid="Zer">
+      An integral is also called <em> improper </em> if the integrand is unbounded on the interval of integration.
+      For example, consider
+      <me permid="nhW">
+        \int_0^1 \frac{1}{\sqrt{x}} \, dx
+      </me>.
+      Because <m>f(x) = \frac{1}{\sqrt{x}}</m> has a vertical asymptote at <m>x = 0</m>,
+      <m>f</m> is not continuous on <m>[0,1]</m>,
+      and the integral represents the area of the unbounded region shown at right in <xref ref="F-6-5-InfIntegrand">Figure</xref>.
+    </p>
+
+    <figure xml:id="F-6-5-InfIntegrand" permid="dOk">
+      <caption>At left, the area bounded by <m>f(x) = \frac{1}{\sqrt{x}}</m> on the finite interval <m>[a,1]</m>; at right, the result of letting <m>a \to 0^+</m>, where we see that the shaded region will extend vertically without bound.</caption>
+      <image width="80%" source="images/6_5_InfIntegrand" />
+    </figure>
+
+    <p permid="FlA">
+      We address the problem of the integrand being unbounded
+          <idx><h>improper integral</h><h>unbounded integrand</h></idx>
+      by replacing the improper integral with a limit of proper integrals.
+      For example,
+      to evaluate <m>\int_0^1 \frac{1}{\sqrt{x}} \, dx</m>,
+      we replace <m>0</m> with <m>a</m> and let <m>a</m> approach 0 from the right.
+      Thus,
+      <me permid="Tpf">
+        \int_0^1 \frac{1}{\sqrt{x}} \, dx = \lim_{a \to 0^+} \int_a^1 \frac{1}{\sqrt{x}} \, dx
+      </me>.
+      We evaluate the proper integral <m>\int_a^1 \frac{1}{\sqrt{x}} \, dx</m>,
+      and then take the limit.
+      We will say that the improper integral converges if this limit exists,
+      and diverges otherwise.
+      In this example, we observe that
+      <md permid="zwo">
+        <mrow>\int_0^1 \frac{1}{\sqrt{x}} \, dx &amp;=  \lim_{a \to 0^+} \int_a^1 \frac{1}{\sqrt{x}} \, dx</mrow>
+        <mrow>&amp;= \lim_{a \to 0^+} \left. 2\sqrt{x} \right|_a^1</mrow>
+        <mrow>&amp;= \lim_{a \to 0^+} 2\sqrt{1} - 2\sqrt{a}</mrow>
+        <mrow>&amp;= 2</mrow>
+      </md>,
+      so the improper integral
+      <m>\int_0^1 \frac{1}{\sqrt{x}} \, dx</m> converges
+      (to the value 2).
+    </p>
+
+    <p permid="lsJ">
+      We have to be particularly careful with unbounded integrands,
+      for they may arise in ways that may not initially be obvious.
+      Consider, for instance, the integral
+      <me permid="fDx">
+        \int_1^3 \frac{1}{(x-2)^2} \, dx
+      </me>.
+    </p>
+
+    <p permid="RzS">
+      At first glance we might think that we can simply apply the Fundamental Theorem of Calculus by antidifferentiating <m>\frac{1}{(x-2)^2}</m> to get
+      <m>-\frac{1}{x-2}</m> and then evaluating from <m>1</m> to <m>3</m>.
+      Were we to do so, we would be erroneously applying the Fundamental Theorem of Calculus because
+      <m>f(x) = \frac{1}{(x-2)^2}</m> fails to be continuous throughout the interval,
+      as seen in <xref ref="F-6-5-InfIntegrand2">Figure</xref>.
+    </p>
+
+    <figure xml:id="F-6-5-InfIntegrand2" permid="JVt">
+      <caption>The function <m>f(x) = \frac{1}{(x-2)^2}</m> on an interval including <m>x = 2</m>.</caption>
+      <image width="47%" source="images/6_5_InfIntegrand2" />
+    </figure>
+
+    <p permid="xHb">
+      Such an incorrect application of the Fundamental Theorem of Calculus leads to an impossible result (<m>-2</m>),
+      which would itself suggest that something we did must be wrong.
+      Instead, we must address the vertical asymptote at <m>x = 2</m> by writing
+      <me permid="LKG">
+        \int_1^3 \frac{1}{(x-2)^2} \, dx = \lim_{a \to 2^-} \int_1^a \frac{1}{(x-2)^2} \, dx + \lim_{b \to 2^+} \int_b^3 \frac{1}{(x-2)^2} \, dx
+      </me>.
+      We then evaluate two separate limits of proper integrals.
+      For instance,
+      doing so for the integral with <m>a</m> approaching <m>2</m> from the left, we find
+      <md permid="rRP">
+        <mrow>\int_1^2 \frac{1}{(x-2)^2} \, dx&amp;= \lim_{a \to 2^-} \int_1^a \frac{1}{(x-2)^2} \, dx</mrow>
+        <mrow>&amp;= \lim_{a \to 2^-} \left. -\frac{1}{(x-2)} \right|_1^a</mrow>
+        <mrow>&amp;= \lim_{a \to 2^-} -\frac{1}{(a-2)} + \frac{1}{1-2}</mrow>
+        <mrow>&amp;= \infty</mrow>
+      </md>,
+      since <m>\frac{1}{a-2} \to -\infty</m> as <m>a</m> approaches 2 from the left.
+      Thus, the improper integral <m>\int_1^2 \frac{1}{(x-2)^2} \, dx</m> diverges;
+      similar work shows that <m>\int_2^3 \frac{1}{(x-2)^2} \, dx</m> also diverges.
+      From either of these two results,
+      we can conclude that that the original integral,
+      <m>\int_1^3 \frac{1}{(x-2)^2} \, dx</m> diverges, too.
+    </p>
+
+      
+  <assemblage>
+  <title> Strategies: When the integrand is unbounded on the interval of integration</title>    
+        <p> 
+          <ol label="a.">
+            <li>
+              <p> If <m> f(x) </m> is unbounded at <m> x=a </m>, then <m> \int_a^b f(x) \, dx </m> is an improper integral. To evaluate the improper integral <m>\int_a^b f(x) \, dx </m>, use a new variable <m> d </m> for the lower bound of integration and let <m> d \to a^{+} </m> (<m> d </m> approaches <m> a </m> from the right). Find the definite integral <m>\int_d^b f(x) \, dx</m> then take the limit <m>d \to a^+</m>: 
+                <me>\int_a^b f(x) \, dx= \lim_{d \to a^+} \int_d^b f(x) \, dx</me>
+              </p>
+            </li>
+            <li>
+              <p> If <m> f(x) </m> is unbounded at <m> x=b </m>, then <m> \int_a^b f(x) \, dx </m> is an improper integral. To evaluate the improper integral <m>\int_a^b f(x) \, dx </m>, use a new variable <m> c </m> for the upper bound of integration and let <m> c \to b^{-} </m> (<m> c </m> approaches <m> b </m> from the left). Find the definite integral <m>\int_a^c f(x) \, dx</m> then take the limit <m>c \to b^-</m>: 
+                <me>\int_a^b f(x) \, dx= \lim_{c \to b^-} \int_a^c f(x) \, dx</me>
+              </p>
+            </li>
+            <li>
+              <p> If <m> f(x) </m> is unbounded at <m> x=p </m> and <m> p </m> lies inside the interval <m> [a,b] </m>, then <m> \int_a^b f(x) \, dx </m> is an improper integral. To evaluate the improper integral <m>\int_a^b f(x) \, dx </m>, use new variables <m> c</m> and <m> d </m> to represent location where <m> f(x) </m> is unbounded in the interval <m> [a,b] </m> and split the original integral into two improper integrals. Find the definite integral <m>\int_a^c f(x) \, dx</m> then take the limit <m>c \to p^-</m>, and find the definite integral <m>\int_d^b f(x) \, dx</m> then take the limit <m>d \to p^+</m>: 
+                <me>\int_a^b f(x) \, dx=\lim_{c \to p^-} \int_a^c f(x) \, dx + \lim_{d \to p^+} \int_d^b f(x) \, dx</me>
+              </p>
+            </li>
+          </ol>
+        </p>
+      
+ 
+</assemblage>
+
+
+<example xml:id="act-6-5-3" permid="IZN">
+  <statement>
+    <p permid="LUt">
+      For each of the following definite integrals,
+      decide whether the integral is improper or not.
+      If the integral is proper,
+      evaluate it using the First Fundamental Theorem of Calculus. If the integral is improper,
+      determine whether or not the integral converges or diverges;
+      if the integral converges, find its exact value.
+
+      <ol label="a." cols="2" permid="ELt">
+        <li permid="kSC">
+          <p permid="ciK">
+            <m>\int_0^1 \frac{1}{x^{1/3}} \, dx</m>
+          </p>
+        </li>
+
+        <li permid="QZL">
+          <p permid="IpT">
+            <m>\int_0^2 e^{-x} \, dx</m>
+          </p>
+        </li>
+
+        <li permid="xgU">
+          <p permid="oxc">
+            <m>\int_1^4 \frac{1}{\sqrt{4-x}} \, dx</m>
+          </p>
+        </li>
+
+        <li permid="dod">
+          <p permid="UEl">
+            <m>\int_{-2}^2 \frac{1}{x^2} \, dx</m>
+          </p>
+        </li>
+
+        <li permid="Jvm">
+          <p permid="ALu">
+            <m>\int_0^{\pi/2} \tan(x) \, dx</m>
+          </p>
+        </li>
+
+        <li permid="pCv">
+          <p permid="gSD">
+            <m>\int_0^1 \frac{1}{\sqrt{1-x^2}} \, dx</m>
+          </p>
+        </li>
+      </ol>
+    </p>
+  </statement>
+  <hint permid="giJ">
+    <p permid="fNk">
+      <ol label="a." permid="YEk">
+        <li permid="VJE">
+          <p permid="MZM">
+            <m>\frac{1}{x^{1/3}}</m> is undefined at <m>x = 0</m>.
+          </p>
+        </li>
+
+        <li permid="BQN">
+          <p permid="tgV">
+            This integral is a proper one.
+          </p>
+        </li>
+
+        <li permid="hXW">
+          <p permid="Zoe">
+            <m>\frac{1}{\sqrt{4-x}}</m> is undefined at <m>x = 4</m>.
+          </p>
+        </li>
+
+        <li permid="Off">
+          <p permid="Fvn">
+            Be careful about what happens at <m>x = 0</m>;
+            split the original integral into two integrals that involve <m>x = 0</m>.
+          </p>
+        </li>
+
+        <li permid="umo">
+          <p permid="lCw">
+            <m>\tan(x)</m> is undefined at <m>x = \pi/2</m>.
+          </p>
+        </li>
+
+        <li permid="atx">
+          <p permid="RJF">
+            Recall that you know an antiderivative for <m>\frac{1}{\sqrt{1-x^2}}</m>.
+          </p>
+        </li>
+      </ol>
+    </p>
+  </hint>
+  <answer permid="AbA">
+    <p permid="zGb">
+      <ol label="a." permid="sxb">
+        <li permid="GAG">
+          <p permid="xQO">
+            <m> \int_0^1 \frac{1}{x^{1/3}}dx = \frac{3}{2} </m>
+          </p>
+        </li>
+
+        <li permid="mHP">
+          <p permid="dXX">
+            <m> \int_0^2 e^{-x} dx = 1 - e^{-2} </m>
+          </p>
+        </li>
+
+        <li permid="SOY">
+          <p permid="Kfg">
+            <m> \int_0^4 \frac{1}{\sqrt{4-x}} dx = 4 </m>
+          </p>
+        </li>
+
+        <li permid="yWh">
+          <p permid="qmp">
+            <m>\int_{-2}^2 \frac{1}{x^2} \, dx</m> diverges.
+          </p>
+        </li>
+
+        <li permid="fdq">
+          <p permid="Wty">
+            <m> \int_0^{\pi/2} \tan(x) dx = \infty </m>
+          </p>
+        </li>
+
+        <li permid="Lkz">
+          <p permid="CAH">
+            <m> \int_0^1 \frac{1}{\sqrt{1-x^2}} dx = \frac{\pi}{2} </m>
+          </p>
+        </li>
+      </ol>
+    </p>
+  </answer>
+  <solution permid="TUr">
+    <p permid="TyS">
+      <ol label="a." permid="MpS">
+        <li permid="rrI">
+          <p permid="iHQ">
+            <md permid="sbC">
+              <mrow>\int_0^1 \frac{1}{x^{1/3}}dx \amp = \lim_{a \to 0^+} \int_0^1 \frac{1}{x^{1/3}}dx</mrow>
+              <mrow>\amp = \lim_{a \to 0^+} \left( \frac{3}{2} - \frac{3}{2} a^{2/3} \right)</mrow>
+              <mrow>\amp = \frac{3}{2}</mrow>
+            </md>
+          </p>
+        </li>
+
+        <li permid="XyR">
+          <p permid="OOZ">
+            <md permid="YiL">
+              <mrow>\int_0^2 e^{-x} dx \amp = \left. -e^{-x} \right|_0^2</mrow>
+              <mrow>\amp = 1 - e^{-2}</mrow>
+            </md>
+          </p>
+        </li>
+
+        <li permid="DGa">
+          <p permid="uWi">
+            <md permid="EpU">
+              <mrow>\int_0^4 \frac{1}{\sqrt{4-x}} dx \amp = \lim_{b \to 4^-}\int_0^b \frac{1}{\sqrt{4-x}} dx</mrow>
+              <mrow>\amp = \lim_{b \to 4^-} \left. -2\sqrt{4-x} \right|_0^b</mrow>
+              <mrow>\amp = 4</mrow>
+            </md>
+          </p>
+        </li>
+
+        <li permid="jNj">
+          <p permid="bdr">
+            <me permid="kxd">
+              \int_{-2}^2 \frac{1}{x^2} dx = \int_{-2}^0 \frac{1}{x^2} + \int_{0}^2 \frac{1}{x^2}
+            </me>
+            However,
+            each of the improper integrals on the right side of the equation diverges.
+            For example,
+            <md permid="QEm">
+              <mrow>\int_{0}^2 \frac{1}{x^2} dx \amp = \lim_{a \to 0^+} \int_{a}^2 \frac{1}{x^2} dx</mrow>
+              <mrow>\amp = \lim_{a \to +} \left( -\frac{1}{2} + \frac{1}{a} \right)</mrow>
+              <mrow>\amp = \infty</mrow>
+            </md>
+            So <m> \int_{-2}^2 \frac{1}{x^2}</m> dx diverges.
+          </p>
+        </li>
+
+        <li permid="PUs">
+          <p permid="HkA">
+            <md permid="wLv">
+              <mrow>\int_0^{\pi/2} \tan(x) dx \amp = \lim_{b \to \dfrac{\pi}{2}^+} \int_0^b \tan(x) dx</mrow>
+              <mrow>\amp = \lim_{b \to \dfrac{\pi}{2}^+} \left( -\ln(\cos(b)) + \ln(\cos(0)) \right)</mrow>
+              <mrow>\amp = \infty</mrow>
+            </md>
+          </p>
+        </li>
+
+        <li permid="wbB">
+          <p permid="nrJ">
+            <md permid="cSE">
+              <mrow>\int_0^1 \frac{1}{\sqrt{1-x^2}} dx \amp = \lim_{b \to 1+} \int_0^b \frac{1}{\sqrt{1-x^2}} dx</mrow>
+              <mrow>\amp = \lim_{b \to 1+} \left( \arcsin(b) - \arcsin(0) \right)</mrow>
+              <mrow>\amp = \frac{\pi}{2}</mrow>
+            </md>
+          </p>
+        </li>
+      </ol>
+    </p>
+  </solution>
+</example>
+  </subsection>
+
+<subsection>
+  <title> Important Classes of Improper Integrals</title>
+  <p>
+    There are three important classes of improper integrals that we will use in the subsection <xref ref="ComparingImpInt"> Comparing Improper Integrals </xref>. The three classes are <m> \int_1^{\infty} \frac{1}{x^p} \, dx </m> where <m> p </m> is a real number, <m> \int_0^1 \frac{1}{x^p} \, dx </m> where <m> p </m> is a real number, and <m>\int_0^{\infty} \frac{1}{e^{ax}}\, dx </m> where <m>a </m> is a real number. We will use the convergence behavior of these improper integrals which have simple integrands to gain understanding of the convergence behavior of improper integrals whose integrands are more complex. For each of these classes, the value of <m> p</m> or <m> a </m> will determine if the improper integral converges or diverges. 
+  </p>
+  <example>
+    <statement> 
+      <p> 
+        Determine the values of <m> p </m> so that <m> \int_1^{\infty} \frac{1}{x^p} \, dx </m> converges. In addition, determine the values of <m> p </m> so that <m> \int_1^{\infty} \frac{1}{x^p} \, dx </m> diverges. 
+      </p>
+    </statement>
+    <answer>
+      <p>
+        <m> \int_1^{\infty} \frac{1}{x^p} \ dx </m> converges if <m>p>1 </m> and diverges if <m>p\leq 1 </m>
+      </p>
+    </answer>
+    <solution> 
+      <p>
+        First, set up a limit to properly evaluate the improper integral.
+        <me>\int_1^{\infty} \frac{1}{x^p} \, dx = \lim_{b \to \infty} \int_1^b x^{-p} \, dx </me>
+        Notice that the antiderivative is different if <m> p=1 </m> or <m> p \neq 1 </m>, so we'll calculate these cases separately. Assume <m> p\neq 1 </m>. 
+        <md> 
+          <mrow>\int_1^{\infty} \frac{1}{x^p} \, dx &amp;= \lim_{b \to \infty} \int_1^b x^{-p} \, dx </mrow>
+          <mrow> &amp;= \lim_{b \to \infty} \left. \frac{x^{-p+1}}{-p+1} \right|_1^b </mrow>
+          <mrow> &amp;= \lim_{b \to \infty} \frac{b^{-p+1}}{-p+1} - \frac{1}{-p+1} </mrow>
+          <mrow> &amp;= -\frac{1}{-p+1} + \frac{1}{-p+1} \lim_{b \to \infty} b^{-p+1} </mrow>
+        </md>
+        If <m> -p+1 &gt;0 </m> (so <m>p &lt;1 </m>) then this limit diverges which implies that the improper integral diverges. 
+      </p>
+      <p> 
+        If <m> -p+1 &lt; 0 </m> (so <m>p &gt; 1 </m>) then this limit converges which implies that the improper integral converges. 
+      </p>
+      <p> 
+        Now, assume <m> p=1 </m>. 
+        <md> 
+          <mrow>\int_1^{\infty} \frac{1}{x} \, dx &amp;= \lim_{b \to \infty} \int_1^b \frac{1}{x} \, dx </mrow>
+          <mrow> &amp; =\lim_{b \to \infty} \left. \ln |x| \right|_1^b </mrow>
+          <mrow> &amp; =\lim_{b \to \infty} \ln|b| - \ln|1|</mrow>
+          <mrow> &amp;= \lim_{b \to \infty} \ln |b| </mrow>
+        </md>
+        This limit diverges, so the improper integral also diverges. Therefore <m> \int_1^{\infty} \frac{1}{x^p} \ dx </m> converges if <m>p>1 </m> and diverges if <m>p\leq 1 </m>.
+      </p>
+    </solution>
+  </example>
+  <example>
+    <statement> 
+      <p> 
+        Determine the values of <m> p </m> so that <m> \int_0^1 \frac{1}{x^p} \, dx </m> converges. In addition, determine the values of <m> p </m> so that <m> \int_0^1 \frac{1}{x^p} \, dx </m> diverges. 
+      </p>
+    </statement>
+    <answer>
+      <p>
+        <m> \int_0^{1} \frac{1}{x^p} \ dx </m> converges if <m>p &lt; 1 </m> and diverges if <m>p \geq 1 </m>
+      </p>
+    </answer>
+    <solution> 
+      <p>
+        The integrand is undefined at <m> x=0 </m>, so we need to set up a limit that approaches 0 from the right for the lower bound of the integral. 
+        <me> \int_0^1 \frac{1}{x^p} \, dx = \lim_{a \to 0^{+}} \int_a^1  x^{-p} \, dx</me>
+        The gereral antiderivative is different if <m> p=1 </m> or <m> p \neq 1 </m>, so we will handle each case separately. Assume <m> p \neq 1 </m>. 
+        <md> 
+          <mrow>\int_0^1 \frac{1}{x^p} \, dx &amp;= \lim_{a \to 0^{+}} \int_a^1  x^{-p} \, dx </mrow>
+          <mrow> &amp;= \lim_{a \to 0^{+}} \left. \frac{x^{-p+1}}{-p+1} \right|_{a}^{1}  </mrow>
+          <mrow> &amp;= \lim_{a \to 0^{+}} \frac{1}{-p+1} - \frac{a^{-p+1}}{-p+1} </mrow>
+          <mrow> &amp;= \frac{1}{-p+1} -\frac{1}{-p+1} \lim_{a \to 0^{+}} a^{-p+1} </mrow>
+        </md>
+        If <m>-p+1&gt;0 </m> (so <m> p&lt; 1</m>) then the limit converges so the improper integral converges. 
+      </p>
+      <p>
+        If <m>-p+1&lt;0 </m> (so <m>p&gt; 1 </m>) then the limit diverges so that improper integral diverges. 
+      </p>
+      <p> 
+        Assume <m> p=1</m>.
+        <md>
+          <mrow> \int_0^1 \frac{1}{x} \, dx &amp;= \lim_{a \to 0^{+}} \int_a^1 \frac{1}{x} \, dx </mrow>
+          <mrow> &amp; =\lim_{a \to 0^{+}}\left. \ln |x| \right|_a^1</mrow>
+          <mrow> &amp; =\lim_{a \to 0^{+}} \ln (1) - \ln(a) </mrow>
+          <mrow> &amp; =\lim_{a \to 0^{+}} 0 - \ln(a) </mrow>
+        </md>
+        This limit diverges so the improper integral diverges. Therefore, <m> \int_0^{1} \frac{1}{x^p} \ dx </m> converges if <m>p &lt; 1 </m> and diverges if <m>p \geq 1 </m>.
+      </p>
+    </solution>
+  </example>
+  <example>
+    <statement> 
+      <p> 
+        Determine the values of <m> a </m> so that <m> \int_0^{\infty} \frac{1}{e^{ax}} \, dx </m> converges. In addition, determine the values of <m> a </m> so that <m> \int_0^{\infty} \frac{1}{e^{ax}} \, dx </m> diverges. 
+      </p>
+    </statement>
+    <answer>
+      <p>
+        <m> \int_0^{\infty} \frac{1}{e^{ax}} \ dx </m> converges if <m> a>0 </m> and diverges if <m> a\leq0 </m>
+      </p>
+    </answer>
+    <solution>
+      <p>
+        Set up a limit to carefully calculate the improper integral. 
+        <me> \int_0^{\infty} e^{-ax} \, dx = \lim_{b \to \infty} \int_0^b e^{-ax} \, dx </me>
+        The antiderivative is different if <m> a=0 </m> or if <m> a \neq 0</m>, so we'll calculate these cases separately. Assume <m> a \neq 0 </m>.
+        <md> 
+          <mrow> \int_0^{\infty} e^{-ax} \, dx &amp;= \lim_{b \to \infty} \int_0^b e^{-ax} \, dx  </mrow>
+          <mrow> &amp;= \lim_{b \to \infty} \left. -\frac{1}{a} e^{-ax} \right|_0^b </mrow>
+          <mrow> &amp;= -\frac{1}{a} \lim_{b \to \infty} \left( e^{-ab} -1 \right) </mrow> 
+          <mrow> &amp;=\frac{1}{a} -\frac{1}{a} \lim_{b \to \infty} e^{-ab} </mrow>
+        </md>
+        If <m>-ab \lt 0</m> (so <m>a\gt0</m>), then the limit converges which implies the improper integral converges. 
+      </p>
+      <p>
+        If <m>-ab \gt 0 </m> (so <m>a\lt0</m>), then the limit diverges which implies the improper integral diverges. 
+      </p>
+      <p>
+        Assume <m> a=0</m>. 
+        <md> 
+          <mrow> \int_0^{\infty} e^{0} \, dx &amp;= \lim_{b \to \infty} \int_0^b 1 \, dx </mrow>
+          <mrow> &amp;= \lim_{b \to \infty} \left. x \right|_0^b</mrow>
+          <mrow> &amp;= \lim_{b \to \infty} b</mrow>
+        </md>
+        This limit diverges, so the improper integral diverges. Therefore, <m> \int_0^{\infty} \frac{1}{e^{ax}} \ dx </m> converges if <m> a>0 </m> and diverges if <m> a\leq0 </m>. 
+      </p>
+    </solution>
+  </example>
+
+  <assemblage>
+  <title> Convergence Behavior of Important Classes of Improper Integrals </title>
+  <p>
+    <ul>  
+      <li> 
+        <p> 
+          <m> \int_1^{\infty} \frac{1}{x^p} \ dx </m> converges if <m>p>1 </m> and diverges if <m>p\leq1 </m>
+        </p>
+      </li>
+      <li> 
+        <p> 
+          <m> \int_0^{1} \frac{1}{x^p} \ dx </m> converges if <m>p &lt; 1 </m> and diverges if <m>p \geq 1 </m>
+        </p>
+      </li>
+      <li> 
+        <p>
+          <m> \int_0^{\infty} \frac{1}{e^{ax}} \ dx </m> converges if <m> a>0 </m> and diverges if <m> a\leq0 </m>
+        </p>
+      </li>
+    </ul>
+  </p>
+</assemblage>
+</subsection>
+
+  <subsection xml:id="ComparingImpInt" permid="QPY">
+    <title>Comparing Improper Integrals</title>
+      <p permid="NiU">
+        Sometimes we may encounter an improper integral for which we cannot easily evaluate the limit of the corresponding proper integral.
+        For instance,
+        consider <m>\int_1^{\infty} \frac{1}{1+x^3} \, dx</m>.
+        While it is hard
+        (or perhaps impossible)
+        to find an antiderivative for <m>\frac{1}{1+x^3}</m>,
+        we can still determine whether or not the improper integral converges or diverges by comparison to a simpler one.
+        Observe that for all <m>x \gt 0</m>,
+        <m>1 + x^3 \gt x^3</m>, and therefore
+        <me permid="OYh">
+          \frac{1}{1+x^3} \lt  \frac{1}{x^3}
+        </me>.
+      </p>
+
+      <p permid="tqd">
+        It therefore follows that
+        <me permid="vfq">
+          \int_1^b \frac{1}{1+x^3} \, dx \lt  \int_1^b \frac{1}{x^3} \, dx
+        </me>
+        for every <m>b \gt 1</m>.
+        We know that <m>\lim_{b \to \infty} \int_{1}^{b} \frac{1}{x^{3}} \,dx =\int_{1}^{\infty}\frac{1}{x^{3}} \,dx </m> converges, since it is an improper integral of the form <m> \int_{1}^{\infty}\frac{1}{x^{p}} \,dx </m> with <m> p > 1 </m>. By the inequality above, if <m> \lim_{b \to \infty} \int_{1}^{b}\frac{1}{x^{3}+1} \,dx </m> exists, it must be less than or equal to <m> \int_{1}^{\infty} \frac{1}{x^{3}} \,dx </m>; in particular, if <m> \lim_{b \to \infty} \int_{1}^{b}\frac{1}{x^{3}+1} \,dx </m> exists, it is finite. By making some technical considerations, it can be proved that in fact <m> \lim_{b \to \infty} \int_{1}^{b}\frac{1}{x^{3}+1} \,dx </m> must exist, and therefore <m> \int_{1}^{\infty} \frac{1}{x^{3}+1} \,dx </m> is a convergent improper integral.
+      </p>
+      <p> 
+        The comparison of these improper integrals can be visualized by comparing the area under each function. The area under the curve <m> \frac{1}{x^3} </m> is shown in green, and the area under the curve <m>\frac{1}{x^3+1} </m> is shown in blue.
+        <figure>
+          <caption> Comparing the area under the curves <m> \frac{1}{x^3}</m> and <m>\frac{1}{x^3+1} </m> </caption>
+          <image source="images/5-10-CompImpInt.jpg" />
+        </figure>
+        In particular,
+        <m>\int_1^\infty \frac{1}{1+x^3} \, dx</m> must converge,
+        even though we never explicitly evaluated the corresponding limit of proper integrals. 
+        We use this idea and similar ones in the examples that follow.
+      </p>
+  <example permid="Hfn">
+    <statement>
+        <ol label="a." permid="QyZ">
+          <li permid="Dfo">
+            <p permid="fmy">
+              Explain why <m>x^2 + x + 1 \gt x^2</m> for all <m>x \ge 1</m>,
+              and hence determine if
+              <m>\int_1^{\infty} \frac{1}{x^2 + x + 1} \, dx</m> converges or diverges by comparison to <m>\int_1^{\infty} \frac{1}{x^2} \, dx</m>.
+            </p>
+          </li>
+
+          <li permid="jmx">
+            <p permid="LtH">
+              Observe that for each <m>x \gt 1</m>, <m>\ln(x) \lt  x</m>.
+              Explain why
+              <me permid="bmz">
+                \int_2^b \frac{1}{x} \, dx \lt  \int_2^b \frac{1}{\ln(x)} \,dx
+              </me>
+              for each <m>b \gt 2</m>.
+              Why must it be true that <m>\int_2^b \frac{1}{\ln(x)} \, dx</m> diverges?
+            </p>
+          </li>
+
+          <li permid="PtG">
+            <p permid="rAQ">
+              Explain why <m>\sqrt{\frac{x^4+1}{x^4}} \gt 1</m> for all <m>x \gt 1</m>.
+              Then, determine whether or not the improper integral
+              <me permid="HtI">
+                \int_1^{\infty} \frac{1}{x} \cdot \sqrt{\frac{x^4+1}{x^4}} \, dx
+              </me>
+              converges or diverges.
+            </p>
+          </li>
+        </ol>
+    </statement>
+    <answer permid="fHX">
+      <p permid="AUC">
+        <ol label="a." permid="EkH">
+          <li permid="vAP">
+            <p permid="XHZ">
+              converges
+            </p>
+          </li>
+
+          <li permid="bHY">
+            <p permid="DPi">
+              diverges
+            </p>
+          </li>
+
+          <li permid="HPh">
+            <p permid="jWr">
+              diverges
+            </p>
+          </li>
+        </ol>
+      </p>
+    </answer>
+    <solution permid="zAO">
+      <p permid="oGk">
+        <ol label="a." permid="rWp">
+          <li permid="nWq">
+            <p permid="QdA">
+              Since <m>x \ge 1</m>, it follows that <m>x + 1 \ge 1 \gt 0</m>,
+              so adding <m>x^2</m> to both sides of this inequality shows that
+              <me permid="nAR">
+                x^2 + x + 1 \gt x^2
+              </me>
+              for all <m>x \ge 1</m>.
+              Taking reciprocals (which reverses the inequality),
+              <me permid="TIa">
+                \frac{1}{x^2 + x + 1} \lt \frac{1}{x^2}
+              </me>
+              and thus for any <m>b \gt 1</m>,
+              <me permid="zPj">
+                \int_1^b \frac{1}{x^2 + x + 1} \, dx \lt \int_1^b \frac{1}{x^2} \, dx
+              </me>.
+              Taking the limit as <m>b \to \infty</m>, it follows that
+              <me permid="fWs">
+                \int_1^{\infty} \frac{1}{x^2 + x + 1} \, dx \lt \int_1^{\infty} \frac{1}{x^2} \, dx
+              </me>,
+              and since we know that <m>\int_1^{\infty} \frac{1}{x^2} \, dx</m>  converges,
+              we conclude that            
+              <m>\int_1^{\infty} \frac{1}{x^2 + x + 1} \, dx</m> also converges.
+            </p>
+          </li>
+
+          <li permid="Udz">
+            <p permid="wkJ">
+              Since for each <m>x \gt 1</m>, <m>\ln(x) \lt  x</m>,
+              it also holds that <m>\ln(x) \lt  x</m> for all <m>x \gt 2</m>.
+              Taking reciprocals,
+              <me permid="MdB">
+                \frac{1}{x} \lt \frac{1}{\ln(x)}
+              </me>
+              and thus
+              <me permid="skK">
+                \int_2^b \frac{1}{x} \, dx \lt  \int_2^b \frac{1}{\ln(x)} \,dx
+              </me>
+              for each <m>b \gt 2</m>.
+              Taking the limit as <m>b \to \infty</m>, we have
+              <me permid="YrT">
+                \int_2^{\infty} \frac{1}{x} \, dx \le  \int_2^{\infty} \frac{1}{\ln(x)} \,dx
+              </me>
+              and since we know that <m>\int_1^\infty \frac{1}{x} \, dx</m> diverges,
+              it follows that
+              <m>\int_2^b \frac{1}{\ln(x)} \, dx</m> also diverges.
+            </p>
+          </li>
+
+          <li permid="AkI">
+            <p permid="crS">
+              Since <m>x^4+1 \gt x^4</m> for all <m>x</m>, it follows that
+              <me permid="Ezc">
+                \frac{x^4+1}{x^4} \gt 1
+              </me>
+              for all <m>x \gt 1</m>, and thus taking square roots,
+              <me permid="kGl">
+                \sqrt{\frac{x^4+1}{x^4}} \gt 1
+              </me>
+              for all <m>x \gt 1</m>.
+              Integrating from <m>1</m> to <m>b</m> and then letting
+              <m>b \to \infty</m>, we can next say that
+              <me permid="QNu">
+                \int_1^{\infty} \sqrt{\frac{x^4+1}{x^4}}  \, dx \ge \int_1^{\infty} 1  \, dx
+              </me>
+              It is obvious that <m>\int_1^{\infty} 1 \, dx</m> diverges since the integrand does not tend to <m>0</m>.  
+              By the last inequality above, we can conclude that
+              <me permid="wUD">
+                \int_1^{\infty} \frac{1}{x} \cdot \sqrt{\frac{x^4+1}{x^4}} \, dx
+              </me>
+              diverges.
+            </p>
+          </li>
+        </ol>
+      </p>
+    </solution>
+  </example>
+  <p>
+    Part (b) demonstrates that if an improper integral can be bounded below by one that diverges, then the improper integral in question also diverges. The same logic can be used to show that if an improper integral can be bounded above by one that converges, it also converges. We formalize these principles as the Comparison Test for Improper Integrals. 
+  </p>
+  <assemblage>
+    <title>Comparison Test for Improper Integrals</title>
+      <p>
+        If <m>f(x) \ge g(x) \ge 0 </m>  and  <m>   \int_a^{\infty} f(x) \, dx </m> converges, then <m>   \int_a^{\infty} g(x) \, dx </m> converges.
+      </p>
+      <p>
+        If <m> f(x) \ge g(x) \ge 0   </m>  and  <m>   \int_a^{\infty} g(x) \, dx </m> diverges, then <m>   \int_a^{\infty} f(x) \, dx </m> diverges.
+      </p>
+    </assemblage>
+    <p>
+    For Part (b), we claimed that <m>\int_2^{\infty} \frac{1}{x} \, dx </m> diverges, but we've technically only discussed that <m>\int_1^{\infty} \frac{1}{x} \, dx</m> diverges. However, since <m>\int_{1}^{\infty} \frac{1}{x} \, dx = \int_{2}^{\infty}\frac{1}{x} \, dx + \int_{1}^{2}\frac{1}{x}\, dx </m> and <m>\int_1^2 \frac{1}{x} \, dx </m> is finite, <m>\int_2^{\infty} \frac{1}{x} \, dx</m> must diverge; otherwise, the right-hand side of the equation would be finite. In fact, <m> \int_a^{\infty} \frac{1}{x} \, dx</m> diverges for any real number <m>a \geq 1</m> for the same reason. More generally:
+  </p>
+    <assemblage>
+      <title>  </title>
+      <p>
+        Suppose <m>f(x) </m> is continuous on the interval <m>[a,b]</m> 
+        <ul>
+          <li>
+            <p>
+              If <m>\int_a^{\infty} f(x) \, dx </m> converges, then <m>\int_b^{\infty} f(x) \, dx </m> also converges. 
+            </p>
+          </li>
+          <li>
+            <p>
+              If <m>\int_a^{\infty} f(x) \, dx </m> diverges, then <m>\int_b^{\infty} f(x) \, dx </m> also diverges. 
+            </p>
+          </li>
+        </ul>
+      </p>
+    </assemblage>
+  <p>
+    We'll finish this section with a few guided examples of applications of the Comparison Test. A useful strategy for these types of problems goes as follows: first, make an educated guess about whether the given integral converges or diverges; then, based on this guess, bound the integrand above or below by a simpler function whose integral over the same interval converges or diverges, respectively.
+  </p>
+
+  <example>
+    <statement>
+      <p>
+        Use the Comparison Test for Improper Integrals to determine whether the following improper integrals converge or diverge. Be sure to justify any inequalities used when applying the Test. 
+      </p>
+      <ol label = "a.">
+        <li>
+          <m> \int_{1}^{\infty} \frac{\sin^{2}(x)}{x^{2}} \,dx </m>
+        </li>
+        <li>
+          <m> \int_{1}^{\infty} \frac{1}{\sqrt{x^{3}+6}} \,dx </m>
+        </li>
+        <li>
+          <m> \int_{10}^{\infty} \frac{3x}{(x+4)^{2}} \,dx </m>
+        </li>
+        <li>
+          <m> \int_{1}^{\infty} \frac{2+\cos(x)}{\sqrt{x+12}} \,dx </m>
+        </li>
+      </ol>
+    </statement>
+    <hint>
+      <ol label = "a.">
+        <li>
+          Since <m> -1 \leq \sin(x) \leq 1 </m> for any <m> x \in \mathbb{R} </m>, we have <m> 0 \leq \sin^{2}(x) \leq 1 </m> for any <m> x \in \mathbb{R} </m>.
+        </li>
+        <li>
+          When <m> x </m> is large, observe that <m> \sqrt{x^{3}+6} \approx \sqrt{x^{3}} = x^{3/2}. </m> 
+        </li>
+        <li>
+          When <m> x </m> is large, <m> \frac{3x}{(x+4)^{2}} \approx \frac{3x}{x^{2}} = \frac{3}{x}. </m>
+        </li>
+        <li>
+          Since <m> \cos(x) \geq -1 </m> for all <m> x \in \mathbb{R} </m>, the numerator is at least <m> 1 </m>. For the denominator, when <m> x </m> is large we have <m> \sqrt{x+12} \approx \sqrt{x}.</m>
+        </li>
+      </ol>
+    </hint>
+    <answer>
+      <ol label = "a.">
+        <li> 
+          Converges, via comparison with e.g. <m> \frac{1}{x^{2}} </m>.
+        </li>
+        <li>
+          Converges, via comparison with e.g. <m> \frac{1}{x^{3/2}} </m>.
+        </li>
+        <li>
+          Diverges, via comparison with e.g. <m> \frac{3}{4x} </m>.
+        </li>
+        <li>
+          Diverges, via comparison with e.g. <m> \frac{1}{2\sqrt{x}} </m> on the interval <m> [4, \infty) </m>.
+        </li>
+      </ol>
+    </answer>
+    <solution>
+      <ol label = "a." >
+        <li>
+          From the hint, we know <m> 0 \leq \sin^{2}(x) \leq 1 </m> for any <m> x \in \mathbb{R} </m>. Therefore, <m> 0 \leq \frac{\sin^{2}(x)}{x^{2}} \leq \frac{1}{x^{2}} </m> for any <m> x \in \mathbb{R} </m>. (In particular, this inequality holds on the interval <m> [1, \infty) </m>.) Since <m> \int_{1}^{\infty}\frac{1}{x^{2}} \,dx </m> converges, by the Comparison Test it follows that <m> \int_{1}^{\infty} \frac{\sin^{2}(x)}{x^{2}} \,dx </m> converges.
+        </li>
+        <li>
+          <p>
+            From the hint, we should expect our improper integral to behave like <m> \int_{1}^{\infty} \frac{1}{x^{3/2}} \,dx </m>, which converges. Indeed, we can compare our integral directly to this one.
+          </p>
+          <p>
+            For any <m> x \in \mathbb{R} </m>, we have <m> x^{3}+6 > x^{3} </m>. Therefore, <m> \sqrt{x^{3}+6} > \sqrt{x^{3}} = x^{3/2} </m> whenever both <m> x^{3}+6 </m> and <m> x^{3} </m> are non-negative, i.e., for all <m> x \geq 0 </m>. This, along with the assumption that we use the positive square root, yields the inequality <m> \frac{1}{x^{3/2}} > \frac{1}{\sqrt{x^{3}+6}} > 0 </m> for all <m> x > 0 </m>. Specifically, the inequality holds on the interval <m> [1, \infty) </m>. Because <m> \int_{1}^{\infty}\frac{1}{x^{3/2}} \,dx </m> converges, by the Comparison Test we conclude that <m> \int_{1}^{\infty} \frac{1}{\sqrt{x^{3}+6}} \,dx </m> converges.
+          </p>
+        </li>
+        <li> 
+          <p>
+            From the hint, we should expect our imroper integral to behave like <m> \int_{10}^{\infty}\frac{3}{x} \,dx </m>, which diverges. However, since <m> (x+4)^{2} > x^{2} </m> for all <m> x \in \mathbb{R} </m> it's actually the case that <m> \frac{3x}{(x+4)^{2}} \lt \frac{3x}{x^{2}} = \frac{3}{x} </m> for <m> x \in \mathbb{R} </m>. So we cannot compare our function to <m> \frac{3}{x} </m> to conclude divergence. More care is needed to find an appropriate lower bound for <m> \frac{3x}{(x+4)^{2}}.</m>
+          </p>
+          <p>
+            Observe that if <m> x \geq 4 </m>, we have <m> 2x \geq x+4 </m>. (In fact, these inequalities are equivalent.) So <m> (2x)^{2} \geq (x+4)^{2} </m> for <m> x \geq 4 </m> and thus we may write <m> \frac{3x}{(x+4)^{2}} \geq \frac{3x}{(2x)^{2}} = \frac{3}{4x} \geq 0</m>. Now, <m> \int_{10}^{\infty}\frac{3}{4x} \,dx =\frac{3}{4} \int_{10}^{\infty}\frac{1}{x} \, dx </m> diverges, so it follows from the Comparison Test that  <m> \int_{10}^{\infty} \frac{3x}{(x+4)^{2}} \,dx </m> diverges.
+          </p>
+        </li>
+        <li>
+          <p> From the hint, for large enough <m> x </m> the function <m> \frac{2+\cos(x)}{\sqrt{x+12}} </m> is approximately bounded below by <m> \frac{1}{\sqrt{x}} </m>. Since <m> \int_{1}^{\infty}\frac{1}{\sqrt{x}} \,dx </m> diverges, we should expect our integral to diverge as well. However, a direct comparison to <m> \frac{1}{\sqrt{x}} </m> won't show divergence, since <m> \frac{1}{\sqrt{x+12}} \lt \frac{1}{\sqrt{x}} </m>. 
+          </p>
+          <p>
+            Note, however, that for <m> x \geq 4 </m> we have <m> x + 12 \leq 4x </m>. (These inequalities are indeed equivalent.) So when <m> x \geq 4 </m>, we know <m> \frac{2+\cos(x)}{\sqrt{x+12}} \geq \frac{1}{\sqrt{4x}} = \frac{1}{2\sqrt{x}} > 0 </m>. Since <m> \int_{4}^{\infty}\frac{1}{2\sqrt{x}} \,dx = \frac{1}{2} \int_{4}^{\infty} \frac{1}{\sqrt{x}} \,dx </m> diverges, by the Comparison Test <m> \int_{4}^{\infty} \frac{2+\cos(x)}{\sqrt{x+12}} \,dx </m> diverges. It follows that <m> \int_{1}^{\infty} \frac{2+\cos(x)}{\sqrt{x+12}} \,dx </m> diverges as well.
+          </p>
+        </li>
+      </ol>
+    </solution>
+  </example>
+
+  </subsection>
+  <subsection permid="deq">
+    <title>Summary</title>
+    <p permid="qcC">
+      <ul permid="hOj">
+        <li permid="GqT">
+          <p permid="rhV">
+            An integral <m>\int_a^b f(x) \, dx</m> can be improper if at least one of <m>a</m> or <m>b</m> is <m>\pm \infty</m>,
+            making the interval unbounded,
+            or if <m>f</m> has a vertical asymptote at <m>x = c</m> for some value of <m>c</m> that satisfies <m>a \le c \le b</m>.
+            One reason that improper integrals are important is that certain probabilities can be represented by integrals that involve infinite limits.
+          </p>
+        </li>
+
+        <li permid="myc">
+          <p permid="Xpe">
+            When we encounter an improper integral,
+            we work to understand it by replacing the improper integral with a limit of proper integrals.
+            For instance, we write
+            <me permid="XYY">
+              \int_a^\infty f(x) \, dx = \lim_{b \to \infty} \int_a^b f(x) \, dx
+            </me>,
+            and then work to determine whether the limit exists and is finite.
+            For any improper integral,
+            if the resulting limit of proper integrals exists and is finite,
+            we say the improper integral converges.
+            Otherwise, the improper integral diverges.
+          </p>
+        </li>
+
+        <li permid="SFl">
+          <p permid="Dwn">
+            There are three important classes of improper integrals discussed in this section. 
+            <ul>
+              <li>
+                <p>
+                  One important class of improper integrals is given by
+                  <me permid="Egh">
+                    \int_1^{\infty} \frac{1}{x^p} \, dx
+                  </me>
+                  where <m>p</m> is a positive real number.
+                  We can show that this improper integral converges whenever <m>p \gt 1</m>
+                  and diverges whenever <m>  p \le 1</m>.
+                </p>              
+              </li>
+              <li>
+                <p>
+                  A related class of improper integrals is 
+                  <me>\int_0^1 \frac{1}{x^p} \, dx, </me>
+                  which converges for <m>  p \lt  1</m>
+                  and diverges for <m>p \ge 1</m>. 
+                </p>
+              </li>
+              <li>
+                <p>
+                  Another class of improper integrals is
+                  <me>\int_0^{\infty} e^{-ax} \, dx, </me> which converges when <m> a \gt 0 </m> and diverges when <m> a \leq 0 </m>.
+                </p>
+              </li>
+            </ul>
+          </p>
+        </li>
+        <li>
+          <p>
+            These important classes of improper integrals are used for comparisons in the Comparison Test for Improper Integrals. The Comparison Test for Improper Integrals allows us to determine if an improper integral converges or diverges without having to calculate the antiderivative. The actual test states the following:  
+          </p>
+          <p>
+            If <m>f(x) \ge g(x) \ge 0 </m>  and  <m>   \int_a^{\infty} f(x) \, dx </m> converges, then <m>   \int_a^{\infty} g(x) \, dx </m> converges. 
+          </p>
+          <p>
+            If <m> f(x) \ge g(x) \ge 0   </m>  and  <m>   \int_a^{\infty} g(x) \, dx </m> diverges, then <m>   \int_a^{\infty} f(x) \, dx </m> diverges.
+          </p>
+        </li>
+      </ul>
+    </p>
+  </subsection>
+
+<exercises xmlns:xi="http://www.w3.org/2001/XInclude"> 
+  <!-- Uses EV2 and incompatible with PTX -->
+  <!--
+  <exercise xml:id="ez-6-5-WW1">
+    <webwork source="Library/Indiana/Indiana_setIntegrals18Improper/ur_in_18_5.pg" />
+  </exercise>
+  -->
+  <exercise xml:id="ez-6-5-WW4" permid="Wol">
+    <title>An improper integral on a finite interval</title>
+    <webwork source="Library/UCSB/Stewart5_7_8/Stewart5_7_8_28.pg" />
+  </exercise>
+
+  <exercise xml:id="ez-6-5-WW5" permid="Cvu">
+    <title>An improper integral on an infinite interval</title>
+    <webwork source="Library/Michigan/Chap7Sec7/Q07.pg" />
+  </exercise>
+
+  <exercise xml:id="ez-6-5-WW6" permid="iCD">
+    <title>An improper integral involving a ratio of exponential functions</title>
+    <webwork source="Library/Michigan/Chap7Sec7/Q11.pg" />
+  </exercise>
+
+  <exercise xml:id="ez-6-5-WW7" permid="OJM">
+    <title>A subtle improper integral</title>
+    <webwork source="Library/Michigan/Chap7Sec7/Q15.pg" />
+  </exercise>
+
+  <exercise xml:id="ez-6-5-WW8" permid="uQV">
+    <title>An improper integral involving a ratio of trigonometric functions</title>
+    <webwork source="Library/Michigan/Chap7Sec7/Q34.pg" />
+  </exercise>
+
+  <exercise permid="aYe">
+  <title> Determining convergence or divergence of various improper integrals </title>
+    <statement>
+      <p permid="hbL">
+        Determine, with justification,
+        whether each of the following improper integrals converges or diverges.
+
+        <ol label="a." permid="krQ">
+          <li permid="wGi">
+            <p permid="grR">
+              <m>\int_e^{\infty} \frac{\ln(x)}{x} \, dx</m>
+            </p>
+          </li>
+
+          <li permid="cNr">
+            <p permid="Mza">
+              <m>\int_e^{\infty} \frac{1}{x\ln(x)} \, dx</m>
+            </p>
+          </li>
+
+          <li permid="IUA">
+            <p permid="sGj">
+              <m>\int_e^{\infty} \frac{1}{x(\ln(x))^2} \, dx</m>
+            </p>
+          </li>
+
+          <li permid="pbJ">
+            <p permid="YNs">
+              <m>\int_e^{\infty} \frac{1}{x(\ln(x))^p} \, dx</m>,
+              where <m>p</m> is a positive real number
+            </p>
+          </li>
+
+          <li permid="ViS">
+            <p permid="EUB">
+              <m>\int_0^1 \frac{\ln(x)}{x} \, dx</m>
+            </p>
+          </li>
+
+          <li permid="Bqb">
+            <p permid="lbK">
+              <m>\int_0^1 \ln(x) \, dx</m>
+            </p>
+          </li>
+        </ol>
+      </p>
+    </statement>
+    <answer permid="TtF">
+      <p permid="UNt">
+        <ol label="a." permid="Ydy">
+          <li permid="hxk">
+            <p permid="RiT">
+              Diverges.
+            </p>
+          </li>
+
+          <li permid="NEt">
+            <p permid="xqc">
+              Diverges.
+            </p>
+          </li>
+
+          <li permid="tLC">
+            <p permid="dxl">
+              Converges to <m>1</m>.
+            </p>
+          </li>
+
+          <li permid="ZSL">
+            <p permid="JEu">
+              <m>\int_e^{\infty} \frac{1}{x(\ln(x))^p} \, dx</m> diverges if
+              <m>p \leq 1</m> and converges to <m>\frac{1}{p-1}</m> if <m>p \gt 1</m>.
+            </p>
+          </li>
+
+          <li permid="FZU">
+            <p permid="pLD">
+              Diverges.
+            </p>
+          </li>
+
+          <li permid="mhd">
+            <p permid="VSM">
+              Converges to <m>-1</m>.
+            </p>
+          </li>
+        </ol>
+      </p>
+    </answer>
+    <solution permid="nmw">
+      <p permid="Izb">
+        <ol label="a." permid="LPg">
+          <li permid="Som">
+            <p permid="BZV">
+              We write the improper integral as a limit and use the substitution <m>u = \ln(x)</m> and
+              <m>du = \frac{1}{x} \ dx</m> to evaluate the definite integral,
+              then take the limit:
+              <md permid="Zxm">
+                <mrow>\int_e^{\infty} \frac{\ln(x)}{x} \, dx  &amp;= \lim_{b \to \infty} \int_e^{b} \frac{\ln(x)}{x} \, dx</mrow>
+                <mrow>&amp;= \lim_{b \to \infty} \int_1^{\ln(b)} u \, du</mrow>
+                <mrow>&amp;= \lim_{b \to \infty} \left. \left( \frac{u^2}{2} \right) \right|_1^{\ln(b)}</mrow>
+                <mrow>&amp;= \lim_{b \to \infty} \left( \frac{(\ln(b))^2}{2} - \frac{1}{2} \right)</mrow>
+                <mrow>&amp;= \infty</mrow>
+              </md>.
+              So the improper integral <m>\int_e^{\infty} \frac{\ln(x)}{x} \, dx</m> diverges.
+            </p>
+          </li>
+
+          <li permid="yvv">
+            <p permid="ihe">
+              We write the improper integral as a limit and use the substitution <m>u = \ln(x)</m> and
+              <m>du = \frac{1}{x} \ dx</m> to revaluate the definite integral,
+              then take the limit:.
+              <md permid="FEv">
+                <mrow>\int_e^{\infty} \frac{1}{x\ln(x)} \, dx  &amp;= \lim_{b \to \infty} \int_e^{b} \frac{1}{x\ln(x)} \, dx</mrow>
+                <mrow>&amp;= \lim_{b \to \infty} \int_1^{\ln(b)} \frac{1}{u} \, du</mrow>
+                <mrow>&amp;= \lim_{b \to \infty} \left. \left( \ln(|u|) \right) \right|_1^{\ln(b)}</mrow>
+                <mrow>&amp;= \lim_{b \to \infty} \left( \ln(\ln(|b|)) - \ln(1) \right)</mrow>
+                <mrow>&amp;= \infty</mrow>
+              </md>.
+              So the improper integral <m>\int_e^{\infty} \frac{1}{x\ln(x)} \, dx</m> diverges.
+            </p>
+          </li>
+
+          <li permid="eCE">
+            <p permid="Oon">
+              We again write the improper integral as a limit and use the substitution <m>u = \ln(x)</m> and
+              <m>du = \frac{1}{x} \ dx</m> to evaluate the definite integral,
+              then take the limit:
+              <md permid="lLE">
+                <mrow>\int_e^{\infty} \frac{1}{x(\ln(x))^2} \, dx  &amp;= \lim_{b \to \infty} \int_e^{b} \frac{1}{x(\ln(x))^2} \, dx</mrow>
+                <mrow>&amp;= \lim_{b \to \infty} \int_1^{\ln(b)} \frac{1}{u^2} \, du</mrow>
+                <mrow>&amp;= \lim_{b \to \infty} \left. \left( -u^{-1} \right) \right|_1^{\ln(b)}</mrow>
+                <mrow>&amp;= \lim_{b \to \infty} \left( -\frac{1}{\ln(b)} - (-1) \right)</mrow>
+                <mrow>&amp;= 1</mrow>
+              </md>.
+              So the improper integral <m>\int_e^{\infty} \frac{1}{x(\ln(x))^2} \, dx</m> converges to <m>1</m>.
+            </p>
+          </li>
+
+          <li permid="KJN">
+            <p permid="uvw">
+              We again write the improper integral as a limit and use the substitution <m>u = \ln(x)</m> and
+              <m>du = \frac{1}{x} \ dx</m> to rewrite the definite integral.
+              If <m>p=1</m>, then the integral diverges by part (b).
+              If <m>p \neq 1</m>, we have
+              <md permid="RSN">
+                <mrow>\int_e^{\infty} \frac{1}{x(\ln(x))^p} \, dx  &amp;= \lim_{b \to \infty} \int_e^{b} \frac{1}{x(\ln(x))^p} \, dx</mrow>
+                <mrow>&amp;= \lim_{b \to \infty} \int_1^{\ln(b)} \frac{1}{u^p} \, du</mrow>
+                <mrow>&amp;= \lim_{b \to \infty} \int_1^{\ln(b)} u^{-p} \, du</mrow>
+                <mrow>&amp;= \lim_{b \to \infty} \left. \left( \frac{u^{-p+1}}{-p+1} \right) \right|_1^{\ln(b)}</mrow>
+                <mrow>&amp;= \frac{1}{1-p} \lim_{b \to \infty} \left( (\ln(b))^{1-p} - 1 \right)</mrow>
+                <mrow>&amp;= 1</mrow>
+              </md>.
+            </p>
+
+            <p permid="aCF">
+              If <m>p \lt 1</m>, then <m>1-p \gt 0</m> and
+              <me permid="xZW">
+                \frac{1}{1-p} \lim_{b \to \infty} \left( (\ln(b))^{1-p} - 1 \right) = \left(\frac{1}{1-p}\right)\infty = \infty
+              </me>.
+              In this case the improper integral <m>\int_e^{\infty} \frac{1}{x(\ln(x))^p} \, dx</m> diverges.
+            </p>
+
+            <p permid="GJO">
+              If <m>p \gt 1</m>, then <m>1-p \lt 0</m> and
+              <me permid="ehf">
+                \frac{1}{1-p}\lim_{b \to \infty} \left( (\ln(b))^{1-p} - 1 \right) = \frac{1}{1-p}\lim_{b \to \infty} \left( \frac{1}{(\ln(b))^{p-1}} - 1 \right)  = \left(\frac{1}{1-p}\right)(0-1) = \frac{1}{p-1}
+              </me>
+              In this case the improper integral
+              <m>\int_e^{\infty} \frac{1}{x(\ln(x))^p} \, dx</m> converges to <m>\frac{1}{p-1}</m>.
+            </p>
+
+            <p permid="mQX">
+              Thus, the improper integral <m>\int_e^{\infty} \frac{1}{x(\ln(x))^p} \, dx</m> diverges if
+              <m>p \leq 1</m> and converges to <m>\frac{1}{p-1}</m> if <m>p \gt 1</m>.
+            </p>
+          </li>
+
+          <li permid="qQW">
+            <p permid="SYg">
+              This integral is improper since the integrand is undefined at <m>x = 0</m>.
+              So we write the improper integral as a limit,
+              use the substitution <m>u = \ln(x)</m> and
+              <m>du = \frac{1}{x} \ dx</m> to evaluate the definite integral,
+              then take the limit:
+              <md permid="Koo">
+                <mrow>\int_0^1 \frac{\ln(x)}{x} \, dx  &amp;= \lim_{a \to 0^+} \int_a^1 \frac{\ln(x)}{x} \, dx</mrow>
+                <mrow>&amp;= \lim_{a \to 0^+} \int_{\ln(a)}^{0} u \, du</mrow>
+                <mrow>&amp;= \lim_{a \to 0^+} \left. \left( \frac{u^2}{2} \right) \right|_{\ln(a)}^{0}</mrow>
+                <mrow>&amp;= \lim_{a \to 0^+} \left( -\frac{(\ln(a))^2}{2} \right)</mrow>
+                <mrow>&amp;= -\infty</mrow>
+              </md>.
+              So the improper integral <m>\int_0^1 \frac{\ln(x)}{x} \, dx</m> diverges.
+            </p>
+          </li>
+
+          <li permid="WYf">
+            <p permid="zfp">
+              This integral is improper since the integrand is undefined at <m>x=0</m>.
+              So we write the improper integral as a limit,
+              then use parts with <m>u = \ln(x)</m>,
+              <m>du = \frac{1}{x} \, dx</m>, <m>dv = dx</m>,
+              and <m>v = x</m> to evaluate the definite integral, then take the limit:
+              <md permid="CJP">
+                <mrow>\int_0^1 \ln(x) \, dx  &amp;= \lim_{a \to 0^+} \int_a^1 \ln(x) \, dx</mrow>
+                <mrow>&amp;= \lim_{a \to 0^+} \left. \left( x\ln(x) \right|_a^1 - \int_{a}^{1} \ dx \right)</mrow>
+                <mrow>&amp;= \lim_{a \to 0^+} \left. \left( -a\ln(a) - x \right|_{\ln(a)}^{0} \right)</mrow>
+                <mrow>&amp;= \lim_{a \to 0^+} \left( -a\ln(a) - (1-a) \right)</mrow>
+                <mrow>&amp;= \lim_{a \to 0^+} \left( -a\ln(a) \right) - 1</mrow>
+              </md>.
+              The limit <m>\lim_{a \to 0^+} \left( -a\ln(a) \right)</m> has the form
+              <m>0 \times \infty</m>, which is indeterminate,
+              so we need to rewrite it in a form in which we can apply L'Hopital's Rule.
+              Now,
+              <me permid="qvx">
+                \lim_{a \to 0^+} \left( -a\ln(a) \right) = \lim_{a \to 0^+} \left( \frac{-\ln(a)}{\frac{1}{a}} \right)
+              </me>,
+              and this latter limit is of the form <m>\frac{\infty}{\infty}</m>.
+              Applying L'Hopital's Rule gives us
+              <md permid="iQY">
+                <mrow>\lim_{a \to 0^+} \left( \frac{-\ln(a)}{\frac{1}{a}} \right)  &amp;= \lim_{a \to 0^+} \left( \frac{-\frac{1}{a}}{-\frac{1}{a^2}} \right)</mrow>
+                <mrow>&amp;= \lim_{a \to 0^+} a</mrow>
+                <mrow>&amp;= 0</mrow>
+              </md>
+              Returning to our earlier established equality that
+              <me permid="WCG">
+                \int_0^1 \ln(x) \, dx = \lim_{a \to 0^+} \left( -a\ln(a) \right) - 1
+              </me>,
+              this most recent limit shows that the improper integral
+              <m>\int_0^1 \ln(x) \, dx</m> converges to <m>-1</m>.
+            </p>
+          </li>
+        </ol>
+      </p>
+    </solution>
+  </exercise>
+
+
+
+ </exercises>
+</section>
+
