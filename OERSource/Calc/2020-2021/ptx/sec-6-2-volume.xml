@@ -17,9 +17,12 @@
 <!-- their respective owners.                                              -->
 <!-- **********************************************************************-->
 <section xmlns:xi="http://www.w3.org/2001/XInclude" xml:id="sec-6-2-volume" permid="KjB">
-  <title>Using Definite Integrals to Find Volume</title>
+  <title>Using Definite Integrals to Find Volume by Rotation and Arc Length</title>
   <objectives permid="LYO">
     <ul permid="wPQ">
+	  
+	  
+	  
     
        <li permid="Jei">
         <p permid="tVk">
@@ -44,6 +47,12 @@
           What adjustments do we need to make if we revolve about a line other than the <m>x</m>- or <m>y</m>-axis?
         </p>
       </li>
+	  
+	  <li permid="NzG">
+        <p permid="yqI">
+          How can a definite integral be used to measure the length of a curve?
+        </p>
+      </li>
     </ul>
   </objectives>
   
@@ -56,7 +65,8 @@
     <p permid="iqM">
       In particular,
       we can determine the volume of solids whose cross-sections are all thin cylinders
-      (or washers) by adding up the volumes of these individual slices.
+      (or washers) by adding up the volumes of these individual slices, in particular when these shapes arise
+	  by revolving one or more curves around an axis.
       We first consider a familiar shape in <xref ref="PA-6-2">Example</xref>:
       a circular cone.
     </p>
@@ -251,539 +261,13 @@
         </p>
       </solution>
     </example>
+	
+	<p>
+		We will also investigate one more application of definite integrals, to find the length of curves by again splitting the curve into small slices and adding up the smaller lengths.
+	</p>
   </introduction>
   
-  <subsection>
-    <title> Volume as the Integral of Cross-Sectional Area </title>
-    
-    
-    <p>
-      In <xref ref = "sec-6-1-area">Section</xref>, we saw that we could compute the area of a 2D region by slicing it into thin rectangles and then integrating the area of these rectangles.
-      The same principle suggests a method for computing the volume of a 3D shape: slice it into thin <q> cross-sections </q>, and then integrate the volume of the cross-sections.
-      When computing area, this perspective gave us the formula
-      
-      <me>
-        \text{Area}= \int_a^b f(x)\, dx
-      </me>
-      
-      where <m> f(x)\, dx </m> is the area of the thin rectangle at <m> x </m> and <m> a </m> and <m> b </m> are the endpoints of the interval. The analogous formula for volume is
-      
-      <me>
-        \text{Volume}= \int_a^b A(x)\, dx
-      </me>
-      
-      where <m> A(x)\, dx </m> is the volume of the thin cross-section at <m> x </m> and <m> a </m> and <m> b </m> are the endpoints of the interval. 
-      In <xref ref="PA-6-2">Example</xref>, we saw that the cross-sections were cylinders with radius <m> -\frac{3}{5}x + 3 </m>, so the volume of a thin cross section was given by <m>A(x)\,dx=\pi (-\frac 35 x +3)^2 \, dx</m>,
-      and integrated from <m>x=0</m> to <m>x=5</m> since those corresponded to the top and bottom of the cone.
-      
-    </p>
-    
-    <p>
-      As we saw in the previous section, for 2D shapes it is sometimes more convenient to integrate with respect to <m>y</m> instead of <m>x</m>.
-      The same is true for 3D shapes: 
-      integrals may be taken with respect to <m>x</m>, <m>y</m>, or <m>z</m>. When choosing the variable of integration, priority should be given to variables which result in cross sections with simple shapes.
-      For instance, in <xref ref="PA-6-2">Example</xref>, we integrated with respect to <m>x</m> so that the cross-sections were all circles. 
-      If we had taken slices in another direction, the area of a cross-section would have been much more complicated and the integral would have been much harder!
-      
-      
-    </p>
-    
-    <example>
-      <statement>
-        <p>
-          Consider a pyramid with a 1-by-1 square base along the <m>xy</m>-plane with corners at
-          <m> (0,0,0), (0,1,0), (1,1,0), (1,0,0)</m>, and tapering up to a point at <m>(0,0,2)</m>. 
-        </p>
-        
-        <image width="60%" source="images/6_2_Ex2_Figure.png" /> 
-        
-        <p>Notice that every <m>z</m>-cross-section (i.e. slice parallel to the <m>xy</m>-plane) is a square, so we will want to integrate with respect to <m>z</m>.
-          
-          <ol label="a.">
-            
-            <li>
-              <p>
-                Slicing the pyramid at a <m>z</m>-value (height) between 0 and 2 gives a square shape. 
-                Find the linear function <m>f(z)</m> that gives the side-length of this square.
-              </p>
-            </li>
-            <li>
-              <p>
-                Since the <m>z</m>-cross-sections are squares, we will want to integrate with respect to <m>z</m>. Therefore, the volume of the pyramid is 
-                <me>
-                  \text{Volume} = \int_a^b A(z) dz
-                </me>
-                The endpoints <m>a</m> and <m>b</m> represent the <m>z</m>-values (heights) where the pyramid starts and stops. What are <m>a</m> and <m>b</m>?
-              </p>
-            </li>
-            <li>
-              <p>
-                Combine your answers to the previous parts to set up a definite integral that represents the volume of the pyramid,
-                then evaluate that integral to find the volume of the pyramid.
-              </p>
-            </li>
-            
-            <li>
-              <p>
-                The volume of a square pyramid is given by the formula <m>V=\frac 1 3 l^2h </m> where <m>l</m> is the side length of the base and <m>h</m> is the height. 
-                Use this formula to find the volume of the pyramid and compare to your answer to the previous part.
-              </p>
-            </li>
-          </ol>
-          
-          
-        </p>
-        
-      </statement>
-      <hint>
-        <p>
-          <ol label="a.">        
-            <li>
-              <p>
-                Use the fact that <m> f(0)=1</m> and <m> f(2)=0</m> to find the linear function.
-              </p>
-            </li>
-            <li>
-              <p>
-                <m> a </m> and <m> b </m> will be the <m>z</m>-values at the top and bottom of the pyramid.
-              </p>
-            </li>
-            <li>
-              <p>
-                Use <m>\text{Volume}=\int_a^b A(z)dz</m> and the fact that the area of a square is the side length squared.
-              </p>
-            </li>
-            
-            <li>
-              <p>
-                Your answer should agree with your answer from the integral method.
-              </p>
-            </li>
-          </ol>
-          
-        </p>
-      </hint>
-      
-      <answer>
-        <p>
-          <ol label="a.">        
-            <li>
-              <p>
-                <m>f(z)=-\frac 12 z+1 </m>.
-              </p>
-            </li>
-            <li>
-              <p>
-                <m> a=0 </m> and <m> b=2 </m>.
-              </p>
-            </li>
-            <li>
-              <p>
-                <m> \frac 23</m>
-                
-              </p>
-            </li>
-            
-            <li>
-              <p>
-                <m> \frac 23</m>
-              </p>
-            </li>
-          </ol>
-          
-        </p>
-      </answer>
-      <solution>
-        <p>
-          <ol label="a.">        
-            <li>
-              <p>
-                Slicing at <m> z=0 </m> gives the base of the pyramid, which is a square of side length 1, so <m> f(0)=1</m>.
-                Slicing at <m> z=2 </m> gives the peak of the pyramid, which can be thought of as a square of side length 0, so <m> f(2)=0</m>.
-                Therefore the linear function will have intercept <m>b=1</m> and slope <m>m=\frac{0-1}{2-0}=-\frac 12</m>, so <m>f(z)=-\frac 12 z+1 </m>.
-              </p>
-            </li>
-            <li>
-              <p>
-                We will integrate from the bottom of the pyramid to the top, so from <m> z=0 </m> to <m> z=2 </m>. Thus <m> a=0 </m> and <m> b=2 </m>.
-              </p>
-            </li>
-            <li>
-              <p>
-                Since the area of a square is the side length squared, then <m>A(z)=(-\frac 12 z+1)^2 </m>. Therefore,
-                <me>
-                  \text{Volume}=\int_a^b A(z)dz = \int _0^2 (-\frac 12 z+1)^2 dz \\
-                  = \left. \frac 1{12} z^3 -\frac 1 2 z^2 +z \right |_0^2 \\
-                  =(\frac 1 {12} (8)-\frac 1 2(4)+2) -(0)=2/3 \\
-                </me>
-              </p>
-            </li>
-            
-            <li>
-              <p>
-                Since our base length is 1 and our height is 2, then the volume is
-                <m>V=\frac 1 3 l^2h=\frac 1 3 (1)^2(2)=\frac 23 </m>, which is the same as our answer from the integral method.
-              </p>
-            </li>
-          </ol>
-          
-        </p>
-      </solution>
-    </example>
-    
-    
-    
-    
-    <example>
-      <statement>
-        <p>
-          We can use the same technique to find the volume of a sphere of radius 5 centered at the origin <m>(0,0,0)</m>.
-          
-          
-          <ol label="a.">
-            
-            <li>
-              <p>
-                Since a sphere is symmetrical in all directions, it doesn't matter which direction we slice it. Let's slice perpendicular to the <m>x</m>-axis (or, in the <m> x </m>-direction) so that the integral will be with respect to <m> x </m>.
-                Each cross-section will be a circle of radius <m>r(x)</m>. Use the Pythagorean theorem to find a formula for <m>r(x)</m>.
-              </p>
-            </li>
-            
-            <li>
-              <p>
-                The volume of the sphere is 
-                <me>
-                  \text{Volume} = \int_a^b A(x)\,  dx
-                </me>
-                where <m>A(x)</m> is the area of a circular cross-section and <m>a</m> and <m>b</m> represent the <m>x</m>-values where the sphere starts and stops. 
-                What are <m>a</m> and <m>b</m>?
-                
-              </p>
-            </li>
-            
-            <li>
-              <p>
-                Combine your answers to the previous parts to set up a definite integral that represents the volume of the sphere,
-                then evaluate that integral to find the volume of the sphere.
-              </p>
-            </li>
-            
-            <li>
-              <p>
-                The volume of a sphere is given by the formula <m>V=\frac 4 3 \pi R^3 </m> where <m>R</m> is the radius of the sphere.
-                Use this formula to find the volume of the pyramid and compare to your answer to the previous part.
-              </p>
-            </li>
-          </ol>
-          
-          
-        </p>
-        
-      </statement>
-      
-      
-      
-      <hint>
-        <p>
-          <ol label="a.">        
-            <li>
-              <p>
-                The Pythagorean theorem says that the side lengths of a right triangle are related by <m>a^2+b^2=c^2</m>. 
-                For a cross-section at <m>x</m>, the side lengths of the right triangle will be <m>x, r(x),</m> and <m>5</m>.
-                
-              </p>
-            </li>
-            <li>
-              <p>
-                What are the leftmost and rightmost points of the sphere along the <m>x </m>-axis?
-              </p>
-            </li>
-            <li>
-              <p>
-                Use <m> \text{Volume} = \int_a^b A(x)\,  dx </m>, and the fact that the area of a circle is <m>\pi r^2</m>.
-              </p>
-            </li>
-            
-            <li>
-              <p>
-                Your answer should agree with your answer from the integral method.
-                
-              </p>
-            </li>
-          </ol>
-          
-        </p>
-      </hint>
-      
-      <answer>
-        <p>
-          <ol label="a.">        
-            <li>
-              <p>
-                <m>r(x)=\sqrt{25-x^2} </m>.
-              </p>
-            </li>
-            <li>
-              <p>
-                <m> a=-5 </m> and <m> b=5 </m>.
-              </p>
-            </li>
-            <li>
-              <p>
-                <m>\pi \frac {500}{3} </m>
-              </p>
-            </li>
-            
-            <li>
-              <p>
-                <m>\pi \frac {500}{3} </m>
-                
-              </p>
-            </li>
-          </ol>
-          
-        </p>
-      </answer>
-      
-      
-      
-      <solution>
-        <p>
-          <ol label="a.">        
-            <li>
-              
-              <image width="50%" source="images/6_2_Ex3_Figure"  />
-              
-              <p>   
-                Slicing at an <m>x</m>-value lets us make a right triangle with hypotenuse 5 and side lengths <m>x</m> and <m>r(x)</m>,
-                so the Pythagorean theorem tell us that <m>5^2=x^2+(r(x))^2</m>, and solving for <m>r(x)</m> gives <m>r(x)=\sqrt{25-x^2} </m>.
-              </p>
-            </li>
-            <li>
-              <p>
-                The sphere is centered at the origin and has a radius of 5, so it begins at <m> x=-5 </m> and ends at <m> x=5 </m>. Thus <m> a=-5 </m> and <m> b=5 </m>.
-              </p>
-            </li>
-            <li>
-              <p>
-                Since the area of a circle is <m>\pi r^2 </m>, then <m>A(x)=\pi (r(x))^2= \pi (25-x^2) </m>. Therefore,
-                <me>
-                  \text{Volume}=\int_a^b A(x)dx = \int _{-5}^5 \pi(25-x^2) dx \\
-                  = \left. \pi(25x-\frac 1 3 x^3) \right |_{-5}^5 \\
-                  =\pi(25(5)-\frac 1 3(125))- \pi(25(-5)-\frac 1 3(-125))=\pi \frac {500}{3} \\
-                </me>
-              </p>
-            </li>
-            
-            <li>
-              <p>
-                Since our radius is 5, then the volume is
-                <m>V=\frac 4 3 \pi R^3=\frac 4 3 \pi(5)^3=\pi\frac {500}3 </m>, which is the same as our answer from the integral method.
-              </p>
-            </li>
-          </ol>
-          
-        </p>
-      </solution>
-    </example>
-    
-    
-    <example>
-      <statement>
-        <p>
-          Let <m>f(x)=x^2+6</m> and <m> g(x)=4x+6</m>. Consider a solid <m>S</m>
-          whose base is the finite region in the <m>xy</m>-plane bounded by <m>y=f(x)</m>
-          and <m>y=g(x)</m>, and whose cross-sections parallel to the <m>y</m>-axis are squares.
-          In this example we will find the volume of <m>S</m>.
-          
-          <ol label="a.">
-            <li>
-              <p>
-                Find the two <m>x</m> values where <m>f(x)=x^2+6</m> and <m> g(x)=4x+6</m> intersect.
-              </p>
-            </li>
-            
-            <li>
-              <p>
-                Consider one of the square cross-sections of <m>S</m> at a particular <m>x</m>-value.
-                Find a formula for the side length of this cross-section (in terms of <m>x</m>), and then
-                find a formula for <m>A(x)</m>, the area of this cross-section. 
-              </p>
-            </li>
-            
-            <li>
-              <p>
-                Use your answer to the previous parts to find the volume of <m>S</m>. 
-              </p>
-            </li>
-            
-          </ol>
-          
-        </p>
-      </statement>
-      
-      <hint>
-      	<p>
-      	<ol label="a.">
-            <li>
-              <p>
-                Solve <m>f(x)=g(x)</m>.             
-              </p>
-            </li>
-            
-            <li>
-              <p>
-                The side length will be the distance from the curve <m>y=g(x)</m> to
-                the curve <m>y=f(x)</m>.  The area of a square is its side length squared.
-              </p>
-            </li>
-            
-            <li>
-              <p>
-                Use <m>\text{Volume}=\int_a^b A(x)dx</m>. 
-              </p>
-            </li>
-            
-          </ol>
-      	</p>
-      </hint>
-      
-      <answer>
-      	<p>
-      	<ol label="a.">
-            <li>
-              <p>
-                <m>x=0,4</m>.
-              </p>
-            </li>
-            
-            <li>
-              <p>
-                The side length will be <m>g(x)-f(x)= 4x-x^2</m>. 
-                The area of a cross-section will be <m>A(x)=(4x-x^2)^2</m>.
-              </p>
-            </li>
-            
-            <li>
-              <p>
-                <m>
-                  V= 34 \frac{1}{3}
-                </m>
-              </p>
-            </li>
-            
-          </ol>
-      	</p>
-      </answer>
-      
-      <solution>
-      	<p>
-      	<ol label="a.">
-            <li>
-              <p>
-                We solve <m>f(x)=g(x)</m>, and straightforward algebra gives that the solutions to
-                <m>x^2+6=4x+6</m> occur at <m>x=0,4</m>.
-              </p>
-            </li>
-            
-            <li>
-              <p>
-                The side length will be <m>g(x)-f(x)= 4x-x^2</m>. 
-                Therefore, the area of a cross-section will be <m>A(x)=(4x-x^2)^2</m>.
-              </p>
-            </li>
-            
-            <li>
-              <p>
-                Since the object begins at <m>x=0</m> and ends at <m>x=4</m>,
-                we can integrate cross-sectional area to get volume:
-                <me>
-                  V=\int_a^b A(x)\, dx = \int_0^4 (4x-x^2)^2\, dx= 34 \frac{1}{3}
-                </me>
-              </p>
-            </li>
-            
-          </ol>
-      	</p>
-      </solution>
-      
-    </example>
-
-    <example>
-      <statement> 
-        <p>
-          In this example, we'll find the volume of the solid whose base is bounded by the curves <m> y = x^{10} </m>, <m> y = 1 </m>, and the <m> y </m>-axis and whose cross-sections parallel to the <m> y </m>-axis are semicircles. 
-          <ol label = "a.">
-            <li> 
-              Draw the base of the solid in the plane and label the points where the bounding curves intersect.
-            </li>
-            <li>
-              Let <m> A(x) </m> be the area of the vertical cross section of this solid at <m> x </m>. Write a formula for <m> A(x) </m>.
-            </li>
-            <li>
-              Find the volume of the solid using your answers from parts (a) and (b).
-            </li>
-          </ol>
-        </p>
-      </statement>
-
-      <hint>
-        <ol label = "a.">
-          <li>
-            Try using an online graphing calculator like Desmos or Geogebra.
-          </li>
-          <li>
-            The radius of the vertical cross section at <m> x </m> is <m> \frac{1-x^{10}}{2} </m>.
-          </li>
-          <li>
-            The volume is given by a definite integral of the form <m> \int_{a}^{b} A(x) \, dx </m>.
-          </li>
-        </ol>
-      </hint>
-
-      <answer>
-        <ol label = "a.">
-          <li>
-            <p>
-              <image width="50%" source="images/6_2_base_of_solid.png" /> 
-            </p>
-          </li>
-          <li>
-            <m> A(x) = \frac{\pi(1-x^{10})^{2}}{8} </m>.
-          </li>
-          <li>
-            <m> \frac{\pi}{8} \cdot \frac{200}{231} </m>.
-          </li>
-        </ol>
-      </answer>
-
-      <solution>
-        <ol label = "a.">
-          <li>
-            See the answer.
-          </li>
-          <li>
-            The diameter of the semicircular cross section at <m> x </m> is given by the distance between the curves <m> y = 1 </m> and <m> y = x^{10} </m>, which is <m> 1 - x^{10} </m>. Thus the radius is <m> \frac{1-x^{10}}{2} </m>. Since the area of a semicircle is <m> \frac{1}{2}\pi r^{2} </m>, it follows that <m> A(x) = \frac{1}{2}\pi\left(\frac{1-x^{10}}{2} \right)^{2}=\frac{\pi(1-x^{10})^{2}}{8}. </m>
-          </li>
-          <li>
-            The volume of the solid is given by an integral <m> \int_{a}^{b} A(x) \, dx </m>, where the interval <m> [a,b] </m> gives the range of <m> x </m> of the base of the solid. From our graph in part (a), we see that <m> a = 0 </m> and <m> b = 1 </m>. Since <m> A(x) = \frac{\pi(1-x^{10})^{2}}{8} </m> from (b), we may evaluate
-              <md>
-                <mrow> \int_{0}^{1}\frac{\pi(1-x^{10})^{2}}{8} \, dx \amp = \frac{\pi}{8}\int_{0}^{1}(1-x^{10})^{2} \, dx </mrow>
-                <mrow> \amp = \frac{\pi}{8}\int_{0}^{1}(1-2x^{10}+x^{20}) \, dx </mrow>
-                <mrow> \amp = \frac{\pi}{8} \cdot \frac{200}{231} </mrow>
-              </md>
-          </li>
-
-        </ol>
-      </solution>
-    </example>
-    
-    
-    
-    
-    
-    
-  </subsection>
+  
   
   <subsection permid="qqK">
     <title>The Volume of a Solid of Revolution</title>
@@ -1717,6 +1201,480 @@
   </subsection>
   
   
+  <subsection permid="zwb">
+    <title>Finding the Length of a Curve</title>
+    <idx><h>arc length</h></idx>
+    
+    <p permid="GFb">
+      We can also use the definite integral to find the length of a portion of a curve.
+      We use the same fundamental principle:
+      we slice the curve up into small pieces whose lengths we can easily approximate.
+      Specifically,
+      we subdivide the curve into small approximating line segments,
+      as shown at left in <xref ref="F-6-1-ArcLength">Figure</xref>.
+    </p>
+    
+    <figure xml:id="F-6-1-ArcLength" permid="rwd">
+      <caption>At left, a continuous function <m>y = f(x)</m> whose length we seek on the interval <m>a = x_0</m> to <m>b = x_3</m>.  At right, a close up view of a portion of the curve.</caption>
+      <image width="100%" source="images/6_1_ArcLength" />
+    </figure>
+    
+    <p permid="mMk">
+      We estimate the length
+      <m>L_{\text{slice} }</m> of each portion of the curve on a small interval of length <m>\Delta x</m>.
+      We use the right triangle with legs parallel to the coordinate axes and hypotenuse connecting the endpoints of the slice,
+      as seen at right in <xref ref="F-6-1-ArcLength">Figure</xref>.
+      The length, <m>h</m>,
+      of the hypotenuse approximates the length,
+      <m>L_{\text{slice} }</m>, of the curve between the two selected points.
+      Thus,
+      <me permid="Zsz">
+        L_{\text{slice} } \approx h = \sqrt{ (\Delta x)^2 + (\Delta y)^2 }
+      </me>.
+    </p>
+    
+    <p permid="STt">
+      Next we use algebra to rearrange the expression for the length of the hypotenuse
+      into a form that we can integrate.
+      By removing a factor of <m>(\Delta x)^2</m>,
+      we find
+      <md permid="FzI">
+        <mrow>L_{\text{slice}} &amp;\approx  \sqrt{ (\Delta x)^2 + (\Delta y)^2 }</mrow>
+        <mrow>&amp;= \sqrt{ (\Delta x)^2\left(1 + \frac{(\Delta y)^2}{(\Delta x)^2} \right)}</mrow>
+        <mrow>&amp;= \sqrt{1 + \frac{(\Delta y)^2}{(\Delta x)^2} } \cdot \Delta x</mrow>
+      </md>.
+    </p>
+    
+    <p permid="zaC">
+      Then, as <m>n \to \infty</m> and <m>\Delta x \to 0</m>,
+      we have that <m>\frac{\Delta y}{\Delta x} \to \frac{dy}{dx} = f'(x)</m>.
+      Thus, we can say that
+      <me permid="lGR">
+        L_{\text{slice} } \approx \sqrt{1 + f'(x)^2} \Delta x
+      </me>.
+    </p>
+    
+    <p permid="fhL">
+      Taking a Riemann sum of all of these slices and letting <m>n \to \infty</m>,
+      we arrive at the following fact.
+    </p>
+    
+    <assemblage permid="XYL">
+      <title> Arc Length </title>
+      <p permid="LoU">
+        Given a differentiable function <m>f</m> on an interval <m>[a,b]</m>,
+        the total arc length,
+        <idx><h>arc length</h></idx>
+        <m>L</m>, along the curve
+        <m>y = f(x)</m> from <m>x = a</m> to <m>x = b</m> is given by
+        <me permid="ROa">
+          L = \int_a^b \sqrt{1+f'(x)^2} \, dx
+        </me>.
+      </p>
+    </assemblage>
+    
+    <example xml:id="act-6-1-3" permid="xQo">
+      <statement>
+        <p permid="AKU">
+          Each of the following questions somehow involves the arc length along a curve.
+          
+          <ol label="a." permid="qHo">
+            <li permid="WOx">
+              <p permid="pBV">
+                Use the definition and appropriate computational technology to determine the arc length along <m>y = x^2</m> from <m>x = -1</m> to <m>x = 1</m>.
+              </p>
+            </li>
+            
+            <li permid="CVG">
+              <p permid="VJe">
+                Find the arc length of
+                <m>y = \sqrt{4-x^2}</m> on the interval <m>-2 \le x \le 2</m>.
+                Find this value in two different ways: (a) by using a definite integral,
+                and (b) by using a familiar property of the curve.
+              </p>
+            </li>
+            
+            <li permid="jcP">
+              <p permid="BQn">
+                Determine the arc length of
+                <m>y = xe^{3x}</m> on the interval <m>[0,1]</m>.
+              </p>
+            </li>
+            
+            <li permid="PjY">
+              <p permid="hXw">
+                Will the integrals that arise calculating arc length typically be ones that we can evaluate exactly using the First FTC, or ones that we need to approximate?
+                Why?
+              </p>
+            </li>
+            
+            <li permid="vrh">
+              <p permid="OeF">
+                A moving particle is traveling along the curve given by <m>y = f(x) = 0.1x^2 + 1</m>,
+                and does so at a constant rate of 7 cm/sec,
+                where both <m>x</m> and <m>y</m> are measured in cm (that is,
+                the curve <m>y = f(x)</m> is the path along which the object actually travels;
+                the curve is not a <q>position function</q>).
+                Find the position of the particle when <m>t = 4</m> sec,
+                assuming that when <m>t = 0</m>,
+                the particle's location is <m>(0,f(0))</m>.
+              </p>
+            </li>
+          </ol>
+        </p>
+      </statement>
+      <hint permid="SeE">
+        <p permid="UDL">
+          <ol label="a." permid="KAf">
+            <li permid="byq">
+              <p permid="ulO">
+                Recall that <m>L = \int_a^b \sqrt{1+f'(x)^2} \, dx</m>.
+              </p>
+            </li>
+            
+            <li permid="HFz">
+              <p permid="asX">
+                Remember that <m>x^2 + y^2 = 4</m> generates a circle centered at <m>(0,0)</m> of radius 4.
+              </p>
+            </li>
+            
+            <li permid="nMI">
+              <p permid="GAg">
+                Apply the arc length formula.
+                Use technology to evaluate the integral.
+              </p>
+            </li>
+            
+            <li permid="TTR">
+              <p permid="mHp">
+                Most expressions involving square roots are difficult to antidifferentiate.
+              </p>
+            </li>
+            
+            <li permid="Aba">
+              <p permid="SOy">
+                Here you can determine the arc length and then experiment to find the upper limit of integration,
+                which will help you determine position.
+              </p>
+            </li>
+          </ol>
+        </p>
+      </hint>
+      <answer permid="lXv">
+        <p permid="owC">
+          <ol label="a." permid="esW">
+            <li permid="gij">
+              <p permid="yVH">
+                <m>L \approx 2.95789</m>.
+              </p>
+            </li>
+            
+            <li permid="Mps">
+              <p permid="fcQ">
+                <m> L = \int_{-2}^{2} \sqrt{\frac{4}{4-x^2}} \, dx = 2\pi</m>.
+              </p>
+            </li>
+            
+            <li permid="swB">
+              <p permid="LjZ">
+                <m>L = \int_0^1 \sqrt{1 + e^{6x}(9x^2 + 6x + 1)} \, dx \approx 20.1773</m>.
+              </p>
+            </li>
+            
+            <li permid="YDK">
+              <p permid="rri">
+                We will usually have to estimate the value of
+                <m>\int_a^b \sqrt{1+f'(x)^2} \, dx</m> using computational technology.
+              </p>
+            </li>
+            
+            <li permid="EKT">
+              <p permid="Xyr">
+                Approximately <m>(9.011,f(9.011)) = (9.011, 9.1198)</m>.
+              </p>
+            </li>
+          </ol>
+        </p>
+      </answer>
+      <solution permid="FQm">
+        <p permid="Ipt">
+          <ol label="a." permid="ylN">
+            <li permid="kSc">
+              <p permid="DFA">
+                Using the formula for arc length, we know
+                <me permid="gSd">
+                  L = \int_{-1}^{1} \sqrt{1+(2x)^2} \,dx
+                </me>.
+                Evaluating the integral,
+                we find <m>L \approx 2.95789</m>.
+              </p>
+            </li>
+            
+            <li permid="QZl">
+              <p permid="jMJ">
+                The curve is a semi-circle of radius 2, so its length must be <m>L = \frac{1}{2} \cdot 2 \pi r = 2\pi</m>.
+                This is confirmed by the arc length formula,
+                since <m>f(x) = \sqrt{4-x^2}</m>,
+                so <m>f'(x) = \frac{1}{2}(4-x^2)^{-1/2}(-2x)</m>
+                <me permid="MZm">
+                  L = \int_{-2}^{2} \sqrt{1 + \left(-x(4-x^2)^{-1/2} \right)^2} \, dx = \int_{-2}^{2} \sqrt{1 + x^2(4-x^2)^{-1}} \, dx
+                </me>.
+                It follows<fn>
+                  This integral is actually improper because the integrand is undefined at the endpoints,
+                  <m>x = \pm 2</m>.
+                  We learned how to evaluate such integrals in <xref ref="sec-5-10-improper">Section</xref>.
+                </fn> that
+                <me permid="tgv">
+                  L = \int_{-2}^{2} \sqrt{\frac{4}{4-x^2}} \, dx = 2\pi
+                </me>.
+              </p>
+            </li>
+            
+            <li permid="xgu">
+              <p permid="PTS">
+                For <m>y = xe^{3x}</m>,
+                we observe that <m>y' = 3xe^{3x} + e^{3x} = e^{3x}(3x+1)</m>, and that
+                <me permid="ZnE">
+                  (y')^2 = e^{6x}(9x^2 + 6x + 1)
+                </me>.
+                Thus, the arc length of the curve on <m>[0,1]</m> is
+                <me permid="FuN">
+                  L = \int_0^1 \sqrt{1 + e^{6x}(9x^2 + 6x + 1)} \, dx \approx 20.1773
+                </me>.
+              </p>
+            </li>
+            
+            <li permid="dnD">
+              <p permid="wbb">
+                Because <m>\sqrt{1+f'(x)^2}</m> will rarely simplify nicely and rarely have an elementary antiderivative,
+                we will usually have to estimate the value of
+                <m>\int_a^b \sqrt{1+f'(x)^2} \, dx</m> using computational technology.
+              </p>
+            </li>
+            
+            <li permid="JuM">
+              <p permid="cik">
+                After 4 seconds traveling at 7 cm/sec,
+                the particle has moved 28 cm.
+                So, we have to find the value of <m>b</m> for which the arc length <m>L</m> along <m>[0,b]</m> is 28.
+                Thus, we know that
+                <me permid="lBW">
+                  28 = L = \int_0^b \sqrt{1 + (0.2x)^2} \, dx
+                </me>.
+                Rewriting the integral, we see
+                <me permid="RJf">
+                  28 = \int_0^b \sqrt{1+0.4x^2} \, dx
+                </me>.
+                Experimenting with different values of <m>b</m> in a computational engine like Wolfram|Alpha,
+                we find that for <m>b \approx 9.011</m>,
+                <m>\int_0^{9.011} \sqrt{1+0.4x^2} \, dx \approx 27.9992</m>,
+                and thus the position of the particle when <m>t=4</m> is approximately <m>(9.011,f(9.011)) = (9.011, 9.1198)</m>.
+              </p>
+            </li>
+          </ol>
+        </p>
+      </solution>
+    </example>
+    
+    <p>
+      The same technique can be applied to parametric curves. For now consider a curve 
+      <m>(x(t), y(t))</m> travelling in just two dimensions (but see <xref ref="Ex-3D-Curve">Example</xref> for curves in 3D).
+      As before, the length of a small segment will be <m>\sqrt{(\Delta x)^2+(\Delta y)^2}</m>, but here we will factor out <m>\Delta t</m> to get:
+      
+      <me>
+        L_{slice}\approx \sqrt{\left(\frac{\Delta x}{\Delta t} \right)^2+\left(\frac{\Delta y}{\Delta t} \right)^2} \cdot \Delta t
+      </me>
+      
+      Now, taking the limit as <m>\Delta t \rightarrow 0 </m>, <m>\frac{\Delta x}{\Delta t}</m> and
+      <m>\frac{\Delta y}{\Delta t}</m> turn into <m>\frac{dx}{dt}</m> and <m>\frac{dy}{dt}</m>,
+      so the length of the segment is <me> L=\int_{t=a}^{t=b} \sqrt{\left(\frac{dx}{dt}\right)^2+\left(\frac{dy}{dt}\right)^2}\, dt  </me>.
+      
+      We summarize our result here:
+      
+    </p>
+    
+    <assemblage>
+      <title> Arc Length for a Parametric Curve</title>
+      <p>
+        Given two differentiable functions <m>x(t), y(t)</m> on an interval 
+        <m>a \leq t \leq b</m>, the total arc length <m>L</m> along the parametric curve
+        <m>(x(t), y(t))</m> from <m>t = a</m> to <m>t = b</m> is given by
+        <me>
+          L=\int_{t=a}^{t=b} \sqrt{\left(\frac{dx}{dt}\right)^2+\left(\frac{dy}{dt}\right)^2} dt
+        </me>.
+      </p>
+    </assemblage>
+    
+    
+    <example>
+      <statement>
+        <p>
+          <ol label="a.">
+            <li>
+              <p>
+                Recall that the unit circle is traced out by the parametric equations <m>x(t)=\cos(t)</m>
+                and <m>y(t)=\sin(t)</m> on the interval <m>0 \leq t \leq 2 \pi</m>. Set up and evaluate the arc length integral to find the circumference of the unit circle.
+              </p>
+            </li>
+            
+            <li>
+              <p>
+                An ellipse (a stretched circle) can be traced out by the parametric equations <m>x(t)=2\cos(t)</m>
+                and <m>y(t)=\sin(t)</m>. Set up the arc length integral to find the perimeter of this ellipse. 
+                You do not have to evaluate the integral.
+              </p>
+            </li>
+            
+          </ol>
+        </p>
+      </statement>
+      
+      <hint>
+        <p>
+          <ol label="a.">
+            <li>
+              <p>
+                Use the formula for the arc length for a parametric curve  to set up the integral.
+                Recall also the Pythagorean Identity for trig functions: <m>\sin^2(t)+\cos^2(t)=1</m>.
+                
+              </p>
+            </li>
+            
+            <li>
+              <p>
+                Use the formula for the arc length for a parametric curve to set up the integral.
+              </p>
+            </li>
+            
+          </ol>
+        </p>
+      </hint>
+      
+      <answer>
+        <p>
+          <ol label="a.">
+            <li>
+              <p>
+                <m>
+                  L= \displaystyle \int_0^{2\pi}1 \, dt=2\pi
+                </m>
+              </p>
+            </li>
+            
+            <li>
+              <p>
+                <m> 
+                  L= \int_0^{2\pi}\sqrt{(-2\sin(t)^2)+(\cos(t))^2} \, dt 
+                </m>
+              </p>
+            </li>
+            
+          </ol>
+        </p>
+      </answer>	
+      
+      <solution>
+        <p>
+          <ol label="a.">
+            <li>
+              <p>
+                Since <m> \frac{dx}{dt}= -\sin(t)</m> and <m> \frac{dy}{dt}= \cos(t)</m>, then
+                <me> 
+                  L= \int_0^{2\pi}\sqrt{(-\sin(t)^2)+(\cos(t))^2} \, dt = \int_0^{2\pi}1 \, dt=2\pi
+                </me>
+              </p>
+            </li>
+            
+            <li>
+              <p>
+                Since <m> \frac{dx}{dt}= -2\sin(t)</m> and <m> \frac{dy}{dt}= \cos(t)</m>, then
+                <me> 
+                  L= \int_0^{2\pi}\sqrt{(-2\sin(t)^2)+(\cos(t))^2} \, dt = \int_0^{2\pi}\sqrt{4\sin^2(t)+\cos^2(t)} \, dt
+                </me>
+                
+                We do not need to evaluate this integral, and in fact it is an example of an <q> elliptical integral of the second kind</q>,
+                which are a famous class of integrals without elementary antiderivatives.
+              </p>
+            </li>
+            
+          </ol>
+        </p>
+      </solution>	
+      
+      
+    </example>
+    
+    
+    <example>
+      <statement>
+        <p>
+          Alex drives to work, and their route is along a path given by <m>x(t)=t^3</m>, <m>y(t)=t^4+t</m>
+          for <m>0 \leq t \leq 1</m>. How long is their route to work? 
+          (You may wish to use a calculator or computer to numerically evaluate the integral.)
+        </p>
+      </statement>
+      
+      <hint>
+        <p>
+          Set up the integral using formula for arc length for a parametric curve. Then use a computer to evaluate the integral.
+        </p>
+      </hint>
+      
+      <answer>
+        <p>
+          <m> L \approx 2.266</m>
+        </p>
+      </answer>
+      
+      <solution>
+        <p>
+          Since <m> \frac{dx}{dt}= 3t^2</m> and <m> \frac{dy}{dt}= 4t^3+1</m>, then
+          <me> 
+            L= \int_0^{1}\sqrt{(3t^2)^2+(4t^3+1)^2} \, dt \approx 2.266
+          </me>
+        </p>
+      </solution>
+      
+      
+    </example>
+    
+    
+    
+    <example xml:id="Ex-3D-Curve">
+      <statement>
+        <p> 
+          Suppose that one has a parametric curve travelling through 3 dimensions given by <m>f(t)=(x(t), y(t), z(t))</m>. 
+          How would you change the <q>Arc Length for a Parametric Curve</q> formula to include the third dimension?
+        </p>
+      </statement>
+      
+      <hint>
+        <p>
+          Treat the <m>z</m>-coordinate the same way the <m>x</m>- and <m>y</m>-coordinates are treated.
+        </p>
+      </hint>
+      
+      <answer>
+        <m>\displaystyle L=\int_{t=a}^{t=b} \sqrt{\left(\frac{dx}{dt}\right)^2+\left(\frac{dy}{dt}\right)^2+\left(\frac{dz}{dt}\right)^2} dt </m>
+      </answer>
+      
+      <solution>
+        <p>
+          The length of a 3D line segment is given by <m>\sqrt{(\Delta x)^2+(\Delta y)^2+(\Delta z)^2}</m>,
+          so factoring out a factor of <m>\Delta t</m> and taking the limit as <m>\Delta t \rightarrow 0</m>,
+          we get 
+          <me>
+            L=\int_{t=a}^{t=b} \sqrt{\left(\frac{dx}{dt}\right)^2+\left(\frac{dy}{dt}\right)^2+\left(\frac{dz}{dt}\right)^2} dt 
+          </me>
+        </p>
+      </solution>
+      
+      
+    </example>
+    
+  </subsection>
+  
+  
 
 
   <subsection permid="iMl">
@@ -1768,6 +1726,17 @@
             Normally,
             this shift involves taking a sum or difference of the function along with the constant connected to the equation for the horizontal or vertical line;
             a well-labeled diagram is usually the best way to decide the new expression for the radius.
+          </p>
+        </li>
+		
+		<li permid="FVh">
+          <p permid="qMj">
+            The arc length, <m>L</m>,
+            along the curve <m>y = f(x)</m> from <m>x = a</m> to <m>x = b</m> is given by
+            <me permid="ecs">
+              L = \int_a^b \sqrt{1 + f'(x)^2} \, dx
+            </me>.
+            The definite integral may also be used to find arc length of parametric curves.
           </p>
         </li>
       </ul>
@@ -2367,45 +2336,44 @@
       </solution>
     </exercise>
     
-    <exercise>
-      <title> Volume from cross-sectional area </title>
+    
+	
+	<exercise xml:id="ez-6-1-WW4" permid="RpK">
+      <title>Arc length of a curve</title>
+      <webwork source="Library/Michigan/Chap8Sec2/Q11.pg" />
+    </exercise>
+	
+	<exercise>
+      <title> Length of a parametric curve</title>
       <statement>
         <p>
-          During an MRI, doctors can produce images of cross-sections of a person's brain.
-          Suppose that during an MRI, a doctor finds that the area of a person's brain visible at a cross-section
-          is given by <m>A(x)=\frac{625}{4}-\frac{x^4}{4}</m> where <m>A(x)</m> is in square centimeters and
-          <m>x</m> is the number of centimeters from the middle of the brain. Find the volume of the person's brain.
+          The parametric function given by <m> x(t)= \sin(2t)</m>, <m> y(t)= \sin(t)</m> 
+          traces out a figure-8 pattern for <m>0 \leq t \leq 2\pi</m>. Find the length of this curve. 
+          (You may wish to use a calculator or computer to numerically evaluate the integral.)
         </p>
       </statement>
       
-    </exercise>
-    
-    <exercise>
-      <title> Volume from cross-sectional area of a half-cone</title>
-      <statement>
+      <hint>
         <p>
-          Consider a half-cone, meaning a shape whose base is a half-circle tapering up to a peak.
-          Suppose that the base of the half-cone has a radius of <m>R</m>, and that the peak is <m>h</m> units away from the base.
-          
-          <ol label="a.">
-            <li>
-              <p>
-                Find a linear formula <m>r(x)</m> for <m> 0 \leq x \leq h</m> that gives the radius
-                of the half-circle <m>x</m> units above the base of the half-cone. (Your answer will depend on <m>R</m> and <m>h</m>.)
-              </p>
-            </li>
-            
-            <li>
-              <p>
-                Use your answer to the previous part to set up and evaluate an integral that gives the volume of the half-cone.
-                (You may want to use the fact that a half-circle has area <m>\frac{\pi}{2}r^2</m>. Your answer will depend on <m>R</m> and <m>h</m>.)
-              </p>
-            </li>
-            
-          </ol>
-          
+          Set up the integral using the <q> Arc Length for a Parametric Curve </q> formula, then use a computer to evaluate the integral.
         </p>
-      </statement>
+      </hint>
+      
+      <answer>
+        <p>
+          <m> L \approx 9.429</m>
+        </p>
+      </answer>
+      
+      <solution>
+        <p>
+          Since <m> \frac{dx}{dt}= 2 \cos(t)</m> and <m> \frac{dy}{dt}= \cos(t)</m>, then
+          <me> 
+            L= \int_0^{2\pi}\sqrt{4 \cos^2(t)+\cos^2(t)} \, dt \approx 9.429
+          </me>
+        </p>
+      </solution>
+      
       
     </exercise>
     
