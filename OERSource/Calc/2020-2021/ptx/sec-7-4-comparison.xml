@@ -1,0 +1,3198 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!-- **********************************************************************-->
+<!-- Copyright 2019                                                        -->
+<!-- UNL Department of Mathematics                                         -->
+<!-- Based upon the work of                                                -->
+<!-- Matthew Boelkins                                                      -->
+<!-- Copyright 2012-2018                                                   -->
+<!--                                                                       -->
+<!-- This file is part of Coordinated Calculus.                            -->
+<!-- This file is based on Active Calculus.                                -->
+<!--                                                                       -->
+<!-- Permission is granted to copy, distribute and/or modify this document -->
+<!-- under the terms of the Creative Commons BY-SA license.  The work      -->
+<!-- may be used for free by any party so long as attribution is given to  -->
+<!-- the author(s), the work and its derivatives are used in the spirit of -->
+<!-- "share and share alike".  All trademarks are the registered marks of  -->
+<!-- their respective owners.                                              -->
+<!-- **********************************************************************-->
+<section xmlns:xi="http://www.w3.org/2001/XInclude" xml:id="sec-7-4-comparison" permid="nbf">
+  <title>Comparison Tests</title>
+  <objectives permid="hlT">
+    <ul permid="ZHu">
+      <li permid="ern">
+        <p permid="kQt">
+          What is an infinite series?
+        </p>
+      </li>
+
+      <li permid="Kyw">
+        <p permid="QXC">
+          What is the <m>n</m>th partial sum of an infinite series?
+        </p>
+      </li>
+
+      <li permid="qFF">
+        <p permid="xeL">
+          How do we add up an infinite number of numbers?
+          In other words,
+          what does it mean for an infinite series of real numbers to converge?
+        </p>
+      </li>
+
+      <li permid="WMO">
+        <p permid="dlU">
+          What does it mean for an infinite series of real numbers to diverge?
+        </p>
+      </li>
+	  
+	  <li>
+		<p>
+			What are some ways to tell whether a series converges or diverges?
+		</p>
+	  </li>
+    </ul>
+  </objectives>
+
+  <introduction permid="Ntc">
+    <p permid="jLa">
+      In <xref ref="sec-7-2-geometric">Section</xref>,
+      we encountered infinite geometric series.
+      For example, by writing
+      <me permid="NHx">
+        N = 0.1212121212 \cdots = \frac{12}{100} + \frac{12}{100} \cdot \frac{1}{100} + \frac{12}{100} \cdot \frac{1}{100^2} + \cdots
+      </me>
+      as a geometric series,
+      we found a way to write  <m>N</m> as a single fraction:
+      <m>N = \frac{4}{33}</m>.
+      In this section,
+      we explore other types of infinite sums.
+      In <xref ref="PA-8-3">Example</xref>
+      we see how one such sum is related to the famous number <m>e</m>.
+    </p>
+
+<example xml:id="PA-8-3" permid="DxA">
+  <statement>
+    <p permid="hPw">
+      Have you ever wondered how your calculator can produce a numeric approximation for complicated numbers like <m>e</m>,
+      <m>\pi</m> or <m>\ln(2)</m>?
+      After all, the only operations a calculator can really perform are addition,
+      subtraction, multiplication,
+      and division, the operations that make up polynomials.
+      This example provides the first steps in understanding how this process works.
+      Throughout the example, let <m>f(x) = e^x</m>.
+    </p>
+
+    <p permid="NWF">
+      <ol label="a." permid="vjh">
+        <li permid="bqq">
+          <p permid="Mhs">
+            Find the tangent line to <m>f</m> at <m>x=0</m> and use this linearization to approximate <m>e</m>.
+            That is, find a formula <m>L(x)</m> for the tangent line,
+            and compute <m>L(1)</m>,
+            since <m>L(1) \approx f(1) = e</m>.
+          </p>
+        </li>
+
+        <li permid="Hxz">
+          <p permid="YvK">
+            The linearization of <m>e^x</m> does not provide a good approximation to <m>e</m> since 1 is not very close to 0.
+            To obtain a better approximation,
+            we alter our approach a bit.
+            Instead of using a straight line to approximate <m>e</m>,
+            we put an appropriate bend in our estimating function to make it better fit the graph of <m>e^x</m> for <m>x</m> close to 0.
+            With the linearization,
+            we had both <m>f(x)</m> and <m>f'(x)</m> share the same value as the linearization at <m>x=0</m>.
+            We will now use a quadratic approximation <m>P_2(x)</m> to
+            <m>f(x) = e^x</m> centered at <m>x=0</m> which has the property that <m>P_2(0) = f(0)</m>,
+            <m>P'_2(0) = f'(0)</m>, and <m>P''_2(0) = f''(0)</m>.
+          </p>
+
+          <p permid="ECT">
+            <ol label="i)" permid="Iht">
+              <li permid="vTb">
+                <p permid="jEJ">
+                  Let <m>P_2(x) = 1+x+\frac{x^2}{2}</m>.
+                  Show that <m>P_2(0) = f(0)</m>,
+                  <m>P'_2(0) = f'(0)</m>,
+                  and <m>P''_2(0) = f''(0)</m>.
+                  Then,
+                  use <m>P_2(x)</m> to approximate <m>e</m> by observing that <m>P_2(1) \approx f(1)</m>.
+                </p>
+              </li>
+
+              <li permid="nEI">
+                <p permid="kKc">
+                  We can continue approximating <m>e</m> with polynomials of larger degree whose higher derivatives agree with those of <m>f</m> at 0.
+                  This turns out to make the polynomials fit the graph of <m>f</m> better for more values of <m>x</m> around 0.
+                  For example,
+                  let <m>P_3(x) = 1+x+\frac{x^2}{2}+\frac{x^3}{6}</m>.
+                  Show that <m>P_3(0) = f(0)</m>, <m>P'_3(0) = f'(0)</m>,
+                  <m>P''_3(0) = f''(0)</m>,
+                  and <m>P'''_3(0) = f'''(0)</m>.
+                  Use <m>P_3(x)</m> to approximate <m>e</m> in a way similar to how you did so with <m>P_2(x)</m> above.
+                </p>
+              </li>
+            </ol>
+          </p>
+        </li>
+      </ol>
+    </p>
+  </statement>
+  <solution permid="iUP">
+    <p permid="BIn">
+      <ol label="a." permid="PbY">
+        <li permid="TLR">
+          <p permid="QRl">
+            The linearization of <m>f</m> at <m>x=a</m> is
+            <me permid="udO">
+              f(a) + f'(a)(x-a)
+            </me>,
+            so the linearization <m>P_1(x)</m> of <m>f(x) = e^x</m> at <m>x=0</m> is
+            <me permid="akX">
+              P_1(x) = e^0 + e^0(x-0) = 1+x
+            </me>.
+          </p>
+
+          <p permid="wYu">
+            Now
+            <me permid="Gsg">
+              f(x) \approx P_1(x)
+            </me>
+            for <m>x</m> close to <m>0</m> and so
+            <me permid="mzp">
+              e = e^1 \approx P_1(1) = 1+1 = 2
+            </me>.
+          </p>
+        </li>
+
+        <li permid="zTa">
+          <p permid="dfD">
+            <ol label="i)" permid="ooC">
+              <li permid="cak">
+                <p permid="PLS">
+                  The derivatives of <m>P_2</m> and <m>f</m> are
+                  <md permid="SGy">
+                    <mrow>P_2(x) \amp = 1+x+\frac{x^2}{2} \amp  f(x) \amp = e^x</mrow>
+                    <mrow>P'_2(x) \amp = 1 + x \amp  f'(x) \amp = e^x</mrow>
+                    <mrow>P''_2(x) \amp = 1 \amp  f''(x) \amp = e^x</mrow>
+                  </md>,
+                  and so the derivatives of <m>P_2</m> and <m>f</m> evaluated at 0 are
+                  <md permid="yNH">
+                    <mrow>P_2(0) \amp = 1 \amp  f(0) \amp = e^0 = 1</mrow>
+                    <mrow>P'_2(0) \amp = 1 \amp  f'(0) \amp = e^0 = 1</mrow>
+                    <mrow>P''_2(0) \amp = 1 \amp  f''(0) \amp = e^0 = 1</mrow>
+                  </md>.
+                </p>
+
+                <p permid="JmM">
+                  Then
+                  <me permid="eUQ">
+                    e = e^1 \approx P_2(1) = 1 + 1 + \frac{1}{2} = 2.5
+                  </me>.
+                </p>
+              </li>
+
+              <li permid="gaj">
+                <p permid="ptV">
+                  The derivatives of <m>P_3</m> and <m>f</m> are
+                  <md permid="LbZ">
+                    <mrow>P_3(x) \amp = 1+x+\frac{x^2}{2}+\frac{x^3}{6} \amp  f(x) \amp = e^x</mrow>
+                    <mrow>P'_3(x) \amp = 1 + x +\frac{x^2}{2}  \amp  f'(x) \amp = e^x</mrow>
+                    <mrow>P''_3(x) \amp = 1+x  \amp  f''(x) \amp = e^x</mrow>
+                    <mrow>P'''_3(x) \amp = 1  \amp  f'''(x) \amp = e^x</mrow>
+                  </md>,
+                  and so the derivatives of <m>P_2</m> and <m>f</m> evaluated at 0 are
+                  <md permid="rji">
+                    <mrow>P_3(0) \amp = 1 \amp  f(0) \amp = e^0 = 1</mrow>
+                    <mrow>P'_3(0) \amp = 1 \amp  f'(0) \amp = e^0 = 1</mrow>
+                    <mrow>P''_3(0) \amp = 1 \amp  f''(0) \amp = e^0 = 1</mrow>
+                    <mrow>P'''_3(0) \amp = 1 \amp  f'''(0) \amp = e^0 = 1</mrow>
+                  </md>.
+                </p>
+
+                <p permid="VBe">
+                  Then
+                  <me permid="Xqr">
+                    e = e^1 \approx P_3(1) = 1 + 1 + \frac{1}{2} + \frac{1}{6} = \frac{8}{3} \approx 2.67
+                  </me>.
+                </p>
+              </li>
+            </ol>
+          </p>
+        </li>
+      </ol>
+    </p>
+  </solution>
+</example>
+  </introduction>
+
+  <subsection permid="Tio">
+    <title>Infinite Series</title>
+    <p permid="PSj">
+      <xref ref="PA-8-3">Example</xref>
+      shows that an approximation to <m>e</m> using a linear polynomial is 2, an approximation to <m>e</m> using a quadratic polynomial is <m>2.5</m>,
+      and an approximation using a cubic polynomial is 2.6667.
+      If we continue this process we can obtain approximations from quartic (degree 4) and quintic (degree 5) polynomials,
+      giving us the following approximations to <m>e</m>:
+    </p>
+
+    <sidebyside permid="UXB">
+
+      <tabular top="minor" bottom="minor" permid="iki">
+        <row>
+          <cell>linear</cell>
+          <cell><m>1 + 1</m></cell>
+          <cell><m>2</m></cell>
+        </row>
+        <row>
+          <cell>quadratic</cell>
+          <cell><m>1 +1 + \frac{1}{2}</m></cell>
+          <cell><m>2.5</m></cell>
+        </row>
+        <row>
+          <cell>cubic</cell>
+          <cell><m>1 + 1 + \frac{1}{2} + \frac{1}{6}</m></cell>
+          <cell><m>2.\overline{6}</m></cell>
+        </row>
+        <row>
+          <cell>quartic</cell>
+          <cell><m>1 + 1 +  \frac{1}{2} + \frac{1}{6} + \frac{1}{24}</m></cell>
+          <cell><m>2.708\overline{3}</m></cell>
+        </row>
+        <row>
+          <cell>quintic</cell>
+          <cell><m>1 + 1 + \frac{1}{2} + \frac{1}{6} + \frac{1}{24} + \frac{1}{120}</m></cell>
+          <cell><m>2.71\overline{6}</m></cell>
+        </row>
+      </tabular>
+
+    </sidebyside>
+
+    <p permid="vZs">
+      We see an interesting pattern here.
+      The number <m>e</m> is being approximated by the sum
+      <men xml:id="eq-8-3-e-n" permid="tOG">
+        1+1+\frac{1}{2} + \frac{1}{6} + \frac{1}{24} + \frac{1}{120} + \cdots + \frac{1}{n!}
+      </men>
+      for increasing values of <m>n</m>.
+    </p>
+
+    <p permid="cgB">
+      We can use summation notation as a shorthand<fn>
+      Note that <m>0!</m> appears in Equation<nbsp /><xref ref="eq-8-3-e" />.
+      By definition,
+      <m>0! = 1</m>.
+      </fn> for writing the sum in <xref ref="eq-8-3-e-n">Equation</xref> to get
+      <men xml:id="eq-8-3-e" permid="ZVP">
+        e \approx 1+1+\frac{1}{2} + \frac{1}{6} + \frac{1}{24} + \frac{1}{120} + \cdots + \frac{1}{n!} = \sum_{k=0}^n \frac{1}{k!}
+      </men>.
+    </p>
+
+    <p permid="InK">
+      We can calculate this sum using as large an <m>n</m> as we want,
+      and the larger <m>n</m> is the more accurate the approximation <xref ref="eq-8-3-e" /> is.
+      This suggests that we can write the number <m>e</m> as the infinite sum
+      <men xml:id="eq-8-3-e-infinite" permid="GcY">
+        e = \sum_{k=0}^{\infty} \frac{1}{k!}
+      </men>.
+    </p>
+
+    <p permid="ouT">
+      This sum is an example of an
+      <em>infinite series</em>.
+          <idx><h>infinite series</h></idx>
+      Note that the series<nbsp /><xref ref="eq-8-3-e-infinite" /> is the sum of the terms of the infinite sequence <m>\left\{\frac{1}{n!}\right\}</m>.
+      In general, we use the following notation and terminology.
+    </p>
+
+    <assemblage>
+      <title> Infinite Series </title>
+        <p permid="SMP">
+          An <term>infinite series</term>
+          of real numbers is the sum of the entries in an infinite sequence of real numbers.
+          In other words, an infinite series is sum of the form
+          <me permid="mkh">
+            a_1+a_2+ \cdots + a_n + \cdots = \sum_{k=1}^{\infty} a_k
+          </me>,
+          where <m>a_1</m>, <m>a_2</m>,
+          <m>\ldots</m>, are real numbers.
+        </p>
+    </assemblage>
+
+    <p permid="UCc">
+      We use summation notation to identify a series.
+      If the series adds the entries of a sequence <m>\{a_n\}_{n \geq 1}</m>,
+      we will write the series as
+      <me permid="Srq">
+        \sum_{k \geq 1} a_k
+      </me>
+      or
+      <me permid="yyz">
+        \sum_{k=1}^{\infty} a_k
+      </me>.
+    </p>
+
+    <p permid="AJl">
+      Each of these notations is simply shorthand for the infinite sum <m>a_1 + a_2 + \cdots + a_n + \cdots</m>.
+    </p>
+
+    <p permid="gQu">
+      Is it even possible to sum an infinite list of numbers?
+      That doing so is possible in some situations shouldn't come as a surprise.
+      The definite integral is the sum of an infinite collections of numbers,
+      and we have already examined the special case of geometric series in the previous section.
+      As we investigate other infinite sums,
+      there are two key questions we seek to answer:  
+      (1) is the sum finite? and (2) if yes, what is its value?
+    </p>
+
+<example xml:id="act-8-3-1" permid="GfU">
+  <statement>
+    <p permid="hDk">
+      Consider the series
+      <me permid="tRC">
+        \sum_{k=1}^{\infty} \frac{1}{k^2}
+      </me>.
+    </p>
+
+    <p permid="NKt">
+      While it is physically impossible to add an infinite collection of numbers,
+      we can, of course, add any finite collection of them.
+      In what follows,
+      we investigate how understanding how to find the <m>n</m>th partial sum
+      (that is, the sum of the first <m>n</m> terms)
+      enables us to make sense of the infinite sum.
+
+      <ol label="a." permid="MqF">
+        <li permid="UEY">
+          <p permid="OPM">
+            Sum the first two numbers in this series.
+            That is, find a numeric value for
+            <me permid="ZYL">
+              \sum_{k=1}^2 \frac{1}{k^2}
+            </me>
+          </p>
+        </li>
+
+        <li permid="AMh">
+          <p permid="uWV">
+            Next, add the first three numbers in the series.
+          </p>
+        </li>
+
+        <li xml:id="part-act-8-3-1-c" permid="gTq">
+
+          <p permid="bee">
+            Continue adding terms in this series to complete the list below.
+            Carry each sum to at least 8 decimal places.
+          </p>
+
+          <p permid="cTr">
+            <ul label="" cols="2" permid="gjw">
+              <li permid="sxO"><m>\displaystyle\sum_{k=1}^{1} \frac{1}{k^2}=1</m></li>
+
+              <li permid="YEX"><m>\displaystyle\sum_{k=1}^{2} \frac{1}{k^2}=</m></li>
+
+              <li permid="EMg"><m>\displaystyle\sum_{k=1}^{3} \frac{1}{k^2}=</m></li>
+
+              <li permid="kTp"><m>\displaystyle\sum_{k=1}^{4} \frac{1}{k^2}=</m></li>
+
+              <li permid="Ray">
+                <m>\displaystyle\sum_{k=1}^{5} \frac{1}{k^2}=\phantom{1.46361111}</m>
+              </li>
+
+              <li permid="xhH"><m>\displaystyle\sum_{k=1}^{6} \frac{1}{k^2}=</m></li>
+
+              <li permid="doQ"><m>\displaystyle\sum_{k=1}^{7} \frac{1}{k^2}=</m></li>
+
+              <li permid="JvZ"><m>\displaystyle\sum_{k=1}^{8} \frac{1}{k^2}=</m></li>
+
+              <li permid="pDi"><m>\displaystyle\sum_{k=1}^{9} \frac{1}{k^2}=</m></li>
+
+              <li permid="VKr">
+                <m>\displaystyle\sum_{k=1}^{10} \frac{1}{k^2} = \phantom{1.549767731}</m>
+              </li>
+            </ul>
+          </p>
+        </li>
+
+        <li permid="Naz">
+          <p permid="Hln">
+            The sums in the table in <xref ref="part-act-8-3-1-c ">part</xref>
+            form a sequence whose <m>n</m>th term is <m>S_n = \sum_{k=1}^{n} \frac{1}{k^2}</m>.
+            Based on your calculations in the table,
+            do you think the sequence <m>\{S_n\}</m> converges or diverges?
+            Explain.
+            How do you think this sequence <m>\{S_n\}</m> is related to the series <m>\sum_{k=1}^{\infty} \frac{1}{k^2}</m>?
+          </p>
+        </li>
+      </ol>
+    </p>
+  </statement>
+  <hint permid="vsu">
+    <p permid="Bwb">
+      <ol label="a." permid="Acn">
+        <li permid="thI">
+          <p permid="nsw">
+            Compute <m>\frac{1}{1^2} + \frac{1}{2^2}</m>.
+          </p>
+        </li>
+
+        <li permid="ZoR">
+          <p permid="TzF">
+            Do likewise but include the third term, <m>\frac{1}{3^2}</m>.
+          </p>
+        </li>
+
+        <li permid="Fwa">
+          <p permid="zGO">
+            Note that you can use your work in each previous stage and just add one more term to get the next desired sum.
+          </p>
+        </li>
+
+        <li permid="lDj">
+          <p permid="fNX">
+            Look for a pattern in the numbers you computed in part (c).
+          </p>
+        </li>
+      </ol>
+    </p>
+  </hint>
+  <answer permid="Pll">
+    <p permid="VoS">
+      <ol label="a." permid="TVe">
+        <li permid="RKs">
+          <p permid="LVg">
+            See the table in <xref ref="part-act-8-3-1-ans-c">part</xref>.
+          </p>
+        </li>
+
+        <li permid="xRB">
+          <p permid="scp">
+            See the table in <xref ref="part-act-8-3-1-ans-c">part</xref>.
+          </p>
+        </li>
+
+        <li xml:id="part-act-8-3-1-ans-c" permid="dYK">
+          <ul label="" cols="2" permid="nNV">
+            <li permid="BRA"><m>\displaystyle\sum_{k=1}^{1} \frac{1}{k^2}=1</m></li>
+
+            <li permid="hYJ">
+              <m>\displaystyle\sum_{k=1}^{2} \frac{1}{k^2}=1.25</m>
+            </li>
+
+            <li permid="OfS">
+              <m>\displaystyle\sum_{k=1}^{3} \frac{1}{k^2}=1.361111111</m>
+            </li>
+
+            <li permid="unb">
+              <m>\displaystyle\sum_{k=1}^{4} \frac{1}{k^2}=1.423611111</m>
+            </li>
+
+            <li permid="auk">
+              <m>\displaystyle\sum_{k=1}^{5} \frac{1}{k^2}=1.463611111</m>
+            </li>
+
+            <li permid="GBt">
+              <m>\displaystyle\sum_{k=1}^{6} \frac{1}{k^2}=1.491388889</m>
+            </li>
+
+            <li permid="mIC">
+              <m>\displaystyle\sum_{k=1}^{7} \frac{1}{k^2}=1.511797052</m>
+            </li>
+
+            <li permid="SPL">
+              <m>\displaystyle\sum_{k=1}^{8} \frac{1}{k^2}=1.527422052</m>
+            </li>
+
+            <li permid="yWU">
+              <m>\displaystyle\sum_{k=1}^{9} \frac{1}{k^2}=1.539767731</m>
+            </li>
+
+            <li permid="fed">
+              <m>\displaystyle\sum_{k=1}^{10} \frac{1}{k^2} =1.549767731 \phantom{1.54976773}</m>
+            </li>
+          </ul>
+        </li>
+
+        <li permid="KfT">
+          <p permid="Yjy">
+            It appears <m>\{S_n\}</m> converges to something a bit larger than 1.5.
+          </p>
+        </li>
+      </ol>
+    </p>
+  </answer>
+  <solution permid="jec">
+    <p permid="phJ">
+      <ol label="a." permid="HGM">
+        <li permid="qnc">
+          <p permid="EqH">
+            See the table in <xref ref="part-act-8-3-1-soln-c">part</xref>.
+          </p>
+        </li>
+
+        <li permid="Wul">
+          <p permid="kxQ">
+            See the table in <xref ref="part-act-8-3-1-soln-c">part</xref>.
+          </p>
+        </li>
+
+        <li xml:id="part-act-8-3-1-soln-c" permid="CBu">
+
+          <p permid="QEZ">
+            If we add the first few terms of the sequence
+            <m>\left\{\frac{1}{k^2}\right\}</m> we obtain the entries (to 10 decimal places) in the following table.
+          </p>
+
+          <p permid="JaA">
+            <ul label="" cols="2" permid="bzD">
+              <li permid="Llm"><m>\displaystyle\sum_{k=1}^{1} \frac{1}{k^2}=1</m></li>
+
+              <li permid="rsv">
+                <m>\displaystyle\sum_{k=1}^{2} \frac{1}{k^2}=1.25</m>
+              </li>
+
+              <li permid="XzE">
+                <m>\displaystyle\sum_{k=1}^{3} \frac{1}{k^2}=1.361111111</m>
+              </li>
+
+              <li permid="DGN">
+                <m>\displaystyle\sum_{k=1}^{4} \frac{1}{k^2}=1.423611111</m>
+              </li>
+
+              <li permid="jNW">
+                <m>\displaystyle\sum_{k=1}^{5} \frac{1}{k^2}=1.463611111</m>
+              </li>
+
+              <li permid="PVf">
+                <m>\displaystyle\sum_{k=1}^{6} \frac{1}{k^2}=1.491388889</m>
+              </li>
+
+              <li permid="wco">
+                <m>\displaystyle\sum_{k=1}^{7} \frac{1}{k^2}=1.511797052</m>
+              </li>
+
+              <li permid="cjx">
+                <m>\displaystyle\sum_{k=1}^{8} \frac{1}{k^2}=1.527422052</m>
+              </li>
+
+              <li permid="IqG">
+                <m>\displaystyle\sum_{k=1}^{9} \frac{1}{k^2}=1.539767731</m>
+              </li>
+
+              <li permid="oxP">
+                <m>\displaystyle\sum_{k=1}^{10} \frac{1}{k^2} =1.549767731 \phantom{1.54976773}</m>
+              </li>
+            </ul>
+          </p>
+        </li>
+
+        <li permid="iID">
+          <p permid="wMi">
+            These sums in the table in part (c) seem to indicate that the sequence <m>\{S_n\}</m> converges to something a bit larger than 1.5.
+            Since the sequence <m>\{S_n\}</m> is found by adding up the first <m>k</m> terms of the series,
+            we should expect that the series
+            <m>\sum_{k=1}^{n} \frac{1}{k^2}</m> is the limit of the sequence <m>\{S_n\}</m> as <m>n</m> goes to infinity.
+          </p>
+        </li>
+      </ol>
+    </p>
+  </solution>
+</example>
+
+    <p permid="MXD">
+      The example in <xref ref="act-8-3-1">Example</xref>
+      illustrates how we define the sum of an infinite series.
+      We construct a new sequence of numbers (called the
+      <em>sequence of partial sums</em>)
+          <idx><h>partial sum</h></idx>
+          <idx><h>sequence of partial sums</h></idx>
+      where the <m>n</m>th term in the sequence consists of the sum of the first <m>n</m> terms of the series.
+      If this sequence converges,
+      the corresponding infinite series is said to converge,
+      and we say that we can find the sum of the series.
+      More formally, we have the following definition.
+    </p>
+
+
+      <assemblage>
+      <title> Partial Sum </title>
+        <p permid="yTY">
+          The <term><m>n</m>th partial sum</term>
+          of the series <m>\sum_{k=1}^{\infty} a_k</m> is the finite sum <m>S_n = \sum_{k=1}^{n} a_k</m>.
+        </p>
+        <p permid="teM">
+      In other words,
+      the <m>n</m>th partial sum <m>S_n</m> of a series is the sum of the first <m>n</m> terms in the series,
+      <me permid="eFI">
+        S_n = a_1 + a_2 + \cdots + a_n
+      </me>.
+    </p>
+     </assemblage>
+
+    
+    <p permid="ZlV">
+      We investigate the behavior of the series by examining the sequence
+      <me permid="KMR">
+        S_1, S_2, \ldots, S_n, \ldots
+      </me>
+      of its partial sums.
+      If the sequence of partial sums converges to some finite number,
+      we say that the corresponding series <em>converges</em>.
+          <idx><h>series</h><h>converges</h></idx>
+      Otherwise, we say the series <em>diverges</em>.
+          <idx><h>series</h><h>diverges</h></idx>
+      From our work in <xref ref="act-8-3-1">Example</xref>,
+      the series
+      <me permid="qUa">
+        \sum_{k=1}^{\infty} \frac{1}{k^2}
+      </me>
+      appears to converge to some number near 1.54977.
+      We formalize the concept of convergence and divergence of an infinite series in the following definition.
+    </p>
+
+  <assemblage>
+    <title>  Convergent Series and Divergent Series </title>
+        <p permid="fbh">
+          The infinite series
+          <me permid="Xbj">
+            \sum_{k=1}^{\infty} a_k
+          </me>
+        </p>
+
+        <p permid="Liq">
+          <term>converges</term>
+          (or is <term>convergent</term>)
+          if the sequence <m>\{S_n\}</m> of partial sums converges, where
+          <me permid="Dis">
+            S_n = \sum_{k=1}^n a_k
+          </me>.
+        </p>
+
+        <p permid="rpz">
+          If <m>\lim_{n \to \infty} S_n = S</m>,
+          then we call <m>S</m> the sum of the series <m>\sum_{k=1}^{\infty} a_k</m>.
+          That is,
+          <me permid="jpB">
+            \sum_{k=1}^{\infty} a_k = \lim_{n \to \infty} S_n = S
+          </me>.
+        </p>
+
+        <p permid="XwI">
+          If the sequence of partial sums does not converge, then the series
+          <me permid="PwK">
+            \sum_{k=1}^{\infty} a_k
+          </me>
+        </p>
+
+        <p permid="DDR">
+          <term>diverges</term>
+          (or is <term>divergent</term>).
+        </p>
+ </assemblage>
+ 
+    <p permid="Fte">
+      The early terms in a series do not influence whether or not the series converges or diverges.
+      Rather, the convergence or divergence of a series
+      <me permid="vDT">
+        \sum_{k=1}^{\infty} a_k
+      </me>
+      is determined by what happens to the terms <m>a_k</m> for very large values of <m>k</m>.
+      To see why,
+      suppose that <m>m</m> is some constant larger than 1.
+      Then
+      <me permid="bLc">
+        \sum_{k=1}^{\infty} a_k = (a_1+a_2+ \cdots + a_m) + \sum_{k=m+1}^{\infty} a_k
+      </me>.
+    </p>
+
+    <p permid="lAn">
+      Since <m>a_1+a_2+ \cdots + a_m</m> is a finite number,
+      the series <m>\sum_{k=1}^{\infty} a_k</m> will converge if and only if the series <m>\sum_{k=m+1}^{\infty} a_k</m> converges.
+      Because the starting index of the series doesn't affect whether the series converges or diverges,
+      we will often just write
+      <me permid="HSl">
+        \sum a_k
+      </me>
+      when we are interested in questions of convergence/divergence as opposed to the exact sum of a series.
+    </p>
+    
+    We summarize this property and a few others in the next remark.
+    
+    <assemblage>
+      <title> Basic Convergence Properties of Series</title>
+      <p>
+        If <m> \displaystyle \sum_{n=1}^\infty a_n </m> and <m> \displaystyle \sum_{n=1}^\infty b_n </m> converge, 
+        and <m>k </m> is a constant, then:
+        
+        <ol label="i.">
+          <li>
+            Changing a finite number of terms in a series does not change whether or not the series converges.
+            However, it can change the number that the series will converge to.
+          </li>
+          
+          <li>
+            If <m> \displaystyle \sum_{n=1}^\infty a_n </m> and <m> \displaystyle \sum_{n=1}^\infty b_n </m> converge, then
+            <me>
+              \displaystyle \sum_{n=1}^\infty (a_n+b_n)=\left( \displaystyle \sum_{n=1}^\infty a_n \right)+\left( \displaystyle \sum_{n=1}^\infty b_n \right) 
+            </me>.
+            
+            Note: If the original series do not converge, then you must be very careful about this rule. See <xref ref="adding-series">Exercise</xref> for an exploration of this.
+          </li>
+          
+          <li>
+            If <m> \displaystyle \sum_{n=1}^\infty a_n </m> converges, and <m> k</m> is a constant, then
+            <me>
+              \displaystyle \sum_{n=1}^\infty (ka_n)=k\left( \displaystyle \sum_{n=1}^\infty a_n \right)
+            </me>
+          </li>
+          
+            <li>
+            If <m> \displaystyle \sum_{n=1}^\infty a_n </m> does not converge, and <m> k \neq 0</m> is a constant, then
+            <m>
+              \displaystyle \sum_{n=1}^\infty (ka_n)
+            </m>
+            also diverges.
+          </li>
+        
+        </ol>
+      
+      </p>
+    </assemblage>
+
+    <p permid="RHw">
+      In <xref ref="sec-7-2-geometric">Section</xref>
+      we encountered the special family of infinite geometric series.
+      Recall that a geometric series has the form
+      <m>\sum_{k=0}^{\infty} ar^k</m>,
+      where <m>a</m> and <m>r</m> are real numbers
+      (and <m>r \ne 1</m>).
+      We found that the <m>n</m>th partial sum <m>S_n</m> of a geometric series is given by the convenient formula
+      <me permid="nZu">
+        S_n = \frac{1-r^{n}}{1-r}
+      </me>,
+      and thus a geometric series converges if <m>|r| \lt  1</m>.
+      Geometric series diverge for all other values of <m>r</m>.
+    </p>
+
+    <p permid="xOF">
+      It is generally a difficult question to determine if a given nongeometric series converges or diverges.
+      There are several tests we can use that we will consider in the following sections.
+    </p>
+  </subsection>
+
+  <subsection permid="zpx">
+    <title>The Divergence Test</title>
+    <p permid="dVO">
+      The first question we ask about any infinite series is usually
+    "Does the series converge or diverge?"
+      There is a straightforward way to check that certain series diverge, and
+      we explore this test in the next example.
+    </p>
+
+<example xml:id="act-8-3-2" permid="yfW">
+  <statement>
+    <p permid="hhL">
+      If the <em>series</em> <m>\sum a_k</m> converges,
+      then an important result necessarily follows regarding the
+      <em>sequence</em> <m>\{a_n\}</m>.
+      This example explores this result.
+    </p>
+
+    <p permid="NoU">
+      Assume that the series <m>\sum_{k=1}^{\infty} a_k</m> converges and has sum equal to <m>L</m>.
+
+      <ol label="a." permid="Xef">
+        <li permid="Dlo">
+          <p permid="VYM">
+            What is the <m>n</m>th partial sum <m>S_n</m> of the series <m>\sum_{k=1}^{\infty} a_k</m>?
+          </p>
+        </li>
+
+        <li permid="jsx">
+          <p permid="CfV">
+            What is the <m>(n-1)</m>st partial sum <m>S_{n-1}</m> of the series <m>\sum_{k=1}^{\infty} a_k</m>?
+          </p>
+        </li>
+
+        <li permid="PzG">
+          <p permid="ine">
+            What is the difference between the <m>n</m>th partial sum and the <m>(n-1)</m>st partial sum of the series <m>\sum_{k=1}^{\infty} a_k</m>?
+          </p>
+        </li>
+
+        <li permid="vGP">
+          <p permid="Oun">
+            Since we are assuming that <m>\sum_{k=1}^{\infty} a_k = L</m>,
+            what does that tell us about <m>\lim_{n \to \infty} S_n</m>?
+            Why?
+            What does that tell us about <m>\lim_{n \to \infty} S_{n-1}</m>?
+            Why?
+          </p>
+        </li>
+
+        <li permid="bNY">
+          <p permid="uBw">
+            Combine the results of the previous two parts of this example to determine <m>\lim_{n \to \infty} a_n = \lim_{n \to \infty} (S_n - S_{n-1})</m>.
+          </p>
+        </li>
+      </ol>
+    </p>
+  </statement>
+  <hint permid="yBv">
+    <p permid="BaC">
+      <ol label="a." permid="qWW">
+        <li permid="HVh">
+          <p permid="aIF">
+            Recall that the <m>n</m>th partial sum is the sum of the first <m>n</m> terms.
+          </p>
+        </li>
+
+        <li permid="ocq">
+          <p permid="GPO">
+            Consider the sum with one fewer term.
+          </p>
+        </li>
+
+        <li permid="Ujz">
+          <p permid="mWX">
+            Subtract your results in (a) and (b).
+          </p>
+        </li>
+
+        <li permid="AqI">
+          <p permid="Teg">
+            Remember that the partials sums have to tend to the sum of the series.
+          </p>
+        </li>
+
+        <li permid="gxR">
+          <p permid="zlp">
+            Note that <m>S_n \to L</m> and <m>S_{n-1} \to L</m>.
+          </p>
+        </li>
+      </ol>
+    </p>
+  </hint>
+  <answer permid="Sum">
+    <p permid="UTt">
+      <ol label="a." permid="KPN">
+        <li permid="MFa">
+          <p permid="fsy">
+            <m> S_n = \sum_{k=1}^n a_k </m>.
+          </p>
+        </li>
+
+        <li permid="sMj">
+          <p permid="LzH">
+            <m> S_{n-1} = \sum_{k=1}^{n-1} a_k </m>.
+          </p>
+        </li>
+
+        <li permid="YTs">
+          <p permid="rGQ">
+            <m> \sum_{k=1}^{n} a_k - \sum_{k=1}^{n-1} a_k = a_{n} </m>.
+          </p>
+        </li>
+
+        <li permid="FaB">
+          <p permid="XNZ">
+            <m>\lim_{n \to \infty} S_n = L</m> and <m>\lim_{n \to \infty} S_{n-1} = L</m>.
+          </p>
+        </li>
+
+        <li permid="lhK">
+          <p permid="DVi">
+            We have <m> \lim_{n \to \infty} a_n = \lim_{n \to \infty} \left(S_n - S_{n-1}\right) = 0 </m>.
+          </p>
+        </li>
+      </ol>
+    </p>
+  </answer>
+  <solution permid="mnd">
+    <p permid="oMk">
+      <ol label="a." permid="eIE">
+        <li permid="RoT">
+          <p permid="kcr">
+            The <m>n</m>th partial sum of the series <m>\sum_{k=1}^{\infty} a_k</m> is
+            <me permid="twd">
+              S_n = \sum_{k=1}^n a_k
+            </me>.
+          </p>
+        </li>
+
+        <li permid="xwc">
+          <p permid="QjA">
+            The <m>(n-1)</m>st partial sum of the series <m>\sum_{k=1}^{\infty} a_k</m> is
+            <me permid="ZDm">
+              S_{n-1} = \sum_{k=1}^{n-1} a_k
+            </me>.
+          </p>
+        </li>
+
+        <li permid="dDl">
+          <p permid="wqJ">
+            The difference between <m>S_n</m> and <m>S_{n-1}</m> is
+            <me permid="FKv">
+              \sum_{k=1}^{n} a_k - \sum_{k=1}^{n-1} a_k = a_{n}
+            </me>.
+          </p>
+        </li>
+
+        <li permid="JKu">
+          <p permid="cxS">
+            Since  <m>\sum_{k=1}^{\infty} a_k = \lim_{n \to \infty} S_n</m> we must have <m>\lim_{n \to \infty} S_n = L</m>.
+            Also,
+            <me permid="lRE">
+              \lim_{n \to \infty} S_n = \lim_{n \to \infty} S_{n-1}
+            </me>,
+            so <m>\lim_{n \to \infty} S_{n-1} = L</m> as well.
+          </p>
+        </li>
+
+        <li permid="pRD">
+          <p permid="IFb">
+            We have
+            <md permid="RYN">
+              <mrow>\lim_{n \to \infty} a_n \amp = \lim_{n \to \infty} \left(S_n - S_{n-1}\right)</mrow>
+              <mrow>\amp = \lim_{n \to \infty} S_n - \lim_{n \to \infty} S_{n-1}</mrow>
+              <mrow>\amp = L - L</mrow>
+              <mrow>\amp = 0</mrow>
+            </md>.
+          </p>
+        </li>
+      </ol>
+    </p>
+  </solution>
+</example>
+
+    <p permid="KcX">
+      The result of <xref ref="act-8-3-2">Example</xref>
+      is the following important conditional statement:
+    </p>
+
+    <blockquote permid="tAl">
+      <p permid="mFG">
+        If the series <m>\sum_{k = 1}^{\infty} a_k</m> converges,
+        then the sequence <m>\{a_k\}</m> of <m>k</m>th terms converges to 0.
+      </p>
+    </blockquote>
+
+    <p permid="qkg">
+      It is logically equivalent to say that if the sequence <m>\{a_k\}</m> does not converge to 0, then the series <m>\sum_{k = 1}^{\infty} a_k</m> cannot converge.
+      This statement is called the Divergence Test.
+          <idx><h>Divergence Test</h></idx>
+    </p>
+
+    <assemblage permid="DZq">
+      <title>The Divergence Test</title>
+      <p permid="Wrp">
+        If the sequence <m>\{a_k\}</m> does not converge, or if it does converge but <m>\lim_{k \to \infty} a_k \neq 0</m>,
+        then the series <m>\sum a_k</m> diverges. This is also sometimes called the <term><m>n</m>th term test</term>.
+      </p>
+    </assemblage>
+
+<example xml:id="act-8-3-3" permid="Lei">
+  <statement>
+    <p permid="eWZ">
+      Determine if the Divergence Test applies to the following series.
+      If the test does not apply, explain why.
+      If the test does apply, what does it tell us about the series?
+
+      <ol label="a." cols="3" permid="Peh">
+        <li permid="vlq">
+          <p permid="QTu">
+            <m>\sum \frac{k}{k+1}</m>
+          </p>
+        </li>
+
+        <li permid="bsz">
+          <p permid="xaD">
+            <m>\sum (-1)^k</m>
+          </p>
+        </li>
+
+        <li permid="HzI">
+          <p permid="dhM">
+            <m>\sum \frac{1}{k}</m>
+          </p>
+        </li>
+      </ol>
+    </p>
+  </statement>
+  <hint permid="qBx">
+    <p permid="yPQ">
+      <ol label="a." permid="iWY">
+        <li permid="nGR">
+          <p permid="JoV">
+            Consider <m>\lim_{k \to \infty} \frac{k}{k+1}</m>.
+          </p>
+        </li>
+
+        <li permid="TOa">
+          <p permid="pwe">
+            Think about the partial sums of this series.
+          </p>
+        </li>
+
+        <li permid="zVj">
+          <p permid="VDn">
+            Remember that if the terms of a series go to zero,
+            the Divergence Test doesn't make any claims.
+          </p>
+        </li>
+      </ol>
+    </p>
+  </hint>
+  <answer permid="Kuo">
+    <p permid="SIH">
+      <ol label="a." permid="CPP">
+        <li permid="gcs">
+          <p permid="BKw">
+            <m>\sum \frac{k}{k+1}</m> diverges.
+          </p>
+        </li>
+
+        <li permid="MjB">
+          <p permid="hRF">
+            <m>\sum (-1)^k</m> diverges.
+          </p>
+        </li>
+
+        <li permid="sqK">
+          <p permid="NYO">
+            The Divergence Test does not apply.
+          </p>
+        </li>
+      </ol>
+    </p>
+  </answer>
+  <solution permid="enf">
+    <p permid="mBy">
+      <ol label="a." permid="WIG">
+        <li permid="YxT">
+          <p permid="ufX">
+            Since the sequence <m>\frac{k}{k+1}</m> converges to 1 and not 0 as <m>k</m> goes to infinity,
+            the Divergence Test applies here and shows that the series <m>\sum \frac{k}{k+1}</m> diverges.
+          </p>
+        </li>
+
+        <li permid="EFc">
+          <p permid="ang">
+            Since the terms of this series don't even converge to a number,
+            they can't converge to zero,
+            and thus this series diverges.
+          </p>
+        </li>
+
+        <li permid="kMl">
+          <p permid="Gup">
+            Since <m>\lim_{k \to \infty} \frac{1}{k} = 0</m>,
+            the Divergence Test does not apply to this series.
+          </p>
+        </li>
+      </ol>
+    </p>
+  </solution>
+</example>
+
+    <p permid="Cyy">
+      <em>Note well:</em> be very careful with the Divergence Test.
+      This test only tells us what happens to a series if the terms of the corresponding sequence do not converge to 0.
+      If the sequence of the terms of the series does converge to 0, the Divergence Test does not apply:
+      indeed, as we will soon see,
+      a series whose terms go to zero may either converge or diverge.
+    </p>
+  </subsection>
+
+  <subsection permid="fwG">
+    <title>The Integral Test</title>
+    <idx><h>integral test</h></idx>
+
+    <p permid="iFH">
+      The Divergence Test settles the questions of divergence or convergence of series
+      <m>\sum a_k</m> in which <m>\lim_{k \to \infty} a_k \neq 0</m>.
+      Determining the convergence or divergence of series <m>\sum a_k</m> in which
+      <m>\lim_{k \to \infty} a_k = 0</m> turns out to be more complicated.
+      Often, we have to investigate the sequence of partial sums or apply some other technique.
+    </p>
+
+    <p permid="OMQ">
+      Next, we consider the <term>harmonic
+      series</term>
+          <idx><h>harmonic series</h></idx><fn>
+      This series is called harmonic because each term in the series after the first is the harmonic mean of the term  before it and the term after it.
+      The harmonic mean of two numbers <m>a</m> and <m>b</m> is <m>\frac{2ab}{a+b}</m>.
+      See <q>What's Harmonic about the Harmonic Series</q>,
+      by David E. Kullman (in the <pubtitle>College Mathematics Journal</pubtitle>, Vol. 32, No. 3 (May, 2001), 201-203) for an interesting discussion of the harmonic mean.
+      </fn><me permid="UgD">
+        \sum_{k=1}^{\infty} \frac{1}{k} = 1 + \frac{1}{2} + \frac{1}{3} + \frac{1}{4} + \cdots
+      </me>.
+      The first 9 partial sums of this series are shown following.
+      <md permid="AnM">
+        <mrow>\sum_{k=1}^{1} \frac{1}{k} \amp= 1 \amp \sum_{k=1}^{4} \frac{1}{k} \amp= 2.083333333 \amp \sum_{k=1}^{7} \frac{1}{k} \amp= 2.592857143</mrow>
+        <mrow>\sum_{k=1}^{2} \frac{1}{k} \amp= 1.5 \amp \sum_{k=1}^{5} \frac{1}{k} \amp= 2.283333333 \amp \sum_{k=1}^{8} \frac{1}{k} \amp= 2.717857143</mrow>
+        <mrow>\sum_{k=1}^{3} \frac{1}{k} \amp= 1.833333333 \amp \sum_{k=1}^{6} \frac{1}{k} \amp= 2.450000000 \amp \sum_{k=1}^{9} \frac{1}{k} \amp= 2.828968254</mrow>
+      </md>
+    </p>
+
+    <p permid="uTZ">
+      This information alone doesn't seem to be enough to tell us if the series
+      <m>\sum_{k=1}^{\infty} \frac{1}{k}</m> converges or diverges.
+      The partial sums could eventually level off to some fixed number or continue to grow without bound.
+      Even if we look at larger partial sums,
+      such as <m>\sum_{n=1}^{1000} \frac{1}{k} \approx 7.485470861</m>,
+      the result isn't particularly convincing one way or another.
+      The Integral Test is one way to determine whether or not the harmonic series converges,
+      and we explore this test further in the next example.
+    </p>
+
+<example xml:id="act-8-3-4" permid="NDp">
+  <statement>
+    <p permid="QxV">
+      Consider the harmonic series <m>\sum_{k=1}^{\infty} \frac{1}{k}</m>.
+      Recall that the harmonic series will converge provided that its sequence of partial sums converges.
+      The <m>n</m>th partial sum <m>S_n</m> of the series <m>\sum_{k=1}^{\infty} \frac{1}{k}</m> is
+      <md permid="paF">
+        <mrow>S_n =\mathstrut \amp  \sum_{k=1}^{n} \frac{1}{k}</mrow>
+        <mrow>=\mathstrut \amp  1 + \frac{1}{2} + \frac{1}{3} + \cdots + \frac{1}{n}</mrow>
+        <mrow>=\mathstrut \amp  1(1) + (1)\left(\frac{1}{2}\right) + (1)\left(\frac{1}{3}\right) + \cdots + (1)\left(\frac{1}{n}\right)</mrow>
+      </md>.
+    </p>
+
+    <p permid="wFe">
+      Through this last expression for <m>S_n</m>,
+      we can visualize this partial sum as a sum of areas of rectangles with heights
+      <m>\frac{1}{m}</m> and bases of length 1, as shown in <xref ref="F-8-3-4-Integral-Test">Figure</xref>,
+      which uses the 9th partial sum.
+    </p>
+
+    <figure xml:id="F-8-3-4-Integral-Test" permid="ITw">
+      <caption>A picture of the 9th partial sum of the harmonic series as a sum of areas of rectangles.</caption>
+      <image width="47%" source="images/8_3_Integral_test1" />
+    </figure>
+
+    <p permid="cMn">
+      The graph of the continuous function <m>f</m> defined by
+      <m>f(x) = \frac{1}{x}</m> is overlaid on this plot.
+
+      <ol label="a." permid="cct">
+        <li permid="IjC">
+          <p permid="qfY">
+            Explain how this picture represents a particular Riemann sum.
+          </p>
+        </li>
+
+        <li permid="oqL">
+          <p permid="Wnh">
+            What is the definite integral that corresponds to the Riemann sum you considered in (a)?
+          </p>
+        </li>
+
+        <li permid="UxU">
+          <p permid="Cuq">
+            Which is larger, the definite integral in (b),
+            or the corresponding partial sum <m>S_9</m> of the series?
+            Why?
+          </p>
+        </li>
+
+        <li permid="AFd">
+          <p permid="iBz">
+            If instead of considering the 9th partial sum,
+            we consider the <m>n</m>th partial sum,
+            and we let <m>n</m> go to infinity,
+            we can then compare the series
+            <m>\sum_{k=1}^{\infty} \frac{1}{k}</m> to the improper integral <m>\int_{1}^{\infty} \frac{1}{x} \ dx</m>.
+            Which of these quantities is larger?
+            Why?
+          </p>
+        </li>
+
+        <li permid="gMm">
+          <p permid="OII">
+            Does the improper integral <m>\int_{1}^{\infty} \frac{1}{x} \ dx</m> converge or diverge?
+            What does that result,
+            together with your work in (d),
+            tell us about the series <m>\sum_{k=1}^{\infty} \frac{1}{k}</m>?
+          </p>
+        </li>
+      </ol>
+    </p>
+  </statement>
+
+  <answer permid="XsA">
+    <p permid="EjD">
+      <ol label="a." permid="POb">
+        <li permid="taE">
+          <p permid="aXa">
+            The <m>n</m>th partial sum of the series
+            <m>\sum_{k=1}^{\infty} \frac{1}{k}</m> is the left hand Riemann sum of <m>f(x)</m> on the interval <m>[1,n]</m>.
+          </p>
+        </li>
+
+        <li permid="ZhN">
+          <p permid="Hej">
+            <m> \sum_{k=1}^{n} \frac{1}{k} \gt \int_{1}^{n} \frac{1}{x} \ dx </m>.
+          </p>
+        </li>
+
+        <li permid="FoW">
+          <p permid="nls">
+            <m> \sum_{k=1}^{\infty} \frac{1}{k} \gt \int_{1}^{\infty} \frac{1}{x} \ dx </m>.
+          </p>
+        </li>
+
+        <li permid="lwf">
+          <p permid="TsB">
+            <m> \int_{1}^{\infty} f(x) \ dx = \lim_{t \to \infty} \int_{1}^{t} \frac{1}{x} \ dx = \infty </m> so the series <m>\sum_{k=1}^{\infty} \frac{1}{k}</m> diverges.
+          </p>
+        </li>
+      </ol>
+    </p>
+  </answer>
+  <solution permid="rlr">
+    <p permid="Ycu">
+      <ol label="a." permid="jGS">
+        <li permid="RDo">
+          <p permid="zzK">
+            Notice that the <m>n</m>th partial sum of the series
+            <m>\sum_{k=1}^{\infty} \frac{1}{k}</m> is equal to the left hand Riemann sum of <m>f(x)</m> on the interval <m>[1,n]</m>.
+          </p>
+        </li>
+
+        <li permid="xKx">
+          <p permid="fGT">
+            Since <m>f</m> is a decreasing function, it follows that
+            <me permid="VhO">
+              \sum_{k=1}^{n} \frac{1}{k} \gt \int_{1}^{n} \frac{1}{x} \ dx
+            </me>.
+          </p>
+        </li>
+
+        <li permid="dRG">
+          <p permid="LOc">
+            Since <m>f</m> is decreasing,
+            the improper integral
+            <m>\int_{1}^{\infty} \frac{1}{x} \ dx</m> is smaller than the limit of the Riemann sums as <m>n</m> goes to infinity.
+            So  we wind up with a comparison between the series
+            <m>\sum_{k=1}^{\infty} \frac{1}{n}</m> and the improper integral:
+            <me permid="BoX">
+              \sum_{k=1}^{\infty} \frac{1}{k} \gt \int_{1}^{\infty} \frac{1}{x} \ dx
+            </me>.
+          </p>
+        </li>
+
+        <li permid="JYP">
+          <p permid="rVl">
+            We can evaluate the improper integral as follows:
+            <md permid="hwg">
+              <mrow>\int_{1}^{\infty} f(x) \ dx \amp = \lim_{t \to \infty} \int_{1}^{t} \frac{1}{x} \ dx</mrow>
+              <mrow>\amp = \lim_{t \to \infty} \ln(x) |_{1}^{t}</mrow>
+              <mrow>\amp = \lim_{t \to \infty} \left(\ln(t) - \ln(1) \right)</mrow>
+              <mrow>\amp = \infty</mrow>
+            </md>.
+            Since the value of the series
+            <m>\sum_{k=1}^{\infty} \frac{1}{k}</m> exceeds the value of the infinite improper integral,
+            we must conclude that the series <m>\sum_{k=1}^{\infty} \frac{1}{k}</m> diverges.
+          </p>
+        </li>
+      </ol>
+    </p>
+  </solution>
+</example>
+
+    <p permid="bbi">
+      The ideas from <xref ref="act-8-3-4">Example</xref> hold more generally.
+      Suppose that <m>f</m> is a continuous decreasing function and that
+      <m>a_k = f(k)</m> for each value of <m>k</m>.
+      Consider the corresponding series <m>\sum_{k=1}^{\infty} a_k</m>.
+      The partial sum
+      <me permid="guV">
+        S_n = \sum_{k=1}^{n} a_k
+      </me>
+      can always be viewed as a left hand Riemann sum of <m>f(x)</m>,
+      using rectangles with bases of width 1 and heights given by the values <m>a_k</m>.
+      A representative picture is shown at left in <xref ref="F-8-3-Integral-Test">Figure</xref>.
+      Since <m>f</m> is a decreasing function, we have that
+      <me permid="MCe">
+        S_n \gt \int_1^n f(x) \ dx
+      </me>.
+    </p>
+
+    <p permid="Hir">
+      Taking the limit as <m>n</m> goes to infinity shows that
+      <me permid="sJn">
+        \sum_{k=1}^{\infty} a_k \gt \int_{1}^{\infty} f(x) \ dx
+      </me>.
+    </p>
+
+    <p permid="npA">
+      Therefore, if the improper integral <m>\int_{1}^{\infty} f(x) \ dx</m> diverges,
+      so does the series <m>\sum_{k=1}^{\infty} a_k</m>.
+    </p>
+
+    <figure xml:id="F-8-3-Integral-Test" permid="rZt">
+      <caption>Comparing an improper integral to a series</caption>
+      <sidebyside widths="48% 48%" margins="0%" permid="BeK">
+        <image source="images/8_3_Integral_test1" />
+        <image source="images/8_3_Integral_test2" />
+      </sidebyside>
+
+    </figure>
+
+    <p permid="TwJ">
+      What's more,
+      if we look at the right hand Riemann sums of <m>f</m> on <m>[1,n]</m> as shown at right in <xref ref="F-8-3-Integral-Test">Figure</xref>,
+      we see that
+      <me permid="YQw">
+        \int_{1}^{\infty} f(x) \ dx \gt  \sum_{k=2}^{\infty} a_k
+      </me>.
+    </p>
+
+    <p permid="zDS">
+      So if <m>\int_{1}^{\infty} f(x) \ dx</m> converges,
+      then so does <m>\sum_{k=2}^{\infty} a_k</m>,
+      which also means that the series <m>\sum_{k=1}^{\infty} a_k</m> also converges.
+      Our preceding discussion has demonstrated the truth of the Integral Test.
+          <idx><h>integral test</h></idx>
+    </p>
+
+    <assemblage permid="kgz">
+      <title>The Integral Test</title>
+      <p permid="fLb">
+        Let <m>f</m> be a real valued function and assume <m>f</m> is decreasing and positive for all <m>x</m> larger than some number <m>c</m>.
+        Let <m>a_k = f(k)</m> for each positive integer <m>k</m>.
+
+        <ol label="a." permid="FOD">
+          <li permid="ggA">
+            <p permid="Jtd">
+              If the improper integral <m>\int_{c}^{\infty} f(x) \, dx</m> converges,
+              then the series <m>\sum_{k=1}^{\infty} a_k</m> converges.
+            </p>
+          </li>
+
+          <li permid="MnJ">
+            <p permid="pAm">
+              If the improper integral <m>\int_{c}^{\infty} f(x) \, dx</m> diverges,
+              then the series <m>\sum_{k=1}^{\infty} a_k</m> diverges.
+            </p>
+          </li>
+        </ol>
+      </p>
+    </assemblage>
+
+    <p permid="LSk">
+      The Integral Test compares a given infinite series to a natural,
+      corresponding improper integral and says that the infinite series and corresponding improper integral both have the same convergence status.
+      In the next example,
+      we apply the Integral Test to determine the convergence or divergence of a class of important series.
+    </p>
+
+<example xml:id="act-8-3-5" permid="cqO">
+  <statement>
+    <p permid="rzM">
+      The series <m>\sum \frac{1}{k^p}</m> are special series called  <term> <m>p</m>-series. </term>
+      We have already seen that the <m>p</m>-series with <m>p=1</m>
+      (the harmonic series)
+      diverges.
+      We investigate the behavior of other <m>p</m>-series in this example.
+
+      <ol label="a." permid="WXb">
+        <li permid="Dek">
+          <p permid="ETx">
+            Evaluate the improper integral <m>\int_1^{\infty} \frac{1}{x^2} \ dx</m>.
+            Does the series <m>\sum_{k=1}^{\infty} \frac{1}{k^2}</m> converge or diverge?
+            Explain.
+          </p>
+        </li>
+
+        <li permid="jlt">
+          <p permid="laG">
+            Evaluate the improper integral
+            <m>\int_1^{\infty} \frac{1}{x^p} \ dx</m> where <m>p \gt 1</m>.
+            For which values of <m>p</m> can we conclude that the series <m>\sum_{k=1}^{\infty} \frac{1}{k^p}</m> converges?
+          </p>
+        </li>
+
+        <li permid="PsC">
+          <p permid="RhP">
+            Evaluate the improper integral
+            <m>\int_1^{\infty} \frac{1}{x^p} \ dx</m> where <m>p \lt 1</m>.
+            What does this tell us about the corresponding <m>p</m>-series <m>\sum_{k=1}^{\infty} \frac{1}{k^p}</m>?
+          </p>
+        </li>
+
+        <li permid="vzL">
+          <p permid="xoY">
+            Summarize your work in this example by completing the following statement.
+          </p>
+
+          <blockquote permid="mfZ">
+            <p permid="dwh">
+              The <m>p</m>-series
+              <m>\sum_{k=1}^{\infty} \frac{1}{k^p}</m> converges if and only if <fillin />.
+            </p>
+          </blockquote>
+
+        </li>
+      </ol>
+    </p>
+  </statement>
+
+  <answer permid="ZRH">
+    <p permid="zel">
+      <ol label="a." permid="KIJ">
+        <li permid="HOd">
+          <p permid="pKz">
+            <m>\sum_{k=1}^{\infty} \frac{1}{k^2}</m> converges.
+          </p>
+        </li>
+
+        <li permid="nVm">
+          <p permid="VRI">
+            <m>\sum_{k=1}^{\infty} \frac{1}{k^p}</m> converges when <m>p \gt 1</m>.
+          </p>
+        </li>
+
+        <li permid="Ucv">
+          <p permid="BYR">
+            <m>\sum_{k=1}^{\infty} \frac{1}{k^p}</m> diverges when <m>p \lt 1</m>.
+          </p>
+        </li>
+
+        <li permid="AjE">
+
+          <blockquote permid="Sni">
+            <p permid="iga">
+              The <m>p</m>-series
+              <m>\sum_{k=1}^{\infty} \frac{1}{k^p}</m> converges if and only if <m>p \gt 1</m>.
+            </p>
+          </blockquote>
+
+        </li>
+      </ol>
+    </p>
+  </answer>
+  <solution permid="tKy">
+    <p permid="SXc">
+      <ol label="a." permid="eBA">
+        <li permid="gqN">
+          <p permid="Onj">
+            We evaluate the improper integral:
+            <md permid="XGV">
+              <mrow>\int_{1}^{\infty} \frac{1}{x^2} \ dx \amp = \lim_{t \to \infty} \int_{1}^{t} \frac{1}{x^2} \ dx</mrow>
+              <mrow>\amp = \lim_{t \to \infty} \left.  -\frac{1}{x} \right|_{1}^{t}</mrow>
+              <mrow>\amp = \lim_{t \to \infty} \left(-\frac{1}{t} + \frac{1}{1} \right)</mrow>
+              <mrow>\amp = 1</mrow>
+            </md>.
+            So the improper integral converges.
+            The Integral Test then shows that the series <m>\sum_{k=1}^{\infty} \frac{1}{k^2}</m> converges.
+          </p>
+        </li>
+
+        <li permid="MxW">
+          <p permid="uus">
+            Assume <m>p \gt 1</m>.
+            Then <m>p-1 \gt 0</m> and so <m>x^{-p+1} = \frac{1}{x^{p-1}}</m> and
+            <me permid="DOe">
+              \lim_{x \to \infty} x^{-p+1} = \lim_{x \to \infty} \frac{1}{x^{p-1}} = 0
+            </me>.
+            Thus,
+            <md permid="jVn">
+              <mrow>\int_{1}^{\infty} \frac{1}{x^p} \ dx \amp = \lim_{t \to \infty} \int_{1}^{t} \frac{1}{x^p} \ dx</mrow>
+              <mrow>\amp = \lim_{t \to \infty} \left. \frac{x^{-p+1}}{-p+1} \right|_{1}^{t}</mrow>
+              <mrow>\amp = \frac{1}{1-p} \lim_{t \to \infty} \left(t^{-p+1} -  1 \right)</mrow>
+              <mrow>\amp = \frac{1}{p-1}</mrow>
+            </md>.
+            So the improper integral
+            <m>\int_1^{\infty} \frac{1}{x^p} \ dx</m> converges when <m>p \gt 1</m>.
+            The Integral Test then shows that the series
+            <m>\sum_{k=1}^{\infty} \frac{1}{k^p}</m> converges when <m>p \gt 1</m>.
+          </p>
+        </li>
+
+        <li permid="sFf">
+          <p permid="aBB">
+            Assume <m>p \lt  1</m>.
+            Then <m>1-p \gt 0</m> and so
+            <me permid="Qcw">
+              \lim_{x \to \infty} x^{-p+1} = \infty
+            </me>.
+            Thus,
+            <md permid="wjF">
+              <mrow>\int_{1}^{\infty} \frac{1}{x^p} \ dx \amp = \lim_{t \to \infty} \int_{1}^{t} \frac{1}{x^p} \ dx</mrow>
+              <mrow>\amp = \lim_{t \to \infty} \left. \frac{x^{-p+1}}{-p+1} \right|_{1}^{t}</mrow>
+              <mrow>\amp = \frac{1}{1-p} \lim_{t \to \infty} \left(t^{-p+1} -  1 \right)</mrow>
+              <mrow>\amp = \infty</mrow>
+            </md>.
+            So the improper integral
+            <m>\int_1^{\infty} \frac{1}{x^p} \ dx</m> diverges when <m>p \lt  1</m>.
+            The Integral Test then shows that the series
+            <m>\sum_{k=1}^{\infty} \frac{1}{k^p}</m> also diverges when <m>p \lt  1</m>.
+          </p>
+        </li>
+
+        <li permid="YMo">
+          <p permid="GIK">
+            We complete the statement as
+          </p>
+
+          <blockquote permid="yur">
+            <p permid="mPT">
+              The <m>p</m>-series
+              <m>\sum_{k=1}^{\infty} \frac{1}{k^p}</m> converges if and only if <m>p \gt 1</m>.
+            </p>
+          </blockquote>
+
+        </li>
+      </ol>
+    </p>
+  </solution>
+</example>
+
+
+<assemblage>
+<title>  <m> p </m> -Series </title>
+<p>
+Series of the form <m>\sum \frac{1}{k^p}</m> are called <term> <m>p </m> -series </term>. The harmonic series <m>\sum \frac{1}{k}</m> is the special case when <m> p =1</m>.
+</p>
+<p>
+ The <m>p</m>-series
+              <m>\sum_{k=1}^{\infty} \frac{1}{k^p}</m> converges for <m>p \gt 1</m>, and diverges for <m> p \leq 1 </m>. </p>
+             
+</assemblage>
+
+
+  </subsection>
+  
+	<subsection>
+		<title>The Direct Comparison Test</title>
+		<p permid="YgC">
+			The Integral Test allows us to determine the convergence of an entire family of series: the <m>p</m>-series.
+			However, we have seen that it is often difficult to integrate functions,
+			so the Integral Test is not one that we can use all of the time.
+			In fact, even for a relatively simple series such as <m>\sum \frac{k^2+1}{k^4+2k+2}</m>, the Integral Test is not an option.
+			In what follows we develop a test that applies to series of rational functions by comparing their behavior to that of other series whose convergence behavior we know.
+		</p>
+	
+		<assemblage permid="QnI">
+			<title>The Direct Comparison Test</title>
+			<p permid="QCd">
+			Suppose that <m> 0 \leq a_n \leq b_n </m> for all <m>n</m> beyond a certain value.
+				<ul>
+					<li> <p> If <m> \sum b_n </m> converges, then <m> \sum a_n </m> converges. </p> </li>
+					<li> <p> If <m> \sum a_n </m> diverges, then <m> \sum b_n </m> diverges. </p></li>
+				</ul>
+			</p>
+		</assemblage>
+		
+		<p> The idea behind the Direct Comparison Test is very intuitive. If a series <m>\sum a_n</m> has terms that are all (beyond a certain <m>n</m>) 
+		smaller than the corresponding terms in a series <m>\sum b_n</m> that we know converges, then the unknown series <m> \sum a_n </m> must also
+		converge, because it is "smaller" than something finite. Thus, we can use the first bullet point above to prove that a series
+		<m> \left( \sum a_n \right)</m> converges.
+		</p>
+		
+		<p>
+		On the other hand, if a series <m> \sum b_n </m> has terms that are all (beyond a certain <m> n</m>) larger than the corresponding terms in
+		a series <m> \sum a_n </m> that we know diverges, then the series <m> \sum b_n </m> must also diverge, because it is "larger" than something infinite.
+		Thus, we can use the second bullet point to prove that a series <m>\left(\sum b_n \right)</m> diverges.
+		</p>
+		
+		<example>
+			<statement>
+				<p>
+					<ol label="a.">
+						<li>
+							<p> Consider the series <me> \sum_{n=1}^\infty \frac{n-2}{n^4+1}.</me> Since the convergence or divergence of a series only depends
+							on the behavior of the series for large values of <m>n </m>, we might examine the terms of this series more closely as 
+							<m>n</m> gets large. By computing the value of <m> \frac{n-2}{n^4+1} </m> for <m> n=100 </m> and <m> n=1000</m>, explain why the terms
+							<m> \frac{n-2}{n^4+1} </m> are essentially <m> \frac{n}{n^4} </m> when <m>n</m> is large.
+							</p>
+						</li>
+						<li>
+							<p> This gives us the sense that the series <m> \sum \frac{n-2}{n^4+1} </m> should behave the same way that <m> \sum \frac{n}{n^4} = \sum \frac{1}{n^3}</m> behaves.
+								Does <m>\sum \frac{1}{n^3} </m> converge or diverge? Why?
+							</p>
+						</li>
+						<li>
+							<p> Show that for all <m> n\geq 2</m>, <m> 0 \leq \frac{n-2}{n^4+1} \leq \frac{n}{n^4} = \frac{1}{n^3}.</m> You can then use the direct comparison test to 
+							argue that <me> \sum_{n=1}^\infty \frac{n-2}{n^4+1} </me> converges.
+							</p>
+						</li>							
+						<li><p> Use a similar method to the parts above to determine whether <me>\sum_{n=1}^\infty \frac{3n+2}{4n^2-3} </me> converges or diverges.</p></li>
+					</ol>
+				</p>
+			</statement>
+			
+			<solution> 
+				<p>
+					<ol label="a.">
+						<li> <p> When <m>n</m> is very large, the constant 2 in the numerator is negligible when compared to <m>n</m>, and the constant 1
+						in the denominator is negligible when compared to <m>n^4</m>. So for large <m>n</m>, the numerator looks like <m>n</m> and the denominator looks
+						like <m> n^4</m>. Thus, the fraction <m> \frac{n-2}{n^4+1}</m> looks like <m> \frac{n}{n^4}</m> for large <m>n</m>. </p>
+						</li>
+						<li> <p> We know that <m> \sum \frac{1}{n^3} </m> is a <m>p</m>-series with <m>p=3</m>, so it is a convergent series. Thus, we expect that <m> \sum \frac{n-2}{n^4+1} </m> will converge too.
+							</p>
+						</li>
+						<li><p> Since we expect <m> \sum \frac{n-2}{n^4+1}</m> to converge, we'll want to use the first bullet point from the test, so we need to complete the inequality
+							<me> 0 \leq \frac{n-2}{n^4+1} \leq \cdots </me> 
+							until we get to a series we know converges. Since a fraction increases if we make the numerator larger or if we make the denominator smaller,
+							we can do the following:
+							<me> 0 \leq \frac{n-2}{n^4+1} \leq \frac{n}{n^4+1} \leq \frac{n}{n^4} = \frac{1}{n^3} </me>
+							for all <m> n \geq 1 </m>. Now since <m> \sum \frac{1}{n^3} </m> converges, then <m> \sum \frac{n-2}{n^4+1} </m> also converges by the Direct Comparison Test.
+							</p>
+						</li>
+						<li><p> We similarly first get a feel for what we expect the series to do. For very large <m> n</m>, <m> \frac{3n+2}{4n^2-3}</m> behaves like <m> \frac{3n}{4n^2} = \frac{3}{4n} = \frac{3}{4} \cdot \frac{1}{n}</m>.
+						Since <m> \sum \frac{1}{n} </m> diverges, then <m>\sum \frac{3}{4n} </m> also diverges, so we expect <m>\sum \frac{3n+2}{4n^2-3} </m> to diverge as well.</p>
+						<p> Thus, this time we'll use the second bullet point and build the inequality
+						<me> \frac{3n+2}{4n^2-3}  \geq \cdots \geq 0 </me>
+						where the middle is filled in with a series whose convergence behavior we know. To make a fraction smaller, we should decrease the numerator and increase the denominator.
+						So we can do
+						<me> \frac{3n+2}{4n^2-3} \geq \frac{3n}{4n^2-3} \geq \frac{3n}{4n^2} = \frac{3}{4n} \geq 0. </me>
+						Now since <m> \sum \frac{3}{4n} </m> diverges, then <m>\sum \frac{3n+2}{4n^2-3}</m> also diverges by the Direct Comparison Test.</p>
+						</li>
+					</ol>
+				</p>
+			</solution>
+			
+		</example>
+		<p> In order to use the direct comparison test, we have to be able to set up the inequalities requried by the test, which can sometimes be difficult. The following example illustrates this.</p>
+		
+		<example>
+			<statement>
+				<p> Consider the series <m> \sum \frac{k+1}{k^3+2}</m>. </p>
+				<ol label="a.">
+					<li> <p> For large <m>k</m>, what <m>p</m>-series does <m>\sum \frac{k+1}{k^3+2}</m> behave like? Using this, do you expect
+							<m> \sum \frac{k+1}{k^3+2}</m> to converge or diverge?</p>
+					</li>
+					<li> <p> Set up an inequality to apply the direct comparison test to prove that the series converges or diverges. What makes this challenging? </p>
+					</li>	
+				</ol>
+			</statement>
+			
+			<solution>
+				<ol label = "a.">
+					<li> <p> For large <m>k</m>, <m> \frac{k+1}{k^3+2} </m> behaves like <m>\frac{k}{k^3} = \frac{1}{k^2}</m>. Since <m> \sum \frac{1}{k^2}</m>
+					is a <m>p</m>-series with <m>p=2</m>, then <m>\sum \frac{1}{k^2}</m> converges, so we expect <m>\frac{k+1}{k^3+2}</m> to converge as well. </p>
+					</li>
+					<li> <p> We need to find a series whose <m>k</m>th term is larger than <m>\frac{k+1}{k^3+2}</m>. We can begin as in the previous example with:
+						<me> 0 \leq \frac{k+1}{k^3+2} \leq \frac{k+1}{k^3} </me> for all <m>k \geq 1</m>. However, <m>\frac{k}{k^3}</m> is smaller than <m>\frac{k+1}{k^3}</m>,
+						not larger. Thus, we have to make more of an effort to find a useful inequality. For example:
+						<me> 0 \leq \frac{k+1}{k^3+2} \leq \frac{k+1}{k^3} \leq \frac{k+k}{k^3} = \frac{2k}{k^3} </me>. This works because in the numerator, <m> k+1 \leq k+k</m> for <m> k\geq 1</m>.
+						Now <m>\frac{2k}{k^3}=2\left(\frac{1}{k^2}\right)</m>, which yields a convergent <m>p</m>-series. Therefore, by the direct comparison test,
+						<m> \sum\frac{k+1}{k^3+2} </m> also converges. </p>
+					</li>
+				</ol>
+			</solution>
+		</example>
+	
+	</subsection>
+	
+	
+
+
+  <subsection permid="LDP">
+    <title>The Limit Comparison Test</title>
+    <idx><h>limit comparison test</h></idx>
+
+<p>The limit comparison test is another test that can be used to determine series convergence and works in many of the same situations that
+the direct comparison test is used. However, the limit comparison test does not require any inequalities between the series you are comparing,
+so in some cases it can be easier to use than the direct comparison test. </p>
+
+
+<example xml:id="act-8-3-6" permid="daI">
+  <statement>
+    <p permid="kFh">
+      Once again, consider the series <m>\sum \frac{k+1}{k^3+2}</m>.
+      
+      <ol label="a." permid="toZ">
+
+        <li permid="FDr">
+          <p permid="OXd"> 
+			Recall that for large <m>k</m>, <m>\frac{k+1}{k^3+2}</m> looks like <m>\frac{k}{k^3}</m>.
+            Let's formalize this observation a bit more.
+            Let <m>a_k =  \frac{k+1}{k^3+2}</m> and <m>b_k =  \frac{k}{k^3}</m>.
+            Calculate
+            <me permid="QMq">
+              \lim_{k \to \infty} \frac{a_k}{b_k}
+            </me>.
+            What does the value of the limit tell you about <m>a_k</m> and <m>b_k</m> for large values of <m>k</m>?
+            Compare your response from part (a).
+          </p>
+        </li>
+
+        <li permid="lKA">
+          <p permid="vem">
+            What do you think that this tells us about the convergence or divergence of the series <m>\sum \frac{k+1}{k^3+2}</m>, based on the convergence of <m>\sum \frac{k}{k^3}</m>?
+            Explain.
+          </p>
+        </li>
+      </ol>
+    </p>
+  </statement>
+  
+  <answer permid="oFg">
+	<p><ol label="a.">
+        <li permid="egb">
+          <p permid="nzN">
+            <m>
+            \lim_{k \to \infty} \frac{a_k}{b_k} = 1
+            </m>
+            so <m>a_k \approx b_k</m> for large values of <m>k</m>.
+          </p>
+        </li>
+
+        <li permid="Knk">
+          <p permid="TGW">
+            <m>\sum \frac{k+1}{k^3+2}</m> converges.
+          </p>
+        </li>
+      </ol>
+    </p>
+  </answer>
+  <solution permid="IxX">
+    <p permid="sjG">
+      <ol label="a." permid="ATy">
+
+        <li permid="WBC">
+          <p permid="fVo">
+            Note that
+            <md permid="wTz">
+              <mrow>\lim_{k \to \infty} \frac{a_k}{b_k} \amp = \lim_{k \to \infty} \frac{ \frac{k+1}{k^3+2} }{ \frac{k}{k^3} }</mrow>
+              <mrow>\amp = \lim_{k \to \infty} \frac{(k+1)k^3}{k(k^3+2)}</mrow>
+              <mrow>\amp = \lim_{k \to \infty} \frac{1+\frac{1}{k}}{1+\frac{2}{k}}</mrow>
+              <mrow>\amp = 1</mrow>
+            </md>.
+            This tells us that <m>a_k \approx b_k</m> for large values of <m>k</m>, formally (before, we were only building intuition and hadn't proved this).
+          </p>
+        </li>
+
+        <li permid="CIL">
+          <p permid="Mcx">
+            Since <m>\frac{k}{k^3} = \frac{1}{k^2}</m>,
+            the series <m>\sum \frac{k}{k^3}</m> is a <m>p</m>-series with <m>p=2</m> and so converges.
+            Since <m>a_k \approx b_k</m> for large values of <m>k</m>,
+            it seems reasonable to expect that <m>\sum a_k \approx \sum b_k</m>.
+            Since <m>\sum a_k</m> is finite,
+            we should then conclude that <m>\sum b_k</m> is also finite.
+            So <m>\sum \frac{k+1}{k^3+2}</m> should be a convergent series.
+          </p>
+        </li>
+      </ol>
+    </p>
+  </solution>
+</example>
+
+    <p permid="EnL">
+      <xref ref="act-8-3-6">Example</xref>
+      illustrates how we can compare one series with positive terms to another whose 
+      convergence status we know.
+      Suppose we have two series <m>\sum a_k</m> and
+      <m>\sum b_k</m> with positive terms and we know the convergence status of the series <m>\sum a_k</m>.
+      Recall that the convergence or divergence of a series depends only on the terms of the series for large values of <m>k</m>,
+      so if we know that <m>a_k</m> and <m>b_k</m> are proportional for large <m>k</m>,
+      then the two series <m>\sum a_k</m> and
+      <m>\sum b_k</m> should behave the same way.
+      In other words,
+      if there is a positive finite constant <m>c</m> such that
+      <me permid="EXF">
+        \lim_{k \to \infty} \frac{b_k}{a_k} = c
+      </me>,
+      then <m>b_k \approx ca_k</m> for large values of <m>k</m>.
+      So
+      <me permid="leO">
+        \sum b_k \approx \sum ca_k = c  \sum a_k
+      </me>.
+    </p>
+
+    <p permid="kuU">
+      Since multiplying by a nonzero constant does not affect the convergence or divergence of a series,
+      it follows that the series <m>\sum a_k</m> and
+      <m>\sum b_k</m> either both converge or both diverge.
+      The formal statement of this fact is called the Limit Comparison Test.
+    </p>
+
+    <assemblage permid="QnI">
+      <title>The Limit Comparison Test</title>
+      <p permid="QCd">
+        Let <m>\sum a_k</m> and <m>\sum b_k</m> be series with positive terms.
+        If
+        <me permid="RlX">
+          \lim_{k \to \infty} \frac{b_k}{a_k} = c
+        </me>
+        for some positive (finite) constant <m>c</m>,
+        then <m>\sum a_k</m> and <m>\sum b_k</m> either both converge or both diverge.
+      </p>
+    </assemblage>
+
+    <p permid="wJm">
+      The Limit Comparison Test shows that if we have a series
+      <m>\sum \frac{p(k)}{q(k)}</m> of rational functions where <m>p(k)</m> is a polynomial of degree <m>m</m> and <m>q(k)</m> a polynomial of degree <m>l</m>,
+      then the series <m>\sum \frac{p(k)}{q(k)}</m> will behave like the series <m>\sum \frac{k^m}{k^l}</m>.
+      So this test allows us to determine the convergence or divergence of series whose terms are rational functions.
+    </p>
+
+<example xml:id="act-8-3-7" permid="KXe">
+  <statement>
+    <p permid="SBD">
+      Use the Limit Comparison Test to determine the convergence or divergence of the series
+      <me permid="yIM">
+        \sum \frac{3k^2+1}{5k^4+2k+2}
+      </me>.
+      by comparing it to the series <m>\sum \frac{1}{k^2}</m>.
+    </p>
+  </statement>
+ 
+  <answer permid="ppa">
+    <p permid="Gnl">
+      <m>\sum \frac{k^2+1}{k^4+2k+2}</m> converges.
+    </p>
+  </answer>
+  <solution permid="JhR">
+    <p permid="tYT">
+      Let <m>b_k = \frac{k^2+1}{k^4+2k+2}</m> and <m>a_k = \frac{1}{k^2}</m>.
+      Then
+      <md permid="ePV">
+        <mrow>\lim_{k \to \infty} \frac{b_k}{a_k} \amp = \lim_{k \to \infty} \frac{\frac{k^2+1}{k^4+2k+2}}{\frac{1}{k^2}}</mrow>
+        <mrow>\amp = \lim_{k \to \infty} \frac{k^4+k^2}{k^4+2k+2}</mrow>
+        <mrow>\amp = \lim_{k \to \infty} \frac{1+\frac{1}{k^2}}{1+\frac{2}{k^3}+\frac{2}{k^4}}</mrow>
+        <mrow>\amp = 1</mrow>
+      </md>.
+    </p>
+
+    <p permid="agc">
+      Since <m>\lim_{k \to \infty} \frac{b_k}{a_k}</m> is a finite positive constant,
+      the Limit Comparison Test shows that <m>\sum \frac{1}{k^2}</m> and
+      <m>\sum \frac{k^2+1}{k^4+2k+2}</m> either both converge or both diverge.
+      We know that <m>\sum \frac{1}{k^2}</m> is a <m>p</m>-series with <m>p > 1</m> and so <m>\sum \frac{1}{k^2}</m> converges.
+      Therefore, the series <m>\sum \frac{k^2+1}{k^4+2k+2}</m> also converges.
+    </p>
+  </solution>
+</example>
+  </subsection>
+
+  <subsection permid="rKY">
+    <title>The Ratio Test</title>
+    <idx><h>ratio test</h></idx>
+
+    <p permid="cQv">
+      The Limit Comparison Test works well if we can find a series with known behavior to compare.
+      But such series are not always easy to find.
+      Below, we will examine a test that allows us to consider the behavior of a series by comparing it to a geometric series,
+      without knowing in advance which geometric series we need.
+    </p>
+
+<example xml:id="act-8-3-8" permid="LGY">
+  <statement>
+    <p permid="iuv">
+      Consider the series defined by
+      <men xml:id="eq-8-3-ratio-example" permid="uIN">
+        \sum_{k=1}^{\infty} \frac{2^k}{3^k-k}
+      </men>.
+    </p>
+
+    <p permid="OBE">
+      This series is not a geometric series,
+      but this example will illustrate how we might compare this series to a geometric one.
+      Recall that a series <m>\sum a_k</m> is geometric if the ratio <m>\frac{a_{k+1}}{a_k}</m> is always the same.
+      For the series in <xref ref="eq-8-3-ratio-example" />, note that <m>a_k = \frac{2^k}{3^k-k}</m>.
+
+      <ol label="a." permid="PGX">
+        <li permid="vOg">
+          <p permid="ZaJ">
+            To see if <m>\sum \frac{2^k}{3^k-k}</m> is comparable to a geometric series,
+            we analyze the ratios of successive terms in the series.
+            Complete <xref ref="T-8-3-3-ratio-test">Table</xref>,
+            listing your calculations to at least 8 decimal places.
+          </p>
+
+          <table xml:id="T-8-3-3-ratio-test" permid="GXf">
+            <caption>Ratios of successive terms in the series <m>\sum \frac{2^k}{3^k-k}</m></caption>
+            <tabular top="minor" bottom="minor" permid="neo">
+              <row>
+                <cell><m>k</m></cell>
+                <cell><m>5</m></cell>
+                <cell><m>10</m></cell>
+                <cell><m>20</m></cell>
+                <cell><m>21</m></cell>
+                <cell><m>22</m></cell>
+                <cell><m>23</m></cell>
+                <cell><m>24</m></cell>
+                <cell><m>25</m></cell>
+              </row>
+              <row>
+                <cell><m>\dfrac{a_{k+1}}{a_k}</m></cell>
+                <cell></cell>
+                <cell></cell>
+                <cell></cell>
+                <cell></cell>
+                <cell></cell>
+                <cell></cell>
+                <cell></cell>
+                <cell></cell>
+              </row>
+            </tabular>
+
+          </table>
+
+        </li>
+
+        <li permid="bVp">
+          <p permid="FhS">
+            Based on your calculations in <xref ref="T-8-3-3-ratio-test">Table</xref>,
+            what can we say about the ratio
+            <m>\frac{a_{k+1}}{a_k}</m> if <m>k</m> is large?
+          </p>
+        </li>
+
+        <li permid="Icy">
+          <p permid="lpb">
+            Do you agree or disagree with the statement:
+            <q>the series <m>\sum \frac{2^k}{3^k-k}</m> is approximately geometric when <m>k</m> is large</q>?
+            If not, why not?
+            If so, do you think the series
+            <m>\sum \frac{2^k}{3^k-k}</m> converges or diverges?
+            Explain.
+          </p>
+        </li>
+      </ol>
+    </p>
+  </statement>
+  <answer permid="Xlw">
+    <p permid="Cnm">
+      <ol label="a." permid="jzO">
+        <li permid="ojH">
+
+          <sidebyside permid="zsG">
+
+            <tabular top="minor" bottom="minor" permid="aPW">
+              <row>
+                <cell><m>k</m></cell>
+                <cell><m>5</m></cell>
+                <cell><m>10</m></cell>
+                <cell><m>20</m></cell>
+                <cell><m>21</m></cell>
+                <cell><m>22</m></cell>
+                <cell><m>23</m></cell>
+                <cell><m>24</m></cell>
+                <cell><m>25</m></cell>
+              </row>
+              <row>
+                <cell><m>\dfrac{a_{k+1}}{a_k}</m></cell>
+                <cell>0.6583679115</cell>
+                <cell>0.6665951585</cell>
+                <cell>0.6666666642</cell>
+                <cell>0.6666666658</cell>
+                <cell>0.6666666664</cell>
+                <cell>0.6666666666</cell>
+                <cell>0.6666666666</cell>
+                <cell>0.6666666667</cell>
+              </row>
+            </tabular>
+
+          </sidebyside>
+
+        </li>
+
+        <li permid="UqQ">
+          <p permid="Rwk">
+            <m>\frac{a_{k+1}}{a_k} \approx \frac{2}{3}</m> when <m>k</m> is large.
+          </p>
+        </li>
+
+        <li permid="AxZ">
+          <p permid="xDt">
+            <m>\sum \frac{2^k}{3^k-k}</m> converges.
+          </p>
+        </li>
+      </ol>
+    </p>
+  </answer>
+  <solution permid="ren">
+    <p permid="Wgd">
+      <ol label="a." permid="DsF">
+        <li permid="gFi">
+          <p permid="dKC">
+            Ratios of successive summands in the series are shown (to 10 decimal places) in the following table.
+          </p>
+
+          <sidebyside permid="fzP">
+
+            <tabular top="minor" bottom="minor" permid="Tlx">
+              <row>
+                <cell><m>k</m></cell>
+                <cell><m>5</m></cell>
+                <cell><m>10</m></cell>
+                <cell><m>20</m></cell>
+                <cell><m>21</m></cell>
+                <cell><m>22</m></cell>
+                <cell><m>23</m></cell>
+                <cell><m>24</m></cell>
+                <cell><m>25</m></cell>
+              </row>
+              <row>
+                <cell><m>\dfrac{a_{k+1}}{a_k}</m></cell>
+                <cell>0.6583679115</cell>
+                <cell>0.6665951585</cell>
+                <cell>0.6666666642</cell>
+                <cell>0.6666666658</cell>
+                <cell>0.6666666664</cell>
+                <cell>0.6666666666</cell>
+                <cell>0.6666666666</cell>
+                <cell>0.6666666667</cell>
+              </row>
+            </tabular>
+
+          </sidebyside>
+
+        </li>
+
+        <li permid="MMr">
+          <p permid="JRL">
+            The calculations in the table in part (a) seem to indicate that the ratio <m>\frac{a_{k+1}}{a_k}</m> is roughly
+            <m>\frac{2}{3}</m> when <m>k</m> is large.
+          </p>
+        </li>
+
+        <li permid="sTA">
+          <p permid="pYU">
+            Since <m>\frac{a_{k+1}}{a_k} \approx \frac{2}{3}</m> for large <m>k</m>,
+            the series <m>\sum \frac{2^k}{3^k-k}</m> is approximately the same as
+            <m>\sum \left(\frac{2}{3}\right)^k</m> when <m>k</m> is large.
+            So the series <m>\sum \frac{2^k}{3^k-k}</m> is approximately geometric with ratio
+            <m>\frac{2}{3}</m> when <m>k</m> is large.
+            Since the series <m>\sum \left(\frac{2}{3}\right)^k</m> converges because the ratio is less than 1, we expect that the series <m>\sum \frac{2^k}{3^k-k}</m> will also converge.
+          </p>
+        </li>
+      </ol>
+    </p>
+  </solution>
+</example>
+
+    <p permid="IXE">
+      We can generalize the argument in <xref ref="act-8-3-8">Example</xref> in the following way.
+      Consider the series <m>\sum a_k</m>.
+      If
+      <me permid="xtg">
+        \frac{a_{k+1}}{a_k} \approx r
+      </me>
+      for large values of <m>k</m>,
+      then <m>a_{k+1} \approx ra_k</m> for large <m>k</m> and the series
+      <m>\sum a_k</m> is approximately the geometric series <m>\sum ar^k</m> for large <m>k</m>.
+      Since the geometric series with ratio <m>r</m> converges only for <m>-1 \lt   r \lt  1</m>,
+      we see that the series <m>\sum a_k</m> will converge if
+      <me permid="dAp">
+        \lim_{k \to \infty} \frac{a_{k+1}}{a_k} = r
+      </me>
+      for a value of <m>r</m> such that <m>|r| \lt  1</m>.
+      This result is known as the Ratio Test.
+    </p>
+
+    <assemblage permid="wuR">
+      <title>The Ratio Test</title>
+      <p permid="peN">
+        Let <m>\sum a_k</m> be an infinite series.
+        Suppose
+        <me permid="JHy">
+          \lim_{k \to \infty} \frac{|a_{k+1}|}{|a_k|} = r
+        </me>.
+        <ol label="a." permid="ScV">
+          <li permid="suS">
+            <p permid="VHv">
+              If <m>0 \leq r \lt 1</m>,
+              then the series <m>\sum a_k</m> converges.
+            </p>
+          </li>
+
+          <li permid="YCb">
+            <p permid="BOE">
+              If <m>1 \lt r</m>, then the series <m>\sum a_k</m> diverges.
+            </p>
+          </li>
+
+          <li permid="EJk">
+            <p permid="hVN">
+              If <m>r = 1</m>, then the test is inconclusive.
+            </p>
+          </li>
+        </ol>
+      </p>
+    </assemblage>
+
+    <p permid="VlW">
+      <em>Note well:</em> The Ratio Test looks at the limit of the ratio of consecutive terms
+      of a given series;
+      in so doing, the test is asking,
+      <q>is this series approximately geometric?</q>
+      If so,
+      the test uses the limit of the ratio of consecutive terms to determine if the given series converges.
+    </p>
+
+    <p permid="Btf">
+      We have now encountered several tests for determining convergence or divergence of series.
+
+      <ul permid="lVM">
+        <li permid="CTX">
+          The Divergence Test can be used to show that a series diverges,
+          but never to prove that a series converges.
+        </li>
+
+        <li permid="jbg">
+          We used the Integral Test to determine the convergence status of an entire class of series,
+          the <m>p</m>-series. More generally, the Integral Test may be applied whenever the series terms correspond to a function that is positive and decreasing and whose convergence behavior when integrated is known.        </li>
+
+        <li permid="Pip">
+          The Direct Comparison Test and Limit Comparison Test work well for series that involve rational functions and which can therefore be compared to <m>p</m>-series and other series whose convergence behavior we know.
+        </li>
+
+        <li permid="vpy">
+          Finally, the Ratio Test allows us to compare our series to a geometric series;
+          it is particularly useful for series that involve <m>n</m>th powers and factorials.
+        </li>
+
+        <li permid="bwH">
+          Another test, called the Root Test,
+          is discussed in the exercises.
+        </li>
+      </ul>
+
+      One of the challenges of determining whether a series converges or diverges is finding which test answers that question.
+    </p>
+
+<example xml:id="act-8-3-9" permid="BRN">
+  <statement>
+    <p permid="kTC">
+      Determine whether each of the following series converges or diverges.
+      Explicitly state which test you use.
+
+      <ol label="a." cols="2" permid="cFj">
+        <li permid="IMs">
+          <p permid="KBF">
+            <m>\sum \frac{k}{2^k}</m>
+          </p>
+        </li>
+
+        <li permid="oTB">
+          <p permid="qIO">
+            <m>\sum \frac{k^3+2}{k^2+1}</m>
+          </p>
+        </li>
+
+        <li permid="VaK">
+          <p permid="WPX">
+            <m>\sum \frac{10^k}{k!}</m>
+          </p>
+        </li>
+
+        <li permid="BhT">
+          <p permid="CXg">
+            <m>\sum \frac{k^3-2k^2+1}{k^6+4}</m>
+          </p>
+        </li>
+      </ol>
+    </p>
+  </statement>
+
+  <answer permid="XVq">
+    <p permid="YFk">
+      <ol label="a." permid="QqR">
+        <li permid="Nwl">
+          <p permid="Ply">
+            <m>
+            \sum \frac{k}{2^k}
+            </m>
+            converges.
+          </p>
+        </li>
+
+        <li permid="tDu">
+          <p permid="vsH">
+            <m>\sum \frac{k^3+2}{k^2+1}</m> diverges.
+          </p>
+        </li>
+
+        <li permid="ZKD">
+          <p permid="bzQ">
+            <m>\sum \frac{10^k}{k!}</m> converges.
+          </p>
+        </li>
+
+        <li permid="FRM">
+          <p permid="HGZ">
+            <m>\sum \frac{k^3-2k^2+1}{k^6+4}</m> converges.
+          </p>
+        </li>
+      </ol>
+    </p>
+  </answer>
+  <solution permid="rOh">
+    <p permid="syb">
+      <ol label="a." permid="kjI">
+        <li permid="lYV">
+          <p permid="nOi">
+            Since <m>\lim_{n \to \infty} \frac{n}{2^n} = 0</m>,
+            the Divergence Test does not apply.
+            The Ratio Test is a good one to apply with series whose terms involve exponentials and polynomials.
+          </p>
+
+          <p permid="TVr">
+            In this example we have
+            <m>a_{n+1} = \frac{n+1}{2^{n+1}}</m> and <m>a_n = \frac{n}{2^n}</m>.
+            So
+            <me permid="RaL">
+              \frac{a_{n+1}}{a_n} = \frac{\frac{n+1}{2^{n+1}}}{\frac{n}{2^n}} = \frac{n+1}{2n}
+            </me>.
+            As <m>n</m> goes to infinity,
+            the fraction <m>\frac{n+1}{n}</m> goes to 1 and so
+            <me permid="xhU">
+              \lim_{n \to \infty} \frac{n+1}{2n} = \frac{1}{2}
+            </me>.
+            So in this example,
+            for large <m>n</m> we have that <m>\frac{a_{n+1}}{a_n} \approx \frac{1}{2}</m> or that
+            <m>\sum a_n</m> is roughly a geometric series for large <m>n</m> with ratio <m>\frac{1}{2}</m>.
+            Since geometric series with ratio
+            <m>\frac{1}{2}</m> converges, we can conclude that
+            <me permid="dpd">
+              \sum \frac{n}{2^n}
+            </me>
+            converges as well.
+          </p>
+        </li>
+
+        <li permid="Sge">
+          <p permid="AcA">
+            For this series,
+            notice that the degree of the numerator is greater than the degree of the denominator, so
+            <me permid="Jwm">
+              \lim_{n \to \infty} \frac{n^3+2}{n^2+1} = \infty
+            </me>.
+            Since this limit is not 0, the Divergence Test shows that <m>\sum \frac{k^3+2}{k^2+1}</m> diverges.
+          </p>
+        </li>
+
+        <li permid="ynn">
+          <p permid="gjJ">
+            We use the Ratio Test here with <m>a_k = \frac{10^k}{k!}</m>.
+            Now
+            <md permid="pDv">
+              <mrow>\lim_{k \to \infty} \frac{a_{k+1}}{a_k} \amp = \lim_{k \to \infty} \frac{ \frac{10^{k+1}}{(k+1)!} }{ \frac{10^k}{k!} }</mrow>
+              <mrow>\amp = \lim_{k \to \infty} \frac{10^{k+1}(k!)}{10^k(k+1)!}</mrow>
+              <mrow>\amp = \lim_{k \to \infty} \frac{10}{k+1}</mrow>
+              <mrow>\amp = 0</mrow>
+            </md>,
+            so the Ratio Test shows that <m>\sum \frac{10^k}{k!}</m> converges.
+          </p>
+        </li>
+
+        <li permid="euw">
+          <p permid="MqS">
+            If we ignore the highest powered terms,
+            then the series <m>\sum \frac{k^3-2k^2+1}{k^6+4}</m> looks like the series <m>\sum \frac{k^3}{k^6} = \sum \frac{1}{k^3}</m>.
+            We formally apply the Limit Comparison Test as follows:
+            <md permid="VKE">
+              <mrow>\lim_{k \to \infty} \frac{ \frac{k^3-2k^2+1}{k^6+4} }{  \frac{1}{k^3} } \amp = \lim_{k \to \infty} \frac{k^6-2k^5+k^3}{k^6+4}</mrow>
+              <mrow>\amp = \lim_{k \to \infty} \frac{1 - \frac{2}{k} + \frac{1}{k^3}}{1 + \frac{4}{k^6}}</mrow>
+              <mrow>\amp  1</mrow>
+            </md>.
+            Since <m>\sum \frac{1}{k^3}</m> is a <m>p</m>-series with <m>p=3 \gt 1</m>,
+            the series <m>\sum \frac{1}{k^3}</m> converges.
+            Consequently,
+            the Limit Comparison Test shows that <m>\sum \frac{k^3-2k^2+1}{k^6+4}</m> converges as well.
+          </p>
+        </li>
+      </ol>
+    </p>
+  </solution>
+</example>
+  </subsection>
+
+  <subsection permid="XSh">
+    <title>Summary</title>
+    <p permid="hAo">
+      <ul permid="yke">
+        <li permid="HDQ">
+          <p permid="OcW">
+            An infinite series is a sum of the elements in an infinite sequence.
+            In other words, an infinite series is a sum of the form
+            <me permid="pOH">
+              a_1 + a_2 + \cdots + a_n + \cdots = \sum_{k=1}^{\infty} a_k
+            </me>
+            where <m>a_k</m> is a real number for each positive integer <m>k</m>.
+          </p>
+        </li>
+
+        <li permid="nKZ">
+          <p permid="ukf">
+            The <m>n</m>th partial sum <m>S_n</m> of the series
+            <m>\sum_{k=1}^{\infty} a_k</m> is the sum of the first <m>n</m> terms of the series.
+            That is,
+            <me permid="VVQ">
+              S_n = a_1+a_2+ \cdots + a_n = \sum_{k=1}^{n} a_k
+            </me>.
+          </p>
+        </li>
+
+        <li permid="TSi">
+          <p permid="aro">
+            The sequence <m>\{S_n\}</m> of partial sums of a series
+            <m>\sum_{k=1}^{\infty} a_k</m> tells us about the convergence or divergence of the series.
+            In particular
+
+            <ul permid="aFJ">
+              <li permid="uyA">
+                <p permid="Orr">
+                  The series <m>\sum_{k=1}^{\infty} a_k</m> converges if the sequence <m>\{S_n\}</m> of partial sums converges.
+                  In this case we say that the series is the limit of the sequence of partial sums and write
+                  <me permid="CcZ">
+                    \sum_{k=1}^{\infty} a_k =\lim_{n \to \infty} S_n
+                  </me>.
+                </p>
+              </li>
+
+              <li permid="zZr">
+                <p permid="Gyx">
+                  The series <m>\sum_{k=1}^{\infty} a_k</m> diverges if the sequence <m>\{S_n\}</m> of partial sums diverges.
+                </p>
+              </li>
+            </ul>
+          </p>
+        </li>
+      </ul>
+    </p>
+  </subsection>
+
+<exercises xmlns:xi="http://www.w3.org/2001/XInclude"> 
+
+  <exercise xml:id="ez-8-3-WW1" permid="dyl">
+    <title>Convergence of a sequence and its series</title>
+    <webwork source="Library/maCalcDB/setSeries3Convergent/ns8_2_9c.pg" />
+  </exercise>
+
+  <exercise xml:id="ez-8-3-WW2" permid="JFu">
+    <title>Two partial sums</title>
+    <webwork source="Library/maCalcDB/setSeries1Definitions/ur_sr_1_4.pg" />
+  </exercise>
+
+  <exercise xml:id="ez-8-3-WW3" permid="pMD">
+    <title>Convergence of a series and its sequence</title>
+    <webwork source="Library/maCalcDB/setSeries4Geometric/ns8_2_9.pg" />
+  </exercise>
+  <!-- Uses EV2 and incompatible with PTX -->
+  <!--
+  <exercise xml:id="ez-8-3-WW4">
+    <webwork source="Library/Rochester/setSeries5IntegralTest/ur_sr_5_11.pg" />
+  </exercise>
+  -->
+  <exercise xml:id="ez-8-3-WW5" permid="VTM">
+    <title>Convergence of an integral and a related series</title>
+    <webwork source="Library/Rochester/setSeries5IntegralTest/ur_sr_5_12.pg" />
+  </exercise>
+  <!-- Uses EV2 and incompatible with PTX -->
+  <!--
+  <exercise xml:id="ez-8-3-WW6">
+    <webwork source="Library/Rochester/setSeries6CompTests/benny_ser3.pg" />
+  </exercise>
+  -->
+  <!-- Uses EV2 and incompatible with PTX -->
+  <!--
+  <exercise xml:id="ez-8-3-WW7">
+    <webwork source="Library/Rochester/setSeries6CompTests/benny_ser4.pg" />
+  </exercise>
+  -->
+  
+  <exercise>
+	<title>Quick check of understanding for the ratio test</title>
+	<webwork source="Library/UMN/calculusStewartCCC/s_11_6_1.pg"/>
+  </exercise>
+  
+  <exercise permid="CaV">
+	<title> Convergence of a series using the ratio test</title>
+    <statement>
+      <p permid="iKU">
+        In this exercise we investigate the sequence
+        <m>\left\{\frac{b^n}{n!}\right\}</m> for any constant <m>b</m>.
+      </p>
+
+      <p permid="OSd">
+        <ol label="a." permid="Zym">
+          <li permid="qwx">
+            <p permid="zuK">
+              Use the Ratio Test to determine if the series
+              <m>\sum \frac{10^k}{k!}</m> converges or diverges.
+            </p>
+          </li>
+
+          <li permid="WDG">
+            <p permid="fBT">
+              Now apply the Ratio Test to determine if the series
+              <m>\sum \frac{b^k}{k!}</m> converges for any constant <m>b</m>.
+            </p>
+          </li>
+
+          <li permid="CKP">
+            <p permid="LJc">
+              Use your result from (b) to decide whether the sequence
+              <m>\left\{\frac{b^n}{n!}\right\}</m> converges or diverges.
+              If the sequence <m>\left\{\frac{b^n}{n!}\right\}</m> converges,
+              to what does it converge?
+              Explain your reasoning.
+            </p>
+          </li>
+        </ol>
+      </p>
+    </statement>
+    <answer permid="GKO">
+      <p permid="ebb">
+        <ol label="a." permid="oHk">
+          <li permid="iRY">
+            <p permid="rQl">
+              <m>\sum \frac{10^k}{k!}</m> converges.
+            </p>
+          </li>
+
+          <li permid="OZh">
+            <p permid="XXu">
+              <m>\sum \frac{10^k}{k!}</m> converges.
+            </p>
+          </li>
+
+          <li permid="vgq">
+            <p permid="EeD">
+              The sequence
+              <m>\left\{\frac{b^n}{n!}\right\}</m> has to converge to 0.
+            </p>
+          </li>
+        </ol>
+      </p>
+    </answer>
+    <solution permid="aDF">
+      <p permid="Fyr">
+        <ol label="a." permid="DQi">
+          <li permid="bnz">
+            <p permid="klM">
+              We use the Ratio Test with <m>a_n = \frac{10^n}{n!}</m>.
+              First we consider the ratios of successive terms:
+              <md permid="LXx">
+                <mrow>\lim_{n \to \infty} \frac{a_{n+1}}{a_n} =\mathstrut \amp  \lim_{n \to \infty} \frac{ \frac{10^{n+1}}{(n+1)!}}{ \frac{10^{n}}{(n)!} }</mrow>
+                <mrow>=\mathstrut \amp  \lim_{n \to \infty} \frac{10}{n+1}</mrow>
+                <mrow>=\mathstrut \amp  0</mrow>
+              </md>.
+            </p>
+
+            <p permid="QsV">
+              Since the limit of the ratio of successive terms is less than 1, we conclude that the series <m>\sum \frac{10^k}{k!}</m> converges.
+            </p>
+          </li>
+
+          <li permid="HuI">
+            <p permid="wAe">
+              We use the Ratio Test with <m>a_n = \frac{10^n}{n!}</m>.
+              First we consider the ratios of successive terms:
+              <md permid="seG">
+                <mrow>\lim_{n \to \infty} \frac{a_{n+1}}{a_n} =\mathstrut \amp  \lim_{n \to \infty} \frac{ \frac{10^{n+1}}{(n+1)!}}{ \frac{10^{n}}{(n)!} }</mrow>
+                <mrow>=\mathstrut \amp  \lim_{n \to \infty} \frac{10}{n+1}</mrow>
+                <mrow>=\mathstrut \amp  0</mrow>
+              </md>.
+            </p>
+
+            <p permid="cHn">
+              Since the limit of the ratio of successive terms is less than 1, we conclude that the series <m>\sum \frac{10^k}{k!}</m> converges.
+            </p>
+          </li>
+
+          <li permid="nBR">
+            <p permid="IOw">
+              Since the series <m>\sum \frac{b^n}{n!}</m> converges,
+              the Divergence Test tells us that the sequence
+              <m>\left\{\frac{b^n}{n!}\right\}</m> has to converge to 0.
+            </p>
+          </li>
+        </ol>
+      </p>
+    </solution>
+  </exercise>
+
+  <exercise xml:id="ex-8-3-Root-Test" permid="iie">
+	<title> The root test for convergence </title>
+    <statement>
+      <p permid="uZm">
+        There is a test for convergence similar to the Ratio Test called the <em>Root Test</em>.
+        Suppose we have a series <m>\sum a_k</m> of positive terms so that
+        <m>a_n \to 0</m> as <m>n \to \infty</m>.
+      </p>
+
+      <p permid="bgv">
+        <ol label="a." permid="FFv">
+          <li permid="TJa">
+            <p permid="oVF">
+              Assume
+              <me permid="YlP">
+                \sqrt[n]{a_n} \to r
+              </me>
+              as <m>n</m> goes to infinity.
+              Explain why this tells us that
+              <m>a_n \approx r^n</m> for large values of <m>n</m>.
+            </p>
+          </li>
+
+          <li permid="zQj">
+            <p permid="VcO">
+              Using the result of part (a),
+              explain why <m>\sum a_k</m> looks like a geometric series when <m>n</m> is big.
+              What is the ratio of the geometric series to which <m>\sum a_k</m> is comparable?
+            </p>
+          </li>
+
+          <li permid="fXs">
+            <p permid="BjX">
+              Use what we know about geometric series to determine that values of <m>r</m> so that <m>\sum a_k</m> converges if
+              <m>\sqrt[n]{a_n} \to r</m> as <m>n \to \infty</m>.
+            </p>
+          </li>
+        </ol>
+      </p>
+    </statement>
+    <answer permid="SZg">
+      <p permid="Kik">
+        <ol label="a." permid="UOt">
+          <li permid="MeB">
+            <p permid="hrg">
+              <m>\sqrt[n]{a_n} \approx r</m> for large <m>n</m>.
+            </p>
+          </li>
+
+          <li permid="slK">
+            <p permid="Nyp">
+              <m>\frac{a_{n+1}}{a_n} \approx r</m>.
+            </p>
+          </li>
+
+          <li permid="YsT">
+            <p permid="tFy">
+              <m>0 \lt r \lt 1</m>.
+            </p>
+          </li>
+        </ol>
+      </p>
+    </answer>
+    <solution permid="mRX">
+      <p permid="lFA">
+        <ol label="a." permid="jXr">
+          <li permid="EAc">
+            <p permid="ZMH">
+              Since <m>\sqrt[n]{a_n} \approx r</m> for large <m>n</m>,
+              it follows <m>a_n \approx r^n</m> for large <m>n</m>.
+            </p>
+          </li>
+
+          <li permid="kHl">
+            <p permid="FTQ">
+              Because <m>a_n \approx r^n</m> for large <m>n</m>,
+              this means that the series 
+              <m>\sum a_n</m> acts like the series
+              <m>\sum r^n</m> for sufficiently large <m>n</m>.
+              The latter
+              is a geometric series with ratio <m>r</m> between successive terms.
+              Said differently,
+              <m>\frac{a_{n+1}}{a_n} \approx \frac{r^{n+1}}{r^n} = r</m>.
+            </p>
+          </li>
+
+          <li permid="QOu">
+            <p permid="maZ">
+              Since the terms in our series are all positive,
+              we must have <m>r \gt 0</m>.
+              Now the geometric series with ratio <m>r</m> converges only for <m>r \lt  1</m>,so the series
+              <me permid="EsY">
+                \sum a_k
+              </me>
+              will converge if
+              <me permid="kAh">
+                \lim_{n \to \infty} \sqrt[n]{a_n} = r
+              </me>
+              with <m>0 \lt  r \lt  1</m>.
+            </p>
+          </li>
+        </ol>
+      </p>
+    </solution>
+  </exercise>
+
+  <exercise xml:id="adding-series" permid="Opn">
+	<title> Adding two series together </title>
+    <statement>
+      <p permid="HnE">
+        The associative and commutative laws of addition allow us to add finite sums in any order we want.
+        That is, if <m>\sum_{k=0}^n a_k</m> and
+        <m>\sum_{k=0}^n b_k</m> are finite sums of real numbers, then
+        <me permid="QHq">
+          \sum_{k=0}^{n} a_k + \sum_{k=0}^n b_k = \sum_{k=0}^n (a_k+b_k)
+        </me>.
+      </p>
+
+      <p permid="nuN">
+        However, we do need to be careful extending rules like this to infinite series.
+
+        <ol label="a." permid="lME">
+          <li permid="wVD">
+            <p permid="Sii">
+              Let <m>a_n =  1 + \frac{1}{2^n}</m> and
+              <m>b_n = -1</m> for each nonnegative integer <m>n</m>.
+
+              <ol label="i." permid="pTU">
+                <li permid="FcS">
+                  <p permid="UlQ">
+                    Explain why the series
+                    <m>\sum_{k=0}^{\infty} a_k</m> and <m>\sum_{k=0}^{\infty} b_k</m> both diverge.
+                  </p>
+                </li>
+
+                <li permid="dcM">
+                  <p permid="ypr">
+                    Explain why the series <m>\sum_{k=0}^{\infty} (a_k+b_k)</m> converges.
+                  </p>
+                </li>
+
+                <li permid="JjV">
+                  <p permid="ewA">
+                    Explain why
+                    <me permid="wOz">
+                      \sum_{k=0}^{\infty} a_k + \sum_{k=0}^{\infty} b_k \neq \sum_{k=0}^{\infty} (a_k+b_k)
+                    </me>.
+                    This shows that it is possible to have to two divergent series <m>\sum_{k=0}^{\infty} a_k</m> and
+                    <m>\sum_{k=0}^{\infty} b_k</m> but yet have the series <m>\sum_{k=0}^{\infty} (a_k+b_k)</m> converge.
+                  </p>
+                </li>
+              </ol>
+            </p>
+          </li>
+
+          <li permid="GZj">
+            <p permid="KDJ">
+              While part (a) shows that we cannot add series term by term in general,
+              we can under reasonable conditions.
+              The problem in part (a) is that we tried to add divergent series.
+              In this exercise we will show that if <m>\sum a_k</m> and
+              <m>\sum b_k</m> are convergent series,
+              then <m>\sum (a_k+b_k)</m> is a convergent series and
+              <me permid="cVI">
+                \sum (a_k+b_k) = \sum a_k + \sum b_k
+              </me>.
+              <ol label="i." permid="RTN">
+                <li permid="pre">
+                  <p permid="UHp">
+                    Let <m>A_n</m> and <m>B_n</m> be the <m>n</m>th partial sums of the series
+                    <m>\sum_{k=1}^{\infty} a_k</m> and <m>\sum_{k=1}^{\infty} b_k</m>,
+                    respectively.
+                    Explain why
+                    <me permid="JcR">
+                      A_n + B_n = \sum_{k=1}^n (a_k+b_k)
+                    </me>.
+                  </p>
+                </li>
+
+                <li permid="Vyn">
+                  <p permid="qKS">
+                    Use the previous result and properties of limits to show that
+                    <me permid="pka">
+                      \sum_{k=1}^{\infty} (a_k+b_k) = \sum_{k=1}^{\infty} a_k + \sum_{k=1}^{\infty} b_k
+                    </me>.
+                    (Note that the starting point of the sum is irrelevant in this problem,
+                    so it doesn't matter where we begin the sum.)
+                  </p>
+                </li>
+              </ol>
+            </p>
+          </li>
+
+          <li permid="ngs">
+            <p permid="WSb">
+              Use the prior result to find the sum of the series <m>\sum_{k=0}^{\infty} \frac{2^k+3^k}{5^k}</m>.
+            </p>
+          </li>
+        </ol>
+      </p>
+    </statement>
+    <answer permid="fny">
+      <p permid="qpt">
+        <ol label="a." permid="AVC">
+          <li permid="BFw">
+            <p permid="CZk">
+              <ol label="i." permid="Wbd">
+                <li permid="lkb">
+                  <p permid="AsZ">
+                    <m>a_n = 1 + \frac{1}{2^n} \to 1 \ne 0</m> and
+                    <m>b_n = -1 \to -1 \ne 0</m>.
+                  </p>
+                </li>
+
+                <li permid="hMF">
+                  <p permid="jgt">
+                    The series is geometric with <m>r = \frac{1}{2}</m>.
+                  </p>
+                </li>
+
+                <li permid="NTO">
+                  <p permid="PnC">
+                    Since the two individual series diverge,
+                    neither sum is a finite number,
+                    so it doesn't make any sense to add them.
+                  </p>
+                </li>
+              </ol>
+            </p>
+          </li>
+
+          <li permid="ODI">
+            <p permid="vuL">
+              <ol label="i." permid="hcL">
+                <li permid="uaX">
+                  <p permid="AOy">
+                    Note that
+                    <m>
+                    A_n + B_n = (a_1 + b_1) + (a_2 + b_2) + \cdots + (a_n + b_n)
+                    </m>.
+                  </p>
+                </li>
+
+                <li permid="aig">
+                  <p permid="bBU">
+                    Note that
+                    <m>
+                    \lim_{n \to \infty} \sum_{k=1}^n (a_k+b_k) = \lim_{n \to \infty} \left( \sum_{k=1}^{n} a_k + \sum_{k=1}^{n} b_k \right)
+                    </m>.
+                  </p>
+                </li>
+              </ol>
+            </p>
+          </li>
+
+          <li permid="uKR">
+            <p permid="HJd">
+              <m>
+              \sum_{k=0}^{\infty} \frac{2^k+3^k}{5^k} = \frac{25}{6}
+              </m>.
+            </p>
+          </li>
+        </ol>
+      </p>
+    </answer>
+    <solution permid="zgp">
+      <p permid="RMJ">
+        <ol label="a." permid="QeA">
+          <li permid="Gpp">
+            <p permid="nQm">
+              <ol label="i." permid="Cim">
+                <li permid="Rrk">
+                  <p permid="gAi">
+                    Since <m>a_n = 1 + \frac{1}{2^n} \to 1 \ne 0</m> and
+                    <m>b_n = -1 \to -1 \ne 0</m> as <m>n \to \infty</m>,
+                    by the Divergence Test both
+                    <m>\sum_{k=0}^{\infty} a_k</m> and <m>\sum_{k=0}^{\infty} b_k</m> diverge.
+                  </p>
+                </li>
+
+                <li permid="mwy">
+                  <p permid="TXv">
+                    However, the series
+                    <me permid="Vrj">
+                      \sum_{k=0}^{\infty} (a_k+b_k) = \sum_{k=0}^{\infty} (1 + \frac{1}{2^k} - 1) = \sum_{k=0}^{\infty} \frac{1}{2^k}
+                    </me>
+                    converges because the series is geometric with <m>r = \frac{1}{2}</m>.
+                  </p>
+                </li>
+
+                <li permid="SDH">
+                  <p permid="AeE">
+                    The issue is that it doesn't make any sense to talk about
+                    <me permid="Bys">
+                      \sum_{k=0}^{\infty} a_k + \sum_{k=0}^{\infty} b_k
+                    </me>.
+                    when <m>\sum_{k=0}^{\infty} a_k</m> and
+                    <m>\sum_{k=0}^{\infty} b_k</m> diverge.
+                    Since those series diverge,
+                    neither sum is a finite number,
+                    so it doesn't make any sense to add them.
+                  </p>
+                </li>
+              </ol>
+            </p>
+          </li>
+
+          <li permid="Wih">
+            <p permid="glN">
+              <ol label="i." permid="wlJ">
+                <li permid="yKQ">
+                  <p permid="gVH">
+                    Let <m>A_n</m> and <m>B_n</m> be the <m>n</m>th partial sums of the series
+                    <m>\sum_{k=1}^{\infty} a_k</m> and <m>\sum_{k=1}^{\infty} b_k</m>,
+                    respectively.
+                    By definition,
+                    <me permid="hFB">
+                      A_n + B_n = \sum_{k=1}^{n} a_k + \sum_{k=1}^{n} b_k
+                    </me>.
+                    Expanding these finite sums, we have
+                    <me permid="NMK">
+                      A_n + B_n = (a_1 + a_2 + \cdots a_n) + (b_1 + b_2 + cdots + b_n)
+                    </me>.
+                    By the associative and commutative properties of finite sums,
+                    we can rearrange these sums in any order we wish,
+                    and also group the terms in any pairings we wish.
+                    Thus,
+                    <me permid="tTT">
+                      A_n + B_n = (a_1 + b_1) + (a_2 + b_2) + \cdots + (a_n + b_n)
+                    </me>,
+                    and therefore
+                    <me permid="abc">
+                      A_n + B_n = \sum_{k=1}^n (a_k+b_k)
+                    </me>.
+                  </p>
+                </li>
+
+                <li permid="eRZ">
+                  <p permid="MsW">
+                    The last equality we demonstrated above tells us that
+                    <me permid="Gil">
+                      \sum_{k=1}^n (a_k+b_k) = \sum_{k=1}^{n} a_k + \sum_{k=1}^{n} b_k
+                    </me>.
+                    In this equality,
+                    we can take the limit of both sides as <m>n \to \infty</m>.
+                    On the right side,
+                    we know that both <m>\lim_{n \to \infty} \sum_{k=1}^{n} a_k</m> and
+                    <m>\lim_{n \to \infty} \sum_{k=1}^{n} b_k</m> exist because the two series converge,
+                    and therefore the limit of the sum is the sum of the limits.
+                    Hence,
+                    <md permid="SwD">
+                      <mrow>\lim_{n \to \infty} \sum_{k=1}^n (a_k+b_k) &amp;= \lim_{n \to \infty} \left( \sum_{k=1}^{n} a_k + \sum_{k=1}^{n} b_k \right)</mrow>
+                      <mrow>&amp;= \lim_{n \to \infty} \sum_{k=1}^{n} a_k + \lim_{n \to \infty} \sum_{k=1}^{n} b_k</mrow>
+                    </md>.
+                    Thus we have shown that
+                    <me permid="mpu">
+                      \sum_{k=1}^{\infty} (a_k+b_k) = \sum_{k=1}^{\infty} a_k + \sum_{k=1}^{\infty} b_k
+                    </me>.
+                  </p>
+                </li>
+              </ol>
+            </p>
+          </li>
+
+          <li permid="Cpq">
+            <p permid="sAf">
+              Since both <m>\sum_{k=0}^{\infty} \left( \frac{2}{5} \right)^k</m> and
+              <m>\sum_{k=0}^{\infty} \left( \frac{3}{5} \right)^k</m> are convergent geometric series,
+              we can apply the result from the last exercise above to say that
+              <me permid="yDM">
+                \sum_{k=0}^{\infty} \frac{2^k+3^k}{5^k} = \sum_{k=0}^{\infty} \left( \frac{2}{5} \right)^k + \sum_{k=0}^{\infty} \left( \frac{3}{5} \right)^k
+              </me>.
+              Applying the known sum of geometric series to each sum on the right,
+              we then have
+              <me permid="eKV">
+                \sum_{k=0}^{\infty} \frac{2^k+3^k}{5^k} = \frac{1}{1 - \frac{2}{5}} + \frac{1}{1 - \frac{3}{5}} = \frac{5}{3} + \frac{5}{2} = \frac{25}{6}
+              </me>.
+            </p>
+          </li>
+        </ol>
+      </p>
+    </solution>
+  </exercise>
+
+  <exercise xml:id="ex-8-3-Direct-Comparison-Test" permid="uww">
+	<title> The direct comparison test </title>
+    <statement>
+      <p permid="TBW">
+        In this exercise we look at why the Direct Comparison Test works.       </p>
+
+      <p permid="zJf">
+        <ol label="a." permid="yaW">
+          <li permid="KZi">
+            <p permid="YHo">
+              Consider the series
+              <me permid="KSe">
+                \sum \frac{1}{k^2}  \text{ and }   \sum \frac{1}{k^2+k}
+              </me>.
+              We know that the series
+              <m>\sum \frac{1}{k^2}</m> is a <m>p</m>-series with
+              <m>p = 2 \gt 1</m> and so <m>\sum \frac{1}{k^2}</m> converges.
+              In this part of the exercise we will see how to use information about
+              <m>\sum \frac{1}{k^2}</m> to determine information about <m>\sum \frac{1}{k^2+k}</m>.
+              Let <m>a_k = \frac{1}{k^2}</m> and <m>b_k = \frac{1}{k^2+k}</m>.
+            </p>
+
+            <p permid="EOx">
+              <ol label="i)" permid="ipv">
+                <li permid="xyt">
+                  <p permid="MHr">
+                    Let <m>S_n</m> be the <m>n</m>th partial sum of
+                    <m>\sum \frac{1}{k^2}</m> and <m>T_n</m> the <m>n</m>th partial sum of <m>\sum \frac{1}{k^2+k}</m>.
+                    Which is larger, <m>S_1</m> or <m>T_1</m>?
+                    Why?
+                  </p>
+                </li>
+
+                <li permid="rgr">
+                  <p permid="kVG">
+                    Recall that
+                    <me permid="qZn">
+                      S_2 = S_1 + a_2  \text{ and }   T_2 = T_1 + b_2
+                    </me>.
+                    Which is larger, <m>a_2</m> or <m>b_2</m>?
+                    Based on that answer,
+                    which is larger, <m>S_2</m> or <m>T_2</m>?
+                  </p>
+                </li>
+
+                <li permid="XnA">
+                  <p permid="RcP">
+                    Recall that
+                    <me permid="Xgw">
+                      S_3 = S_2 + a_3  \text{ and }   T_3 = T_2 + b_3
+                    </me>.
+                    Which is larger, <m>a_3</m> or <m>b_3</m>?
+                    Based on that answer,
+                    which is larger, <m>S_3</m> or <m>T_3</m>?
+                  </p>
+                </li>
+
+                <li permid="DuJ">
+                  <p permid="xjY">
+                    Which is larger, <m>a_n</m> or <m>b_n</m>?
+                    Explain.
+                    Based on that answer,
+                    which is larger, <m>S_n</m> or <m>T_n</m>?
+                  </p>
+                </li>
+
+                <li permid="jBS">
+                  <p permid="drh">
+                    Based on your response to the previous part of this exercise,
+                    what relationship do you expect there to be between
+                    <m>\sum \frac{1}{k^2}</m> and <m>\sum \frac{1}{k^2+k}</m>?
+                    Do you expect <m>\sum \frac{1}{k^2+k}</m> to converge or diverge?
+                    Why?
+                  </p>
+                </li>
+              </ol>
+            </p>
+          </li>
+
+        </ol>
+      </p>
+    </statement>
+    <answer permid="rBQ">
+      <p permid="WwC">
+        <ol label="a." permid="NjU">
+          <li permid="olL">
+            <p permid="Oij">
+              <ol label="i)" permid="OwE">
+                <li permid="dFC">
+                  <p permid="sOA">
+                    <m>S_1 = 1</m> and <m>T_1 = \frac{1}{2}</m>.
+                  </p>
+                </li>
+
+                <li permid="UsU">
+                  <p permid="ups">
+                    <m>S_2 \gt T_2</m>.
+                  </p>
+                </li>
+
+                <li permid="AAd">
+                  <p permid="awB">
+                    <m>S_3 \gt T_3</m>.
+                  </p>
+                </li>
+
+                <li permid="gHm">
+                  <p permid="GDK">
+                    <m>S_n \gt T_n</m>.
+                  </p>
+                </li>
+
+                <li permid="MOv">
+                  <p permid="mKT">
+                    <m>
+                    \sum \frac{1}{k^2} \gt \sum \frac{1}{k^2+k}
+                    </m>; <m>\sum \frac{1}{k^2+k}</m> converges.
+                  </p>
+                </li>
+              </ol>
+            </p>
+          </li>
+
+          <li permid="aSa">
+            <p permid="SSc">
+              If <m>\sum b_k</m> diverges,
+              then <m>\sum b_k</m> is infinite, and
+              anything larger must also be infinite;
+              if <m>\sum a_k</m> is convergent
+              then anything smaller and positive must also be finite.
+            </p>
+
+            <p permid="yZl">
+              <ol label="i)" permid="trd">
+                <li permid="sVE">
+                  <p permid="tjZ">
+                    Note that <m>0 \lt \frac{1}{k} \lt \frac{1}{k-1}</m>.
+                  </p>
+                </li>
+
+                <li permid="ZcN">
+                  <p permid="fgu">
+                    Note that <m>\frac{1}{k^3} \gt \frac{1}{k^3+1}</m>.
+                  </p>
+                </li>
+              </ol>
+            </p>
+          </li>
+        </ol>
+      </p>
+    </answer>
+    <solution permid="LuH">
+      <p permid="xTS">
+        <ol label="a." permid="csS">
+          <li permid="FjW">
+            <p permid="LnD">
+              <ol label="i)" permid="uDN">
+                <li permid="JML">
+                  <p permid="YVJ">
+                    Since <m>S_1 = 1</m> and <m>T_1 = \frac{1}{2}</m>,
+                    we see that <m>S_1 \gt T_1</m>.
+                  </p>
+                </li>
+
+                <li permid="lrf">
+                  <p permid="ruM">
+                    Since <m>a_2 = \frac{1}{4}</m> and <m>b_2 = \frac{1}{6}</m>,
+                    it is the case that <m>a_2 \gt b_2</m>.
+                    We already know that <m>S_1 \gt T_1</m>,
+                    so adding a larger number to <m>S_1</m> than we add to <m>T_1</m> makes <m>S_2 \gt T_2</m>.
+                  </p>
+                </li>
+
+                <li permid="Ryo">
+                  <p permid="XBV">
+                    Since <m>a_3 = \frac{1}{9}</m> and <m>b_3 = \frac{1}{12}</m>,
+                    it is the case that <m>a_3 \gt b_3</m>.
+                    We already know that <m>S_2 \gt T_2</m>,
+                    so adding a larger number to <m>S_2</m> than we add to <m>T_2</m> makes <m>S_3 \gt T_3</m>.
+                  </p>
+                </li>
+
+                <li permid="xFx">
+                  <p permid="DJe">
+                    Since <m>n^2+n \gt n^2</m> when <m>n</m> is positive,
+                    we have <m>\frac{1}{n^2} \gt \frac{1}{n^2+n}</m> or <m>a_n \gt b_n</m>.
+                    So at each step,
+                    we are adding larger numbers to the partial sums of
+                    <m>\sum \frac{1}{k^2}</m> than we are to the partial sums of <m>\sum \frac{1}{k^2+k}</m>,
+                    we conclude that <m>S_n \gt T_n</m>.
+                  </p>
+                </li>
+
+                <li permid="dMG">
+                  <p permid="jQn">
+                    Since <m>S_n \gt T_n</m>,
+                    we should expect <m>\lim_{n \to \infty} S_n \gt \lim_{n \to \infty} T_n</m> or
+                    <me permid="PBX">
+                      \sum \frac{1}{k^2} \gt  \sum \frac{1}{k^2+k}
+                    </me>.
+                  </p>
+
+                  <p permid="PXw">
+                    Since <m>\sum \frac{1}{k^2}</m> is a <m>p</m>-series with <m>p=2 \gt 1</m>,
+                    we know that <m>\sum \frac{1}{k^2}</m> converges
+                    (and is finite).
+                    Now <m>\sum \frac{1}{k^2+k}</m> is a sum of positive terms and is therefore positive,
+                    and is also less than a finite number (<m>\sum \frac{1}{k^2}</m>),
+                    so we expect that <m>\sum \frac{1}{k^2+k}</m> converges as well.
+                  </p>
+                </li>
+              </ol>
+            </p>
+          </li>
+
+          <li permid="iwz">
+            <p permid="weF">
+              If we have two series <m>\sum a_k</m> and
+              <m>\sum b_k</m> of positive terms with
+              <m>a_k \geq b_k</m> for every <m>k</m>, then
+              <me permid="vJg">
+                \sum a_k \geq \sum b_k \gt 0
+              </me>.
+            </p>
+
+            <p permid="clO">
+              Now if <m>\sum b_k</m> diverges,
+              then <m>\sum b_k</m> is infinite.
+              Anything larger must also be infinite and so <m>\sum a_k</m> must also diverge.
+              On the other hand, if <m>\sum a_k</m> is convergent
+              (that is, finite),
+              then anything smaller and positive must also be finite and so <m>\sum b_k</m> must also converge.
+            </p>
+
+            <p permid="IsX">
+              <ol label="i)" permid="IAb">
+                <li permid="JTP">
+                  <p permid="Zri">
+                    For any <m>k</m> we have <m>k \gt k-1</m>,
+                    so if <m>k \gt 1</m> then it follows that <m>0 \lt \frac{1}{k} \lt \frac{1}{k-1}</m>.
+                    Since the harmonic series <m>\sum \frac{1}{k}</m> diverges,
+                    the Direct Comparison Test shows that the larger series <m>\sum \frac{1}{k-1}</m> must also diverge.
+                  </p>
+                </li>
+
+                <li permid="qaY">
+                  <p permid="oAg">
+                    In this case we know that
+                    <m>k^3 \lt  k^3+1</m> and so if <m>k \gt 0</m> then <m>\frac{1}{k^3} \gt \frac{1}{k^3+1}</m>.
+                    It follows that <m>\frac{k}{k^3} \gt \frac{k}{k^3+1}</m> and so the series
+                    <m>\sum \frac{k}{k^3+1}</m> is bounded below by 0 and above by the series <m>\sum \frac{k}{k^3}</m>.
+                    Now
+                    <me permid="bQp">
+                      \frac{k}{k^3} = \frac{1}{k^2}
+                    </me>
+                    and so the series
+                    <m>\sum \frac{k}{k^3}</m> is a <m>p</m>-series with <m>p=2</m> and converges.
+                    The Direct Comparison Test shows that the smaller series <m>\sum \frac{k}{k^3+1}</m> must also converge.
+                  </p>
+                </li>
+              </ol>
+            </p>
+          </li>
+        </ol>
+      </p>
+    </solution>
+  </exercise>
+  
+
+  <exercise>
+  <title>Determining convergence of series without knowing which test to use</title>
+  <webwork source="Library/Rochester/setSeries3Convergent/ns8_3_17.pg"/>
+  </exercise>
+  
+  <exercise>
+	<title>Using the integral test on a series involving a logarithm</title>
+	<webwork source="Library/Rochester/setSeries5IntegralTest/eva8_3_2.pg"/>
+  </exercise>
+  
+  <exercise>
+  <title>Using the integral test on a series involving an exponential</title>
+  <webwork source="Library/Rochester/setSeries5IntegralTest/ur_sr_5_13.pg"/>
+  </exercise>
+  
+  <exercise>
+  <title>Deciding when the integral test applies and using it</title>
+  <webwork source="Library/Indiana/Indiana_setSeries5IntegralTest/ur_sr_5_11.pg"/>
+  </exercise>
+  
+  <exercise>
+  <title>Determining series convergence and which test(s) to use</title>
+  <webwork source="Library/Wiley/setAnton_Section_9.5/Anton9_5Q38_44.pg"/>
+  </exercise>
+
+ </exercises>
+</section>
+
