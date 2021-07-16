@@ -269,44 +269,64 @@
 
 	<p>Consider again the probability distribution from <xref ref="commute-example"/>, regarding commute time.  In that Exploration, we considered the outcomes to be integer numbers of minutes for simplicity's sake, but we could add more detail.  A given commute might take closer to 17.25 minutes than 17 minutes, a level of precision that we ignored.  In theory, your commute could take any number of minutes, including decimal numbers of minutes like 16.326 or even 19.202002000200002....  Although we would never be able to measure your travel time with an infinite amount of precision, it makes sense to say that your actual travel time could be any of the infinitely-many real numbers within a reasonable range; all of these numbers are possible outcomes.</p>
 
-	<p>There is an interesting consequence for probability when the outcomes of an experiment span a continous interval of numbers: the probability of any given outcome is typically 0.  To get some intuition for why this should be true, consider the following sequence of experiments: I'm going to write down a number between 0 and 1, and in the first experiment, you're going to guess whether my number falls into one of two intervals: is my number less than 0.5, or is it greater than or equal to 0.5?  In the second experiment, we'll split each interval in half, and you'll guess if my number falls in the interval 0-0.25, 0.25-0.5, 0.5-0.75, or 0.75-1.  We'll keep splitting the intervals in half forever: in the third experiment there will be 8 equal-sized intervals, in the fourth experiment there will be 16, and so on. Each time we play, the probability that you guess correctly is split in half: first the probability is 1/2, then 1/4, then 1/8, and so on, each time getting closer and closer to a probability of 0, though each time it is still possible for you to guess the correct interval.</p>
+	<p>There is an interesting consequence for probability when the outcomes of an experiment span a continous interval of numbers: the probability of any given outcome is typically 0.  To get some intuition for why this should be true, consider what happens to the commute time probability distribution if we start splitting outcomes into more precise categories, from the nearest minute, to the nearest half-minute, to the nearest quarter-minute, and so on:</p>
 
-	<p>Now consider one final experiment: rather than guessing an interval that my number is contained in, I ask you to guess my number exactly.  What is the probability that you guess correctly?  Well, it's true that guessing the number exactly should be harder than guessing what interval it falls into, no matter how many intervals you're choosing between.  So the probability of guessing correctly in this case must be smaller than the probability of guessing correctly in each of the previous experiments.  What probability is less than each of 1/2, 1/4, 1/8, 1/16, and so on?  Only 0.</p>
-
-	<p>In a similar way, the probability that your commute takes <i>exactly</i> 19.202002000200002... minutes, or <i>exactly</i> 19.00000000000001 minutes, or even <i>exactly</i> 19 minutes, to an infinite level of precision, is 0.  Such an outcome would have to be less likely than if <i>any</i> amount of error were allowed, no matter how small, meaning that the probability must be 0.</p>
-
-	<p>Because each outcome of this experiment has a probability of 0, listing the probability of each outcome or drawing a graph of the probability of each outcome isn't going to be useful to us like it was with discrete probability distributions.  However, given any interval of possible outcomes, there may be some non-zero probability that the outcome of the experiment falls within that interval; for example, there is some non-zero probability that your commute takes between 16 and 18 minutes, and a smaller probability that it takes between 16.23 and 16.25 minutes.  Our goal will be to convey the probability corresponding to any <i>interval</i> of minutes, rather than a particular number of minutes.</p>
-
-	<p>In order to do this, let's consider the graph of our original probability distribution as a histogram: suppose that it represents data collected from many commutes that has been organized into ten bins.  Now lets see what happens as we split the data into more bins several times:</p>
-
-	<figure xml:id="commute-histograms">
+	<figure xml:id="commute-discrete-distributions">
 		<sidebyside>
 			<figure>
+				<caption>Measuring commute time to the nearest minute</caption>
 				<image source="images/commute-hist-1.png"/>
 			</figure>
 			<figure>
+				<caption>...to the nearest half-minute</caption>
 				<image source="images/commute-hist-2.png"/>
 			</figure>
 		</sidebyside>
 		<sidebyside>
 			<figure>
+				<caption>...to the nearest quarter-minute</caption>
 				<image source="images/commute-hist-3.png"/>
 			</figure>
 			<figure>
+				<caption>...to the nearest eigth-minute</caption>
 				<image source="images/commute-hist-4.png"/>
 			</figure>
 		</sidebyside>
-		<caption>Splitting the commute time data into more and more bins.</caption>
+		<caption>Splitting the commute time distribution into more and more precise outcomes.</caption>
 	</figure>
 
-	<p>Notice that the more splitting we do, the more precise information we get about the probability that your commute time will fall within a given interval; the probability for an interval is represented by the proportion of area in the histogram over that interval.  With enough data, we could continue this splitting process indefinitely, until the histograms approach a smooth curve, as in <xref ref="commute-density-function"/>.  This curve is called the <term>probability density function</term>, or the <term>continuous probability distribution</term> for the experiment.</p>
+	<p>Notice that the probabilities of the outcomes keep getting closer and closer to 0 as we add more precision to our outcomes.  This makes sense; it is much less likely that you will arrive within one second of your expected arrival time than that you will arrive within one minute of it.  If we continue this process indefinitely, the probabilities approach 0.  Since the probability of arriving exactly 17 minutes after you left, for example, must be even less than that of arriving within one millisecond of 17 minutes, or within any tiny amount of error, the probability of your commute taking exactly 17 minutes must be 0.  Similarly, the probability of any number being the exact amount of time your commute takes is 0.</p>
+
+	<p>Because each outcome of this experiment has a probability of 0, listing the probability of each outcome or drawing a graph of the probability of each outcome isn't going to be useful to us like it was with discrete probability distributions.  However, given any interval of possible outcomes, there may be some non-zero probability that the outcome of the experiment falls within that interval; for example, there is some non-zero probability that your commute takes between 16 and 18 minutes, and a smaller probability that it takes between 16.23 and 17.35 minutes.  Our goal will be to convey the probability corresponding to any <i>interval</i> of minutes, rather than a particular number of minutes.</p>
+
+	<p>You may have noticed in <xref ref="commute-discrete-distributions"/> that, although the individual probabilities are all getting smaller, the general shapes of the distributions all look similar.  In fact, if we continue this process of splitting the distribution into more and more precise outcomes, the shape of the graphs will approach a smooth curve, as in <xref ref="commute-density-function"/>.  This curve is called the <term>probability density function</term>, or the <term>continuous probability distribution</term> for the experiment.  The probability density function will end up telling us the probability corresponding to any interval.</p>
 
 	<figure xml:id="commute-density-function">
 		<image source="images/commute-continuous-distribution.png"/>
-		<caption>The probability density function for your commute time.</caption>
+		<caption>The probability density function for your commute time.  The area of the shaded region is the probability that your commute takes between 16.23 and 17.35 minutes.</caption>
 	</figure>
 
+	<p>Notice that, in each of the bar graphs representing a finite probability distribution, the proportion of area in the graph over a given interval roughly represents the probability that the outcome of the experiment will fall within that interval.  For example, the proportion of area in the bars past the 18 minute mark represents the probability that your commute takes at least 18 minutes.  In the same way, given any interval of minutes, the probability that your commute time falls within that interval is the proportion of area under the probability density function over that interval.  To make things simpler, we scale the density function so that the total area under the curve is 1, making area equal to probability.</p>
 
+	<assemblage><title>Probability Density Functions</title>
+
+		<p>A <term>probability density function</term> (also known as a <term>continuous probability distribution</term>) is a curve that fully describes the probabilities involved in an experiment where the collection of outcomes is a continuous interval.</p>
+
+		<p>The probability of any given outcome of such an experiment is typically 0, so we only measure the probability that the result of the experiment falls within an interval of outcomes.</p>
+
+		<p>Given an interval of outcomes, the probability associated to the interval is the area under the probability density function over that interval.</p>
+
+		<p>The total area under a probability density function is 1, since this is the probability that any outcome in the interval of all possible outcomes occurs.</p>
+
+	</assemblage>
+
+	<exploration>
+		<!-- example where you can actually compute area under curve -->
+	</exploration>
+
+	<exploration>
+		<!-- example where they just look at qualitative stuff, perhaps something bimodal would be interesting? -->
+	</exploration>
 
 </subsection>
 
