@@ -1,0 +1,632 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!-- **********************************************************************-->
+<!-- Copyright 2019                                                        -->
+<!-- UNL Department of Mathematics                                         -->
+<!-- Based upon the work of                                                -->
+<!-- Matthew Boelkins                                                      -->
+<!-- Copyright 2012-2018                                                   -->
+<!--                                                                       -->
+<!-- This file is part of Coordinated Calculus.                            -->
+<!-- This file is based on Active Calculus.                                -->
+<!--                                                                       -->
+<!-- Permission is granted to copy, distribute and/or modify this document -->
+<!-- under the terms of the Creative Commons BY-SA license.  The work      -->
+<!-- may be used for free by any party so long as attribution is given to  -->
+<!-- the author(s), the work and its derivatives are used in the spirit of -->
+<!-- "share and share alike".  All trademarks are the registered marks of  -->
+<!-- their respective owners.                                              -->
+<!-- **********************************************************************-->
+<section xmlns:xi="http://www.w3.org/2001/XInclude" xml:id="sec-5-7-partial-frac" permid="GxK">
+  <title>The Method of Partial Fractions</title>
+  <objectives permid="XvV">
+    <ul permid="MWQ">
+      <li permid="Zli">
+        <p permid="Kck">
+          How does the method of partial fractions enable many rational functions to be antidifferentiated?
+        </p>
+      </li> 
+    </ul>
+  </objectives>
+  
+  <introduction permid="DDe">
+    <p permid="IWR">
+      So far, we've learned two integration techniques:
+      <m>u</m>-substitution and integration by parts.
+      The former is used to reverse the chain rule,
+      while the latter is used to reverse the product rule.
+      But we have seen that each works only in specialized circumstances.
+      For example,
+      while <m>\int \frac{2x+4}{x^2+4x+13} \, dx</m> may be evaluated by <m>u</m>-substitution and
+      <m>\int x e^x \, dx</m> by integration by parts,
+      neither method provides a route to evaluate <m>\int \frac{1}{x^2+4x+13} \, dx</m>.
+    </p>
+
+    <p>
+      In the following two sections, we'll study two more integration techniques: the method of partial fractions and trigonometric substitution. Before introducing them, we'll walk through an example to help build intuition about the techniques we've already learned, and where they might fall short.
+    </p>
+    
+    <example xml:id="PA-5-5" permid="XEz">
+      <statement>
+        <p permid="rxq">
+          For each of the indefinite integrals below,
+          decide whether the integral can be evaluated using <m>u</m>-substitution,
+          integration by parts, a combination of the two, or neither.
+          
+          
+          For integrals for which your answer is affirmative,
+          state the substitution(s) you would use.
+          It is not necessary to actually evaluate any of the integrals completely,
+          unless the integral can be evaluated immediately using a familiar basic antiderivative.
+          
+          <ol label="a." permid="OkN">
+            <li permid="urW">
+              <p permid="SUG">
+                <m>\int x^2 \sin(x^3) \, dx</m>,
+                <nbsp /><m>\int x^2 \sin(x) \, dx</m>,
+                <nbsp /> <m>\int \sin(x^3) \, dx</m>,
+                <nbsp /> <m>\int x^5 \sin(x^3) \, dx</m>
+              </p>
+            </li>
+            
+            <li permid="azf">
+              <p permid="zbP">
+                <m>\int \frac{1}{1+x^2} \, dx</m>,
+                <nbsp /> <m>\int \frac{x}{1+x^2} \, dx</m>,
+                <nbsp /> <m>\int \frac{2x+3}{1+x^2} \, dx</m>,
+                <nbsp /><m>\int \frac{e^x}{1+(e^x)^2} \, dx</m>,
+              </p>
+            </li>
+            
+            <li permid="GGo">
+              <p permid="fiY">
+                <m>\int x \ln(x) \, dx</m>,
+                <nbsp /> <m>\int \frac{\ln(x)}{x} \, dx</m>,
+                <nbsp /> <m>\int \ln(1+x^2) \, dx</m>,
+                <nbsp /><m>\int x\ln(1+x^2) \, dx</m>,
+              </p>
+            </li>
+            
+            <li permid="mNx">
+              <p permid="Lqh">
+                <m>\int x \sqrt{1-x^2} \, dx</m>,
+                <nbsp /> <m>\int \frac{1}{\sqrt{1-x^2}} \, dx</m>,
+                <nbsp /> <m>\int \frac{x}{\sqrt{1-x^2}}\, dx</m>,
+                <nbsp /><m>\int \frac{1}{x\sqrt{1-x^2}} \, dx</m>,
+              </p>
+            </li>
+          </ol>
+        </p>
+      </statement>
+      <solution>
+        <p>
+          <ol label="a.">
+            <li>
+              <p>
+                The first integral may be solved by substitution using 
+                <m> u = x^3 \ , du = 3x^2 \, dx </m>. 
+                The second may be solved using IBP with <m> u = x^2 \ , dv = \sin(x) \, dx </m>
+                The third can not be solved using substitution or IBP. 
+                The last one can be solve using a combination. First do a substitution with <m> w = x^3 \ , dw = 3x^2 \, dx </m>
+                to convert the integral to <m> \frac{1}{3} \int w \sin(w) \, dw </m>. This may be solved using IBP with <m> u = w </m> and <m> dv = \sin(w) \, dw. </m>
+              </p>
+            </li>
+            <li> 
+              <p> 
+                The first integral can be evaluated by following <xref ref="T-4-4-Act2_2"> Table </xref> which has antiderivatives of some basic functions. The second integral can be solved using the  <m> u </m>-substitution <m> u=1+x^2 \ , du=2x \, dx </m>. This transforms the integral to <m> \frac{1}{2} \int \frac{1}{u} \, du </m>. The third integral requires algebraic manipulation before you can successfully use a substitution. We can evaluate <m> \int \frac{2x+3}{1+x^2} \, dx </m> by recognizing that <m> \frac{2x+3}{1+x^2} =\frac{2x}{1+x^2} + \frac{3}{1+x^2}</m> so we can split the original integral into two integrals. Then, evaluate <m> \int \frac{2x}{1+x^2} \, dx </m> with the substitution <m> u=1+x^2 \ , du=2x \, dx </m> and evaluate <m> \int \frac{3}{1+x^2} \, dx </m> by following <xref ref="T-4-4-Act2_2"> Table </xref>. The fourth integral can be found by using the substitution <m> u=e^x \ , du=e^x \, dx </m> which transforms the integral to <m> \int \frac{1}{1+u^2} \, du </m>. The antiderivative of <m> \frac{1}{1+u^2} \, du </m> is in <xref ref="T-4-4-Act2_2"> Table </xref>.
+              </p>  
+            </li> 
+            <li> 
+              <p>
+                The first integral can be evaluated by using integration by parts with <m> u= \ln(x) </m> and <m> dv=x \, dx </m>. The second integral is evaluated by using the substitution <m> u=\ln(x) \ , du= \frac{1}{x} \, dx </m>. The third integral cannot be solved by only using the methods of integration by parts or substitution. 
+                In fact, one solution to evaluate it involves first using integration by parts then using a method called <xref ref= "PT"> partial fractions</xref>. The fourth integral can be evaluated by using both a substitution and integration by parts. First, perform the substitution <m> w=1+x^2 \ , dw= 2x \, dx </m> which transforms the integral to <m> \frac{1}{2} \int \ln(w) \, dw </m>. Integration by parts can be used to evaluate this with <m> u=\ln(w) </m> and <m> dv=dx </m>.
+              </p>  
+            </li> 
+            <li>
+              <p>
+                The first integral can be found by using the substitution <m> u=1-x^2 \ , du=-2x \, dx </m>. The second integral can be evaluated by following <xref ref="T-4-4-Act2_2"> Table </xref>. The third integral can be evaluated by using the substitution <m> u=1-x^2 \ , du=-2x\, dx </m>. The fourth integral cannot be solved with standard substitution, integration by parts, or a combination of both. We will need a new style of substitution called <xref ref="Trig-Sub"> trigonometric substitution </xref> which will be discussed in this section. 
+              </p>  
+            </li>  
+          </ol>
+          
+        </p>
+      </solution>
+      
+      
+    </example>
+  </introduction>
+  
+  <subsection xml:id="PT" permid="mET">
+    <title>The Method of Partial Fractions</title>
+    <idx><h>partial fractions</h></idx>
+    
+    <p permid="Vlj">
+      The method of partial fractions is used to integrate rational functions, 
+     which are functions that can we written as a quotient of polynomials. 
+      
+      </p>
+      
+    <p>
+      For example, the function <m> f(x) = \frac{1}{x(x-1)} </m> is the quotient of the polynomial funtions <m> p(x) = 1 </m> and <m> q(x)=x(x-1) </m>. While it is not immediately clear how to compute <m> \int \frac{1}{x(x-1)} \, dx </m> as written, it turns out that a simple algebraic maneuver will make the task much simpler. In particular, before attempting to integrate we rewrite the integrand as  
+      
+      <me>
+        \frac{1}{x(x-1)} = \frac{1}{x}-\frac{1}{x-1}
+      </me>.
+      
+      One can check that this equality holds by finding a common denominator for the right-hand side and simplifying. The integral can then be calculated as
+      
+      <me>
+      \int \frac{1}{x(x-1)}dx= \int\frac{1}{x}dx - \int \frac{1}{x-1}dx = \ln|x|-\ln|x-1|+C
+      </me>.
+      
+      The expression <m> \frac{1}{x}-\frac{1}{x-1}</m> is a <term>partial fraction decomposition</term> of <m> \frac{1}{x(x-1)} </m>. 
+      
+      </p>
+      
+      <p>
+      A partial fraction decomposition can be thought of as reversing the process of finding a common denominator. 
+      Thus, the method is applicable when the denominator of a rational function can be factored into smaller degree polynomials. In the examples that follow, we'll demonstrate how to find more complicated partial fraction decompositions and use them to integrate rational functions. 
+    </p>
+    
+    <example permid="LhD">
+      <statement>
+        <p permid="wIz">
+          Evaluate
+          <me permid="JGL">
+            \int \frac{5x}{x^2-x-2} \, dx
+          </me>.
+        </p>
+      </statement>
+      <solution permid="jKn">
+        <p permid="uTm">
+          If we factor the denominator of the integrand,
+          we can see how <m>\frac{5x}{x^2-x-2}=\frac{5x}{(x-2)(x+1)}</m> might be the sum of two fractions of the form <m>\frac{A}{x-2} + \frac{B}{x+1}</m>, so we
+          suppose that
+          <men xml:id="E-PF-1" permid="pNU">
+            \frac{5x}{(x-2)(x+1)} = \frac{A}{x-2} + \frac{B}{x+1}
+          </men>
+          and look for the constants <m>A</m> and <m>B</m>.
+        </p>
+        
+        <p permid="bav">
+          Multiplying both sides of this equation by the denominator of the left hand side, <m>(x-2)(x+1)</m>,
+          we find that
+          <me permid="VVd">
+            5x = A(x+1) + B(x-2)
+          </me>.
+        </p>
+        
+        <p permid="HhE">
+          To find <m> A </m> and <m> B</m>, we will rearrange the right hand side of the equation so that similar terms are grouped. 
+          <md>
+            <mrow> 5x&amp;=Ax+ A + Bx -2B </mrow>
+            <mrow> 5x+0&amp;=(A+B)x + (A-2B) </mrow>
+          </md>
+          Notice that if this equation is going to hold, then the coefficients for <m> x </m> on each side of the equation need to match, and we need the constant terms on each side of the equation to match. This gives us the following system of equations:
+          <me> 5=A+B \, \text{ and } \, 0=A-2B</me>
+          We find that <m> A=\frac{10}{3} </m> and <m> B=\frac{5}{3} </m>.
+          Thus, using <xref ref="E-PF-1"> Equation </xref>, we can rewrite the original integral as
+          <me permid="OqE">
+            \int \frac{5x}{x^2-x-2} \, dx = \int \frac{10/3}{x-2} + \frac{5/3}{x+1} \, dx
+          </me>.
+        </p>
+        
+        <p permid="noN">
+          This integral can be evaluated by using the fact that <m> \int \frac{1}{u} \, du =\ln|u| + C </m> and by using substitutions,
+          and hence we find that
+          <me permid="uxN">
+            \int \frac{5x}{x^2-x-2} \, dx = \frac{10}{3} \ln|x-2| + \frac{5}{3}\ln|x+1| + C
+          </me>.
+        </p>
+      </solution>
+    </example>
+    
+    <example>
+      <statement>
+        <p> 
+          Evaluate 
+          <me> \int \frac{2x^2+5}{x^3-2x^2+x} \, dx </me>.
+        </p>  
+      </statement>
+      <solution>
+        <p>
+          If we factor the denominator of the integrand, we can see that <m> \frac{2x^2+5}{x^3-2x^2+x} = \frac{2x^2+5}{x(x-1)^2} </m>. Notice that the factor <m> (x-1)</m> shows up twice in the denominator. We call <m> (x-1)^2 </m> a repeated linear root. The repeated linear root slightly changes our partial fraction decomposition. <m> \frac{2x^2+5}{x(x-1)^2} </m> can be decomposed into the sum of fractions <m> \frac{A}{x}+ \frac{B}{x-1}+\frac{C}{(x-1)^2}</m>. We need both <m> \frac{B}{x-1} </m> and <m> \frac{C}{(x-1)^2} </m> since both <m> x-1 </m> and <m> (x-1)^2 </m> divide <m> x(x-1)^2 </m>. Suppose 
+          <men xml:id="E-PF-2"> \frac{2x^2+5}{x(x-1)^2}= \frac{A}{x}+ \frac{B}{x-1} + \frac{C}{(x-1)^2} </men>
+          and look for constants <m> A </m>, <m> B</m>, and <m> C</m>.
+        </p>
+        <p>
+          Multiplying both sides of this equation by the denominator of the left hand side, <m> x(x-1)^2 </m>, we find that 
+          
+          <me> 2x^2+5=A(x-1)^2 + B x (x-1) + Cx </me>
+          
+          To find <m> A </m>, <m> B </m>, and <m> C </m>, we will rearrange the right hand side of the equation so that similar terms are grouped. 
+          <md>
+            <mrow>2x^2+5&amp;= A(x^2-2x+1) + B(x^2-x) + Cx </mrow>
+            <mrow>2x^2+0x + 5&amp;= (A+B)x^2 + (-2A-B+C)x + A </mrow>
+          </md>
+          Like the previous example, we need the coefficients for <m> x^2 </m> to be the same on each side of the equation, the coeffiecients for <m> x </m> to be the same on each side of the equation, and the constant terms to be the same on each side of the equation. Thus, we obtain the system of equations
+          <me> A+B=2 \ , -2A-B+C=0 \ , \text{ and } A=5.</me>
+          We find that <m> A=5 </m>, <m> B=-3 </m>, and <m> C=7 </m>. Thus, using <xref ref="E-PF-2"> Equation </xref>, we can rewrite the original integral as 
+          <me>\int \frac{2x^2+5}{x(x-1)^2} \, dx=\int  \frac{5}{x}- \frac{3}{x-1} + \frac{7}{(x-1)^2} \, dx</me>
+          
+          This integral can be evaluated by using the fact that <m> \int \frac{1}{u} \, du =\ln|u|+C</m> and by using appropriate substitutions, and hence we find that 
+          <md>
+            <mrow>\int \frac{2x^2+5}{x(x-1)^2} \, dx&amp;=\int  \frac{5}{x} \, dx - 3 \int \frac{1}{x-1} \, dx + 7 \int (x-2)^{-2} \, dx </mrow>
+            <mrow> &amp;=5 \ln|x| -3 \ln|x-1| - 7 (x-1)^{-1} + C </mrow>
+          </md>
+        </p>  
+      </solution>  
+    </example>
+    
+    <example>
+      <statement>  
+        <p>
+          Evaluate
+          <me> \int \frac{3x^2-1}{(x^2+2x+3)(x-2)} \, dx </me>.
+        </p> 
+      </statement> 
+      <solution>
+        <p>
+          The denominator of the integrand is already factored, and the quadratic polynomial <m> x^2 + 2x + 3 </m> cannot be factored anymore. We call this factor an irreducible quadratic factor. The irreducible quadratic factor slightly changes our partial fraction decomposition. <m> \frac{3x^2-1}{(x^2+2x+3)(x-2)} </m> can be decomposed into the sum of fractions <m> \frac{Ax+B}{x^2+2x+3}+ \frac{C}{x-2}</m>. We need the term <m> \frac{Ax+B}{x^2+2x+3} </m> to include all possibilities where the degree of the numerator is less than the degree of the denominator. Suppose 
+          <men xml:id="E-PF-3"> \frac{3x^2-1}{(x^2+2x+3)(x-2)}=\frac{Ax+B}{x^2+2x+3}+ \frac{C}{x-2} </men>
+          and look for constants <m> A </m>, <m> B</m>, and <m> C</m>.
+        </p>
+        <p>
+          Multiplying both sides of this equation by the denominator of the left hand side, <m>(x^2+2x+3)(x-2) </m>, we find that 
+          
+          <me> 3x^2-1= (Ax+B)(x-2)+ C(x^2+2x+3) </me>
+          
+          To find <m> A </m>, <m> B </m>, and <m> C </m>, we will rearrange the right hand side of the equation so that similar terms are grouped. 
+          <md>
+            <mrow>3x^2-1&amp;= Ax^2-2Ax + Bx -2B + Cx^2 + 2Cx + 3C </mrow>
+            <mrow>3x^2+0x-1&amp;= (A+C)x^2 + (-2A+B-2C)x + (-2B+3C) </mrow>
+          </md>
+          Like the first example, we need the coefficients for <m> x^2 </m> to be the same on each side of the equation, the coeffiecients for <m> x </m> to be the same on each side of the equation, and the constant terms to be the same on each side of the equation. Thus, we obtain the system of equations
+          <me> A+C=3 \ , -2A+B-2C=0 \ , \text{ and } -2B+3C=-1.</me>
+          We find that <m> A=2 </m>, <m> B=2 </m>, and <m> C=1 </m>. Thus, using <xref ref="E-PF-3"> Equation </xref>, we can rewrite the original integral as 
+          <me>\int \frac{3x^2-1}{(x^2+2x+3)(x-2)} \, dx=\int  \frac{2x+2}{x^2+2x+3}  + \frac{1}{x-2} \, dx</me>
+          
+          This integral can be evaluated by using the fact that <m> \int \frac{1}{u} \, du =\ln|u|+C</m> and by using appropriate substitutions, and hence we find that 
+          <md> 
+            <mrow>\int \frac{3x^2-1}{(x^2+2x+3)(x-2)} \, dx &amp;= \int \frac{2x+2}{x^2+2x+3} \, dx + \int \frac{1}{x-2} \, dx </mrow>
+            <mrow> &amp;=\ln|x^2+2x+3| + \ln|x-2|+C </mrow>
+          </md>
+        </p> 
+      </solution>  
+    </example> 
+    
+    <example>
+      <statement> 
+        <p> Evaluate  
+          <me> \int \frac{-3x^3+9x^2-9x+7}{-x^2+3x-2} \, dx.</me>
+        </p>
+      </statement>
+      <solution>
+        <p> 
+          Before decomposing the integrand into partial fractions, we need to perform polynomial long division because the degree of the numerator, <m> 3</m>, is greater than the degree of the denominator, <m> 2</m>. We need to do this because partial fraction decompsition leads to a sum of rational functions where the degree of the numerator is less than the degree of the denominator. 
+          
+        </p>
+        
+        <p> After completing polynomial long division, we find that   
+          <me> 
+            \frac{-3x^3+9x^2-9x+7}{-x^2+3x-2}
+            = 3x + \frac{7-3x}{-x^2+3x-2} \, ,
+          </me>
+          hence, we can change the original integral
+          <men xml:id="E-PF-4"> 
+            \int \frac{-3x^3+9x^2-9x+7}{-x^2+3x-2} \, dx
+            = \int 3x \, dx + \int \frac{7-3x}{-x^2+3x-2} \, dx
+          </men>  
+          We'll proceed by using the method of partial fraction decomposition on the integrand <m> \frac{7-3x}{-x^2+3x-2} </m>.
+        </p>
+        <p>
+          Notice that the denominator factors as <m> -x^2+3x-2= (x-1)(2-x) </m>, so we'll suppose the integrand decomposes as
+          <me> \frac{7-3x}{(x-1)(2-x)}= \frac{A}{x-1}+ \frac{B}{2-x}</me>
+          
+          and we'll look for constants <m> A </m> and <m> B </m>.
+        </p>
+        <p>
+          Multiplying both sides of the equation by the denominator of the left hand side, <m> (x-1)(2-x)</m>, we find that 
+          <me> 7-3x = A(2-x) + B(x-1) </me>
+          
+          To find <m> A</m> and <m> B</m>, we will rearrange the right hand side of the equation so that similar terms are grouped.
+          <md>
+            <mrow> 7-3x&amp;=2A-Ax+Bx-B </mrow>
+            <mrow> 7-3x&amp;=(B-A)x+(2A-B)</mrow>
+          </md>
+          To make sure the coefficients of <m> x</m> match on each side of the equation and that the constant terms are the same on each side of the equation, we obtain the following system of equations: 
+          <me> -3=B-A \text{ and } 7=2A-B</me>
+          
+          We find that <m> A=4 </m> and <m> B=1 </m>. Thus, using <xref ref="E-PF-4"> Equation </xref>, we can rewrite the original integral as 
+          <md>
+            <mrow> \int \frac{-3x^3+9x^2-9x+7}{-x^2+3x-2} \, dx
+              &amp;= \int 3x \, dx + \int \frac{7-3x}{-x^2+3x-2} \, dx </mrow>
+            <mrow> &amp;= \int 3x \, dx + \int \frac{4}{x-1} + \frac{1}{2-x} \, dx </mrow>
+          </md> 
+          These integrals can be evaluated by using the antidifferentiation rules from <xref ref="T-4-4-Act2_2"> Table </xref> and using appropriate substitutions, and hence we find that 
+          <md> 
+            <mrow> \int \frac{-3x^3+9x^2-9x+7}{-x^2+3x-2} \, dx &amp;= \int 3x \, dx + \int \frac{4}{x-1}\, dx + \int \frac{1}{2-x} \, dx</mrow>
+            <mrow>&amp;=\frac{3}{2}x^2 + 4\ln|x-1| - \ln|2-x|+C </mrow> 
+          </md>
+        </p>  
+      </solution>  
+    </example> 
+    <p>
+      Now that we've seen some examples, we give a general description of the method of partial fractions. 
+      
+      <assemblage>
+        <title> Method of Partial Fraction Decomposition for a Rational Function <m> R(x)=\frac{P(x)}{Q(x)} </m> </title>
+        <p> 
+          Note: This method works best on rational functions when <m> Q(x)</m> can be factored into linear and irreducible quadratic terms. 
+          <ul> 
+            <li>
+              <p> If the degree of <m> P(x) </m> is greater than or equal to the degree <m> Q(x) </m>, then perform polynomial long division to calculate <m> \frac{P(x)}{Q(x)}</m>, else move on to the next step. The result gives a new way to write <m>R(x)</m>. We know that <m> R(x)= S(x)+ \frac{P_2(x)}{Q(x)} </m> where <m> S(x) </m> is the quotient of the polynomial long division and <m> P_2 (x) </m> is the remainder of the polynomial long division. Now the degree of <m> P_2(x) </m> is less than the degree of <m> Q(x) </m>, so follow the remaining steps to decompose <m> \frac{P_2(x)}{Q(x)}</m> . </p>
+            </li>
+            <li>
+              <p> If the degree of <m> P(x) </m> is less than the degree of <m> Q(x)</m>, then factor <m> Q(x) </m> and add a partial fraction for the decomposition based on the following rules: 
+                <ul>
+                  <li>
+                    <p> For each distinct linear factor <m> (x-c)</m> of <m> Q(x) </m>, add 
+                      <me> \frac{A}{x-c}.</me>
+                    </p>
+                  </li>
+                  <li>
+                    <p> For each repeated linear factor <m> (x-c)^n</m> of <m> Q(x)</m> where <m> n </m> is a positive whole number, add 
+                      <me> \frac{A_1}{x-c} + \frac{A_2}{(x-c)^2} + \cdots + \frac{A_n}{(x-c)^n}.</me>
+                    </p>  
+                  </li> 
+                  <li>
+                    <p> For each irreducible quadratic factor <m> t(x) </m> of <m> Q(x) </m>, add 
+                      <me> \frac{Ax+B}{t(x)}. </me>
+                    </p>  
+                  </li> 
+                  <li>
+                    <p> For each repeated irreducible quadratic factor <m> t(x)^n </m> of <m> Q(x) </m> where <m> n </m> is a positive whole number, add 
+                      <me> \frac{A_1x+B_1}{t(x)} + \frac{A_2x+B_2}{t(x)^2} + \cdots + \frac{A_nx+B_n}{t(x)^n}.</me>
+                    </p>  
+                  </li> 
+                </ul>  
+                
+                Now algebraically solve for the value of the constants <m>A_1, A_2,..., B_1, B_2,...</m> and integrate each piece separately.
+              </p>
+            </li>  
+          </ul>  
+        </p>
+      </assemblage>  
+    </p> 
+    <p>
+      The smaller blocks that <m> R(x) </m> is broken into often lead to more manageable antidifferentiation.
+      For example if <m> A </m> and <m> k </m> are real numbers, then <m> \int \frac{A}{x-k} \, dx = A \ln |x-k| + C</m> by using the substitution <m> u=x-k </m>. 
+      We also know the antiderivative of other common partial fractions like <m> \int \frac{A}{x^2+1} \, dx= A \arctan(x) + C </m>. 
+    </p>
+    
+    
+    <example xml:id="act-5-5-1" permid="TTE">
+      
+      <p permid="byd">
+        For each of the following problems,
+        evaluate the integral by finding the partial fraction decomposition of each integrand.
+        
+        <ol label="a." permid="LFl">
+          <li permid="rMu">
+            <statement>
+              <p permid="Nuy">
+                <m>\int \frac{1}{x^2 - 2x - 3} \, dx</m>
+              </p>
+            </statement>
+            <hint>
+              <p> The partial fraction decomposition of the integrand has the form 
+                <me> \frac{1}{x^2-2x-3}=\frac{A}{x-3}+\frac{B}{x+1}</me>.
+              </p>  
+            </hint>
+            <answer> 
+              <p> 
+                <me>\int \frac{1}{x^2 - 2x - 3} \, dx = \frac{1}{4}\ln|x-3| - \frac{1}{4}\ln|x+1| + C</me>.
+              </p>  
+            </answer> 
+            <solution>
+              <p permid="qHb">
+                To use partial fraction decomposition on the integrand, we'll assume that 
+                <me> \frac{1}{x^2-2x-2}=\frac{1}{(x-3)(x+1)}=\frac{A}{x-3}+ \frac{B}{x+1} </me>
+                To solve for <m> A </m> and <m> B</m>, we'll multiply both sides of the equation by the denominator of the left side of the equation and rearrange like the earlier exmaples. We'll have the following sequence of steps: 
+                <md>
+                  <mrow> 1&amp;=A(x+1) + B(x-3) </mrow>
+                  <mrow> 1&amp;=(A+B)x + (A-3B)</mrow>
+                </md>
+                We know that 
+                <me> A+B=0 \, \text{ and } A-3B=1, </me>
+                so <m> A=1/4 </m> and <m> B=-1/4 </m>. This implies that 
+                <md> 
+                  <mrow>\int \frac{1}{x^2 - 2x - 3} \, dx &amp;= \int \frac{1/4}{x-3} - \frac{1/4}{x+1} \, dx </mrow>
+                  <mrow>&amp; = \frac{1}{4}\ln|x-3| - \frac{1}{4}\ln|x+1| + C</mrow>.
+                </md>
+              </p>
+            </solution> 
+          </li>
+          
+          <li permid="XTD">
+            <statement>
+              <p permid="tBH">
+                <m>\int \frac{x^2+1}{x^3 - x^2} \, dx</m>
+              </p>
+            </statement>
+            <hint> 
+              <p> 
+                The partial fraction decomposition of the integrand has the form
+                <me>\frac{x^2+1}{x^3-x^2}=\frac{A}{x} + \frac{B}{x^2} + \frac{C}{x-1} </me>
+              </p>  
+            </hint>
+            <answer>
+              <p permid="esJ">
+                <me>\int \frac{x^2+1}{x^3 - x^2} \, dx = -\ln|x| + x^{-1} + 2\ln|x-1| + C</me>.
+              </p>
+            </answer>
+            <solution>
+              <p permid="WOk">
+                To use partial fraction decomposition on the integrand, we'll assume that 
+                <me> \frac{x^2+1}{x^3-x^2}=\frac{x^2+1}{x^2(x-1)}=\frac{A}{x}+ \frac{B}{x^2}+ \frac{C}{x-1} </me>
+                To solve for <m> A </m>, <m> B</m>, and <m> C </m>, we'll multiply both sides of the equation by the denominator of the left side of the equation and rearrange like the earlier exmaples. We'll have the following sequence of steps: 
+                <md> 
+                  <mrow> x^2+1&amp;=Ax(x-1) + B(x-1) + Cx^2 </mrow>
+                  <mrow> x^2+0x+1&amp;=(A+C)x^2 +(B-A)x+ (-B)</mrow>
+                </md>
+                We know that 
+                <me> A+C=1 \ , B-A=0 \ , \text{ and } -B=1, </me>
+                so <m> A=-1 </m>, <m>B=-1</m>, and <m>C=2</m>. This implies that
+                <md>
+                  <mrow>\int \frac{x^2+1}{x^3 - x^2} \, dx &amp;= \int\left(-\frac{1}{x} - \frac{1}{x^2} + \frac{2}{x-1} \right) \, dx </mrow>
+                  <mrow>&amp;= -\ln|x| + x^{-1} + 2\ln|x-1| + C</mrow>.
+                </md>
+              </p>
+            </solution>  
+          </li>
+          
+          <li permid="EaM">
+            <statement>
+              <p permid="ZIQ">
+                <m>\int \frac{x-2}{x^4 + x^2}\, dx</m>
+              </p>
+            </statement>
+            <hint>
+              <p> 
+                The partial fraction decomposition of the integrand has the form 
+                <me>\frac{x-2}{x^4+x^2}=\frac{A}{x} + \frac{B}{x^2} + \frac{Cx+D}{x^2+1} </me>
+              </p>  
+            </hint>
+            <answer>
+              <p permid="KzS">
+                <me>\int \frac{x-2}{x^4 + x^2}\, dx = \ln|x| + 2x^{-1} - \frac{1}{2} \ln|1+x^2| + 2\arctan(x) + C</me>.
+              </p>
+            </answer>  
+            <solution>
+              <p permid="CVt">
+                To use partial fraction decomposition on the integrand, we'll assume that 
+                <me> \frac{x-2}{x^4+x^2}=\frac{x-2}{x^2(x^2+1)}=\frac{A}{x}+ \frac{B}{x^2} + \frac{Cx+D}{x^2+1} </me>
+                To solve for <m> A </m>, <m> B</m>, <m>C</m>, and <m>D</m>, we'll multiply both sides of the equation by the denominator of the left side of the equation and rearrange like the earlier exmaples. We'll have the following sequence of steps: 
+                <md> 
+                  <mrow> x-2&amp;=Ax(x^2+1) + B(x^2+1) + (Cx+D)x^2 </mrow>
+                  <mrow> x-2&amp;=(A+C)x^3 + (B+D)x^2 + Ax+ B</mrow>
+                </md>
+                We know that 
+                <me> A+C=0 \ , B+D=0 \ , A=1 \text{ and } B=-2, </me>
+                so <m> A=1 </m>, <m> B=-2 </m>, <m>C=-1</m>, and <m>D=2</m>. 
+                Observing that <m>\frac{-x+2}{1+x^2} = \frac{-x}{1+x^2}+\frac{2}{1+x^2}</m>,
+                it now follows that
+                <me permid="HFm">
+                  \int \frac{x-2}{x^4 + x^2}\, dx = \int \frac{1}{x} - \frac{2}{x^2} - \frac{x}{1+x^2} + \frac{2}{1+x^2} \, dx
+                </me>.
+                Noting that <m>\int \frac{x}{1+x^2} \, dx</m> can be evaluated by the <m>u</m>-substitution <m>u=1+x^2</m>,
+                we see that <m>\int \frac{x}{1+x^2} \, dx = \frac{1}{2} \ln(1+x^2) + C</m>.
+                Thus
+                <md> 
+                  <mrow permid="nMv">
+                    \int \frac{x-2}{x^4 + x^2}\, dx &amp;= \int \frac{1}{x} - \frac{2}{x^2} - \frac{x}{1+x^2} + \frac{2}{1+x^2} \, dx </mrow>
+                  <mrow> &amp;= \ln|x| + 2x^{-1} - \frac{1}{2} \ln(1+x^2) + 2\arctan(x) + C</mrow>.
+                </md>
+              </p> 
+            </solution>  
+          </li>
+          <li>
+            <statement>
+              <p>
+                <m> \int \frac{4x^2+x}{2x^2+x-1} \, dx</m>              
+              </p>
+            </statement>
+            <hint>
+              <p>First, use polynomial long division then the partial fraction decomposition of the remainder will have the form <m>\frac{A}{2x-1}+\frac{B}{x+1}</m>. </p>
+            </hint>
+            <answer>
+              <p>
+                <m>\int \frac{4x^2+x}{2x^2+x-1} \, dx=2x + \frac{1}{2} \ln|2x-1|-\ln|x+1|+C</m>
+              </p>
+            </answer>
+            <solution>
+              <p>
+                First, use polynomial long division since the degree of the numerator is the same as the degree of the denominator. We'll find that 
+                <me>\frac{4x^2+x}{2x^2+x-1} = 2 + \frac{2-x}{2x^2+x-1}.</me>
+                To use partial fraction decomposition on the remainder, we'll assume that 
+                <me> \frac{2-x}{2x^2+x-1}=\frac{2-x}{(2x-1)(x+1)}=\frac{A}{2x-1}+ \frac{B}{x+1}</me>
+                To solve for <m> A </m> and <m> B</m>, we'll multiply both sides of the equation by the denominator of the left side of the equation and rearrange like the earlier exmaples. We'll have the following sequence of steps: 
+                <md> 
+                  <mrow> 2-x&amp;=A(x+1) + B(2x-1) </mrow>
+                  <mrow> 2-x&amp;=(A+2B)x + (A-B)</mrow>
+                </md>
+                We know that 
+                <me> A+2B=-1 \, \text{ and } A-B=2, </me>
+                so <m> A=1 </m> and <m>B=-1</m>. This implies that
+                <md> 
+                  <mrow>\int \frac{4x^2+x}{2x^2+x-1} \, dx &amp;= \int\left(2 + \frac{1}{2x-1} - \frac{1}{x+1} \right) \, dx </mrow>
+                  <mrow>&amp;= 2x + \frac{1}{2}\ln|2x-1|-\ln|x+1| + C</mrow>.
+                </md>
+              </p>
+            </solution>
+          </li>
+        </ol>
+      </p>
+    </example>
+    
+  </subsection>
+  
+  <subsection permid="fau">
+    <title>Summary</title>
+    <p permid="dzC">
+      <ul permid="tdZ">
+        <li permid="RGJ">
+          <p permid="CxL">
+            We can antidifferentiate any rational function with the method of partial fractions.
+            Any polynomial function can be factored into a product of linear and irreducible quadratic terms,
+            so any rational function may be written as the sum of:
+            <ol label="i.">
+              
+              <li> 
+              a polynomial (integrated using the power rule)
+              </li>
+            
+              <li> 
+              rational terms of the form <m>\frac{A}{(x-c)^n}</m>
+              where <m>n</m> is a natural number (integrated using the power rule)
+              </li>
+            
+              <li> 
+              and rational terms of the form <m>\frac{Bx+C}{t(x)}</m>
+              where <m>t(x)</m> is an irreducible quadratic (integrated using a <m> u </m>-substitution or a trigonometric substituion)
+              </li>
+              
+            </ol>
+          </p>
+        </li>
+        
+      </ul>
+    </p>
+  </subsection>
+  
+  <exercises xmlns:xi="http://www.w3.org/2001/XInclude"> 
+    
+    <exercise xml:id="ez-5-7-WW1" permid="fHx">
+      <title>Partial fractions: linear over difference of squares</title>
+      <webwork source="Library/Michigan/Chap7Sec4/Q57.pg" />
+    </exercise>
+    
+    <exercise xml:id="ez-5-7-WW2" permid="LOG">
+      <title>Partial fractions: constant over product</title>
+      <webwork source="Library/Michigan/Chap7Sec4/Q33.pg" />
+    </exercise>
+    
+    <exercise xml:id="ez-5-7-WW3" permid="rVP">
+      <title>Partial fractions: linear over quadratic</title>
+      <webwork source="Library/Michigan/Chap7Sec4/Q39.pg" />
+    </exercise>
+    
+    <exercise xml:id="ez-5-7-WW5" permid="YcY">
+      <title>Partial fractions: cubic over 4th degree</title>
+      <webwork source="Library/ma123DB/set3/s7_4_39.pg" />
+    </exercise>
+    
+    <exercise xml:id="ez-5-7-WW7" permid="Ekh">
+      <title>Partial fractions: quadratic over factored cubic</title>
+      <webwork source="Library/ma123DB/set3/s7_4_31.pg" />
+    </exercise>
+    
+    
+  </exercises>
+</section>
+

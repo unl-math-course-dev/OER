@@ -1,0 +1,377 @@
+<section xmlns:xi="http://www.w3.org/2001/XInclude" xml:id="sec-11-1-linear-growth">
+
+<title>Linear Growth</title>
+
+<subsection>
+	<title>Linear Growth</title>
+
+<p>Marco is a collector of antique soda bottles.  His collection currently contains 437 bottles.  Every year, he budgets enough money to buy 32 new bottles.  Can we determine how many bottles he will have in 5 years, and how long it will take for his collection to reach 1000 bottles?</p>
+
+<p>While both of these questions you could probably solve without an equation or formal mathematics, we are going to formalize our approach to this problem to provide a means to answer more complicated questions.</p>
+
+<p>Suppose that <m>P_n</m> represents the number, or population, of bottles Marco has after n years.  So <m>P_0</m> would represent the number of bottles now, <m>P_1</m> would represent the number of bottles after 1 year, <m>P_2</m> would represent the number of bottles after 2 years, and so on.  We could describe how Marco's bottle collection is changing using: </p>
+
+<p><m>P_0 = 437</m></p>
+<p><m>P_n = P_{n-1} + 32</m></p>
+
+<p>This is called a <term>recursive relationship</term>. A recursive relationship is a formula which relates the next value in a sequence to the previous values.  Here, the number of bottles in year n can be found by adding 32 to the number of bottles in the previous year, <m>P_{n-1}.</m>  Using this relationship, we could calculate: </p>
+
+<me> P_1 = P_0 + 32 = 437 + 32 = 469 </me>
+
+<me> P_2 = P_1 + 32 = 469 + 32 = 501 </me>
+
+<me> P_3 = P_2 + 32 = 501 + 32 = 533 </me>
+
+<me> P_4 = P_3 + 32 = 533 + 32 = 565 </me>
+
+<me> P_5 = P_4 + 32 = 565 + 32 = 597 </me>
+
+<p>We have answered the question of how many bottles Marco will have in 5 years.  However, solving how long it will take for his collection to reach 1000 bottles would require a lot more calculations.  </p>
+
+<p>While recursive relationships are excellent for describing simply and cleanly how a quantity is changing, they are not convenient for making predictions or solving problems that stretch far into the future.  For that, a closed or explicit form for the relationship is preferred.  An <term>explicit equation</term> allows us to calculate <m>P_n</m> directly, without needing to know <m>P_{n-1}</m>.  While you may already be able to guess the explicit equation, let us derive it from the recursive formula.  We can do so by selectively not simplifying as we go:</p>
+
+<me>P_1 = 437 + 32 = 437 + 1(32)</me>
+<me>P_2 = P_1 + 32 = 437 + 32 + 32 = 437 + 2(32)</me>
+<me>P_3 = P_2 + 32 = (437 + 2(32)) + 32 = 437 + 3(32)</me>
+<me>P_4 = P_3 = 32 = (437 + 3(32)) + 32 = 437 + 4(32)</me>
+
+<p>You can probably see the pattern now, and generalize that</p>
+
+<me>P_n = 437 + n(32) = 437 + 32n</me>
+
+<p>Using this equation, we can calculate how many bottles he'll have after 5 years:</p>
+
+<me>P_5 = 437 + 32(5) = 437 + 160 = 597</me>
+
+<p>We can now also solve for when the collection will reach 1000 bottles by substituting in 1000 for <m>P_n</m> and solving for n</p>
+
+<me>1000 = 437 + 32n</me>
+
+<me>563 = 32n</me>
+
+<me>n = 563/32 = 17.59</me>
+
+<p>So Marco will reach 1000 bottles in 18 years.</p>
+
+<sidebyside>
+	<p>In the previous example, Marco's collection grew by the <emph>same number</emph> of bottles every year.  This constant change is the defining characteristic of linear growth. Plotting the values we calculated for Marco's collection, we can see the values form a straight line, the shape of linear growth.</p>
+	<image source="images/linear-bottles.png" width="70%" />
+</sidebyside>
+
+<assemblage>
+	<title>Linear Growth</title>
+	<p>If a quantity starts at size <m>P_0</m> and grows by <m>d</m>every time period, then the quantity after n time periods can be determined using either of these relations:</p>
+
+	<p>Recursive form: <m>P_n = P_{n-1} + d</m></p>
+
+	<p>Explicit form: <m>P_n = P_0 + dn</m></p>
+
+</assemblage>
+
+<p>You may recognize the common difference, d, in our linear equation as slope.  In fact, the entire explicit equation should look familiar – it is the same linear equation you learned in algebra, probably stated as <m>y = mx + b.</m></p>
+
+<p>In the standard algebraic equation <m>y = mx + b</m>, b was the y-intercept, or the y value when x was zero.  In the form of the equation we're using, we are using <m>P_0</m> to represent that initial amount.</p>
+
+<p>In the <m>y = mx + b</m> equation, recall that m was the slope.  You might remember this as “rise over run”, or the change in y divided by the change in x.  Either way, it represents the same thing as the common difference, d, we are using – the amount the output <m>P_n</m> changes when the input n increases by 1.</p>
+
+<p>The equations<m>y = mx + b</m> and <m>P_n = P_0 + d n</m> mean the same thing and can be used the same ways, we're just writing it somewhat differently.</p>
+
+<example>
+	<p>The population of elk in a national forest was measured to be 12,000 in 2003, and was measured again to be 15,000 in 2007.  If the population continues to grow linearly at this rate, what will the elk population be in 2014?</p>
+
+	<p>To begin, we need to define how we're going to measure <m>n</m>.  Remember that <m>P_0</m> is the population when <m>n = 0</m>, so we probably don't want to literally use the year 0.  Since we already know the population in 2003, let us define <m>n = 0</m> to be the year 2003.  Then <m>P_0 = 12,000</m>.</p>
+
+	<p>Next we need to find <m>d</m>.  Remember <m>d</m> is the growth per time period, in this case growth per year.  Between the two measurements, the population grew by 15,000-12,000 = 3,000, but it took 2007-2003 = 4 years to grow that much.  To find the growth per year, we can divide:  3000 elk / 4 years = 750 elk in 1 year. </p>
+
+	<p>Alternatively, you can use the slope formula from algebra to determine the common difference, noting that the population is the output of the formula, and time is the input.</p>
+
+	<me> d = slope = \frac{\text{change in output}}{\text{change in input}} = \frac{15,000-12,000}{2007-2003} = \frac{3000}{4} = 750 </me>
+
+	<p>We can now write our equation in whichever form is preferred. </p>
+
+	<p>Recursive form:</p>
+
+	<p><m>P_0 = 12,000</m></p>
+	<p><m>P_n = P_{n-1} + 750</m></p>
+
+	<p>Explicit form:</p>
+
+	<p><m>P_n = 12,000 + 750n </m> </p>
+
+	<p>To answer the question, we need to first note that the year 2014 will be <m>n = 11</m>, since 2014 is 11 years after 2003.  The explicit form will be easier to use for this calculation: </p>
+
+	<p><m>P_{11} = 12,000 + 750(11) = 20,250</m> elk</p>
+</example>
+
+<example>
+	<p>Gasoline consumption in the US has been increasing steadily.  Consumption data from 1992 to 2004 is shown below<fn>http://www.bts.gov/publications/national_transportation_statistics/2005/html/table_04_10.html</fn> in billions of gallons.  Find a model for this data, and use it to predict consumption in 2016.  If the trend continues, when will consumption reach 200 billion gallons? </p>
+
+	<sidebyside>
+  <tabular top="minor" left="minor" right="minor" halign="center">
+    <row bottom="minor">
+      <cell>
+        Year
+      </cell>
+      <cell>
+        '92
+      </cell>
+      <cell>
+      	'93
+      </cell>
+      <cell>
+      	'94
+      </cell>
+      <cell>
+      	'95
+      </cell>
+      <cell>
+      	'96
+      </cell>
+      <cell>
+      	'97
+      </cell>
+      <cell>
+      	'98
+      </cell>
+      <cell>
+      	'99
+      </cell>
+      <cell>
+      	'00
+      </cell>
+      <cell>
+      	'01
+      </cell>
+      <cell>
+      	'02
+      </cell>
+      <cell>
+      	'03
+      </cell>
+      <cell>
+      	'04
+      </cell>
+    </row>
+    <row bottom = "minor">
+    	 <cell>
+        Consumption (bil. gal)
+      </cell>
+      <cell>
+        110
+      </cell>
+      <cell>
+      	111
+      </cell>
+      <cell>
+      	113
+      </cell>
+      <cell>
+      	116
+      </cell>
+      <cell>
+      	118
+      </cell>
+      <cell>
+      	119
+      </cell>
+      <cell>
+      	123
+      </cell>
+      <cell>
+      	125
+      </cell>
+      <cell>
+      	126
+      </cell>
+      <cell>
+      	128
+      </cell>
+      <cell>
+      	131
+      </cell>
+      <cell>
+      	133
+      </cell>
+      <cell>
+      	136
+      </cell>
+     </row>
+  </tabular>
+</sidebyside>
+
+<sidebyside>
+	<p>Plotting this data, it appears to have an approximately linear relationship: While there are more advanced statistical techniques that can be used to find an equation to model the data, to get an idea of what is happening, we can find an equation by using two pieces of the data – perhaps the data from 1993 and 2003. </p>
+	<image source = "images/gas-consumption.png" width="70%" />
+</sidebyside>
+
+<p>Letting <m>n=0</m> correspond with 1993 would give <m>P_0 = 111</m> billion gallons.</p>
+
+<p>To find <m>d</m>, we need to know how much the gas consumption increased each year, on average. From 1993 to 2003 the gas consumption increased from 111 billion gallons to 133 billion gallons, a total change of 133 – 111 = 22 billion gallons, over 10 years.  This gives us an average change of 22 billion gallons / 10 year = 2.2 billion gallons per year.  </p>
+
+<p>Equivalently,</p>
+
+<me>d = slope = \frac{\text{change in output}}{\text{change in input}} = \frac{113-111}{10-0} = \frac{22}{10} = 2.2 \text{billion gallons per year}</me>
+
+<p>We can now write our equation in whichever form is preferred.</p>
+
+<p>Recursive form:</p>
+<p><m>P_0 = 111</m></p>
+<p><m>P_n = P_{n-1} + 2.2</m></p>
+
+<p>Explicit form:</p>
+<p><m>P_n = 111 + 2.2n</m></p>
+
+<sidebyside>
+	<p>Calculating values using the explicit form and plotting them with the original data shows how well our model fits the data.</p>
+	<image source = "images/consumptionbestfit.png" width = "70%" />
+</sidebyside>
+
+<p>We can now use our model to make predictions about the future, assuming that the previous trend continues unchanged.  To predict the gasoline consumption in 2016:</p>
+
+<p><m>n = 23</m> (2016-1993 = 23 years later)</p>
+<p><m>P_{23} = 111 + 2.2(23) = 161.6</m></p>
+
+<p>Our model predicts that the US will consume 161.6 billion gallons of gasoline in 2016 if the current trend continues.</p>
+
+<p>To find when the consumption will reach 200 billion gallons, we would set <m>P_n = 200</m>, and solve for <m>n</m>: </p>
+
+<sidebyside>
+	<tabular>
+		<row>
+			<cell>
+				<m>P_n = 200</m>
+			</cell>
+			<cell>
+				Replace <m>P_n</m> with our model
+			</cell>
+		</row>
+		<row>
+			<cell>
+				<m>111 + 2.2n = 200</m>
+			</cell>
+			<cell>
+				Subtract 111 from both sides
+			</cell>
+		</row>
+		<row>
+			<cell>
+				<m>2.2n = 89</m>
+			</cell>
+			<cell>
+				Divide both sides by 2.2
+			</cell>
+		</row>
+		<row>
+			<cell>
+				<m>n=40.4545</m>
+			</cell>
+			<cell>
+			</cell>
+		</row>
+	</tabular>
+</sidebyside>
+
+
+</example>
+
+<example>
+	<p>The cost, in dollars, of a gym membership for n months can be described by the explicit equation <m>P_n = 70 + 30n</m>.  What does this equation tell us?</p>
+
+	<p>The value for <m>P_0</m> in this equation is 70, so the initial starting cost is $70.  This tells us that there must be an initiation or start-up fee of $70 to join the gym.</p>
+
+	<p>The value for <m>d</m> in the equation is 30, so the cost increases by $30 each month.  This tells us that the monthly membership fee for the gym is $30 a month.</p>
+</example>
+
+<exploration>
+<statement>
+	<p>The number of stay-at-home fathers in Canada has been growing steadily <fn>http://www.fira.ca/article.php?id=140</fn>. While the trend is not perfectly linear, it is fairly linear.  Use the data from 1976 and 2010 to find an explicit formula for the number of stay-at-home fathers, then use it to predict the number in 2020.</p>
+
+
+	<sidebyside>
+  <tabular top="minor" left="minor" right="minor" halign="center">
+    <row bottom="minor">
+      <cell>
+        Year
+      </cell>
+      <cell>
+        1976
+      </cell>
+      <cell>
+      	1984
+      </cell>
+      <cell>
+      	1991
+      </cell>
+      <cell>
+      	2000
+      </cell>
+      <cell>
+      	2010
+      </cell>
+    </row>
+    <row bottom = "minor">
+    	 <cell>
+        # Stay at home fathers
+      </cell>
+      <cell>
+       	20,610
+      </cell>
+      <cell>
+      	28,725
+      </cell>
+      <cell>
+      	43,530
+      </cell>
+      <cell>
+      	47,664
+      </cell>
+      <cell>
+      	53,555
+      </cell>
+     </row>
+  </tabular>
+</sidebyside>
+</statement>
+<solution>
+<p>Letting <m>n = 0</m> correspond with 1976, then <m>P_0 = 20,610</m>.  </p>
+<p>From 1976 to 2010 the number of stay-at-home fathers increased by
+53,555 – 20,610 = 32,945</p>
+<p>This happened over 34 years, giving a common different d of 32,945 / 34 = 969.</p>
+<p><m>P_n = 20,610 + 969n</m></p>
+
+</solution>
+</exploration>
+
+</subsection>
+
+<subsection>
+	<title>When good models go bad</title>
+	<p>When using mathematical models to predict future behavior, it is important to keep in mind that very few trends will continue indefinitely. </p>
+
+	<example>
+		<p>Suppose a four year old boy is currently 39 inches tall, and you are told to expect him to grow 2.5 inches a year.  </p>
+
+		<p>We can set up a growth model, with <m>n = 0</m> corresponding to 4 years old.</p>
+
+		<p>Recursive form:</p>
+
+		<p><m>P_0 = 39</m></p>
+		<p><m>P_n = P_{n-1} + 2.5</m></p>
+
+		<p>Explicit form:</p>
+		<p><m>P_n = 39 + 2.5n</m></p>
+
+		<p>So at 6 years old, we expect him to be:</p>
+
+		<p><m>P_2 = 39+2.5(2) = 44</m> inches tall.</p>
+
+		<p>Any mathematical model will break down eventually.  Certainly, we shouldn't expect this boy to continue to grow at the same rate all his life.  If he did, at age 50 he would be
+ <m>P_{46}</m> = 39 + 2.5(46) = 154 inches tall = 12.8 feet tall!</p>
+</example>
+
+<p>When using any mathematical model, we have to consider which inputs are reasonable to use.  Whenever we <term>extrapolate</term>, or make predictions into the future, we are assuming the model will continue to be valid.</p>
+
+
+</subsection>
+
+</section>

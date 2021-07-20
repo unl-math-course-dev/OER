@@ -1,0 +1,638 @@
+<section xmlns:xi="http://www.w3.org/2001/XInclude" xml:id="sec-8-1-banzhaf">
+
+	<title>Weighted Voting</title>
+
+<introduction>
+	<p>
+		In a corporate shareholders meeting, each shareholder's vote counts proportionally to the amount of shares they own.  An individual with one share gets the equivalent of one vote, while someone with 100 shares gets the equivalent of 100 votes.  This is called <term>weighted voting</term>, where each vote has some weight attached to it.  Weighted voting is sometimes used to vote on candidates, but more commonly to decide <q>yes</q> or <q>no</q> on a proposal, sometimes called a motion.  Weighted voting is applicable in corporate settings, as well as decision making in a legislative body and voting in the United Nations Security Council.
+			<aside><p>The UN Security Council rules are not explicitly defined as a weighted voting system. However, its voting system is mathematically equivalent to a weighted voting system.</p></aside>
+	</p>
+
+	<p>
+		In weighted voting, we are most often interested in the power each voter has in influencing the outcome.
+	</p>
+</introduction>
+
+
+<subsection><title>Beginnings</title>
+	<p>
+		We'll begin with some basic vocabulary for weighted voting systems.
+	</p>
+
+	<assemblage><title>Vocabulary for Weighted Voting</title>
+		<p>Each individual or entity casting a vote is called a player in the election.  They're often notated as <m>P_1,P_2,P_3,\ldots,P_N</m> where <m>N</m> is the total number of voters.</p>
+
+		<p>Each player is given a weight, which usually represents how many votes they get.</p>
+
+		<p>The quota is the minimum weight needed for the votes or weight needed for the proposal to be approved.</p>
+
+		<p>A weighted voting system will often be represented in a shorthand form:
+
+		<me>[q: w_1, w_2, w_3,\ldots, w_n]</me>
+
+		In this form, <m>q</m> is the quota, <m>w_1</m> is the weight for player 1, and so on.</p>
+	</assemblage>
+
+	<example>
+		<p>
+			In a small company, there are 4 shareholders.  Mr. Smith has a 30% ownership stake in the company, Mr. Garcia has a 25% stake, Mrs. Hughes has a 25% stake, and Mrs. Lee has a 20% stake.   They are trying to decide whether to open a new location.  The company by-laws state that more than 50% of the ownership has to approve any decision like this.  This could be represented by the weighted voting system:
+
+			<me>[51:  30, 25, 25, 20]</me>
+
+			Here we have treated the percentage ownership as votes, so Mr. Smith gets the equivalent of 30 votes, having a 30% ownership stake.  Since more than 50% is required to approve the decision, the quota is 51, the smallest whole number over 50.
+		</p>
+	</example>
+
+	<p>In order to have a meaningful weighted voting system, it is necessary to put some limits on the quota.</p>
+
+	<assemblage><title>Limits on the Quota</title>
+		<p>The quota must be more than <m>1/2</m> the total number of votes.</p>
+		<p>The quota can't be larger than the total number of votes.</p>
+	</assemblage>
+
+	<p>Why?  Consider the voting system <m>[q: 3, 2, 1]</m></p>
+
+	<p>
+		Here there are 6 total votes.  If the quota was set at only 3, then player 1 could vote yes, players 2 and 3 could vote no, and both would reach quota, which doesn't lead to a decision being made.  In order for only one decision to reach quota at a time, the quota must be at least half the total number of votes.  If the quota was set to 7, then no group of voters could ever reach quota, and no decision can be made, so it doesn't make sense for the quota to be larger than the total number of voters.
+	</p>
+
+	<exploration>
+		<statement><p>
+			In a committee there are four representatives from the management and three representatives from the workers' union.  For a proposal to pass, four of the members must support it, including at least one member of the union.  Find a voting system that can represent this situation.
+		</p></statement>
+		<solution>
+			<p>If we represent the players as <m>M_1, M_2, M_3, M_4, U_1, U_2, U_3</m>, then we may be tempted to set up a system like <m>[4: 1, 1, 1, 1, 1, 1, 1]</m>.  While this system would meet the first requirement that four members must support a proposal for it to pass, this does not satisfy the requirement that at least one member of the union must support it.</p>
+
+			<p>To accomplish that, we might try increasing the voting weight of the union members: <m>[5: 1, 1, 1, 1, 2, 2, 2]</m>.  The quota was set at 5 so that the four management members alone would not be able to reach quota without one of the union members.  Unfortunately, now the three union members can reach quota alone.  To fix this, three management members need to have more weight than two union members.</p>
+
+			<p>After trying several other guesses, we land on the system <m>[13: 3, 3, 3, 3, 4, 4, 4]</m>.  Here, the four management members have combined weight of 12, so cannot reach quota.  Likewise, the three union members have combined weight of 12, so cannot reach quota alone.  But, as required, any group of 4 members that includes at least one union member will reach the quota of 13.  For example, three management members and one union member have combined weight of <m>3+3+3+4=13</m>, and reach quota.</p>
+		</solution>
+	</exploration>
+
+</subsection>
+
+<subsection><title>A Look at Power</title>
+	<p>
+		Consider the voting system <m>[10: 11, 3, 2]</m>.  Notice that in this system, player 1 can reach quota without the support of any other player.   When this happens, we say that player 1 is a <term>dictator</term>.
+	</p>
+
+	<assemblage><title>Dictator</title>
+		<p>A player will be a <term>dictator</term> if their weight is equal to or greater than the quota. This means that the dictator can force any measure to pass, even without the support of any other player.</p>
+	</assemblage>
+
+	<p>
+		In the voting system <m>[8: 6, 3, 2]</m>, no player is a dictator, since they each have less votes than the quota of 8.  However, in this system, players 2 and 3 together have only <m>3+2=5</m> votes, less than the quota. Hence, the quota can only be reached if player 1 is in support of the proposal as well. In this case, player 1 is said to have <term>veto power</term>.
+	</p>
+
+	<assemblage><title>Veto Power</title>
+		<p>A player has <term>veto power</term> if their support is necessary for the quota to be reached.  It is possible for more than one player to have veto power, or for no player to have veto power.</p>
+	</assemblage>
+
+	<p>
+		Notice that every dictator has veto power, since the other players can never reach the quota without the dictator's votes. On the other hand, not every player with veto power is a dictator, as we saw in the <m>[8: 6, 3, 2]</m> system above: player 1 has veto power, but has less than 8 votes and so is not a dictator.
+	</p>
+
+	<p>
+		Finally, consider the system <m>[10: 7, 6, 2]</m>. Players 1 and 2 have 13 votes, so they can force a measure to pass whether or not player 3 supports it. On the other hand, players 1 and 3 together have 9 votes, while players 2 and 3 together have 8 votes; neither of these meets the quota. Hence, there is no situation where the vote of player 3 makes a difference in the outcome. We call player 3 a <term>dummy</term> when this happens.
+			<aside><p>Both players 1 and 2 happen to have veto power here as well, although that is unrelated to the fact that player 3 is a dummy.</p></aside>
+	</p>
+
+	<assemblage><title>Dummy</title>
+		<p>A player is a <term>dummy</term> if their vote is never essential for a group to reach quota.</p>
+	</assemblage>
+
+	<example>
+		<p>In the voting system <m>[16: 7, 6, 3, 3, 2]</m>, are any players dictators?  Do any have veto power?  Are any dummies?</p>
+
+		<p>No player can reach quota alone, so there are no dictators.</p>
+
+		<p>Without player 1, the rest of the players' weights add to 14, which doesn't reach quota, so player 1 has veto power.  Likewise, without player 2, the rest of the players' weights add to 15, which doesn't reach quota, so player 2 also has veto power.</p>
+
+			<p>Since player 1 and 2 can reach quota with either player 3 or player 4's support, neither player 3 or player 4 have veto power.  However they cannot reach quota with player 5's support alone, so player 5 has no influence on the outcome and is a dummy.  </p>
+	</example>
+
+	<exploration>
+		<statement><p>
+			In the voting system <m>[q: 10, 5, 3]</m>, which players are dictators, have veto power, and are dummies if the quota is 10?  12?  16?
+		</p></statement>
+		<solution>
+			<p><!--In the voting system <m>[q: 10, 5, 3]</m>, if-->
+			If the quota is <m>q=10</m>, then player 1 is a dictator since they can reach quota without the support of the other players.  This makes the other two players automatically dummies.</p>
+
+			<p>If the quota is 12, then player 1 is necessary to reach quota, so has veto power.  Since at this point either player 2 or player 3 would allow player 1 to reach quota, neither player is a dummy, so they are regular players (not dictators, no veto power, and not a dummy).</p>
+
+			<p>If the quota is 16, then no two players alone can reach quota, so all three players have veto power.</p>
+		</solution>
+	</exploration>
+
+	<p>
+		To better define power, we need to introduce the idea of a coalition.  A <term>coalition</term> is a group of players voting the same way.  In the example above, <m>\{ P_1, P_2, P_4\}</m> would represent the coalition of players 1, 2 and 4.  This coalition has a combined weight of <m>7+6+3 = 16</m>, which meets quota, so this would be a winning coalition.
+	</p>
+
+	<p>
+		A player is said to be <term>critical</term> in a coalition if them leaving the coalition would change it from a winning coalition to a losing coalition.  In the coalition <m>\{ P_1, P_2, P_4\}</m>, every player is critical.  In the coalition <m>\{ P_3, P_4, P_5\}</m>, no player is critical, since it wasn't a winning coalition to begin with.  In the coalition <m>\{ P_1, P_2, P_3,P_4,P_5\}</m>, only players 1 and 2 are critical; any other player could leave the coalition and it would still meet quota.
+	</p>
+
+
+	<assemblage><title>Coalitions and Critical Players</title>
+		<p><ul>
+			<li>A <term>coalition</term> is a group of players voting the same way.</li>
+			<li>A coalition is a <term>winning coalition</term> if the coalition has enough weight to meet quota.</li>
+			<li>A player is <term>critical</term> in a coalition if them leaving the coalition would change it from a winning coalition to a losing coalition.</li>
+		</ul></p>
+	</assemblage>
+
+	<example xml:id="scot-coalitions">
+		<p>In the Scottish Parliament in 2009 there were 5 political parties:  47 representatives for the Scottish National Party, 46 for the Labour Party, 17 for the Conservative Party, 16 for the Liberal Democrats, and 2 for the Scottish Green Party.  Typically all representatives from a party vote as a block, so the parliament can be treated like the weighted voting system:
+			<me>[65: 47, 46, 17, 16, 2]</me>
+		Consider the coalition <m>\{ P_1, P_3, P_4\}</m>.  No two players alone could meet the quota, so all three players are critical in this coalition.</p>
+
+		<p>In the coalition <m>\{ P_1, P_3, P_4, P_5\}</m>, any player except <m>P_1</m> could leave the coalition and it would still meet quota, so only <m>P_1</m> is critical in this coalition.</p>
+	</example>
+
+	<p>
+		Notice that a player with veto power will be critical in every winning coalition, since removing their support would prevent a proposal from passing.
+		Likewise, a dummy will never be critical, since their support will never change a losing coalition to a winning one.
+		This allows us to rephrase the definitions of these terms in a more precise way, using the concepts of critical players and winning coalitions.
+	</p>
+
+<assemblage><title>Dictators, Veto, and Dummies and Critical Players</title>
+	<p><ul>
+		<li>A player is a <term>dictator</term> if the single-player coalition containing them is a winning coalition.</li>
+		<li>A player has <term>veto power</term> if they are critical in every winning coalition.</li>
+		<li>A player is a <term>dummy</term> if they are not critical in any winning coalition.</li>
+	</ul></p>
+</assemblage>
+
+</subsection>
+
+<subsection><title>Calculating Power: Banzhaf Power Index</title>
+	<p>
+		The <term>Banzhaf power index</term> was originally created in 1946 by Lionel Penrose, but was reintroduced by John Banzhaf in 1965.  The power index is a numerical way of looking at power in a weighted voting situation.
+		The story of how Banzhaf originally used this power index is in <xref ref="banzhaf-nassau" text="type-global"/>
+	</p>
+	<!--<aside><p>
+		The story of how Banzhaf originally used this power index is in <xref ref="banzhaf-nassau"/>
+	</p></aside>-->
+
+	<assemblage><title>Calculating the Banzhaf Power Index</title>
+		<p><ol>
+			<li>List all winning coalitions.</li>
+			<li>In each coalition, identify the players who are critical.</li>
+			<li>Count up how many times each player is critical. This number is called the player's <term>Banzhaf score</term> (also called the <term>critical count</term>).</li>
+			<li>Add the Banzhaf scores of all players together, to find the total number of times any player is critical. This number is called the <term>total power score</term>.</li>
+			<li>Convert the Banzhaf score of each player to a fraction or decimal by dividing it by the total power score. This number is the player's <term>Banzhaf power index</term>. It can be expressed as a fraction, decimal, or percent.</li>
+		</ol></p>
+	</assemblage>
+
+<example>
+	<p>
+		Find the Banzhaf power index for the voting system <m>[8: 6, 3, 2]</m>.
+	</p>
+	<p>
+		We start by listing all winning coalitions.  One way to do this is to list all coalitions, then eliminate the non-winning coalitions. In this system, no player is a dictator, so we'll only consider two and three player coalitions.
+	</p>
+
+	<table><caption></caption>
+		<tabular>
+			<row>
+				<cell><m>\{P_1, P_2, P_3\}</m></cell>
+				<cell>	Total weight: 11.  Meets quota.</cell>
+			</row>
+			<row>
+				<cell><m>\{P_1, P_2\}</m></cell>
+				<cell>Total weight: 9.  Meets quota.</cell>
+			</row>
+			<row>
+				<cell><m>\{P_1, P_3\}</m></cell>
+				<cell>Total weight: 8.  Meets quota.</cell>
+			</row>
+			<row>
+				<cell><m>\{P_2, P_3\}</m></cell>
+				<cell>Total weight: 5.  Does not meet quota.</cell>
+			</row>
+		</tabular>
+	</table>
+
+	<p>
+		Next we determine which players are critical in each winning coalition.  In the winning two-player coalitions, both players are critical since no player can meet quota alone.  Underlining the critical players to make it easier to count:
+		<md>
+			<mrow>\{\underline{\smash{P_1}}, \underline{\smash{P_2}}\}</mrow>
+			<mrow>\{\underline{\smash{P_1}}, \underline{\smash{P_3}}\}</mrow>
+		</md>
+
+		In the three-person coalition, either <m>P_2</m> or <m>P_3</m> could leave the coalition and the remaining players could still meet quota, so neither is critical.  If <m>P_1</m> were to leave, the remaining players could not reach quota, so <m>P_1</m> is critical.
+
+		<me>\{\underline{\smash{P_1}}, P_2, P_3\}</me>
+
+		<aside><p>
+			Remember that the power score for a player only counts those winning coalitions in which that player is critical, <em>not</em> every coalition in which that player appears.
+		</p></aside>
+
+		Altogether, <m>P_1</m> is critical 3 times, <m>P_2</m> is critical 1 time, and <m>P_3</m> is critical 1 time; these numbers are the players' Banzhaf scores.
+		Their sum is the total power score: <m>3+1+1=5</m>.
+		Divide each Banzhaf score by the total power score of 5 to find the Banzhaf power index for each player:
+		<md><mrow>P_1 = 3/5 = 60\%</mrow>
+		<mrow>P_2 = 1/5 = 20\%</mrow>
+		<mrow>P_3 = 1/5 = 20\%</mrow></md>
+	</p>
+</example>
+
+<example>
+	<p>Consider the voting system <m>[16: 7, 6, 3, 3, 2]</m>.  Find the Banzhaf power index.</p>
+
+	<p>
+		There's nothing special about naming the players <m>P_1,P_2,</m> etc. We can choose any names or letters we like. Let's refer to the players in this system as A, B, C, D, and E, in descending order of weight (so A has 7 votes, B has 6 votes, and so on).
+	</p>
+	<p>
+		The winning coalitions are listed below, with the critical players underlined.
+		<md>
+			<mrow>\{\underline{\smash{A}}, \underline{\smash{B}}, C, D, E\}</mrow>
+			<mrow>\{\underline{\smash{A}}, \underline{\smash{B}}, C, D\}</mrow>
+			<mrow>\{\underline{\smash{A}}, \underline{\smash{B}}, \underline{\smash{C}}, E\}</mrow>
+			<mrow>\{\underline{\smash{A}}, \underline{\smash{B}}, \underline{\smash{D}}, E\}</mrow>
+			<mrow>\{\underline{\smash{A}}, \underline{\smash{B}}, \underline{\smash{C}}\}</mrow>
+			<mrow>\{\underline{\smash{A}}, \underline{\smash{B}}, \underline{\smash{D}}\}</mrow>
+		</md>
+
+		Counting up times that each player is critical gives their Banzhaf scores:
+		<md>
+			<mrow>A \amp= 6</mrow>
+			<mrow>B \amp= 6</mrow>
+			<mrow>C \amp= 2</mrow>
+			<mrow>D \amp= 2</mrow>
+			<mrow>E \amp= 0</mrow>
+			<mrow>\text{Total power score}\amp=16</mrow>
+		</md>
+
+		Divide each player's Banzhaf score by the total power score of 16 to find the Banzhaf power index, as fractions or percents:
+		<md>
+			<mrow>A = 6/16 = 3/8 = 37.5\%</mrow>
+			<mrow>B = 6/16 = 3/8 = 37.5\%</mrow>
+			<mrow>C = 2/16 = 1/8 = 12.5\%</mrow>
+			<mrow>D = 2/16 = 1/8 = 12.5\%</mrow>
+			<mrow>E = 0/16 = 0 = 0\%</mrow>
+		</md>
+	</p>
+</example>
+
+<p>
+	The Banzhaf power index measures a player's ability to influence the outcome of the vote.  Notice that player 5 has a power index of 0, indicating that there is no coalition in which they would be critical power and could influence the outcome.  This means player 5 is a dummy, as we noted earlier.
+</p>
+
+<example xml:id="scot-banzhaf"><statement>
+	<p>
+		Recall that the Scottish Parliament has the voting system <m>[65: 47, 46, 17, 16, 2]</m>.
+	</p>
+
+	<p>
+		There will be a lot of coalitions in this system. How can you find them all if presented with a problem like this? A good strategy is to list coalitions beginning with the <em>largest</em> and decreasing by weight and number of players. The advantage of this method is that by finding the largest coalitions first, you should be able to identify the winning coalitions before having to sort through very many losing coalitions.
+		With this in mind, the winning coalitions are listed below with the critical players underlined.
+
+	<md>
+		<mrow>\amp\{P_1,P_2,P_3,P_4,P_5\}
+			\amp\{\underline{\smash{P_1}},\underline{\smash{P_2}},P_3\}
+			\amp\amp\{\underline{\smash{P_2}}, \underline{\smash{P_3}}, \underline{\smash{P_4}}\}
+		</mrow>
+		<mrow>\amp\{P_1,P_2,P_3,P_4\}
+			\amp\{\underline{\smash{P_1}},\underline{\smash{P_2}}, P_4\}
+			\amp\amp\{\underline{\smash{P_2}}, \underline{\smash{P_3}}, \underline{\smash{P_5}}\}</mrow>
+		<mrow>\amp\{P_1,P_2,P_3,P_5\}
+			\amp\{\underline{\smash{P_1}}, \underline{\smash{P_2}}, P_5\}
+			\amp\amp\{\underline{\smash{P_1}}, \underline{\smash{P_2}}\}</mrow>
+		<mrow>\amp\{\underline{\smash{P_1}},P_2,P_4,P_5\}
+			\amp\{\underline{\smash{P_1}}, \underline{\smash{P_3}}, \underline{\smash{P_4}}\}</mrow>
+		<mrow>\amp\{\underline{\smash{P_1}},P_3,P_4,P_5\}
+			\amp\{\underline{\smash{P_1}}, \underline{\smash{P_3}}, \underline{\smash{P_5}}\}</mrow>
+		<mrow>\amp\{\underline{\smash{P_2}},\underline{\smash{P_3}},P_4,P_5\}
+			\amp\{\underline{\smash{P_1}}, \underline{\smash{P_4}}, \underline{\smash{P_5}}\}</mrow>
+	</md>
+
+	Notice that in our list above, the last three-player coalition listed, <m>\{P_2, P_3, P_5\}</m>, has exactly 65 votes. Thus, we don't need to check any smaller three-player coalitions (such as <m>\{P_2, P_4, P_5\}</m>). However, we still have to identify winning two-player coalitions. In this case, there is only one: the coalition <m>\{P_1,P_2\}</m>. The next-smallest two-player coalition, <m>\{P_1,P_3\}</m>, has only 64 votes, so we know none of the smaller ones will be winning without having to check them all.
+	</p>
+
+	<p>
+		Counting up times that each player is critical gives us the Banzhaf score and Banzhaf index for each player:
+	</p>
+
+	<table><caption></caption>
+		<tabular top="medium" left="medium" right="medium" bottom="minor">
+			<row bottom="major">
+				<cell>Players (the political parties)</cell>
+				<cell>Banzhaf score</cell>
+				<cell>Banzhaf power index</cell>
+			</row>
+			<row>
+				<cell><m>P_1</m> (Scottish National Party)</cell>
+				<cell>9</cell>
+				<cell><m>\frac{9}{27}=33.3\%</m></cell>
+			</row>
+			<row>
+				<cell><m>P_2</m> (Labour Party)</cell>
+				<cell>7</cell>
+				<cell><m>\frac{7}{27}=25.9\%</m></cell>
+			</row>
+			<row>
+				<cell><m>P_3</m> (Conservative Party)</cell>
+				<cell>5</cell>
+				<cell><m>\frac{5}{27}=18.5\%</m></cell>
+			</row>
+			<row>
+				<cell><m>P_4</m> (Liberal Democrats Party)</cell>
+				<cell>3</cell>
+				<cell><m>\frac{3}{27}=11.1\%</m></cell>
+			</row>
+			<row bottom="medium">
+				<cell><m>P_5</m> (Scottish Green Party)</cell>
+				<cell>3</cell>
+				<cell><m>\frac{3}{27}=11.1\%</m></cell>
+			</row>
+			<row right="none" bottom="none">
+				<cell right="none">Total power score:</cell>
+				<cell left="none" colspan="2"><m>9+7+5+3+3=27</m></cell>
+			</row>
+		</tabular>
+	</table>
+
+	<p>
+		Interestingly, even though the Liberal Democrats have only one less representative than the Conservatives, and 14 more than the Scottish Green Party, their Banzhaf power index is the same as the Scottish Green Party's.  In parliamentary governments, forming coalitions is an essential part of getting results, and a party's ability to help a coalition reach quota defines its influence.
+	</p>
+</statement>
+</example>
+
+<exploration>
+	<statement><p>
+		Find the Banzhaf power index for the weighted voting system <m>[36: 20, 17, 16, 3]</m>.
+	</p></statement>
+	<solution>
+		<p>
+			The voting system tells us that the quota is 36, that Player 1 has 20 votes (or equivalently, has a weight of 20), Player 2 has 17 votes, Player 3 has 16 votes, and Player 4 has 3 votes.
+		</p>
+
+		<p>
+			The winning coalitions<mdash/>those witb at least 36 votes<mdash/>are listed below with their weights. The critical players in each coalition are underlined.
+
+			<md>
+				<mrow>
+					\amp\{P_1, P_2, P_3, P_4\}
+					\amp\amp\text{(weight: 56)}
+				</mrow>
+				<mrow>
+					\amp\{\underline{\smash{P_1}}, P_2, P_3\}
+					\amp\amp\text{(weight: 53)}
+				</mrow>
+				<mrow>
+					\amp\{\underline{\smash{P_1}}, \underline{\smash{P_2}}, P_4\}
+					\amp\amp\text{(weight: 40)}
+				</mrow>
+				<mrow>
+					\amp\{\underline{\smash{P_1}}, \underline{\smash{P_3}}, P_4\}
+					\amp\amp\text{(weight: 39)}
+				</mrow>
+				<mrow>
+					\amp\{\underline{\smash{P_2}}, \underline{\smash{P_3}}, \underline{\smash{P_4}}\}
+					\amp\amp\text{(weight: 36)}
+				</mrow>
+				<mrow>
+					\amp\{\underline{\smash{P_1}}, \underline{\smash{P_2}}\}
+					\amp\amp\text{(weight: 37)}
+				</mrow>
+				<mrow>
+					\amp\{\underline{\smash{P_1}}, \underline{\smash{P_3}}\}
+					\amp\amp\text{(weight: 36)}
+				</mrow>
+			</md>
+
+			From this, we can find the Banzhaf score and Banzhaf power index of each player:
+
+			<sidebyside>
+				<tabular top="medium" left="medium" right="medium" bottom="minor">
+					<row bottom="major">
+						<cell>Players</cell>
+						<cell>Banzhaf score</cell>
+						<cell>Banzhaf power index</cell>
+					</row>
+					<row>
+						<cell><m>P_1</m></cell>
+						<cell>5</cell>
+						<cell><m>\frac{5}{12}=41.7\%</m></cell>
+					</row>
+					<row>
+						<cell><m>P_2</m></cell>
+						<cell>3</cell>
+						<cell><m>\frac{3}{12}=\frac{1}{4}=25\%</m></cell>
+					</row>
+					<row>
+						<cell><m>P_3</m></cell>
+						<cell>3</cell>
+						<cell><m>\frac{3}{12}=\frac{1}{4}=25\%</m></cell>
+					</row>
+					<row bottom="medium">
+						<cell><m>P_4</m></cell>
+						<cell>1</cell>
+						<cell><m>\frac{1}{12}=8.3\%</m></cell>
+					</row>
+					<row right="none" bottom="none">
+						<cell right="none">Total power score:</cell>
+						<cell left="none" colspan="2"><m>5+3+3+1=12</m></cell>
+					</row>
+				</tabular>
+			</sidebyside>
+		</p>
+	</solution>
+</exploration>
+
+
+<example xml:id="banzhaf-nassau">
+<statement>
+	<p>Banzhaf used this index to argue that the weighted voting system used in the Nassau County Board of Supervisors in New York was unfair.  The county was divided up into 6 districts, each getting voting weight proportional to the population in the district, as shown below.  Calculate the power index for each district.</p>
+
+	<table><caption></caption>
+		<tabular top="medium" left="medium" right="medium" bottom="minor">
+			<row bottom="major">
+				<cell>District</cell>
+				<cell>Abbreviation</cell>
+				<cell>Weight</cell>
+			</row>
+			<row>
+				<cell>Hempstead #1</cell>
+				<cell>H1</cell>
+				<cell>31</cell>
+			</row>
+			<row>
+				<cell>Hempstead #2</cell>
+				<cell>H2</cell>
+				<cell>31</cell>
+			</row>
+			<row>
+				<cell>Oyster Bay</cell>
+				<cell>OB</cell>
+				<cell>28</cell>
+			</row>
+			<row>
+				<cell>North Hempstead</cell>
+				<cell>NH</cell>
+				<cell>21</cell>
+			</row>
+			<row>
+				<cell>Long Beach</cell>
+				<cell>LB</cell>
+				<cell>2</cell>
+			</row>
+			<row bottom="medium">
+				<cell>Glen Cove</cell>
+				<cell>GC</cell>
+				<cell>2</cell>
+			</row>
+		</tabular>
+	</table>
+
+	<p>
+		The total number of votes in this system is 115, so if the quota is a simple majority, we have the following weighted voting system:
+		<me>[58: 31, 31, 28, 21, 2, 2]</me>
+		This system has many winning coalitions, listed below using the abbreviations from the table above. As usual, the critical players in each coalition are underlined.
+
+		<md>
+			<mrow>
+				\amp\{H1, H2, OB, NH, LB, GC\}\amp
+				\amp\{\underline{\smash{H1}}, \underline{\smash{H2}}, NH, LB\}\amp
+				\amp\{\underline{\smash{H1}}, \underline{\smash{H2}}, NH\}\amp
+			</mrow>
+			<mrow>
+				\amp\{H1, H2, OB, NH, GC\}\amp
+				\amp\{\underline{\smash{H1}}, \underline{\smash{H2}}, NH, GC\}\amp
+				\amp\{\underline{\smash{H1}}, \underline{\smash{H2}}, LB\}\amp
+			</mrow>
+			<mrow>
+				\amp\{H1, H2, OB, NH, LB\}\amp
+				\amp\{\underline{\smash{H1}}, \underline{\smash{H2}}, LB, GC\}\amp
+				\amp\{\underline{\smash{H1}}, \underline{\smash{H2}}, GC\}\amp
+			</mrow>
+			<mrow>
+				\amp\{\underline{\smash{H1}}, \underline{\smash{H2}}, NH, LB, GC\}\amp
+				\amp\{\underline{\smash{H1}}, \underline{\smash{OB}}, NH, LB\}\amp
+				\amp\{\underline{\smash{H1}}, \underline{\smash{OB}}, NH\}\amp
+			</mrow>
+			<mrow>
+				\amp\{\underline{\smash{H1}}, \underline{\smash{OB}}, NH, LB, GC\}\amp
+				\amp\{\underline{\smash{H1}}, \underline{\smash{OB}}, NH, GC\}\amp
+				\amp\{\underline{\smash{H1}}, \underline{\smash{OB}}, LB\}\amp
+			</mrow>
+			<mrow>
+				\amp\{\underline{\smash{H2}}, \underline{\smash{OB}}, NH, LB, GC\}\amp
+				\amp\{\underline{\smash{H1}}, \underline{\smash{OB}}, LB, GC\}\amp
+				\amp\{\underline{\smash{H1}}, \underline{\smash{OB}}, GC\}\amp
+			</mrow>
+			<mrow>
+				\amp\{H1, H2, OB, NH\}\amp
+				\amp\{\underline{\smash{H2}}, \underline{\smash{OB}}, NH, LB\}\amp
+				\amp\{\underline{\smash{H2}}, \underline{\smash{OB}}, NH\}\amp
+			</mrow>
+			<mrow>
+				\amp\{H1, H2, OB, LB\}\amp
+				\amp\{\underline{\smash{H2}}, \underline{\smash{OB}}, NH, GC\}\amp
+				\amp\{\underline{\smash{H2}}, \underline{\smash{OB}}, LB\}\amp
+			</mrow>
+			<mrow>
+				\amp\{H1, H2, OB, GC\}\amp
+				\amp\{\underline{\smash{H2}}, \underline{\smash{OB}}, LB, GC\}\amp
+				\amp\{\underline{\smash{H2}}, \underline{\smash{OB}}, GC\}\amp
+			</mrow>
+			<mrow>
+				\amp\amp
+				\amp\amp
+				\amp\{H1, H2, OB\}\amp
+			</mrow>
+			<!--<mrow></mrow>-->
+			<mrow>
+				\amp\{\underline{\smash{H1}}, \underline{\smash{H2}}\}</mrow><mrow>
+				\amp\{\underline{\smash{H1}}, \underline{\smash{OB}}\}</mrow><mrow>
+				\amp\{\underline{\smash{H2}}, \underline{\smash{OB}}\}</mrow><mrow>
+			</mrow>
+		</md>
+
+		This gives us the following Banzhaf scores and Banzhaf power index for each district:
+	</p>
+
+		<table><caption></caption>
+			<tabular top="medium" left="medium" right="medium" bottom="minor">
+				<row bottom="major">
+					<cell>Players (the districts)</cell>
+					<cell>Banzhaf score</cell>
+					<cell>Banzhaf power index</cell>
+				</row>
+				<row>
+					<cell>Hempstead #1</cell>
+					<cell>16</cell>
+					<cell><m>\frac{16}{48}=\frac{1}{3}=33.3\%</m></cell>
+				</row>
+				<row>
+					<cell>Hempstead #2</cell>
+					<cell>16</cell>
+					<cell><m>\frac{16}{48}=\frac{1}{3}=33.3\%</m></cell>
+				</row>
+				<row>
+					<cell>Oyster Bay</cell>
+					<cell>16</cell>
+					<cell><m>\frac{16}{48}=\frac{1}{3}=33.3\%</m></cell>
+				</row>
+				<row>
+					<cell>North Hempstead</cell>
+					<cell>0</cell>
+					<cell><m>\frac{0}{48}=0=0\%</m></cell>
+				</row>
+				<row>
+					<cell>Long Beach</cell>
+					<cell>0</cell>
+					<cell><m>\frac{0}{48}=0=0\%</m></cell>
+				</row>
+				<row bottom="medium">
+					<cell>Glen Cove</cell>
+					<cell>0</cell>
+					<cell><m>\frac{0}{48}=0=0\%</m></cell>
+				</row>
+				<row right="none" bottom="none">
+					<cell right="none">Total power score:</cell>
+					<cell left="none" colspan="2"><m>16+16+16=48</m></cell>
+				</row>
+			</tabular>
+		</table>
+
+	<p>
+		It turns out that the three smaller districts are dummies.  Any winning coalition requires two of the larger districts.
+	</p>
+</statement>
+</example>
+
+<p>
+	The weighted voting system that Americans are most familiar with is the Electoral College system used to elect the President.  In the Electoral College, states are given a number of votes equal to the number of their congressional representatives (house + senate).  Most states give all their electoral votes to the candidate that wins a majority in their state, turning the Electoral College into a weighted voting system, in which the states are the players.  As I'm sure you can imagine, there are billions of possible winning coalitions, so the power index for the Electoral College has to be computed by a computer using approximation techniques.
+</p>
+
+</subsection>
+
+<!--The following are exercises we wrote for past semesters of 203.
+
+<exercises>
+
+	<exercisegroup>
+		<introduction><p>A  certain  club  has ten  members:  a  president,  vice  president,  secretary,  treasurer,  and  six other members.  The president has 5 votes, the vice president has 4 votes, the secretary and treasurer each have 3 votes, and the six other members each have 1 vote.  Any measure needs 18 votes to pass. Use this information for the followig exercises
+		</p></introduction>
+		<exercise><title>Weighted voting notation</title>
+			<statement><p>Write this weighted voting system using our standard notation.</p></statement>
+		</exercise>
+		<exercise><title>Veto power</title>
+			<statement><p>Which members, if any, have veto power?  Show your work and/or explain why.  If no member has veto power, explain why.</p></statement>
+			<hint><p>This is a hint.</p></hint>
+		</exercise>
+		<exercise><title>Banzhaf power</title>
+			<statement>Find the Banzhaf power index for each member of this club.</statement>
+		</exercise>
+	</exercisegroup>
+
+	<exercise><title>Title for exercise?</title>
+		<statement>This is an exercise that is not in a group.</statement>
+	</exercise>
+</exercises>
+-->
+
+</section>
