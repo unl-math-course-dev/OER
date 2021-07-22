@@ -54,24 +54,9 @@
 				Source: <url href="https://img.washingtonpost.com/wp-apps/imrs.php?src=https://img.washingtonpost.com/blogs/wonkblog/files/2015/03/gerry.png&amp;w=1484">Washington Post</url>
 			</fn>
 		</caption>
-		<sidebyside>
-			<figure xml:id="population">
-				<caption>Population</caption>
-				<image source="images/packing-cracking-pop.png"/>
-			</figure>
-			<figure xml:id="method-1">
-				<caption>Method 1</caption>
-				<image source="images/packing-cracking-1.png"/>
-			</figure>
-			<figure xml:id="method-2">
-				<caption>Method 2</caption>
-				<image source="images/packing-cracking-2.png"/>
-			</figure>
-			<figure xml:id="method-3">
-				<caption>Method 3</caption>
-				<image source="images/packing-cracking-3.png"/>
-			</figure>
-		</sidebyside>
+
+		<image source="images/packing-cracking-all.png"/>
+
 	</figure>
 
 	<sidebyside>
@@ -85,19 +70,203 @@
 
 	<title>Using Mathematics to Combat Gerrymandering</title>
 
-	<!-- WRITE THIS SECTION  First explain compactness. Which of the district plans in Figure XXX show districts that you think are compact? Why might this be an advantage?
-Then explain the Polsby-Popper Score -->
 	<subsubsection>
 		<title>Compactness</title>
-		<p>The Polsby-Popper Score (PPS) is a metric used to quantify compactness. Recall that popular opinion is that compactness is something to be desired; the more compact a district is, the better. To calculate the PPS, we use the following definition: 
-			<me>\text{PPS} = \frac{4 \pi (\text{Area of District})}{(\text{Perimeter of District})^2}</me>
-		</p>
+
+		<p>One characteristic which can be described mathematically that is sometimes regarded as an indicator for whether a voting district has been gerrymandered is the notion of compactness. A shape is considered <term>compact</term> when it encloses as much area as possible for a given perimeter.</p>
+
+		<p>We can recognize shapes that are compact intuitively.  For example, we can quickly surmise that the &quot;salamander&quot; shape in the image above is not very compact, while the entire shape (the salamander plus the regions in the image with lighter outlines) is more compact.</p>
+
+		<p>What about other, more familiar two-dimensional geometric shapes? The circle, the square and the rectangle below, are drawn so they all have the same perimeter of approximately 4 units.    (Recall that for a circle, the perimeter is called the circumference.)</p>
+
+		<sidebyside>
+			<image source="images/area-perimeter.png"/>
+		</sidebyside>
+
+		<p>Can you tell just by looking at them which shape has the greatest area? Let’s check.</p>
+
+		<sidebyside>
+			<tabular top="minor" left="minor" right="minor" bottom="minor" halign="center">
+				<row>
+					<cell></cell>
+					<cell>Circle</cell>
+					<cell>Square</cell>
+					<cell>Rectangle</cell>
+				</row>
+				<row>
+					<cell>Perimeter</cell>
+					<cell><m>C = 2 \pi r = 4</m></cell>
+					<cell><m>P = 1+1+1+1 = 4</m></cell>
+					<cell><m>P = 0.5+1.5+0.5+1.5 = 4</m></cell>
+				</row>
+				<row>
+					<cell>Area (units<m>^2</m>)</cell>
+					<cell><m>A = \pi r^2 = \frac{4}{\pi} \approx 1.27</m></cell>
+					<cell><m>A = l \times w = 1 \times 1 = 1</m></cell>
+					<cell><m>A = l \times w = 0.5 \times 1.5 = 0.75</m></cell>
+				</row>
+			</tabular>
+		</sidebyside>
+
+		<p>If you guessed the circle, you’re correct; the familiar geometric shape that is the most compact is the circle because it has the greatest area for a given perimeter.</p>
+
+		<p>As you can see, it is helpful to use numerical values to compare the compactness of a shape.  Unfortunately, most of the shapes of voting districts are not going to be this simple. Nevertheless, having a way to quantify the compactness of a voting district is be helpful. One way to do this is to use what is known as the Polsby-Popper Score.</p>
+
+		<assemblage> <title>Polsby-Popper Score</title>
+			<p>The <term>Polsby-Popper Score (PPS)</term> is a measure of the compactness of a voting district given by the formula
+				<me>\text{PPS} = \frac{4 \pi (\text{Area of District})}{(\text{Perimeter of District})^2}</me>
+			</p>
+
+			<p>The PPS always falls in the interval [0, 1].   Scores near 0 indicate a lack of compactness, while a score of 1 is the maximum level of compactness.</p>
+		</assemblage>
+
+		<p>You might notice the formula involves circles since it includes the number <m>\pi</m>. Since circles enclose the most area for a given perimeter, this formula compares the ratio of the area to the perimeter (squared) of any shape to that of a circle, which always has a PPS value of 1.</p>
+
+		<example>
+			<p>Assume the circle, square, and rectangle are voting districts and calculate their PPS scores.</p>
+			<ol>
+				<li>Circle:
+					<me>\text{PPS} = \frac{4 \pi (\text{Area of District})}{(\text{Perimeter of District})^2} = \frac{4 \pi \cdot 1.27}{4^2} = 1</me>
+				</li>
+				<li>Square:
+					<me>\text{PPS} = \frac{4 \pi \cdot 1}{4^2} \approx 0.79</me>
+				</li>
+				<li>Rectangle:
+					<me>\text{PPS} = \frac{4 \pi \cdot 0.75}{4^2} \approx 0.59</me>
+				</li>
+			</ol>
+		</example>
+
+		<example>
+			<p>Find the PPS of each of the districts in <xref ref="packing-cracking"/>.</p>
+
+			<ol>
+				<li>Method 1:  All of the districts are the same size.  Their perimeter is 22 units and their area is 10 square units.  Thus the PPS of each district is given by
+					<me>\text{PPS} = \frac{4 \pi \cdot 10}{22^2} \approx 0.26</me>
+				</li>
+				<li>Method 2:  All of the districts are the same size.  Their perimeter is 14 units and their area is 10 square units.  Thus the PPS of each district is given by
+					<me>\text{PPS} = \frac{4 \pi \cdot 10}{14^2} \approx 0.64</me>
+				</li>
+				<li>Method 3:
+
+					<sidebyside widths="70% 30%">
+						<ol>
+							<li>Shape A:  <me>\text{PPS} = \frac{4 \pi \cdot 10}{16^2} \approx 0.49</me>
+							</li>
+							<li>Shape B:  <me>\text{PPS} = \frac{4 \pi \cdot 10}{22^2} \approx 0.26</me>
+							</li>
+							<li>Shape C:  <me>\text{PPS} = \frac{4 \pi \cdot 10}{20^2} \approx 0.31</me>
+							</li>
+						</ol>
+						
+						<image source="images/method-3-pps.png"/>
+
+					</sidebyside>
+				</li>
+			</ol>
+		</example>
+
+		<p>Let’s look again at the districting methods shown in <xref ref="packing-cracking"/>:</p>
+
+		<sidebyside>
+			<image source="images/packing-cracking-all.png"/>
+		</sidebyside>
+
+		<p>Although the PPS of each district is calculated in the previous example, you can tell just by looking at them that the districts in Method 2 are more compact than those in Method 1.  Yet the election results of Method 1 are more aligned with the voting population then those in Method 2, and are thus more fair.  We see here that although compactness can sometimes be an indicator for whether a district has been gerrymandered, it is not a guarantee.  Consequently, we consider another method.</p>
+		
 	</subsubsection>
 
 	<subsubsection>
-		<title>Efficiency Gaps</title>
+		<title>Efficiency Gaps<fn>Developed by Nicholas Stephanopoulos and Eric McGhee, this method was used in a federal court (Whitford v. Gill, 2016) to declare a legislative map invalid because it evidenced gerrymandering.</fn>
+		</title>
 
-		<p>Since shape is not a consistent method of detecting gerrymandering, other methods for quantifying the strategic manipulation of voting districts.  Another, more reliable way to measure the degree to which a districting plan is gerrymandered is to compare the efficiency gaps of the two parties.</p>
+		<p>Since shape and compactness are not sufficient for detecting gerrymandering, other methods for quantifying the strategic manipulation of voting districts are needed.  Another, more reliable way to measure the degree to which a districting plan is gerrymandered is to compare what we call the efficiency gaps of the parties involved in an election.  To learn this method, we first need to think about what it means for a vote to be <i>wasted</i>.</p>
+
+		<assemblage><title>Wasted Votes</title>
+
+			<p>We say votes from a given district can be <term>wasted</term> in two ways:
+				<ul>
+					<li>If a party wins the district, any votes for that party past the number necessary to win are wasted.</li>
+					<li>If a party loses the district, all votes for that party are wasted.</li>
+				</ul>
+			</p>
+			
+		</assemblage>
+
+		<p>Let’s apply this definition to the districts in Method 3 Figure XXX.  First, we note that there are 10 voters in each district, so 6 are needed to win a district-level election.</p>
+
+		<sidebyside widths="78% 22%">
+			<ul>
+				<li>District A:  There are exactly 6 red votes. Since all of these are needed to win the election, none of them are wasted.  Since Blue lost the election in this district, all 4 blue votes are wasted.</li>
+				<li>District B:  There are 9 blue votes and 1 red vote.  Since only six of them are needed to win, 3 blue votes are wasted.  Since Blue won the election, 1 red vote is wasted.</li>
+			</ul>
+
+			<image source="images/wasted-votes.png"/>
+
+		</sidebyside>
+
+		<p>The full list of wasted votes, along with the totals for each district, appear in the table below.</p>
+
+		<sidebyside>
+			<tabular top="minor" left="minor" right="minor" bottom="minor" halign="center">
+				<row>
+					<cell>Wasted votes</cell>
+					<cell>District A</cell>
+					<cell>District B</cell>
+					<cell>District C</cell>
+					<cell>District D</cell>
+					<cell>District E</cell>
+					<cell>Total Wasted</cell>
+				</row>
+				<row>
+					<cell>Red party</cell>
+					<cell>0</cell>
+					<cell>1</cell>
+					<cell>0</cell>
+					<cell>1</cell>
+					<cell>0</cell>
+					<cell>2</cell>
+				</row>
+				<row>
+					<cell>Blue party</cell>
+					<cell>4</cell>
+					<cell>3</cell>
+					<cell>4</cell>
+					<cell>3</cell>
+					<cell>4</cell>
+					<cell>18</cell>
+				</row>
+			</tabular>
+		</sidebyside>
+
+		<p>We are now ready to define a new measure for detecting gerrymandering.</p>
+
+		<assemblage> <title>Efficiency Gap</title>
+			<p>The <term>efficiency gap</term> (EG) of a districting plan is a ratio given by the formula <me>\text{EG} = \frac{|W_A - W_B|}{T}</me> where <m>T</m> is the total number of votes cast and <m>W_A</m> and <m>W_B</m> are the total number of wasted votes for parties A and B, respectively.</p>
+			<p>If <m>0 \leq \text{EG} &lt; 0.07</m> (or 7%) the plan is considered fair.</p>
+			<p>If <m>0.07 \leq \text{EG} &lt; 1</m> the plan is considered unfair in favor of the party with the least number of wasted votes.</p>
+		</assemblage>
+
+		<p>To calculate the Efficiency Gap for Method 3 in <xref ref="packing-cracking"/>, we let A be the red party and B be the blue party and note that the total number of votes cast in the election is <m>T = 50</m>. Then we compute the following:
+			<me>\text{EG} = \frac{|W_A - W_B|}{T} = \frac{|2 - 18|}{50} = \frac{|-16|}{50} = \frac{16}{50} = 0.32</me>
+Since 0.32 is larger than 0.07, we can conclude that this election is unfair in favor of red (since red had the least number of wasted votes).</p>
+
+		<example>
+			<p>Calculate the efficiency gap EG for districting Method 1 and Method 2 in <xref ref="packing-cracking"/>. Let A be the red voters and B be the blue voters.</p>
+
+			<ol>
+				<li>Method 1: Since there are 10 voters in each district, 6 votes are needed to win. In the first two districts, all votes are red, so 4 votes are wasted in each district. In the remaining three districts blue wins, wasting 4 votes per district.  Thus, we have
+					<me>\text{EG} = \frac{|W_A - W_B|}{T} = \frac{|8 - 12|}{50} = \frac{|-4|}{50} = \frac{4}{50} = 0.08</me>
+Since 0.08 is larger than 0.07, this districting method favors red (but only slightly) since red had the least number of wasted votes.
+				</li>
+				<li>Method 2:  Each of the districts have the same number of red and blue votes.  Since all six blue votes are needed to win the district election, there are zero wasted blue votes.  Since blue won each district, all four red votes in each district are wasted, for a total of 20 wasted votes.  Thus, we have
+					<me>\text{EG} = \frac{|W_A - W_B|}{T} = \frac{|20 - 0|}{50} = \frac{20}{50} = 0.4</me>
+Since 0.4 is larger than 0.07, this districting method significantly favors blue since blue had the least number of wasted votes.
+				</li>
+			</ol>
+		</example>
+
+		<p>Though the efficiency gap is a better measure of fairness than compactness, it still has weaknesses when being used to detect gerrymandering.  Researchers continue to look for ways to monitor the fairness of districting methods in elections.</p>
 
 	</subsubsection>
 
@@ -158,6 +327,12 @@ Then explain the Polsby-Popper Score -->
 			<image source="images/district-4.png"/>
 		</sidebyside>
 	</example>
+
+</subsection>
+
+<subsection> <title>The Research Continues</title>
+
+	<p>Disputes over district boundaries continue with legislation cases moving back and forth between more and less government intervention, so research about gerrymandering and other policies which result in the underrepresentation of minority groups in government continues. Since their development, both the Polsby-Popper ratio and the efficiency gap, while helpful, have been found to be lacking in their ability to detect unfair practices in voting, increasing the need for better measures.  Currently, statistical methods are being studied for determining the fairness of districting plans.</p>
 
 </subsection>
 
