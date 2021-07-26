@@ -1,0 +1,365 @@
+<section xmlns:xi="http://www.w3.org/2001/XInclude" xml:id="sec-graph-near-neighbor">
+
+	<title>Hamilton Circuits and the Traveling Salesman Problem</title>
+
+<p>
+	In the last section, we considered optimizing a walking route for a postal carrier.  How is this different than the requirements of a package delivery driver?  While the postal carrier needed to walk down every street (edge) to deliver the mail, the package delivery driver instead needs to visit every one of a set of delivery locations.  Instead of looking for a circuit that covers every edge once, the package deliverer is interested in a circuit that visits every vertex once.
+</p>
+
+<assemblage>
+	<p><ul>
+		<li>A <term>Hamiltonian circuit</term> is a circuit that visits every vertex once with no repeats.  Being a circuit, it must start and end at the same vertex.</li>
+		<li>A <term>Hamiltonian path</term> also visits every vertex once with no repeats, but does not have to start and end at the same vertex.</li>
+	</ul></p>
+</assemblage>
+
+<p>
+	Hamiltonian paths and circuits are named for William Rowan Hamilton who studied them in the 1800's. Sometimes you will see them referred to simply as <em>Hamilton</em> paths and circuits.
+</p>
+
+<example>
+	<p>
+		One Hamiltonian circuit is shown on the graph below.  There are several other Hamiltonian circuits possible on this graph.  Notice that the circuit only has to visit every vertex once; it does not need to use every edge.
+	</p>
+	<p>
+		This circuit could be notated by the sequence of vertices visited, starting and ending at the same vertex: ABFGCDHMLKJEA.  Notice that the same circuit could be written in reverse order, or starting and ending at a different vertex.
+	</p>
+	<sidebyside width="70%">
+		<image source="images/hamilton1.png"/>
+	</sidebyside>
+</example>
+
+<p>
+	Unlike with Euler circuits, there is no nice theorem that allows us to instantly determine whether or not a Hamiltonian circuit exists for all graphs.<fn>There are some theorems that can be used in specific circumstances, such as Dirac's theorem, which says that a Hamiltonian circuit must exist on a graph with <m>n</m> vertices if each vertex has degree <m>n/2</m> or greater.</fn>
+</p>
+
+<example>
+	<p>Does a Hamiltonian path or circuit exist on the graph below?</p>
+	<sidebyside width="60%">
+		<image source="images/pic-euler-path3.png"/>
+	</sidebyside>
+	<p>
+		We can see that once we travel to vertex E there is no way to leave without returning to C, so there is no possibility of a Hamiltonian circuit.  If we start at vertex E we can find several Hamiltonian paths, such as ECDAB and ECABD.
+	</p>
+</example>
+
+<p>
+	With Hamiltonian circuits, our focus will not be on existence, but on the question of optimization; given a graph where the edges have weights, can we find the optimal Hamiltonian circuit; the one with lowest total weight.
+</p>
+
+<sidebyside widths="50% 40%">
+<p>
+	This problem is called the <term>Traveling salesman problem (TSP)</term> because the question can be framed like this:  Suppose a salesman needs to give sales pitches in five cities.  He looks up the airfares between each city, and puts the costs in a graph.  In what order should he travel to visit each city once then return home with the lowest cost? A situation like this could be represented with the graph shown at right.
+</p>
+<image source="images/tsp1.png"/>
+</sidebyside>
+
+<p>
+	To answer this question of how to find the lowest cost Hamiltonian circuit, we will consider some possible approaches.  The first option that might come to mind is to just try all different possible circuits.
+</p>
+
+<assemblage>
+	<title>Brute Force Algorithm (exhaustive search)</title>
+	<p><ol>
+		<li>List all possible Hamiltonian circuits.</li>
+		<li>Find the length of each circuit by adding the edge weights.</li>
+		<li>Select the circuit with minimal total weight.</li>
+	</ol></p>
+</assemblage>
+
+<example xml:id="eg-tsp-brute">
+	<p>
+		Apply the Brute force algorithm to find the minimum cost Hamiltonian circuit on the graph below.
+	</p>
+	<sidebyside width="50%">
+		<image source="images/tsp2.png"/>
+	</sidebyside>
+
+	<p>
+		To apply the Brute force algorithm, we list all possible Hamiltonian circuits and calculate their weight:
+	</p>
+
+	<table><caption></caption>
+		<tabular left="minor" right="minor" top="minor" bottom="minor">
+			<row>
+				<cell><alert>Circuit</alert></cell>
+				<cell><alert>Weight</alert></cell>
+			</row>
+			<row>
+				<cell>ABCDA</cell>
+				<cell><m>4+13+8+1 = 26</m></cell>
+			</row>
+			<row>
+				<cell>ABDCA</cell>
+				<cell><m>4+9+8+2 = 23</m></cell>
+			</row>
+			<row>
+				<cell>ACBDA</cell>
+				<cell><m>2+13+9+1 = 25</m></cell>
+			</row>
+		</tabular>
+	</table>
+
+	<p>
+		<alert>Note:</alert>  These are the unique circuits on this graph.  All other possible circuits are the reverse of the listed ones or start at a different vertex, but result in the same weights. For example, the circuits ABCDA, BCDAB, BADCB, and DABCD are all the same, so we only list one of them on the table.
+	</p>
+	<p>
+		From this we can see that the second circuit, ABDCA, is the optimal circuit.
+	</p>
+</example>
+
+<p>
+	The Brute force algorithm is optimal; it will always produce the Hamiltonian circuit with minimum weight.  Is it efficient?  To answer that question, we need to consider how many Hamiltonian circuits a graph could have.  For simplicity, let's look at the worst-case possibility, where every vertex is connected to every other vertex.  This is called a <term>complete graph</term>.
+</p>
+
+<p>
+	Using a type of mathematics called <em>combinatorics</em>, we can find a formula that gives the number of unique Hamilton circuits for a complete graph with any number, <m>n</m>, of vertices. The results are as follows:
+</p>
+
+<table><caption>Hamilton circuits for complete graphs</caption>
+	<tabular left="minor" right="minor" top="minor" bottom="minor">
+		<row>
+			<cell><alert>Number of vertices</alert></cell>
+			<cell><alert>Number of unique Hamilton circuits</alert></cell>
+		</row>
+		<row>
+			<cell><m>4</m></cell>
+			<cell><m>3</m></cell>
+		</row>
+		<row>
+			<cell><m>5</m></cell>
+			<cell><m>12</m></cell>
+		</row>
+		<row>
+			<cell><m>6</m></cell>
+			<cell><m>60</m></cell>
+		</row>
+		<row>
+			<cell><m>7</m></cell>
+			<cell><m>360</m></cell>
+		</row>
+		<row>
+			<cell><m>8</m></cell>
+			<cell><m>2520</m></cell>
+		</row>
+		<row>
+			<cell><m>9</m></cell>
+			<cell><m>20,160</m></cell>
+		</row>
+		<row>
+			<cell><m>10</m></cell>
+			<cell><m>181,440</m></cell>
+		</row>
+		<row>
+			<cell><m>15</m></cell>
+			<cell><m>43,589,145,600</m></cell>
+		</row>
+		<row>
+			<cell><m>20</m></cell>
+			<cell><m>60,822,550,204,416,000</m></cell>
+		</row>
+	</tabular>
+</table>
+
+<p>
+	As you can see, the number of circuits starts small but grows extremely quickly.  If a computer looked at one billion circuits a second, it would still take almost two years to examine all the possible circuits with only 20 vertices. With 30 vertices, the most powerful supercomputer in the world would take about 140 million years to do so! Certainly Brute Force is <em>not</em> an efficient algorithm.
+</p>
+
+<p>
+	Unfortunately, no one has yet found an efficient <em>and</em> optimal algorithm to solve the TSP, and it is very unlikely anyone ever will.<fn>This is actually related to a <url href="https://en.wikipedia.org/wiki/P_versus_NP_problem">famous problem in computer science</url>. It is considered important enough that a $1 million reward has been offered for a solution.</fn>  Since it is not practical to use brute force to solve the problem, we turn instead to <term>heuristic algorithms</term>: efficient algorithms that give approximate solutions.  In other words, heuristic algorithms are fast, but are not guaranteed to produce the optimal circuit.
+</p>
+
+<assemblage>
+	<title>Nearest Neighbor Algorithm (NNA)</title>
+	<p><ol>
+		<li>Select a starting point.</li>
+		<li>Move to the nearest unvisited vertex (the edge with smallest weight).</li>
+		<li>Repeat until the circuit is complete.</li>
+	</ol></p>
+</assemblage>
+
+<example xml:id="eg-nna-bad">
+	<p>
+		Consider our earlier graph (from <xref ref="eg-tsp-brute"/>), shown below.
+	</p>
+	<sidebyside widths="55% 35%">
+		<p><ul>
+			<li>Starting at vertex A, the nearest neighbor is vertex D with a weight of 1.</li>
+			<li>From D, the nearest neighbor is C, with a weight of 8.</li>
+			<li>From C, our only option is to move to vertex B, the only unvisited vertex, with a cost of 13.</li>
+			<li>From B we return to A with a weight of 4.</li>
+		</ul></p>
+		<image source="images/tsp2.png"/>
+	</sidebyside>
+	<p>
+		The resulting circuit is ADCBA with a total weight of <m>1+8+13+4 = 26</m>.
+	</p>
+</example>
+
+<p>
+	We ended up finding the worst circuit in the graph!  What happened?  Unfortunately, while it is very easy to implement, the NNA is a <term>greedy algorithm</term>, meaning it only looks at the immediate decision without considering the consequences in the future.  In this case, following the edge AD forced us to use the very expensive edge BC later.
+</p>
+
+<example>
+	<p>
+		Consider again a salesman visitng the five cities shown in the graph below.  Starting in Seattle, the nearest neighbor (cheapest flight) is to LA, at a cost of $70.  From there:
+	</p>
+	<sidebyside widths="50% 50%">
+		<p>
+			<ul>
+				<li>LA to Chicago:  $100</li>
+				<li>Chicago to Atlanta: $75</li>
+				<li>Atlanta to Dallas: $85</li>
+				<li>Dallas to Seattle: $120</li>
+				<li>Total cost: $450</li>
+			</ul>
+		</p>
+		<image source="images/tsp1b.png"/>
+	</sidebyside>
+	<p>
+		In this case, nearest neighbor did find the optimal circuit.
+	</p>
+</example>
+
+<p>
+	Going back to <xref ref="eg-nna-bad"/>, how could we improve the outcome?  One option would be to redo the nearest neighbor algorithm with a different starting point to see if the result changed.  Since nearest neighbor is so fast, doing it several times isn't a big deal.
+</p>
+
+<assemblage>
+	<title>Repeated Nearest Neighbor Algorithm (RNNA)</title>
+	<p><ol>
+		<li>Do the Nearest Neighbor Algorithm starting at each vertex.</li>
+		<li>Choose the circuit produced with minimal total weight.</li>
+	</ol></p>
+</assemblage>
+
+<example>
+	<sidebyside>
+		<p>
+			We will revisit the graph from <xref ref="eg-nna-bad"/>.
+			<ul>
+				<li>Starting at vertex A resulted in a circuit with weight 26.</li>
+				<li>Starting at vertex B, the nearest neighbor circuit is BADCB with a weight of <m>4+1+8+13 = 26</m>.  This is the same circuit we found starting at vertex A.  No better.</li>
+			</ul>
+		</p>
+		<image source="images/tsp2.png"/>
+	</sidebyside>
+	<p>
+		<ul>
+			<li>Starting at vertex C, the nearest neighbor circuit is CADBC with a weight of <m>2+1+9+13 = 25</m>.  Better!</li>
+			<li>Starting at vertex D, the nearest neighbor circuit is DACBA.  Notice that this is actually the same circuit we found starting at C, just written with a different starting vertex.</li>
+		</ul>
+		The RNNA was able to produce a slightly better circuit with a weight of 25, but still not the optimal circuit in this case.  Notice that even though we found the circuit by starting at vertex C, we could still write the circuit starting at A:  ADBCA or ACBDA.
+	</p>
+</example>
+
+<exploration>
+	<statement>
+		<p>
+			The table below shows the time, in milliseconds, it takes to send a packet of data between computers on a network.  If data needed to be sent in sequence to each computer, then notification needed to come back to the original computer, we would be solving the TSP. The computers are labeled A-F for convenience.
+		</p>
+		<table><caption></caption>
+			<tabular left="minor" right="minor" top="minor" bottom="minor">
+				<row>
+					<cell></cell>
+					<cell><alert>A</alert></cell>
+					<cell><alert>B</alert></cell>
+					<cell><alert>C</alert></cell>
+					<cell><alert>D</alert></cell>
+					<cell><alert>E</alert></cell>
+					<cell><alert>F</alert></cell>
+				</row>
+				<row>
+					<cell><alert>A</alert></cell>
+					<cell>--</cell>
+					<cell>44</cell>
+					<cell>34</cell>
+					<cell>12</cell>
+					<cell>40</cell>
+					<cell>41</cell>
+				</row>
+				<row>
+					<cell><alert>B</alert></cell>
+					<cell>44</cell>
+					<cell>--</cell>
+					<cell>31</cell>
+					<cell>43</cell>
+					<cell>24</cell>
+					<cell>50</cell>
+				</row>
+				<row>
+					<cell><alert>C</alert></cell>
+					<cell>34</cell>
+					<cell>31</cell>
+					<cell>--</cell>
+					<cell>20</cell>
+					<cell>39</cell>
+					<cell>27</cell>
+				</row>
+				<row>
+					<cell><alert>D</alert></cell>
+					<cell>12</cell>
+					<cell>43</cell>
+					<cell>20</cell>
+					<cell>--</cell>
+					<cell>11</cell>
+					<cell>17</cell>
+				</row>
+				<row>
+					<cell><alert>E</alert></cell>
+					<cell>40</cell>
+					<cell>24</cell>
+					<cell>39</cell>
+					<cell>11</cell>
+					<cell>--</cell>
+					<cell>42</cell>
+				</row>
+				<row>
+					<cell><alert>F</alert></cell>
+					<cell>41</cell>
+					<cell>50</cell>
+					<cell>27</cell>
+					<cell>17</cell>
+					<cell>42</cell>
+					<cell>--</cell>
+				</row>
+			</tabular>
+		</table>
+		<p><ol label="(a)">
+			<li>Find the circuit generated by the NNA starting at vertex B.</li>
+			<li>Find the circuit generated by the RNNA.</li>
+		</ol></p>
+	</statement>
+
+	<solution>
+		<p><ol label="(a)">
+			<li>
+				<p>At each step, we look for the nearest location we haven't already visited.
+					<ul>
+						<li>From B, the nearest computer is E with time 24.</li>
+						<li>From E, the nearest computer is D with time 11.</li>
+						<li>From D, the nearest is A with time 12.</li>
+						<li>From C, the only computer we haven’t visited is F with time 27.</li>
+						<li>From F, we return back to B with time 50.</li>
+					</ul>
+					The NNA circuit from B is BEDACFB with time 158 milliseconds.
+				</p>
+			</li>
+			<li>
+				<p>
+					Using NNA again from other starting vertices:
+					<ul>
+						<li>Starting at A: ADEBCFA: time 146</li>
+						<li>Starting at C: CDEBAFC: time 167</li>
+						<li>Starting at E: EDACFBE: time 158</li>
+						<li>Starting at D: DEBCFAD: time 146</li>
+						<li>Starting at F: FDEBCAF: time 158</li>
+					</ul>
+					The RNNA found a circuit with time 146 milliseconds:  ADEBCFA.  We could also write this same circuit starting at B if we wanted:  BCFADEB or BEDAFCB.
+				</p>
+			</li>
+		</ol></p>
+	</solution>
+</exploration>
+
+</section>
