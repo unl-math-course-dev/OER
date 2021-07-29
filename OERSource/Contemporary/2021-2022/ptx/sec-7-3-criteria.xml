@@ -330,9 +330,36 @@ The plurality winner of this election was A, with 6 votes out of 17 (about 35%).
 		</tabular>
 		</sidebyside>
 
-		<p>Let's determine if this election has a Condorcet candidate.  First, let's run A vs B, ignoring C.  The first column of <m>29\%</m> of votes goes to A, and the second, third, and fourth go to B, for a total of <m>71\%</m>.  So B would win against A.  Therefore, A cannot be a Condorcet candidate, since A lost against another candidate, but B could still be a Condorcet candidate.  So let's check if B will beat C.  The first and third columns prefer C to B, so C gets <m>29\% + 25\% = 54\%</m> of the vote, leaving B with <m>46\%</m> from the second and fourth columns.  So B loses to C, and cannot be a Condorcet candidate.  At this point, only C could be a Condorcet candidate, and only if they win against A.  In A vs C, A wins the first and fourth columns, getting <m>29\% + 20\% = 49\%</m> of the vote, leaving C with <m>51\%</m> from the second and third columns.  So C also wins against A.  Since C wins against every other candidate, C is a Condorcet candidate for this election.</p>
+		<ol>
+			<li>Let's determine if this election has a Condorcet candidate.  First, let's run A vs B, ignoring C.  The first column of <m>29\%</m> of votes goes to A, and the second, third, and fourth go to B, for a total of <m>71\%</m>.  So B would win against A.  Therefore, A cannot be a Condorcet candidate, since A lost against another candidate, but B could still be a Condorcet candidate.  So let's check if B will beat C.  The first and third columns prefer C to B, so C gets <m>29\% + 25\% = 54\%</m> of the vote, leaving B with <m>46\%</m> from the second and fourth columns.  So B loses to C, and cannot be a Condorcet candidate.  At this point, only C could be a Condorcet candidate, and only if they win against A.  In A vs C, A wins the first and fourth columns, getting <m>29\% + 20\% = 49\%</m> of the vote, leaving C with <m>51\%</m> from the second and third columns.  So C also wins against A.  Since C wins against every other candidate, C is a Condorcet candidate for this election.</li>
+			<li>
+				<p>Let's determine if this election demonstrates that any of our voting methods violate the Condorcet criterion.  Remember that an election shows that a voting method violates the Condorcet criterion if there is a Condorcet candidate, and that candidate does not win the election using the given voting method.  Since C is a Condorcet candidate in this election, it is possible that this election could demonstrate a violation; we just need to check whether or not C wins the election using each method.</p>
+				<ol>
+					<li>Plurality: With 46% of first-choice votes (from the second and fourth columns of the table), candidate B has the most first-choice votes of any candidate, and wins the election if we use plurality.  Since C is a Condorcet candidate and did not win the election, this election demonstrates that plurality violates the Condorcet criterion.</li>
+					<li>
+						<p>Borda Count: Below are the points that each candidate earns.</p>
+						<ul>
+							<li>A: <m>29 \times 3 + 26 \times 1 + 25 \times 1 + 20 \times 2 = 178</m></li>
+							<li>B: <m>29 \times 1 + 26 \times 3 + 25 \times 2 + 20 \times 3 = 217</m></li>
+							<li>C: <m>29 \times 2 + 26 \times 2 + 25 \times 3 + 20 \times 1 = 205</m></li>
+						</ul>
+						<p>So B also wins using Borda Count, showing that Borda Count also violates the Condorcet criterion.</p>
+					</li>
+					<li>IRV: No candidate has a majority of first-choice votes, so we eliminate the candidate with the fewest votes.  C has the fewest votes, with 25.  We could finish the election, but at this point we know that C will not win, which is enough to conclude that IRV violates the Condorcet criterion.</li>
+					<li>Method of pairwise comparisons: In finding out whether or not this election has a Condorcet candidate, we did most of the work we need to determine the winner using this method. A loses against B and C, earning 0 points.  B wins against A but loses to C, earning 1 point.  C wins against both A and B, and earns 2 points.  So if we use pairwise comparisons, C wins this election.  This does not demonstrate a violation of the Condorcet criterion, since it states that C ought to win.  However, this is not enough to demonstrate that pairwise comparisons satisfies the Condorcet criterion, since there might be another election in which a Condorcet candidate does not win.</li>
+				</ol>
+			</li>
+		</ol>
 
 	</example>
+
+	<exploration>
+		<statement>Even though the above example could not determine if the method of pairwise comparisons satisfies or violates the Condorcet criterion, you might be able to make an educated guess based on this example.  Determine whether pairwise comparisons satisfies or violates the Condorcet criterion, and explain why.</statement>
+		<solution>
+			<p>Pairwise comparisons satisfies the Condorcet criterion.  The explanation might look familiar; it is similar to the one we gave for the majority criterion above.</p>
+			<p>Suppose there is an election that has a Condorcet candidate.  Since a Condorcet candidate wins every pair they are a part of, they earn the maximum number of points possible, whereas each other candidate will lose at least once (against the Condorcet candidate), giving them less than the maximum points possible.  Therefore, the Condorcet candidate will have more points than any other candidate, and will win the election if we use the method of pairwise comparisons.  Hence, pairwise comparisons satisfies the Condorcet criterion.</p>
+		</solution>
+	</exploration>
 
 </subsection>
 
@@ -341,14 +368,56 @@ The plurality winner of this election was A, with 6 votes out of 17 (about 35%).
 <subsection><title>The Monotonicity Criterion</title>
 
 <p>
-	While IRV satisfies the majority criterion, there are other criteria which it fails. To describe one of them, we will consider a hypothetical situation based on the election from <xref ref="eg-burlington1"/>.
+	Our next fairness criterion is different from the majority and Condorcet criteria, in that it considers two elections: an initial election, and then another in which the original election has been changed in a way that probably shouldn't change the outcome.  Since this is more involved, let's first look at an example that demonstrates what can go wrong when this new criterion is violated.  We will consider a hypothetical situation based on the election from <xref ref="eg-burlington1"/>.
 </p>
 
 <example xml:id="eg-burlington-mono"><title>A hypothetical mayoral election in Burlington, VT</title>
 
-	<p>
-		Suppose that this election had been held as in <xref ref="eg-burlington1"/>, except that 10% of the voters cast their ballots slightly differently according to the table below.
-	</p>
+	<p>Recall the original election, between Kiss (K), Wright (W), and Montroll (M):</p>
+
+	<sidebyside>
+	<tabular top="none" bottom="minor" left="minor" right="minor">
+		<row left="none">
+			<cell bottom="none" right="medium"></cell>
+			<cell colspan="5">Percent of voters</cell>
+		</row>
+		<row bottom="medium">
+			<cell right="medium">Rankings</cell>
+			<cell>34</cell>
+			<cell>37</cell>
+			<cell>15</cell>
+			<cell>9</cell>
+			<cell>5</cell>
+		</row>
+		<row>
+			<cell right="medium">1st choice</cell>
+			<cell>K</cell>
+			<cell>W</cell>
+			<cell>M</cell>
+			<cell>M</cell>
+			<cell>M</cell>
+		</row>
+		<row>
+			<cell right="medium">2nd choice</cell>
+			<cell>M</cell>
+			<cell>M</cell>
+			<cell>K</cell>
+			<cell>W</cell>
+			<cell></cell>
+		</row>
+		<row>
+			<cell right="medium">3rd choice</cell>
+			<cell>W</cell>
+			<cell>K</cell>
+			<cell>W</cell>
+			<cell>K</cell>
+			<cell></cell>
+		</row>
+	</tabular>
+	</sidebyside>
+
+	<p>When we used IRV on this table in <xref ref="eg-burlington1"/>, we found that Kiss won.</p>
+	<p>Suppose that this election were held again, except that 10% of the voters cast their ballots slightly differently, according to the table below.</p>
 
 	<table><caption></caption>
 	<tabular top="none" bottom="minor" left="minor" right="minor">
@@ -396,7 +465,7 @@ The plurality winner of this election was A, with 6 votes out of 17 (about 35%).
 	</table>
 
 	<p>
-		Before calculating the winner of this election, let's think about who we think <em>should</em> win. The only difference between these preferences and the preferences expressed in the real election is that 10% of voters who originally ranked Wright first now rank Kiss first. Since Kiss won the original election, and <em>the only difference</em> is that now some people like Kiss <em>even better</em>, it stands to reason that Kiss should still win. Right?
+		Before calculating the winner of this election, let's consider who we think <em>should</em> win. The only difference between these preferences and the preferences expressed in the real election is that 10% of voters who originally ranked Wright first (from the second column of the original table) now rank Kiss first (in the third column of the new table). They still all believe that Wright is better than Montroll; they have only changed their minds about Kiss.  Since Kiss won the original election, and <em>the only difference</em> is that now some people like Kiss <em>even better</em>, it stands to reason that Kiss should still win. Right?
 	</p>
 
 	<sidebyside>
@@ -409,7 +478,7 @@ The plurality winner of this election was A, with 6 votes out of 17 (about 35%).
 		</row>
 		<row bottom="minor">
 			<cell></cell>
-			<cell colspan="3">W is elimated, and votes are allocated to their different second choice.</cell>
+			<cell colspan="3">W is eliminated, and votes are allocated to their different second choice.</cell>
 		</row>
 		<row>
 			<cell>Round 2:</cell>
@@ -431,7 +500,7 @@ The plurality winner of this election was A, with 6 votes out of 17 (about 35%).
 </example>
 
 <p>
-	This is a really strange outcome! It is so unusual that it gives us our next fairness criterion.
+	This is a really strange outcome! It is so unusual that it motivates our next fairness criterion.
 </p>
 
 	<assemblage><title>The Monotonicity Criterion</title>
@@ -589,11 +658,11 @@ The plurality winner of this election was A, with 6 votes out of 17 (about 35%).
 	</exploration>
 
 	<p>
-		Failure of the monotonicity criterion is one drawback of IRV. In contrast, the plurality and Borda count methods both satisfy monotonicity. Why is this?
+		Violation of the monotonicity criterion is one drawback of IRV in particular among the voting methods we've studied. In contrast, the plurality, Borda count, and pairwise comparison methods all satisfy monotonicity. Why is this?
 	</p>
 
 	<p>
-		Suppose some candidate, A, wins a plurality election. Plurality, remember only looks at voters' first choice votes. If a second election occurs in which some voters rank A higher than before, then the number of first choice votes for A will never decrease; it will only increase or stay the same. (It could stay the same if, for instance, some voters move A from 3rd to 2nd place.) Thus, A will still win the second election. Since this is true for any election, the plurality method satisfies the monotonicity criterion.
+		Suppose some candidate, A, wins a plurality election. Recall that plurality only looks at voters' first choice votes. If a second election occurs in which some voters rank A higher than before, then the number of first choice votes for A will never decrease; it will only increase or stay the same. (It could stay the same if, for instance, some voters move A from 3rd to 2nd place.) Thus, A will still win the second election. Since this is true for any election, the plurality method satisfies the monotonicity criterion.
 	</p>
 
 	<p>
@@ -601,12 +670,14 @@ The plurality winner of this election was A, with 6 votes out of 17 (about 35%).
 	</p>
 
 	<p>
-		We have now found that IRV satisfies the majority criterion but violates the monotonicity criterion. The Borda count satisfies the monotonicity criterion but fails the majority criterion. The plurality method satisfies both criteria, but leads to insincere voting and can produce winners with low levels of support. In the next section, we will try to find a method that can solve all these problems at once.
+		Finally, suppose that some candidate, C, is the winner of an election using the method of pairwise comparisons.  If a second election occurs and some voters rank C higher, the number of one-on-one contests that C wins can only increase.  This is because moving C higher can never reduce the number of votes C gets in a one-on-one contest: if C was already prefered over the other candidate by some voters, C will retain those votes when moved higher on some preference lists.  Therefore, C will earn at least as many points as in the original election.  Since no other preferences have been changed, every other pair will have the same result as in the original election, so no other candidate will earn any more points than they did originally.  Hence, C will still win the second election.  Since this is true for any election, the method of pairwise comparisons satisfies the monotonicity criterion.
 	</p>
 
 </subsection>
 
 <subsection><title>The Independence of Irrelevant Alternatives Criterion (IIA)</title>
+
+	<p>Like monotonicity, our final fairness criterion considers two elections: an initial election, and then another in which the original election has been changed in a way that shouldn't change the outcome.  In this case, the second election is one in which a losing candidate drops out.</p>
 
 	<assemblage><title>The Independence of Irrelevant Alternatives Criterion (IIA)</title>
 		<p>
@@ -617,13 +688,13 @@ The plurality winner of this election was A, with 6 votes out of 17 (about 35%).
 		</p>
 	</assemblage>
 
-	<p>
-		Let's use this example to show how all of our voting methods violate IIA.
-	</p>
+	<p>A losing candidate whose participation in the election affects the outcome is known as a <term>spoiler</term>.  In plurality elections, a spoiler is often an independent candidate who has little chance of winning, but is similar enough to one of the major candidates to "steal" some of that candidate's votes, preventing the major candidate from winning.  It would be nice if we could find a method that satisfies IIA, and therefore prevents spoilers.  Unfortunately, all of the voting methods we've studied violate IIA and allow for spoilers.</p>
 
 	<example>
 
-		<table><caption></caption>
+		<p>Let's use the following preference table to show how some of our voting methods violate IIA.</p>
+
+		<table xml:id="iia-all-but-pairwise-table"><caption></caption>
 		<tabular top="none" bottom="minor" left="minor" right="minor">
 			<row left="none">
 				<cell bottom="none" right="medium"></cell>
@@ -639,27 +710,27 @@ The plurality winner of this election was A, with 6 votes out of 17 (about 35%).
 			<row>
 				<cell right="medium">1st choice</cell>
 				<cell>A</cell>
+				<cell>B</cell>
 				<cell>D</cell>
 				<cell>C</cell>
-				<cell>B</cell>
 			</row>
 			<row>
 				<cell right="medium">2nd choice</cell>
-				<cell>B</cell>
+				<cell>C</cell>
+				<cell>C</cell>
 				<cell>B</cell>
 				<cell>D</cell>
-				<cell>C</cell>
 			</row>
 			<row>
 				<cell right="medium">3rd choice</cell>
+				<cell>B</cell>
 				<cell>D</cell>
 				<cell>C</cell>
 				<cell>B</cell>
-				<cell>D</cell>
 			</row>
 			<row>
 				<cell right="medium">4th choice</cell>
-				<cell>C</cell>
+				<cell>D</cell>
 				<cell>A</cell>
 				<cell>A</cell>
 				<cell>A</cell>
@@ -667,6 +738,406 @@ The plurality winner of this election was A, with 6 votes out of 17 (about 35%).
 		</tabular>
 		</table>
 
+		<ol>
+			<li>
+				<p>Plurality: In this election, A wins with plurality.  However, if losing candidate D is removed from this election, but we keep all other preferences the same, the preference table for the new election looks like this:</p>
+
+				<table xml:id="iia-all-but-pairwise-d-table"><caption></caption>
+				<tabular top="none" bottom="minor" left="minor" right="minor">
+					<row left="none">
+						<cell bottom="none" right="medium"></cell>
+						<cell colspan="4">Number of voters</cell>
+					</row>
+					<row bottom="medium">
+						<cell right="medium">Rankings</cell>
+						<cell>6</cell>
+						<cell>5</cell>
+						<cell>4</cell>
+						<cell>2</cell>
+					</row>
+					<row>
+						<cell right="medium">1st choice</cell>
+						<cell>A</cell>
+						<cell>B</cell>
+						<cell>B</cell>
+						<cell>C</cell>
+					</row>
+					<row>
+						<cell right="medium">2nd choice</cell>
+						<cell>C</cell>
+						<cell>C</cell>
+						<cell>C</cell>
+						<cell>B</cell>
+					</row>
+					<row>
+						<cell right="medium">3rd choice</cell>
+						<cell>B</cell>
+						<cell>A</cell>
+						<cell>A</cell>
+						<cell>A</cell>
+					</row>
+				</tabular>
+				</table>
+
+				<p>Since B gains 4 more votes that would have gone to D, B will now win the election with 9 votes.  Since the outcome of the election changed when we removed a losing candidate, this demonstrates that plurality violates IIA.</p>
+			</li>
+			<li>
+				<p>Borda Count: Below are the points awarded when using Borda Count in the original election, in <xref ref="iia-all-but-pairwise-table"/>.</p>
+
+				<ul>
+					<li>A: <m>6 \times 4 + 5 \times 1 + 4 \times 1 + 2 \times 1 = 35</m></li>
+					<li>B: <m>6 \times 2 + 5 \times 4 + 4 \times 3 + 2 \times 2 = 48</m></li>
+					<li>C: <m>6 \times 3 + 5 \times 3 + 4 \times 2 + 2 \times 4 = 49</m></li>
+					<li>D: <m>6 \times 1 + 5 \times 2 + 4 \times 4 + 2 \times 3 = 38</m></li>
+				</ul>
+
+				<p>So candidate C wins the original election.  However, if we again remove losing candidate D and assign points based on <xref ref="iia-all-but-pairwise-d-table"/>, the results are different:</p>
+
+				<ul>
+					<li>A: <m>6 \times 3 + 5 \times 1 + 4 \times 1 + 2 \times 1 = 29</m></li>
+					<li>B: <m>6 \times 1 + 5 \times 3 + 4 \times 3 + 2 \times 2 = 37</m></li>
+					<li>C: <m>6 \times 2 + 5 \times 2 + 4 \times 2 + 2 \times 3 = 36</m></li>
+				</ul>
+
+				<p>When D is removed, B wins the election instead of C.  Since the outcome of the election changed when we removed a losing candidate, this demonstrates that Borda Count violates IIA.</p>
+			</li>
+			<li>
+				<p>IRV: Below is the result of the initial election.</p>
+
+				<sidebyside>
+				<tabular>
+					<row >
+						<cell>Round 1:</cell>
+						<cell>A: 6</cell>
+						<cell>B: 5</cell>
+						<cell>C: 2</cell>
+						<cell>D: 4</cell>
+					</row>
+					<row bottom="minor">
+						<cell></cell>
+						<cell colspan="4">C is eliminated, and votes are allocated to their different second choice.</cell>
+					</row>
+					<row>
+						<cell>Round 2:</cell>
+						<cell>A: 6</cell>
+						<cell>B: 5</cell>
+						<cell></cell>
+						<cell>D: 4+2=6</cell>
+					</row>
+					<row bottom="minor">
+						<cell></cell>
+						<cell colspan="4">B is eliminated, and votes are allocated to their different second choice.</cell>
+					</row>
+					<row>
+						<cell>Round 3:</cell>
+						<cell>A: 6</cell>
+						<cell></cell>
+						<cell></cell>
+						<cell>D: 5+4+2=11</cell>
+					</row>
+					<row>
+						<cell></cell>
+						<cell colspan="4">D wins the election.</cell>
+					</row>
+				</tabular>
+				</sidebyside>
+
+				<p>However, if losing candidate B is removed from the election, but we keep all other preferences the same, the preference table for the new election looks like this:</p>
+
+				<table xml:id="iia-all-but-pairwise-b-table"><caption></caption>
+				<tabular top="none" bottom="minor" left="minor" right="minor">
+					<row left="none">
+						<cell bottom="none" right="medium"></cell>
+						<cell colspan="4">Number of voters</cell>
+					</row>
+					<row bottom="medium">
+						<cell right="medium">Rankings</cell>
+						<cell>6</cell>
+						<cell>5</cell>
+						<cell>4</cell>
+						<cell>2</cell>
+					</row>
+					<row>
+						<cell right="medium">1st choice</cell>
+						<cell>A</cell>
+						<cell>C</cell>
+						<cell>D</cell>
+						<cell>C</cell>
+					</row>
+					<row>
+						<cell right="medium">2nd choice</cell>
+						<cell>C</cell>
+						<cell>D</cell>
+						<cell>C</cell>
+						<cell>D</cell>
+					</row>
+					<row>
+						<cell right="medium">3rd choice</cell>
+						<cell>D</cell>
+						<cell>A</cell>
+						<cell>A</cell>
+						<cell>A</cell>
+					</row>
+				</tabular>
+				</table>
+
+				<p>In this new election without B, the IRV results are as follows:</p>
+
+				<sidebyside>
+				<tabular>
+					<row >
+						<cell>Round 1:</cell>
+						<cell>A: 6</cell>
+						<cell>C: 5+2=7</cell>
+						<cell>D: 4</cell>
+					</row>
+					<row bottom="minor">
+						<cell></cell>
+						<cell colspan="3">D is eliminated, and votes are allocated to their different second choice.</cell>
+					</row>
+					<row>
+						<cell>Round 2:</cell>
+						<cell>A: 6</cell>
+						<cell>C: 5+4+2=11</cell>
+						<cell></cell>
+					</row>
+					<row>
+						<cell></cell>
+						<cell colspan="3">C wins the election.</cell>
+					</row>
+				</tabular>
+				</sidebyside>
+
+				<p>When B is removed, C wins the election instead of D.  Since the outcome of the election changed when we removed a losing candidate, this demonstrates that IRV violates IIA.</p>
+			</li>
+			<li>
+				<p>Pairwise comparisons: Notice that, in the original election, B is a Condorcet candidate, i.e., B wins against each other candidate.  So B will win the election if we use pairwise comparisons.  If we then eliminate any other candidate, B will still be a Condorcet candidate for the new election.  This is because removing a candidate does not affect the results of pairs that the candidate is not a part of.  So B will still win against each candidate that was not removed, making B a Condorcet candidate.  Therefore, B will still win the new election.  Since the outcome of this election does not change no matter which losing candidate we remove, this election does not demonstrate that pairwise comparisons violates IIA.</p>
+			</li>
+		</ol>
+
+	</example>
+
+	<p>Based on the results from this example, you may be hopeful that the method of pairwise comparisons satisfies IIA.  Unfortunately, this is not the case; there can be violations in elections where there is no Condorcet candidate.</p>
+
+	<example>
+		<p>Let's use the following election to show that the method of pairwise comparisons violates IIA.</p>
+
+		<table xml:id="iia-pairwise-table"><caption></caption>
+		<tabular top="none" bottom="minor" left="minor" right="minor">
+			<row left="none">
+				<cell bottom="none" right="medium"></cell>
+				<cell colspan="4">Number of voters</cell>
+			</row>
+			<row bottom="medium">
+				<cell right="medium">Rankings</cell>
+				<cell>6</cell>
+				<cell>11</cell>
+				<cell>9</cell>
+				<cell>4</cell>
+			</row>
+			<row>
+				<cell right="medium">1st choice</cell>
+				<cell>A</cell>
+				<cell>B</cell>
+				<cell>D</cell>
+				<cell>C</cell>
+			</row>
+			<row>
+				<cell right="medium">2nd choice</cell>
+				<cell>D</cell>
+				<cell>A</cell>
+				<cell>C</cell>
+				<cell>B</cell>
+			</row>
+			<row>
+				<cell right="medium">3rd choice</cell>
+				<cell>C</cell>
+				<cell>D</cell>
+				<cell>B</cell>
+				<cell>A</cell>
+			</row>
+			<row>
+				<cell right="medium">4th choice</cell>
+				<cell>B</cell>
+				<cell>C</cell>
+				<cell>A</cell>
+				<cell>D</cell>
+			</row>
+		</tabular>
+		</table>
+
+		<p>Here are the results of this election when we use the method of pairwise comparisons:</p>
+
+		<sidebyside>
+		<tabular top="medium" bottom="medium" left="medium" right="medium">
+			<row>
+				<cell colspan="2">Pair</cell>
+				<cell>Number of voters</cell>
+				<cell>Winner/points</cell>
+			</row>
+			<row bottom="minor">
+				<cell bottom="none">1</cell>
+				<cell>A</cell>
+				<cell>6</cell>
+				<cell>Lose = 0</cell>
+			</row>
+			<row>
+				<cell></cell>
+				<cell>vs B</cell>
+				<cell>11+9+4=24</cell>
+				<cell>Win = 1</cell>
+			</row>
+			<row bottom="minor">
+				<cell bottom="none">2</cell>
+				<cell>A</cell>
+				<cell>6+11=17</cell>
+				<cell>Win = 1</cell>
+			</row>
+			<row>
+				<cell></cell>
+				<cell>vs C</cell>
+				<cell>9+4=13</cell>
+				<cell>Lose = 0</cell>
+			</row>
+			<row bottom="minor">
+				<cell bottom="none">3</cell>
+				<cell>A</cell>
+				<cell>6+11+4=21</cell>
+				<cell>Win = 1</cell>
+			</row>
+			<row>
+				<cell></cell>
+				<cell>vs D</cell>
+				<cell>9</cell>
+				<cell>Lose = 0</cell>
+			</row>
+			<row bottom="minor">
+				<cell bottom="none">4</cell>
+				<cell>B</cell>
+				<cell>11</cell>
+				<cell>Lose = 0</cell>
+			</row>
+			<row>
+				<cell></cell>
+				<cell>vs C</cell>
+				<cell>6+9+4=19</cell>
+				<cell>Win = 1</cell>
+			</row>
+			<row bottom="minor">
+				<cell bottom="none">5</cell>
+				<cell>B</cell>
+				<cell>11+4=15</cell>
+				<cell>Tie = 0.5</cell>
+			</row>
+			<row>
+				<cell></cell>
+				<cell>vs D</cell>
+				<cell>6+9=15</cell>
+				<cell>Tie = 0.5</cell>
+			</row>
+			<row bottom="minor">
+				<cell bottom="none">6</cell>
+				<cell>C</cell>
+				<cell>4</cell>
+				<cell>Lose = 0</cell>
+			</row>
+			<row>
+				<cell></cell>
+				<cell>vs D</cell>
+				<cell>6+11+9=26</cell>
+				<cell>Win = 1</cell>
+			</row>
+		</tabular>
+		</sidebyside>
+
+		<p>A earns 2 points, B earns 1.5 points, C earns 1 point, and D earns 1.5 points.  So A wins this election.  However, if losing candidate C is removed from the election, but we keep all other preferences the same, the preference table for the new election looks like this:</p>
+
+		<table xml:id="iia-pairwise-c-table"><caption></caption>
+		<tabular top="none" bottom="minor" left="minor" right="minor">
+			<row left="none">
+				<cell bottom="none" right="medium"></cell>
+				<cell colspan="4">Number of voters</cell>
+			</row>
+			<row bottom="medium">
+				<cell right="medium">Rankings</cell>
+				<cell>6</cell>
+				<cell>11</cell>
+				<cell>9</cell>
+				<cell>4</cell>
+			</row>
+			<row>
+				<cell right="medium">1st choice</cell>
+				<cell>A</cell>
+				<cell>B</cell>
+				<cell>D</cell>
+				<cell>B</cell>
+			</row>
+			<row>
+				<cell right="medium">2nd choice</cell>
+				<cell>D</cell>
+				<cell>A</cell>
+				<cell>B</cell>
+				<cell>A</cell>
+			</row>
+			<row>
+				<cell right="medium">3rd choice</cell>
+				<cell>B</cell>
+				<cell>D</cell>
+				<cell>A</cell>
+				<cell>D</cell>
+			</row>
+		</tabular>
+		</table>
+
+		<p>If we run this new election using pairwise comparisons, the results of each pair (that doesn't contain C) remains the same:</p>
+
+		<sidebyside>
+		<tabular top="medium" bottom="medium" left="medium" right="medium">
+			<row>
+				<cell colspan="2">Pair</cell>
+				<cell>Number of voters</cell>
+				<cell>Winner/points</cell>
+			</row>
+			<row bottom="minor">
+				<cell bottom="none">1</cell>
+				<cell>A</cell>
+				<cell>6</cell>
+				<cell>Lose = 0</cell>
+			</row>
+			<row>
+				<cell></cell>
+				<cell>vs B</cell>
+				<cell>11+9+4=24</cell>
+				<cell>Win = 1</cell>
+			</row>
+			<row bottom="minor">
+				<cell bottom="none">2</cell>
+				<cell>A</cell>
+				<cell>6+11+4=21</cell>
+				<cell>Win = 1</cell>
+			</row>
+			<row>
+				<cell></cell>
+				<cell>vs D</cell>
+				<cell>9</cell>
+				<cell>Lose = 0</cell>
+			</row>
+			<row bottom="minor">
+				<cell bottom="none">3</cell>
+				<cell>B</cell>
+				<cell>11+4=15</cell>
+				<cell>Tie = 0.5</cell>
+			</row>
+			<row>
+				<cell></cell>
+				<cell>vs D</cell>
+				<cell>6+9=15</cell>
+				<cell>Tie = 0.5</cell>
+			</row>
+		</tabular>
+		</sidebyside>
+
+		<p>Now A earns 1 point, B earns 1.5 points, and D earns 0.5 points, so B wins instead of A.  Since the outcome of the election changed when we removed a losing candidate, this demonstrates that pairwise comparisons violates IIA.</p>
 	</example>
 
 </subsection>
