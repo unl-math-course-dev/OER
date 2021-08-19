@@ -6,10 +6,6 @@
 
 <subsection><title>Bipartite Graphs</title>
 
-	<!--	definition and motivation
-		recognize abstract graphs as bipartite or not
-		recognize verbal descriptions of real-world graphs as bipartite or not -->
-
 	<p>Most of the real-world graphs we've seen so far have vertices representing a single type of object, and edges representing a symmetric relationship that the vertices can have with each other.  For example, in a graph of people and friendships, the vertices are all people, and each edge represents a friendship, where if Amy is a friend of Tom, then Tom is also a friend of Amy.  Or in a graph of the streets in a neighborhood, the vertices are all intersections and the edges are connections between them, where if intersection A is connected to intersection B by a street, then intersection B is connnected to intersection A by the same street.</p>
 
 	<p>However, there are also many situations where we might want to consider  multiple types of objects as vertices, with edges representing asymmetric relationships between two vertices of different types.  For example, consider the graph where each vertex is either a house or a person, and two vertices are connected by an edge if one of them is an owner of the other.  Amy owns her house, so there is an edge between them, but her house does not own her!  This is an example of a <term>bipartite graph</term>.</p>
@@ -46,17 +42,11 @@
 
 <subsection><title>Matchings</title>
 
-	<!--	define matching and perfect matching
-		introduce notation for matchings
-		provide motivation for definitions
-		recognize what is and is not a matching/perfect matching in an abstract graph
-		recognize what matching/perfect matching mean in context of real-world graphs -->
-
 	<p>Oftentimes, bipartite graphs are useful to consider because we want to find a way to pair vertices from one part with vertices from another part.  For example, we might have a number of job openings, and we want to give each job to a person who is qualified for it.  We might consider the bipartite graph where vertices are jobs and people, and an edge connects a job and a person whenever that person is qualified for that job.  For example, the graph might look like this:</p>
 
 	<image source="images/people-jobs-graph.png"/>
 
-	<p>Let's assume that each person can only work one job, and each job should be given to only one person.  Then a way to fill all of the job openings corresponds to a particular collection of edges, each edge pairing one person with one job.  For example, we might fill the jobs by picking all of the blue edges below.  Each job is given to the person connected to it by a blue edge.</p>
+	<p>Let's assume that each person can only work one job, and each job should will be given to only one person.  Then a way to fill all of the job openings corresponds to a particular collection of edges; each edge pairs one person with one job.  For example, we might fill the jobs by picking all of the blue edges below.  Each job is given to the person connected to it by a blue edge.</p>
 
 	<image source="images/people-jobs-matching.png"/>
 
@@ -64,27 +54,82 @@
 
 	<assemblage><title>Matchings</title>
 
-		<p>A <term>matching</term> is a collection of edges where no two edges share a vertex.  We will notate matchings by listing their edges.</p>
+		<p>A <term>matching</term> is a collection of edges where no two edges share a vertex.  In other words, a matching is a way of pairing up vertices that are connected.</p>
 
-		<p>A <term>perfect matching</term> is a matching where every vertex in the graph is included in some edge from the matching.</p>
+		<p>We will notate matchings by listing their edges.  For example, matching vertex A with vertex C and vertex B with vertex D could be notated as {AC, BD}.</p>
+
+		<p>A <term>perfect matching</term> is a matching where every vertex in the graph is included in some edge from the matching.  A perfect matching is appropriate when we want to find a way to include every vertex in some pair.</p>
 
 	</assemblage>
+
+	<p>Notice that the matching from our example above is not a perfect matching.  Although all the jobs are included in some edge of the matching, not all the people are.  Unfortunately, a perfect matching in this graph is impossible, because there are more people than jobs.</p>
+
+	<example>
+		<p>UNL's mathematics graduate students engage in a mentorship program, where each incoming graduate student is paired with a more experienced graduate student who acts as their mentor.  The pairs are assigned based on shared interest areas, as well as other compatibility factors.</p>
+
+		<p>The process of assigning mentors can be thought of as finding a matching in a bipartite graph.  There are two groups of vertices: incoming students, and experienced students who are willing to act as mentors.  An edge between an incoming student and an experienced student indicates that the pair is compatible.  A matching in this graph would represent a way of assigning a mentor to some collection of incoming students.  This need not be a perfect matching; there is no need for every experienced student to act as a mentor.  However, we do at least want a matching that covers all of the incoming students, so that all of them have mentors.</p>
+	</example>
+
+	<exploration>
+		<statement>
+			<p>If possible, find a perfect matching for each of the following graphs.  If not, find a matching that covers as many vertices as possible.</p>
+
+			<ol>
+				<li> <image source="images/find-matching-1.png"/> </li>
+				<li> <image source="images/find-matching-2.png"/> </li>
+				<li> <image source="images/find-matching-3.png"/> </li>
+			</ol>
+		</statement>
+		<solution>
+			<ol>
+				<li> <image source="images/find-matching-1-sol.png"/> </li>
+				<li> <image source="images/find-matching-2-sol.png"/> </li>
+				<li> <image source="images/find-matching-3-sol.png"/> </li>
+			</ol>
+		</solution>
+	</exploration>
 
 </subsection>
 
 
 
 <subsection><title>Stable Matchings</title>
+		
+	<p>In many cases, we want to do more than find just any matching; some matchings may be more desireable than others.  This often happens when the vertices of a graph have preferences about who they will be matched with.  For example, consider again the bipartite graph of people and jobs, where there is an edge connecting a person to a job when they are qualified for the job.  Each person prefers some jobs over others; their preferences can be expressed as an ordered list, with their most prefered jobs at the top and their least prefered at the bottom.  Each employer also has a similar list of potential employees.  A bipartite graph that comes equipped with preference lists like this is called <term>preference-labeled</term>.</p>
 
-	<!--	define preference-labeled and stable matching
-		introduce how we will denote the preferences in pictures
-		provide motivation for definitions
-		define Gale-Shapley algorithm
-		give some reasoning about why it always produces a stable matching, and why the proposers always get the better deal
-		do many examples of algorithm -->
-		
-		
-		
+	<p>We would like to find a matching where the new hires like the job they have, and where their employers are also happy with their new hires.  Obviously, we won't always be able to give everyone their first choice of jobs or employees.  However, if we are tasked with coming up with a good matching, the least we can do is try to avoid a situation where individual employees and employers are incentivized to quit or fire someone.  For example, if Colby would have prefered the job opening at Google, and Google would rather have hired Colby than the person we matched them with, then Colby will quit their job and Google will replace their current employee with Colby, leaving others in the lurch.  Such a matching is unstable, since individual vertices are incentivized to break their pairings; matchings that avoid this kind of instability are called <term>stable matchings</term>.</p>
+
+	<assemblage><title>Stable Matchings</title>
+		<p>A bipartite graph is <term>preference-labeled</term> if each vertex is given an ordering of vertices (their preferences) in the opposite part of the graph.</p>
+		<p>A <term>stable matching</term> in a preference-labeled bipartite graph is a matching such that there is no pair of vertices which prefer each other to their matched partners, and no vertex prefers an unmatched vertex to their matched partner.</p>
+	</assemblage>
+
+	<p>If we want people and institutions to trust a matching we create and not go their own way, we need a way to find a stable matching.  But this brings up and interesting question: does every preference-labeled bipartite graph have a stable matching?</p>
+
+	<p>It turns out that the answer is yes!  Even better, there is an algorithm that can always find a stable matching, called the Gale-Shapley algorithm.</p>
+
+	<assemblage><title>The Gale-Shapley Algorithm</title>
+		<p>
+			<ol>
+				<li>Choose one part of the graph to be the proposers.</li>
+				<li>Each proposer proposes to the highest vertex on their preference list which has not rejected them.</li>
+				<li>Each vertex being proposed to says "maybe" to their favorite of the vertices currently proposing to them, and rejects all other vertices currently proposing to them.</li>
+				<li>Repeat steps 2 and 3 until you reach a step where nobody is rejected. At this point, you have a stable matching.</li>
+			</ol>
+		</p>
+	</assemblage>
+
+	<example>
+		<!-- do algorithm in detail with graduating education majors and teaching jobs, with teachers proposing.  Explain notation for preferences in the example. -->
+	</example>
+
+	<p>Notice that the matching reached in the example above must be stable because of the way it was chosen.  If any of the education majors ended up with a less-than-ideal position, they must have been rejected from all the positions that they prefered.  And the fact that they were rejected means that those schools had already been proposed to by a candidate the school prefered, meaning that those schools ended up hiring someone they prefered over the prospective teacher in question.  Therefore, there is no teacher-school pair such that the teacher prefers that school to the one they end up with AND the school prefers that teacher to the one they end up with.  Hence, this algorithm must give a stable matching.</p>
+
+	<example>
+		<!-- do it again, but with schools proposing -->
+	</example>
+
+	<p>The matching we found this time is different.  If you compared the two matchings closely, you would notice something interesting: when teachers propose, they end up in jobs they prefer more than when schools propose, and vice versa.  The Gale-Shapley algorithm is biased towards the proposers.  This makes sense, because the proposers get to chose what pairs are considered, and they always get to propose to the highest preference that they still have chance with.  Those being proposed to, on the other hand, may never even receive a proposition from their highest preference, even if there could be a stable matching in which they are paired with their highest preference.</p>
 
 </subsection>
 
