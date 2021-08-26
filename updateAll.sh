@@ -30,7 +30,7 @@ perl /var/www/html/Calculus/GoogleAnalytics.pl
 cd /var/www/html/Contemporary/
 
 #Run xsltproc
-xsltproc --xinclude /var/www/html/Contemporary/mfg-html.xsl /var/www/OERSource/Contemporary/2020-2021/index.xml 
+xsltproc --xinclude /var/www/html/Contemporary/mfg-html.xsl /var/www/OERSource/Contemporary/2021-2022/index.xml 
 
 #Add the Google Analytics code
 perl /var/www/html/Contemporary/GoogleAnalytics.pl 
