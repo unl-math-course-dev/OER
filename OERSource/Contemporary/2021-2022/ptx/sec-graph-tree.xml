@@ -1,0 +1,526 @@
+<section xmlns:xi="http://www.w3.org/2001/XInclude" xml:id="sec-graph-tree">
+
+	<title>Networks and Minimal Spanning Trees</title>
+
+<subsection>
+	<title>Networks and Trees</title>
+
+	<p>
+		A <term>network</term> is just another name for any connected graph. In this chapter, we will consider a certain type of network: one which connects a given set of vertices using the fewest possible edges.
+	</p>
+
+	<assemblage>
+		<title>Trees</title>
+		<p>For a given network, the following properties are all equivalent. That is, if any one of them is true for that network, then all the rest must also be true.
+			<ul>
+				<li>The network has no circuits.</li>
+				<li>The number of edges in the network is one fewer than the number of vertices. So, if the network has <m>N</m> vertices, it will have <m>N-1</m> edges.</li>
+				<li>Every edge in the network is a bridge.</li>
+				<li>Given any pair of two vertices in the netowork, only one path exists connecting those two vertices.</li>
+			</ul>
+			A network which satisfies these properties is called a <term>tree</term>.
+		</p>
+	</assemblage>
+
+	<p>
+		Notice, in particular, that because every edge of a tree is a bridge, removing any edge from the tree will make the graph disconnected. Thus, we can say that a tree is a graph that connects a given set of vertices using the fewest possible edges. Some examples are shown below.
+	</p>
+
+	<example>
+		<title>Examples of trees</title>
+		<sidebyside widths="40% 40%">
+			<figure><caption></caption><image source="images/tree1.png"/></figure>
+			<figure><caption></caption><image source="images/tree2.png"/></figure>
+		</sidebyside>
+		<figure><caption></caption>
+			<image width="50%" source="images/tree3.png"/>
+		</figure>
+	</example>
+
+	By way of comparison, here are some graphs that are <em>not</em> trees:
+
+	<example>
+		<title>Examples of graphs that are <alert>not</alert> trees</title>
+		<sidebyside widths="40% 40%">
+			<figure><caption></caption><image source="images/not-tree1.png"/></figure>
+			<figure><caption></caption><image source="images/not-tree2.png"/></figure>
+		</sidebyside>
+		<figure><caption></caption>
+			<image width="50%" source="images/not-tree3.png"/>
+		</figure>
+	</example>
+
+<p>
+	We can often determine whether a graph is a tree or not without seeing a diagram. Since there are many equivalent conditions which characterize trees, we can make this determination if given even just a little information about a graph. Sometimes, however, we would still need more information to determine whether a graph is a tree. Let's look at some examples of this.
+</p>
+
+<example>
+	<p>
+		We are given descriptions, but not pictures, of several networks. Do we have enough information to determine whether or not each is a tree?
+
+		<ul>
+			<li><p>
+				The network has 5 vertices and 4 edges.
+				<ul>
+					<li>Is it a tree? <alert>Yes.</alert></li>
+					<li><alert>Reason:</alert> It has one fewer edge than the number of vertices.</li>
+				</ul>
+			</p></li>
+			<li><p>
+				The network has 5 vertices and 6 edges.
+				<ul>
+					<li>Is it a tree? <alert>No.</alert></li>
+					<li><alert>Reason:</alert> It has one more edge than the number of vertices.</li>
+				</ul>
+			</p></li>
+			<li><p>
+				The network has 8 vertices, and between vertices A and B, there is only one path.
+				<ul>
+					<li>Is it a tree? <alert>Maybe (either is possible; we need more information).</alert></li>
+					<li><alert>Reason:</alert> To determine whether this graph is a tree, we would need to check every pair of vertices, not just A and B.</li>
+				</ul>
+			</p></li>
+			<li><p>
+				The network has 7 vertices and exactly 3 bridges.
+				<ul>
+					<li>Is it a tree? <alert>No.</alert></li>
+					<li><alert>Reason:</alert> If a network is a tree, then it has one fewer edge than the number of vertices, and every edge will be a bridge. Thus, a tree with 7 vertices must have 6 edges which are all bridges.</li>
+				</ul>
+			</p></li>
+			<li><p>
+				The network has 7 vertices and at least 3 bridges.
+				<ul>
+					<li>Is it a tree? <alert>Maybe.</alert>  We need more information.</li>
+					<li><alert>Reason:</alert> If a network is a tree, then it has one fewer edge than the number of vertices, and every edge will be a bridge. Thus, a tree with 7 vertices must have 6 edges which are all bridges. Since this network has <em>at least</em> 3 bridges, it may or may not actually have exactly 6, and be a tree.</li>
+				</ul>
+			</p></li>
+		</ul>
+	</p>
+
+</example>
+
+	<p>
+		A tree minimizes the number of edges in a network, so we could say that it solves the problem of connecting a set of vertices in an optimal way. This is, however, only one type of optimization we could consider. Recall that in <xref ref="chap-graph-hamilton"/> we assigned weights to the edges of a graph, and considered how to find a Hamilton circuit with minimum weight. We can ask the same question for networks. Any tree will minimize the <em>number</em> of edges that connect a set of vertices. But if the edges are given weights, we can then ask for a tree that minimizes the <em>total weight</em> of the edges as well. We turn to this question for the remainder of this section.
+	</p>
+
+</subsection>
+
+<subsection>
+	<title>Spanning Trees</title>
+
+<sidebyside>
+	<p>
+		A company requires reliable internet and phone connectivity between their five offices (named A, B, C, D, and E for simplicity) in New York, so they decide to lease dedicated lines from the phone company.  The phone company will charge for each link made.  The costs, in thousands of dollars per year, are shown in the graph.
+	</p>
+	<image source="images/span1.png"/>
+</sidebyside>
+
+<p>
+	In this case, we don't need to find a circuit, or even a specific path; all we need to do is make sure we can make a call from any office to any other.  In other words, we need to be sure there is a path from any vertex to any other vertex. If we choose the fewest possible edges from the existing graph that allows it to remain connected, we will be left with a tree. Since this tree will connect all the vertices of the original graph, we can say that it <term>spans</term> the original graph.
+</p>
+
+<assemblage>
+	<title>Spanning Trees</title>
+	<p>
+		<ul>
+			<li>A <term>subgraph</term> is a new graph formed using a selection of vertices and edges from a larger original graph.</li>
+			<li> A <term>spanning tree</term> for a graph is a subgraph which is a tree and which connects every vertex of the original graph.</li>
+		</ul>
+	</p>
+</assemblage>
+
+<p>
+	So, when given a graph, we will find a spanning tree by selecting some, but not all, of the original edges. We need just enough edges so that all the vertices will be connected, but not too many edges. Since the smaller graph is a tree, it will include the smallest number of edges needed to connect all the vertices.
+</p>
+<p>
+	In general, a given graph will have many different spanning trees. We can see this in the example below.
+</p>
+
+<example>
+	<sidebyside widths="30% 30%">
+	<p>Consider the graph at right. It is not a tree, because it has too many edges. We can make it a tree by removing some of the edges.</p>
+	<image source="images/not-tree1.png"/>
+</sidebyside>
+
+<p>
+	Some examples of spanning trees for this graph are shown below.
+</p>
+
+<sidebyside>
+	<image source="images/several-trees1.png"/>
+</sidebyside>
+
+</example>
+
+<p>
+	Of course, any random spanning tree isn’t really what we want.  We want the <term>minimal spanning tree</term>.
+</p>
+
+<assemblage>
+	<title>Minimal spanning tree</title>
+	<p>
+		The <term>minimal spanning tree</term> (MST) is the spanning tree with the smallest total edge weight.
+	</p>
+</assemblage>
+
+<p>
+	The problem of finding a MST is called the <term>network connection problem</term>. Unlike the traveling salesman problem, the network connection problem has an algorithm that is both simple and guaranteed to find the optimal solution.
+</p>
+
+<assemblage>
+	<title>Kruskal's Algorithm</title>
+	<p>Given a graph, follow these steps to find a minimal spanning tree.
+		<ol>
+			<li>Select the cheapest unused edge in the graph.</li>
+			<li>Repeat step 1, adding the cheapest unused edge, <alert>unless</alert> adding the edge would create a circuit.
+</li>
+			<li>Repeat until a spanning tree is formed.</li>
+		</ol>
+	</p>
+</assemblage>
+
+<example>
+	<sidebyside>
+	<p>
+		Let's find a MST for the phone company graph introduced previously. Using Kruskal's algorithm, we add edges in the following order:
+		<ul>
+			<li>AB (cost $4): Select.</li>
+			<li>AE (cost $5): Select.</li>
+			<li>BE (cost $6): Reject. It would close the circuit ABEA.</li>
+			<li>DC (cost $7): Select.</li>
+			<li>AC (cost $8): Select.</li>
+		</ul>
+		At this point we stop: every vertex is now connected, so we have formed a spanning tree with cost $24 thousand a year.
+	</p>
+	<image source="images/span1b.png"/>
+	</sidebyside>
+</example>
+
+<p>
+	We can perform the algorithm even if we are given a table instead of a graph. In such a situation, one useful strategy is to draw the graph one edge at a time as you select them. For large graphs, this can be easier than starting with a complete diagram of the graph. This process is demonstrated in the example below.
+</p>
+
+<example>
+	<p>
+		The power company needs to lay updated distribution lines connecting the ten Oregon cities below to the power grid.  How can they minimize the amount of new line to lay?
+	</p>
+
+	<table><caption></caption>
+		<tabular left="minor" right="minor" top="minor" bottom="minor">
+			<row>
+				<cell></cell>
+				<cell>Ash.</cell>
+				<cell>Ast.</cell>
+				<cell>B.</cell>
+				<cell>C.</cell>
+				<cell>C.L.</cell>
+				<cell>E.</cell>
+				<cell>N.</cell>
+				<cell>P.</cell>
+				<cell>Sal.</cell>
+				<cell>Sea.</cell>
+			</row>
+			<row>
+				<cell>Ashland</cell>
+				<cell>-</cell>
+				<cell>374</cell>
+				<cell>200</cell>
+				<cell>223</cell>
+				<cell>108</cell>
+				<cell>178</cell>
+				<cell>252</cell>
+				<cell>285</cell>
+				<cell>240</cell>
+				<cell>356</cell>
+			</row>
+			<row>
+				<cell>Astoria</cell>
+				<cell>374</cell>
+				<cell>-</cell>
+				<cell>255</cell>
+				<cell>166</cell>
+				<cell>433</cell>
+				<cell>199</cell>
+				<cell>135</cell>
+				<cell>95</cell>
+				<cell>136</cell>
+				<cell>17</cell>
+			</row>
+			<row>
+				<cell>Bend</cell>
+				<cell>200</cell>
+				<cell>255</cell>
+				<cell>-</cell>
+				<cell>128</cell>
+				<cell>277</cell>
+				<cell>128</cell>
+				<cell>180</cell>
+				<cell>160</cell>
+				<cell>131</cell>
+				<cell>247</cell>
+			</row>
+			<row>
+				<cell>Corvallis</cell>
+				<cell>223</cell>
+				<cell>166</cell>
+				<cell>128</cell>
+				<cell>-</cell>
+				<cell>430</cell>
+				<cell>47</cell>
+				<cell>52</cell>
+				<cell>84</cell>
+				<cell>40</cell>
+				<cell>155</cell>
+			</row>
+			<row>
+				<cell>Crater Lake</cell>
+				<cell>108</cell>
+				<cell>433</cell>
+				<cell>277</cell>
+				<cell>430</cell>
+				<cell>-</cell>
+				<cell>453</cell>
+				<cell>478</cell>
+				<cell>344</cell>
+				<cell>389</cell>
+				<cell>423</cell>
+			</row>
+			<row>
+				<cell>Eugene</cell>
+				<cell>178</cell>
+				<cell>199</cell>
+				<cell>128</cell>
+				<cell>47</cell>
+				<cell>453</cell>
+				<cell>-</cell>
+				<cell>91</cell>
+				<cell>110</cell>
+				<cell>64</cell>
+				<cell>181</cell>
+			</row>
+			<row>
+				<cell>Newport</cell>
+				<cell>252</cell>
+				<cell>135</cell>
+				<cell>180</cell>
+				<cell>52</cell>
+				<cell>478</cell>
+				<cell>91</cell>
+				<cell>-</cell>
+				<cell>114</cell>
+				<cell>83</cell>
+				<cell>117</cell>
+			</row>
+			<row>
+				<cell>Portland</cell>
+				<cell>285</cell>
+				<cell>95</cell>
+				<cell>160</cell>
+				<cell>84</cell>
+				<cell>344</cell>
+				<cell>110</cell>
+				<cell>114</cell>
+				<cell>-</cell>
+				<cell>47</cell>
+				<cell>78</cell>
+			</row>
+			<row>
+				<cell>Salem</cell>
+				<cell>240</cell>
+				<cell>136</cell>
+				<cell>131</cell>
+				<cell>40</cell>
+				<cell>389</cell>
+				<cell>64</cell>
+				<cell>83</cell>
+				<cell>47</cell>
+				<cell>-</cell>
+				<cell>118</cell>
+			</row>
+			<row>
+				<cell>Seaside</cell>
+				<cell>356</cell>
+				<cell>17</cell>
+				<cell>247</cell>
+				<cell>155</cell>
+				<cell>423</cell>
+				<cell>181</cell>
+				<cell>117</cell>
+				<cell>78</cell>
+				<cell>118</cell>
+				<cell>-</cell>
+			</row>
+		</tabular>
+	</table>
+
+
+<p>
+	Using Kruskal's algorithm, we add edges from cheapest to most expensive, rejecting any that close a circuit.  We stop when the graph is connected.
+</p>
+<sidebyside widths="55% 40%">
+	<p>
+	<tabular>
+		<row>
+			<cell> </cell>
+			<cell> </cell>
+		</row>
+		<row>
+			<cell>Seaside to Astoria</cell>
+			<cell>17 miles, Select</cell>
+		</row>
+		<row>
+			<cell>Corvallis to Salem</cell>
+			<cell>40 miles, Select</cell>
+		</row>
+		<row>
+			<cell>Portland to Salem</cell>
+			<cell>47 miles, Select</cell>
+		</row>
+		<row>
+			<cell>Corvallis to Eugene</cell>
+			<cell>47 miles, Select</cell>
+		</row>
+		<row>
+			<cell>Corvallis to Newport</cell>
+			<cell>52 miles, Select</cell>
+		</row>
+		<row>
+			<cell>Salem to Eugene</cell>
+			<cell>Reject: closes a circuit</cell>
+		</row>
+		<row>
+			<cell>Portland to Seaside</cell>
+			<cell>78 miles, Select</cell>
+		</row>
+		<row>
+			<cell> </cell>
+			<cell> </cell>
+		</row>
+	</tabular>
+
+	The graph up to this point is shown to the right.
+</p>
+
+<image source="images/span2a.png"/>
+</sidebyside>
+
+<sidebyside widths="55% 40%">
+<p>
+	Continuing,
+
+	<tabular>
+		<row>
+			<cell> </cell>
+			<cell> </cell>
+		</row>
+		<row>
+			<cell>Newport to Salem</cell>
+			<cell>reject </cell>
+		</row>
+		<row>
+			<cell>Corvallis to Portland</cell>
+			<cell>reject </cell>
+		</row>
+		<row>
+			<cell>Eugene to Newport</cell>
+			<cell>reject </cell>
+		</row>
+		<row>
+			<cell>Portland to Astoria</cell>
+			<cell>reject </cell>
+		</row>
+		<row>
+			<cell>Ashland to Crater Lk</cell>
+			<cell>select (108 miles)</cell>
+		</row>
+		<row>
+			<cell>Eugene to Portland</cell>
+			<cell>reject </cell>
+		</row>
+		<row>
+			<cell>Newport to Portland</cell>
+			<cell>reject </cell>
+		</row>
+		<row>
+			<cell>Newport to Seaside</cell>
+			<cell>reject </cell>
+		</row>
+		<row>
+			<cell>Salem to Seaside</cell>
+			<cell>reject </cell>
+		</row>
+		<row>
+			<cell>Bend to Eugene</cell>
+			<cell>select (128 miles)</cell>
+		</row>
+		<row>
+			<cell>Bend to Salem</cell>
+			<cell>reject </cell>
+		</row>
+		<row>
+			<cell>Astoria to Newport </cell>
+			<cell>reject </cell>
+		</row>
+		<row>
+			<cell>Salem to Astoria </cell>
+			<cell>reject </cell>
+		</row>
+		<row>
+			<cell>Corvallis to Seaside</cell>
+			<cell>reject </cell>
+		</row>
+		<row>
+			<cell>Portland to Bend</cell>
+			<cell>reject </cell>
+		</row>
+		<row>
+			<cell>Astoria to Corvallis</cell>
+			<cell>reject </cell>
+		</row>
+		<row>
+			<cell>Eugene to Ashland</cell>
+			<cell>select (178 miles)</cell>
+		</row>
+		<row>
+			<cell> </cell>
+			<cell> </cell>
+		</row>
+	</tabular>
+
+	This connects the graph.  The total length of cable to lay would be 695 miles.
+</p>
+
+<image source="images/span2b.png"/>
+</sidebyside>
+
+</example>
+
+<exploration>
+	<statement>
+		<p>Find a miminal spanning tree on the graph below using Kruskal's algorithm.</p>
+		<sidebyside>
+			<image source="images/span3.png"/>
+		</sidebyside>
+	</statement>
+
+	<solution>
+		<sidebyside>
+		<p>The edges are selected in the following order:
+			<ul>
+				<li>AB: Add, cost 11</li>
+				<li>BG: Add, cost 13</li>
+				<li>AE: Add, cost 14</li>
+				<li>AG: Skip, would create circuit ABGA</li>
+				<li>EF: Add, cost 16</li>
+				<li>EC: Add, cost 17</li>
+			</ul>
+			This completes the spanning tree.</p>
+			<image source="images/span3b.png"/>
+		</sidebyside>
+	</solution>
+</exploration>
+
+</subsection>
+
+
+</section>

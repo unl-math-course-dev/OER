@@ -1,0 +1,799 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!-- **********************************************************************-->
+<!-- Copyright 2019                                                        -->
+<!-- UNL Department of Mathematics                                         -->
+<!-- Based upon the work of                                                -->
+<!-- Matthew Boelkins                                                      -->
+<!-- Copyright 2012-2018                                                   -->
+<!--                                                                       -->
+<!-- This file is part of Coordinated Calculus.                            -->
+<!-- This file is based on Active Calculus.                                -->
+<!--                                                                       -->
+<!-- Permission is granted to copy, distribute and/or modify this document -->
+<!-- under the terms of the Creative Commons BY-SA license.  The work      -->
+<!-- may be used for free by any party so long as attribution is given to  -->
+<!-- the author(s), the work and its derivatives are used in the spirit of -->
+<!-- "share and share alike".  All trademarks are the registered marks of  -->
+<!-- their respective owners.                                              -->
+<!-- **********************************************************************-->
+<section xmlns:xi="http://www.w3.org/2001/XInclude" xml:id="sec-7-8-taylor-poly" permid="cnS">
+  <title>Taylor Polynomials</title>
+  <objectives permid="WyG">
+    <ul permid="HpI">
+      <li permid="zLj">
+        <p permid="cXM">
+          What is a Taylor polynomial?
+          For what purposes are Taylor polynomials used?
+        </p>
+      </li>
+
+
+
+      <li permid="LZB">
+        <p permid="pme">
+          How do we determine the accuracy when we use a Taylor polynomial to approximate a function?
+        </p>
+      </li>
+    </ul>
+  </objectives>
+
+  <introduction permid="CFP">
+  
+  <p> 
+  Polynomial functions are the simplest possible functions in mathematics,
+      in part because they require only addition and multiplication to evaluate. Consequently,  in practical applications, it is often useful to approximate complicated functions using polynomials. In this section we will learn how to obtain polynomial approximations of functions, and how to determine how good an approximation is. 
+      </p>
+  
+  <p>
+As an example, consider  the geometric series 
+  <men xml:id="E-geomx" permid="PiC">
+        1 + x + x^2 + \cdots + x^k + \cdots = \sum_{k=0}^{\infty} x^k
+      </men>.
+</p>
+   
+    <p permid="MJv">
+      Here we see something very interesting:
+      because a geometric series converges whenever its ratio <m>r</m> satisfies <m>|r|\lt 1</m>,
+      and the sum of a convergent geometric series is <m>\frac{a}{1-r}</m>,
+      we can say that for <m>|x| \lt  1</m>,
+      <men xml:id="E-geomxsummed" permid="vpL">
+        1 + x + x^2 + \cdots + x^k + \cdots = \frac{1}{1-x}
+      </men>.
+    </p>
+
+    <p permid="sQE">
+      <xref ref="E-geomxsummed">Equation</xref> states that
+      the non-polynomial function
+      <m>\frac{1}{1-x}</m> on the right is equal to the infinite polynomial expresssion on the left.
+      Because the terms on the left
+      get very small as <m>k</m> gets large,
+      we can truncate the series
+      and say, for example, that
+      <me permid="bwU">
+        1 + x + x^2 + x^3 \approx \frac{1}{1-x}
+      </me>
+      for small values of <m>x</m>.
+      This shows one way that a polynomial function can be used to approximate a non-polynomial function;
+      such approximations are one of the main themes in this section and the next.
+    </p>
+
+    <p permid="YXN">
+      In <xref ref="PA-8-5">Example</xref>,
+      we begin our exploration of approximating functions with polynomials.
+    </p>
+
+<example xml:id="PA-8-5" permid="mNK">
+  <statement>
+    <p permid="VPz">
+      <xref ref="PA-8-3">Example</xref>
+      showed how we can approximate the number <m>e</m> using linear,
+      quadratic,
+      and other polynomial functions;
+      we then used similar ideas in <xref ref="PA-8-4">Example</xref> to approximate <m>\ln(2)</m>.
+      In this example,
+      we review and extend the process to find the <q>best</q>
+      quadratic approximation to the exponential function <m>e^x</m> around the origin.
+      Let <m>f(x) = e^x</m> throughout this example.
+    </p>
+
+    <p permid="BWI">
+      <ol label="a." permid="ysi">
+        <li permid="ezr">
+          <p permid="nTd">
+            Find a formula for <m>P_1(x)</m>,
+            the linearization of <m>f(x)</m> at <m>x=0</m>.
+            (We label this linearization <m>P_1</m> because it is a first degree polynomial approximation.)
+            Recall that <m>P_1(x)</m> is a good approximation to <m>f(x)</m> for values of <m>x</m> close to <m>0</m>.
+            Plot <m>f</m> and <m>P_1</m> near <m>x=0</m> to illustrate this fact.
+          </p>
+        </li>
+
+        <li permid="KGA">
+          <p permid="Uam">
+            Since <m>f(x) = e^x</m> is not linear,
+            the linear approximation eventually is not a very good one.
+            To obtain better approximations,
+            we want to develop a different approximation that <q>bends</q>
+            to make it more closely fit the graph of <m>f</m> near <m>x=0</m>.
+            To do so, we  add a quadratic term to <m>P_1(x)</m>.
+            In other words, we let
+            <me permid="idR">
+              P_2(x) = P_1(x) + c_2x^2
+            </me>
+            for some real number <m>c_2</m>.
+            We need to determine the value  of <m>c_2</m> that makes the graph of <m>P_2(x)</m> best fit the graph of <m>f(x)</m> near <m>x=0</m>.
+          </p>
+
+          <p permid="Ahv">
+            Remember that <m>P_1(x)</m> was a good linear approximation to <m>f(x)</m> near <m>0</m>;
+            this is because <m>P_1(0) = f(0)</m> and <m>P'_1(0) = f'(0)</m>.
+            It is therefore reasonable to seek a value of <m>c_2</m> so that
+            <md permid="Ola">
+              <mrow>P_2(0) \amp = f(0)\text{,} \amp P'_2(0) \amp = f'(0)\text{,} \amp \text{and }P''_2(0) \amp = f''(0)</mrow>
+            </md>.
+            Remember, we are letting <m>P_2(x) = P_1(x) + c_2x^2</m>.
+          </p>
+
+          <p permid="goE">
+            <ol label="i." permid="rxD">
+              <li permid="fjl">
+                <p permid="SUT">
+                  Calculate <m>P_2(0)</m> to show that <m>P_2(0) = f(0)</m>.
+                </p>
+              </li>
+
+              <li permid="qNJ">
+                <p permid="MvN">
+                  Calculate <m>P'_2(0)</m> to show that <m>P'_2(0) = f'(0)</m>.
+                </p>
+              </li>
+
+              <li permid="WUS">
+                <p permid="sCW">
+                  Calculate <m>P''_2(x)</m>.
+                  Then find a value for <m>c_2</m> so that <m>P''_2(0) = f''(0)</m>.
+                </p>
+              </li>
+
+              <li permid="Dcb">
+                <p permid="YKf">
+                  Explain why the condition
+                  <m>P''_2(0) = f''(0)</m> will put an appropriate <q>bend</q>
+                  in the graph of <m>P_2</m> to make <m>P_2</m> fit the graph of <m>f</m> around <m>x=0</m>.
+                </p>
+              </li>
+            </ol>
+          </p>
+        </li>
+      </ol>
+    </p>
+  </statement>
+  <solution permid="mdQ">
+    <p permid="pIq">
+      <ol label="a." permid="SkZ">
+        <li permid="jjk">
+          <p permid="ERo">
+            We know that
+            <me permid="usj">
+              P_1(x) = f(0) + f'(0)x = 1+x
+            </me>.
+          </p>
+
+          <p permid="kYx">
+            Since <m>P_1(0) = f(0) = 1</m> and <m>P'_1(0) = f'(0) = 1</m>,
+            the graphs of <m>P_1</m> and <m>f</m> agree at <m>x=a</m> and have the same slope at <m>x=0</m>
+            (which means they go in the same direction at <m>x=0</m>).
+            This is why <m>P_1(x)</m> is a good approximation to <m>f(x)</m> for values of <m>x</m> close to <m>0</m>.
+          </p>
+        </li>
+
+        <li permid="Pqt">
+          <p permid="RfG">
+            <ol label="i." permid="XEM">
+              <li permid="Lqu">
+                <p permid="zcc">
+                  Since
+                  <me permid="azs">
+                    P_2(x) = P_1(x) + c_2(x)^2 = f(0) + f'(0)x + c_2x^2
+                  </me>
+                  we have that
+                  <me permid="GGB">
+                    P_2(0) = 1 = f(0)
+                  </me>
+                  as desired.
+                </p>
+              </li>
+
+              <li permid="vxC">
+                <p permid="xmP">
+                  A simple calculation shows <m>P'_2(x) = P'1(x) + 2c_2x</m>.
+                  So <m>P'_2(0) = P'_1(0) = 1 = f'(0)</m> as desired.
+                </p>
+              </li>
+
+              <li permid="bEL">
+                <p permid="dtY">
+                  A simple calculation shows <m>P''_2(x) = 2c_2</m>.
+                  So <m>P''_2(0) = 2c_2</m>.
+                  To have <m>P''_2(0) = f''(0)</m> we must have
+                  <m>2c_2 = f''(0)</m> or <m>c_2 = \frac{f''(0)}{2} = \frac{1}{2}</m>.
+                </p>
+              </li>
+
+              <li permid="HLU">
+                <p permid="JBh">
+                  The second derivative of a function tells us the concavity of the function.
+                  Concavity measures how the slopes of the tangent lines to the graph of the function are changing.
+                  This tells us how much bend there is in the graph.
+                  So if <m>P''_2(0) = f''(0)</m>,
+                  then <m>P_2</m> will have the same bend in it at <m>x=0</m> as <m>f</m> does.
+                  This will make the graph of <m>P_2</m> mold to the graph of <m>f</m> around <m>x=0</m>.
+                </p>
+              </li>
+            </ol>
+          </p>
+        </li>
+      </ol>
+    </p>
+  </solution>
+</example>
+  </introduction>
+
+  <subsection permid="Ivb">
+    <title>Taylor Polynomials</title>
+    <idx><h>Taylor polynomials</h></idx>
+
+    <p permid="FeW">
+      <xref ref="PA-8-5">Example</xref>
+      illustrates the first steps in the process of approximating functions with polynomials.
+      Using this process we can approximate trigonometric, exponential,
+      logarithmic,
+      and other nonpolynomial functions as closely as we like
+      (for certain values of <m>x</m>)
+      with polynomials.
+      This is extraordinarily useful in that it allows us to calculate values of these functions to whatever precision we like using only the operations of addition,
+      subtraction, multiplication, and division,
+      which can be easily programmed in a computer.
+    </p>
+
+    <p permid="lmf">
+      We next extend the approach in <xref ref="PA-8-5">Example</xref>
+      to arbitrary functions at arbitrary points.
+      Let <m>f</m> be a function that has as many derivatives as we need at a point <m>x=a</m>.
+      Recall that <m>P_1(x)</m> is the tangent line to <m>f</m> at
+      <m>(a,f(a))</m> and is given by the formula
+      <me permid="HEd">
+        P_1(x) = f(a) + f'(a)(x-a)
+      </me>.
+      <m>P_1(x)</m> is the linear approximation to <m>f</m> near <m>a</m> that has the same slope and function value as <m>f</m> at the point <m>x = a</m>.
+    </p>
+
+    <p permid="Rto">
+      We next want to find a quadratic approximation
+      <me permid="nLm">
+        P_2(x) = P_1(x) + c_2(x-a)^2
+      </me>
+      so that <m>P_2(x)</m> more closely models <m>f(x)</m> near <m>x=a</m>.
+      Consider the following calculations of the values and derivatives of <m>P_2(x)</m>:
+    </p>
+
+    <p permid="xAx">
+      <md permid="TSv">
+        <mrow>P_2(x) \amp = P_1(x) + c_2(x-a)^2  \amp P_2(a) \amp = P_1(a) = f(a)</mrow>
+        <mrow>P'_2(x) \amp = P'_1(x) + 2c_2(x-a) \amp P'_2(a) \amp = P'_1(a) = f'(a)</mrow>
+        <mrow>P''_2(x) \amp = 2c_2               \amp P''_2(a) \amp = 2c_2</mrow>
+      </md>.
+    </p>
+
+    <p permid="dHG">
+      To make <m>P_2(x)</m> fit <m>f(x)</m> better than <m>P_1(x)</m>,
+      we want <m>P_2(x)</m> and <m>f(x)</m> to have the same concavity at <m>x=a</m>,
+      in addition to having the same slope and function value.
+      That is, we want to have
+      <me permid="zZE">
+        P''_2(a) = f''(a)
+      </me>.
+    </p>
+
+    <p permid="JOP">
+      This implies that
+      <me permid="ggN">
+        2c_2 = f''(a)
+      </me>
+      and thus
+      <me permid="MnW">
+        c_2 = \frac{f''(a)}{2}
+      </me>.
+    </p>
+
+    <p permid="pVY">
+      Therefore, the quadratic approximation <m>P_2(x)</m> to <m>f</m> centered at <m>x=a</m> is
+      <me permid="svf">
+        P_2(x) = f(a) + f'(a)(x-a) + \frac{f''(a)}{2!}(x-a)^2
+      </me>.
+    </p>
+
+    <p permid="Wdh">
+      This approach extends naturally to polynomials of higher degree.
+      We define polynomials
+      <md permid="EJx">
+        <mrow>P_3(x) \amp = P_2(x) + c_3(x-a)^3\text{,}</mrow>
+        <mrow>P_4(x) \amp = P_3(x) + c_4(x-a)^4\text{,}</mrow>
+        <mrow>P_5(x) \amp = P_4(x) + c_5(x-a)^5</mrow>
+      </md>,
+      and in general
+      <me permid="YCo">
+        P_n(x) = P_{n-1}(x) + c_n(x-a)^n
+      </me>.
+    </p>
+
+    <p permid="Ckq">
+      The defining property of these polynomials is that for each <m>n</m>,
+      <m>P_n(x)</m> and all its first <m>n</m> derivatives must agree with those of <m>f</m> at <m>x = a</m>.
+      In other words we require that
+      <me permid="kQG">
+        P^{(k)}_n(a) = f^{(k)}(a)
+      </me>
+      for all <m>k</m> from 0 to <m>n</m>.
+    </p>
+
+    <p permid="irz">
+      To see the conditions under which this happens, suppose
+      <me permid="QXP">
+        P_n(x) = c_0 + c_1(x-a) + c_2(x-a)^2 + \cdots + c_n(x-a)^n
+      </me>.
+    </p>
+
+    <p permid="OyI">
+      Then
+      <md permid="dmh">
+        <mrow>P^{(0)}_n(a) \amp = c_0</mrow>
+        <mrow>P^{(1)}_n(a) \amp = c_1</mrow>
+        <mrow>P^{(2)}_n(a) \amp = 2c_2</mrow>
+        <mrow>P^{(3)}_n(a) \amp = (2)(3)c_3</mrow>
+        <mrow>P^{(4)}_n(a) \amp = (2)(3)(4)c_4</mrow>
+        <mrow>P^{(5)}_n(a) \amp = (2)(3)(4)(5)c_5</mrow>
+      </md>
+      and, in general,
+      <me permid="xeY">
+        P^{(k)}_n(a) = (2)(3)(4) \cdots (k-1)(k)c_k = k!c_k
+      </me>.
+    </p>
+
+    <p permid="uFR">
+      So having
+      <m>
+      P^{(k)}_n(a) = f^{(k)}(a)
+      </m>
+      means that
+      <m>
+      k!c_k = f^{(k)}(a)
+      </m>
+      and therefore
+      <me permid="Jtq">
+        c_k = \frac{f^{(k)}(a)}{k!}
+      </me>
+      for each value of <m>k</m>.
+      Using this expression for <m>c_k</m>,
+      we have found the formula for the polynomial approximation of <m>f</m> that we seek.
+      Such a polynomial is called a <em>Taylor polynomial</em>.
+          <idx><h>Taylor polynomial</h></idx>
+    </p>
+
+    <assemblage permid="NeU">
+      <title>Taylor Polynomials</title>
+      <p permid="aNa">
+        The <term> <m>n</m>th <em>order Taylor polynomial</em> </term>
+        of <m>f</m> centered at <m>x = a</m> is given by
+        <md permid="pAz">
+          <mrow>P_n(x) =\mathstrut \amp  f(a) + f'(a)(x-a) + \frac{f''(a)}{2!}(x-a)^2 + \cdots + \frac{f^{(n)}(a)}{n!}(x-a)^n</mrow>
+          <mrow>=\mathstrut \amp  \sum_{k=0}^n \frac{f^{(k)}(a)}{k!}(x-a)^k</mrow>
+        </md>.
+      </p>
+
+      <p permid="GUj">
+        This degree <m>n</m> polynomial approximates <m>f(x)</m> near <m>x=a</m> and has the property that
+        <m>P_n^{(k)}(a) = f^{(k)}(a)</m> for <m>k = 0, 1, \ldots, n</m>.
+      </p>
+    </assemblage>
+
+    <example xml:id="Ex-8-5-1" permid="Ztm">
+      <statement>
+        <p permid="bSt">
+          Determine the third order Taylor polynomial for <m>f(x) = e^x</m>,
+          as well as the general <m>n</m>th order Taylor polynomial for <m>f</m> centered at <m>x=0</m>.
+        </p>
+      </statement>
+      <solution permid="iMY">
+        <p permid="Gkp">
+          We know that <m>f'(x) = e^x</m> and so
+          <m>f''(x) = e^x</m> and <m>f'''(x) = e^x</m>.
+          Thus,
+          <me permid="VHI">
+            f(0) = f'(0) = f''(0) = f'''(0) = 1
+          </me>.
+        </p>
+
+        <p permid="mry">
+          So the third order Taylor polynomial of
+          <m>f(x) = e^x</m> centered at <m>x=0</m> is
+          <md permid="BOR">
+            <mrow>P_3(x) \amp = f(0) + f'(0)(x-0) + \frac{f''(0)}{2!}(x-0)^2 + \frac{f'''(0)}{3!}(x-0)^3</mrow>
+            <mrow>\amp = 1 + x + \frac{x^2}{2} + \frac{x^3}{6}</mrow>
+          </md>.
+        </p>
+
+        <p permid="SyH">
+          In general, for the exponential function <m>f</m> we have
+          <m>f^{(k)}(x) = e^x</m> for every positive integer <m>k</m>.
+          Thus, the <m>k</m>th term in the <m>n</m>th order Taylor polynomial for <m>f(x)</m> centered at <m>x=0</m> is
+          <me permid="hWa">
+            \frac{f^{(k)}(0)}{k!}(x-0)^k = \frac{1}{k!}x^k
+          </me>.
+        </p>
+
+        <p permid="yFQ">
+          Therefore, the <m>n</m>th order Taylor polynomial for
+          <m>f(x) = e^x</m> centered at <m>x=0</m> is
+          <me permid="Odj">
+            P_n(x) = 1+x+\frac{x^2}{2!} + \cdots + \frac{1}{n!}x^n = \sum_{k=0}^n \frac{x^k}{k!}
+          </me>.
+        </p>
+      </solution>
+    </example>
+
+<example xml:id="act-8-5-1" permid="bAd">
+  <statement>
+    <p permid="hpp">
+      We have just seen that the <m>n</m>th order Taylor polynomial centered at <m>a = 0</m> for the exponential function <m>e^x</m> is
+      <me permid="ZKQ">
+        \sum_{k=0}^{n} \frac{x^k}{k!}
+      </me>.
+    </p>
+
+    <p permid="Nwy">
+      In this example,
+      we determine small order Taylor polynomials for several other familiar functions,
+      and look for general patterns.
+    </p>
+
+    <p permid="tDH">
+      <ol label="a." permid="BDF">
+        <li permid="tZg">
+          <p permid="Rwx">
+            Let <m>f(x) = \frac{1}{1-x}</m>.
+
+            <ol label="i." permid="syo">
+              <li permid="AcN">
+                <p permid="HHm">
+                  Calculate the first four derivatives of <m>f(x)</m> at <m>x=0</m>.
+                  Then find the fourth order Taylor polynomial <m>P_4(x)</m> for
+                  <m>\frac{1}{1-x}</m> centered at <m>0</m>.
+                </p>
+              </li>
+
+              <li permid="agp">
+                <p permid="xDG">
+                  Based on your results from part (i),
+                  determine a general formula for <m>f^{(k)}(0)</m>.
+                </p>
+              </li>
+            </ol>
+          </p>
+        </li>
+
+        <li permid="Fif">
+          <p permid="dKP">
+            Let <m>f(x) = \cos(x)</m>.
+
+            <ol label="i." permid="hKO">
+              <li permid="Gny">
+                <p permid="EcM">
+                  Calculate the first four derivatives of <m>f(x)</m> at <m>x=0</m>.
+                  Then find the fourth order Taylor polynomial <m>P_4(x)</m> for <m>\cos(x)</m> centered at <m>0</m>.
+                </p>
+              </li>
+
+              <li permid="muH">
+                <p permid="JRY">
+                  Based on your results from part (i),
+                  find a general formula for
+                  <m>f^{(k)}(0)</m>.
+                  (Think about how <m>k</m> being even or odd affects the value of the <m>k</m>th derivative.)
+                </p>
+              </li>
+            </ol>
+          </p>
+        </li>
+
+        <li permid="lpo">
+          <p permid="pZh">
+            Let <m>f(x) = \sin(x)</m>.
+
+            <ol label="i." permid="NRX">
+              <li permid="SBQ">
+                <p permid="kjV">
+                  Calculate the first four derivatives of <m>f(x)</m> at <m>x=0</m>.
+                  Then find the fourth order Taylor polynomial <m>P_4(x)</m> for <m>\sin(x)</m> centered at <m>0</m>.
+                </p>
+              </li>
+
+              <li permid="yIZ">
+                <p permid="Wgq">
+                  Based on your results from part (i),
+                  find a general formula for
+                  <m>f^{(k)}(0)</m>.
+                  (Think about how <m>k</m> being even or odd affects the value of the <m>k</m>th derivative.)
+                </p>
+              </li>
+            </ol>
+          </p>
+        </li>
+      </ol>
+    </p>
+  </statement>
+
+  <answer permid="Yrc">
+    <p permid="VaX">
+      <ol label="a." permid="daV">
+		        <li permid="ZaW">
+          <p permid="GXs">
+            <ol label="i." permid="ppn">
+              <li permid="jAb">
+                <p permid="wyn">
+                  <m>
+                  f^{(k)}(0) = k!
+                  </m>.
+                </p>
+              </li>
+
+              <li permid="PHk">
+                <p permid="neB">
+                  <me permid="FRZ">
+                    P_n(x) = \sum_{k=0}^n  x^k
+                  </me>.
+                </p>
+              </li>
+            </ol>
+          </p>
+        </li>
+	  
+	  
+	  
+        <li permid="KXr">
+          <p permid="iuI">
+            <ol label="i." permid="YFx">
+              <li permid="gjW">
+                <p permid="nOv">
+                  <m>f^{k}(0) = 0</m> if <m>k</m> is odd, and <m> f^{2k}(0) = (-1)^k</m>.
+                </p>
+              </li>
+
+              <li permid="reA">
+                <p permid="OBR">
+                  <m>
+                  P_n(x) = 1 - \frac{x^2}{2} + \frac{x^4}{4!} - \frac{x^6}{6!} + \cdots + (-1)^{n/2}\frac{x^n}{n!}
+                  </m>
+                  if <m>n</m> is even and
+                  <m>
+                  P_n(x) = 1 - \frac{x^2}{2} + \frac{x^4}{4!} - \frac{x^6}{6!} + \cdots + (-1)^{(n-1)/2}\frac{x^(n-1)}{(n-1)!}
+                  </m>
+                  if <m>n</m> is odd.
+                </p>
+              </li>
+            </ol>
+          </p>
+        </li>
+
+        <li permid="sTN">
+          <p permid="uJa">
+            <ol label="i." permid="Jie">
+              <li permid="XlJ">
+                <p permid="Qre">
+                  <m>
+                  f^{k}(0) = 0</m> if <m>k</m> is even and <m> f^{2k+1}(0) = (-1)^k
+                  </m>.
+                </p>
+              </li>
+
+              <li permid="DsS">
+                <p permid="aQj">
+                  <m>
+                  P_n(x) = x - \frac{x^3}{3!} + \frac{x^5}{5!} - \frac{x^7}{7!} + \cdots + (-1)^{(n-1)/2}\frac{x^n}{n!}
+                  </m>
+                  if <m>n</m> is odd and
+                  <m>
+                  P_n(x) = x - \frac{x^3}{3!} + \frac{x^5}{5!} - \frac{x^7}{7!} + \cdots + (-1)^{n/2+1}\frac{x^{n-1}}{(n-1)!}
+                  </m>
+                  if <m>n</m> is even.
+                </p>
+              </li>
+            </ol>
+          </p>
+        </li>
+
+
+      </ol>
+    </p>
+  </answer>
+  <solution permid="sjT">
+    <p permid="oTO">
+      <ol label="a." permid="kFu">
+		<li permid="MME">
+          <p permid="rOu">
+            <ol label="i." permid="wTM">
+              <li permid="Urd">
+                <p permid="IMF">
+                  The first four derivatives of <m>f(x)</m> at <m>x=0</m> are
+                  <md permid="PlL">
+                    <mrow>f(x) \amp = \frac{1}{1-x} \amp    f(0) \amp = 1</mrow>
+                    <mrow>f'(x) \amp = \frac{1}{(1-x)^2} \amp    f'(0) \amp = 1</mrow>
+                    <mrow>f''(x) \amp = \frac{2}{(1-x)^3} \amp     f''(0) \amp = 2</mrow>
+                    <mrow>f^{(3)}(x) \amp = \frac{3!}{(1-x)^4} \amp     f^{(3)}(0) \amp = 3!</mrow>
+                    <mrow>f^{(4)}(x) \amp = \frac{4!}{(1-x)^5} \amp    f^{(4)}(0) \amp = 4!</mrow>
+                  </md>.
+                  It appears that the pattern is
+                  <me permid="jeC">
+                    f^{(k)}(0) = k!
+                  </me>.
+                </p>
+              </li>
+
+              <li permid="Aym">
+                <p permid="XVD">
+                  The <m>n</m>th order Taylor polynomial for <m>f</m> at <m>x=0</m> is
+                  <me permid="vsU">
+                    \sum_{k=0}^n \frac{f^{(k)}}{k!} x^k = \sum_{k=0}^n \frac{k!}{k!} x^k = \sum_{k=0}^n  x^k
+                  </me>.
+                  This makes sense since <m>f(x)</m> is the sum of the geometric series with ratio <m>x</m>,
+                  so the <m>n</m>th order Taylor polynomial should just be the <m>n</m>th partial sum of this geometric series.
+                </p>
+              </li>
+            </ol>
+          </p>
+        </li>
+	  
+	  
+	  
+	  
+        <li permid="vOt">
+          <p permid="TlK">
+            <ol label="i." permid="EMG">
+              <li permid="Mrf">
+                <p permid="TVE">
+                  The first four derivatives of <m>f(x)</m> at <m>x=0</m> are
+                  <md permid="Sgr">
+                    <mrow>f(x) \amp = \cos(x) \amp   f(0) \amp = 1</mrow>
+                    <mrow>f'(x) \amp = -\sin(x) \amp   f'(0) \amp = 0</mrow>
+                    <mrow>f''(x) \amp = -\cos(x) \amp   f''(0) \amp = -1</mrow>
+                    <mrow>f^{(3)}(x) \amp = \sin(x) \amp   f^{(3)}(0) \amp = 0</mrow>
+                    <mrow>f^{(4)}(x) \amp = \cos(x) \amp   f^{(4)}(0) \amp = 1</mrow>
+                  </md>.
+                  It appears that the odd derivatives of <m>f(x)</m> are all plus or minus <m>\sin(x)</m> and so have values of 0 at <m>x=0</m> and the even derivatives are
+                  <m>\pm \cos(x)</m> and have alternating values of 1 and <m>-1</m> at <m>x-0</m>.
+                  Since the even numbers can be represented in the form <m>2k</m> where <m>k</m> is an integer we have
+                  <m> f^{k}(0) = 0</m> if <m>k</m> is odd
+                    and <m>f^{2k}(0) = (-1)^k</m>.
+                </p>
+              </li>
+
+              <li permid="bVC">
+                <p permid="zsT">
+                  Based on the previous part of this problem the <m>n</m>th order Taylor polynomial for <m>\cos(x)</m> is
+                  <me permid="ynA">
+                    1 - \frac{x^2}{2} + \frac{x^4}{4!} - \frac{x^6}{6!} + \cdots + (-1)^{n/2}\frac{x^n}{n!}
+                  </me>
+                  if <m>n</m> is even and
+                  <me permid="euJ">
+                    1 - \frac{x^2}{2} + \frac{x^4}{4!} - \frac{x^6}{6!} + \cdots + (-1)^{(n-1)/2}\frac{x^{n-1}}{(n-1)!}
+                  </me>
+                  if <m>n</m> is odd.
+                </p>
+              </li>
+            </ol>
+          </p>
+        </li>
+
+        <li permid="gFv">
+          <p permid="fAc">
+            <ol label="i." permid="QMD">
+              <li permid="IcL">
+                <p permid="cFw">
+                  The first four derivatives of <m>f(x)</m> at <m>x=0</m> are
+                  <md permid="qJb">
+                    <mrow>f(x) \amp = \sin(x) \amp   f(0) \amp = 0</mrow>
+                    <mrow>f'(x) \amp = \cos(x) \amp   f'(0) \amp = 1</mrow>
+                    <mrow>f''(x) \amp = -\sin(x) \amp   f''(0) \amp = 0</mrow>
+                    <mrow>f^{(3)}(x) \amp = -\cos(x) \amp   f^{(3)}(0) \amp = -1</mrow>
+                    <mrow>f^{(4)}(x) \amp = \sin(x) \amp   f^{(4)}(0) \amp = 0</mrow>
+                  </md>.
+                  It appears that the even derivatives of <m>f(x)</m> are all plus or minus <m>\sin(x)</m> and so have values of 0 at <m>x=0</m> and the odd derivatives are
+                  <m>\pm \cos(x)</m> and have alternating values of 1 and <m>-1</m> at <m>x=0</m>.
+                  Since the odd numbers can be represented in the form <m>2k+1</m> where <m>k</m> is an integer we have
+                  <m>
+                    f^{k}(0) = 0 </m> if  <m> k</m> is even and <m>f^{2k+1}(0) = (-1)^k</m>.
+                 
+                </p>
+              </li>
+
+              <li permid="ojU">
+                <p permid="LHl">
+                  Based on the previous part of this problem the <m>n</m>th order Taylor polynomial for <m>\sin(x)</m> is
+                  <me permid="WQk">
+                    x - \frac{x^3}{3!} + \frac{x^5}{5!} - \frac{x^7}{7!} + \cdots + (-1)^{(n-1)/2}\frac{x^n}{n!}
+                  </me>
+                  if <m>n</m> is odd and
+                  <me permid="CXt">
+                    x - \frac{x^3}{3!} + \frac{x^5}{5!} - \frac{x^7}{7!} + \cdots + (-1)^{n/2+1}\frac{x^{n-1}}{(n-1)!}
+                  </me>
+                  if <m>n</m> is even.
+                </p>
+              </li>
+            </ol>
+          </p>
+        </li>
+
+        
+      </ol>
+    </p>
+  </solution>
+</example>
+
+    <p permid="nbs">
+      It is possible that an <m>n</m>th order Taylor polynomial is not a polynomial of degree <m>n</m>;
+      that is, the order of the approximation can be different from the degree of the polynomial.
+      For example, in <xref ref="act-8-5-2">Example</xref>
+      we found that the second order Taylor polynomial <m>P_2(x)</m> centered at <m>0</m> for <m>\sin(x)</m> is <m>P_2(x) = x</m>.
+      In this case,
+      the second order Taylor polynomial is a degree 1 polynomial.
+    </p>
+  </subsection>
+
+  
+  
+    
+  
+
+  <subsection permid="gXL">
+    <title>Summary</title>
+    <p permid="CUk">
+      <ul permid="TEa">
+        <li permid="kCl">
+          <p permid="NOO">
+            We can use Taylor polynomials to approximate functions.
+            This allows us to approximate values of functions using only addition,
+            subtraction, multiplication,
+            and division of real numbers.
+            The <m>n</m>th order Taylor polynomial centered at <m>x=a</m> of a function <m>f</m> is
+            <md permid="zEf">
+              <mrow>P_n(x) =\mathstrut \amp  f(a) + f'(a)(x-a) + \frac{f''(a)}{2!}(x-a)^2 + \cdots + \frac{f^{(n)}(a)}{n!}(x-a)^n</mrow>
+              <mrow>=\mathstrut \amp  \sum_{k=0}^n \frac{f^{(k)}(a)}{k!}(x-a)^k</mrow>
+            </md>.
+          </p>
+        </li>
+
+        
+       
+        
+        
+      </ul>
+    </p>
+  </subsection>
+
+<exercises xmlns:xi="http://www.w3.org/2001/XInclude"> 
+
+  <exercise xml:id="ez-8-5-WW1" permid="VTZ">
+    <title>Determining Taylor polynomials from a function formula</title>
+    <webwork source="Library/Michigan/Chap10Sec1/Q05.pg" />
+  </exercise>
+
+  <exercise xml:id="ez-8-5-WW2" permid="Cbi">
+    <title>Determining Taylor polynomials from given derivative values</title>
+    <webwork source="Library/Michigan/Chap10Sec1/Q23.pg" />
+  </exercise>
+
+  
+
+ </exercises>
+</section>
+
