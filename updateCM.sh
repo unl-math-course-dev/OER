@@ -12,7 +12,7 @@ git pull
 cd /var/www/html/Contemporary/
 
 #Run xsltproc
-xsltproc --xinclude /var/www/html/Contemporary/mfg-html.xsl /var/www/OERSource/Contemporary/2019-2020/index.xml 
+xsltproc --xinclude /var/www/html/Contemporary/mfg-html.xsl /var/www/OERSource/Contemporary/2021-2022/index.xml 
 
 #Add the Google Analytics code
 perl /var/www/html/Contemporary/GoogleAnalytics.pl 
