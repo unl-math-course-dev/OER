@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <grammar xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns="http://relaxng.org/ns/structure/1.0" datatypeLibrary="http://www.w3.org/2001/XMLSchema-datatypes">
   <start>
-    <element name="mathbook">
+    <element name="pretext">
       <optional>
         <ref name="XMLLang"/>
       </optional>
@@ -18,47 +18,95 @@
   </start>
   <define name="Article">
     <element name="article">
-      <ref name="MetaDataSubtitle"/>
+      <ref name="MetaDataLinedSubtitle"/>
       <optional>
         <ref name="ArticleFrontMatter"/>
       </optional>
-      <ref name="Section"/>
-      <zeroOrMore>
-        <choice>
+      <choice>
+        <group>
+          <optional>
+            <ref name="Objectives"/>
+          </optional>
+          <oneOrMore>
+            <choice>
+              <ref name="BlockDivision"/>
+              <ref name="Paragraphs"/>
+              <ref name="Commentary"/>
+            </choice>
+          </oneOrMore>
+          <interleave>
+            <optional>
+              <ref name="ReadingQuestions"/>
+            </optional>
+            <optional>
+              <ref name="Exercises"/>
+            </optional>
+            <optional>
+              <ref name="Solutions"/>
+            </optional>
+            <optional>
+              <ref name="References"/>
+            </optional>
+            <optional>
+              <ref name="Glossary"/>
+            </optional>
+          </interleave>
+          <optional>
+            <ref name="Outcomes"/>
+          </optional>
+        </group>
+        <group>
+          <interleave>
+            <optional>
+              <ref name="Objectives"/>
+            </optional>
+            <optional>
+              <ref name="IntroductionDivision"/>
+            </optional>
+          </interleave>
           <ref name="Section"/>
-          <ref name="Exercises"/>
-          <ref name="References"/>
-        </choice>
-      </zeroOrMore>
-      <optional>
-        <ref name="BackMatter"/>
-      </optional>
+          <zeroOrMore>
+            <choice>
+              <ref name="Section"/>
+              <ref name="ReadingQuestions"/>
+              <ref name="Exercises"/>
+              <ref name="Solutions"/>
+              <ref name="References"/>
+              <ref name="Glossary"/>
+            </choice>
+          </zeroOrMore>
+          <interleave>
+            <optional>
+              <ref name="Outcomes"/>
+            </optional>
+            <optional>
+              <ref name="ConclusionDivision"/>
+            </optional>
+          </interleave>
+          <optional>
+            <ref name="ArticleBackMatter"/>
+          </optional>
+        </group>
+      </choice>
     </element>
   </define>
   <define name="Book">
     <element name="book">
       <a:documentation>Here is what a book looks like.</a:documentation>
-      <ref name="MetaDataSubtitle"/>
+      <ref name="MetaDataLinedSubtitle"/>
       <optional>
         <ref name="BookFrontMatter"/>
       </optional>
       <choice>
-        <group>
-          <ref name="Chapter"/>
-          <zeroOrMore>
-            <choice>
-              <ref name="Chapter"/>
-              <ref name="Exercises"/>
-              <ref name="References"/>
-            </choice>
-          </zeroOrMore>
-        </group>
         <oneOrMore>
           <ref name="Part"/>
         </oneOrMore>
+        <oneOrMore>
+          <ref name="Chapter"/>
+        </oneOrMore>
       </choice>
       <optional>
-        <ref name="BackMatter"/>
+        <ref name="BookBackMatter"/>
       </optional>
     </element>
   </define>
@@ -74,7 +122,7 @@
   </define>
   <define name="Part">
     <element name="part">
-      <ref name="MetaDataTitle"/>
+      <ref name="MetaDataLinedTitle"/>
       <oneOrMore>
         <ref name="Chapter"/>
       </oneOrMore>
@@ -82,103 +130,223 @@
   </define>
   <define name="Chapter">
     <element name="chapter">
-      <ref name="MetaDataTitle"/>
-      <optional>
-        <ref name="Objectives"/>
-      </optional>
+      <ref name="MetaDataLinedTitle"/>
+      <zeroOrMore>
+        <ref name="AuthorByline"/>
+      </zeroOrMore>
       <choice>
-        <oneOrMore>
-          <choice>
-            <ref name="BlockDivision"/>
-            <ref name="Paragraphs"/>
-          </choice>
-        </oneOrMore>
         <group>
           <optional>
-            <ref name="IntroductionDivision"/>
+            <ref name="Objectives"/>
           </optional>
+          <oneOrMore>
+            <choice>
+              <ref name="BlockDivision"/>
+              <ref name="Paragraphs"/>
+              <ref name="Commentary"/>
+            </choice>
+          </oneOrMore>
+          <interleave>
+            <optional>
+              <ref name="ReadingQuestions"/>
+            </optional>
+            <optional>
+              <ref name="Exercises"/>
+            </optional>
+            <optional>
+              <ref name="Solutions"/>
+            </optional>
+            <optional>
+              <ref name="References"/>
+            </optional>
+            <optional>
+              <ref name="Glossary"/>
+            </optional>
+          </interleave>
+          <optional>
+            <ref name="Outcomes"/>
+          </optional>
+        </group>
+        <group>
+          <interleave>
+            <optional>
+              <ref name="Objectives"/>
+            </optional>
+            <optional>
+              <ref name="IntroductionDivision"/>
+            </optional>
+          </interleave>
           <ref name="Section"/>
           <zeroOrMore>
             <choice>
               <ref name="Section"/>
+              <ref name="ReadingQuestions"/>
               <ref name="Exercises"/>
+              <ref name="Solutions"/>
               <ref name="References"/>
+              <ref name="Glossary"/>
             </choice>
           </zeroOrMore>
-          <optional>
-            <ref name="ConclusionDivision"/>
-          </optional>
+          <interleave>
+            <optional>
+              <ref name="Outcomes"/>
+            </optional>
+            <optional>
+              <ref name="ConclusionDivision"/>
+            </optional>
+          </interleave>
         </group>
       </choice>
     </element>
   </define>
   <define name="Section">
     <element name="section">
-      <ref name="MetaDataTitle"/>
-      <optional>
-        <ref name="Objectives"/>
-      </optional>
+      <ref name="MetaDataLinedTitle"/>
+      <zeroOrMore>
+        <ref name="AuthorByline"/>
+      </zeroOrMore>
       <choice>
-        <oneOrMore>
-          <choice>
-            <ref name="BlockDivision"/>
-            <ref name="Paragraphs"/>
-          </choice>
-        </oneOrMore>
         <group>
           <optional>
-            <ref name="IntroductionDivision"/>
+            <ref name="Objectives"/>
           </optional>
+          <oneOrMore>
+            <choice>
+              <ref name="BlockDivision"/>
+              <ref name="Paragraphs"/>
+              <ref name="Commentary"/>
+            </choice>
+          </oneOrMore>
+          <interleave>
+            <optional>
+              <ref name="ReadingQuestions"/>
+            </optional>
+            <optional>
+              <ref name="Exercises"/>
+            </optional>
+            <optional>
+              <ref name="Solutions"/>
+            </optional>
+            <optional>
+              <ref name="References"/>
+            </optional>
+            <optional>
+              <ref name="Glossary"/>
+            </optional>
+          </interleave>
+          <optional>
+            <ref name="Outcomes"/>
+          </optional>
+        </group>
+        <group>
+          <interleave>
+            <optional>
+              <ref name="Objectives"/>
+            </optional>
+            <optional>
+              <ref name="IntroductionDivision"/>
+            </optional>
+          </interleave>
           <ref name="Subsection"/>
           <zeroOrMore>
             <choice>
               <ref name="Subsection"/>
+              <ref name="ReadingQuestions"/>
               <ref name="Exercises"/>
+              <ref name="Solutions"/>
               <ref name="References"/>
+              <ref name="Glossary"/>
             </choice>
           </zeroOrMore>
-          <optional>
-            <ref name="ConclusionDivision"/>
-          </optional>
+          <interleave>
+            <optional>
+              <ref name="Outcomes"/>
+            </optional>
+            <optional>
+              <ref name="ConclusionDivision"/>
+            </optional>
+          </interleave>
         </group>
       </choice>
     </element>
   </define>
   <define name="Subsection">
     <element name="subsection">
-      <ref name="MetaDataTitle"/>
-      <optional>
-        <ref name="Objectives"/>
-      </optional>
+      <ref name="MetaDataAltTitle"/>
+      <zeroOrMore>
+        <ref name="AuthorByline"/>
+      </zeroOrMore>
       <choice>
-        <oneOrMore>
-          <choice>
-            <ref name="BlockDivision"/>
-            <ref name="Paragraphs"/>
-          </choice>
-        </oneOrMore>
         <group>
           <optional>
-            <ref name="IntroductionDivision"/>
+            <ref name="Objectives"/>
           </optional>
+          <oneOrMore>
+            <choice>
+              <ref name="BlockDivision"/>
+              <ref name="Paragraphs"/>
+              <ref name="Commentary"/>
+            </choice>
+          </oneOrMore>
+          <interleave>
+            <optional>
+              <ref name="ReadingQuestions"/>
+            </optional>
+            <optional>
+              <ref name="Exercises"/>
+            </optional>
+            <optional>
+              <ref name="Solutions"/>
+            </optional>
+            <optional>
+              <ref name="References"/>
+            </optional>
+            <optional>
+              <ref name="Glossary"/>
+            </optional>
+          </interleave>
+          <optional>
+            <ref name="Outcomes"/>
+          </optional>
+        </group>
+        <group>
+          <interleave>
+            <optional>
+              <ref name="Objectives"/>
+            </optional>
+            <optional>
+              <ref name="IntroductionDivision"/>
+            </optional>
+          </interleave>
           <ref name="Subsubsection"/>
           <zeroOrMore>
             <choice>
               <ref name="Subsubsection"/>
+              <ref name="ReadingQuestions"/>
               <ref name="Exercises"/>
+              <ref name="Solutions"/>
               <ref name="References"/>
+              <ref name="Glossary"/>
             </choice>
           </zeroOrMore>
-          <optional>
-            <ref name="ConclusionDivision"/>
-          </optional>
+          <interleave>
+            <optional>
+              <ref name="Outcomes"/>
+            </optional>
+            <optional>
+              <ref name="ConclusionDivision"/>
+            </optional>
+          </interleave>
         </group>
       </choice>
     </element>
   </define>
   <define name="Subsubsection">
     <element name="subsubsection">
-      <ref name="MetaDataTitle"/>
+      <ref name="MetaDataAltTitle"/>
+      <zeroOrMore>
+        <ref name="AuthorByline"/>
+      </zeroOrMore>
       <optional>
         <ref name="Objectives"/>
       </optional>
@@ -186,44 +354,178 @@
         <choice>
           <ref name="BlockDivision"/>
           <ref name="Paragraphs"/>
+          <ref name="Commentary"/>
         </choice>
       </oneOrMore>
+      <interleave>
+        <optional>
+          <ref name="ReadingQuestions"/>
+        </optional>
+        <optional>
+          <ref name="Exercises"/>
+        </optional>
+        <optional>
+          <ref name="Solutions"/>
+        </optional>
+        <optional>
+          <ref name="References"/>
+        </optional>
+        <optional>
+          <ref name="Glossary"/>
+        </optional>
+      </interleave>
+      <optional>
+        <ref name="Outcomes"/>
+      </optional>
     </element>
   </define>
-  <define name="Appendix">
+  <define name="ArticleAppendix">
     <element name="appendix">
-      <ref name="MetaDataTitle"/>
+      <ref name="MetaDataAltTitle"/>
+      <zeroOrMore>
+        <ref name="AuthorByline"/>
+      </zeroOrMore>
       <choice>
-        <oneOrMore>
-          <choice>
-            <ref name="BlockDivision"/>
-            <ref name="Paragraphs"/>
-            <ref name="NotationList"/>
-            <ref name="SolutionList"/>
-          </choice>
-        </oneOrMore>
         <group>
           <optional>
-            <ref name="IntroductionDivision"/>
+            <ref name="Objectives"/>
           </optional>
+          <oneOrMore>
+            <choice>
+              <ref name="BlockDivision"/>
+              <ref name="Paragraphs"/>
+              <ref name="Commentary"/>
+              <ref name="NotationList"/>
+            </choice>
+          </oneOrMore>
+          <interleave>
+            <optional>
+              <ref name="ReadingQuestions"/>
+            </optional>
+            <optional>
+              <ref name="Exercises"/>
+            </optional>
+            <optional>
+              <ref name="Solutions"/>
+            </optional>
+            <optional>
+              <ref name="References"/>
+            </optional>
+            <optional>
+              <ref name="Glossary"/>
+            </optional>
+          </interleave>
+          <optional>
+            <ref name="Outcomes"/>
+          </optional>
+        </group>
+        <group>
+          <interleave>
+            <optional>
+              <ref name="Objectives"/>
+            </optional>
+            <optional>
+              <ref name="IntroductionDivision"/>
+            </optional>
+          </interleave>
+          <ref name="Subsection"/>
+          <zeroOrMore>
+            <choice>
+              <ref name="Subsection"/>
+              <ref name="ReadingQuestions"/>
+              <ref name="Exercises"/>
+              <ref name="Solutions"/>
+              <ref name="References"/>
+              <ref name="Glossary"/>
+            </choice>
+          </zeroOrMore>
+          <interleave>
+            <optional>
+              <ref name="Outcomes"/>
+            </optional>
+            <optional>
+              <ref name="ConclusionDivision"/>
+            </optional>
+          </interleave>
+        </group>
+      </choice>
+    </element>
+  </define>
+  <define name="BookAppendix">
+    <element name="appendix">
+      <ref name="MetaDataAltTitle"/>
+      <zeroOrMore>
+        <ref name="AuthorByline"/>
+      </zeroOrMore>
+      <choice>
+        <group>
+          <optional>
+            <ref name="Objectives"/>
+          </optional>
+          <oneOrMore>
+            <choice>
+              <ref name="BlockDivision"/>
+              <ref name="Paragraphs"/>
+              <ref name="Commentary"/>
+              <ref name="NotationList"/>
+            </choice>
+          </oneOrMore>
+          <interleave>
+            <optional>
+              <ref name="ReadingQuestions"/>
+            </optional>
+            <optional>
+              <ref name="Exercises"/>
+            </optional>
+            <optional>
+              <ref name="Solutions"/>
+            </optional>
+            <optional>
+              <ref name="References"/>
+            </optional>
+            <optional>
+              <ref name="Glossary"/>
+            </optional>
+          </interleave>
+          <optional>
+            <ref name="Outcomes"/>
+          </optional>
+        </group>
+        <group>
+          <interleave>
+            <optional>
+              <ref name="Objectives"/>
+            </optional>
+            <optional>
+              <ref name="IntroductionDivision"/>
+            </optional>
+          </interleave>
           <ref name="Section"/>
           <zeroOrMore>
             <choice>
               <ref name="Section"/>
+              <ref name="ReadingQuestions"/>
               <ref name="Exercises"/>
+              <ref name="Solutions"/>
               <ref name="References"/>
+              <ref name="Glossary"/>
             </choice>
           </zeroOrMore>
-          <optional>
-            <ref name="ConclusionDivision"/>
-          </optional>
+          <interleave>
+            <optional>
+              <ref name="Outcomes"/>
+            </optional>
+            <optional>
+              <ref name="ConclusionDivision"/>
+            </optional>
+          </interleave>
         </group>
       </choice>
     </element>
   </define>
   <define name="IndexDivision">
     <element name="index">
-      <ref name="MetaDataTitleOptional"/>
+      <ref name="MetaDataAltTitleOptional"/>
       <ref name="IndexList"/>
     </element>
   </define>
@@ -239,9 +541,7 @@
   <define name="BookFrontMatter">
     <element name="frontmatter">
       <ref name="MetaDataTitleOptional"/>
-      <optional>
-        <ref name="TitlePage"/>
-      </optional>
+      <ref name="TitlePage"/>
       <optional>
         <ref name="ColophonFront"/>
       </optional>
@@ -296,7 +596,7 @@
           <choice>
             <ref name="TextSimple"/>
             <oneOrMore>
-              <ref name="Line"/>
+              <ref name="ShortLine"/>
             </oneOrMore>
           </choice>
         </element>
@@ -306,7 +606,7 @@
           <choice>
             <ref name="TextSimple"/>
             <oneOrMore>
-              <ref name="Line"/>
+              <ref name="ShortLine"/>
             </oneOrMore>
           </choice>
         </element>
@@ -328,7 +628,7 @@
           <choice>
             <ref name="TextSimple"/>
             <oneOrMore>
-              <ref name="Line"/>
+              <ref name="ShortLine"/>
             </oneOrMore>
           </choice>
         </element>
@@ -338,7 +638,7 @@
           <choice>
             <ref name="TextSimple"/>
             <oneOrMore>
-              <ref name="Line"/>
+              <ref name="ShortLine"/>
             </oneOrMore>
           </choice>
         </element>
@@ -382,9 +682,7 @@
   </define>
   <define name="ColophonFront">
     <element name="colophon">
-      <optional>
-        <ref name="UniqueID"/>
-      </optional>
+      <ref name="MetaDataTarget"/>
       <zeroOrMore>
         <element name="credit">
           <element name="role">
@@ -439,6 +737,7 @@
         <choice>
           <ref name="BlockStatementNoCaption"/>
           <ref name="ParagraphsNoNumber"/>
+          <ref name="Commentary"/>
         </choice>
       </oneOrMore>
     </element>
@@ -461,6 +760,7 @@
         <choice>
           <ref name="BlockStatementNoCaption"/>
           <ref name="ParagraphsNoNumber"/>
+          <ref name="Commentary"/>
         </choice>
       </oneOrMore>
     </element>
@@ -474,6 +774,7 @@
             <choice>
               <ref name="BlockStatementNoCaption"/>
               <ref name="ParagraphsNoNumber"/>
+              <ref name="Commentary"/>
             </choice>
           </oneOrMore>
           <zeroOrMore>
@@ -485,6 +786,7 @@
             <choice>
               <ref name="BlockStatementNoCaption"/>
               <ref name="ParagraphsNoNumber"/>
+              <ref name="Commentary"/>
             </choice>
           </zeroOrMore>
           <ref name="Contributors"/>
@@ -492,17 +794,41 @@
             <choice>
               <ref name="BlockStatementNoCaption"/>
               <ref name="ParagraphsNoNumber"/>
+              <ref name="Commentary"/>
             </choice>
           </zeroOrMore>
         </group>
       </choice>
     </element>
   </define>
-  <define name="BackMatter">
+  <define name="ArticleBackMatter">
     <element name="backmatter">
       <ref name="MetaDataTitleOptional"/>
       <zeroOrMore>
-        <ref name="Appendix"/>
+        <choice>
+          <ref name="ArticleAppendix"/>
+          <ref name="Solutions"/>
+        </choice>
+      </zeroOrMore>
+      <optional>
+        <ref name="References"/>
+      </optional>
+      <optional>
+        <ref name="IndexDivision"/>
+      </optional>
+      <optional>
+        <ref name="ColophonBack"/>
+      </optional>
+    </element>
+  </define>
+  <define name="BookBackMatter">
+    <element name="backmatter">
+      <ref name="MetaDataTitleOptional"/>
+      <zeroOrMore>
+        <choice>
+          <ref name="BookAppendix"/>
+          <ref name="Solutions"/>
+        </choice>
       </zeroOrMore>
       <optional>
         <ref name="References"/>
@@ -517,9 +843,7 @@
   </define>
   <define name="ColophonBack">
     <element name="colophon">
-      <optional>
-        <ref name="UniqueID"/>
-      </optional>
+      <ref name="MetaDataTarget"/>
       <oneOrMore>
         <choice>
           <ref name="BlockText"/>
@@ -551,26 +875,61 @@
       </oneOrMore>
     </element>
   </define>
-  <define name="ParagraphsTitleOptional">
-    <element name="paragraphs">
-      <ref name="MetaDataTitleOptional"/>
+  <define name="Commentary">
+    <element name="commentary">
+      <ref name="MetaDataTitle"/>
       <zeroOrMore>
         <ref name="Index"/>
       </zeroOrMore>
       <oneOrMore>
-        <ref name="BlockDivision"/>
+        <ref name="BlockStatementNoCaption"/>
       </oneOrMore>
+    </element>
+  </define>
+  <define name="ReadingQuestions">
+    <element name="reading-questions">
+      <ref name="MetaDataAltTitleOptional"/>
+      <optional>
+        <ref name="IntroductionDivision"/>
+      </optional>
+      <oneOrMore>
+        <ref name="Exercise"/>
+      </oneOrMore>
+      <optional>
+        <ref name="ConclusionDivision"/>
+      </optional>
     </element>
   </define>
   <define name="Exercises">
     <element name="exercises">
-      <ref name="MetaDataTitleOptional"/>
+      <ref name="MetaDataAltTitleOptional"/>
+      <optional>
+        <ref name="IntroductionDivision"/>
+      </optional>
+      <choice>
+        <oneOrMore>
+          <choice>
+            <ref name="Exercise"/>
+            <ref name="ExerciseGroup"/>
+          </choice>
+        </oneOrMore>
+        <oneOrMore>
+          <ref name="Subexercises"/>
+        </oneOrMore>
+      </choice>
+      <optional>
+        <ref name="ConclusionDivision"/>
+      </optional>
+    </element>
+  </define>
+  <define name="Subexercises">
+    <element name="subexercises">
+      <ref name="MetaDataAltTitleOptional"/>
       <optional>
         <ref name="IntroductionDivision"/>
       </optional>
       <oneOrMore>
         <choice>
-          <ref name="ToDo"/>
           <ref name="Exercise"/>
           <ref name="ExerciseGroup"/>
         </choice>
@@ -580,9 +939,38 @@
       </optional>
     </element>
   </define>
+  <define name="Solutions">
+    <element name="solutions">
+      <ref name="MetaDataAltTitleOptional"/>
+      <optional>
+        <attribute name="inline"/>
+      </optional>
+      <optional>
+        <attribute name="divisional"/>
+      </optional>
+      <optional>
+        <attribute name="project"/>
+      </optional>
+      <optional>
+        <attribute name="admit">
+          <choice>
+            <value>all</value>
+            <value>odd</value>
+            <value>even</value>
+          </choice>
+        </attribute>
+      </optional>
+      <optional>
+        <ref name="IntroductionDivision"/>
+      </optional>
+      <optional>
+        <ref name="ConclusionDivision"/>
+      </optional>
+    </element>
+  </define>
   <define name="References">
     <element name="references">
-      <ref name="MetaDataTitleOptional"/>
+      <ref name="MetaDataAltTitleOptional"/>
       <optional>
         <ref name="IntroductionDivision"/>
       </optional>
@@ -594,12 +982,27 @@
       </optional>
     </element>
   </define>
+  <define name="Glossary">
+    <element name="glossary">
+      <ref name="MetaDataAltTitleOptional"/>
+      <optional>
+        <ref name="HeadNote"/>
+      </optional>
+      <oneOrMore>
+        <ref name="GlossaryItem"/>
+      </oneOrMore>
+    </element>
+  </define>
   <define name="BlockText">
     <choice>
       <ref name="Paragraph"/>
       <ref name="BlockQuote"/>
       <ref name="Preformatted"/>
-      <ref name="ToDo"/>
+      <ref name="Image"/>
+      <ref name="Video"/>
+      <ref name="Program"/>
+      <ref name="Console"/>
+      <ref name="Tabular"/>
     </choice>
   </define>
   <define name="BlockStatementNoCaption">
@@ -620,6 +1023,12 @@
       <ref name="Sage"/>
     </choice>
   </define>
+  <define name="BlockSolution">
+    <choice>
+      <ref name="BlockStatement"/>
+      <ref name="Proof"/>
+    </choice>
+  </define>
   <define name="BlockDivision">
     <choice>
       <ref name="BlockStatement"/>
@@ -635,6 +1044,7 @@
       <ref name="Poem"/>
       <ref name="Assemblage"/>
       <ref name="ListGenerator"/>
+      <ref name="Fragment"/>
       <ref name="Demonstration"/>
     </choice>
   </define>
@@ -670,7 +1080,7 @@
     <element name="hint">
       <ref name="MetaDataTitleOptional"/>
       <oneOrMore>
-        <ref name="BlockStatement"/>
+        <ref name="BlockSolution"/>
       </oneOrMore>
     </element>
   </define>
@@ -678,7 +1088,7 @@
     <element name="answer">
       <ref name="MetaDataTitleOptional"/>
       <oneOrMore>
-        <ref name="BlockStatement"/>
+        <ref name="BlockSolution"/>
       </oneOrMore>
     </element>
   </define>
@@ -686,7 +1096,7 @@
     <element name="solution">
       <ref name="MetaDataTitleOptional"/>
       <oneOrMore>
-        <ref name="BlockStatement"/>
+        <ref name="BlockSolution"/>
       </oneOrMore>
     </element>
   </define>
@@ -750,8 +1160,27 @@
       </oneOrMore>
     </element>
   </define>
+  <define name="HeadNote">
+    <element name="headnote">
+      <oneOrMore>
+        <ref name="BlockStatementNoCaption"/>
+      </oneOrMore>
+    </element>
+  </define>
   <define name="Objectives">
     <element name="objectives">
+      <ref name="MetaDataTitleOptional"/>
+      <optional>
+        <ref name="IntroductionText"/>
+      </optional>
+      <ref name="List"/>
+      <optional>
+        <ref name="ConclusionText"/>
+      </optional>
+    </element>
+  </define>
+  <define name="Outcomes">
+    <element name="outcomes">
       <ref name="MetaDataTitleOptional"/>
       <optional>
         <ref name="IntroductionText"/>
@@ -773,9 +1202,19 @@
       </optional>
     </element>
   </define>
-  <define name="Line">
+  <define name="SimpleLine">
+    <element name="line">
+      <ref name="TextSimple"/>
+    </element>
+  </define>
+  <define name="ShortLine">
     <element name="line">
       <ref name="TextShort"/>
+    </element>
+  </define>
+  <define name="LongLine">
+    <element name="line">
+      <ref name="TextLong"/>
     </element>
   </define>
   <define name="CodeLine">
@@ -808,6 +1247,15 @@
   </define>
   <define name="Console">
     <element name="console">
+      <optional>
+        <ref name="PermanentID"/>
+      </optional>
+      <optional>
+        <attribute name="width"/>
+      </optional>
+      <optional>
+        <attribute name="margins"/>
+      </optional>
       <oneOrMore>
         <optional>
           <element name="prompt">
@@ -830,7 +1278,13 @@
   <define name="Program">
     <element name="program">
       <optional>
-        <ref name="UniqueID"/>
+        <ref name="PermanentID"/>
+      </optional>
+      <optional>
+        <attribute name="width"/>
+      </optional>
+      <optional>
+        <attribute name="margins"/>
       </optional>
       <optional>
         <attribute name="language"/>
@@ -849,6 +1303,9 @@
     <choice>
       <element name="ol">
         <optional>
+          <ref name="PermanentID"/>
+        </optional>
+        <optional>
           <attribute name="cols">
             <choice>
               <value>2</value>
@@ -864,17 +1321,25 @@
         </optional>
         <oneOrMore>
           <element name="li">
-            <ref name="MetaDataTarget"/>
             <choice>
-              <ref name="TextParagraph"/>
-              <oneOrMore>
-                <ref name="BlockStatement"/>
-              </oneOrMore>
+              <group>
+                <ref name="MetaDataTarget"/>
+                <ref name="TextParagraph"/>
+              </group>
+              <group>
+                <ref name="MetaDataTitleOptional"/>
+                <oneOrMore>
+                  <ref name="BlockStatement"/>
+                </oneOrMore>
+              </group>
             </choice>
           </element>
         </oneOrMore>
       </element>
       <element name="ul">
+        <optional>
+          <ref name="PermanentID"/>
+        </optional>
         <optional>
           <attribute name="cols">
             <choice>
@@ -899,15 +1364,24 @@
         <oneOrMore>
           <element name="li">
             <choice>
-              <ref name="TextParagraph"/>
-              <oneOrMore>
-                <ref name="BlockStatement"/>
-              </oneOrMore>
+              <group>
+                <ref name="MetaDataTarget"/>
+                <ref name="TextParagraph"/>
+              </group>
+              <group>
+                <ref name="MetaDataTitleOptional"/>
+                <oneOrMore>
+                  <ref name="BlockStatement"/>
+                </oneOrMore>
+              </group>
             </choice>
           </element>
         </oneOrMore>
       </element>
       <element name="dl">
+        <optional>
+          <ref name="PermanentID"/>
+        </optional>
         <optional>
           <attribute name="width">
             <choice>
@@ -922,87 +1396,6 @@
             <ref name="MetaDataTitle"/>
             <oneOrMore>
               <ref name="BlockStatement"/>
-            </oneOrMore>
-          </element>
-        </oneOrMore>
-      </element>
-    </choice>
-  </define>
-  <define name="ListWW">
-    <choice>
-      <element name="ol">
-        <optional>
-          <attribute name="cols">
-            <choice>
-              <value>2</value>
-              <value>3</value>
-              <value>4</value>
-              <value>5</value>
-              <value>6</value>
-            </choice>
-          </attribute>
-        </optional>
-        <optional>
-          <attribute name="label"/>
-        </optional>
-        <oneOrMore>
-          <element name="li">
-            <ref name="MetaDataTarget"/>
-            <choice>
-              <ref name="TextParagraphWW"/>
-              <oneOrMore>
-                <ref name="ParagraphWW"/>
-              </oneOrMore>
-            </choice>
-          </element>
-        </oneOrMore>
-      </element>
-      <element name="ul">
-        <optional>
-          <attribute name="cols">
-            <choice>
-              <value>2</value>
-              <value>3</value>
-              <value>4</value>
-              <value>5</value>
-              <value>6</value>
-            </choice>
-          </attribute>
-        </optional>
-        <optional>
-          <attribute name="label">
-            <choice>
-              <value/>
-              <value>square</value>
-            </choice>
-          </attribute>
-        </optional>
-        <oneOrMore>
-          <element name="li">
-            <choice>
-              <ref name="TextParagraphWW"/>
-              <oneOrMore>
-                <ref name="ParagraphWW"/>
-              </oneOrMore>
-            </choice>
-          </element>
-        </oneOrMore>
-      </element>
-      <element name="dl">
-        <optional>
-          <attribute name="width">
-            <choice>
-              <value>narrow</value>
-              <value>medium</value>
-              <value>wide</value>
-            </choice>
-          </attribute>
-        </optional>
-        <oneOrMore>
-          <element name="li">
-            <ref name="MetaDataTitle"/>
-            <oneOrMore>
-              <ref name="ParagraphWW"/>
             </oneOrMore>
           </element>
         </oneOrMore>
@@ -1044,7 +1437,7 @@
     </element>
   </define>
   <define name="TheoremLike">
-    <ref name="MetaDataTitleOptional"/>
+    <ref name="MetaDataTitleCreatorOptional"/>
     <choice>
       <oneOrMore>
         <ref name="BlockStatement"/>
@@ -1086,7 +1479,7 @@
     </choice>
   </define>
   <define name="AxiomLike">
-    <ref name="MetaDataTitleOptional"/>
+    <ref name="MetaDataTitleCreatorOptional"/>
     <ref name="Statement"/>
   </define>
   <define name="Axiom">
@@ -1129,6 +1522,17 @@
           <ref name="Solution"/>
         </zeroOrMore>
       </group>
+      <group>
+        <optional>
+          <ref name="IntroductionStatement"/>
+        </optional>
+        <oneOrMore>
+          <ref name="Task"/>
+        </oneOrMore>
+        <optional>
+          <ref name="ConclusionStatement"/>
+        </optional>
+      </group>
     </choice>
   </define>
   <define name="Example">
@@ -1154,33 +1558,31 @@
         <optional>
           <ref name="Prelude"/>
         </optional>
-        <ref name="Statement"/>
-        <zeroOrMore>
-          <ref name="Hint"/>
-        </zeroOrMore>
-        <zeroOrMore>
-          <ref name="Answer"/>
-        </zeroOrMore>
-        <zeroOrMore>
-          <ref name="Solution"/>
-        </zeroOrMore>
-        <optional>
-          <ref name="Postlude"/>
-        </optional>
-      </group>
-      <group>
-        <optional>
-          <ref name="Prelude"/>
-        </optional>
-        <optional>
-          <ref name="IntroductionStatement"/>
-        </optional>
-        <oneOrMore>
-          <ref name="Task"/>
-        </oneOrMore>
-        <optional>
-          <ref name="ConclusionStatement"/>
-        </optional>
+        <choice>
+          <group>
+            <ref name="Statement"/>
+            <zeroOrMore>
+              <ref name="Hint"/>
+            </zeroOrMore>
+            <zeroOrMore>
+              <ref name="Answer"/>
+            </zeroOrMore>
+            <zeroOrMore>
+              <ref name="Solution"/>
+            </zeroOrMore>
+          </group>
+          <group>
+            <optional>
+              <ref name="IntroductionStatement"/>
+            </optional>
+            <oneOrMore>
+              <ref name="Task"/>
+            </oneOrMore>
+            <optional>
+              <ref name="ConclusionStatement"/>
+            </optional>
+          </group>
+        </choice>
         <optional>
           <ref name="Postlude"/>
         </optional>
@@ -1205,7 +1607,7 @@
   </define>
   <define name="Task">
     <element name="task">
-      <ref name="MetaDataTarget"/>
+      <ref name="MetaDataTitleOptional"/>
       <choice>
         <oneOrMore>
           <ref name="BlockStatement"/>
@@ -1239,7 +1641,7 @@
   <define name="RemarkLike">
     <ref name="MetaDataTitleOptional"/>
     <oneOrMore>
-      <ref name="BlockText"/>
+      <ref name="BlockStatement"/>
     </oneOrMore>
   </define>
   <define name="Remark">
@@ -1283,7 +1685,7 @@
   <define name="AsideLike">
     <ref name="MetaDataTitleOptional"/>
     <oneOrMore>
-      <ref name="BlockStatement"/>
+      <ref name="BlockText"/>
     </oneOrMore>
   </define>
   <define name="Aside">
@@ -1322,15 +1724,14 @@
         <ref name="MetaDataCaption"/>
         <choice>
           <ref name="Image"/>
+          <ref name="Video"/>
           <ref name="SideBySide"/>
           <ref name="SideBySideGroup"/>
-          <ref name="Video"/>
-          <ref name="JSXGraph"/>
           <ref name="MuseScore"/>
         </choice>
       </element>
       <element name="table">
-        <ref name="MetaDataCaption"/>
+        <ref name="MetaDataAltTitle"/>
         <ref name="Tabular"/>
       </element>
       <element name="listing">
@@ -1341,7 +1742,7 @@
         </choice>
       </element>
       <element name="list">
-        <ref name="MetaDataCaption"/>
+        <ref name="MetaDataAltTitle"/>
         <optional>
           <ref name="IntroductionText"/>
         </optional>
@@ -1352,7 +1753,26 @@
       </element>
     </choice>
   </define>
+  <define name="Stack">
+    <element name="stack">
+      <oneOrMore>
+        <choice>
+          <ref name="Tabular"/>
+          <ref name="Image"/>
+          <ref name="Video"/>
+          <ref name="Program"/>
+          <ref name="Console"/>
+          <ref name="Paragraph"/>
+          <ref name="Preformatted"/>
+          <ref name="List"/>
+        </choice>
+      </oneOrMore>
+    </element>
+  </define>
   <define name="SidebySideAttributes">
+    <optional>
+      <ref name="PermanentID"/>
+    </optional>
     <optional>
       <attribute name="margins"/>
     </optional>
@@ -1383,9 +1803,8 @@
           <ref name="Console"/>
           <ref name="Paragraph"/>
           <ref name="Preformatted"/>
-          <ref name="Paragraphs"/>
-          <ref name="ParagraphsTitleOptional"/>
           <ref name="List"/>
+          <ref name="Stack"/>
         </choice>
       </oneOrMore>
     </element>
@@ -1403,9 +1822,8 @@
           <ref name="Console"/>
           <ref name="Paragraph"/>
           <ref name="Preformatted"/>
-          <ref name="Paragraphs"/>
-          <ref name="ParagraphsTitleOptional"/>
           <ref name="List"/>
+          <ref name="Stack"/>
         </choice>
       </oneOrMore>
     </element>
@@ -1426,17 +1844,6 @@
       </oneOrMore>
     </element>
   </define>
-  <define name="SideBySideWW">
-    <element name="sidebyside">
-      <ref name="SidebySideAttributes"/>
-      <oneOrMore>
-        <choice>
-          <ref name="TabularWW"/>
-          <ref name="ImageWW"/>
-        </choice>
-      </oneOrMore>
-    </element>
-  </define>
   <define name="Image">
     <choice>
       <ref name="ImageRaster"/>
@@ -1449,17 +1856,31 @@
         <ref name="UniqueID"/>
       </optional>
       <optional>
+        <ref name="PermanentID"/>
+      </optional>
+      <optional>
         <attribute name="width"/>
       </optional>
       <optional>
+        <attribute name="margins"/>
+      </optional>
+      <optional>
         <attribute name="archive"/>
+      </optional>
+      <attribute name="source"/>
+      <optional>
+        <attribute name="decorative">
+          <choice>
+            <value>yes</value>
+            <value>no</value>
+          </choice>
+        </attribute>
       </optional>
       <optional>
         <element name="description">
           <ref name="TextShort"/>
         </element>
       </optional>
-      <attribute name="source"/>
     </element>
   </define>
   <define name="ImageCode">
@@ -1468,10 +1889,24 @@
         <ref name="UniqueID"/>
       </optional>
       <optional>
+        <ref name="PermanentID"/>
+      </optional>
+      <optional>
         <attribute name="width"/>
       </optional>
       <optional>
+        <attribute name="margins"/>
+      </optional>
+      <optional>
         <attribute name="archive"/>
+      </optional>
+      <optional>
+        <attribute name="decorative">
+          <choice>
+            <value>yes</value>
+            <value>no</value>
+          </choice>
+        </attribute>
       </optional>
       <optional>
         <element name="description">
@@ -1486,6 +1921,17 @@
           <text/>
         </element>
         <element name="sageplot">
+          <optional>
+            <attribute name="variant">
+              <choice>
+                <value>2d</value>
+                <value>3d</value>
+              </choice>
+            </attribute>
+          </optional>
+          <optional>
+            <attribute name="aspect"/>
+          </optional>
           <text/>
         </element>
       </choice>
@@ -1497,13 +1943,32 @@
         <attribute name="pg-name"/>
       </optional>
       <optional>
+        <attribute name="width"/>
+      </optional>
+      <optional>
+        <attribute name="decorative">
+          <choice>
+            <value>yes</value>
+            <value>no</value>
+          </choice>
+        </attribute>
+      </optional>
+      <optional>
         <element name="description">
           <zeroOrMore>
             <choice>
               <ref name="TextShort"/>
-              <ref name="WWVariableUse"/>
+              <ref name="WWVariable"/>
             </choice>
           </zeroOrMore>
+        </element>
+      </optional>
+      <optional>
+        <element name="latex-image">
+          <attribute name="syntax">
+            <value>PGtikz</value>
+          </attribute>
+          <text/>
         </element>
       </optional>
     </element>
@@ -1572,7 +2037,7 @@
       <choice>
         <ref name="TextLong"/>
         <oneOrMore>
-          <ref name="Line"/>
+          <ref name="LongLine"/>
         </oneOrMore>
         <oneOrMore>
           <ref name="Paragraph"/>
@@ -1618,6 +2083,15 @@
   <define name="Tabular">
     <element name="tabular">
       <optional>
+        <ref name="PermanentID"/>
+      </optional>
+      <optional>
+        <attribute name="width"/>
+      </optional>
+      <optional>
+        <attribute name="margins"/>
+      </optional>
+      <optional>
         <ref name="AlignmentHorizontal"/>
       </optional>
       <optional>
@@ -1643,82 +2117,10 @@
       </oneOrMore>
     </element>
   </define>
-  <define name="TableCellWW">
-    <element name="cell">
-      <optional>
-        <ref name="AlignmentHorizontal"/>
-      </optional>
-      <optional>
-        <ref name="BorderBottom"/>
-      </optional>
-      <optional>
-        <ref name="BorderRight"/>
-      </optional>
-      <optional>
-        <attribute name="colspan"/>
-      </optional>
-      <choice>
-        <ref name="TextLongWW"/>
-        <oneOrMore>
-          <ref name="Line"/>
-        </oneOrMore>
-        <oneOrMore>
-          <ref name="ParagraphWW"/>
-        </oneOrMore>
-      </choice>
-    </element>
-  </define>
-  <define name="TableRowWW">
-    <element name="row">
-      <optional>
-        <ref name="AlignmentHorizontal"/>
-      </optional>
-      <optional>
-        <ref name="AlignmentVertical"/>
-      </optional>
-      <optional>
-        <ref name="BorderBottom"/>
-      </optional>
-      <optional>
-        <ref name="BorderLeft"/>
-      </optional>
-      <oneOrMore>
-        <ref name="TableCellWW"/>
-      </oneOrMore>
-    </element>
-  </define>
-  <define name="TabularWW">
-    <element name="tabular">
-      <optional>
-        <ref name="AlignmentHorizontal"/>
-      </optional>
-      <optional>
-        <ref name="AlignmentVertical"/>
-      </optional>
-      <optional>
-        <ref name="BorderTop"/>
-      </optional>
-      <optional>
-        <ref name="BorderBottom"/>
-      </optional>
-      <optional>
-        <ref name="BorderLeft"/>
-      </optional>
-      <optional>
-        <ref name="BorderRight"/>
-      </optional>
-      <zeroOrMore>
-        <ref name="TableColumn"/>
-      </zeroOrMore>
-      <oneOrMore>
-        <ref name="TableRowWW"/>
-      </oneOrMore>
-    </element>
-  </define>
   <define name="Sage">
     <element name="sage">
       <optional>
-        <ref name="UniqueID"/>
+        <ref name="PermanentID"/>
       </optional>
       <optional>
         <attribute name="doctest"/>
@@ -1744,20 +2146,6 @@
       </optional>
     </element>
   </define>
-  <define name="JSXGraph">
-    <element name="jsxgraph">
-      <ref name="UniqueID"/>
-      <optional>
-        <attribute name="width"/>
-      </optional>
-      <optional>
-        <attribute name="aspect"/>
-      </optional>
-      <element name="input">
-        <text/>
-      </element>
-    </element>
-  </define>
   <define name="MuseScore">
     <element name="score">
       <attribute name="musescoreuser"/>
@@ -1770,7 +2158,13 @@
         <ref name="UniqueID"/>
       </optional>
       <optional>
+        <ref name="PermanentID"/>
+      </optional>
+      <optional>
         <attribute name="width"/>
+      </optional>
+      <optional>
+        <attribute name="margins"/>
       </optional>
       <optional>
         <attribute name="aspect"/>
@@ -1799,47 +2193,63 @@
           <choice>
             <value>default</value>
             <value>generic</value>
+            <text/>
           </choice>
         </attribute>
       </optional>
       <choice>
         <ref name="AttributesSourceFile"/>
+        <ref name="AttributesNetwork"/>
         <ref name="AttributesYouTube"/>
+        <ref name="AttributesYouTubePlaylist"/>
+        <ref name="AttributesVimeo"/>
       </choice>
     </element>
   </define>
   <define name="AttributesSourceFile">
     <attribute name="source"/>
   </define>
+  <define name="AttributesNetwork">
+    <attribute name="href"/>
+  </define>
   <define name="AttributesYouTube">
     <attribute name="youtube"/>
   </define>
+  <define name="AttributesYouTubePlaylist">
+    <attribute name="youtubeplaylist"/>
+  </define>
+  <define name="AttributesVimeo">
+    <attribute name="vimeo"/>
+  </define>
+  <define name="ExerciseBody">
+    <oneOrMore>
+      <choice>
+        <ref name="BlockStatement"/>
+        <element name="ol">
+          <optional>
+            <attribute name="cols"/>
+          </optional>
+          <optional>
+            <attribute name="label"/>
+          </optional>
+          <oneOrMore>
+            <element name="li">
+              <ref name="MetaDataTarget"/>
+              <choice>
+                <ref name="TextParagraph"/>
+                <oneOrMore>
+                  <ref name="BlockText"/>
+                </oneOrMore>
+              </choice>
+            </element>
+          </oneOrMore>
+        </element>
+      </choice>
+    </oneOrMore>
+  </define>
   <define name="StatementExercise">
     <element name="statement">
-      <oneOrMore>
-        <choice>
-          <ref name="BlockStatement"/>
-          <element name="ol">
-            <optional>
-              <attribute name="cols"/>
-            </optional>
-            <optional>
-              <attribute name="label"/>
-            </optional>
-            <oneOrMore>
-              <element name="li">
-                <ref name="MetaDataTarget"/>
-                <choice>
-                  <ref name="TextParagraph"/>
-                  <oneOrMore>
-                    <ref name="BlockText"/>
-                  </oneOrMore>
-                </choice>
-              </element>
-            </oneOrMore>
-          </element>
-        </choice>
-      </oneOrMore>
+      <ref name="ExerciseBody"/>
     </element>
   </define>
   <define name="Exercise">
@@ -1849,6 +2259,7 @@
         <attribute name="number"/>
       </optional>
       <choice>
+        <ref name="ExerciseBody"/>
         <group>
           <ref name="StatementExercise"/>
           <zeroOrMore>
@@ -1860,6 +2271,17 @@
           <zeroOrMore>
             <ref name="Solution"/>
           </zeroOrMore>
+        </group>
+        <group>
+          <optional>
+            <ref name="IntroductionStatement"/>
+          </optional>
+          <oneOrMore>
+            <ref name="Task"/>
+          </oneOrMore>
+          <optional>
+            <ref name="ConclusionStatement"/>
+          </optional>
         </group>
         <group>
           <optional>
@@ -1875,7 +2297,7 @@
   </define>
   <define name="ExerciseGroup">
     <element name="exercisegroup">
-      <ref name="MetaDataTarget"/>
+      <ref name="MetaDataTitleOptional"/>
       <optional>
         <attribute name="cols">
           <choice>
@@ -1887,9 +2309,7 @@
           </choice>
         </attribute>
       </optional>
-      <optional>
-        <ref name="IntroductionStatementNoCaption"/>
-      </optional>
+      <ref name="IntroductionStatementNoCaption"/>
       <oneOrMore>
         <ref name="Exercise"/>
       </oneOrMore>
@@ -1949,28 +2369,58 @@
       <ref name="TextShort"/>
     </element>
   </define>
-  <define name="BibliographyItem">
-    <element name="biblio">
-      <optional>
-        <ref name="UniqueID"/>
-      </optional>
-      <optional>
-        <attribute name="type">
-          <value>raw</value>
-        </attribute>
-      </optional>
+  <define name="TextBib">
+    <mixed>
       <zeroOrMore>
         <choice>
-          <ref name="TextLong"/>
-          <ref name="Ibid"/>
-          <ref name="BibTitle"/>
-          <ref name="BibYear"/>
-          <ref name="BibJournal"/>
-          <ref name="BibNumber"/>
-          <ref name="BibVolume"/>
-          <ref name="BibNote"/>
+          <ref name="Character"/>
+          <ref name="MathInline"/>
         </choice>
       </zeroOrMore>
+    </mixed>
+  </define>
+  <define name="BibliographyItem">
+    <element name="biblio">
+      <ref name="MetaDataTarget"/>
+      <choice>
+        <group>
+          <attribute name="type">
+            <value>raw</value>
+          </attribute>
+          <zeroOrMore>
+            <choice>
+              <ref name="TextLong"/>
+              <ref name="Ibid"/>
+              <ref name="BibTitle"/>
+              <ref name="BibYear"/>
+              <ref name="BibJournal"/>
+              <ref name="BibNumber"/>
+              <ref name="BibVolume"/>
+              <ref name="BibNote"/>
+            </choice>
+          </zeroOrMore>
+        </group>
+        <group>
+          <attribute name="type">
+            <value>bibtex</value>
+          </attribute>
+          <zeroOrMore>
+            <choice>
+              <ref name="BibTitle"/>
+              <ref name="BibAuthor"/>
+              <ref name="BibEditor"/>
+              <ref name="BibYear"/>
+              <ref name="BibJournal"/>
+              <ref name="BibNumber"/>
+              <ref name="BibVolume"/>
+              <ref name="BibSeries"/>
+              <ref name="BibPublisher"/>
+              <ref name="BibPages"/>
+              <ref name="BibNote"/>
+            </choice>
+          </zeroOrMore>
+        </group>
+      </choice>
     </element>
   </define>
   <define name="Ibid">
@@ -1985,7 +2435,7 @@
   </define>
   <define name="BibJournal">
     <element name="journal">
-      <text/>
+      <ref name="TextBib"/>
     </element>
   </define>
   <define name="BibNumber">
@@ -2010,6 +2460,46 @@
       </optional>
       <oneOrMore>
         <ref name="Paragraph"/>
+      </oneOrMore>
+    </element>
+  </define>
+  <define name="BibAuthor">
+    <element name="author">
+      <text/>
+    </element>
+  </define>
+  <define name="BibEditor">
+    <element name="editor">
+      <text/>
+    </element>
+  </define>
+  <define name="BibSeries">
+    <element name="series">
+      <text/>
+    </element>
+  </define>
+  <define name="BibPublisher">
+    <element name="publisher">
+      <text/>
+    </element>
+  </define>
+  <define name="BibPages">
+    <element name="pages">
+      <choice>
+        <group>
+          <attribute name="start"/>
+          <attribute name="end"/>
+          <empty/>
+        </group>
+        <text/>
+      </choice>
+    </element>
+  </define>
+  <define name="GlossaryItem">
+    <element name="gi">
+      <ref name="MetaDataTitle"/>
+      <oneOrMore>
+        <ref name="BlockStatementNoCaption"/>
       </oneOrMore>
     </element>
   </define>
@@ -2048,6 +2538,14 @@
       </oneOrMore>
     </element>
   </define>
+  <define name="AuthorByline">
+    <element name="author">
+      <choice>
+        <ref name="TextSimple"/>
+        <ref name="Xref"/>
+      </choice>
+    </element>
+  </define>
   <define name="WebWork">
     <choice>
       <ref name="WebWorkAuthored"/>
@@ -2068,17 +2566,34 @@
   </define>
   <define name="WebWorkAuthored">
     <element name="webwork">
-      <ref name="MetaDataTitleOptional"/>
+      <optional>
+        <ref name="UniqueID"/>
+      </optional>
       <optional>
         <attribute name="seed">
           <data type="integer"/>
         </attribute>
       </optional>
       <optional>
+        <attribute name="copy"/>
+      </optional>
+      <optional>
+        <element name="description">
+          <choice>
+            <ref name="TextSimple"/>
+            <oneOrMore>
+              <ref name="SimpleLine"/>
+            </oneOrMore>
+          </choice>
+        </element>
+      </optional>
+      <optional>
         <ref name="WWMacros"/>
       </optional>
       <optional>
-        <ref name="WWSetup"/>
+        <element name="pg-code">
+          <text/>
+        </element>
       </optional>
       <choice>
         <group>
@@ -2088,6 +2603,17 @@
           </optional>
           <optional>
             <ref name="SolutionWW"/>
+          </optional>
+        </group>
+        <group>
+          <optional>
+            <ref name="IntroductionText"/>
+          </optional>
+          <oneOrMore>
+            <ref name="TaskWW"/>
+          </oneOrMore>
+          <optional>
+            <ref name="ConclusionText"/>
           </optional>
         </group>
         <oneOrMore>
@@ -2107,16 +2633,49 @@
       </choice>
     </element>
   </define>
+  <define name="BlockStatementWW">
+    <choice>
+      <ref name="Paragraph"/>
+      <ref name="Preformatted"/>
+      <ref name="Tabular"/>
+      <ref name="ImageWW"/>
+    </choice>
+  </define>
   <define name="StatementExerciseWW">
     <element name="statement">
       <oneOrMore>
         <choice>
-          <ref name="ParagraphWW"/>
+          <ref name="BlockStatementWW"/>
           <ref name="WWInstruction"/>
-          <ref name="Preformatted"/>
-          <ref name="SideBySideWW"/>
         </choice>
       </oneOrMore>
+    </element>
+  </define>
+  <define name="TaskWW">
+    <element name="task">
+      <ref name="MetaDataTitleOptional"/>
+      <choice>
+        <group>
+          <ref name="StatementExerciseWW"/>
+          <optional>
+            <ref name="HintWW"/>
+          </optional>
+          <optional>
+            <ref name="SolutionWW"/>
+          </optional>
+        </group>
+        <group>
+          <optional>
+            <ref name="IntroductionText"/>
+          </optional>
+          <oneOrMore>
+            <ref name="TaskWW"/>
+          </oneOrMore>
+          <optional>
+            <ref name="ConclusionText"/>
+          </optional>
+        </group>
+      </choice>
     </element>
   </define>
   <define name="WWMacros">
@@ -2128,56 +2687,9 @@
       </oneOrMore>
     </element>
   </define>
-  <define name="WWSetup">
-    <element name="setup">
-      <zeroOrMore>
-        <ref name="WWVariableSetup"/>
-      </zeroOrMore>
-      <optional>
-        <element name="pg-code">
-          <text/>
-        </element>
-      </optional>
-    </element>
-  </define>
-  <define name="WWVariableSetup">
+  <define name="WWVariable">
     <element name="var">
-      <attribute name="name"/>
-      <optional>
-        <attribute name="category">
-          <choice>
-            <value>integer</value>
-            <value>number</value>
-            <value>formula</value>
-          </choice>
-        </attribute>
-      </optional>
-      <optional>
-        <element name="static">
-          <text/>
-        </element>
-      </optional>
-      <optional>
-        <element name="set">
-          <oneOrMore>
-            <element name="member">
-              <optional>
-                <attribute name="correct">
-                  <choice>
-                    <value>yes</value>
-                    <value>no</value>
-                  </choice>
-                </attribute>
-              </optional>
-              <text/>
-            </element>
-          </oneOrMore>
-        </element>
-      </optional>
-    </element>
-  </define>
-  <define name="WWVariableUse">
-    <element name="var">
+      <a:documentation>The WeBWorK "var" element appears in the RELAX-NG schema as a child of many elements, but almost always as a descendant of a "p" element or a "cell" element.  As an element that is only relevant for a WeBWorK problem, occurrences of "var" must be within a "webwork" element.  A Schematron rule will check on these two situations.</a:documentation>
       <choice>
         <group>
           <attribute name="name"/>
@@ -2186,6 +2698,27 @@
           </optional>
           <optional>
             <attribute name="width"/>
+          </optional>
+          <optional>
+            <attribute name="category">
+              <choice>
+                <value>angle</value>
+                <value>decimal</value>
+                <value>exponent</value>
+                <value>formula</value>
+                <value>fraction</value>
+                <value>inequality</value>
+                <value>integer</value>
+                <value>interval</value>
+                <value>logarithm</value>
+                <value>limit</value>
+                <value>number</value>
+                <value>point</value>
+                <value>syntax</value>
+                <value>quantity</value>
+                <value>vector</value>
+              </choice>
+            </attribute>
           </optional>
           <optional>
             <attribute name="form">
@@ -2216,36 +2749,47 @@
   <define name="HintWW">
     <element name="hint">
       <oneOrMore>
-        <choice>
-          <ref name="ParagraphWW"/>
-          <ref name="Preformatted"/>
-          <ref name="SideBySideWW"/>
-        </choice>
+        <ref name="BlockStatementWW"/>
       </oneOrMore>
     </element>
   </define>
   <define name="SolutionWW">
     <element name="solution">
       <oneOrMore>
-        <choice>
-          <ref name="ParagraphWW"/>
-          <ref name="Preformatted"/>
-          <ref name="SideBySideWW"/>
-        </choice>
+        <ref name="BlockStatementWW"/>
       </oneOrMore>
     </element>
   </define>
-  <define name="ToDo">
-    <element name="todo">
-      <text/>
+  <define name="Fragment">
+    <element name="fragment">
+      <choice>
+        <attribute name="xml:id"/>
+        <group>
+          <attribute name="filename"/>
+          <optional>
+            <attribute name="xml:id"/>
+          </optional>
+        </group>
+      </choice>
+      <ref name="Title"/>
+      <oneOrMore>
+        <choice>
+          <element name="code">
+            <text/>
+          </element>
+          <element name="fragref">
+            <attribute name="ref"/>
+          </element>
+        </choice>
+      </oneOrMore>
     </element>
   </define>
   <define name="Attribution">
     <element name="attribution">
       <choice>
-        <ref name="TextShort"/>
+        <ref name="TextLong"/>
         <oneOrMore>
-          <ref name="Line"/>
+          <ref name="LongLine"/>
         </oneOrMore>
       </choice>
     </element>
@@ -2253,14 +2797,46 @@
   <define name="UniqueID">
     <attribute name="xml:id"/>
   </define>
+  <define name="PermanentID">
+    <attribute name="permid"/>
+  </define>
   <define name="Title">
     <element name="title">
       <ref name="TextLong"/>
     </element>
   </define>
+  <define name="LinedTitle">
+    <element name="title">
+      <oneOrMore>
+        <ref name="LongLine"/>
+      </oneOrMore>
+    </element>
+  </define>
   <define name="Subtitle">
     <element name="subtitle">
       <ref name="TextLong"/>
+    </element>
+  </define>
+  <define name="LinedSubtitle">
+    <element name="subtitle">
+      <oneOrMore>
+        <ref name="LongLine"/>
+      </oneOrMore>
+    </element>
+  </define>
+  <define name="ShortTitle">
+    <element name="shorttitle">
+      <ref name="TextShort"/>
+    </element>
+  </define>
+  <define name="PlainTitle">
+    <element name="plaintitle">
+      <text/>
+    </element>
+  </define>
+  <define name="Creator">
+    <element name="creator">
+      <ref name="TextShort"/>
     </element>
   </define>
   <define name="XMLBase">
@@ -2273,6 +2849,9 @@
     <optional>
       <ref name="UniqueID"/>
     </optional>
+    <optional>
+      <ref name="PermanentID"/>
+    </optional>
     <zeroOrMore>
       <ref name="Index"/>
     </zeroOrMore>
@@ -2280,6 +2859,9 @@
   <define name="MetaDataTitle">
     <optional>
       <ref name="UniqueID"/>
+    </optional>
+    <optional>
+      <ref name="PermanentID"/>
     </optional>
     <optional>
       <ref name="XMLBase"/>
@@ -2292,9 +2874,63 @@
       <ref name="Index"/>
     </zeroOrMore>
   </define>
+  <define name="MetaDataAltTitle">
+    <optional>
+      <ref name="UniqueID"/>
+    </optional>
+    <optional>
+      <ref name="PermanentID"/>
+    </optional>
+    <optional>
+      <ref name="XMLBase"/>
+    </optional>
+    <optional>
+      <ref name="XMLLang"/>
+    </optional>
+    <ref name="Title"/>
+    <optional>
+      <ref name="ShortTitle"/>
+    </optional>
+    <optional>
+      <ref name="PlainTitle"/>
+    </optional>
+    <zeroOrMore>
+      <ref name="Index"/>
+    </zeroOrMore>
+  </define>
+  <define name="MetaDataLinedTitle">
+    <optional>
+      <ref name="UniqueID"/>
+    </optional>
+    <optional>
+      <ref name="PermanentID"/>
+    </optional>
+    <optional>
+      <ref name="XMLBase"/>
+    </optional>
+    <optional>
+      <ref name="XMLLang"/>
+    </optional>
+    <choice>
+      <ref name="Title"/>
+      <ref name="LinedTitle"/>
+    </choice>
+    <optional>
+      <ref name="ShortTitle"/>
+    </optional>
+    <optional>
+      <ref name="PlainTitle"/>
+    </optional>
+    <zeroOrMore>
+      <ref name="Index"/>
+    </zeroOrMore>
+  </define>
   <define name="MetaDataSubtitle">
     <optional>
       <ref name="UniqueID"/>
+    </optional>
+    <optional>
+      <ref name="PermanentID"/>
     </optional>
     <optional>
       <ref name="XMLBase"/>
@@ -2306,6 +2942,45 @@
     <optional>
       <ref name="Subtitle"/>
     </optional>
+    <optional>
+      <ref name="ShortTitle"/>
+    </optional>
+    <optional>
+      <ref name="PlainTitle"/>
+    </optional>
+    <zeroOrMore>
+      <ref name="Index"/>
+    </zeroOrMore>
+  </define>
+  <define name="MetaDataLinedSubtitle">
+    <optional>
+      <ref name="UniqueID"/>
+    </optional>
+    <optional>
+      <ref name="PermanentID"/>
+    </optional>
+    <optional>
+      <ref name="XMLBase"/>
+    </optional>
+    <optional>
+      <ref name="XMLLang"/>
+    </optional>
+    <choice>
+      <ref name="Title"/>
+      <ref name="LinedTitle"/>
+    </choice>
+    <optional>
+      <choice>
+        <ref name="Subtitle"/>
+        <ref name="LinedSubtitle"/>
+      </choice>
+    </optional>
+    <optional>
+      <ref name="ShortTitle"/>
+    </optional>
+    <optional>
+      <ref name="PlainTitle"/>
+    </optional>
     <zeroOrMore>
       <ref name="Index"/>
     </zeroOrMore>
@@ -2313,6 +2988,9 @@
   <define name="MetaDataTitleOptional">
     <optional>
       <ref name="UniqueID"/>
+    </optional>
+    <optional>
+      <ref name="PermanentID"/>
     </optional>
     <optional>
       <ref name="XMLBase"/>
@@ -2327,9 +3005,61 @@
       <ref name="Index"/>
     </zeroOrMore>
   </define>
+  <define name="MetaDataAltTitleOptional">
+    <optional>
+      <ref name="UniqueID"/>
+    </optional>
+    <optional>
+      <ref name="PermanentID"/>
+    </optional>
+    <optional>
+      <ref name="XMLBase"/>
+    </optional>
+    <optional>
+      <ref name="XMLLang"/>
+    </optional>
+    <optional>
+      <ref name="Title"/>
+      <optional>
+        <ref name="ShortTitle"/>
+      </optional>
+      <optional>
+        <ref name="PlainTitle"/>
+      </optional>
+    </optional>
+    <zeroOrMore>
+      <ref name="Index"/>
+    </zeroOrMore>
+  </define>
+  <define name="MetaDataTitleCreatorOptional">
+    <optional>
+      <ref name="UniqueID"/>
+    </optional>
+    <optional>
+      <ref name="PermanentID"/>
+    </optional>
+    <optional>
+      <ref name="XMLBase"/>
+    </optional>
+    <optional>
+      <ref name="XMLLang"/>
+    </optional>
+    <optional>
+      <ref name="Title"/>
+    </optional>
+    <optional>
+      <ref name="Creator"/>
+    </optional>
+    <zeroOrMore>
+      <ref name="Index"/>
+    </zeroOrMore>
+  </define>
   <define name="MetaDataCaption">
     <optional>
       <ref name="UniqueID"/>
+    </optional>
+    <optional>
+      <ref name="PermanentID"/>
     </optional>
     <optional>
       <ref name="XMLBase"/>
@@ -2353,6 +3083,7 @@
           <ref name="Generator"/>
           <ref name="Verbatim"/>
           <ref name="Group"/>
+          <ref name="WWVariable"/>
           <ref name="MathInline"/>
           <ref name="Music"/>
           <ref name="Reference"/>
@@ -2371,40 +3102,19 @@
       <optional>
         <ref name="UniqueID"/>
       </optional>
+      <optional>
+        <ref name="PermanentID"/>
+      </optional>
       <ref name="TextParagraph"/>
-    </element>
-  </define>
-  <define name="TextParagraphWW">
-    <mixed>
-      <zeroOrMore>
-        <choice>
-          <ref name="Character"/>
-          <ref name="Generator"/>
-          <ref name="Verbatim"/>
-          <ref name="Group"/>
-          <ref name="WWVariableUse"/>
-          <ref name="MathInlineWW"/>
-          <ref name="Music"/>
-          <ref name="Reference"/>
-          <ref name="CodeDisplay"/>
-          <ref name="MathDisplayWW"/>
-          <ref name="ListWW"/>
-          <ref name="Footnote"/>
-          <ref name="Notation"/>
-          <ref name="Index"/>
-        </choice>
-      </zeroOrMore>
-    </mixed>
-  </define>
-  <define name="ParagraphWW">
-    <element name="p">
-      <ref name="TextParagraphWW"/>
     </element>
   </define>
   <define name="ParagraphLined">
     <element name="p">
       <optional>
         <ref name="UniqueID"/>
+      </optional>
+      <optional>
+        <ref name="PermanentID"/>
       </optional>
       <oneOrMore>
         <element name="line">
@@ -2445,22 +3155,7 @@
           <ref name="MathInline"/>
           <ref name="Music"/>
           <ref name="Reference"/>
-        </choice>
-      </zeroOrMore>
-    </mixed>
-  </define>
-  <define name="TextLongWW">
-    <mixed>
-      <zeroOrMore>
-        <choice>
-          <ref name="Character"/>
-          <ref name="Generator"/>
-          <ref name="Verbatim"/>
-          <ref name="Group"/>
-          <ref name="MathInlineWW"/>
-          <ref name="Music"/>
-          <ref name="Reference"/>
-          <ref name="WWVariableUse"/>
+          <ref name="WWVariable"/>
         </choice>
       </zeroOrMore>
     </mixed>
@@ -2531,6 +3226,7 @@
       <value>phrase-global</value>
       <value>phrase-hybrid</value>
       <value>title</value>
+      <value>custom</value>
     </choice>
   </define>
   <define name="Reference">
@@ -2542,7 +3238,15 @@
   <define name="Url">
     <element name="url">
       <attribute name="href"/>
-      <ref name="TextShort"/>
+      <choice>
+        <group>
+          <attribute name="visual"/>
+          <ref name="TextShort"/>
+        </group>
+        <optional>
+          <attribute name="visual"/>
+        </optional>
+      </choice>
     </element>
   </define>
   <define name="Xref">
@@ -2569,7 +3273,7 @@
   <define name="Notation">
     <element name="notation">
       <element name="usage">
-        <text/>
+        <ref name="MathInline"/>
       </element>
       <element name="description">
         <ref name="TextShort"/>
@@ -2580,7 +3284,10 @@
     <element name="m">
       <mixed>
         <zeroOrMore>
-          <ref name="FillIn"/>
+          <choice>
+            <ref name="FillIn"/>
+            <ref name="WWVariable"/>
+          </choice>
         </zeroOrMore>
       </mixed>
     </element>
@@ -2604,6 +3311,9 @@
               <value>dagger</value>
               <value>ddagger</value>
               <value>tdagger</value>
+              <value>daggerdbl</value>
+              <value>ddaggerdbl</value>
+              <value>tdaggerdbl</value>
               <value>hash</value>
               <value>dhash</value>
               <value>thash</value>
@@ -2627,6 +3337,7 @@
           <choice>
             <ref name="Xref"/>
             <ref name="FillIn"/>
+            <ref name="WWVariable"/>
           </choice>
         </zeroOrMore>
       </mixed>
@@ -2642,7 +3353,10 @@
       <element name="me">
         <mixed>
           <zeroOrMore>
-            <ref name="FillIn"/>
+            <choice>
+              <ref name="FillIn"/>
+              <ref name="WWVariable"/>
+            </choice>
           </zeroOrMore>
         </mixed>
       </element>
@@ -2650,7 +3364,10 @@
         <ref name="MetaDataTarget"/>
         <mixed>
           <zeroOrMore>
-            <ref name="FillIn"/>
+            <choice>
+              <ref name="FillIn"/>
+              <ref name="WWVariable"/>
+            </choice>
           </zeroOrMore>
         </mixed>
       </element>
@@ -2712,135 +3429,6 @@
         <zeroOrMore>
           <choice>
             <ref name="MathRow"/>
-            <ref name="MathIntertext"/>
-          </choice>
-        </zeroOrMore>
-      </element>
-    </choice>
-  </define>
-  <define name="MathInlineWW">
-    <element name="m">
-      <mixed>
-        <zeroOrMore>
-          <choice>
-            <ref name="FillIn"/>
-            <ref name="WWVariableUse"/>
-          </choice>
-        </zeroOrMore>
-      </mixed>
-    </element>
-  </define>
-  <define name="MathRowWW">
-    <element name="mrow">
-      <ref name="MetaDataTarget"/>
-      <optional>
-        <attribute name="number">
-          <choice>
-            <value>yes</value>
-            <value>no</value>
-          </choice>
-        </attribute>
-      </optional>
-      <optional>
-        <attribute name="break">
-          <choice>
-            <value>yes</value>
-            <value>no</value>
-          </choice>
-        </attribute>
-      </optional>
-      <mixed>
-        <zeroOrMore>
-          <choice>
-            <ref name="Xref"/>
-            <ref name="FillIn"/>
-            <ref name="WWVariableUse"/>
-          </choice>
-        </zeroOrMore>
-      </mixed>
-    </element>
-  </define>
-  <define name="MathDisplayWW">
-    <choice>
-      <element name="me">
-        <mixed>
-          <zeroOrMore>
-            <choice>
-              <ref name="FillIn"/>
-              <ref name="WWVariableUse"/>
-            </choice>
-          </zeroOrMore>
-        </mixed>
-      </element>
-      <element name="men">
-        <ref name="MetaDataTarget"/>
-        <mixed>
-          <zeroOrMore>
-            <choice>
-              <ref name="FillIn"/>
-              <ref name="WWVariableUse"/>
-            </choice>
-          </zeroOrMore>
-        </mixed>
-      </element>
-      <element name="md">
-        <optional>
-          <attribute name="number">
-            <choice>
-              <value>yes</value>
-              <value>no</value>
-            </choice>
-          </attribute>
-        </optional>
-        <optional>
-          <attribute name="break">
-            <choice>
-              <value>yes</value>
-              <value>no</value>
-            </choice>
-          </attribute>
-        </optional>
-        <optional>
-          <attribute name="alignment"/>
-        </optional>
-        <optional>
-          <attribute name="alignat-columns"/>
-        </optional>
-        <ref name="MathRowWW"/>
-        <zeroOrMore>
-          <choice>
-            <ref name="MathRowWW"/>
-            <ref name="MathIntertext"/>
-          </choice>
-        </zeroOrMore>
-      </element>
-      <element name="mdn">
-        <optional>
-          <attribute name="number">
-            <choice>
-              <value>yes</value>
-              <value>no</value>
-            </choice>
-          </attribute>
-        </optional>
-        <optional>
-          <attribute name="break">
-            <choice>
-              <value>yes</value>
-              <value>no</value>
-            </choice>
-          </attribute>
-        </optional>
-        <optional>
-          <attribute name="alignment"/>
-        </optional>
-        <optional>
-          <attribute name="alignat-columns"/>
-        </optional>
-        <ref name="MathRowWW"/>
-        <zeroOrMore>
-          <choice>
-            <ref name="MathRowWW"/>
             <ref name="MathIntertext"/>
           </choice>
         </zeroOrMore>
@@ -2878,13 +3466,7 @@
       <element name="sq">
         <ref name="TextLong"/>
       </element>
-      <element name="braces">
-        <ref name="TextLong"/>
-      </element>
       <element name="angles">
-        <ref name="TextLong"/>
-      </element>
-      <element name="brackets">
         <ref name="TextLong"/>
       </element>
       <element name="dblbrackets">
@@ -2981,6 +3563,12 @@
       <element name="latex">
         <empty/>
       </element>
+      <element name="xetex">
+        <empty/>
+      </element>
+      <element name="xelatex">
+        <empty/>
+      </element>
       <element name="pretext">
         <empty/>
       </element>
@@ -2996,7 +3584,7 @@
       <element name="bc">
         <empty/>
       </element>
-      <element name="circa">
+      <element name="ca">
         <empty/>
       </element>
       <element name="eg">
@@ -3058,50 +3646,6 @@
       </zeroOrMore>
     </element>
   </define>
-  <define name="Character">
-    <choice>
-      <element name="ampersand">
-        <empty/>
-      </element>
-      <element name="less">
-        <empty/>
-      </element>
-      <element name="greater">
-        <empty/>
-      </element>
-    </choice>
-  </define>
-  <define name="Character" combine="choice">
-    <choice>
-      <element name="hash">
-        <empty/>
-      </element>
-      <element name="dollar">
-        <empty/>
-      </element>
-      <element name="percent">
-        <empty/>
-      </element>
-      <element name="tilde">
-        <empty/>
-      </element>
-      <element name="underscore">
-        <empty/>
-      </element>
-      <element name="circumflex">
-        <empty/>
-      </element>
-      <element name="backslash">
-        <empty/>
-      </element>
-      <element name="lbrace">
-        <empty/>
-      </element>
-      <element name="rbrace">
-        <empty/>
-      </element>
-    </choice>
-  </define>
   <define name="Character" combine="choice">
     <choice>
       <element name="nbsp">
@@ -3128,7 +3672,7 @@
   <define name="Character" combine="choice">
     <ref name="FillIn"/>
   </define>
-  <define name="Character" combine="choice">
+  <define name="Character">
     <choice>
       <element name="lsq">
         <empty/>
@@ -3142,14 +3686,38 @@
       <element name="lq">
         <empty/>
       </element>
+      <element name="langle">
+        <empty/>
+      </element>
+      <element name="rangle">
+        <empty/>
+      </element>
     </choice>
   </define>
   <define name="Character" combine="choice">
     <choice>
-      <element name="solidus">
+      <element name="minus">
         <empty/>
       </element>
       <element name="times">
+        <empty/>
+      </element>
+      <element name="solidus">
+        <empty/>
+      </element>
+      <element name="obelus">
+        <empty/>
+      </element>
+      <element name="plusminus">
+        <empty/>
+      </element>
+      <element name="degree">
+        <empty/>
+      </element>
+      <element name="prime">
+        <empty/>
+      </element>
+      <element name="dblprime">
         <empty/>
       </element>
     </choice>
@@ -3157,15 +3725,6 @@
   <define name="Character" combine="choice">
     <choice>
       <element name="ellipsis">
-        <empty/>
-      </element>
-      <element name="asterisk">
-        <empty/>
-      </element>
-      <element name="backtick">
-        <empty/>
-      </element>
-      <element name="slash">
         <empty/>
       </element>
       <element name="midpoint">
@@ -3192,7 +3751,26 @@
       <element name="trademark">
         <empty/>
       </element>
+      <element name="phonomark">
+        <empty/>
+      </element>
+      <element name="servicemark">
+        <empty/>
+      </element>
     </choice>
+  </define>
+  <define name="Character" combine="choice">
+    <element name="icon">
+      <attribute name="name"/>
+    </element>
+  </define>
+  <define name="Character" combine="choice">
+    <element name="kbd">
+      <choice>
+        <text/>
+        <attribute name="name"/>
+      </choice>
+    </element>
   </define>
   <define name="Music">
     <choice>
@@ -3225,6 +3803,10 @@
           <value>9</value>
           <value>10</value>
         </choice>
+      </element>
+      <element name="timesignature">
+        <attribute name="top"/>
+        <attribute name="bottom"/>
       </element>
       <element name="n">
         <attribute name="pc">
@@ -3348,11 +3930,6 @@
       <empty/>
     </element>
   </define>
-  <define name="SolutionList">
-    <element name="solution-list">
-      <empty/>
-    </element>
-  </define>
   <define name="Demonstration">
     <element name="demonstration">
       <ref name="Title"/>
@@ -3391,6 +3968,21 @@
     </element>
   </define>
   <define name="Configuration" combine="choice">
+    <element name="latex-image-preamble">
+      <optional>
+        <attribute name="syntax">
+          <value>PGtikz</value>
+        </attribute>
+      </optional>
+      <text/>
+    </element>
+  </define>
+  <define name="Configuration" combine="choice">
+    <element name="asymptote-preamble">
+      <text/>
+    </element>
+  </define>
+  <define name="Configuration" combine="choice">
     <element name="macros">
       <text/>
     </element>
@@ -3400,11 +3992,6 @@
       <attribute name="text">
         <ref name="XrefTextStyle"/>
       </attribute>
-    </element>
-  </define>
-  <define name="Configuration" combine="choice">
-    <element name="latex-image-preamble">
-      <text/>
     </element>
   </define>
   <define name="Configuration" combine="choice">
@@ -3422,7 +4009,9 @@
   <define name="Configuration" combine="choice">
     <element name="rename">
       <attribute name="element"/>
-      <attribute name="lang"/>
+      <optional>
+        <attribute name="xml:lang"/>
+      </optional>
       <text/>
     </element>
   </define>
@@ -3447,36 +4036,6 @@
         </choice>
       </attribute>
     </element>
-  </define>
-  <define name="Configuration" combine="choice">
-    <choice>
-      <element name="search">
-        <element name="google">
-          <element name="cx">
-            <text/>
-          </element>
-        </element>
-      </element>
-      <element name="analytics">
-        <oneOrMore>
-          <choice>
-            <element name="google">
-              <element name="tracking">
-                <text/>
-              </element>
-            </element>
-            <element name="statcounter">
-              <element name="project">
-                <text/>
-              </element>
-              <element name="security">
-                <text/>
-              </element>
-            </element>
-          </choice>
-        </oneOrMore>
-      </element>
-    </choice>
   </define>
   <define name="Configuration" combine="choice">
     <element name="numbering">

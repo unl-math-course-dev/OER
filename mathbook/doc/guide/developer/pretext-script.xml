@@ -1,0 +1,262 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--   This file is part of the documentation of PreTeXt      -->
+<!--                                                          -->
+<!--      PreTeXt Author's Guide                              -->
+<!--                                                          -->
+<!-- Copyright (C) 2013-2016  Robert A. Beezer                -->
+<!-- See the file COPYING for copying conditions.             -->
+
+<chapter xml:id="pretext-script">
+    <title>The <c>pretext</c> Script</title>
+    <idx><c>pretext</c> script</idx>
+
+    <introduction>
+        <p>Note that this <em>entire chapter</em> documents a lower-level tool for producing output from <pretext/> source.  Most authors and publishers should be using the <pretext/>-CLI, see <xref ref="processing"/>.</p>
+
+        <p><init>XSL</init> is a very powerful language for text processing.  However, it cannot do everything.  The <c>pretext/pretext</c> script is a Swiss Army Knife of sorts to operate on parts of your document and manage processing that requires the application of external programs, such as <latex/> and Sage.  It can also produce entire documents in different output formats.  Its principal routines are shared with the <pretext/>-CLI.</p>
+    </introduction>
+
+    <section xml:id="pretext-executing">
+        <title>Running <c>pretext/pretext</c></title>
+
+        <p><c>pretext</c> is a Python program (aka script), so you will need to have the Python 3 interpreter on your system (version 3.6 or better expected as of 2021-05-21) which you can run at a command-line (aka terminal, console, command prompt).  So your first step is to install Python (see <xref ref="python"/>) or check your installed version and the exact name of your executable (see <xref ref="python-executable"/>).</p>
+
+        <p>The <c>pretext</c> script is located in a directory of the <pretext/> distribution also named <c>pretext</c>.  So we often refer to it as the <c>pretext/pretext</c> script to avoid confusion with all the other places we say <pretext/>.  As a simple check on your ability to run the script, with a suitable path you can run<cd>
+            <cline>/path/to/pretext/pretext -h</cline>
+        </cd> to get a summary of the commands.   Since the command lives in the <c>pretext</c> directory, you may prefer to change to that directory for your first attempt.  On a Unix-like system (Linux, Mac) you may need to go <c>./pretext</c> since the program is not on your PATH.  Thus, depending on your executable name (<xref ref="python-executable"/>),
+        whether the script is in your path, and whether you have made the file executable, you might need to run 
+        <cd>
+            <cline>python /path/to/pretext/pretext -h</cline>
+        </cd>
+        or
+        <cd>
+            <cline>python3 /path/to/pretext/pretext -h</cline>
+        </cd></p>
+        
+        <p>
+        Some of the processing may take a long time, or you may experience trouble.  There are two switches to enable more verbose output in your terminal or console.<cd>
+            <cline>pretext -v [command arguments]</cline>
+        </cd>will provide progress indicators, which may be comforting for long runs, while<cd>
+            <cline>pretext -vv [command arguments]</cline>
+        </cd>will provide progress indicators along with additional technical information that will help you or a fellow author to discern where a problem lies.  If you ask for help, please <em>include all of this output, from start to finish</em>, including the command you use and the current directory, and <em>do not assume you know exactly which part is the relevant part</em>.</p>
+    </section>
+
+    <section>
+        <title>Overview</title>
+
+        <p>Generally, you use the <c>pretext/pretext</c> script by supplying a <term>component</term> (<c>-c</c>) and a <term>format</term> (<c>-f</c>), along with your <pretext/> source as the very last argument.  The component may be some limited subset of your document that needs specialized treatment, such as an image described by the Asymptote language (<c>-c asy</c>).  Or it could be the entire document (<c>-c all</c>) being converted to some format as a final output form.  So <c>-c asy -f svg</c> would produce Asymptote images in <init>SVG</init> files, while <c>-c all -f latex</c> would produce the entire document as a <latex/> file.</p>
+    </section>
+
+
+    <section xml:id="pretext-example-use">
+        <title>Example Use</title>
+
+        <p>Here is a typical example of using <c>pretext/pretext</c>.  You have several (or many!) diagrams and figures in your <pretext/> source, all authored in the TikZ language, and so packaged up within <tag>latex-image</tag> elements.  Your <latex/>/<init>PDF</init> output looks beautiful, since <pretext/> simply inserts the TikZ code into the right place in the generated <c>*.tex</c> file, and you have done this several times until your figures look just right.</p>
+
+        <p>Now you need to generate the <init>SVG</init> versions of your images that will accompany your <init>HTML</init> version of your book and provide nice scalable graphics. This is exactly the sort of chore the <c>pretext/pretext</c> script was designed for.  You might run (all on one line)<cd>
+            <cline>pretext -vv -c latex-image -f svg</cline>
+            <cline>  -d ~/books/aota/images ~/books/aota/animals.xml</cline>
+        </cd>Here <c>-c</c> is specifying the <q>component</q> of your book to process, and <c>-f</c> is specifying the <q>format</q> of what is being produced.  The <c>-d</c> argument specifies a directory where the output ends up, in this case a collection of <init>SVG</init> files, one per image.
+Note that the <pretext/> file, <c>animals.xml</c> in the above example, is the main source file for the document.
+The script should be run on the entire document, even if all the images are in one file.</p>
+    </section>
+
+    <section xml:id="pretext-strategy">
+        <title>Strategy</title>
+
+        <p>Much like the build advice at the end of <xref ref="processing-file-management"/>, the <c>pretext/pretext</c><idx><c>pretext</c></idx> script collects necessary bits into a system-created temporary directory, does its work, and copies out the desired results.  So in the example of the previous section, each chunk of TikZ code is isolated, your <latex/> macros are copied from <tag>docinfo</tag>, and a syntactically correct <latex/> file is produced (one per image).  Then <c>pretext</c> calls your system's <latex/> executable on each of these files to produce a one-page <init>PDF</init>.  This is then cropped and converted to  an <init>SVG</init> version, which at the end is copied to the location specified in the <c>-d</c> argument.</p>
+
+        <p>Some insight into failures can be found in the temporary directory where all this processing happened.  (We leave the directory, and its contents, behind for the system to clean-up next time the system is rebooted).  Early in the <c>-vv</c> doubly-verbose output, this directory is reported after the string <c>temporary directory:</c>.</p>
+
+        <p>Some notes:<ul>
+            <li>If you have modularized your source across more than one <init>XML</init> file, then be sure to provide your top-level file as the final argument to the script, just like you would for an invocation of <c>xsltproc</c>.  It is important to understand that your source is one huge <q>source tree</q> and your file-by-file modularization is never respected or recognized in any way.  In particular, use of the <c>xinclude</c> mechanism is handled by the script, and you should not apply the script to each of your source files individually.  If image production (or some other task) takes a long time, see <xref ref="restrict-pretext-scope"/> for a way to have the script restrict its action to only a portion of your project.</li>
+
+            <li>Do not place the script, or configuration files, anywhere else (except as recommended for your personal copy of the configuration file).  The locations are <em>critically important</em> for locating other files, such as the stylesheets used to isolate parts of your project for processing.</li>
+
+            <li>Much of the work of this script happens in the temporary directory described above.  We leave a lot of intermediate work behind in this directory.  Often, exploring this directory is helpful when debugging problems, or a failure to finish successfully.  For an example, see <xref ref="debugging-pretext-image-generation"/>.</li>
+        </ul></p>
+    </section>
+
+    <section xml:id="debugging-pretext-image-generation">
+        <title>Debugging Image Generation</title>
+
+        <p>A principal use of the <c>pretext/pretext</c> script is to isolate source code from <tag>latex-image</tag> sections, package them up as proper <c>*.tex</c> files, run <latex/> to make cropped <init>PDF</init> versions, and then convert these to other formats such as <init>SVG</init> or <init>PNG</init>.</p>
+
+        <p>Much of this activity happens in a temporary directory, and it is similar for Asymptote images and other options of the script.  If you use the <c>-vv</c> switch described above, then these temporary directories will be noted in the debugging output requested, and a complete list will be the last line of output.   In this case, and if the script encounters an error prior to successful execution, then these directories will be left in place.  Looking to see what files end up there, and what those files contain, is often useful in determining the step where the script fails, and maybe even why.</p>
+
+        <p>With no chatter requested, or just progress indications (<c>-v</c>) these temporary directories will be cleaned out as the last part of successful execution.</p>
+
+        <p>Another option is to ask for the actual source files (<c>*.tex</c>, <c>*.asy</c>, etc.) as the output of a run.  This is accomplished with the <c>-f source</c> option when invoking <c>pretext/pretext</c>.  If the right packages or macros are not being employed in these files, this is an easy way to get at the source files for inspection and analysis, and is a good first check on problematic execution.</p>
+
+        <p>It is possible to design an image whose dimensions exceed the page size of typical <latex/> output.  An example is an image you might use only for some HTML output, such as a slideshow.  In this case, construction and conversion to an output format like <init>SVG</init> may fail.  There is a string parameter, <c>latex.geometry</c>, that allows you to provide options to the <latex/> <url href="https://ctan.org/pkg/geometry" visual="ctan.org/pkg/geometry"><c>geometry</c> package</url> which influence page size.  At a minimum, you need to override the page size, plus it might be best to override the <q>printable</q> area as well.  (See <xref ref="pretext-publisher-stringparam"/> for more on string parameters, which will be obsolete in the future.)  Here is a sample <em>addition</em> to a call to the <c>pretext</c> script.  Note that you cannot put the <c>-x</c> switch last, so it must precede some other option.<cd>
+            <cline>-x latex.geometry "paperwidth=21in,paperheight=21in,total={20in,20in}"</cline>
+        </cd>Since the image will ultimately be cropped, there is little harm in making the overall page grossly oversized.  However, if the <latex/> code you are using employs lengths like <c>\linewidth</c> or <c>\textwidth</c> (which we will claim is not a good practice), then your image might be very sensitive to how you set the page geometry.  Note that restricting the scope (<xref ref="restrict-pretext-scope"/>) might be useful if this accomodation is only needed for one image.</p>
+    </section>
+
+    <section xml:id="pretext-helpers">
+        <title>Configuring External Helper Programs</title>
+
+        <p>Our main processor, <c>xsltproc</c><idx><c>xsltproc</c></idx>, is not a general-purpose compiler, and does not <q>call</q> external programs.  That is the <foreign xml:lang="fr-FR">raison d'être</foreign> of the <c>pretext/pretext</c> script.  You will see a configuration file, <c>pretext/pretext.cfg</c>, as part of the distribution.  Read the comments at the top of this file, but foremost, realize that you are not meant to edit this file.  It is a template, and any changes you make will be overwritten with an original version when you update.  Instead, make a copy and place it as <c>user/pretext.cfg</c> within the distribution.  For instance, if your distribution is in the <c>mathbook</c> directory, then the commands<cd>
+            <cline>cd /path/to/mathbook</cline>
+            <cline>mkdir user</cline>
+            <cline>cp pretext/pretext.cfg user/</cline>
+        </cd>would be appropriate.  The script will look for the <c>user</c> copy first, and if not found, then fallback to the generic version.</p>
+
+        <p>The entries of this file are the names of executable files that perform certain tasks as part of the script's functions.  If it seems that certain helper programs are not being found, you can provide full path names, and that may solve the problem.</p>
+    </section>
+
+    <section xml:id="pretext-python-prerequisites">
+        <title>Python Prerequisites for the <c>pretext/pretext</c> script</title>
+
+        <p>There are several external programs that the script relies on that are again Python packages.  See <xref ref="pip-install"/> for instructions and a list.</p>
+    </section>
+
+    <section xml:id="pretext-publisher-stringparam">
+        <title>Publication Files, String Parameters</title>
+
+        <p>A publication file (<xref ref="publication-file"/>) can be used to control various options that are independent of the authoring process, or for some conversions may be necessary.  And the managed directories scheme requires use of a publication file (see <xref ref="processing-directory-management"/>).  Use the <c>-p</c> switch to specify this file, using a path that is relative to your <pretext/> source (or an absolute path if it seems to be ignored).</p>
+
+        <p>Sometimes you might have need to pass stringparams to the <pretext/> script, though this will eventually be something an author will rarely do, and is more likely necessary for developers.  This is accomplished with the <c>-x</c> flag, followed by a space separated list of (stringparam, value) pairs.  Do not use parentheses, just separate with spaces.  But note that <c>-x</c> cannot be the last option passed to the script since it makes it hard for the script to <q>see</q> the filename for your source.</p>
+
+        <p>For example:<cd>
+            <cline>pretext -vv -x debug.datedfiles no debug.chunk 0</cline>
+            <cline>   -f html -c all -p ~/books/aota/pub.xml</cline>
+            <cline>   -d /tmp/aota-html ~/books/aota/animals.xml</cline>
+        </cd></p>
+    </section>
+
+    <section xml:id="extra-stylesheet">
+        <title>Extra Stylesheet</title>
+
+        <p>There are situations when an <q>extra</q> <init>XSL</init> stylesheet is necessary for processing your <init>XML</init> source.  A good example is the supported method for styling <init>PDF</init> output, described at <xref ref="latex-styles"/>.  Historically, various customizations have been supported by <q>thin</q> XSL stylesheets (<xref ref="processing-thin-xsl"/>), but as certain themes have become apparent we have moved these customizations to simpler techniques (e.g. publication files, <xref ref="publication-file"/>).  Other than styling <init>PDF</init>, you should think carefully about if an additional stylesheet is necessary.</p>
+
+        <p>The <c>-X</c><idx><c>-X</c></idx> (<c>--XSL</c><idx><c>--XSL</c></idx>) switch is used to specify an <q>extra</q> <init>XSL</init> stylesheet that will be applied to your source.  Note that it is now possible to do <em>anything</em> you want to your source and so can create run-time failures at any point in the process.  Here are the simple mistakes to avoid.<ul>
+            <li>If you are expecting <init>HTML</init> output because you used <c>-f html</c>, then your stylesheet supplied in the <c>-X</c> argument will certainly import the base <c>xsl/pretext-html.xsl</c> stylesheet.  When you understand this, then you will understand that perhaps we should call this an <q>alternate</q> stylesheet.  This advice applies equally well to extending the base <c>xsl/pretext-latex.xsl</c> stylesheet.</li>
+
+            <li>The import just described will behave better for others (meaning co-authors, or authors who fork your project) if the import uses a relative path, meaning relative to location of the extra stylesheet.  We therefore suggest using a <c>user</c> directory, placed as a peer of the <c>xsl</c> directory, as described in <xref ref="processing-thin-xsl"/>.</li>
+
+            <li>So a common mistake is to use <c>-X</c> to point to an extra stylesheet someplace close-by your project's source files, when you have sensibly setup a relative import of the base stylesheet, and instead should point to the <em>copy</em> you have placed in <c>user</c> so that the import is effective on everybody's system.</li>
+        </ul></p>
+
+        <p>As of 2021-08-04, this technique is only effective for <init>HTML</init>, <init>PDF</init>, and <latex/> outputs.  It may be natural for some other output formats (e.g., <init>EPUB</init>), and perhaps possible for others (e.g., braille).  Make a feature request for expanding applicability.</p>
+    </section>
+
+    <section xml:id="restrict-pretext-scope">
+        <title>Restricting the Scope</title>
+
+        <p>The <c>-r</c><idx><c>-r</c></idx> (<c>--restrict</c><idx><c>--restrict</c></idx>) switch deserves special mention.  It is followed by the value of an <attr>xml:id</attr> attribute present in your source XML file.  Then whatever action the script is asked to perform, it will only act on a subtree of the hierarchy, rooted at the element with the given <attr>xml:id</attr> value.</p>
+
+        <p>So if your images are complex or numerous (or both!) and take a long time to process, you can restrict attention to whatever part of the document you are actively editing, and you can even restrict to a single <tag>image</tag> and so produce just a single graphics file.</p>
+    </section>
+
+    <section xml:id="pretext-method">
+        <title>Methods</title>
+
+        <p>The <c>-M</c><idx><c>-M</c></idx> (<c>--method</c><idx><c>--method</c></idx>) switch is used in some cases to specify the <em>method</em> by which some process is achieved.  Supported situations and values are listed below.  Defaults are listed first, in brackets.</p>
+
+        <table>
+            <title>PreTeXt Script Methods</title>
+
+            <tabular>
+                <row heade="yes" bottom="major">
+                    <cell>Situation</cell>
+                    <cell>Values</cell>
+                </row>
+                <row>
+                    <cell><c>-c asy</c></cell>
+                    <cell>[<c>server</c>], <c>local</c></cell>
+                </row>
+                <row>
+                    <cell><c>-c latex-image</c></cell>
+                    <cell>[<c>xelatex</c>], <c>pdflatex</c></cell>
+                </row>
+                <row>
+                    <cell><c>-c all -f pdf</c></cell>
+                    <cell>[<c>xelatex</c>], <c>pdflatex</c></cell>
+                </row>
+            </tabular>
+        </table>
+    </section>
+
+    <section xml:id="pretext-output">
+        <title>Output</title>
+
+        <p>If you use the script to make a single file, such as your complete project as a <init>PDF</init> or an <init>EPUB</init>, then you can use the <c>-o</c> switch to specify this file, otherwise the file will land in the current working directory.</p>
+
+        <p>If your output consists of many files, such as all the <init>HTML</init> for your complete project, then you can specify a directory with the <c>-d</c> switch.  Again, the default is the current working directory.</p>
+
+        <p>If you specify one of the components in <xref ref="subdirectories-of-generated"/> <em>and</em> you are using a publication file to specify directories that are managed (<xref ref="processing-directory-management"/>) then the multiple files for that component will automatically be placed into necessary directories by default (rather than in the current working directory).  Of course, you can override this behavior by specifying a directory with <c>-d</c>.   For example, for many operating systems, by using <c>-d .</c> you can have the results land in the current working directory. (Note there is a necessary period there.)</p>
+
+        <p>In the early stages of a project, you might rebuild your images regularly.  But you may not always want those results landing within directories under revision control.  Later in a project, your images may be relatively stable, and you want to distribute them with your source, perhaps so others can re-purpose them in handouts or other materials.  To accomodate this, make two publication files, and in one make a relative path for the generated components that is outside of the main directory that is under revision control.  Likely you will need some file path syntax for a parent directory, such as <c>../</c> on Unix-like systems.  Then you can switch from testing to distribution, and back, easily.</p>
+    </section>
+
+    <section xml:id="pretext-capabilities">
+        <title><c>pretext/pretext</c> Capabilities</title>
+
+        <list xml:id="list-pretext-capabilities">
+            <title><c>pretext/pretext</c> Capabilities</title>
+
+            <introduction>
+                <p>Again, the command <c>pretext -h</c> will remind you of the various options for the script and is the most likely list to be correct and up-to-date.  The following is a brief summary, in general terms, of what is possible.</p>
+            </introduction>
+
+            <dl width="narrow">
+                <li>
+                    <title>Complete Conversions</title>
+                    <p>With <c>-c all</c> and various choices of the format (<c>-f</c>) the script will execute a complete conversion.  In some cases, this is a convenience compared with just using the <c>xsltproc</c> processor.  In other cases the conversion is very complex and multiple (arcane) output files must be packaged up in very specific ways and no author would want to manage it all.  Conversion to <c>EPUB</c> is one example (<xref provisional="epub conversion"/>).</p>
+                </li>
+
+                <li>
+                    <title><latex/> Graphics</title>
+                    <p><latex/> has a variety of languages for specifying images, such as xypic, pgfplots, and TikZ.  By including the necessary packages or setup commands in <c>docinfo/latex-preamble</c>, these can all be generated at once, in the manner of the example earlier.</p>
+                </li>
+
+                <li>
+                    <title>Asymptote</title>
+                    <p>Images described by the Asymptote language can be processed in a manner entirely similar to that for images described with <latex/> graphics languages.  By default an online server will be used for the image generation, or you may elect to use an <c>asy</c> executable on your system and locatable via the <c>pretext.cfg</c> configuration file.</p>
+                </li>
+
+                <li>
+                    <title>Sage Plot</title>
+                    <p>If you have a version of Sage installed on your system, you can specify the path to the executable and obtain images described by Sage code.  See <xref ref="topic-sageplot"/> for more information.</p>
+                </li>
+
+                <li>
+                    <title>All Formats</title>
+                    <p>If you desire images in a wide variety of formats, the option <c>-f all</c> will oblige.</p>
+                </li>
+
+                <li>
+                    <title>YouTube Thumbnails</title>
+                    <p>For each YouTube video (or itemized playlist) you specify, the script will go the YouTube site and grab a thumbnail image for that video (or first video from the itemized playlist). These get used in static formats, such as <init>PDF</init>.</p>
+                </li>
+
+                <li>
+                    <title>Preview Images</title>
+                    <p>Like a thumbnail for a YouTube video, other interactive content can benefit from a still image for use with static formats.  Our strategy is to render the content with a <q>headless</q> web browser and capture an image automatically.  For example, you might write some custom Javascript to allow a reader to interact with a graph, and you would like an image of the graph, along with its interactive sliders and checkboxes, to appear in the <init>PDF</init> version of your text.  Recognize that this image will necessarily be the content at its initial start-up.  Get a screenshot manually if you want something better.</p>
+
+                    <p>Note that for all this to work, you need to properly serve your project's <init>HTML</init> output with the interactive content.  (A local server may be a possibility, but we have not tried.  See <xref ref="processing-testing-html"/>.  Or you can try a temporary public server, see <xref ref="processing-testing-html-globally"/>).  Then you need to announce the location of this hosted <init>HTML</init>, which is accomplished via a <q>base URL</q> in a publication file.  Start at <xref ref="online-base-url"/> for details on this publisher variable.  Note that the chunk level in your publication file used in this process <em>must</em> match the chunk level used when you build your <init>HTML</init> output, and mismatches for other publisher variables could have some ill effects.</p>
+
+                    <p><c>pageres</c> is the <c>node</c> program enabling this process.  So follow <xref ref="node-and-npm"/> and install the <c>pageres-cli</c> package (not simply <c>pageres</c>).  In <em>your copy</em> of <c>pretext/pretext.cfg</c> you will see an entry for <c>pageres</c>.  Provide a complete path to within your installation of the <c>pageres-cli</c> package (see <xref ref="pretext-helpers"/>).  For example, my setup uses<cd>
+                        <cline>pageres = /home/rob/node_modules/.bin/pageres</cline>
+                    </cd>Now call <c>pretext/pretext</c> with <c>-c preview</c>.  There is no need to set a format<mdash/>you get what you get (<init>PNG</init> images).</p>
+
+                    <p>There is a default 5-second delay for each new snapshot to let the page render and the image to settle down.  To change this set an argument for the <c>pageres</c> executable in <c>pretext/pretext.cfg</c>, such as<cd>
+                        <cline>pageres = /home/rob/node_modules/.bin/pageres -d20</cline>
+                    </cd></p>
+                </li>
+
+                <li xml:id="mathematics-representations">
+                    <title>Mathematics Representations</title>
+                    <p>Conversions to <init>EPUB</init>, braille, and other formats require creating conversions of mathematics elements locally as part of the conversion.  This requires having MathJax installed locally,  see <xref ref="offline-mathjax"/>.  Structured files of these representations can be obtained by setting the component with <c>-c math</c>.  Possible formats (<c>-f</c>) are <c>svg</c>, <c>mml</c> (MathML), <c>braille</c> and <c>speech</c>.</p>
+                </li>
+
+                <li>
+                    <title><webwork/></title>
+                    <p>Various conversions of <webwork/> problems are facilitated through communication with a <webwork/> server.  This server is specified as an argument to the <c>-s</c> option.  See <xref ref="webwork-author"/> for the details of this procedure.</p>
+                </li>
+            </dl>
+        </list>
+    </section>
+</chapter>
