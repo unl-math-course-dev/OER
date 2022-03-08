@@ -113,7 +113,6 @@ along with MathBook XML.  If not, see <http://www.gnu.org/licenses/>.
 <xsl:param name="html.knowl.exercise.inline" select="'no'" />
 <xsl:param name="html.knowl.exercise.sectional" select="'yes'" />
 <xsl:param name="html.knowl.exercise.solution" select="'no'" />
-<xsl:param name="html.knowl.example.solution" select="'no'" />
 <!-- html.knowl.example.solution: always "yes", could be implemented -->
 
 <!-- CSS and Javascript Servers -->
@@ -8363,11 +8362,20 @@ function() { </xsl:text><xsl:value-of select="$applet-name" /><xsl:text>.inject(
 <!-- so we load the relevant JavaScript onto every page if -->
 <!-- a cell occurs *anywhere* in the entire document       -->
 <xsl:template name="jquery-sagecell">
-    <script type="text/javascript" src="https://sagecell.sagemath.org/static/jquery.min.js"></script>
+    <script type="text/javascript" src="https://sagecell.sagemath.org/static/jquery-1.5.min.js"></script>
     <xsl:if test="$document-root//sage">
         <script type="text/javascript" src="https://sagecell.sagemath.org/embedded_sagecell.js"></script>
     </xsl:if>
 </xsl:template>
+
+
+<!-- ><xsl:template name="jquery-sagecell">
+    <script type="text/javascript" src="https://sagecell.sagemath.org/static/jquery.min.js"></script>
+    <xsl:if test="$document-root//sage">
+        <script type="text/javascript" src="https://sagecell.sagemath.org/embedded_sagecell.js"></script>
+    </xsl:if>
+</xsl:template> -->
+
 
 <!-- Sage Cell Setup -->
 <!-- TODO: internationalize button labels, strings below -->
