@@ -26,27 +26,23 @@ along with MathBook XML.  If not, see <http://www.gnu.org/licenses/>.
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0"
     xmlns:xml="http://www.w3.org/XML/1998/namespace"
     xmlns:exsl="http://exslt.org/common"
-    xmlns:str="http://exslt.org/strings"
     extension-element-prefixes="exsl"
 >
 
 <!-- Get internal ID's for filenames, etc -->
-<!-- Standard conversion groundwork       -->
-<xsl:import href="./publisher-variables.xsl"/>
-<xsl:import href="./pretext-assembly.xsl"/>
-<xsl:import href="./pretext-common.xsl"/>
+<xsl:import href="./mathbook-common.xsl" />
 
-<!-- Get a "subtree" xml:id value   -->
+<!-- Get "scratch" directory        -->
+<!-- and a "subtree" xml:id value   -->
 <!-- Then walk the XML source tree  -->
 <!-- applying specializations below -->
 <xsl:import href="./extract-identity.xsl" />
 
 <!-- Output Python as text -->
-<xsl:output method="text" encoding="UTF-8"/>
+<xsl:output method="text" />
 
 <!-- Enclosing structure is a Python list -->
-<!-- So wrap at outermost level and       -->
-<!-- return control to extract-identity   -->
+<!-- So wrap at outermost level           -->
 <xsl:template match="/">
     <xsl:text>[</xsl:text>
     <xsl:apply-imports />
@@ -54,14 +50,11 @@ along with MathBook XML.  If not, see <http://www.gnu.org/licenses/>.
 </xsl:template>
 
 <!-- YouTube ID, and internal id as a Python pair -->
-<xsl:template match="video[@youtube]" mode="extraction">
-    <!-- replace commas with spaces, then normalize space,                       -->
-    <!-- then tack on a space at the end, then grab content prior to first space -->
-    <xsl:variable name="first-video-id" select="substring-before(concat(normalize-space(str:replace(@youtube, ',', ' ')), ' '), ' ')" />
+<xsl:template match="video[@youtube]">
     <xsl:text>('</xsl:text>
-    <xsl:value-of select="$first-video-id" />
+    <xsl:value-of select="@youtube" />
     <xsl:text>', '</xsl:text>
-    <xsl:apply-templates select="." mode="visible-id" />
+    <xsl:apply-templates select="." mode="internal-id" />
     <xsl:text>'), </xsl:text>
 </xsl:template>
 
