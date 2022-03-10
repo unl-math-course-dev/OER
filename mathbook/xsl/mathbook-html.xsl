@@ -160,7 +160,7 @@ along with MathBook XML.  If not, see <http://www.gnu.org/licenses/>.
 
 
 <xsl:param name="webwork.server" select="'https://math-webwork.unl.edu/'"/>
-<xsl:param name="webwork.version" select="'2.12'"/>
+<xsl:param name="webwork.version" select="'2.16'"/>
 <xsl:param name="webwork.course" select="'OERProblemCourse'" />
 <xsl:param name="webwork.userID" select="'anonymous'" />
 <xsl:param name="webwork.password" select="'anonymous'" />
