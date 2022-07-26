@@ -152,9 +152,9 @@ along with MathBook XML.  If not, see <http://www.gnu.org/licenses/>.
 <!-- WeBWorK -->
 <!-- There is no default server provided         -->
 <!-- Interactions are with an "anonymous" course -->
-<xsl:param name="webwork.server" select="'https://math-webwork2.unl.edu/'"/>
-<xsl:param name="webwork.version" select="'2.12'"/>
-<xsl:param name="webwork.course" select="'OERSystem'" />
+<xsl:param name="webwork.server" select="'https://math-webwork3.unl.edu'"/>
+<xsl:param name="webwork.version" select="'2.17'"/>
+<xsl:param name="webwork.course" select="'OERProblemCourse'" />
 <xsl:param name="webwork.userID" select="'anonymous'" />
 <xsl:param name="webwork.password" select="'anonymous'" />
 
