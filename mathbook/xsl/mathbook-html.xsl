@@ -3952,9 +3952,10 @@ along with MathBook XML.  If not, see <http://www.gnu.org/licenses/>.
             </xsl:choose>
             <xsl:value-of select="$webwork.password"/>
             <xsl:text>&amp;outputformat=</xsl:text>
+						<!-- (JB, 8/8/2022) Changed this format to "unl" instead of "simple" to prevent solution buttons from rendering in embedded WeBWorK exercises -->
             <xsl:choose>
                 <xsl:when test="@format"><xsl:value-of select="@format" /></xsl:when>
-                <xsl:otherwise><xsl:text>simple</xsl:text></xsl:otherwise>
+                <xsl:otherwise><xsl:text>unl</xsl:text></xsl:otherwise>
             </xsl:choose>
         </xsl:attribute>
         <!-- unclear what this does, mimicing Mike's blog post -->
