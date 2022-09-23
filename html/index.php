@@ -107,7 +107,7 @@ a {
   <span><h3>Departmental Tools</h3></span>
   <div class="dropdown-content">
   <p><a href="http://mathbooks.unl.edu/FYM">First Year Mathematics Program Wiki</a></p>
-  <p><a href="https://math-webwork2.unl.edu/webwork2/">WeBWorK</a></p>
+  <p><a href="https://math-webwork3.unl.edu/webwork2/">WeBWorK</a></p>
   </div>
   </th>
   
