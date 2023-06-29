@@ -21,7 +21,7 @@
 
 <!--  TO-DO Commenting out a lot of stuff here, come back and fix later  -->
 <!--  List Chapters and Sections in Table of Contents  -->
-<!-- <xsl:param name="toc.level" select="'3'"/> -->
+<xsl:param name="toc.level" select="'3'"/>
 <!--simple numbering -->
 <!-- <xsl:param name="numbering.projects.level" select="'1'" />
 <xsl:param name="numbering.theorems.level" select="'1'" />
@@ -29,16 +29,17 @@
 <xsl:param name="numbering.equations.level" select="'1'" />
 <xsl:param name="numbering.footnotes.level" select="'1'" />
 <xsl:template match="exercises//exercise" mode="xref-number">
-    <xsl:apply-templates select="." mode="serial-number" />
+    <xsl:apply-templates select="." mode="serial-number" /> 
 </xsl:template> -->
 <!-- Knowls -->
-<!-- <xsl:param name="html.knowl.example" select="'no'" />
+<xsl:param name="html.knowl.example" select="'no'" />
 <xsl:param name="html.knowl.exercise.inline" select="'yes'" />
 <xsl:param name="html.knowl.example.solution" select="'yes'" />
 <xsl:param name="html.knowl.warning" select="'no'" />
-<xsl:param name="html.knowl.technology" select="'no'" /> -->
+<xsl:param name="html.knowl.technology" select="'no'" />
+<xsl:param name="html.knowl.investigation" select="'yes'" />
 <!-- color theme -->
-<!-- <xsl:param name="html.css.file"   select="'mathbook-3.css'" /> -->
+<xsl:param name="html.css.file"   select="'mathbook-3.css'" />
 
 <!--
  Exercises have "solution"s which should be put in the back.
