@@ -14,7 +14,7 @@
 
             <li><p>To understand that a second-order linear differential equation with constant coefficients is an equation of the form
                 <me>a x'' + bx' + cx = 0.</me>
-            and can be solved by examining the roots of the characteristic polynomial <m>ar^2 + br + c = 0</m>.</p></li>
+            and can be solved by examining the roots of the characteristic polynomial <m>a \lambda^{2} + b\lambda + c = 0</m>.</p></li>
 
             <li><p>To understand that  simple harmonic oscillator can be modeled by the equation
                 <me>m \frac{d^2 x}{dt^2} + b \frac{dx}{dt} + k x = 0,</me>
@@ -77,11 +77,6 @@
 
     </subsection>
 
-    <subsection>
-        <p>
-        </p> 
-    </subsection>
-
     <subsection xml:id="secondorder01-subsection-second-order-linear-de">
         <title>Solving Second-Order Linear Equations</title>
 
@@ -89,11 +84,11 @@
             <men xml:id="secondorder01-equation-constant-coef">a x'' + b x' + cx = 0.</men>
         The goal of this section is to be able to solve all such equations. To build some intuition, we start by considering the homogeneous <em>first-order</em> linear differential equation 
             <men xml:id="secondorder01-fo-equation-constant-coef">ax' + bx = 0.</men>
-        Our work in <xref ref="firstlook"/> suggests that this equation has a solution of the form <m>x = e^{\lambda t}</m> for some constant <m>\lambda</m>. We can identify <m>\lambda</m> by substuting our guess for the solution into <xref ref="secondorder01-fo-equation-constant-coef"/> and solving algebraically. Since <m>\frac{d}{dt}e^{\lambda t} = \lambda e^{\lambda t}</m>, this substitution yields the equation
+        Our work in <xref ref="firstlook"/> suggests that this equation has a solution of the form <m>x(t) = e^{\lambda t}</m> for some constant <m>\lambda</m>. We can identify <m>\lambda</m> by substuting our guess for the solution into <xref ref="secondorder01-fo-equation-constant-coef"/> and solving algebraically. Since <m>\frac{d}{dt}e^{\lambda t} = \lambda e^{\lambda t}</m>, this substitution yields the equation
             <me>a\lambda e^{\lambda t} + be^{\lambda t} = 0.</me>
-        Since the term <m>e^{\lambda t}</m> is always non-zero, we can safely divide both sides of the equation above by <m>e^{\lambda t}</m> to reach
+        The term <m>e^{\lambda t}</m> is always non-zero, and therefore we can safely divide both sides of the equation above by <m>e^{\lambda t}</m> to reach
             <me>a\lambda + b = 0,</me>
-        which has solution <m>\lambda = -\frac{b}{a}</m>. Thus <xref ref="secondorder01-fo-equation-constant-coef"/> has <m>x = e^{-\frac{b}{a}t}</m> as a solution.
+        which has solution <m>\lambda = -\frac{b}{a}</m>. Thus <xref ref="secondorder01-fo-equation-constant-coef"/> has <m>x(t) = e^{-\frac{b}{a}t}</m> as a solution.
         </p>
 
         <p>A similar strategy works for homogeneous second-order linear differential equations. We <q>guess</q> that <xref ref="secondorder01-equation-constant-coef"/> has a solution of the form <m>x=e^{\lambda t}</m> and substitute our guess into the left-hand side of the equation. In detail, 
@@ -106,7 +101,7 @@
         Dividing out the non-zero term <m>e^{\lambda t}</m> as before, we see that <m>\lambda</m> must satisfy
             <men xml:id="secondorder01-equation-characteristic-eq">a\lambda^{2} + b\lambda + c = 0.</men>
         We call <xref ref="secondorder01-equation-characteristic-eq"/> the <term>characteristic equation</term> for <m>ax'' + bx' + cx = 0</m>. Its roots are
-            <me>\lambda = - \frac{-b \pm \sqrt{b^2 - 4ac}}{2a}.</me>
+            <me>\lambda = \frac{-b \pm \sqrt{b^2 - 4ac}}{2a}.</me>
         If <m>b^2 - 4ac \gt 0</m>, we get distinct real roots
             <me>\lambda_1 = \frac{-b + \sqrt{b^2 - 4ac}}{2a} \quad \text{and} \quad \lambda_2 = \frac{-b - \sqrt{b^2 - 4ac}}{2a},</me>
         which correspond to a pair of solutions
@@ -117,7 +112,7 @@
         <example xml:id="secondorder01-example-real-solutions">
             <p>The equation
                 <men xml:id="secondorder01-equation-guess">x'' + 3 x' - 10 x = 0</men>
-                has characteristic equation <m>\lambda^{2} + 3\lambda - 10 = 0</m>. Rather than using the quadratic formula, we can simply factor the left-hand side as <m>(\lambda + 5)(\lambda-2)</m> to deduce that the roots are <m>\lambda =-5</m> and <m>\lambda=2</m>. The roots correspond to a pair of solutions to <xref ref="secondorder01-equation-guess" />:
+                has characteristic equation <m>\lambda^{2} + 3\lambda - 10 = 0</m>. Rather than using the quadratic formula, we can simply factor the left-hand side as <m>(\lambda + 5)(\lambda-2)</m> to deduce that the roots are <m>\lambda_{1} =-5</m> and <m>\lambda_{2} = 2</m>. The roots correspond to a pair of solutions to <xref ref="secondorder01-equation-guess" />:
                 <me>x_1(t) = e^{-5t} \mbox{ and } x_2(t) = e^{2t}.</me>
             </p>
         </example>
@@ -182,7 +177,7 @@
                 </md>
             and <m>v'' = 0</m>. Therefore, <m>v = c_1 t + c_2</m>. Letting <m>c_1 = 1</m> and <m>c_2 = 0</m>, we can assume that <m>v(t) = t</m>, and a second solution to our equation is given by 
                 <me>x(t) = t e^{-t}</me>. 
-            Note that we could just as well have chosen, say, <m>c_{1} = 0</m> and <m>c_{2}=1</m>, or <m>c_{1} = 1</m> and <m>c_{2}=1</m>. The former, however, results in <m>x(t)=e^{-t}</m>, which is the solution we already knew. The latter choice gives <m>x(t) = te^{-t} + e^{-t}</m>. While this solution is distinct from the one we started with, it still contains information from the original solution in the second term. The assignment <m>c_{1}=1</m>, <m>c_{2}=0</m> is the simplest choice of constants which gives another solution that is, in a sense, <em>independent</em> from the first. This is a concept we cover in more detail in [section].
+            Note that we could just as well have chosen, say, <m>c_{1} = 0</m> and <m>c_{2}=1</m>, or <m>c_{1} = 1</m> and <m>c_{2}=1</m>. The former, however, results in <m>x(t)=e^{-t}</m>, which is the solution we already knew. The latter choice gives <m>x(t) = te^{-t} + e^{-t}</m>. While this solution is distinct from the one we started with, it still contains information from the original solution in the second term. The assignment <m>c_{1}=1</m>, <m>c_{2}=0</m> is the simplest choice of constants which gives another solution that is, in a sense, <em>independent</em> from the first. This is a concept we cover in more detail in <xref ref="secondorder01-subsection-general_solutions" />.
         </p>
         </example>
 
@@ -191,6 +186,100 @@
         such that <m>b^2 - 4ac = 0</m>, we have a pair of solutions
             <me>x_{1}(t) = e^{\lambda t} \quad\text{and}\quad x_{2}(t)= t e^{\lambda t},</me>
         where <m>\lambda = -b/2a</m>.
+        </p>
+
+    </subsection>
+
+    <subsection xml:id="secondorder01-subsection-general_solutions">
+        <title>General Solutions to Second-Order Linear Equations</title>
+
+        <p>In section <xref ref="secondorder01-subsection-second-order-linear-de"/> we learned how to construct some solutions to the differential equation <xref ref="secondorder01-equation-constant-coef"/> given by
+            <me>ax'' + bx' + cx = 0</me>
+        using the roots of the characteristic equation <m>a\lambda^{2} + b \lambda + c = 0.</m> In this section, we will show that these solutions can in fact be used to describe <em>all</em> solutions to the differential equation.
+        </p>
+
+        <p>A key idea in this direction is <term>principle of superposition</term>, which states that scalar multiples and sums of solutions to <xref ref="secondorder01-equation-constant-coef"/> are again solutions to the same equation. This fact can be established using basic properties of the derivative. For instance, suppose that <m>x(t)</m> is a solution to <m>ax'' + bx' + cx = 0</m>, and let <m>A</m> be an arbitrary real constant. Recalling that for any differentiable function <m>f</m>, we have that <m>\frac{d}{dt}Af(t)=A\frac{d}{dt}f(t)</m>, we may compute
+            <md>
+                <mrow>a(Ax)'' + b(Ax)' + c(Ax) &amp; = aA(x'') + bA(x') + cA(x)</mrow>
+                <mrow> &amp; = A(ax'' + bx' + cx) </mrow>
+                <mrow> &amp; = A \cdot 0 </mrow>
+                <mrow> &amp; = 0 </mrow>
+            </md>
+        where in the second-to-last line we use the fact that <m>x(t)</m> is a solution to <xref ref="secondorder01-equation-constant-coef"/>, that is, <m>ax'' + bx' + cx = 0</m>. So, <m>Ax(t)</m> is also a solution.
+        </p>
+
+        <p>Similarly, since <m>\frac{d}{dt}(f(t) + g(t)) = \frac{d}{dt}f(t) + \frac{d}{dt}g(t)</m> for any differentiable <m>f</m> and <m>g</m>, if <m>x_{1}(t)</m> and <m>x_{2}(t)</m> are solutions to <xref ref="secondorder01-equation-constant-coef"/>, then
+            <md>
+                <mrow>a(x_{1} + x_{2})'' + b(x_{1} + x_{2})' + c(x_{1} + x_{2}) &amp; = ax_{1}'' + ax_{2}'' + bx_{1}' + bx_{2}' + cx_{1} + cx_{2} </mrow>
+                <mrow> &amp; = (ax_{1}'' + bx_{1}' + cx_{1}) + (ax_{2}'' + bx_{2}' + cx_{2}) </mrow>
+                <mrow> &amp; = 0 + 0 </mrow>
+                <mrow> &amp; = 0. </mrow>
+            </md>
+        So <m>x_{1}(t) + x_{2}(t)</m> is also a solution to <xref ref="secondorder01-equation-constant-coef"/>. In conjunction, the preceding computations yield the following theorem.
+        </p>
+
+        <theorem xml:id="secondorder01-theorem-superposition">
+            <title>Principle of Superposition</title>
+            <statement>
+                <p>If <m>x_{1}(t)</m> and <m>x_{2}(t)</m> are solutions to the differential equation <m>ax'' + bx' + cx = 0</m>, then for any constants <m>c_{1}</m> and <m>c_{2}</m>, <m>c_{1}x_{1}(t) + c_{2}x_{2}(t)</m> is also a solution.<idx>Principle of Superposition</idx></p>
+            </statement>
+        </theorem> 
+
+        <p>Before continuing, it is worth noting that <xref ref="secondorder01-theorem-superposition" /> is still true if the constant coefficients <m>a</m>, <m>b</m>, and <m>c</m> are replaced with variable coefficients <m>a(t)</m>, <m>b(t)</m>, and <m>c(t)</m> which depend on <m>t</m>. For our present purposes, however, we continue to focus solely on the constant coefficient case.
+        </p>
+
+        <p>The expression <m>c_{1}x_{1}(t) + c_{2}x_{2}(t)</m> is formally called a <term>linear combination</term> of the functions <m>x_{1}</m> and <m>x_{2}</m>. Provided that <m>x_{1}</m> and <m>x_{2}</m> solve <xref ref="secondorder01-equation-constant-coef"/> and <m>x_{2}</m> is not simply a constant multiple of <m>x_{1}</m>, we can think of the linear combination <m>c_{1}x_{1}(t) + c_{2}x_{2}(t)</m> as a <term>two-parameter family of solutions</term> to <xref ref="secondorder01-equation-constant-coef"/>. 
+        </p>
+
+        <p>Does such a family encompass <em>all</em> solutions? To make this question more tractable, we first state an existence and uniqueness result for second-order linear equations which is analogous to <xref ref="firstlook06-theorem-existence-uniqueness"/>. 
+        </p>
+
+        <theorem xml:id="secondorder01-theorem-existence-uniqueness">
+            <title>Existence and Uniqueness Theorem</title>
+            <statement>
+                <p>Consider the linear equation
+                    <me> ax'' + bx' + cx = g(t) </me>
+                with initial conditions <m>x(t_{0}) = x_{0}</m> and <m>x'(t_{0}) = v_{0}</m>. If <m>g(t)</m> is continuous on some interval <m>(t_{1}, t_{2})</m> containing <m>t_{0}</m>, then there exists a unique solution <m>x(t)</m> that is continuous on <m>(t_{1}, t_{2})</m>.
+                <idx>Existence and Uniqueness Theorem</idx></p>
+            </statement>
+        </theorem>
+
+        <p>In light of <xref ref="secondorder01-theorem-existence-uniqueness" />, to show that a two-parameter family of solutions <m>c_{1}x_{1}(t) + c_{2}x_{2}(t)</m> contains all solutions to the differential equation, it is enough to demonstrate that the constants <m>c_{1}</m> and <m>c_{2}</m> can be chosen to satisfy arbitrary initial conditions. That is, for any <m>t_{0}</m>, <m>x_{0}</m>, and <m>v_{0}</m>, there exists an assignment of <m>c_{1}</m> and <m>c_{2}</m> satisfying the system of equations
+            <men xml:id="secondorder01-IVP-equation1"> c_{1}x_{1}(t_{0}) + c_{2}x_{2}(t_{0}) = x_{0} </men> 
+            <men xml:id="secondorder01-IVP-equation2"> c_{1}x_{1}'(t_{0}) + c_{2}x_{2}'(t_{0}) = v_{0}. </men>
+
+        When this holds, we say that <m>x(t) = c_{1}x_{1}(t) + c_{2}x_{2}(t)</m> is a <term>general solution</term> to the differential equation.
+        </p>
+
+        <p>We begin with an example before proceding with the general theory.
+        </p>
+
+        <example xml:id="secondorder01-example-generalsolution">
+            <p>In <xref ref="secondorder01-example-real-solutions" />, we used the characteristic equation to deduce that 
+                <me>x_{1}(t) = e^{-5t}\quad \text{ and } \quad x_{2}(t) = e^{2t}</me> 
+            both solve the equation <m>x'' + 3 x' - 10 x = 0</m>. Taking an arbitrary linear combination of <m>x_{1}</m> and <m>x_{2}</m> then gives a two-parameter family of solutions 
+                <me>c_{1}e^{-5t} + c_{2}e^{2t}.</me> 
+            (There is an easy way to verify that <m>x_{1}</m> and <m>x_{2}</m> are not constant multiples of one another: just confirm that their ratio <m>\frac{e^{-5t}}{e^{2t}} = e^{-7t}</m> is not constant!)
+            </p>
+
+            <p>Now, let <m>t_{0}</m>, <m>x_{0}</m>, and <m>v_{0}</m> be arbitrary. <xref ref="secondorder01-theorem-existence-uniqueness" /> gives that there is a unique solution <m>x(t)</m> to the differential equation satisfying <m>x(t_{0}) = x_{0}</m> and <m>x'(t_{0}) = v_{0}</m>. If we are able to choose <m>c_{1}</m> and <m>c_{2}</m> so that the system of equations
+                <md>
+                    <mrow>c_{1}e^{-5t_{0}} + c_{2}e^{2t_{0}} &amp;= x_{0}</mrow>
+                    <mrow>-5c_{1}e^{-5t_{0}} + 2c_{2}e^{2t_{0}} &amp;= v_{0}.</mrow>
+                </md>
+            is satisfied, then <m>x(t) = c_{1}e^{-5t} + c_{2}e^{2t}.</m>
+            </p>
+            <p>Solving the first equation for <m>c_{1}</m> gives 
+                <me>c_{1} = x_{0}e^{5t_{0}} - c_{2}e^{7t_{0}}.</me>
+            Substituting this into the second equation and solving for <m>c_{2}</m> results in 
+                <me>c_{2} = \frac{1}{7}\left( v_{0}e^{-2t_{0}} - 5x_{0} \right).</me>
+            We have demonstrated assignments of <m>c_{1}</m> and <m>c_{2}</m> in terms of arbitary <m>t_{0}</m>, <m>x_{0}</m>, and <m>v_{0}</m>. So 
+                <me>x(t) = c_{1}e^{-5t} + c_{2}e^{2t}</me>
+            is the general solution to <m>x'' + 3 x' - 10 x = 0</m>. Here, we established this by explicitly solving a system of equations for <m>c_{1}</m> and <m>c_{2}</m>. Going forward, we will develop some theory which will allow us to reach the same conclusion with much less explicit computation.
+            </p>
+        </example>
+
+        <p>As we saw in <xref ref="secondorder01-example-real-solutions" />, one can demonstrate that <m>x(t) = c_{1}x_{1}(t) + c_{2}x_{2}(t)</m> is a general solution by explicitly solving the system <xref ref="secondorder01-IVP-equation1" />-<xref ref="secondorder01-IVP-equation2" />. However, there is a simpler technique which also has the benefit of being generalizable to higher-order equations.
         </p>
 
         <activity>
@@ -245,7 +334,6 @@
                 </statement>
             </task>   
         </activity>
-
     </subsection>
 
     <subsection xml:id="secondorder01-subsection-harmonic-oscillators">
