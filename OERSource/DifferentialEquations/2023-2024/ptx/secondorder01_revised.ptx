@@ -275,12 +275,80 @@
                 <me>c_{2} = \frac{1}{7}\left( v_{0}e^{-2t_{0}} - 5x_{0} \right).</me>
             We have demonstrated assignments of <m>c_{1}</m> and <m>c_{2}</m> in terms of arbitary <m>t_{0}</m>, <m>x_{0}</m>, and <m>v_{0}</m>. So 
                 <me>x(t) = c_{1}e^{-5t} + c_{2}e^{2t}</me>
-            is the general solution to <m>x'' + 3 x' - 10 x = 0</m>. Here, we established this by explicitly solving a system of equations for <m>c_{1}</m> and <m>c_{2}</m>. Going forward, we will develop some theory which will allow us to reach the same conclusion with much less explicit computation.
+            is the general solution to <m>x'' + 3 x' - 10 x = 0</m>. Here, we established this by explicitly solving a system of equations for <m>c_{1}</m> and <m>c_{2}</m>. Going forward, we will develop some theory which will allow us to reach the same conclusion with less explicit computation.
             </p>
         </example>
 
         <p>As we saw in <xref ref="secondorder01-example-real-solutions" />, one can demonstrate that <m>x(t) = c_{1}x_{1}(t) + c_{2}x_{2}(t)</m> is a general solution by explicitly solving the system <xref ref="secondorder01-IVP-equation1" />-<xref ref="secondorder01-IVP-equation2" />. However, there is a simpler technique which also has the benefit of being generalizable to higher-order equations.
         </p>
+
+        <p>The system <xref ref="secondorder01-IVP-equation1" />-<xref ref="secondorder01-IVP-equation2" /> can be equivalently encoded as the following <em>matrix-vector equation</em>:
+            <men xml:id="secondorder01-IVP-matrix-equation"> \begin{pmatrix} x_{1}(t_{0}) &amp; x_{2}(t_{0}) \\ x_{1}'(t_{0}) &amp; x_{2}'(t_{0}) \end{pmatrix} \begin{pmatrix} c_{1} \\ c_{2} \end{pmatrix} = \begin{pmatrix} x_{0} \\ v_{0} \end{pmatrix} 
+            </men>
+        For a fixed <m>t_{0}</m>, a well-known fact from linear algebra tells us that a unique solution to <xref ref="secondorder01-IVP-matrix-equation" /> (equivalently, to the system <xref ref="secondorder01-IVP-equation1" />-<xref ref="secondorder01-IVP-equation2" />) exists for all <m>x_{0}</m> and <m>v_{0}</m> if and only if
+            <me> \det \begin{pmatrix} x_{1}(t_{0}) &amp; x_{2}(t_{0}) \\ x_{1}'(t_{0}) &amp; x_{2}'(t_{0}) \end{pmatrix} = x_{1}(t_{0})x_{2}'(t_{0})-x_{2}(t_{0})x_{1}'(t_{0}) \neq 0. </me>
+        Therefore, <xref ref="secondorder01-IVP-matrix-equation" /> has a unique solution for all <m>t_{0}</m>, <m>x_{0}</m>, and <m>v_{0}</m> if and only if the quantity
+            <me> W(x_{1},x_{2}) = x_{1}(t)x_{2}'(t)-x_{2}(t)x_{1}'(t) </me>
+        is non-zero for all values of <m>t</m>. The function <m>W(x_{1},x_{2})(t)</m> is called the <term>Wronskian</term> of <m>x_{1}</m> and <m>x_{2}</m>. The relevant concepts from linear algebra are treated in detail in <xref ref="linear01"/>; for now, we will use them as a kind of <q>black box</q> to state the following criterion.
+        </p>
+
+        <theorem xml:id="secondorder01-theorem-wronskian-criterion">
+            <p>If <m>x_{1}(t)</m> and <m>x_{2}(t)</m> are solutions to the differential equation <m>ax'' + bx' + cx = 0</m> such that for all values of <m>t</m>, <m>W(x_{1},x_{2}) \neq 0</m>, then 
+                <me>x(t) = c_{1}x_{1}(t) + c_{2}x_{2}(t)</me>
+            is a general solution to <m>ax'' + bx' + cx = 0</m>.
+            </p>
+        </theorem>
+
+        <p>The following example applies the criterion to a the differential equation from <xref ref="secondorder01-example-generalsolution" />.
+        </p>
+
+        <example xml:id="secondorder01-example-generalsolution-wronskian" >
+            <p>Consider again the equation <m>x'' + 3 x' - 10 x = 0</m> from <xref ref="secondorder01-example-generalsolution" />. We have a pair of solutions <m>x_{1}(t)=e^{-5t}</m> and <m>x_{2}(t)=e^{2t}</m>. We compute their Wronskian as
+                <me> W(e^{-5t}, e^{2t}) = (e^{-5t})(2e^{2t})-(e^{2t})(-5e^{-5t})=7e^{-3t}.</me>
+            Since for all values of <m>t</m> we have that <m>7e^{-3t} \neq 0</m>, we may conclude that 
+                <me>x(t)=c_{1}e^{-5t} + c_{2}e^{2t} </me>
+            is a general solution to <m>x'' + 3 x' - 10 x = 0,</m> confirming our observations from <xref ref="secondorder01-example-generalsolution" />. 
+            </p>
+        </example>
+
+        <p>We can now give an explicit general solution to the equation <m>ax'' + bx' + cx = 0</m>. This task combines our efforts from <xref ref="secondorder01-subsection-second-order-linear-de"/>, where we constructed pairs of solutions using the characteristic equation, with the theory developed in this section.
+        </p>
+
+        <theorem xml:id="secondorder01-theorem-general-solution">
+            <title>General Solution to the Homogeneous Second-Order Equation</title>
+            <statement>
+                <p>Consider the equation <m>ax'' + bx' + cx = 0</m>.
+                    <ul>
+
+                        <li>If <m>b^{2}-4ac \gt 0</m>, a general solution is given by
+                            <me>x(t) = c_{1}e^{\lambda_{1}t} + c_{2}e^{\lambda_{2}t}</me>
+                        where 
+                            <me>\lambda_{1} = \frac{-b + \sqrt{b^{2}-4ac}}{2a} \quad \text{and} \quad \lambda_{2} = \frac{-b - \sqrt{b^{2}-4ac}}{2a}</me>
+                        are the distinct real roots of the characteristic equation <m>a\lambda^{2} + b\lambda + c = 0</m>.
+                        </li>
+
+                        <li>If <m>b^{2} - 4ac = 0</m>, a general solution is given by
+                            <me>x(t) = c_{1}e^{\lambda t} + c_{2}te^{\lambda t}</me>
+                        where
+                            <me>\lambda = -\frac{b}{2a}</me>
+                        is the repeated real root of the characteristic equation.
+                        </li>
+
+                        <li>If <m>b^{2}-4ac \lt 0</m>, a general solution is given by
+                            <me>x(t) = c_{1}e^{\alpha t}\cos(\beta t) + c_{e}e^{\alpha t}\sin(\beta t)</me>
+                        where 
+                            <me>\alpha = -\frac{b}{2a} \quad \text{ and } \beta = \frac{\sqrt{4ac - b^{2}}}{2a}</me>
+                        are the real and imaginary parts, respectively, of the complex root 
+                            <me>\lambda = \frac{-b \pm \sqrt{b^{2}-4ac}}{2a}</me>
+                        of the characteristic equataion.
+                        </li>
+
+                    </ul>
+                <idx>General Solution to the Homogeneous Second-Order Equation</idx></p>
+            </statement>
+        </theorem>
+
+
 
         <activity>
             <title>Solving Second-Order Homogeneous Linear Differential Equations</title>
