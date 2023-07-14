@@ -299,7 +299,7 @@
             </p>
         </theorem>
 
-        <p>The following example applies the criterion to a the differential equation from <xref ref="secondorder01-example-generalsolution" />.
+        <p>In the example below, we revisit the differential equation from <xref ref="secondorder01-example-generalsolution" /> in light of <xref ref="secondorder01-theorem-wronskian-criterion"/>.
         </p>
 
         <example xml:id="secondorder01-example-generalsolution-wronskian" >
@@ -347,6 +347,53 @@
                 <idx>General Solution to the Homogeneous Second-Order Equation</idx></p>
             </statement>
         </theorem>
+
+        <proof>
+            <p>We prove the <m>b^{2} - 4ac \lt 0</m> in detail, since this one is the most computationally taxing. The other two cases can be proved in the same way
+            </p>
+
+            <p>Suppose that <m>b^{2} - 4ac \lt 0</m>, and let <m>\alpha</m> and <m>\beta</m> be defined as in the theorem statement. We know from <xref ref="secondorder01-subsection-second-order-linear-de"/> that 
+                <me>x_{1}(t) = e^{\alpha t}\cos(\beta t) \quad \text{ and } \quad x_{2}(t)=e^{\alpha t}\sin(\beta t)</me>
+            are solutions to <m>ax'' + bx' + cx = 0</m>, so to show that <m>x(t) = c_{1}x_{1}(t) + c_{2}x_{2}(t)</m> is the general solution, by <xref ref="secondorder01-theorem-wronskian-criterion"/> it suffices to check that their Wronskian <m>W(x_{1},x_{2})</m> is non-zero for all <m>t</m>. We first do some preliminary computations: using the product rule,
+                <me>x_{1}'(t) = \alpha e^{\alpha t}\cos(\beta t) - \beta e^{\alpha t}\sin(\beta t)</me>
+            and
+                <me>x_{2}'(t) = \alpha e^{\alpha t}\sin(\beta t) + \beta e^{\alpha t}\cos(\beta t).</me>
+            Thus
+                <me>x_{1}(t)x_{2}'(t) = e^{2\alpha t}[\alpha \cos(\beta t)\sin(\beta t) + \beta \cos^{2}(\beta t)]</me>
+            and
+                <me>x_{2}(t)x_{1}'(t) = e^{2\alpha t}[\alpha \cos(\beta t)\sin(\beta t) - \beta \sin^{2}(\beta t)].</me>
+            Taking the difference of these expressions results in the cancellation of the <m>\alpha \cos(\beta t) \sin(\beta t)</m> terms, leaving us with 
+                <me>x_{1}(t)x_{2}'(t) - x_{2}(t)x_{1}'(t) = \beta e^{2\alpha t}[\sin^{2}(\beta t) + \cos^{2}(\beta t)].</me>
+            Using the Pythagorean Identity <m>\sin^{2}(\theta) + \cos^{2}(\theta) = 1</m>, we concluce
+                <me>W(x_{1}, x_{2}) = \beta e^{2\alpha t}</me>.
+            Since <m> e^{2\alpha t} </m> is non-zero for all values of <m>t</m> and <m>\beta \neq 0</m>, we conclude that <m>W(x_{1},x_{2})</m> is non-zero for all values of <m>t</m>. Thus <m>x(t) = c_{1}x_{1}(t) + c_{2}x_{2}(t)</m> is the general solution.
+            </p>
+        </proof>
+
+        <p>With general solutions in hand, we can solve an initial value problem involving <m>ax'' + bx' + cx = 0</m> with initial conditions of the form <m>x(0) = x_{0}</m>, <m>x'(0) = v_{0}</m>. We demonstrate in the next example.
+        </p>
+
+        <example xml:id="secondorder01-example-IVP">
+
+            <p>We solve 
+                <me>x'' - 8x' + 16x = 0</me>
+            subject to initial conditions
+                <me>x(0) = 10 \quad \text{and} \quad x'(0) = -2.</me>
+            We start by writing the general solution to the differential equation. The characteristic equation is
+                <me>\lambda^{2} - 8\lambda + 16 = 0,</me>
+            which has a repeated real root at <m>\lambda = 4</m>. By <xref ref="secondorder01-theorem-general-solution"/>, the general soltuion is
+                <me>x(t) = c_{1}e^{4t} +c_{2}t e^{4t}.</me>
+            Plugging in <m>t = 0</m> gives
+                <me>x(0) = c_{1}e^{4\cdot 0} + c_{2} \cdot 0 \cdot e^{4 \cdot 0} = c_{1}</me>
+            and so <m>x(0) = 10</m> imposes <m>c_{1} = 10</m>. To solve for <m>c_{2}</m>, we must differentiate <m>x(t)</m> and use <m>x'(0) = -2</m>. With some computation, we find
+                <me>x'(t) = (c_{1} + c_{2})e^{4t} + 4c_{2}te^{4t}.</me>
+            We already know <m>c_{1} = 10</m>. Plugging <m>t = 0</m> into the above and equating it to <m>-2</m> yields
+                <me>10 + c_{2} = -2</me>
+            which gives <m>c_{2} = -12.</m> So the solution to the IVP is
+                <me> x(t) = 10e^{4t} -12 te^{4t}.</me>
+            </p>
+
+        </example>
 
 
 
@@ -414,11 +461,9 @@
             <men xml:id="secondorder01-equation-harmonic">m \frac{d^2 x}{dt^2} + k x = 0.</men>
         The characteristic equation is
             <me>m \lambda^2 + k = 0,</me>
-        and we have eigenvalues <m>\lambda = \pm i \sqrt{k/m}</m>. Hence, the complex solution to our undamped oscillator is
-            <me>e^{i \omega t} = \cos \omega t + i \sin \omega t,</me>
-        where <m>\omega = \sqrt{k/m}</m>. Since both the real and imaginary parts of the complex solution are also solutions to <xref ref="secondorder01-equation-harmonic"/>, the general solution to the undamped harmonic oscillator is
+        and we roots at <m>\lambda = \pm i \sqrt{k/m}</m>. Writing <m>\omega = \sqrt{k/m}</m> for simplicity, <xref ref="secondorder01-theorem-general-solution"/> gives the general solution
             <me>x(t) = c_1 \cos \omega t + c_2 \sin \omega t,</me>
-        giving us the position of the mass at time <m>t</m>. Now, of course, it is easy to determine the velocity of the mass at time <m>t</m> to be
+        which represents the position of the mass at time <m>t</m>. Now, of course, it is easy to determine the velocity of the mass at time <m>t</m> to be
             <me>v(t) = x'(t) = - c_1 \omega \sin \omega t + c_2 \omega \cos \omega t.</me></p>
 
         <example>
@@ -488,9 +533,7 @@
                     <mrow>x(0) \amp = 0</mrow>
                     <mrow>x'(0) \amp = 1.</mrow>
                 </md>
-            Notice that the damping <m>b = 0.4</m> is very small compared with the spring constant <m>k = 1.04</m>. The characteristic equation of the differential equation is <m>\lambda^2 + 0.4 \lambda + 1.04 = 0</m>, which has roots <m>\lambda = -0.2 \pm i</m>. Therefore, the complex solution must be
-                <me>x(t) = e^{(-0.2 \pm i)t} = e^{-0.2t} ( \cos t + i \sin t),</me>
-            and the general solution must be
+            Notice that the damping <m>b = 0.4</m> is very small compared with the spring constant <m>k = 1.04</m>. The characteristic equation of the differential equation is <m>\lambda^2 + 0.4 \lambda + 1.04 = 0</m>, which has roots <m>\lambda = -0.2 \pm i</m>. Therefore, the general solution is
                 <me>x(t) = c_1 e^{-0.2t} \cos t + c_2 e^{-0.2t} \sin t.</me>
             Applying the initial conditions, our solution becomes
                 <md>
@@ -539,7 +582,7 @@
                     <mrow>x(0) \amp = 0</mrow>
                     <mrow>x'(0) \amp = 1.</mrow>
                 </md>
-            The characteristic equation of this initial value problem is
+            The characteristic equation of the differential equation is
                 <me>\lambda^2 + 4 \lambda + 3 = (\lambda + 3)(\lambda + 1) = 0;</me>
             hence, we have the general solution
                 <me>x(t) = c_1 e^{-t} + c_2 e^{-3t}.</me>
@@ -638,23 +681,32 @@
         
             <li><p>A second-order linear differential equation with constant coefficients is an equation of the form
                 <me>a x'' + bx' + cx = 0.</me>
-            We can guess the solution to this equation. Since we can rewrite this equation as a system of first-order linear differential equations, we can determine the general solution to <m>a x'' + bx' + cx = 0</m>.</p></li>
+            </p></li>
 
-            <li><p>Suppose that 
-                <me>a x'' + b x' + c x = 0,</me>
-            where <m>a \neq 0</m> and <m>b^2 - 4ac \gt 0</m>. If the roots of <m>ar^2 + br + c</m> are <m>r_1</m> and <m>r_2</m>, the general solution to this differential equation is
-                <me>x(t) = c_1 e^{r_1 t} + c_2 e^{r_2 t}.</me></p></li>
+            <li><p>The characteristic equation of <m>a x'' + bx' + cx = 0</m> is
+                    <me>a\lambda^{2} + b\lambda + c = 0.</me>
+                The roots of this equation are 
+                    <me>\lambda = \frac{-b \pm \sqrt{b^{2}-4ac}}{2a}.</me>
+                These roots govern the behavior of solutions to the differential equation.
+            </p></li>
 
-            <li><p>If  <m>b^2 - 4ac \lt 0</m>, the differential equation 
-                <me>a x'' + b x' + c x = 0</me>
-            has a general solution 
-                <me>x(t) = c_1 e^{\alpha t} \cos \beta t + c_2 e^{\alpha t} \sin \beta t,</me>
-            where <m>\alpha \pm i \beta</m> are the roots of <m>a r^2 + br + c = 0</m>.</p></li>
+            <li><p>If <m>b^2 - 4ac \gt 0</m>, the characteristic equation has distinct real roots 
+                    <me>\lambda_{1} = \frac{-b + \sqrt{b^{2}-4ac}}{2a} \quad \text{and} \quad \lambda_{2} = \frac{-b - \sqrt{b^{2}-4ac}}{2a}</me>
+                and a general solution to <m>a x'' + bx' + cx = 0</m> is given by
+                    <me>x(t) = c_{1}e^{\lambda_{1}t} + c_{2}e^{\lambda_{2}t}.</me>
+            </p></li>
 
-            <li><p>If <m>b^2 - 4ac = 0</m>, the differential equation
-                <me>a x'' + b x' + c x = 0</me>
-            has a general solution 
-                <me>x(t) = c_1 e^{- bt/2a} + c_2 t e^{-bt/2a}.</me></p></li>
+            <li><p>If  <m>b^2 - 4ac = 0</m>, the characteristic equation has a repeated real root at
+                <me>\lambda = -\frac{b}{2a}</me>
+            and a general solution to <m>a x'' + bx' + cx = 0</m> is given by
+                <me>x(t) = c_{1}e^{\lambda t} + c_{2}t e^{\lambda t}.</me>
+            </p></li>
+
+            <li><p>If <m>b^2 - 4ac \lt 0</m>, characteristic equation has complex conjugate roots
+                <me>\lambda = \alpha \pm \beta i</me>
+            where <m>\alpha = -\frac{b}{2a}</m> and <m>\beta = \frac{\sqrt{4ac - b^{2}}}{2a}</m>. A general solution to <m>a x'' + bx' + cx = 0</m> is given by
+                <me>x(t) = c_{1}e^{\alpha t}\cos(\beta t) + c_{2}e^{\alpha t}\sin(\beta t).</me>
+            </p></li>
 
             <li><p>A simple harmonic oscillator can be modeled by the equation
                 <me>m \frac{d^2 x}{dt^2} + b \frac{dx}{dt} + k x = 0,</me>
@@ -681,7 +733,7 @@
 
         <exercise xml:id="reading-questions-secondorder01-2">
             <statement>
-                <p>Describe the possible types of damping of a harmonic oscillator?</p>
+                <p>Describe the possible types of damping of a harmonic oscillator.</p>
             </statement>
             <response/>
         </exercise>
