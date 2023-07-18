@@ -61,12 +61,15 @@
 
       <li>
         <p>
-          <xref ref="F_10_8_preview">Figure</xref> shows the graph of the constraint equation <m>g(x,y) = 108</m> along with a few contours of the volume function <m>f</m>.  Since our goal is to find the maximum value of <m>f</m> subject to the constraint <m>g(x,y) = 108</m>, we want to find the point on our constraint curve that intersects the contours of <m>f</m> at which <m>f</m> has its largest value.
+          <xref ref="F_10_8_preview">Figure</xref> shows the graph of the constraint equation <m>g(x,y) = 108</m> along with a few contours of the volume function <m>f</m>.  
+          Since our goal is to find the maximum value of <m>f</m> subject to the constraint <m>g(x,y) = 108</m>, 
+          we want to find the point on our constraint curve that intersects the contours of <m>f</m> at which <m>f</m> has its largest value.
         </p>
         <ol marker="i.">
           <li>
             <p>
-              Points <m>A</m> and <m>B</m> in <xref ref="F_10_8_preview">Figure</xref> lie on a contour of <m>f</m> and on the constraint equation <m>g(x,y) = 108</m>. Explain why neither <m>A</m> nor <m>B</m> provides a maximum value of <m>f</m> that satisfies the constraint.
+              Points <m>A</m> and <m>B</m> in <xref ref="F_10_8_preview">Figure</xref> lie on a contour of <m>f</m> and on the constraint equation <m>g(x,y) = 108</m>. 
+              Explain why neither <m>A</m> nor <m>B</m> provides a maximum value of <m>f</m> that satisfies the constraint.
             </p>
           </li>
 
@@ -207,20 +210,106 @@
       
     </activity>
 
+    <example>
+      <statement>
+        <p>
+          Find the extreme values of the function <m>f(x,y) = xy</m> on the ellipse
+          <m>\frac{x^2}{8} + \frac{y^2}{2} = 1</m>.
+        </p>
+        <p>(Note: we could turn this into a Calculus I problem by parametrizing the ellipse,
+        but this will be good practice for more complicated problems where that won't be possible.)</p>
+      </statement>
+      <solution>
+        <p>
+          The constraint equation is 
+          <me>g(x,y) = \frac{x^2}{8} + \frac{y^2}{2} = 1,</me>
+          so we begin by computing <me>\nabla f</me> and <me>\nabla g</me>.
+        </p>
+        <md>
+          <mrow> \nabla f \amp = \langle y,x \rangle</mrow>
+          <mrow> \nabla g \amp = \langle \frac{x}{4},y \rangle</mrow>
+        </md>
+        <p>The equation <m>\nabla f = \lambda \nabla g</m> becomes <m>\langle y,x \rangle = \lambda \langle x/4,y \rangle</m>, 
+        which we turn into two equations by looking at the <m>x</m>- and <m>y</m>-components separately:</p>
+        <md>
+          <mrow> y \amp = \lambda \frac{x}{4}</mrow>
+          <mrow> x = \lambda y</mrow>
+        </md>
+        <p>Plugging <m>\lambda y</m> (from the second equation) in for <m>x</m> in the first gives</p>
+          <me>
+            y = \lambda^2 \frac{y}{4},
+          </me>
+          <p>which we rearrange to get <m>y(1 - \frac{\lambda^2}{4}) = 0</m>.
+          So either <m>y = 0</m> or <m>\lambda = \pm 2</m>.</p>
+          <p>Case 1: if <m>y = 0</m> then <m>x = y = 0</m> but <m>(0,0)</m> is not a point on the ellipse!
+          So we get no solutions from this case.</p>
+          <p>Case 2: if <m>\lambda = \pm 2</m> then <m>x = \pm 2y</m>, so we can plug that in for <m>x</m> in the constraint equation
+          (the one that defines the ellipse) to get
+          <me>\frac{(\pm 2y)^2}{8} + \frac{y^2}{2} = 1,</me>
+          which we can solve to get <m>y = \pm 1</m>.
+          In summary, there are four possible points to consider: <m>(\pm 2,1)</m> and <m>(\pm 2,-1)</m>.
+          By evaluating <m>f</m> at each of these four points, we deduce that <m>(2,1)</m> and <m>(-2,-1)</m> maximize the function on the ellipse,
+          and <m>(-2,1)</m> and <m>(2,-1)</m> minimize the function on the ellipse.
+          </p>
+      </solution>
+    </example>
+
     <p>
       The method of Lagrange multipliers also works for functions of more than two variables.
     </p>
 
-    <activity xml:id="A_10_8_2">
-      <p>
+    <example xml:id="A_10_8_2">
+
+<!-- changed original to make numbers work out better -->
+    <statement> 
+       <p>
         Use the method of Lagrange
         multipliers to find the dimensions of the least
-        expensive packing crate with a volume of 240 cubic feet when the
+        expensive packing crate with a volume of 45 cubic feet when the
         material for the top costs $2 per square foot, the bottom is $3
         per square foot and the sides are $1.50 per square foot.
       </p>
-      
-    </activity>
+      </statement>
+      <solution>
+        <p>
+          There are three variables: the length <m>l</m>, width <m>w</m>, and height <m>h</m> of the crate.
+          The optimization is constrained by the requirement that the volume be 45 cubic feet, so we set
+          <men xml:id="eq-lagrange1-constraint">
+            g(l,w,h) = lwh = 45.
+          </men>
+          We are trying to minimize cost, which is a weighted sum of the areas of the six sides of the crate:
+        </p>
+        <me>
+          f(l,w,h) = 2lw + 3lw + 2 \cdot 1.5 \cdot wh + 2 \cdot 1.5 \cdot lh.
+        </me>
+        <p>
+        (The first term <me>2lw</me> measures the cost of the top, the term <me>3lw</me> measures the cost of the bottom, 
+        and the remaining two terms measure the cost of the two <me>w \times h</me> sides and the two <me>l \times h</me> sides.)
+        </p>
+        <p>Next we take gradients:</p>
+          <md>
+            <mrow> \nabla f \amp = \langle f_l, f_w, f_h \rangle = \langle 5w + 3h, 5l + 3h, 3w + 3l \rangle</mrow>
+            <mrow> \nabla g \amp = \langle g_l, g_w, g_h \rangle = \langle wh, lh, lw \rangle </mrow>
+          </md>
+        <p>Simplifying the equation <m>\nabla f = \lambda \nabla g</m> gives the following three equations.</p>
+          <md>
+            <mrow> 5w + 3h \amp = \lambda wh </mrow>
+            <mrow> 5l + 3h \amp = \lambda lh</mrow>
+            <mrow> 3w + 3l \amp = \lambda lw </mrow>
+          </md>
+          <p>Next solve this system for <m>w</m>, <m>l</m>, and <m>h</m> in terms of <m>\lambda</m>.
+          After some tedious algebra, we arrive at the following.</p>
+          <me>w = l = \frac{6}{\lambda}, \quad h = \frac{10}{\lambda}</me>
+          <p>Now we can plug these results into <xref ref="eq-lagrange1-constraint"/> to obtain an equation that we can solve for <m>\lambda</m>.</p>
+            <me>\frac{6}{\lambda} \cdot \frac{6}{\lambda} \cdot \frac{10}{\lambda} = 45</me>
+            <p>Solving for <m>\lambda</m> gives <m>\lambda = \sqrt[3]{360/45} = \sqrt[3]{8} = 2</m>.
+            Eliminating <m>\lambda</m>, we finally obtain our optimal dimensions:</p>
+            <me>
+              w = l = 3, \quad h = 5.
+            </me>
+            
+      </solution>
+    </example>
 
     <p> 
       The method of Lagrange multipliers also works for functions of three variables. That is, if we have a function <m>f = f(x,y,z)</m> that we want to optimize subject to a constraint <m>g(x,y,z) = k</m>, the optimal point <m>(x,y,z)</m> lies on the level surface <m>S</m> defined by the constraint <m>g(x,y,z) = k</m>. As we did in <xref ref="PA_10_8">Preview Activity</xref>, we can argue that the optimal value occurs at the level surface <m>f(x,y,z) = c</m> that is tangent to <m>S</m>. Thus, the gradients of <m>f</m> and <m>g</m> are parallel at this optimal point. So, just as in the two variable case, we can optimize <m>f = f(x,y,z)</m> subject to the constraint <m>g(x,y,z) = k</m> by finding all points <m>(x,y,z)</m> that satisfy <m>\nabla f = \lambda \nabla g</m> and <m>g(x,y,z) = k</m>. 
