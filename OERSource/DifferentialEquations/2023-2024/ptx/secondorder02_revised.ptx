@@ -102,7 +102,7 @@
             <me>x'' + px' + q x = 0,</me>
         where <m>p = b/m</m> and <m>q = k/m</m> are both positive. The characteristic equation is <m>\lambda^{2} + p\lambda + q = 0</m>, and the roots are
             <me>\lambda_{1} = \frac{-p + \sqrt{p^{2}-4q}}{2} \quad \text{and} \quad \lambda_{2} = \frac{-p - \sqrt{p^{2}-4q}}{2}.</me>
-        As we know from <xref ref="secondorder01" />, there are three distinct possibilities for the general solution, corresponding to whether <m>p^{2}-4q</m> is positive, zero, or negative. Explicitly, general solutions for the undamped harmonic oscillator are given by
+        As we know from <xref ref="secondorder01-theorem-general-solution" />, there are three distinct possibilities for the general solution, corresponding to whether <m>p^{2}-4q</m> is positive, zero, or negative. Explicitly, general solutions for the undamped harmonic oscillator are given by
 
             <me>x(t)= \begin{cases} 
                     c_{1}e^{\lambda_{1} t} + c_{2}e^{\lambda_{2} t} \quad &amp; p^{2}-4q \gt 0 \\
@@ -110,11 +110,14 @@
                     c_{1}e^{\alpha t}\cos(\beta t) + c_{2}e^{\alpha t}\sin(\beta t) \quad &amp; p^{2} - 4q \lt 0
                 \end{cases}
             </me>
-        where <m>\alpha = -\frac{p}{2}</m> and <m>\beta = \frac{\sqrt{4q - p^{2}}}{2}</m>. Since <m>p > 0</m>, for any constants <m>c_{1}</m> and <m>c_{2}</m> we have
+        where <m>\alpha = -\frac{p}{2}</m> and <m>\beta = \frac{\sqrt{4q - p^{2}}}{2}</m>. Since <m>p \gt 0</m>, <m>\alpha \lt 0</m>, and thus for any constants <m>c_{1}</m> and <m>c_{2}</m> we have
             <me> \lim_{t \to \infty}(c_{1}e^{\alpha t} + c_{2}te^{\alpha t}) = \lim_{t \to \infty}(c_{1}e^{\alpha t}\cos(\beta t) + c_{2}e^{\alpha t}\sin(\beta t)) = 0.</me>
-        Moreover, both <m>\lambda_{1}</m> and <m>\lambda_{2}</m> are strictly negative when <m>p^{2}-4q \gt 0</m>. (To see that this holds for <m>\lambda_{1}</m>, we must also note that <m>q \gt 0</m> in this setting.) Thus
+        Moreover, both <m>\lambda_{1}</m> and <m>\lambda_{2}</m> are strictly negative when <m>p^{2}-4q \gt 0</m>. (To see that this holds for <m>\lambda_{1}</m>, we must also note that <m>q \gt 0</m> in this setting.) So
             <me>\lim_{t \to \infty}(c_{1}e^{\lambda_{1} t} + c_{2}e^{\lambda_{2} t}) = 0</me>
-        as well, for any constants <m>c_{1}</m> and <m>c_{2}</m>. Combining all of these observations proves the following theorem.
+        as well, for any constants <m>c_{1}</m> and <m>c_{2}</m>.
+        </p>
+
+        <p>It follows that if <m>x_{h}</m> is the general solution to the homogeneous equation <m>x'' + px' + qx = 0</m>, then <m>x_{h} \to 0</m> as <m>t \to \infty</m>. Therefore, we have the following result.
         </p>
 
         <theorem xml:id="secondorder02-theorem-steady-state">
@@ -350,6 +353,25 @@
             <title>Particular solutions of <m>x'' + px' + qx = g(t)</m>.</title>
         </table>
 
+        <example>
+            <p>Consider the differential equation
+                <me>x'' + 4x' + 4x = e^{-2t}.</me>
+            The characteristic equation <m>\lambda^{2} + 4\lambda + 4 = 0</m> has a repeated real root at <m>t=-2</m>, and thus the general solution to the homogeneous equation is
+                <me>x_{h}(t) = c_{1}e^{-2t} + c_{2}te^{-2t}.</me>
+            <xref ref="secondorder02-table-undetermined-coefficients"/> suggests a particular solution of the form <m>t^{s}e^{-2t}</m>, where <m>s=0,1,</m> or <m>2</m> is chosen to be large enough so that <m>t^{s}e^{-2t}</m> is <em>not</em> a solution to the homogeneous equation. Since both <m>e^{-2t}</m> and <m>te^{-2t}</m> solve the homogeneous equation, or only option is <m>s=2</m>, and thus we set
+                <me>x_{p}(t) = A t^{2}e^{-2t}.</me>
+            We now solve for the unknown coefficient <m>A</m>. Some computation yields
+                <md>
+                    <mrow>x_{p}'(t) &amp;= 2Ae^{-2t}(-t^{2} + t)</mrow>
+                    <mrow>x_{p}''(t) &amp;= 2Ae^{-2t}(2t^{2} - 4t + 1)</mrow>
+                </md>
+            Plugging <m>x_{p}</m> into the differential equation and simplifying results in 
+                <me>2Ae^{-2t} = e^{-2t},</me>
+            from which we conclude <m>A = \frac{1}{2}</m>. The general solution to the differential equation is then
+                <me>x(t) = x_{h}(t) + x_{p}(t) = c_{1}e^{-2t} + c_{2}te^{-2t} + \frac{1}{2}t^{2}e^{-2t}.</me>
+            </p>
+        </example>
+
     </subsection>
 
     <subsection xml:id="secondorder02-subsection-important-lessons">
@@ -374,10 +396,12 @@
 
             <li>The <term>Method of Undetermined Coefficients</term> is useful for solving the equation <m>x'' +p(t) x' + q(t) x = g(t)</m>, when <m>g</m> is of the form
                 <me>g(t) =
-                P_n(t) e^{\alpha t} \left\{\begin{array}{c}
+                P_n(t) e^{\alpha t} \begin{cases}
                 \sin \beta t \\
                 \cos \beta t
-                \end{array}\right.</me></li>
+                \end{cases}</me>
+                where <m>P_{n}(t) = a_{n}t^{n} + \cdots + a_{1}t + a_{0}</m>.
+            </li>
 
         </ul></p>
             
@@ -546,33 +570,18 @@
                     <me>c_1 f(t) + c_2 g(t) = 0</me>
                 for all <m>t \in I</m>. Equivalently, two functions are linearly independent, if one function is not a multiple of the other. Otherwise, <m>f(t)</m> and <m>f(t)</m> are <term>linearly dependent</term><idx>linearly dependent</idx>.  Suppose that <m>f(t)</m> and <m>g(t)</m> are solutions to the homogeneous linear equation
                     <me>y'' + p y' + q y = 0.</me>
-                Show that <m>f(t)</m> and <m>g(t)</m> are linearly dependent on an interval <m>I = (a, b)</m> if and only if <m>W[f, g](t) \equiv 0</m>, where <m>W[f, g](t) = f(t) g'(t) - g(t) f'(t)</m> is the <term>Wronskian</term><idx>Wronskian</idx> of <m>f</m> and <m>g</m>.</p>
+                Show that <m>f(t)</m> and <m>g(t)</m> are linearly dependent on an interval <m>I = (a, b)</m> if and only if <m>W(f, g) \equiv 0</m>, where <m>W(f, g) = f(t) g'(t) - g(t) f'(t)</m> is the <term>Wronskian</term><idx>Wronskian</idx> of <m>f</m> and <m>g</m>.</p>
             </statement>
 
             <hint>
-                <p>Suppose that that <m>f(t)</m> and <m>g(t)</m> are linearly dependent on an interval <m>I = (a, b)</m>. Then one function is a multiple of the other, say <m>f(t) = c g(t)</m>.  Thus, <m>f'(t) = cg'(t)</m>.  
-                    <me>W(f, g)(t) 
-                    =
-                    \det
-                    \begin{pmatrix}
-                    f(t) &amp; g(t) \\
-                    f'(t) &amp; g'(t) 
-                    \end{pmatrix}
+                <p>Suppose that that <m>f(t)</m> and <m>g(t)</m> are linearly dependent on an interval <m>I = (a, b)</m>. Then one function is a multiple of the other, say <m>f(t) = c g(t)</m>.  Thus, <m>f'(t) = cg'(t)</m> and 
+                    <me>W(f, g)
                     = f(t) g'(t) - f'(t) g(t) 
                     = c g(t) g'(t) - cg'(t) g(t)
                     =
                     0.</me></p>
 
-                <p>Conversely, suppose that 
-                    <me>W(f, g)(t) 
-                    =
-                    \det
-                    \begin{pmatrix}
-                    f(t) &amp; g(t) \\
-                    f'(t) &amp; g'(t) 
-                    \end{pmatrix}
-                    = 0,</me>
-                for all <m>t</m> in <m>(a, b)</m>.  If <m>g = 0</m>, then <m>0 f = g</m> and the two functions are linearly dependent. Assume that <m>g(t_0) \neq 0</m> for some <m>t_0</m> in <m>(a, b)</m>.  Since <m>g</m> is differentiable, it must also be continuous and there is some interval <m>(c, d)</m> contained in <m>(a, b)</m> such that <m>t_0 \in (c, d)</m> and <m>g</m> does not vanish on this interval.  Therefore,
+                <p>Conversely, suppose that <m>W(f, g) = 0</m> for all <m>t</m> in <m>(a, b)</m>.  If <m>g = 0</m>, then <m>0 f = g</m> and the two functions are linearly dependent. Assume that <m>g(t_0) \neq 0</m> for some <m>t_0</m> in <m>(a, b)</m>.  Since <m>g</m> is differentiable, it must also be continuous and there is some interval <m>(c, d)</m> contained in <m>(a, b)</m> such that <m>t_0 \in (c, d)</m> and <m>g</m> does not vanish on this interval.  Therefore,
                     <me>\frac{d}{dt} \left( \frac{f}{g} \right) = \frac{f'  g - f g'}{g^2} = - \frac{W(f,g)}{g^2} = 0,</me>
                 and <m>f/g</m> is constant on the interval <m>(c, d)</m>.  Thus, <m>f(t_0) = c g(t_0)</m> and <m>f'(t_0) = c g'(t_0)</m>.  Since <m>f</m> and <m>cg</m> are both solutions to the differential equation <m>y'' + p y' + q y = 0</m> and have the same initial condition, <m>f(t) = cg(t)</m> for all <m>t \in (a, b)</m> by the existence and uniqueness theorem.  Consequently, <m>f</m> and <m>g</m> are linearly dependent.</p>
 
@@ -586,7 +595,7 @@
                 <p><term>Abel's Theorem</term><idx>Abel's Theorem</idx>. If <m>y_1</m> and <m>y_2</m> are solutions of the homogeneous equation
                     <me>y'' + p(t) y' + q(t) y = 0,</me>
                 where <m>p</m> and <m>q</m> are continuous on an open interval <m>I = (a, b)</m>, show that
-                    <me>W[y_1, y_2](t) = c \exp\left(   - \int p(t) \, dt \right),</me>
+                    <me>W(y_1, y_2) = c \exp\left(   - \int p(t) \, dt \right),</me>
                 for some constant <m>c</m> that depends on <m>y_1</m> and <m>y_2</m> but not on <m>t</m>.
                     <ol>
                     
@@ -603,7 +612,7 @@
                     <li>We can rewrite <m>2 t^2 y'' + 3ty' - y = 0</m> as
                         <me>y'' + \frac{3}{2t} y' - \frac{1}{2t^2} y = 0.</me>
                     Since <m>p(t) = 1/2t</m>, Abel's Theorem tells us that 
-                        <me>W[y_1, y_2](t) = c \exp\left(   - \int \frac{3}{2t} \, dt \right) = c \exp\left(   - \frac{3}{2} \ln t \right) = ct^{-3/2}.</me></li>
+                        <me>W(y_1, y_2) = c \exp\left(   - \int \frac{3}{2t} \, dt \right) = c \exp\left(   - \frac{3}{2} \ln t \right) = ct^{-3/2}.</me></li>
 
                     <li>Since <m>y_1</m> and <m>y_2</m> are solutions to our differential equation, we know that
                         <md>
@@ -613,7 +622,7 @@
                     Multiplying the first equation by <m>y_2</m> and the second equation by <m>y_1</m> and subtracting, we obtain
                         <men xml:id="secondorder02-equation-exercise-abel-hint">(y_1 y_2'' - y_1'' y_2) + p(t) (y_1 y_2' - y_1' y_2) = 0.</men>
                     If
-                        <me>W(t) = W(y_1, y_2)(t) = y_1 y_2' - y_1' y_2,</me>
+                        <me>W(t) = W(y_1, y_2) = y_1 y_2' - y_1' y_2,</me>
                     then 
                         <me>W' = y_1 y_2'' - y_1'' y_2,</me>
                     and equation <xref ref="secondorder02-equation-exercise-abel-hint" /> becomes
@@ -645,19 +654,19 @@
 
                         <li>Show that 
                             <md>
-                                <mrow>u_1'(t) &amp; = \frac{- y_2(t) f(t)}{W[y_1, y_2](t)}</mrow>
-                                <mrow>u_2'(t) &amp; = \frac{y_1(t) f(t)}{W[y_1, y_2](t)},</mrow>
+                                <mrow>u_1'(t) &amp; = \frac{- y_2(t) f(t)}{W(y_1, y_2)}</mrow>
+                                <mrow>u_2'(t) &amp; = \frac{y_1(t) f(t)}{W(y_1, y_2)},</mrow>
                             </md>
-                        where <m>W[y_1, y_2](t) = y_1(t) y_2'(t) - y_2(t) y_1'(t)</m> is the Wronskian of <m>y_1</m> and <m>y_2</m>.</li> 
+                        where <m>W(y_1, y_2) = y_1(t) y_2'(t) - y_2(t) y_1'(t)</m> is the Wronskian of <m>y_1</m> and <m>y_2</m>.</li> 
 
 
                         <li>If <m>p</m>, <m>q</m>, and <m>f</m> are continuous on an interval <m>I</m>, show that
                             <md>
-                                <mrow>u_1(t) &amp; = - \int_{t_0}^t \frac{y_2(s) f(s)}{W[y_1, y_2](s)} \, ds</mrow>
-                                <mrow>u_2(t) &amp; = \int_{t_0}^t \frac{ y_1(s) f(s)}{W[y_1, y_2](s)} \, ds</mrow>
+                                <mrow>u_1(t) &amp; = - \int_{t_0}^t \frac{y_2(s) f(s)}{W(y_1, y_2)(s)} \, ds</mrow>
+                                <mrow>u_2(t) &amp; = \int_{t_0}^t \frac{ y_1(s) f(s)}{W(y_1, y_2)(s)} \, ds</mrow>
                             </md>
                         for any point <m>t_0</m> in <m>I</m>. Consequently, a particular solution to <xref ref="secondorder02-equation-exercise-variation-of-parameters" /> is
-                            <me>y_p = -y_1(t) \int_{t_0}^t \frac{ y_2(s) f(s)}{W[y_1, y_2](s)} \, ds + y_2(t) \int_{t_0}^t \frac{ y_1(s) f(s)}{W[y_1, y_2](s)} \, ds.</me></li>
+                            <me>y_p = -y_1(t) \int_{t_0}^t \frac{ y_2(s) f(s)}{W(y_1, y_2)(s)} \, ds + y_2(t) \int_{t_0}^t \frac{ y_1(s) f(s)}{W(y_1, y_2)(s)} \, ds.</me></li>
 
                         <li>Find the general solution of the differential equation
                             <me>y'' + 4y = 3 \csc t.</me></li>
