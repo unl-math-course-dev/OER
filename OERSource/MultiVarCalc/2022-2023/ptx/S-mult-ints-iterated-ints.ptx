@@ -29,15 +29,22 @@
 
     <introduction>
     <p>
-      Recall that we defined the double integral of a continuous function <m>f = f(x,y)</m> over a rectangle <m>R = [a,b] \times [c,d]</m> as
-      <me>
+      Recall that in <xref ref="S-11-1-Double-Integrals-Rectangles"/>
+      we defined the double integral of a continuous function <m>f = f(x,y)</m> over a rectangle <m>R = [a,b] \times [c,d]</m> as
+      a limit of double Riemann sums, but while this definition tells us exactly what a double integral is, it is not very helpful for determining the value of a double integral. 
+      Fortunately, there is a way to view a double integral as an <em>iterated integral</em><idx><h>iterated integral</h><h>rectangular coordinates</h></idx>, which will make computations feasible in many cases.
+      <!-- <me>
         \iint_R f(x,y) \, dA = \lim_{m,n \to \infty} \sum_{j=1}^n \sum_{i=1}^m f\left(x_{ij}^*, y_{ij}^*\right) \cdot \Delta A,
       </me>
-      where the different variables and notation are as described in <xref ref="S-11-1-Double-Integrals-Rectangles">Section</xref>. Thus <m>\iint_R f(x,y) \, dA</m> is a limit of double Riemann sums, but while this definition tells us exactly what a double integral is, it is not very helpful for determining the value of a double integral. Fortunately, there is a way to view a double integral as an <em>iterated integral</em><idx><h>iterated integral</h><h>rectangular coordinates</h></idx>, which will make computations feasible in many cases.
+      where the different variables and notation are as described in <xref ref="S-11-1-Double-Integrals-Rectangles">Section</xref>. Thus <m>\iint_R f(x,y) \, dA</m> is 
+      a limit of double Riemann sums, but while this definition tells us exactly what a double integral is, it is not very helpful for determining the value of a double integral. Fortunately, there is a way to view a double integral as an <em>iterated integral</em><idx><h>iterated integral</h><h>rectangular coordinates</h></idx>, which will make computations feasible in many cases. -->
     </p>
 
     <p>
-      The viewpoint of an iterated integral is closely connected to an important idea from single-variable calculus. When we studied solids of revolution, such as the one shown in <xref ref="F_6_2_Ex1">Figure</xref>, we saw that in some circumstances we could slice the solid perpendicular to an axis and have each slice be approximately a circular disk. From there, we were able to find the volume of each disk, and then use an integral to add the volumes of the slices. In what follows, we are able to use single integrals to generalize this approach to handle even more general geometric shapes.
+      The viewpoint of an iterated integral is closely connected to an important idea from single-variable calculus. 
+      When we studied solids of revolution, such as the one shown in <xref ref="F_6_2_Ex1">Figure</xref>, we saw that in some circumstances we could slice the solid perpendicular to an axis and have each slice be approximately a circular disk. 
+      From there, we were able to find the volume of each disk, and then use an integral to add the volumes of the slices. 
+      In what follows, we are able to use single integrals to generalize this approach to handle even more general geometric shapes.
     </p>
 
     <figure xml:id="F_6_2_Ex1" >
@@ -51,7 +58,8 @@
       </p>
 
       <p>
-        As with partial derivatives, we may treat one of the variables in <m>f</m> as constant and think of the resulting function as a function of a single variable. Now we investigate what happens if we integrate instead of differentiate.
+        As with partial derivatives, we may treat one of the variables in <m>f</m> as constant and think of the resulting function as a function of a single variable. 
+        Now we investigate what happens if we integrate instead of differentiate.
         <ol marker="a.">
           <li>
             <p>
@@ -59,7 +67,8 @@
               <me>
                 A(x) = \int_{-4}^4 f(x,y) \, dy.
               </me>
-              What is the geometric meaning of the value of <m>A(x)</m> relative to the surface defined by <m>f</m>. (Hint: Think about the trace determined by the fixed value of <m>x</m>, and consider how <m>A(x)</m> is related to the image at left in <xref ref="F_11_2_Cross_section_PA_y">Figure</xref>.)
+              What is the geometric meaning of the value of <m>A(x)</m> relative to the surface defined by <m>f</m>. 
+              (Hint: Think about the trace determined by the fixed value of <m>x</m>, and consider how <m>A(x)</m> is related to the image at left in <xref ref="F_11_2_Cross_section_PA_y">Figure</xref>.)
 
               <figure xml:id="F_11_2_Cross_section_PA_y" >
                 <caption>Left: A cross section with fixed <m>x</m>. Right: A cross section with fixed <m>x</m> and <m>\Delta x</m>.</caption>
@@ -199,13 +208,40 @@
       
     </activity>
 
-    <activity xml:id="A_11_2_2">
+    <example xml:id="ex-iter-int-1">
+    <statement>
       <p>
-        Let <m>f(x,y) = x+y^2</m> on the rectangle <m>R = [0,2] \times [0,3]</m>.
+        Integrate the function <m>xe^{xy}</m> over the rectangle
+        <m>[0,1]\times [0,1]</m> by first writing it as an iterated integral.
+        Does one order of integration offer any advantages over the other?
+      </p>
+    </statement>
+    <solution>
+      <p>
+        Notice that if we set this up as a <m>dxdy</m> integral, we'd have to integrate by parts:
+      <me>
+        \int_{y=0}^1 \int_{x=0}^1 xe^{xy} \, dxdy
+      </me>
+      So let's try the other order instead.
+      </p>
+      <md>
+        <mrow> \iint_{[0,1]\times [0,1]} xe^{xy}\,dA \amp = \int_{x=0}^1 \left[ \int_{y=0}^1 xe^{xy}\,dy\right]\,dx </mrow>
+        <mrow> \amp = \int_{x=0}^1 \left[ \frac{x}{x} e^{xy} \bigg|_{y=0}^1 \right] \,dx </mrow>
+        <mrow> \amp = \int_{x=0}^1 e^{x} - 1 \,dx </mrow>
+        <mrow> \amp = e-2 </mrow>
+      </md>
+    </solution>
+    </example>
+
+    <example xml:id="A_11_2_2">
+    <statement>
+      <p>
+        Let <m>f(x,y) = x+y^2</m> on the rectangle <m>R = [0,2] \times [1,3]</m>.
         <ol marker="a.">
           <li>
             <p>
-              Evaluate <m>\iint_R f(x,y) \, dA</m> using an iterated integral.  Choose an order for integration by deciding whether you want to integrate first with respect to <m>x</m> or <m>y</m>.
+              Evaluate <m>\iint_R f(x,y) \, dA</m> using an iterated integral.  
+              Choose an order for integration by deciding whether you want to integrate first with respect to <m>x</m> or <m>y</m>.
             </p>
           </li>
 
@@ -216,8 +252,31 @@
           </li>
         </ol>
       </p>
-      
-    </activity>
+    </statement>
+    <solution>
+        <ol marker="a.">
+          <li>
+            <p>
+              We'll choose to integrate with respect to <m>y</m> first:
+            </p>
+            <md>
+              <mrow> \iint_{[0,2]\times [1,3]} x + y^2\,dA \amp = \int_{x=0}^2 \int_{y=1}^3 x + y^2\,dy dx</mrow>
+              <mrow> \amp = \int_{x=0}^2 \left[ xy + \frac{y^3}{3} \bigg|_{y=1}^3 \right]\,dx</mrow>
+              <mrow> \amp = \int_{x=0}^2 (3x + \frac{27}{3} - x - \frac{1}{3})\,dx</mrow>
+              <mrow> \amp = \int_{x=0}^2 2x - \frac{26}{3}\,dx</mrow>
+              <mrow> \amp = 2^2 - \frac{26}{3}\cdot 2 = -\frac{40}{3}</mrow>
+            </md>
+          </li>
+
+          <li>
+            <p>
+              By Fubini's Theorem, you should get the same answer by integrating in the opposite order.
+            </p>
+          </li>
+        </ol>
+
+    </solution>
+    </example>
   </subsection>
 
 
