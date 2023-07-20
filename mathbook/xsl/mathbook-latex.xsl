@@ -530,6 +530,11 @@ along with MathBook XML.  If not, see <http://www.gnu.org/licenses/>.
     </xsl:if>
     <xsl:text>%% Symbols, align environment, bracket-matrix&#xa;</xsl:text>
     <xsl:text>\usepackage{amsmath}&#xa;</xsl:text>
+    <xsl:text>\usepackage{listings}&#xa;</xsl:text>
+    <xsl:text>\usepackage{textcomp}&#xa;</xsl:text>
+		<xsl:text>\definecolor{dkgreen}{rgb}{0,0.6,0}&#xa;</xsl:text>
+		<xsl:text>\definecolor{gray}{rgb}{0.5,0.5,0.5}&#xa;</xsl:text>
+		<xsl:text>\lstset{language=Matlab,keywords={break,case,catch,continue,else,elseif,end,for,function,global,if,otherwise,persistent,return,switch,try,while},basicstyle=\ttfamily,upquote=true,keywordstyle=\color{blue},commentstyle=\color{red},stringstyle=\color{purple},stepnumber=1,numbersep=10pt,backgroundcolor=\color{white},tabsize=4,showspaces=false,showstringspaces=false,commentstyle=\color{dkgreen}}&#xa;</xsl:text>
     <xsl:text>\usepackage{amssymb}&#xa;</xsl:text>
     <xsl:text>%% allow page breaks within display mathematics anywhere&#xa;</xsl:text>
     <xsl:text>%% level 4 is maximally permissive&#xa;</xsl:text>
