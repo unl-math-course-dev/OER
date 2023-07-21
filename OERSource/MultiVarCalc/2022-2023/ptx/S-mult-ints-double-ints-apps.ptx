@@ -110,7 +110,8 @@
     </assemblage>
     
 
-    <activity xml:id="A_11_4_3">
+    <example xml:id="A_11_4_3">
+    <statement>
       <p>
         Let <m>D</m> be a half-disk lamina of radius 3 in quadrants IV and I, centered at the origin as shown in <xref ref="F_11_4_Mass_exercise">Figure</xref>. Assume the density at point <m>(x,y)</m> is given by <m>\delta(x,y) = x</m>. Find the exact mass of the lamina.
       </p>
@@ -119,8 +120,21 @@
         <caption>A half disk lamina.</caption>
         <image width="50%" source="images/fig_11_4_half_circle" />
       </figure>
-      
-    </activity>
+      </statement>
+      <solution>
+        <p>
+          We integrate the density function over the region <m>D</m>.
+          Notice that <m>D</m> can be described by the inequalities
+          <m>-3 \le y \le 3</m>, <m>0 \le x \le \sqrt{9 - y^2}</m>.
+        </p>
+        <md>
+          <mrow> \iint_D x\,dA \amp = \int_{y=-3}^3 \int_{x=0}^{\sqrt{9-y^2}} x\,dydx </mrow>
+          <mrow> \amp = \int_{y=-3}^3 \left[ \frac{(\sqrt{9-y^2})^2}{2} \right]\,dy</mrow>
+          <mrow> \amp = \frac12 \int_{y=-3}^3 9 - y^2\,dy</mrow>
+          <mrow> \amp = 28 - 18 = 10 </mrow>
+        </md>
+      </solution>
+    </example>
   </subsection>
 
 
@@ -135,7 +149,8 @@
       As the following activity demonstrates, we can also see this fact by considering a three-dimensional solid whose height is always 1.
     </p>
 
-    <activity xml:id="A_11_4_1">
+    <example xml:id="A_11_4_1">
+    <statement>
       <p>
         Suppose we want to find the area of the bounded region <m>D</m> between the curves
         <me>
@@ -165,19 +180,46 @@
           </li>
         </ol>
       </p>
-      
-    </activity>
+      </statement>
+      <solution>
+        <ol>
+          <li>
+            <p>
+              It will be more efficient to express <m>D</m> as a 
+              <em>y-simple</em> region, since as an x-simple region
+              its right boundary would have to be divided into two pieces.
+            </p>
+            <me>
+              \int_{x=-2}^{1}\int_{y=x-1}^{1-x^2} 1\,dydx
+            </me>
+            
+          </li>
+          <li>
+            <md>
+              <mrow> \int_{x=-2}^{1}\int_{y=x-1}^{1-x^2} 1\,dydx \amp = \int_{x=-2}^{1} 1-x^2 - (x-1) \,dydx </mrow>
+              <mrow> \amp = \int_{x=-2}^{1} 2-x^2 - x \,dydx </mrow>
+              <mrow> \amp = \left. 2x - \frac{x^3}{3} - \frac{x^2}{2} \right|_{-2}^1 </mrow>
+              <mrow> \amp = (2 - \frac{1^3}{3} - \frac{1}{2}) - (-4 - \frac{(-2)^3}{3} - \frac{(-2)^2}{2})</mrow>
+              <mrow> \amp = \frac{29}{6}</mrow>
+            </md>
+            <p>
+              The area of the region is <m>29/6</m>.
+            </p>
+          </li>
+        </ol>
+      </solution>
+    </example>
 
     <p>
-      We now formally state the conclusion from our earlier discussion and <xref ref="A_11_4_1">Activity</xref>.
+      We now formally state the conclusion from our earlier discussion and <xref ref="A_11_4_1"/>.
     </p>
 
     <assemblage xml:id="Double-integral-area">
       <title>The double integral and area</title>
     <p>
-      Given a closed, bounded region <m>D</m> in the plane, the area of <m>D</m>, denoted <m>A(D)</m>, is given by the double integral
+      Given a closed, bounded region <m>D</m> in the plane, the area of <m>D</m>, denoted <m>\operatorname{area}(D)</m>, is given by the double integral
       <me>
-        A(D) = \iint_D 1 \, dA.
+        \operatorname{area}(D) = \iint_D 1 \, dA.
       </me>
     </p>
     </assemblage>
@@ -308,7 +350,36 @@
       </me>.
     </p>
 
-    <activity xml:id="A_11_4_4">
+    <example>
+      <statement>
+        <p>
+          A triangular lamina <m>D</m>  with vertices <m>(0,0)</m>, <m>(0,3)</m>, and <m>(3,0)</m> has density function
+          <m>\delta(x,y) = xy</m>. Find its center of mass.
+        </p>
+      </statement>
+      <solution>
+        <md>
+          <mrow> \iint_D x\delta(x,y) \,dA\amp = \int_{x=0}^3 \int_{y=0}^{3-x} x^2y\,dydx = \frac{81}{20} </mrow>
+          <mrow> \iint_D y\delta(x,y) \, dA\amp = \int_{x=0}^3 \int_{y=0}^{3-x} xy^2\,dydx = \frac{81}{20}</mrow>
+        </md>
+        <p>
+            Next we find the mass:
+          </p>
+        <md>
+         <mrow> \iint_{D} \delta(x,y)\,dA \amp = \int_{x=0}^3 \int_{y=0}^{3-x} xy\,dydx </mrow>
+         <mrow> \amp = \int_{x=0}^3 x\cdot \frac{(3-x)^2}{2}\,dx</mrow>
+         <mrow> \amp = \frac{27}{8}</mrow>
+        </md>
+        <p>Now we are in a position to find the coordinates <m>\bar x</m> and <m>\bar y</m> of the center of mass:</p>
+          <me>
+            \bar x = \bar y = \frac{81/20}{27/8} = \frac{6}{5}
+          </me>
+        <p>So the center of mass is <m>(\frac{6}{5},\frac{6}{5})</m>.
+        Contrast this with the <em>centroid</em> of the triangle at <m>(1,1)</m>.</p>          
+      </solution>
+    </example>
+
+    <!-- <activity xml:id="A_11_4_4">
       <p>
         In this activity we determine integrals that represent the center of mass of a lamina <m>D</m> described by the triangular region bounded by the <m>x</m>-axis and the lines <m>x = 1</m> and <m>y = 2x</m> in the first quadrant if the density at point <m>(x, y)</m> is <m>\delta(x, y) = 6x + 6y + 6</m>. A picture of the lamina is shown in <xref ref="F_11_4_COM_ex_1">Figure</xref>.
       </p>
@@ -332,7 +403,7 @@
         </li>
       </ol>
       
-    </activity>
+    </activity> -->
   </subsection>
 
 
