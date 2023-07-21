@@ -18,13 +18,13 @@
             <li><p>To understand <term>first-order differential equations</term>, such as 
                 <m>\frac{dz}{dt} = f(t, z),</m> where <m>z</m> is allowed to be complex.</p></li>
 
-            <li><p>To understand <term>Euler's identity</term> 
+            <li><p>To understand <term>Euler's formula</term> 
                 <m>e^{i\theta}=\cos(\theta) + i\sin(\theta),</m>, and how to work with it in the context of differential equations.</p></li>
         </ul>
     </objectives>
     <introduction>
         <p>Recall the real numbers, denoted by <m>\mathbb{R}</m> which consist of all numbers which are positive, negative, or zero.  The real numbers include numbers such as <m>17, \sqrt{2},-5.231,\pi,e,\frac45</m>, and so on.  We define a <term>complex number</term><idx>complex number</idx> to be a "number" of the form <m>z=a+bi</m>, where <m>a</m> and <m>b</m> are real numbers, and <m>i^2=-1</m>.  Loosely speaking, we think of <m>i</m> as being equal to <m>\sqrt{-1}</m>, but its defining property is <m>i^2=-1</m>.  
-Note that <m>a</m> is called the <term>real part</term> of <m>z</m>, and <m>b</m> (not <m>bi</m>) is called the <term>imaginary part</term> of <m>z</m>.  
+            Note that <m>a</m> is called the <term>real part</term> of <m>z</m>, denoted <m>Re(z)</m>, and <m>b</m> (not <m>bi</m>) is called the <term>imaginary part</term> of <m>z</m>, denoted <m>Im(z)</m>.  The set of all complex numbers is denoted by <m>\mathbb{C}.</m>
 (Note that this means that the "imaginary part" is actually a real number.) Note that evey real number <m>a</m> can be thought of as a complex number with its imaginary part equal to zero: <m>a=a+0i</m></p>
 				<p>Before we too involved with the details, let's take a quick look at an example of how multiplication works:
 <md>
@@ -57,21 +57,53 @@ To check your understand, try to show that the following is true:
 
 It turns out that the conjugate of a complex number is so special that it gets its own notation.  For a complex number of the form <m>z=a+bi</m>, where <m>a</m> and <m>b</m> are real, we denote its <term>complex conjugate</term><idx>complex conjugate</idx> by
  <me>\overline{z}=a-bi\quad\quad (\text{the complex conjugate of }z)</me>
+ It is straight-forward to check that, for any complex numbers <m>z</m> and <m>w</m>,
+<md>
+    <mrow>\overline{z+w} &amp;= \overline{z}+\overline{w},</mrow>
+    <mrow>\overline{z-w} &amp;= \overline{z}-\overline{w},</mrow>
+  <mrow>\overline{zw} &amp;= \overline{z}\,\overline{w},</mrow>
+  <mrow>\overline{\left(\frac{z}{w}\right)}&amp;=\frac{\overline{z}}{\overline{w}}.</mrow>
+</md>
+</p>
+<p>    
+Note also that
+<me>
+z\overline{z} = (a+bi)(a-bi) = a^2-b^2i^2 = a^2-b^2(-1)  = a^2+b^2 = |z|^2.
+</me>
+Moreover,
+<md>
+<mrow>z + \overline{z} &amp;= (a+bi) + (a-bi) = 2a,</mrow>
+<mrow>z - \overline{z} &amp;= (a+bi) - (a-bi) = 2bi.</mrow>
+</md>
+That is,
+<me>
+\fbox{
+$\displaystyle z + \overline{z}= 2Re(z)\qquad \text{and}\qquad z + \overline{z}= 2i\,Im(z).$
+}
+</me>
+The complex conjugate can also be thought of as a reflection in the complex plane about the real axis.  In particular, the only numbers that do no change upon this reflection are the real numbers.  This implies that
+<me>
+\fbox{
+\(z \text{ is a real number if and only if }\,\,\, z = \overline{z}.\)
+}
+</me> 
+If <m>z = \overline{z}</m>, it is sometimes said that <m>z</m> satisfies the <term>reality condition</term>.
+
 Recall that absolute value symbol <m>|x|=\sqrt{x^2}</m> for real numbers <m>x</m>.  
 One can think about <m>|x|</m> as the distance of <m>x</m> away from zero.  In the same spirit, we extend this notation to complex numbers:
 <me>|z|=\sqrt{a^2+b^2}\quad\quad (\text{for }z=a+bi)</me>
 This can also be thought of as the distance of <m>z</m> away from the origin <m>0+0i</m>.  The symbol <m>|z|</m> is called the 
 <term>complex modulus</term><idx>complex modulus</idx>,
 the <term>norm</term><idx>norm</idx>,
-or simply the <term>absolute value</term><idx>absolute value</idx>.
+or simply the <term>absolute value</term><idx>absolute value</idx>.  
 </p>
 
 <p>
 <alert>Are complex numbers "real"?</alert>
 Before we move on, it may be worth addressing a question that may be on some reader's minds: Do complex numbers "really exist" in some sense?
-				This is a great question for a philosophy class, but one should also ask whether <i>any</i> numbers "really exist" (what does it mean for the number 5 to "exist"? What about the number <m>\sqrt{2}</m>).  
-				Indeed, for centuries, many people doubted the existence of negative numbers (how can you have -5 apples?).  
-				In fact, complex number and negative numbers gained acceptence at roughly around the same time, roughly the early to mid 1800's.  
+				This is a great question for a philosophy class, but one should also ask whether <em>any</em> numbers "really exist" (what does it mean for the number 5 to "exist"? What about the number <m>\sqrt{2}\,\,</m>?).  
+                Indeed, for centuries, many people even doubted the existence of negative numbers (how can you have <m>-5</m> apples?).  
+                In fact, complex numbers and negative numbers gained acceptence at roughly around the same time: in early-to-mid 19<m>^\text{th}</m> century.  
 				In modern mathematics, if we can define a self-consitent structure (that is, one that doesn't let to any internal logical contradictions), this is good enough to say that something "exists", at least in the mathematical sense.
 				In any case, complex numbers, just like negative numbers, have found such an enormous number of applications in science, engineering, and mathematics (and in particular, differential equations), that it is worth learning how to use them.
 </p>
@@ -81,7 +113,7 @@ Before we move on, it may be worth addressing a question that may be on some rea
         <title>Complex Functions and Calculus</title>
 
 				<p>
-				The aim of this sectio nis to talk about complex differential equations.  However, first it will be useful to understand complex-valued functions of time.  These are functions whose input is a real number, and whose output is a complex number.   If we denote a complex-valued function at a time <m>t</m> by <m>z(t)</m>, we can consider its real and imaginary parts, which will themselves be functions of <m>t</m>. Let us write:
+				The aim of this section is to learn about complex differential equations.  However, first it will be useful to understand complex-valued functions of time.  These are functions whose input is a real number, and whose output is a complex number.   If we denote a complex-valued function at a time <m>t</m> by <m>z(t)</m>, we can consider its real and imaginary parts, which will themselves be functions of <m>t</m>. Let us write:
 <me>
 z(t) = a(t) + b(t)i
 </me>
@@ -120,6 +152,7 @@ It is straight-forward to verify that all of the familiar derivative and integra
 
     <subsection xml:id="firstlook09-subsection-complex-de">
         <title>Complex Differential Equations</title>
+        
 				Now that we have defined complex derivatives and integrals, there is nothing to stop us from considering complex differential equations!
 				Let us start with an example: Find a function <m>z(t)</m> satisfying:
 				<me>
@@ -155,25 +188,149 @@ If we imagine that this formula extends to the complex case, we would have that 
 <me>
 z(t) = e^{it}
 </me>
+
+<p>
 What is meant by a complex exponent? 
 First of all, note that the standard existence and uniquness theorems for real-valued initial value can easily be extended to the case of complex differential equations (with the same proofs, except that we use the complex modulus <m>|z|</m> instead of the absolute value). 
-Hence, we simply interpret the notation <m>e^{it}</m> to mean "<em>the</em> solution to the initial value problem <m>z'=iz,\,\,z(0)=1</m>."  One can then show that all of the usual exponent rules hold. For example, suppose that <m>z(t)</m> is the solution to <m>z'=aiz,\,\,z(0)=1</m>, and <m>w(t)</m> is the solution to <m>w'=biw,\,\,w(0)=1</m>.  Then,
+Hence, we simply <em>interpret</em> the notation <m>e^{it}</m> to mean "<em>the</em> solution to the initial value problem <m>z'=iz,\,\,z(0)=1</m>."  One can then show that all of the usual exponent rules hold. For example, suppose that <m>z(t)</m> is the solution to <m>z'=aiz,\,\,z(0)=1</m>, and <m>w(t)</m> is the solution to <m>w'=biw,\,\,w(0)=1</m>.  Then,
 <md>
 <mrow>(zw)'&amp;=z'w + zw'=(aiz)w + z(biw) = (a+b)izw,</mrow>
 <mrow>(zw)(0)&amp;=z(0)w(0)=1\cdot 1 = 1,</mrow>
 </md>
 from which it follows that <m>e^{ait}e^{bit} = e^{(a+b)it}</m>.  
-We have found ourselves in a fortunte position: we have two different expressions which satisfy the same initial value problem ; namely, <m>z(t) = e^[it}</m> and <m>z(t)=\cos(t)+i\sin(t)</m>.  Therefore, by uniqueness of solutions, we have:
+We have found ourselves in a fortunte position: we have two different expressions which satisfy the same initial value problem ; namely, <m>z(t) = e^{it}</m> and <m>z(t)=\cos(t)+i\sin(t)</m>.  Therefore, by uniqueness of solutions, we have:
 <me>
 \fbox{
 $\displaystyle e^{it}= \cos(t)+i\sin(t)$
 }
 </me>
-This important result is called <term>Euler's identity</term>.   Euler's identity is a major key to understanding complex analysis, as we will see next.
+This important result is called <term>Euler's formula</term>. (Note: "Euler" is pronounced like "OY-ler", not "YOU-ler.")    It is highly worth memorizing.  Euler's formula is a major key to understanding complex analysis, as we will see in the next section.
+</p>
 
+<p>
+We can get more out of Euler's forumla.  By replacing <m>t</m> by <m>-t</m> and using the fact that cosine is an even function and sine is an odd function, we obtain 
+<me>
+e^{-it}= \cos(-t)+i\sin(-t)= \cos(t)-i\sin(t).
+</me>
+By addiing this to Euler's identity, we obtain:
+<me>
+e^{it} + e^{-it}= (\cos(t)-i\sin(t)) + (\cos(t)-i\sin(t)) = 2\cos(t).
+</me>
+Subtracting, we obtain
+<me>
+e^{it} - e^{-it}= (\cos(t)-i\sin(t)) - (\cos(t)-i\sin(t)) = 2i\sin(t).
+</me>
+Dividing the first equation by  <m>2</m> and the second by  <m>2i</m>, we can express the trig functions entirely in terms of complex exponentials, which are also worth memorizing.
+<me>
+\fbox{
+$\displaystyle \cos(t)= \frac{e^{it} + e^{-it}}{2}\qquad \text{and}\qquad \sin(t)= \frac{e^{it} +- e^{-it}}{2i}.$
+}
+</me>
+</p>
+
+<p>
+<alert>A beautiful identity.</alert> 
+Leonhard Euler (1707-1783) discovered his formula in his mid-thirties and published it in 1748.  His proof used Taylor series, a branch of analysis that deals with approximating functions by polynomials.  He also realized that by setting <m>t=\pi</m>, one obtains <m>e^{i\pi}= \cos(\pi)+i\sin(\pi)=-1</m>.  Adding <m>1</m> to both sides yields a formula that was engraved on Euler's tombstone:
+<me>
+e^{i\pi} + 1=0.
+</me>
+This is known as Euler's identity, and it has been call "the most beautiful theorem in mathematics", perhaps because it unites five very important mathematical constants in one formula: <m>e, i, \pi,1,\text{ and } 0</m>.
+</p>
     </subsection>
 
- 
-</section>
+<subsection xml:id="firstlook09-subsection-complex-polar">
+   <title>The Polar Form of Complex Numbers</title>
+   <p>
+   In this section, we will find a very convenient way to write complex numbers, called the <term>polar form</term> of a complex number.  First, consider a complex number of the form:
+   <me>
+z = x + iy.
+</me>
+Since <m>x</m> and <m>y</m> are uniquely identifed with <m>z</m>, we can identify <m>z</m> with the <em>point in the Cartesian plane</em> <m>(x,y)</m>.  Recall that we can always write a point <m>(x,y)</m> in the plane as
+<me>
+\begin{cases}
+x&amp;=&amp; r\cos(\theta),\\
+y&amp;=&amp;r\sin(\theta),
+\end{cases}
+</me>
+where <m>r\geq0</m> is the distance from the origin to <m>(x,y)</m> (that is, <m>r=\sqrt{x^2+y^2}=|z|</m>), and <m>\theta</m> is the angle between the positive <m>x</m>-axis and the ray pointing from the origin to the point  <m>(x,y)</m>.  
+Using Euler's identity from the previous section with <m>t</m> replaced by <m>\theta</m>; that is, <m>e^{i\theta}= \cos(\theta)+i\sin(\theta)</m>,  we find that
+<md>
+<mrow>z&amp;=x+iy</mrow>
+<mrow>&amp;=r\cos(\theta)+ir\sin(\theta)</mrow>
+<mrow>&amp;=r(\cos(\theta)+i\sin(\theta))</mrow>
+<mrow>&amp;=re^{i\theta}</mrow>
+</md>
+Therefore, <em>any</em> complex number can be written as either <m>z=x + iy</m> or <m>z=re^{i\theta}</m>.  The first form is called the <term>Cartesian form</term> and the second form is called the <term>polar form</term>.  In this form, sometimes <m>r</m> is called the <term>magnitude</term> or <term>amplitude</term> of <m>z</m>.
+</p>
 
+ <p>
+The polar form gives us a very convenient way to multiply complex numbers together.  For example:
+<me>
+\text{If } z_1 = r_1 e^{i\theta_1}\text{ and } z_2 = r_2 e^{i\theta_2},\text{ then }z_1z_2=r_1r_2e^{i(\theta_1+\theta_2)}.
+</me>
+That is, to multiply two complex numbers together, multiply their amplitudes and add their angles.  This gives us a new way to interpret multiplication by complex numbers.  Recall that multiplying by a real number can be thought of as <em>scaling</em>; for example, multiplying by <m>2</m> "scales" a quantity to a larger size, and multiplying by <m>\frac{1}{2}</m> "scales" a quantity to a smaller size.  Multiplication by a complex number not only scales a quantity by <m>r</m>, but also <em>rotates</em> it by angle <m>\theta</m>.
+</p>
+
+<p>
+With this pictute in mind, notice that 
+<me>
+i = 0+1i = \cos(\tfrac{\pi}{2}) + i\sin(\tfrac{\pi}{2}) = e^{i\pi/2}.
+</me>
+Hence, the differential equation we saw earlier, namely
+<me>
+\displaystyle\frac{dz}{dt}= iz,
+</me>
+can be interpreted as giving an instantaneous rotation by <m>\pi/2</m> radians (i.e., <m>90^\circ</m>).  Such a path traces out a circle, centered at the origin, with radius <m>r=1</m>; that is, the unit circle.
+</p>
+
+<p>
+We can also handle fully complex exponents as follows.  Let <m>\lambda = a+bi</m> where  <m>a</m> and <m>b</m> are real.  For any real number <m>t</m>, let <m>z(t)=e^{\lambda t}</m>.  Then 
+<me>
+z(t)=e^{\lambda t}=e^{(a+bi) t} = e^{at + ibt} =  e^{at} e^{ibt} = e^{at}(\cos(bt) + i\sin(bt))
+</me>
+In particular, since <m>e^{at}&gt;0</m>,
+<me>
+|z(t)|= e^{at}|\cos(bt) + i\sin(bt)| = e^{at}(\cos^2(bt) + \sin^2(bt)) = e^{at}.
+</me>
+This shows that the real part of <m>\lambda</m> , namely  <m>a</m>, controls the growth or decay of <m>z(t)</m> (growth if <m>a&gt;0</m>, decay if <m>a&lt;0</m>, no growth or decay if <m>a=0</m>).  Moreover, the imaginary part of <m>\lambda</m>, namely <m>b</m>, controls the oscillation frequency of <m>z(t)</m> (larger <m>b</m> means faster oscillations, <m>b=0</m> means no oscillations).
+</p>
+
+<p>
+It is useful to note that the conjugate of <m>z(t)=e^{(a+bi) t}</m> can also be found as follows.
+<me>
+\overline{z(t)}=\overline{e^{(a+bi) t}} = \overline{ e^{at}(\cos(bt) + i\sin(bt))} = e^{at}(\cos(bt) - i\sin(bt)) = e^{(a-bi) t}.
+</me>
+</p>
+
+
+
+
+</subsection>
+<subsection xml:id="firstlook09-subsection-complex-applications">
+   <title>Applications to Differential Equations</title>
+   Very often in differential equations (starting in the next chapter), even if the coefficients are real, we will find that the solutions come in the form of complex numbers.  For example, a real-value function <m>y(t)</m> might be expressed in the form
+<me>
+y(t) = c_1 e^{(a+bi)t} + c_2e^{(a-bi)t}
+</me>  
+where <m>c_1</m> and <m>c_2</m> are complex constants, and <m>a</m> and <m>b</m> are real constants.  Euler's identity can be used to re-express such expressions entirely in terms of real-valued functions.  First, let us notice what happens when we take the complex conjugate of a complex function in the form <m>z=e^{(a+bi)t}</m>.  Since <m>y</m> is real-valued, the reality condition says that <m>y = \overline{y}</m>.  Hence, we have:
+<me>
+c_1 e^{(a+bi)t} + c_2e^{(a-bi)t} = y = \overline{y}= \overline{c_1} e^{(a-bi)t} + \overline{c_2}e^{(a+bi)t}
+</me>  
+Comparing both sides shows that <m>c_1 = \overline{c_2}</m> and <m>c_2 = \overline{c_1}</m>; that is, the coefficients must be complex conjugates.  Writing <m>c_1 = k_1+ik_2</m>, where <m>k_1</m> and <m>k_2</m> are real, we have <m>c_2 = k_1-ik_2</m>.  Using the rules of conjugates shown in a previous section, we find
+<md>
+<mrow>y(t)&amp;=c_1 e^{(a+bi)t} + c_2e^{(a-bi)t}</mrow>
+<mrow>&amp;=(k_1+ik_2) e^{(a+bi)t} + (k_1-ik_2)e^{(a-bi)t}</mrow>
+<mrow>&amp;=(k_1+ik_2) e^{(a+bi)t} + \overline{(k_1+ik_2)e^{(a+bi)t}}</mrow>
+<mrow>&amp;=2Re[(k_1+ik_2) e^{(a+bi)t}]</mrow>
+<mrow>&amp;=2Re[(k_1+ik_2) e^{at}(\cos(bt) + i\sin(bt))]</mrow>
+<mrow>&amp;=2e^{at}Re[(k_1+ik_2) (\cos(bt) + i\sin(bt))]</mrow>
+<mrow>&amp;=2e^{at}Re[k_1\cos(bt) -k_2\sin(bt) + ik_1\cos(bt)+ ik_2\sin(bt)]</mrow>
+<mrow>&amp;=2e^{at}(k_1\cos(bt) -k_2\sin(bt))</mrow>
+<mrow>&amp;=C_1e^{at}\cos(bt) + C_2e^{at}\sin(bt)</mrow>
+</md>
+
+where <m>C_1</m> and <m>C_2</m> are real constants (one can work out that <m>C_1=c_1+c_2</m> and <m>C_2=i(c_1-c_2)</m>, which are both real, since <m>c_1 = \overline{c_2}</m>, but it really only matters that they are some real constants).  
+
+</subsection>
+</section>
 <!--</csection>-->
