@@ -24,8 +24,18 @@
     </objectives>
     <introduction>
         <p>Recall the real numbers, denoted by <m>\mathbb{R}</m> which consist of all numbers which are positive, negative, or zero.  The real numbers include numbers such as <m>17, \sqrt{2},-5.231,\pi,e,\frac45</m>, and so on.  We define a <term>complex number</term><idx>complex number</idx> to be a "number" of the form <m>z=a+bi</m>, where <m>a</m> and <m>b</m> are real numbers, and <m>i^2=-1</m>.  Loosely speaking, we think of <m>i</m> as being equal to <m>\sqrt{-1}</m>, but its defining property is <m>i^2=-1</m>.  
-            Note that <m>a</m> is called the <term>real part</term> of <m>z</m>, denoted <m>Re(z)</m>, and <m>b</m> (not <m>bi</m>) is called the <term>imaginary part</term> of <m>z</m>, denoted <m>Im(z)</m>.  The set of all complex numbers is denoted by <m>\mathbb{C}.</m>
-(Note that this means that the "imaginary part" is actually a real number.) Note that evey real number <m>a</m> can be thought of as a complex number with its imaginary part equal to zero: <m>a=a+0i</m></p>
+            The real number <m>a</m> is called the <term>real part</term> of <m>z</m>, denoted <m>Re(z)</m>, and the real number <m>b</m> (not <m>bi</m>) is called the <term>imaginary part</term> of <m>z</m>, denoted <m>Im(z)</m>. 
+(Note that this means that the "imaginary part" is actually a real number.) Every real number <m>a</m> can be thought of as a complex number with its imaginary part equal to zero: <m>a=a+0i</m>
+            The word "complex" in "complex number" does not mean "complicated", but refers to the numbers being made of two parts, similar to the usuage of the word "complex" in "apartment complex".  
+						The set of all complex numbers is denoted by <m>\mathbb{C}</m>.  Numbers of the form <m>z = 0+bi = bi</m> where <m>b</m> is real are called <term>imaginary numbers</term> or sometimes <term>pure imaginary numbers</term>.  The set of all imaginary numbers does not have its own symbol, but since they are just <m>i</m> times a real number, we will denote this set by <m>i\mathbb{R}</m>.  We can picture the complex numbers on a 2D space called the <term>complex plane</term>, shown below.
+			</p>
+           <figure xml:id="conjugate">
+                <caption>The complex plane <m>\mathbb{C}</m> with two complex numbers, <m>z</m> and <m>w</m>, drawn both as a points and as vectors (i.e., arrows pointing from the origin <m>0+0i</m> to the point in the plane).</caption>
+                <image width="60%" source="images/complex_plane.png">
+                    <description>The complex plane</description>
+                </image>
+            </figure>
+
 				<p>Before we too involved with the details, let's take a quick look at an example of how multiplication works:
 <md>
   <mrow>(3+5i)(7+2i)&amp;=7(3+5i)+2i(3+5i)</mrow>
@@ -43,21 +53,39 @@ Addition (and subtraction) are easier: we just add (or subtract) the real parts 
   <mrow>z+w = (a+bi) + (c+di)&amp;=(a+c) + (b+d)i</mrow>
   <mrow>z-w = (a-bi) + (c+di)&amp;=(a-c) + (b-d)i</mrow>
 </md>
-Division is a little more involved.  It uses the multiplication rule, but also the high school techique of "multiplying and dividing by the conjugate".  
+We can also think of addition graphically, as in the image below.
+<figure xml:id="complex-sum">
+	<caption>Visualization of adding two complex numbers.  Notice that we simply add the real parts, and separately add the complex parts.  The result is shown in terms of vectors: one vector is "dragged" so that its tail is placed on the tip of the other vector, resulting in a new vector which is the sum of the complex numbers.</caption>
+	<image width="60%" source="images/complex_sum.png">
+		<description>Complex addition</description>
+	</image>
+</figure>
+</p>
+
+<p>
+Division is only slightly more involved.  It uses the multiplication rule, but also the high school techique of "multiplying and dividing by the conjugate".  
 <md>
   <mrow>\frac{z}{w} &amp;= \frac{a+bi}{c+di}</mrow>
   <mrow>&amp;=\frac{(a+bi)(c-di)}{(c+di)(c-di)}</mrow>
+
   <mrow>&amp;=\frac{(ac+bd) +(bc-ad)i}{c^2+d^2}</mrow>
   <mrow>&amp;=\frac{ac+bd}{c^2+d^2} + \frac{bc-ad}{c^2+d^2}i</mrow>
 </md>
-To check your understand, try to show that the following is true:
+To check your understanding, try to show that the following is true:
 <me>
   \frac{3+5i}{7+2i}=\frac{31}{53} + \frac{29}{53}i.
 </me>
 
 It turns out that the conjugate of a complex number is so special that it gets its own notation.  For a complex number of the form <m>z=a+bi</m>, where <m>a</m> and <m>b</m> are real, we denote its <term>complex conjugate</term><idx>complex conjugate</idx> by
  <me>\overline{z}=a-bi\quad\quad (\text{the complex conjugate of }z)</me>
- It is straight-forward to check that, for any complex numbers <m>z</m> and <m>w</m>,
+<figure xml:id="complex-sum">
+	<caption>Visualization of complex conjugation.  The complex numbers <m>z</m> and <m>\overline{z}</m> are reflections of each other over the real line.</caption>
+	<image width="60%" source="images/conjugate.png">
+		<description>Complex conjugation</description>
+	</image>
+</figure>
+
+ It is straight-forward to check (try it!) that, for any complex numbers <m>z</m> and <m>w</m>,
 <md>
     <mrow>\overline{z+w} &amp;= \overline{z}+\overline{w},</mrow>
     <mrow>\overline{z-w} &amp;= \overline{z}-\overline{w},</mrow>
@@ -68,8 +96,13 @@ It turns out that the conjugate of a complex number is so special that it gets i
 <p>    
 Note also that
 <me>
-z\overline{z} = (a+bi)(a-bi) = a^2-b^2i^2 = a^2-b^2(-1)  = a^2+b^2 = |z|^2.
+z\overline{z} = (a+bi)(a-bi) = a^2-b^2i^2 = a^2-b^2(-1)  = a^2+b^2 = |z|^2
 </me>
+and
+<me>
+\overline{\overline{z}} = z.
+</me>
+
 Moreover,
 <md>
 <mrow>z + \overline{z} &amp;= (a+bi) + (a-bi) = 2a,</mrow>
@@ -269,6 +302,14 @@ The polar form gives us a very convenient way to multiply complex numbers togeth
 \text{If } z_1 = r_1 e^{i\theta_1}\text{ and } z_2 = r_2 e^{i\theta_2},\text{ then }z_1z_2=r_1r_2e^{i(\theta_1+\theta_2)}.
 </me>
 That is, to multiply two complex numbers together, multiply their amplitudes and add their angles.  This gives us a new way to interpret multiplication by complex numbers.  Recall that multiplying by a real number can be thought of as <em>scaling</em>; for example, multiplying by <m>2</m> "scales" a quantity to a larger size, and multiplying by <m>\frac{1}{2}</m> "scales" a quantity to a smaller size.  Multiplication by a complex number not only scales a quantity by <m>r</m>, but also <em>rotates</em> it by angle <m>\theta</m>.
+This is pictured below.
+<figure xml:id="complex-sum">
+	<caption>Visualization of multiplying two complex numbers.  The angles (<m>\alpha</m> and <m>\beta</m>) add, and then lengths (<m>|z|</m> and <m>|w|</m>) multiply.</caption>
+	<image width="60%" source="images/complex_multilpication.png">
+		<description>Complex multiplication</description>
+	</image>
+</figure>
+
 </p>
 
 <p>
@@ -280,8 +321,16 @@ Hence, the differential equation we saw earlier, namely
 <me>
 \displaystyle\frac{dz}{dt}= iz,
 </me>
-can be interpreted as giving an instantaneous rotation by <m>\pi/2</m> radians (i.e., <m>90^\circ</m>).  Such a path traces out a circle, centered at the origin, with radius <m>r=1</m>; that is, the unit circle.
+can be interpreted as giving an instantaneous rotation by <m>\pi/2</m> radians (i.e., <m>90^\circ</m>).  Such a path traces out a circle, centered at the origin, with radius <m>r=1</m>; that is, the unit circle, pictured in the complex plane below.
 </p>
+<figure xml:id="complex-unit-circle">
+	<caption>The unit circle in the complex plane.</caption>
+	<image width="60%" source="images/complex_unit_circle.png">
+		<description>The complex unit circle</description>
+	</image>
+</figure>
+
+
 
 <p>
 We can also handle fully complex exponents as follows.  Let <m>\lambda = a+bi</m> where  <m>a</m> and <m>b</m> are real.  For any real number <m>t</m>, let <m>z(t)=e^{\lambda t}</m>.  Then 
@@ -330,6 +379,19 @@ Comparing both sides shows that <m>c_1 = \overline{c_2}</m> and <m>c_2 = \overli
 </md>
 
 where <m>C_1</m> and <m>C_2</m> are real constants (one can work out that <m>C_1=c_1+c_2</m> and <m>C_2=i(c_1-c_2)</m>, which are both real, since <m>c_1 = \overline{c_2}</m>, but it really only matters that they are some real constants).  
+        <theorem xml:id="eqivalence-of-complex-forms">
+            <title>Equivalance of complex and trigonometric forms</title>
+            <statement>
+                <p>Suppose <m>a</m> and <m>b</m> are real constants, and <m>c_1</m> and <m>c_2</m> are (possibly complex) constants
+                    <me> y(t) = c_1 e^{(a+bi)t} + c_2e^{(a-bi)t}.</me>
+                <idx>Equivalance of complex and trigonometric forms</idx>
+                Then there exist real constants <m>C_1</m> and <m>C_2</m> such that
+                    <me> y(t) = C_1e^{at}\cos(bt) + C_2e^{at}\sin(bt).</me>
+                </p>
+            </statement>
+        </theorem>
+
+
 
 </subsection>
 </section>
