@@ -371,13 +371,21 @@
       <caption>Gravitational vector field.</caption>
       <!--<image width="40%" source="images/fig_12_1_gravity_field.png" />-->
       <interactive xml:id="interactive-gravitational-field" platform="sage" width="100%" aspect="1:1">
-        <slate surface="sage">
+        <!-- <slate surface="sage"> -->
+        <!-- the setup on mathbooks does not seem to support this interactive/slate -->
+        <!-- way of doing things. The only way I've found to make it work is to use -->
+        <!-- sage/input, which forces us to click an Evaluate button to generate the interactive plot. Not ideal. -->
+          <sage>
+            <input>
+          <!-- %display latex -->
           var('x,y,z')
           @interact
           def grav_field():
               gravity_field = plot_vector_field3d((-6.67408*10^(-11)*1*5.972*10^24*x/sqrt(x^2 + y^2 + z^2)^3, -6.67408*10^(-11)*1*5.972*10^24*y/sqrt(x^2 + y^2 + z^2)^3, -6.67408*10^(-11)*1*5.972*10^24*z/sqrt(x^2 + y^2 + z^2)^3),(x,-1,1),(y,-1,1),(z,-1,1),colors="green",radius=.01,head_len=.1,head_radius=.05,plot_points=6)
               show(gravity_field)
-        </slate>
+            </input>
+          </sage>
+        <!-- </slate> -->
       </interactive>
     </figure>
   </subsection>
@@ -446,6 +454,11 @@
       tedious.
       Fortunately, computer algebra systems can do a great job of
       making such sketches.
+      </p>
+
+    <p>One tool to plot 2D vector fields can be found <url href="https://www.geogebra.org/m/cXgNb58T">here</url>.</p>
+
+      <p>
       One thing to keep in mind, however, is that the
       magnitudes of the vectors are typically scaled in these plots,
       including plots of vector fields we will encounter later in the
@@ -493,8 +506,8 @@
       have larger magnitude than those closer to the origin.
     </p>
 
-    <activity xml:id="act_Vector_VectorFields_curves">
-      <introduction>
+    <example xml:id="act_Vector_VectorFields_curves">
+      <statement>
         <p>
         The plot in <xref ref="fig_Vector_VectorFields_circle" />
         illustrates the vector field <m>\vF(x,y) = y\vi -x\vj</m>.
@@ -510,7 +523,6 @@
 	  they get farther from the origin.</description>
 	</image>
       </figure>
-        </introduction>
         <task>
           <p>
             Starting with one of the vectors near the point
@@ -555,7 +567,43 @@
             relationship between <m>\vecmag{\vF(x,y)}</m> and the radius of the appropriate circle?
           </p>
         </task>
-    </activity>
+      </statement>
+      <solution>
+        <task>
+          <image source="images/vector-fields-circle-animation.gif" width="50%">
+            <description>An animated vector field plotted in the plane with
+              <m>x</m> and <m>y</m> both ranging from <m>-5</m> to
+              <m>5</m>. The vectors have a counterclockwise rotation about
+              the origin, with vectors getting progressively longer as
+              they get farther from the origin.
+              Starting at <m>(2,0)</m>, the circle of radius <m>2</m>
+              centered at the origin gradually appears.
+            </description>
+          </image>
+        </task>
+        <task>
+      </task>
+      <task>
+        <p>
+        Circles centered at the origin.
+       </p>
+    </task>
+    <task>
+      <me>
+        \vF(x,y) \cdot \langle x,y \rangle = \langle y, -x \rangle \cdot \langle x,y \rangle
+        = yx - xy = 0
+      </me>
+    </task>
+    <task>
+      <p>
+        Notice that the gradient of <m>f(x,y) = x^2 + y^2</m> is <m>\langle 2x, 2y \rangle</m>,
+        which is a scalar multiple of <m>\langle x,y \rangle</m>. 
+        Therefore <m>\langle x,y \rangle</m> will be orthogonal to
+         the level curves of <m>f</m> (which are circles centered at the origin).
+      </p>
+    </task>
+      </solution>
+    </example>
   </subsection>
 
   <subsection xml:id="SS_Vector_VectorFields_Gradient">
