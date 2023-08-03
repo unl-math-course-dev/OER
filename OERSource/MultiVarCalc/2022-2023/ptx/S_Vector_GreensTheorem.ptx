@@ -845,6 +845,70 @@
   </subsection>
 
   <subsection>
+	<title>Computing area as a line integral</title>
+	<p>
+	 Recall that the area of a region <m>D</m> in the plane can be computed
+	 by integrating <m>1</m> over <m>D</m>. So if we can find a vector field
+	 <m>\vF</m> such that <m>\frac{\partial \vF}{\partial x} - \frac {\partial \vF}{\partial y} = 1</m>,
+	 then the double integral in Green's Theorem becomes the area of <m>D</m>.
+	 Luckily, there are many such vector fields <m>\vF</m>:
+	</p>
+	<me>
+		\text{e.g.} \quad \vF = \langle 0,x \rangle, 
+		\quad \vF = \langle -y, 0 \rangle, 
+		\quad \vF = \langle -y/2, x / 2 \rangle
+	</me>
+	<assemblage xml:id="assemblage-greens-thm-area">
+		<title>Using Green's Theorem to compute area</title>
+		<p>
+			If <m>D</m> is a region in the plane with boundary <m>\partial D</m>,
+			then the area of <m>D</m> can be computed as any of the following
+			line integrals around <m>\partial D</m>.
+			<md>
+				<mrow> \operatorname{area}(D) \amp = \iint_D 1\,dA </mrow>
+				<mrow> \amp = \oint_{\partial D} x\,dy</mrow>
+				<mrow> \amp = \oint_{\partial D} -y\,dx</mrow>
+				<mrow> \amp = \frac12 \oint_{\partial D} x\,dy - y\,dx</mrow>
+			</md>
+		</p>
+	</assemblage>
+	<example>
+		<statement>
+			<p>
+				Compute the area of the ellipse
+				<me>
+					\left( \frac{x}{a} \right)^2 + \left( \frac{y}{b} \right)^2 = 1.
+				</me>
+			</p>
+		</statement>
+		<solution>
+			<p>
+				The ellipse is parametrized as follows.
+			</p>
+			<me>
+				\begin {array} {c} x(t) = a \cos(t) \\ y(t) = b \sin(t) \end {array},
+				0\le t \le 2\pi
+			</me>
+			<p>Using Green's Theorem, we compute the area of the ellipse
+				as a line integral of <m>\vF = \langle 0,x \rangle</m>
+				around the boundary of the ellipse.
+				(Any of the other vector fields listed above would work just as well.)
+			</p>
+			<md>
+				<mrow> \iint_E 1\,dA \amp = \oint_{\partial E} x\,dy</mrow>
+				<mrow> \amp = \int_{t=0}^{2\pi} (a\cos(t))(b\sin(t))\,dt</mrow>
+				<mrow> \amp = ab \int_0^{2\pi} \cos^2(t)\,dt</mrow>
+				<mrow> \amp = \frac{ab}{2} \int_0^{2t} 1 + \cos(2t)\,dt</mrow>
+				<mrow> \amp = \frac{ab}{2} \left[ t + \frac{1}{2} \sin(2t) \right]_0^{2\pi}</mrow>
+				<mrow> \amp = \frac{ab}{2} (2\pi) = ab\pi </mrow>
+			</md>
+		</solution>
+	</example>
+	
+	
+  </subsection>
+
+  <subsection>
     <title>Summary</title>
     <p>
       <ul>
