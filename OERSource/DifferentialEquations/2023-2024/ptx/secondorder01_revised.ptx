@@ -285,17 +285,17 @@
             </p>
         </example>
 
-        <p>As we saw in <xref ref="secondorder01-example-real-solutions" />, one can demonstrate that <m>x(t) = c_{1}x_{1}(t) + c_{2}x_{2}(t)</m> is a general solution by explicitly solving the system <xref ref="secondorder01-IVP-equation1" />-<xref ref="secondorder01-IVP-equation2" />. However, there is a simpler technique which also has the benefit of being generalizable to higher-order equations.
+        <p>As we saw in <xref ref="secondorder01-example-generalsolution" />, one can demonstrate that <m>x(t) = c_{1}x_{1}(t) + c_{2}x_{2}(t)</m> is a general solution by explicitly solving the system <xref ref="secondorder01-IVP-equation1" />-<xref ref="secondorder01-IVP-equation2" />.
         </p>
 
-        <p>The system <xref ref="secondorder01-IVP-equation1" />-<xref ref="secondorder01-IVP-equation2" /> can be equivalently encoded as the following <em>matrix-vector equation</em>:
-            <men xml:id="secondorder01-IVP-matrix-equation"> \begin{pmatrix} x_{1}(t_{0}) &amp; x_{2}(t_{0}) \\ x_{1}'(t_{0}) &amp; x_{2}'(t_{0}) \end{pmatrix} \begin{pmatrix} c_{1} \\ c_{2} \end{pmatrix} = \begin{pmatrix} x_{0} \\ v_{0} \end{pmatrix} 
-            </men>
-        For a fixed <m>t_{0}</m>, a well-known fact from linear algebra tells us that a unique solution to <xref ref="secondorder01-IVP-matrix-equation" /> (equivalently, to the system <xref ref="secondorder01-IVP-equation1" />-<xref ref="secondorder01-IVP-equation2" />) exists for all <m>x_{0}</m> and <m>v_{0}</m> if and only if
-            <me> \det \begin{pmatrix} x_{1}(t_{0}) &amp; x_{2}(t_{0}) \\ x_{1}'(t_{0}) &amp; x_{2}'(t_{0}) \end{pmatrix} = x_{1}(t_{0})x_{2}'(t_{0})-x_{2}(t_{0})x_{1}'(t_{0}) \neq 0. </me>
-        Therefore, <xref ref="secondorder01-IVP-matrix-equation" /> has a unique solution for all <m>t_{0}</m>, <m>x_{0}</m>, and <m>v_{0}</m> if and only if the quantity
-            <me> W(x_{1},x_{2}) = x_{1}(t)x_{2}'(t)-x_{2}(t)x_{1}'(t) </me>
-        is non-zero for all values of <m>t</m>. The function <m>W(x_{1},x_{2})(t)</m> is called the <term>Wronskian</term> of <m>x_{1}</m> and <m>x_{2}</m>. The relevant concepts from linear algebra are treated in detail in <xref ref="linear01"/>; for now, we will use them as a kind of <q>black box</q> to state the following criterion.
+        <p>Solving the system <xref ref="secondorder01-IVP-equation1" />-<xref ref="secondorder01-IVP-equation2" /> symbolically yields the following expressions for <m>c_{1}</m> and <m>c_{2}</m>:
+            <md>
+                <mrow>c_{1} =&amp; \frac{x_{2}'(t_{0})x_{0} - x_{2}(t_{0})v_{0}}{x_{1}(t_{0})x_{2}'(t_{0})-x_{2}(t_{0})x_{1}'(t_{0})}</mrow>
+                 <mrow>c_{2} =&amp; \frac{-x_{1}'(t_{0})x_{0} + x_{1}(t_{0})v_{0}}{x_{1}(t_{0})x_{2}'(t_{0})-x_{2}(t_{0})x_{1}'(t_{0})}.</mrow>
+            </md>
+        This represents a valid (and unique) solution to the system if and only if the denominator which appears in the expressions for both <m>c_{1}</m> and <m>c_{2}</m> is not equal to <m>0</m>. We call this quantity the <term>Wronskian</term> of <m>x_{1}</m> and <m>x_{2}</m> and denote it by
+            <me> W(x_{1},x_{2}) = x_{1}(t)x_{2}'(t)-x_{2}(t)x_{1}'(t).</me>
+         Notice that <m>W(x_{1},x_{2})</m> is a function of <m>t</m>. Provided that <m>W(x_{1},x_{2}) \neq 0</m> for all values of <m>t</m>, by our computations above we may solve the system <xref ref="secondorder01-IVP-equation1" />-<xref ref="secondorder01-IVP-equation2" /> for any values of <m>t_{0}</m>, <m>x_{0}</m>, and <m>v_{0}</m>. Thus we have the following criterion.
         </p>
 
         <theorem xml:id="secondorder01-theorem-wronskian-criterion">
