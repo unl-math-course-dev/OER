@@ -39,7 +39,7 @@
   </objectives>
 <introduction>
 <p>
-Often in business, explicit formulas for Cost, Revenue, and Profit (C(x), R(x), and P(x) respectively) are not known. However, information may exist about the cost, revenue and profit trends at a particular value <m>x=a</m>. For example, suppose that you are running a company that produces and sells computers. In an ideal world, you would have a function, <m>P(x)</m>, for the profit from the sale of <m>x</m> computers. However, in the real world, you only know that the profit from the sale of 100 laptops is <m>P(100)=\$5000</m>. You also know that the profit increased by <m>\$100</m> per laptop when 100 laptops are sold.</p>
+Often in business, explicit formulas for Cost, Revenue, and Profit (<m>C(x)</m>, <m>R(x)</m>, and <m>P(x)</m> respectively) are not known. However, information may exist about the cost, revenue and profit trends at a particular value <m>x=a</m>. For example, suppose that you are running a company that produces and sells computers. In an ideal world, you would have a function, <m>P(x)</m>, for the profit from the sale of <m>x</m> computers. However, in the real world, you only know that the profit from the sale of 100 laptops is <m>P(100)=\$5000</m>. You also know that the profit increased by <m>\$100</m> per laptop when 100 laptops are sold.</p>
 <p> From this information you could make an estimate that the profit from the sale of 101 computers would be <m>P(101)\approx 5100</m>. It is important to note that you can not assume that the profit grows at a linear (i.e. constant) rate! There are many variables when producing and selling an item, and for many companies a profit is not made unless a certain number of units are sold.</p>
 <p> Without creating an explicit function for the profit, can we estimate future profits? In this section, we will explore how to use the derivative (or rate of change) of a function to estimate the values of the function.
 </p>
@@ -279,7 +279,7 @@ Often in business, explicit formulas for Cost, Revenue, and Profit (C(x), R(x), 
 <example><title> Using the Tangent Line Approximation </title>
 <statement>
 <p>Suppose that it is known that, for a given differentiable function <m>y = f(x)</m>, its tangent line approximation 
-a the point <m> x = 1 </m> is given by 
+at the point <m> x = 1 </m> is given by 
 <me> L(x) = 3-2(x-1).</me>
 <ol label="a">
 <li>
@@ -340,6 +340,9 @@ To approximate <m> f(1.2) </m>, we plug into <m> L(x) </m>:
 </p>
 </li>
 </ol>
+<p>
+Note that we may reason through part b) in a different way as well. We know that the tangent line approximation <m>L(x)</m> to a function at a point <m>(a,f(a))</m> "touches" the function at that point, so <m>L(a)</m> must be the same as <m>f(a)</m>. In this case, since the tangent line was was approximated  at the point <m>a=1</m>, we know that <m>f(1)=L(1)=3</m>. Further, we know that the (constant) slope of the tangent line approximation was defined to be the slope of <m>f</m> at <m>x=a</m>. We could rewrite <m>L(x)</m> in slope-intercept form as <m>-2x+5</m> and see that its slope is <m>-2</m> (or we could take the derivative of <m>L(x)</m> to find that <m>L'(x)=-2</m>). In either case, we see that the <m>f'(1)</m> equals <m>-2</m>, the slope of the tangent line approximation.
+</p>
 </solution>
 </example>
 
@@ -480,9 +483,9 @@ As expected, the error grew as the point moved farther from the initial point of
       that 
       <m>L(x) \approx f(x)</m> for <m>x</m> near <m>a</m>,
       it follows that we can write
-      <me permid="NMO">
+      <men xml:id="NMO">
         f(x) \approx f(a) + f'(a)(x-a) \ \text{for}  \  x \ \text{near}  \ a
-      </me>.
+      </men>.
     </p>
   </subsection>
 
@@ -492,18 +495,36 @@ As expected, the error grew as the point moved farther from the initial point of
 <p permid="DYd">
 <p> We now seek to apply approximation techniques to specific business concepts. </p>
 
+<p>
+Suppose we have a cost function <m>C(n)</m>, giving information about the cost of selling <m>n</m> items. Building a tangent line approximation at <m>a=x</m>, we know from <xref ref="NMO" /> that
+<me>
+C(n) \approx C(x) + C'(x) (n-x) \ \text{for}  \  n \ \text{near}  \ x
+</me>
+Notice from the right-hand side that we only need to know information about the cost function for a specific number of items <m>x</m>, and we use this to approximate the cost function for a number of items <m>n</m> that is close to <m>x</m>. What about the next item sold, number <m>x+1</m>? For <m>n=x+1</m>, we would have
+<me>
+C(x+1) \approx C(x) + C'(x) ((x+1)-x) = C(x) + C'(x)(1) = C(x) + C'(x).
+</me>
+So to summarize,
+<men xml:id="Osn">
+C(x+1) \approx C(x) + C'(x).
+</men>
+We will use the principle given by <xref ref="Osn" /> a few times below with the Cost, Revenue, and Profit functions.
+</p>
+
+
+
     <assemblage xml:id="Marginals" permid="zJJ">
       <title>Marginal Cost, Revenue and Profit</title>
       <p>
 
-The <em> marginal cost</em>  is the derivative <m>C'(x)</m> of the cost function.  If we know the cost of selling <m> x </m> items, then the marginal cost is used to approximate cost of <m>x+1</m> or items. This is because <m>C(x+1)-C(x)\approx C'(x)</m>, and we can solve this and give an approximation for <m>C(x+1)</m>: <me>C(x+1)\approx C(x)+ C'(x).</me></p>
+The <em> marginal cost</em>  is the derivative <m>C'(x)</m> of the cost function.  If we know the cost of selling <m> x </m> items, then the marginal cost is used to approximate the cost of <m>x+1</m> items (by the reasoning used to obtain <xref ref="Osn" />) as follows: <me>C(x+1)\approx C(x)+ C'(x).</me></p>
    
 <p>
-The <em> marginal revenue</em> is the derivative <m>R'(x)</m> of the revenue function. If we know the revenue from selling <m> x </m> items, then the marginal revenue is used to approximate revenue from selling <m>x+1</m> items. This is because <m>R(x+1)-R(x)\approx R'(x)</m>, and we can solve this and give an approximation for <m>R(x+1)</m>: <me>R(x+1)\approx R(x)+ R'(x).</me></p>
+The <em> marginal revenue</em> is the derivative <m>R'(x)</m> of the revenue function. If we know the revenue from selling <m> x </m> items, then the marginal revenue is used to approximate the revenue from selling <m>x+1</m> items (by the reasoning used to obtain <xref ref="Osn" />) as follows: <me>R(x+1)\approx R(x)+ R'(x).</me></p>
 
      <p>
 
-The <em> marginal profit</em>  is the derivative  <m>P'(x)</m> of the profit function. If we know the profit from selling <m> x </m> items, then the marginal profit is used to approximate profit from selling <m>x+1</m> items. This is because <m>P(x+1)-P(x)\approx P'(x)</m>, and we can solve this and give an approximation for <m>P(x+1)</m>: <me>P(x+1)\approx P(x)+ P'(x).</me></p>
+The <em> marginal profit</em>  is the derivative  <m>P'(x)</m> of the profit function. If we know the profit from selling <m> x </m> items, then the marginal profit is used to approximate the profit from selling <m>x+1</m> items (by the reasoning used to obtain <xref ref="Osn" />) as follows: <me>P(x+1)\approx P(x)+ P'(x).</me></p>
 
     </assemblage>
     </p>
