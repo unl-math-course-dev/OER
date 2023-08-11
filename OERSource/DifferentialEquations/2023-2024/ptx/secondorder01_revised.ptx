@@ -1,0 +1,1338 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- This file is part of the book                                 -->
+<!--                                                               -->
+<!--    Ordinary Differential Equations Project                    -->
+<!--                                                               -->
+<!-- Copyright (C) 2013-2022 Thomas W. Judson                      -->
+<!-- See the file COPYING for copying conditions.                  -->
+
+<section xml:id="secondorder01" xmlns:xi="http://www.w3.org/2001/XInclude">
+    <title>Homogeneous Linear Equations</title>
+    <objectives>
+        <ul>
+
+            <li><p>To understand that a second-order linear differential equation with constant coefficients is an equation of the form
+                <me>a x'' + bx' + cx = 0.</me>
+            and can be solved by examining the roots of the characteristic polynomial <m>a \lambda^{2} + b\lambda + c = 0</m>.</p></li>
+
+            <li><p>To understand that  simple harmonic oscillator can be modeled by the equation
+                <me>m \frac{d^2 x}{dt^2} + b \frac{dx}{dt} + k x = 0,</me>
+            where <m>m \gt 0</m>, <m>k \gt 0</m>, and <m>b \geq 0</m>.</p></li>
+            
+        </ul>
+    </objectives>
+    <introduction>
+
+        <p>A differential equation of the form
+            <me>a(t) x'' + b(t) x' + c(t) x = g(t)</me>
+        is called a <term>second-order linear differential equation</term>. We will first consider the case
+            <me>a x'' + b x' + cx = 0,</me>
+        where <m>a</m>, <m>b</m>, and <m>c</m> are constants and <m>a \neq 0</m>. An equation of this form is said to be <term>homogeneous</term> with <term>constant coefficients</term>. In this section, we will develop a technique to solve differential equations of this form.</p>
+
+    </introduction>
+        
+    <subsection xml:id="secondorder01-subsection-rlc-circuit">
+        <title>RLC Circuits</title>
+
+        <p>Recall the RC circuits that we studied earlier (see <xref ref="firstlook03" />). Such circuits contained a voltage source, a capacitor, and a resistor. A battery or generator is an example of a voltage source, and a toaster or an electric stove is an example of something that might provide a resistance in a circuit. Capacitors store an electrical charge and are used in electronic flashes for cameras. We will now add an inductor such as a solenoid, a coil that generates a magnetic field. Inductor applications include transformers, power supplies, televisions, and radios. Our new circuit is called an RLC circuit (<xref ref="secondorder01-figure-rlc-circuit" />).</p>
+        
+        <figure xml:id="secondorder01-figure-rlc-circuit">
+            <image width="80%" xml:id="secondorder01-rlc-circuit">
+                <description>an electrical circuit containing a voltage source, and resistor, a capacitor, and an inductor</description>
+                <latex-image>
+                    <xi:include href="tikz/secondorder01-rlc-circuit.tex" parse="text"/>
+                </latex-image>   
+            </image>
+           
+            <caption>An RLC Circuit</caption>
+        </figure>
+        
+        <p>Current, <m>I(t)</m>, is the rate at which a charge flows through this circuit and is measured in amperes or amps. We assign a direction to the current, and a current flowing in the opposite direction will be given negative values. The impressed voltage, <m>E(t)</m>, is measured in volts, the resistance <m>R</m> is measured in ohms, and the capacitance <m>C</m> is measured in farads. The charge on the capacitor <m>Q(t)</m> at time <m>t</m> is measured in coulombs. Inductance on the coil, <m>L</m>, is measured in henrys.</p>
+
+        <p>The following laws from physics govern how our circuit behaves.
+            <ul>
+
+                <li><p><m>I = \dfrac{dQ}{dt}</m>.</p></li>
+
+                <li><p>The voltage drop across a resistor is <m>IR</m> (Ohm's Law).</p></li>
+
+                <li><p>The voltage drop across a capacitor is <m>Q/C</m>.</p></li>
+
+                <li><p>The voltage drop across an inductor is <m>L (dI/dt)</m>.</p></li>
+
+                <li><p>In a closed circuit the impressed voltage is equal to the sum of the voltage drops in the rest of the circuit (Kirchhoff's Second Law).</p></li>
+
+            </ul>
+        Applying Kirchhoff's Second Law  to our circuit, we have the differential equation
+            <men xml:id="secondorder01-equation-RLC">L \frac{dI}{dt} + RI + \frac{1}{C} Q = E(t)</men>
+        or
+            <me>LQ'' + RQ' + \frac{1}{C} Q = E(t).</me>
+        Differentiating both sides of <xref ref="secondorder01-equation-RLC" />, we have
+            <me>L I'' + RI' + \frac{1}{C} I = E'(t).</me></p>
+
+        <p>For example, we might consider an RLC circuit with <m>R = 1</m>, <m>L = 1</m>, and <m>C = 1</m>. At <m>t = 0</m> when both <m>I(0) =0</m> and <m>I'(0) = Q(0) = 0</m>, the impressed voltage on the circuit is given by <m>E(t) = \sin(t)</m>. Our equation becomes
+            <me>I'' + I' + I = E'(t) = \cos t.</me>
+        This is an example of a <term>second-order linear differential equation</term>.</p>
+
+    </subsection>
+
+    <subsection xml:id="secondorder01-subsection-second-order-linear-de">
+        <title>Solving Second-Order Linear Equations</title>
+
+        <p>Suppose that we have a homogeneous second-order linear differential equation with constant coefficients,
+            <men xml:id="secondorder01-equation-constant-coef">a x'' + b x' + cx = 0.</men>
+        The goal of this section is to be able to solve all such equations. To build some intuition, we start by considering the homogeneous <em>first-order</em> linear differential equation 
+            <men xml:id="secondorder01-fo-equation-constant-coef">ax' + bx = 0.</men>
+        Our work in <xref ref="firstlook"/> suggests that this equation has a solution of the form <m>x(t) = e^{\lambda t}</m> for some constant <m>\lambda</m>. We can identify <m>\lambda</m> by substuting our guess for the solution into <xref ref="secondorder01-fo-equation-constant-coef"/> and solving algebraically. Since <m>\frac{d}{dt}e^{\lambda t} = \lambda e^{\lambda t}</m>, this substitution yields the equation
+            <me>a\lambda e^{\lambda t} + be^{\lambda t} = 0.</me>
+        The term <m>e^{\lambda t}</m> is always non-zero, and therefore we can safely divide both sides of the equation above by <m>e^{\lambda t}</m> to reach
+            <me>a\lambda + b = 0,</me>
+        which has solution <m>\lambda = -\frac{b}{a}</m>. Thus <xref ref="secondorder01-fo-equation-constant-coef"/> has <m>x(t) = e^{-\frac{b}{a}t}</m> as a solution.
+        </p>
+
+        <p>A similar strategy works for homogeneous second-order linear differential equations. We <q>guess</q> that <xref ref="secondorder01-equation-constant-coef"/> has a solution of the form <m>x=e^{\lambda t}</m> and substitute our guess into the left-hand side of the equation. In detail, 
+
+            <md>
+                <mrow>a\left(\frac{d^2}{dt^2} e^{\lambda t}\right) + b\left(\frac{d}{dt}e^{\lambda t}\right) + c e^{\lambda t} &amp; = a\lambda^{2} e^{\lambda t} + b \lambda e^{\lambda t} + c e^{\lambda t}</mrow>
+                <mrow>&amp; = (a\lambda^{2} + b\lambda + c) e^{\lambda t}</mrow>
+            </md>
+
+        Dividing out the non-zero term <m>e^{\lambda t}</m> as before, we see that <m>\lambda</m> must satisfy
+            <men xml:id="secondorder01-equation-characteristic-eq">a\lambda^{2} + b\lambda + c = 0.</men>
+        We call <xref ref="secondorder01-equation-characteristic-eq"/> the <term>characteristic equation</term> for <m>ax'' + bx' + cx = 0</m>. Its roots are
+            <me>\lambda = \frac{-b \pm \sqrt{b^2 - 4ac}}{2a}.</me>
+        If <m>b^2 - 4ac \gt 0</m>, we get distinct real roots
+            <me>\lambda_1 = \frac{-b + \sqrt{b^2 - 4ac}}{2a} \quad \text{and} \quad \lambda_2 = \frac{-b - \sqrt{b^2 - 4ac}}{2a},</me>
+        which correspond to a pair of solutions
+            <me> x_{1}(t) = e^{\lambda_{1} t} \quad \text{and} \quad x_{2}(t)=e^{\lambda_{2} t}. </me>
+        to <xref ref="secondorder01-equation-constant-coef"/>. Each solution <m>x_{i}(t)</m> exhibits exponential growth or decay depending on the sign of <m>\lambda_{i}</m>.
+        </p>
+
+        <example xml:id="secondorder01-example-real-solutions">
+            <p>The equation
+                <men xml:id="secondorder01-equation-guess">x'' + 3 x' - 10 x = 0</men>
+                has characteristic equation <m>\lambda^{2} + 3\lambda - 10 = 0</m>. Rather than using the quadratic formula, we can simply factor the left-hand side as <m>(\lambda + 5)(\lambda-2)</m> to deduce that the roots are <m>\lambda_{1} =-5</m> and <m>\lambda_{2} = 2</m>. The roots correspond to a pair of solutions to <xref ref="secondorder01-equation-guess" />:
+                <me>x_1(t) = e^{-5t} \mbox{ and } x_2(t) = e^{2t}.</me>
+            </p>
+        </example>
+
+        <p>The characteristic equation <xref ref="secondorder01-equation-characteristic-eq"/> also has distinct roots when <m>b^{2} - 4ac \lt 0</m>, although now the roots are <em>complex</em> numbers. Even so, we can make sense of the corresponding solutions using tools from <xref ref="firstlook08"/>.
+				In this case, it is customary to write <m>\lambda = \alpha \pm i\beta</m>, where
+            <me>\alpha = - \frac{b}{2a} \quad \text{and} \quad \beta = \frac{\sqrt{4ac - b^2}}{2a}.</me>
+        We then have a pair of complex conjugate roots
+            <me>\lambda_{1} = \alpha + \beta i \quad \text{and} \quad \lambda_{2} = \alpha - \beta i</me>
+        corresponding, as in the real case, to a pair of solutions
+            <me>x_{1}(t) = e^{(\alpha + \beta i)t} \quad \text{and} \quad x_{2}(t) = e^{(\alpha - \beta i)t}.</me>
+        We can rewrite <m>x_{1}(t)</m> as follows:
+            <md>
+                <mrow>x_{1}(t) &amp; = e^{(\alpha + \beta i)t}</mrow>
+                <mrow>&amp; = e^{\alpha t + \beta i t}</mrow>
+                <mrow>&amp; = e^{\alpha t}e^{\beta i t}</mrow>
+            </md>
+        From Euler's formula <xref ref="firstlook08_Euler_Formula"/>, we have <m>e^{i\beta t}=\cos(\beta t) + i\sin(\beta)</m>, and so 
+            <me>x_{1}(t) = e^{\alpha t}(\cos(\beta t) + i\sin(\beta t)).</me>
+        Using the facts that <m>\cos(-\beta t)=\cos(\beta t)</m> and <m>\sin(-\beta t) = -\sin(\beta t)</m>, a similar computation on <m>x_{2}(t)</m> results in the expression
+            <me>x_{2}(t) = e^{\alpha t}(\cos(\beta t) - i\sin(\beta t)).</me>
+        To get real solutions, we can take the real part of <m>x_{1}(t)</m> and (negative) the imaginary part of <m>x_{2}(t)</m>. Going forward, we will use the resulting real functions as the canonical solutions to <xref ref="secondorder01-equation-constant-coef"/> when <m>b^{2} - 4ac \lt 0</m>, re-defining <m>x_{1}(t)</m> and <m>x_{2}(t)</m> as
+            <me>x_{1}(t) = e^{\alpha t}\cos(\beta t) \quad \text{and} \quad x_{2}(t) = e^{\alpha t}\sin(\beta t).</me>
+        Note that complex roots of the characteristic equation induce <em>oscillatory</em> behavior in the solutions of the differential equation due to the presence of the <m>\sin</m> and <m>\cos</m> terms.
+        </p>
+
+        <example>
+            <p>Consider the equation
+                <me>x'' + 4 x' + 13 x  = 0</me>
+                The characteristic equation is <m>\lambda^{2} + 4\lambda + 13 = 0</m>. The quadratic formula gives roots
+                <me>\lambda = \frac{-4 \pm \sqrt{4^2-4(1)(13)}}{2} = -2 \pm 3i,</me>
+            corresponding to <m>\lambda = \alpha \pm \beta i</m> with <m>\alpha=-2</m>, <m>\beta = 3.</m> 
+						We get the complex solutions:
+            <me>z_{1}(t) = e^{(-2+3i)t} \quad \text{and} \quad z_{2}(t) = e^{(-2-3i)t}.</me>
+						From these complex solutions, using the techniques of <xref ref="firstlook08-subsection-complex-applications"/>, from these solutions, we can get the following equivalent set of real solutions: 
+            <me>x_{1}(t) = e^{-2t}\cos(3t) \quad \text{and} \quad x_{2}(t) = e^{-2t}\sin(3t).</me>
+            </p>
+        </example>
+
+        <p>There is one more case to consider: when <m>b^{2}-4ac=0</m>. In this case, the charactersitic equation has a <em>repeated real root</em> at <m>\lambda = -\frac{b}{2a}</m>, which appears to give only one solution <m>x_{1}(t) = e^{-\frac{b}{2a}t}.</m> However, as demonstrated in the next example, it is possible to generate a second solution using <m>x_{1}(t)</m>.
+        </p>
+
+        <example xml:id="secondorder01-example-reduction-of-order">
+            <p>Consider the equation
+
+                <me>x'' + 2x' + x = 0.</me>
+            The characteristic equation is 
+                <me>\lambda^{2} + 2\lambda + 1 = (\lambda + 1)^{2} = 0.</me>
+            Thus, there is a repeated real root <m>\lambda  = -1</m> and we have a solution <m>x_1(t) = e^{-t}</m>.
+            </p>
+
+            <p>We seek a second solution that is not a multiple of <m>x_1(t) = e^{-t}</m>. We will <q>guess</q> that a solution to <m>x'' + 2x' + x = 0</m> of the form <m>v(t) x_1(t)</m> exists for some unknown function <m>v(t)</m> and attempt to solve for <m>v(t)</m>. Indeed, if 
+                <me>x(t) = v(t) x_1(t) = v(t) e^{-t},</me>
+            then
+                <me>x'(t) = v(t) x_1'(t) + v'(t) x_1(t) = -v(t) e^{-t} + v'(t) e^{-t}</me>
+            and
+                <md>
+                    <mrow>x''(t) &amp; = v''(t) x_1(t) + 2v'(t) x_1'(t) + v(t) x_1''(t)</mrow>
+                    <mrow>&amp; = v''(t) e^{-t} - 2 v'(t) e^{-t} + v(t) e^{-t}.</mrow>
+                </md>
+            Consequently,
+                <md>
+                    <mrow>x'' + 2 x' + x &amp; = [v'' e^{-t} - 2 v' e^{-t} + v e^{-t}] + 2 [-v e^{-t} + v' e^{-t}]  + [v e^{-t}]</mrow>
+                    <mrow>&amp; = e^{-t} v''</mrow>
+                    <mrow>&amp; = 0,</mrow>
+                </md>
+            and <m>v'' = 0</m>. Therefore, <m>v = c_1 t + c_2</m>. Letting <m>c_1 = 1</m> and <m>c_2 = 0</m> gives <m>v(t) = t</m>, and a second solution to our equation is given by 
+                <me>x(t) = t e^{-t}</me>. 
+            Note that we could just as well have chosen, say, <m>c_{1} = 0</m> and <m>c_{2}=1</m>, or <m>c_{1} = 1</m> and <m>c_{2}=1</m>. The former, however, results in <m>x(t)=e^{-t}</m>, which is the solution we already knew. The latter choice gives <m>x(t) = te^{-t} + e^{-t}</m>. While this solution is distinct from the one we started with, it still contains information from the original solution in the second term. The assignment <m>c_{1}=1</m>, <m>c_{2}=0</m> is the simplest choice of constants which gives another solution that is, in a sense, <em>independent</em> from the first. 
+        </p>
+        </example>
+
+        <p>The technique that we have used in <xref ref="secondorder01-example-reduction-of-order" /> is called <term>reduction of order</term>. <idx>reduction of order</idx> In general, given a second-order linear differential equation
+            <me>a x'' + bx' + cx = 0</me>
+        such that <m>b^2 - 4ac = 0</m>, we have a pair of solutions
+            <me>x_{1}(t) = e^{\lambda t} \quad\text{and}\quad x_{2}(t)= t e^{\lambda t},</me>
+        where <m>\lambda = -b/2a</m> is the repeated real root of the characteristic equation.
+        </p>
+
+    </subsection>
+
+    <subsection xml:id="secondorder01-subsection-general_solutions">
+        <title>General Solutions to Second-Order Linear Equations</title>
+
+        <p>In <xref ref="secondorder01-subsection-second-order-linear-de"/> we learned how to construct some solutions to the differential equation <xref ref="secondorder01-equation-constant-coef"/> given by
+            <me>ax'' + bx' + cx = 0</me>
+        using the roots of the characteristic equation <m>a\lambda^{2} + b \lambda + c = 0.</m> In this section, we will show that these solutions can in fact be used to describe <em>all</em> solutions to the differential equation.
+        </p>
+
+        <p>A key idea in this direction is the <term>principle of superposition</term>, which states that scalar multiples and sums of solutions to <xref ref="secondorder01-equation-constant-coef"/> are again solutions to the same equation.
+        </p>
+
+        <p>This fact can be established using basic properties of the derivative. For instance, suppose that <m>x(t)</m> is a solution to <m>ax'' + bx' + cx = 0</m>, and let <m>A</m> be an arbitrary real constant. Recalling that for any differentiable function <m>f</m>, we have <m>\frac{d}{dt}Af(t)=A\frac{d}{dt}f(t)</m>, we may compute
+            <md>
+                <mrow>a(Ax)'' + b(Ax)' + c(Ax) &amp; = aA(x'') + bA(x') + cA(x)</mrow>
+                <mrow> &amp; = A(ax'' + bx' + cx) </mrow>
+                <mrow> &amp; = A \cdot 0 </mrow>
+                <mrow> &amp; = 0 </mrow>
+            </md>
+        where in the second-to-last line we use the fact that <m>x(t)</m> is a solution to <xref ref="secondorder01-equation-constant-coef"/>, that is, <m>ax'' + bx' + cx = 0</m>. So, <m>Ax(t)</m> is also a solution.
+        </p>
+
+        <p>Similarly, since <m>\frac{d}{dt}(f(t) + g(t)) = \frac{d}{dt}f(t) + \frac{d}{dt}g(t)</m> for any differentiable <m>f</m> and <m>g</m>, if <m>x_{1}(t)</m> and <m>x_{2}(t)</m> are solutions to <xref ref="secondorder01-equation-constant-coef"/>, then
+            <md>
+                <mrow>a(x_{1} + x_{2})'' + b(x_{1} + x_{2})' + c(x_{1} + x_{2}) &amp; = ax_{1}'' + ax_{2}'' + bx_{1}' + bx_{2}' + cx_{1} + cx_{2} </mrow>
+                <mrow> &amp; = (ax_{1}'' + bx_{1}' + cx_{1}) + (ax_{2}'' + bx_{2}' + cx_{2}) </mrow>
+                <mrow> &amp; = 0 + 0 </mrow>
+                <mrow> &amp; = 0. </mrow>
+            </md>
+        So <m>x_{1}(t) + x_{2}(t)</m> is also a solution to <xref ref="secondorder01-equation-constant-coef"/>. In conjunction, the preceding computations yield the following theorem.
+        </p>
+
+        <theorem xml:id="secondorder01-theorem-superposition">
+            <title>Principle of Superposition</title>
+            <statement>
+                <p>If <m>x_{1}(t)</m> and <m>x_{2}(t)</m> are solutions to the differential equation <m>ax'' + bx' + cx = 0</m>, then for any constants <m>c_{1}</m> and <m>c_{2}</m>, <m>c_{1}x_{1}(t) + c_{2}x_{2}(t)</m> is also a solution.<idx>Principle of Superposition</idx></p>
+            </statement>
+        </theorem> 
+
+        <p>Before continuing, it is worth noting that <xref ref="secondorder01-theorem-superposition" /> is still true if the constant coefficients <m>a</m>, <m>b</m>, and <m>c</m> are replaced with variable coefficients <m>a(t)</m>, <m>b(t)</m>, and <m>c(t)</m> which depend on <m>t</m>. For our present purposes, however, we continue to focus solely on the constant coefficient case.
+        </p>
+
+        <p>The expression <m>c_{1}x_{1}(t) + c_{2}x_{2}(t)</m> is called a <term>linear combination</term> of the functions <m>x_{1}</m> and <m>x_{2}</m>. Provided that <m>x_{1}</m> and <m>x_{2}</m> solve <xref ref="secondorder01-equation-constant-coef"/> and <m>x_{2}</m> is not simply a constant multiple of <m>x_{1}</m>, we can think of the linear combination <m>c_{1}x_{1}(t) + c_{2}x_{2}(t)</m> as a <term>two-parameter family of solutions</term> to <xref ref="secondorder01-equation-constant-coef"/>. 
+        </p>
+
+        <p>Does such a family encompass <em>all</em> solutions? To make this question more tractable, we first state an existence and uniqueness result for second-order linear equations which is analogous to <xref ref="firstlook06-theorem-existence-uniqueness"/>. 
+        </p>
+
+        <theorem xml:id="secondorder01-theorem-existence-uniqueness">
+            <title>Existence and Uniqueness Theorem</title>
+            <statement>
+                <p>Consider the linear equation
+                    <me> ax'' + bx' + cx = g(t) </me>
+                with initial conditions <m>x(t_{0}) = x_{0}</m> and <m>x'(t_{0}) = v_{0}</m>. If <m>g(t)</m> is continuous on some interval <m>(t_{1}, t_{2})</m> containing <m>t_{0}</m>, then there exists a unique solution <m>x(t)</m> that is continuous on <m>(t_{1}, t_{2})</m>.
+                <idx>Existence and Uniqueness Theorem</idx></p>
+            </statement>
+        </theorem>
+
+        <p>In light of <xref ref="secondorder01-theorem-existence-uniqueness" />, to show that a two-parameter family of solutions <m>c_{1}x_{1}(t) + c_{2}x_{2}(t)</m> contains all solutions to the differential equation, it is enough to demonstrate that the constants <m>c_{1}</m> and <m>c_{2}</m> can be chosen to satisfy arbitrary initial conditions. That is, for any <m>t_{0}</m>, <m>x_{0}</m>, and <m>v_{0}</m>, there exists an assignment of <m>c_{1}</m> and <m>c_{2}</m> satisfying the system of equations
+            <men xml:id="secondorder01-IVP-equation1"> c_{1}x_{1}(t_{0}) + c_{2}x_{2}(t_{0}) = x_{0} </men> 
+            <men xml:id="secondorder01-IVP-equation2"> c_{1}x_{1}'(t_{0}) + c_{2}x_{2}'(t_{0}) = v_{0}. </men>
+
+        When this holds, we say that <m>x(t) = c_{1}x_{1}(t) + c_{2}x_{2}(t)</m> is a <term>general solution</term> to the differential equation.
+        </p>
+
+        <p>We begin with an example before proceding with the general theory.
+        </p>
+
+        <example xml:id="secondorder01-example-generalsolution">
+            <p>In <xref ref="secondorder01-example-real-solutions" />, we used the characteristic equation to deduce that 
+                <me>x_{1}(t) = e^{-5t}\quad \text{ and } \quad x_{2}(t) = e^{2t}</me> 
+            both solve the equation <m>x'' + 3 x' - 10 x = 0</m>. Taking an arbitrary linear combination of <m>x_{1}</m> and <m>x_{2}</m> then gives a two-parameter family of solutions 
+                <me>c_{1}e^{-5t} + c_{2}e^{2t}.</me> 
+            (There is an easy way to verify that <m>x_{1}</m> and <m>x_{2}</m> are not constant multiples of one another: just confirm that their ratio <m>\frac{e^{-5t}}{e^{2t}} = e^{-7t}</m> is not constant!)
+            </p>
+
+            <p>Now, let <m>t_{0}</m>, <m>x_{0}</m>, and <m>v_{0}</m> be arbitrary. <xref ref="secondorder01-theorem-existence-uniqueness" /> gives that there is a unique solution <m>x(t)</m> to the differential equation satisfying <m>x(t_{0}) = x_{0}</m> and <m>x'(t_{0}) = v_{0}</m>. If we are able to choose <m>c_{1}</m> and <m>c_{2}</m> so that the system of equations
+                <md>
+                    <mrow>c_{1}e^{-5t_{0}} + c_{2}e^{2t_{0}} &amp;= x_{0}</mrow>
+                    <mrow>-5c_{1}e^{-5t_{0}} + 2c_{2}e^{2t_{0}} &amp;= v_{0}.</mrow>
+                </md>
+            is satisfied, then <m>x(t) = c_{1}e^{-5t} + c_{2}e^{2t}.</m>
+            </p>
+            <p>Solving the first equation for <m>c_{1}</m> gives 
+                <me>c_{1} = x_{0}e^{5t_{0}} - c_{2}e^{7t_{0}}.</me>
+            Substituting this into the second equation and solving for <m>c_{2}</m> results in 
+                <me>c_{2} = \frac{1}{7}\left( v_{0}e^{-2t_{0}} - 5x_{0} \right).</me>
+            We have demonstrated assignments of <m>c_{1}</m> and <m>c_{2}</m> in terms of arbitary <m>t_{0}</m>, <m>x_{0}</m>, and <m>v_{0}</m>. So 
+                <me>x(t) = c_{1}e^{-5t} + c_{2}e^{2t}</me>
+            is the general solution to <m>x'' + 3 x' - 10 x = 0</m>. Here, we established this by explicitly solving a system of equations for <m>c_{1}</m> and <m>c_{2}</m>. Going forward, we will develop some theory which will allow us to reach the same conclusion with less explicit computation.
+            </p>
+        </example>
+
+        <p>As we saw in <xref ref="secondorder01-example-generalsolution" />, one can demonstrate that <m>x(t) = c_{1}x_{1}(t) + c_{2}x_{2}(t)</m> is a general solution by explicitly solving the system <xref ref="secondorder01-IVP-equation1" />-<xref ref="secondorder01-IVP-equation2" />.
+        </p>
+
+        <p>Solving the system <xref ref="secondorder01-IVP-equation1" />-<xref ref="secondorder01-IVP-equation2" /> symbolically yields the following expressions for <m>c_{1}</m> and <m>c_{2}</m>:
+            <md>
+                <mrow>c_{1} =&amp; \frac{x_{2}'(t_{0})x_{0} - x_{2}(t_{0})v_{0}}{x_{1}(t_{0})x_{2}'(t_{0})-x_{2}(t_{0})x_{1}'(t_{0})}</mrow>
+                 <mrow>c_{2} =&amp; \frac{-x_{1}'(t_{0})x_{0} + x_{1}(t_{0})v_{0}}{x_{1}(t_{0})x_{2}'(t_{0})-x_{2}(t_{0})x_{1}'(t_{0})}.</mrow>
+            </md>
+        This represents a valid (and unique) solution to the system if and only if the denominator which appears in the expressions for both <m>c_{1}</m> and <m>c_{2}</m> is not equal to <m>0</m>. We call this quantity the <term>Wronskian</term> of <m>x_{1}</m> and <m>x_{2}</m> and denote it by
+            <me> W(x_{1},x_{2}) = x_{1}(t)x_{2}'(t)-x_{2}(t)x_{1}'(t).</me>
+         Notice that <m>W(x_{1},x_{2})</m> is a function of <m>t</m>. Provided that <m>W(x_{1},x_{2}) \neq 0</m> for all values of <m>t</m>, by our computations above we may solve the system <xref ref="secondorder01-IVP-equation1" />-<xref ref="secondorder01-IVP-equation2" /> for any values of <m>t_{0}</m>, <m>x_{0}</m>, and <m>v_{0}</m>. Thus we have the following criterion.
+        </p>
+
+        <theorem xml:id="secondorder01-theorem-wronskian-criterion">
+            <p>If <m>x_{1}(t)</m> and <m>x_{2}(t)</m> are solutions to the differential equation <m>ax'' + bx' + cx = 0</m> such that for all values of <m>t</m>, <m>W(x_{1},x_{2}) \neq 0</m>, then 
+                <me>x(t) = c_{1}x_{1}(t) + c_{2}x_{2}(t)</me>
+            is a general solution to <m>ax'' + bx' + cx = 0</m>.
+            </p>
+        </theorem>
+
+        <p>In the example below, we revisit the differential equation from <xref ref="secondorder01-example-generalsolution" /> in light of <xref ref="secondorder01-theorem-wronskian-criterion"/>.
+        </p>
+
+        <example xml:id="secondorder01-example-generalsolution-wronskian" >
+            <p>Consider again the equation <m>x'' + 3 x' - 10 x = 0</m> from <xref ref="secondorder01-example-generalsolution" />. We have a pair of solutions <m>x_{1}(t)=e^{-5t}</m> and <m>x_{2}(t)=e^{2t}</m>. We compute their Wronskian as
+                <me> W(e^{-5t}, e^{2t}) = (e^{-5t})(2e^{2t})-(e^{2t})(-5e^{-5t})=7e^{-3t}.</me>
+            Since for all values of <m>t</m> we have that <m>7e^{-3t} \neq 0</m>, we may conclude that 
+                <me>x(t)=c_{1}e^{-5t} + c_{2}e^{2t} </me>
+            is a general solution to <m>x'' + 3 x' - 10 x = 0,</m> confirming our observations from <xref ref="secondorder01-example-generalsolution" />. 
+            </p>
+        </example>
+
+        <p>We can now give an explicit general solution to the equation <m>ax'' + bx' + cx = 0</m>. This task combines our efforts from <xref ref="secondorder01-subsection-second-order-linear-de"/>, where we constructed pairs of solutions using the characteristic equation, with the theory developed in this section.
+        </p>
+
+        <theorem xml:id="secondorder01-theorem-general-solution">
+            <title>General Solution to the Homogeneous Second-Order Equation</title>
+            <statement>
+                <p>Consider the equation <m>ax'' + bx' + cx = 0</m>.
+                    <ul>
+
+                        <li>If <m>b^{2}-4ac \gt 0</m>, a general solution is given by
+                            <me>x(t) = c_{1}e^{\lambda_{1}t} + c_{2}e^{\lambda_{2}t}</me>
+                        where 
+                            <me>\lambda_{1} = \frac{-b + \sqrt{b^{2}-4ac}}{2a} \quad \text{and} \quad \lambda_{2} = \frac{-b - \sqrt{b^{2}-4ac}}{2a}</me>
+                        are the distinct real roots of the characteristic equation <m>a\lambda^{2} + b\lambda + c = 0</m>.
+                        </li>
+
+                        <li>If <m>b^{2} - 4ac = 0</m>, a general solution is given by
+                            <me>x(t) = c_{1}e^{\lambda t} + c_{2}te^{\lambda t}</me>
+                        where
+                            <me>\lambda = -\frac{b}{2a}</me>
+                        is the repeated real root of the characteristic equation.
+                        </li>
+
+                        <li>If <m>b^{2}-4ac \lt 0</m>, a general solution is given by
+                            <me>x(t) = c_{1}e^{\alpha t}\cos(\beta t) + c_{e}e^{\alpha t}\sin(\beta t)</me>
+                        where 
+                            <me>\alpha \pm \beta i</me>
+                        are the complex conjugate roots of the characteristic equataion.
+                        </li>
+
+                    </ul>
+                <idx>General Solution to the Homogeneous Second-Order Equation</idx></p>
+            </statement>
+        </theorem>
+
+        <proof>
+            <p>We prove the theorem only in the case <m>b^{2} - 4ac \lt 0</m> in detail, since this one is the most computationally taxing. The other two cases can be proved in the same way.
+            </p>
+
+            <p>Suppose that <m>b^{2} - 4ac \lt 0</m>, and let <m>\alpha</m> and <m>\beta</m> be defined as in the theorem statement. We know from <xref ref="secondorder01-subsection-second-order-linear-de"/> that 
+                <me>x_{1}(t) = e^{\alpha t}\cos(\beta t) \quad \text{ and } \quad x_{2}(t)=e^{\alpha t}\sin(\beta t)</me>
+            are solutions to <m>ax'' + bx' + cx = 0</m>, so to show that <m>x(t) = c_{1}x_{1}(t) + c_{2}x_{2}(t)</m> is the general solution, by <xref ref="secondorder01-theorem-wronskian-criterion"/> it suffices to check that their Wronskian <m>W(x_{1},x_{2})</m> is non-zero for all <m>t</m>. We first do some preliminary computations: using the product rule,
+                <me>x_{1}'(t) = \alpha e^{\alpha t}\cos(\beta t) - \beta e^{\alpha t}\sin(\beta t)</me>
+            and
+                <me>x_{2}'(t) = \alpha e^{\alpha t}\sin(\beta t) + \beta e^{\alpha t}\cos(\beta t).</me>
+            Thus
+                <me>x_{1}(t)x_{2}'(t) = e^{2\alpha t}[\alpha \cos(\beta t)\sin(\beta t) + \beta \cos^{2}(\beta t)]</me>
+            and
+                <me>x_{2}(t)x_{1}'(t) = e^{2\alpha t}[\alpha \cos(\beta t)\sin(\beta t) - \beta \sin^{2}(\beta t)].</me>
+            Taking the difference of these expressions results in the cancellation of the <m>\alpha \cos(\beta t) \sin(\beta t)</m> terms, leaving us with 
+                <me>x_{1}(t)x_{2}'(t) - x_{2}(t)x_{1}'(t) = \beta e^{2\alpha t}[\sin^{2}(\beta t) + \cos^{2}(\beta t)].</me>
+            Using the Pythagorean Identity <m>\sin^{2}(\theta) + \cos^{2}(\theta) = 1</m>, we concluce
+                <me>W(x_{1}, x_{2}) = \beta e^{2\alpha t}</me>.
+            Since <m> e^{2\alpha t} </m> is non-zero for all values of <m>t</m> and <m>\beta \neq 0</m>, we conclude that <m>W(x_{1},x_{2})</m> is non-zero for all values of <m>t</m>. Thus <m>x(t) = c_{1}x_{1}(t) + c_{2}x_{2}(t)</m> is the general solution.
+            </p>
+        </proof>
+
+        <p>With general solutions in hand, we can solve an initial value problem involving <m>ax'' + bx' + cx = 0</m> with initial conditions of the form <m>x(0) = x_{0}</m>, <m>x'(0) = v_{0}</m>. We demonstrate in the next example.
+        </p>
+
+        <example xml:id="secondorder01-example-IVP">
+
+            <p>We solve 
+                <me>x'' - 8x' + 16x = 0</me>
+            subject to initial conditions
+                <me>x(0) = 10 \quad \text{and} \quad x'(0) = -2.</me>
+            We start by writing the general solution to the differential equation. The characteristic equation is
+                <me>\lambda^{2} - 8\lambda + 16 = 0,</me>
+            which has a repeated real root at <m>\lambda = 4</m>. By <xref ref="secondorder01-theorem-general-solution"/>, the general soltuion is
+                <me>x(t) = c_{1}e^{4t} +c_{2}t e^{4t}.</me>
+            Plugging in <m>t = 0</m> gives
+                <me>x(0) = c_{1}e^{4\cdot 0} + c_{2} \cdot 0 \cdot e^{4 \cdot 0} = c_{1}</me>
+            and so <m>x(0) = 10</m> imposes <m>c_{1} = 10</m>. To solve for <m>c_{2}</m>, we must differentiate <m>x(t)</m> and use <m>x'(0) = -2</m>. With some computation, we find
+                <me>x'(t) = (c_{1} + c_{2})e^{4t} + 4c_{2}te^{4t}.</me>
+            We already know <m>c_{1} = 10</m>. Plugging <m>t = 0</m> into the above and equating it to <m>-2</m> yields
+                <me>10 + c_{2} = -2</me>
+            which gives <m>c_{2} = -12.</m> So the solution to the IVP is
+                <me> x(t) = 10e^{4t} -12 te^{4t}.</me>
+            </p>
+
+        </example>
+
+
+
+        <activity>
+            <title>Solving Second-Order Homogeneous Linear Differential Equations</title>
+
+            <introduction>
+                <p>Solve each of the following initial value problems.</p>
+            </introduction>
+            <task>
+                <statement>
+                    <p><md>
+                        <mrow>x'' - 5 x' -14 x &amp; = 0</mrow>
+                        <mrow>x(0) &amp; = 0</mrow>
+                        <mrow>x'(0) &amp; = 2.</mrow>
+                    </md></p>
+                </statement>
+            </task>   
+            <task>
+                <statement>
+                    <p><md>
+                        <mrow>6x'' - 11 x' + 3 x &amp; = 0</mrow>
+                        <mrow>x(0) &amp; = 0</mrow>
+                        <mrow>x'(0) &amp; = 2.</mrow>
+                    </md></p>
+                </statement>
+            </task>   
+            <task>
+                <statement>
+                    <p><md>
+                        <mrow>x'' - 14 x' + 53 x &amp; = 0</mrow>
+                        <mrow>x(0) &amp; = 1</mrow>
+                        <mrow>x'(0) &amp; = 1.</mrow>
+                    </md></p>
+                </statement>
+            </task>   
+            <task>
+                <statement>
+                    <p><md>
+                        <mrow>4x'' - 20 x' + 41 x &amp; = 0</mrow>
+                        <mrow>x(0) &amp; = 0</mrow>
+                        <mrow>x'(0) &amp; = 1.</mrow>
+                    </md></p>
+                </statement>
+            </task>   
+            <task>
+                <statement>
+                    <p><md>
+                        <mrow>x'' -1 4 x' +49 x &amp; = 0</mrow>
+                        <mrow>x(0) &amp; = 1</mrow>
+                        <mrow>x'(0) &amp; = 0.</mrow>
+                    </md></p>
+                </statement>
+            </task>   
+        </activity>
+    </subsection>
+
+    <subsection xml:id="secondorder01-subsection-harmonic-oscillators">
+        <title>Classifying Harmonic Oscillators</title>
+        <p>Recall from <xref ref="firstlook01-subsection-spring-mass"/> that we can model harmonic motion using the equation
+            <me>m \frac{d^2 x}{dt^2} + b \frac{dx}{dt} + k x = 0.</me>
+        In the case of a spring-mass system, <m>m</m> is the oscillating mass, <m>b</m> is the damping coefficient, and <m>k</m> is the spring constant. It is important to remember that both <m>m</m> and <m>k</m> are positive constants and <m>b \geq 0</m>.</p>
+
+        <p>If <m>b = 0</m>, then the oscillator is <term>undamped</term><idx><h>harmonic oscillator</h><h>damped</h></idx> In this case,
+            <men xml:id="secondorder01-equation-harmonic">m \frac{d^2 x}{dt^2} + k x = 0.</men>
+        The characteristic equation is
+            <me>m \lambda^2 + k = 0,</me>
+        and we roots at <m>\lambda = \pm i \sqrt{k/m}</m>. Writing <m>\omega = \sqrt{k/m}</m> for simplicity, <xref ref="secondorder01-theorem-general-solution"/> gives the general solution
+            <me>x(t) = c_1 \cos \omega t + c_2 \sin \omega t,</me>
+        which represents the position of the mass at time <m>t</m>. Now, of course, it is easy to determine the velocity of the mass at time <m>t</m> to be
+            <me>v(t) = x'(t) = - c_1 \omega \sin \omega t + c_2 \omega \cos \omega t.</me></p>
+
+        <example>
+            <p>Suppose that an undamped harmonic oscillator is modeled by the initial value problem
+                <md>
+                    <mrow>\frac{d^2x}{dt^2} + 9 x \amp = 0</mrow>
+                    <mrow>x(0) \amp = 2</mrow>
+                    <mrow>x'(0) \amp = 1.</mrow>
+                </md>
+            We can quickly determine the solution of this initial value problem to be
+                <md>
+                    <mrow>x(t) \amp = 2 \cos 3t +\frac{1}{3} \sin 3t</mrow>
+                    <mrow>v(t) \amp = \cos 3t - 6 \sin 3t,</mrow>
+                </md>
+            where <m>v(t) = x'(t)</m> is the velocity of the oscillator (<xref ref="secondorder01-figure-undamped-oscillator" />). Examining the phase plane of the undamped oscillator, we find that the period of the oscillations is given by <m>2 \pi / \omega = 2 \pi / 3 \approx 2.094</m> (<xref ref="secondorder01-figure-undamped-oscillator-phase-plane" />).</p>
+
+            <figure xml:id="secondorder01-figure-undamped-oscillator">
+                <image width="70%" xml:id="secondorder01-undamped-oscillator">
+                    <description>position and velocity of an undamped harmonic oscillator plotted agains time</description>
+                    <sageplot>
+                        t = var('t')
+                        f(t) = 2*cos(3*t) + (1/3)* sin(3*t)
+                        g(t) = cos(3*t) - 6*sin(3*t)
+                        p = plot(f(t), (t, 0, 5), ymin = 6, ymax = 6, color='blue', thickness=2, axes_labels=['$t$','$x(t), v(t)$'], legend_label='$x(t)$')
+                        p += plot(g(t), (t, 0, 5),ymin = -6, ymax = 6, color='red', thickness=2, legend_label='$v(t)$')
+                        p
+                    </sageplot>
+                </image>
+                <caption>Position and velocity of an undamped harmonic oscillator</caption>
+            </figure>
+
+            <figure xml:id="secondorder01-figure-undamped-oscillator-phase-plane">
+                <image width="20%" xml:id="secondorder01-undamped-oscillator-phase-plane">
+                    <description>the velocity of a harmonic oscillator plotted against the position forming an ellipse in the position-velocity plane</description>
+                    <sageplot>
+                        t = var('t')
+                        f(t) = 2*cos(3*t) + (1/3)* sin(3*t)
+                        g(t) = cos(3*t) - 6*sin(3*t)
+                        p = parametric_plot([f(t),g(t)], (t, 0, 5), xmax = 3, xmin = -3, ymin = -7, ymax = 7, color='blue', thickness=2, axes_labels=['$x(t)$','$v(t)$'])
+                        p
+                    </sageplot>
+                </image>
+                <caption>The phase plane of an undamped harmonic oscillator</caption>
+            </figure>            
+        </example>
+
+        <p>If we add damping to the oscillator, the equation becomes
+            <men xml:id="secondorder01-equation-damped-oscillator">m \frac{d^2 x}{dt^2} + b \frac{dx}{dt} + k x = 0.</men>
+       where <m>b \gt 0</m>. The charactersitic equation of <xref ref="secondorder01-equation-damped-oscillator" /> is
+            <me>m\lambda^2 + b\lambda + k = 0</me>,
+        which has roots
+            <men xml:id="secondorder01-equation-characteristic-eq-roots">\lambda = \frac{-b \pm \sqrt{b^2 - 4mk}}{2m}.</men>
+        There are three possible types of types of motion for the oscillator depending on the nature of the roots of <xref ref="secondorder01-equation-characteristic-eq-roots" />.
+            <ul>
+                <li><p>If the damping value of <m>b</m> is small when compared to <m>4mk</m>, then <m>b^2 - 4mk \lt 0</m> and the roots of <xref ref="secondorder01-equation-characteristic-eq-roots" /> will be complex. Furthermore, the real part of each root, <m>-b/ 2m</m>, is always negative. In such a situation, we say that the oscillator is <term>under-damped</term>. <idx><h>harmonic oscillator</h><h>under-damped</h></idx></p></li>
+
+                <li><p>If the damping value of <m>b</m> is large , then <m>b^2 - 4mk \gt 0</m>, and we obtain distinct real negative roots for <xref ref="secondorder01-equation-characteristic-eq-roots" />. The oscillator is <term>over-damped</term>. <idx><h>harmonic oscillator</h><h>over-damped</h></idx></p></li>
+
+                <li><p>Finally, we say that the oscillator is <term>critically-damped</term> <idx><h>harmonic oscillator</h><h>critically-damped</h></idx> if <m>b^2 - 4mk = 0</m>.</p></li>
+            </ul></p>
+
+        <example>
+            <title>An Under-Damped Oscillator</title>
+            <p>Suppose that an oscillator is modeled by the initial value problem
+                <md>
+                    <mrow>\frac{d^2 x}{dt^2} + 0.4 \frac{dx}{dt} + 1.04 x \amp = 0</mrow>
+                    <mrow>x(0) \amp = 0</mrow>
+                    <mrow>x'(0) \amp = 1.</mrow>
+                </md>
+            Notice that the damping <m>b = 0.4</m> is very small compared with the spring constant <m>k = 1.04</m>. The characteristic equation of the differential equation is <m>\lambda^2 + 0.4 \lambda + 1.04 = 0</m>, which has roots <m>\lambda = -0.2 \pm i</m>. Therefore, the general solution is
+                <me>x(t) = c_1 e^{-0.2t} \cos t + c_2 e^{-0.2t} \sin t.</me>
+            Applying the initial conditions, our solution becomes
+                <md>
+                    <mrow>x(t) \amp =  e^{-0.2t} \sin t</mrow>
+                    <mrow>v(t) \amp = x'(t) = e^{-0.2t} (\cos t - 0.2 \sin t).</mrow>
+                </md>
+            Notice that the period of the oscillations, <m>2 \pi / \omega = 2 \pi \approx 6.283</m>, does not change; however, the amplitude slowly decreases (<xref ref="secondorder01-figure-under-damped-oscillator" /> and <xref ref="secondorder01-figure-under-damped-oscillator-phase-plane" />).</p>
+
+            <figure xml:id="secondorder01-figure-under-damped-oscillator">
+                <image width="70%" xml:id="secondorder01-under-damped-oscillator">
+                    <description>velocity and position plotted against time with oscillations becoming smaller as time increases</description>
+                    <sageplot>
+                        t = var('t')
+                        f(t) = exp(-0.2*t)*sin(t)
+                        g(t) = diff(f,t)
+                        p = plot(f(t), (t, 0, 15), ymin = 1.1, ymax = 1.1, color='blue', thickness=2, axes_labels=['$t$','$x(t), v(t)$'], legend_label='$x(t)$')
+                        p += plot(g(t), (t, 0, 15),ymin = -1.1, ymax = 1.1, color='red', thickness=2, legend_label='$v(t)$')
+                        p
+                    </sageplot>
+                </image>
+                <caption>Position and velocity of an under-damped harmonic oscillator</caption>
+            </figure>
+
+            <figure xml:id="secondorder01-figure-under-damped-oscillator-phase-plane">
+                <image width="30%" xml:id="secondorder01-under-damped-oscillator-phase-plane">
+                    <description>the velocity of a harmonic oscillator plotted against the position spiraling towards the origin on the position-velocity plane</description>
+                    <sageplot>
+                        t = var('t')
+                        f(t) = exp(-0.2*t)*sin(t)
+                        g(t) = diff(f,t)
+                        p = parametric_plot([f(t),g(t)], (t, 0, 20),  xmax = 3, xmin = -3, ymin = -1.1, ymax = 1.1, aspect_ratio = 1, color='blue', thickness=2, axes_labels=['$x(t)$','$v(t)$'])
+                        p
+                    </sageplot>
+                </image>
+                <caption>The phase plane of an under-damped harmonic oscillator</caption>
+            </figure>
+        </example>
+
+  
+
+        <example>
+            <title>An Over-Damped Oscillator</title>
+            <p>We can expect a different type of behavior in the case of an over-damped oscillator. For example,
+                <md>
+                    <mrow>\frac{d^2 x}{dt^2} + 4 \frac{dx}{dt} + 3 x \amp = 0</mrow>
+                    <mrow>x(0) \amp = 0</mrow>
+                    <mrow>x'(0) \amp = 1.</mrow>
+                </md>
+            The characteristic equation of the differential equation is
+                <me>\lambda^2 + 4 \lambda + 3 = (\lambda + 3)(\lambda + 1) = 0;</me>
+            hence, we have the general solution
+                <me>x(t) = c_1 e^{-t} + c_2 e^{-3t}.</me>
+            Applying the initial conditions, our solution is
+                <md>
+                    <mrow>x(t) \amp =  x(t) = \frac{1}{2}e^{-t} - \frac{1}{2} e^{-3t}</mrow>
+                    <mrow>v(t) \amp = x'(t) = -\frac{1}{2}e^{-t} + \frac{3}{2} e^{-3t}.</mrow>
+                </md>
+            Notice that the damping is too strong for any oscillations to occur (<xref ref="secondorder01-figure-over-damped-oscillator" /> and <xref ref="secondorder01-figure-over-damped-oscillator-phase-plane" />).</p>
+
+           <figure xml:id="secondorder01-figure-over-damped-oscillator">
+            
+                <image width="70%" xml:id="secondorder01-over-damped-oscillator">
+                    <description>velocity and position plotted against time with the two curves approaching zero for large times</description>
+                    <sageplot>
+                        t = var('t')
+                        f(t) = exp(-t)/2 - exp(-3*t)/2
+                        g(t) = diff(f,t)
+                        p = plot(f(t), (t, 0, 5), ymin = 1.1, ymax = 1.1, color='blue', thickness=2, axes_labels=['$t$','$x(t), v(t)$'], legend_label='$x(t)$')
+                        p += plot(g(t), (t, 0, 5),ymin = -1.1, ymax = 1.1, color='red', thickness=2, legend_label='$v(t)$')
+                        p
+                    </sageplot>
+                </image>
+                <caption>Position and velocity of an over-damped harmonic oscillator</caption>
+            </figure>
+
+            <figure xml:id="secondorder01-figure-over-damped-oscillator-phase-plane">
+                <image width="30%" xml:id="secondorder01-over-damped-oscillator-phase-plane">
+                    <description>the velocity of a harmonic oscillator plotted against the position with the solution curve approaching the origin on the position-velocity plane</description>
+                    <sageplot>
+                        t = var('t')
+                        f(t) = exp(-t)/2 - exp(-3*t)/2
+                        g(t) = diff(f,t)
+                        p = parametric_plot([f(t),g(t)], (t, 0, 20),  xmax = 3, xmin = -3, ymin = -1.1, ymax = 1.1, color='blue', aspect_ratio = 0.1, thickness=2, axes_labels=['$x(t)$','$v(t)$'])
+                        p
+                    </sageplot>
+                </image>
+                <caption>The phase plane of an over-damped harmonic oscillator</caption>
+            </figure>            
+        </example>
+
+        <example>
+            <title>A Critically-Damped Oscillator</title>
+            <p>As we increase the damping, the oscillations will cease to occur for some value of <m>b</m>. This will happen when <m>b^2 - 4mk = 0</m>. the At this point we have critical damping. Consider the system
+                <md>
+                    <mrow>\frac{d^2 x}{dt^2} + 4 \frac{dx}{dt} + 4 x \amp = 0</mrow>
+                    <mrow>x(0) \amp = 0</mrow>
+                    <mrow>x'(0) \amp = 1.</mrow>
+                </md>
+            The general solution to this initial value problem is
+                <me>x(t) = c_1 e^{-2t} + c_2 t e^{-2t}.</me>
+                The solution to the initial value problem is
+                <md>
+                    <mrow>x(t) \amp =  x(t) = t e^{-2t}</mrow>
+                    <mrow>v(t) \amp = x'(t) = (1 - 2t)e^{-2t}.</mrow>
+                </md>
+            Although we see that no oscillations for this oscillator (<xref ref="secondorder01-figure-crit-damped-oscillator" /> and <xref ref="secondorder01-figure-crit-damped-oscillator-phase-plane" />), oscillations will commence as soon as we start to reduce the damping constant <m>b = 4</m>.</p>
+
+           <figure xml:id="secondorder01-figure-crit-damped-oscillator">
+                <image width="70%" xml:id="secondorder01-crit-damped-oscillator">
+                    <description>velocity and position plotted against time with the two curves approaching zero for large times</description>
+                    <sageplot>
+                        t = var('t')
+                        f(t) = t*exp(-2*t)
+                        g(t) = diff(f,t)
+                        p = plot(f(t), (t, 0, 5), ymin = 1.1, ymax = 1.1, color='blue', thickness=2, axes_labels=['$t$','$x(t), v(t)$'], legend_label='$x(t)$')
+                        p += plot(g(t), (t, 0, 5),ymin = -1.1, ymax = 1.1, color='red', thickness=2, legend_label='$v(t)$')
+                        p
+                    </sageplot>
+                </image>
+                <caption>Position and velocity of a critically damped harmonic oscillator</caption>
+            </figure>
+
+            <figure xml:id="secondorder01-figure-crit-damped-oscillator-phase-plane">
+                <image width="30%" xml:id="secondorder01-crit-damped-oscillator-phase-plane">
+                    <description>the phase plane of a critically damped harmonic oscillator with the solution curve approaching the origin</description>
+                    <sageplot>
+                        t = var('t')
+                        f(t) = t*exp(-2*t)
+                        g(t) = diff(f,t)
+                        p = parametric_plot([f(t),g(t)], (t, 0, 20),  xmax = 3, xmin = -3, ymin = -1.1, ymax = 1.1, color='blue', aspect_ratio = 0.1, thickness=2, axes_labels=['$x(t)$','$v(t)$'])
+                        p
+                    </sageplot>
+                </image>
+                <caption>The phase plane of a critically damped harmonic oscillator</caption>
+            </figure>
+
+        </example>
+
+    </subsection>
+
+    <subsection xml:id="secondorder01-subsection-important-lessons">
+        <title>Important Lessons</title>
+
+        <p><ul>
+        
+            <li><p>A second-order linear differential equation with constant coefficients is an equation of the form
+                <me>a x'' + bx' + cx = 0.</me>
+            </p></li>
+
+            <li><p>The characteristic equation of <m>a x'' + bx' + cx = 0</m> is
+                    <me>a\lambda^{2} + b\lambda + c = 0.</me>
+                The roots of this equation are 
+                    <me>\lambda = \frac{-b \pm \sqrt{b^{2}-4ac}}{2a}.</me>
+                These roots govern the behavior of solutions to the differential equation.
+            </p></li>
+
+            <li><p>If <m>b^2 - 4ac \gt 0</m>, the characteristic equation has distinct real roots 
+                    <me>\lambda_{1} = \frac{-b + \sqrt{b^{2}-4ac}}{2a} \quad \text{and} \quad \lambda_{2} = \frac{-b - \sqrt{b^{2}-4ac}}{2a}</me>
+                and a general solution to <m>a x'' + bx' + cx = 0</m> is given by
+                    <me>x(t) = c_{1}e^{\lambda_{1}t} + c_{2}e^{\lambda_{2}t}.</me>
+            </p></li>
+
+            <li><p>If  <m>b^2 - 4ac = 0</m>, the characteristic equation has a repeated real root at
+                <me>\lambda = -\frac{b}{2a}</me>
+            and a general solution to <m>a x'' + bx' + cx = 0</m> is given by
+                <me>x(t) = c_{1}e^{\lambda t} + c_{2}t e^{\lambda t}.</me>
+            </p></li>
+
+            <li><p>If <m>b^2 - 4ac \lt 0</m>, characteristic equation has complex conjugate roots
+                <me>\lambda = \alpha \pm \beta i</me>
+            where <m>\alpha = -\frac{b}{2a}</m> and <m>\beta = \frac{\sqrt{4ac - b^{2}}}{2a}</m>. A general solution to <m>a x'' + bx' + cx = 0</m> is given by
+                <me>x(t) = c_{1}e^{\alpha t}\cos(\beta t) + c_{2}e^{\alpha t}\sin(\beta t).</me>
+            </p></li>
+
+            <li><p>A simple harmonic oscillator can be modeled by the equation
+                <me>m \frac{d^2 x}{dt^2} + b \frac{dx}{dt} + k x = 0,</me>
+            where <m>m \gt 0</m>, <m>k \gt 0</m>, and <m>b \geq 0</m>. There are three possible types of motion for the oscillator depending on the sign of <m>b^2 - 4mk</m>.
+            <ul>
+                <li><p>If <m>b^2 - 4mk \lt 0</m>, the oscillator is under-damped.</p></li>
+
+                <li><p>If <m>b^2 - 4mk \gt 0</m>, the oscillator is over-damped.</p></li>
+
+                <li><p>If <m>b^2 - 4mk = 0</m>, the oscillator is critically damped.</p></li>
+            </ul></p></li>
+        </ul></p>
+            
+    </subsection>
+
+    <reading-questions xml:id="reading-questions-secondorder01">
+
+        <exercise xml:id="reading-questions-secondorder01-1">
+            <statement>
+                <p>What is the <term>characteristic equation</term> of <m>ax'' + bx' + cx = 0</m>?</p>
+            </statement>
+            <response/>
+        </exercise>
+
+        <exercise xml:id="reading-questions-secondorder01-2">
+            <statement>
+                <p>Describe the possible types of damping of a harmonic oscillator.</p>
+            </statement>
+            <response/>
+        </exercise>
+
+    </reading-questions>
+
+
+    <exercises xml:id="secondorder01-exercises"  filenamebase="secondorder01">
+        <title>Exercises</title>
+
+        <exercisegroup cols="2" xml:id="secondorder01-exercises-find-solutions">
+            <title>Finding General Solutions</title>
+            <introduction><p>Find the general solution for each equation in <xref ref="secondorder01-exercises-find-solutions"/>.</p></introduction>
+            <exercise>
+                <statement>
+                    <p><m>\dfrac{d^2 y}{dx^2} - y = 0</m></p>
+                </statement>
+            </exercise>
+            <exercise>
+                <statement>
+                    <p><m>x'' - 2x' - 8x = 0</m></p>
+                </statement>
+            </exercise>
+            <exercise>
+                <statement>
+                    <p><m>y'' + 5y = 0</m></p>
+                </statement>
+            </exercise>
+            <exercise>
+                <statement>
+                    <p><m>\dfrac{d^2 x}{dt^2} + 6 \dfrac{dx}{dt} + 5x = 0</m></p>
+                </statement>
+            </exercise>
+            <exercise>
+                <statement>
+                    <p><m>x'' - 10x' + 25x = 0</m></p>
+                </statement>
+            </exercise>
+            <exercise>
+                <statement>
+                    <p><m>\dfrac{d^2 y}{dx^2} - 2\dfrac{dy}{dx} + 4y = 0</m></p>
+                </statement>
+            </exercise>
+            <exercise>
+                <statement>
+                    <p><m>y'' - 8y' + 4y = 0</m></p>
+                </statement>
+            </exercise>
+            <exercise>
+                <statement>
+                    <p><m>\dfrac{d^2 x}{dx^2} + 3\dfrac{dx}{dt} - 10x = 0</m></p>
+                </statement>
+            </exercise>
+            <exercise>
+                <statement>
+                    <p><m>\dfrac{d^2 Q}{dt^2} - 4 \dfrac{dQ}{dt} + 9Q = 0</m></p>
+                </statement>
+            </exercise>
+            <exercise>
+                <statement>
+                    <p><m>\dfrac{d^2 y}{dt^2} + 6 \dfrac{dy}{dt} + 9y = 0</m></p>
+                </statement>
+            </exercise>
+        </exercisegroup>
+
+        <exercisegroup xml:id="secondorder01-exercises-solve-ivps">
+            <title>Solving Initial Value Problems</title>
+            <introduction><p>Solve the initial value problems in <xref ref="secondorder01-exercises-solve-ivps"/>.</p></introduction>
+            <exercise>
+                <statement>
+                    <p><m>\dfrac{d^2 y}{dx^2} - y = 0</m>, <m>y(0) = 1</m>, <m>y'(0) = 0</m></p>
+                </statement>
+            </exercise>
+            <exercise>
+                <statement>
+                    <p><m>x'' - 2x' - 8x = 0</m>, <m>x(0) = 1</m>, <m>x'(0) = 2</m></p>
+                </statement>
+            </exercise>
+            <exercise>
+                <statement>
+                    <p><m>y'' + 5y = 0</m>, <m>y(0) = 1</m>, <m>y'(0) = 1</m></p>
+                </statement>
+            </exercise>
+            <exercise>
+                <statement>
+                    <p><m>\dfrac{d^2 x}{dt^2} + 6 \dfrac{dx}{dt} + 5x = 0</m>, <m>x(0) = 2</m>, <m>x'(0) = -1</m></p>
+                </statement>
+            </exercise>
+            <exercise>
+                <statement>
+                    <p><m>x'' - 10x' + 25x = 0</m>, <m>x(0) = 1</m>, <m>x'(0) = 0</m></p>
+                </statement>
+            </exercise>
+            <exercise>
+                <statement>
+                    <p><m>\dfrac{d^2 y}{dx^2} - 2\dfrac{dy}{dx} + 4y = 0</m>, <m>x(0) = -1</m>, <m>x'(0) = 1</m></p>
+                </statement>
+            </exercise>
+            <exercise>
+                <statement>
+                    <p><m>y'' - 8y' + 4y = 0</m>, <m>y(0) = 1</m>, <m>y'(0) = -2</m></p>
+                </statement>
+            </exercise>
+            <exercise>
+                <statement>
+                    <p><m>\dfrac{d^2 x}{dx^2} + 3\dfrac{dx}{dt} - 10x = 0</m>, <m>x(0) = 1</m>, <m>x'(0) = 2</m></p>
+                </statement>
+            </exercise>
+            <exercise>
+                <statement>
+                    <p><m>\dfrac{d^2 Q}{dt^2} - 4 \dfrac{dQ}{dt} + 9Q = 0</m>, <m>Q(0) = -1</m>, <m>Q'(0) = 2</m></p>
+                </statement>
+            </exercise>
+            <exercise>
+                <statement>
+                    <p><m>\dfrac{d^2 y}{dt^2} + 6 \dfrac{dy}{dt} + 9y = 0</m>, <m>y(0) = 0</m>, <m>y'(0) = 0</m></p>
+                </statement>
+            </exercise>
+        </exercisegroup>
+
+        <exercisegroup xml:id="secondorder01-exercises-harmonic-oscillators">
+            <title>Harmonic Oscillators</title>
+            <introduction><p>Consider the harmonic oscillators with mass <m>m</m>, damping coeeficient <m>b</m>, and spring constant <m>k</m> in <xref ref="secondorder01-exercises-harmonic-oscillators"/>.
+                <ol>
+                    <li><p>Write the second-order initial value problem corresponding for the harmonic oscillator.</p></li>
+
+                    <li><p>Classify the oscillator as undamped, under-damped, over-damped, or critically damped.</p></li>
+
+                    <li><p>Solve the initial value problem.</p></li>
+
+                    <li><p>Sketch the <m>x(t)</m> and <m>v(t)</m>-graphs of the solution of the initial value problem.</p></li>
+
+                    <li><p>Sketch the phase portrait of the initial value problem.</p></li>
+                </ol></p></introduction>
+            <exercise>
+                <statement>
+                    <p><m>m = 1</m>, <m>b = 1</m> <m>k = 1</m>, <m>x(0) = 1</m>, <m>v(0) = 0</m></p>
+                </statement>
+            </exercise>
+            <exercise>
+                <statement>
+                     <p><m>m = 1</m>, <m>b = 2</m> <m>k = 3</m>, <m>x(0) = -3</m>, <m>v(0) = 4</m></p>
+                </statement>
+            </exercise>
+            <exercise>
+                <statement>
+                     <p><m>m = 1</m>, <m>b = 5</m> <m>k = 3</m>, <m>x(0) = 2</m>, <m>v(0) = -3</m></p>
+                </statement>
+            </exercise>
+            <exercise>
+                <statement>
+                     <p><m>m = 1</m>, <m>b = 0</m> <m>k = 25</m>, <m>x(0) = 2</m>, <m>v(0) = 0</m></p>
+                </statement>
+            </exercise>
+            <exercise>
+                <statement>
+                     <p><m>m = 2</m>, <m>b = 3</m> <m>k = 5</m>, <m>x(0) = 2</m>, <m>v(0) = -1</m></p>
+                </statement>
+            </exercise>
+            <exercise>
+                <statement>
+                     <p><m>m = 4</m>, <m>b = 4</m> <m>k = 1</m>, <m>x(0) = 2</m>, <m>v(0) = 1</m></p>
+                </statement>
+            </exercise>
+            <exercise>
+                <statement>
+                     <p><m>m = 3</m>, <m>b = 4</m> <m>k = 1</m>, <m>x(0) = 2</m>, <m>v(0) = 1</m></p>
+                </statement>
+            </exercise>
+            <exercise>
+                <statement>
+                     <p><m>m = 8</m>, <m>b = 4</m> <m>k = 1</m>, <m>x(0) = 2</m>, <m>v(0) = 1</m></p>
+                </statement>
+            </exercise>
+        </exercisegroup>
+
+        <exercisegroup xml:id="secondorder01-exercises-hanging-mass">
+            <title>Oscillations of a Hanging Mass</title>
+            <introduction>
+                <p>In <xref ref="secondorder01-exercises-hanging-mass"/>, we will consider the motion of a mass <m>m</m> hanging at the end of a vertical spring as in <xref ref="secondorder01-figure-hanging-mass" />. The mass stretches the spring in a downward (positive) direction by length <m>L</m>. There are two forces acting on the point where the mass is attached to the spring<mdash />the force exerted by the spring and gravity. The force of gravity, the weight of the mass, acts downward with a magnitude of <m>mg</m>, where <m>g</m> is the acceleration due to gravity. On the other hand, the force of the spring acts upward and is given by <m>-kL</m>, where <m>L</m> is the length of the spring.<fn>This is commonly known as Hooke's law. See <xref ref="firstlook01-subsection-spring-mass" />.</fn> When the mass is hanging in equilibrium the force of gravity and the force of the spring balance each other out; that is,
+                    <me>mg - kL = 0.</me></p>
+
+                <figure xml:id="secondorder01-figure-hanging-mass">
+                    <image width="60%" xml:id="secondorder01-hanging-mass">
+                        <description>three springs hanging from a beam with masses attacheds the right two springs and the rightmost spring extended</description>
+                        <latex-image>
+                            <xi:include href="tikz/secondorder01-hanging-mass.tex" parse="text"/>
+                        </latex-image>
+                    </image>
+                    <caption>A spring-mass system</caption>
+                </figure>
+
+                <p>We would like to investigate the motion of the mass if is initially displaced or acted on by an external force. Let <m>x(t)</m> be the displacement of the mass from its equilibrium position, where a downward displacement is positive. The force acting on the mass are the weight of the mass <m>mg</m> and the force exerted by the spring, which is the total elongation of the spring, or
+                    <me>-k(L + x).</me>
+                By Newton's second law of motion,
+                    <me>mx'' = mg - k(L + x).</me>
+                Furthermore, it is possible to add a damping term, <m>bx'</m>, or even an external force <m>F(t)</m> to obtain
+                    <me>mx'' = mg - k(L + x) + bx' + F(t).</me>
+                Since <m>mg - kL = 0</m>, we obtain the familiar equation
+                    <me>mx'' + bx' + kx = F(t).</me></p>
+            </introduction>
+
+            <exercise>
+                <statement>
+                     <p>Suppose that a mass of <m>100</m> grams stretches a spring <m>2</m> centimeters.
+                        <ol>
+                            <li><p>Determine the spring constant <m>k</m>.</p></li>
+
+                            <li><p>If the mass is displaced an additional <m>4</m> centimeters and released, write an initial value problem that will model the motion of the oscillating mass.</p></li>
+
+                            <li><p>Solve the initial value problem.</p></li>
+                        </ol></p>
+                </statement>
+            </exercise>
+            <exercise>
+                <statement>
+                     <p>Suppose that a mass of <m>1</m> kilogram stretches a spring <m>5</m> centimeters.
+                        <ol>
+                            <li><p>Determine the spring constant <m>k</m>.</p></li>
+
+                            <li><p>If the mass is displaced an additional <m>5</m> centimeters and released, write an initial value problem that will model the motion of the oscillating mass.</p></li>
+
+                            <li><p>Suppose the the spring-mass system is suspended in a fluid that exerts a resistance of <m>0.25</m> kilograms when the mass has a velocity of <m>2</m> centimeters per second. Modify the intial-value problem that you wrote in (b) to take this fact into account.</p></li>
+
+                            <li><p>Solve the initial value problem.</p></li>
+                        </ol></p>
+                </statement>
+            </exercise>
+            <exercise>
+                <statement>
+                     <p>Suppose that a mass weighing 4 lbs stretches a spring 3 inches.
+                        <ol>
+                            <li><p>If <m>g = 32 \text{ft/sec}^2</m>, determine <m>m</m>.</p></li>
+
+                            <li><p>Determine the spring constant <m>k</m>.</p></li>
+
+                            <li><p>If the mass is displaced an additional 6 inches and released, write an initial value problem that will model the motion of the oscillating mass.</p></li>
+
+                            <li><p>Solve the initial value problem.</p></li>
+                        </ol></p>
+                </statement>
+                <hint>
+                    <p>Pay careful attention to units.</p>
+                </hint>
+            </exercise>
+        </exercisegroup>
+
+        <exercise>
+            <statement>
+                <p>Let <m>a x'' + b x' + cx = 0</m>, where <m>a \neq 0</m> and <m>b^2 - 4ac = 0</m>.
+                    <ol>
+                        <li><p>Show that <m>x_1(t) = e^{-bt/2a}</m> is a solution to <m>a x'' + b x' + cx = 0</m>.</p></li>
+
+                        <li><p>Assume that
+                            <me>y = v(t) x_1(t) = v(t) e^{-bt/2a}</me>
+                        is a solution to  <m>a x'' + b x' + cx = 0</m> and show that <m>v(t) = c_1  + c_2 t</m>.  Thus, 
+                            <me>x(t) = c_1  e^{-bt/2a} + c_2 t  e^{-bt/2a}</me>
+                        is a general solution for <m>a x'' + b x' + cx = 0</m>.</p></li>
+                        </ol></p>
+            </statement>
+
+            <hint>
+                <p><ol>
+                    <li><p>Observe that
+                        <md>
+                            <mrow>a x_1'' + b_1' + cx_1 &amp; = a \left(\frac{-b}{2a}\right)^2e^{-bt/2a} + b \left( \frac{-b}{2a} \right) e^{-bt/2a} + c e^{-bt/2a}</mrow>
+                            <mrow>&amp; = e^{-bt/2a} \left( \frac{b^2}{4a} - \frac{b^2}{2a}  + c  \right)</mrow>
+                            <mrow>&amp; = e^{-bt/2a} \left( \frac{-b^2 + 4ac}{4a}  \right)</mrow>
+                            <mrow>&amp; = 0.</mrow>
+                        </md></p></li>
+
+                    <li><p>If <m>y = v(t) x_1(t) = v(t) e^{-bt/2a}</m> is a solution to our differential equation, then
+                        <md>
+                            <mrow>a y'' + b y' + cy &amp; = a (v''x_1 + 2 v'x_1' + vx_1'' ) + b(v' x_1 + v x_1') + cv x_1</mrow>
+                            <mrow>&amp; = a v''x_1 + 2a v'x_1'   + bv' x_1 + v(a x_1'' +b  x_1' + c x_1)</mrow>
+                            <mrow>&amp; = a v'' e^{-bt/2a} + \left[2a \left( \frac{-b}{2a} \right) e^{-bt/2a}   + b e^{-bt/2a} \right] v'</mrow>
+                            <mrow>&amp; = a v'' e^{-bt/2a}</mrow>
+                            <mrow>&amp; = 0.</mrow>
+                        </md>
+                    Since <m>a \neq 0</m>, we know that <m>v'' = 0</m>.  Hence, <m>v(t) = c_1  + c_2 t</m>.</p></li>
+                </ol></p>
+            </hint>
+        </exercise> 
+        <exercise>
+            <statement>
+                <p><em>Reduction of Order</em>.  Suppose that <m>x_1(t)</m> is a solution (not identically zero) to the equation
+                    <me>x'' + p(t) x' + q(t) x = 0.</me>
+                    <ol>
+                        <li><p>Assume that <m>x(t) = v(t) x_1(t)</m> is a solution to <m>x'' + p(t) x' + q(t) x = 0</m> and derive the equation
+                            <men xml:id="secondorder01-equation-exercise-reduction-of-order-1">x_1 v'' +(2x_1' + px_1)v' = 0.</men></p></li>
+
+                        <li><p>Let <m>u = v'</m> and show that <xref ref="secondorder01-equation-exercise-reduction-of-order-1" /> is a first-order linear differential equation in <m>u</m>.</p></li>
+
+                        <li><p>Show that <m>x_1(t) = 1/t</m> is a solution to 
+                            <men xml:id="secondorder01-equation-exercise-reduction-of-order-2">2 t^2 x'' + 3t x' - x = 0 </men>
+                        for <m>t \gt 0</m> and find a second linearly independent solution to <xref ref="secondorder01-equation-exercise-reduction-of-order-2" />.</p></li>
+                    </ol></p>
+            </statement>
+            <hint>
+                <p><ol>
+                    <li><p><md>
+                        <mrow>x'' + px' + qx &amp; = (v''x_1 + 2 v' x_1' + vx_1'') + p(v'x_1 + vx_1') + q(vx_1)</mrow>
+                        <mrow>&amp; = x_1 v'' + 2v' x_1' + p x_1 v' + v (x_1'' + p x_1' + q x_1)</mrow>
+                        <mrow>&amp; = x_1 v'' +(2x_1' + px_1)v' </mrow>
+                        <mrow>&amp; = 0.</mrow>
+                    </md></p></li>
+
+                    <li><p>If <m>u = v'</m>, then <m>x_1 u' +(2x_1' + px_1)u= 0</m>.</p></li>
+
+                    <li><p>If <m>x_1(t) = 1/t</m>, then
+                        <me>2 t^2 x_1'' + 3t x_1' - x_1 = 2 t^2 \left(\frac{2}{t^3}\right) + 3t \left(\frac{-1}{t^2}\right) - \frac{1}{t} = 0.</me>
+                    If we assume that <m>x = v/t</m> is a second solution, then
+                        <me>2 t^2 x'' + 3t x' - x = 2tv'' - v' = 0.</me>
+                    If we let <m>u = v'</m>, then a solution of <m>2tu' - u = 0</m> is <m>u = \sqrt{t}</m> and <m>v = \int \sqrt{t} \, dt = 2 t^{3/2} / 3</m>.  Therefore, the second solution to our equation is
+                        <me>x = \frac{v}{t} = \frac{2}{3} \sqrt{t}.</me></p></li>
+
+                </ol></p>
+            </hint>
+        </exercise>
+
+                <exercise>
+            <statement>
+                <p>Let <m>a x'' + b x' + cx = 0</m>, where <m>a \neq 0</m> and <m>b^2 - 4ac = 0</m>.
+                    <ol>
+
+                        <li><p>Show that <m>x_1(t) = e^{-bt/2a}</m> is a solution to <m>a x'' + b x' + cx = 0</m>.</p></li>
+
+                        <li><p>Assume that
+                            <me>y = v(t) x_1(t) = v(t) e^{-bt/2a}</me>
+                        is a solution to  <m>a x'' + b x' + cx = 0</m> and show that <m>v(t) = c_1  + c_2 t</m>.  Thus, 
+                            <me>x(t) = c_1  e^{-bt/2a} + c_2 t  e^{-bt/2a}</me>
+                        is a general solution for <m>a x'' + b x' + cx = 0</m>.</p></li>
+
+                    </ol></p>
+            </statement>
+        </exercise>
+            
+        <exercise>
+            <statement>
+                <p>Consider the equation
+                    <me>y'' - (2 \alpha -1) y' + \alpha (\alpha - 1) y =0.</me>
+                Determine all values of <m>\alpha</m>, if any, for which all solutions tend toward zero as <m>t \to \infty</m>.  Also, determine the values of <m>\alpha</m>, if any, for which all nonzero solutions become unbounded as <m>t \to \infty</m>.</p>
+            </statement>
+        </exercise>
+
+        <exercise>
+            <statement>
+                <p>Solve each of the following initial value problems.
+                    <ol>
+
+                        <li><p><md>
+                            <mrow>y'' - 2y' + 5y &amp; = 0</mrow>
+                            <mrow>y(\pi/2) &amp; = 0</mrow>
+                            <mrow>y'(\pi/2) &amp; = 2</mrow>
+                        </md></p></li>
+
+                        <li><p><md>
+                            <mrow>9y'' - 12y' + 4y &amp; = 0</mrow>
+                            <mrow>y(0) &amp; = 2</mrow>
+                            <mrow>y'(0) &amp; = -1</mrow>
+                        </md></p></li>
+
+                        <li><p><md>
+                            <mrow>y'' + 8y' -9y &amp; = 0</mrow>
+                            <mrow>y(1) &amp; = 1</mrow>
+                            <mrow>y'(1) &amp; = 0</mrow>
+                        </md></p></li>
+
+                        <li><p><md>
+                            <mrow>y''  + 2ay' + (a^2 + 1)y &amp; = 0</mrow>
+                            <mrow>y(0) &amp; = 1</mrow>
+                            <mrow>y'(0) &amp; = 0</mrow>
+                        </md></p></li>
+
+                    </ol></p>
+            </statement>
+        </exercise>
+            
+        <exercise>
+            <statement>
+                <p><em>Reduction of Order</em>.  Suppose that <m>x_1(t)</m> is a solution (not identically zero) to the equation
+                    <me>x'' + p(t) x' + q(t) x = 0.</me>
+                    <ol>
+
+                        <li><p>Assume that <m>x(t) = v(t) x_1(t)</m> is a solution to <m>x'' + p(t) x' + q(t) x = 0</m> and derive the equation
+                            <men xml:id="secondorder01-equation-exercise-reduction-of-order-1a">x_1 v'' +(2x_1' + px_1)v' = 0.</men></p></li>
+
+                        <li><p>Let <m>u = v'</m> and show that (<xref ref="secondorder01-equation-exercise-reduction-of-order-1a" />) is a first-order linear differential equation in <m>u</m>.</p></li>
+
+                        <li><p>Show that <m>x_1(t) = 1/t</m> is a solution to 
+                            <men xml:id="secondorder01-equation-exercise-reduction-of-order-2a">2 t^2 x'' + 3t x' - x = 0</men>
+                        for <m>t \gt 0</m> and find a second linearly independent solution to (<xref ref="secondorder01-equation-exercise-reduction-of-order-2a" />).</p></li>
+
+                    </ol></p>
+            </statement>
+        </exercise>
+
+        <exercise>
+            <statement>
+                <p><em>Euler Equations</em>. An important class of second-order linear differential equations are equations of the form
+                    <me>t^2 y'' + \alpha t y' + \beta y = 0,</me>
+                where <m>t \gt 0</m> and <m>\alpha</m> and <m>\beta</m> are real constants.  An equation of this form is called an <em>Euler equation</em>.
+                    <ol>
+
+                        <li><p>Show that the substitution <m>x = \ln t</m> transforms an Euler equation into an equation of constant coefficients. {\em Hint}:  Show that
+                            <md>
+                                <mrow>\frac{dy}{dt} &amp; = \frac{dx}{dt} \frac{dy}{dx}</mrow>
+                                <mrow>\frac{d^2y}{dt^2} &amp; = \left( \frac{dx}{dt} \right)^2 \frac{d^2y}{dx^2} + \frac{d^2x}{dt^2} \frac{dy}{dx}.</mrow>
+                            </md></p></li>
+
+                        <li><p>Solve the equation
+                            <me>t^2 y'' + 4ty' + 2y = 0.</me></p></li>
+
+                    </ol></p>
+            </statement>
+        </exercise>
+    </exercises>
+
+    <!-- <subsection number="no" xml:id="secondorder01-subsection-sage">
+        <title>Solving Second Order Linear Equations with Sage</title>
+
+        <p>Second order homogeneous linear differential equations with constant coefficeints can be solved sybolically using <em>Sage</em>. For example,
+            <me>x'' + 2 x' + x = 0</me>
+        can be solved using the following Sage commands.</p>
+
+        <sage>
+            <input>
+            t = var('t')  
+            x = function('x')(t)
+            DE = diff(x,t,2) + 2*diff(x,t) + x == 0
+            desolve(DE, [x,t])
+            </input>
+            <output>
+            _K1*e^(-t) + _K2*e^(-2*t)
+            </output>
+        </sage>
+
+        <p>We can even solve initial value problems such as
+            <md>
+                <mrow>x'' + 2 x' + x \amp = 0</mrow>
+                <mrow>x(0) \amp = 1</mrow>
+                <mrow>x'(0) \amp = 2</mrow>
+            </md></p>
+
+        <sage>
+            <input>
+            t = var('t')
+            x = function('x')(t)
+            DE = diff(x,t,2) + 2*diff(x,t) + x == 0
+            desolve(DE, [x,t], ics=[0, 1, 2])
+            </input>
+            <output>
+            4*e^(-t) - 3*e^(-2*t)
+            </output>
+        </sage>
+
+        <p>Of course, we can add a forcing term to our initial value problem,
+            <md>
+                <mrow>x'' + 2 x' + x \amp = t \cos 2t</mrow>
+                <mrow>x(0) \amp = 1</mrow>
+                <mrow>x'(0) \amp = 2</mrow>
+            </md></p>
+
+        <sage>
+            <input>
+            t = var('t')
+            x = function('x')(t)
+            DE = diff(x,t,2)+3*diff(x,t)+2*x == t*cos(2*t)
+            desolve(DE, [x,t], ics=[0, 1, 2])
+            </input>
+            <output>
+            -1/100*(5*t - 12)*cos(2*t) + 1/200*(30*t - 7)*sin(2*t) + 97/25*e^(-t) - 3*e^(-2*t)
+            </output>
+        </sage>
+
+    </subsection> -->
+
+    <!-- <exercises xml:id="secondorder01-exercises-sage" filenamebase="secondorder01">
+        <title>Exercises</title>
+        <introduction><p>Solve each of the following differential equations using <em>Sage</em>.</p></introduction>
+
+            <exercise>
+                <statement>
+                    <p><m>\dfrac{d^2 y}{dx^2} - y = 0</m></p>
+                </statement>
+            </exercise>
+            <sage>
+                <input>
+                </input>
+                <output>
+                </output>
+            </sage>
+            <exercise>
+                <statement>
+                    <p><m>\dfrac{d^2 y}{dx^2} - y = 0</m>, <m>y(0) = 1</m>, <m>y'(0) = 0</m></p>
+                </statement>
+            </exercise>
+            <sage>
+                <input>
+                </input>
+                <output>
+                </output>
+            </sage>
+            <exercise>
+                <statement>
+                    <p><m>\dfrac{d^2 y}{dx^2} - y = \cos 2t</m></p>
+                </statement>
+            </exercise>
+            <sage>
+                <input>
+                </input>
+                <output>
+                </output>
+            </sage>
+            <exercise>
+                <statement>
+                    <p><m>\dfrac{d^2 y}{dx^2} - y = \cos 2t</m>, <m>y(0) = 1</m>, <m>y'(0) = 0</m></p>
+                </statement>
+            </exercise>
+            <sage>
+                <input>
+                </input>
+                <output>
+                </output>
+            </sage>
+            <exercise>
+                <statement>
+                    <p><m>\dfrac{d^2 y}{dx^2} - y = \cos t</m></p>
+                </statement>
+            </exercise>
+            <sage>
+                <input>
+                </input>
+                <output>
+                </output>
+            </sage>
+            <exercise>
+                <statement>
+                    <p><m>\dfrac{d^2 y}{dx^2} - y = \cos t</m>, <m>y(0) = 1</m>, <m>y'(0) = 0</m></p>
+                </statement>
+            </exercise>
+            <sage>
+                <input>
+                </input>
+                <output>
+                </output>
+            </sage>
+            <exercise>
+                <statement>
+                    <p><m>x'' - 2x' - 8x = 0</m></p>
+                </statement>
+            </exercise>
+            <sage>
+                <input>
+                </input>
+                <output>
+                </output>
+            </sage>
+            <exercise>
+                <statement>
+                    <p><m>x'' - 2x' - 8x = 0</m>, <m>x(0) = 1</m>, <m>x'(0) = 2</m></p>
+                </statement>
+            </exercise>
+            <sage>
+                <input>
+                </input>
+                <output>
+                </output>
+            </sage>
+            <exercise>
+                <statement>
+                    <p><m>x'' - 2x' - 8x = e^{-2t}</m></p>
+                </statement>
+            </exercise>
+            <sage>
+                <input>
+                </input>
+                <output>
+                </output>
+            </sage>
+            <exercise>
+                <statement>
+                    <p><m>x'' - 2x' - 8x = e^{-2t} + e^{4t}</m></p>
+                </statement>
+            </exercise>
+            <sage>
+                <input>
+                </input>
+                <output>
+                </output>
+            </sage>
+    </exercises> -->
+
+
+</section>
+
+<!--</section>-->

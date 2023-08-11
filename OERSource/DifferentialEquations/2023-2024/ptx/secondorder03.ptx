@@ -44,9 +44,11 @@
             <me>a x'' + bx' + cx = A \cos \omega t + B \sin \omega t,</me>  
         we can use Euler's formula, <m>e^{i \beta t} = \cos \beta t + i \sin \beta t</m> to derive a particular solution. That is, we will assume that our particular solution has the form
             <me>x_c = x_\text{Re} + i x_\text{Im}</me>
-        and use the properties of complex numbers.<fn>If complex numbers make you uncomfortable, the alternative is to become an expert in trigonometric identities</fn></p>
+        and use the properties of complex numbers.</p> 
 
-        <example xml:id="secondorder03-example-sinusoidal">
+        <p>In the next examples, we solve a differential equation with sinusoidal forcing in two ways: first, using the method of undetermined coefficients, and second using complexification.</p>
+
+        <example xml:id="secondorder03-example-sinusoidal-1">
             <p>Let us consider the equation
                 <men xml:id="secondorder03-equation-sinusoidal-1">x'' + 6 x' + 5x = \sin 2t.</men>
             The solution to the corresponding homogeneous equation, <m>x'' + 6 x' + 5x = 0</m>, is
@@ -60,9 +62,11 @@
             Notice that all solutions of <xref ref="secondorder03-equation-sinusoidal-1" /> will approach the particular solution as <m>t \to \infty</m>.</p>
         </example>
 
-        <example>
+        <example xml:id="secondorder03-example-sinusoidal-2">
             
-            <p>Now let us solve <xref ref="secondorder03-equation-sinusoidal-1" /> using complex numbers. If we assume that the equation has a complex solution of the form <m>x_c = x_\text{Re} + i x_\text{Im}</m>, then
+            <p>Now let us solve <m>x'' + 6 x' + 5x = \sin 2t</m> using complex numbers. We begin by passing to a related <em>complex</em> differential equation
+                <men xml:id="secondorder03-equation-sinusoidal-1-complex">x'' + 6x' + 5x = e^{2it} = \cos 2t + i \sin 2t.</men>
+            If we assume that the equation above has a complex solution of the form <m>x_c = x_\text{Re} + i x_\text{Im}</m>, then
                 <md>
                     <mrow>\frac{d^2}{dt^2} x_c+ 6 \frac{d}{dt}  x_c + 5  x_c &amp; = \frac{d^2}{dt^2} (x_\text{Re} + i x_\text{Im}) + 6 \frac{d}{dt}  (x_\text{Re} + i x_\text{Im}) + 5  (x_\text{Re} + i x_\text{Im})</mrow>
                     <mrow>&amp; = e^{2it}</mrow>
@@ -73,34 +77,26 @@
                     <mrow>x''_\text{Re} + 6 x'_\text{Re} + 5 x_\text{Re} &amp; = \cos 2t</mrow>
                     <mrow>x''_\text{Im} + 6 x'_\text{Im} + 5 x_\text{Im} &amp; = \sin 2t.</mrow>
                 </md>
-            Thus, if we can find a complex solution, we can find a solution to 
+            Thus, if we can find a complex solution <m>x_{c}</m> to <xref ref="secondorder03-equation-sinusoidal-1-complex"/>, we can find a <em>real</em> solution to 
                 <me>x'' + 6x' + 5x = \sin 2t</me>  
-            simply by examining the imaginary part of the solution.</p>
+            simply by examining the imaginary part of <m>x_{c}</m>.</p>
 
             <p>Now let us assume that our solution has the form <m>x_c = A e^{2it}</m>.  Then
                 <md>
                     <mrow>x_c''+ 6  x_c' + 5  x_c  &amp; = - 4 A e^{2it} + 12 A i e^{2it} + 5 A e^{2it}</mrow>
-                    <mrow>&amp; = (1 + 12i) A e^{2it}</mrow>
-                    <mrow>&amp; = (1 + 12i) A (\cos 2t + i \sin 2t).</mrow>
+                    <mrow>&amp; = (1 + 12i) A e^{2it}.</mrow>
                 </md>
-            Equating the real and imaginary parts of this equation, we obtain
-                <md>
-                    <mrow>x''_\text{Re} + 6 x'_\text{Re} + 5 x_\text{Re} &amp; = \cos 2t</mrow>
-                    <mrow>x''_\text{Im} + 6 x'_\text{Im} + 5 x_\text{Im} &amp; = \sin 2t</mrow>
-                </md>
-            and we immediately see that
+            Setting <m>(1+12i)Ae^{2it}</m> equal to the desired right-hand side <m>e^{2it}</m> and solving for <m>A</m>, we immediately see that
                 <me>A = \frac{1}{1 + 12i} = \frac{1}{145} - \frac{12}{145} i.</me>
-            Therefore, the complex solution to 
-                <me>x'' + 6 x' + 5x = e^{2it}</me>
-            is
+            Therefore, the complex solution to <xref ref="secondorder03-equation-sinusoidal-1-complex"/> is
                 <md>
                     <mrow>x_c &amp; = A e^{2it}</mrow>
                     <mrow>&amp; = \left( \frac{1}{145} - \frac{12}{145} i\right) \cdot (\cos 2t + i \sin 2t)</mrow>
                     <mrow>&amp; = \left( \frac{1}{145} \cos 2t + \frac{12}{145} \sin 2t \right) + i \left( -\frac{12}{145} \cos 2t + \frac{1}{145} \sin 2t \right).</mrow>
                 </md>
             The imaginary part of this function is
-                <me>x_\text{Im} = -\frac{12}{145} \cos 2t + \frac{1}{145} \sin 2t,</me>
-            which is the particular solution that we have been seeking. Thus, our general solution agrees with what we found in <xref ref="secondorder03-example-sinusoidal" />.</p>
+                <me>x_\text{Im} = -\frac{12}{145} \cos 2t + \frac{1}{145} \sin 2t.</me>
+            By our prior observations, <m>x_{\text{Im}}</m> is a solution to <m>x'' + 6x' + 5x = \sin 2t</m>. (Note that this agrees with what we found in <xref ref="secondorder03-example-sinusoidal-1" />.)</p>
         </example>
 
         <activity>
@@ -141,10 +137,10 @@
     <subsection xml:id="secondorder03-subsection-qualitative-analysis">
         <title>Qualitative Analysis</title>
 
-        <p>We can use the complex solution of <m>a x'' + bx' + cx = A \cos \omega t + B \sin \omega t</m> to analyze the qualitative behavior of solutions.</p>
+        <p>We can use the complex solution of <m>a x'' + bx' + cx = A \cos \omega t + B \sin \omega t</m> to analyze the qualitative behavior of solutions. In the next example, we demonstrate how to write particular solutions to this equation in the compact form <m>x_{p} = A\cos(\omega t - \phi)</m>, where <m>A</m> is the amplitude of the solution, <m>\omega</m> is the frequency, and <m>\phi</m> is the phase angle.</p>
 
         <example>
-            <p>We discovered that the complex solution of
+            <p>We discovered in <xref ref="secondorder03-example-sinusoidal-2"/> that the complex solution of
                 <me>x'' + 6 x' + 5x = e^{2it}</me>
             to be <m>x_c = A e^{2it}</m>, where <m>A = (1 - 12i)/145</m>. Let us rewrite <m>A</m> in polar form.  Since 
                 <me>|A| = \frac{1}{\sqrt{145}},</me>
@@ -213,14 +209,14 @@
             </task>     
         </activity>
 
-        <p>The corresponding first order system for the differential equation
+        <!-- <p>The corresponding first order system for the differential equation
             <me>x'' + px' + qx = g(t),</me>
         is
             <md>
                 <mrow>x' &amp; = y</mrow>
                 <mrow>y' &amp; = -qx -py +g(t).</mrow>
             </md>
-        This is a <term>nonautonomous system</term><idx>nonautonomous system</idx>, and the tangent vector of a solution curve in the phase plane depends not only on the position <m>(x, y)</m>, but also on the time <m>t</m>.  In other words, the direction field changes with time. Since the direction field changes with time, two solutions with the same <m>(x,y)</m> value at different times can follow different paths.  Consequently, solutions can cross each other in the <m>xy</m>-plane without violating the Existence and Uniqueness Theorem.</p>
+        This is a <term>nonautonomous system</term><idx>nonautonomous system</idx>, and the tangent vector of a solution curve in the phase plane depends not only on the position <m>(x, y)</m>, but also on the time <m>t</m>.  In other words, the direction field changes with time. Since the direction field changes with time, two solutions with the same <m>(x,y)</m> value at different times can follow different paths.  Consequently, solutions can cross each other in the <m>xy</m>-plane without violating the Existence and Uniqueness Theorem.</p> -->
 
         <example>
 
@@ -358,7 +354,7 @@
                 <me>x(t) = A \cos(\omega t - \phi),</me>
             where <m>A</m> is the amplitude of the solution, <m>\omega / 2 \pi</m> is the frequency of the solution, and <m>\phi</m> is the phase angle.</li>
 
-            <li>If we write the equation 
+            <!-- <li>If we write the equation 
                 <me>x'' + px' + qx = g(t),</me>
             as a first-order system,
                 <md>
@@ -367,7 +363,7 @@
                 </md>
             we obtain a nonautonomous system. In this case the direction field changes with time, and two solutions with the same <m>(x,y)</m> value at different times can follow different paths. Therefore, solutions can cross each other without violating the Existence and Uniqueness Theorem.</li>
 
-            <li>If we are far from the origin, the solutions in the <m>xy</m>-plane tend to spiral towards the origin and are similar to the solutions of the unforced equation. When <m>x</m> and <m>y</m> are close to the origin, the external force is as large or larger than the restoring and damping forces. In this part of the <m>xy</m>-plane, the external force overcomes the damping and pushes the solution away from the origin.</li>
+            <li>If we are far from the origin, the solutions in the <m>xy</m>-plane tend to spiral towards the origin and are similar to the solutions of the unforced equation. When <m>x</m> and <m>y</m> are close to the origin, the external force is as large or larger than the restoring and damping forces. In this part of the <m>xy</m>-plane, the external force overcomes the damping and pushes the solution away from the origin.</li> -->
 
         </ul></p>
     </subsection>
