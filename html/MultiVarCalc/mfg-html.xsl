@@ -38,6 +38,8 @@
 <xsl:param name="html.knowl.warning" select="'no'" />
 <xsl:param name="html.knowl.technology" select="'no'" />
 <xsl:param name="html.knowl.investigation" select="'yes'" />
+<!-- <xsl:param name="html.knowl.exploration" select="'yes'" /> -->
+<!-- ^^^ knowling explorations does not seem to work... -->
 <!-- color theme -->
 <xsl:param name="html.css.file"   select="'mathbook-3.css'" />
 
