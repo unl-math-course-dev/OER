@@ -39,12 +39,14 @@
   </p>
   <p>
     A surface in three dimensions is said to be <term>closed</term> if
-    it has no boundary. Recalling the surfaces we studied in <xref
+    it has no boundary. Think of a closed surface as being one that is <q>airtight</q>.
+    <!-- Recalling the surfaces we studied in <xref
     ref="S_Vector_StokesThm" /> where we applied <xref
     ref="thm_Stokes" text="title" />, <em>none</em> of those surfaces
     were closed because the boundary of the surface through which we
     calculated the flux was the curve along which we calculated the
-    circulation. In <xref ref="fig_Vector_DivThm_NotClosedSurfaces"
+    circulation.  -->
+    In <xref ref="fig_Vector_DivThm_NotClosedSurfaces"
     />, we show two surfaces that are <em>not</em> closed, as
     demonstrated by the red curves marking the edge where the surface
     ends.
@@ -262,8 +264,10 @@ def _(s=selector(['Top and Bottom 1','Top and Bottom 2','Top and Bottom 3'],labe
 	and let <m>Q</m> be the volume bounded by <m>S</m>. If
 	<m>\vF</m> is a vector field that has continuous first partial
 	derivatives on <m>Q</m> and <m>S</m>, then
-        <me>
-          \iint_{S} \vF \cdot \vN\, dS = \iiint_Q \divg(\vF)\, dV
+          <!-- \iint_{S} \vF \cdot \vN\, dS  -->
+  <me>
+          \text{flux outward through } S
+          = \iiint_Q \divg(\vF)\, dV
         </me>
         where the integral on the left measures the flux through
 	<m>S</m> in terms of the outward pointing normal vector.
@@ -415,6 +419,11 @@ def _(s=selector(['Top and Bottom 1','Top and Bottom 2','Top and Bottom 3'],labe
 	<m>(0,0,2)</m>.
 	</p>
       </statement>
+      <answer>
+        <p>
+          <m>10/3</m>
+        </p>
+      </answer>
     </task>
     <task>
       <statement>
@@ -429,6 +438,118 @@ def _(s=selector(['Top and Bottom 1','Top and Bottom 2','Top and Bottom 3'],labe
       </hint>
     </task>
   </activity>
+</subsection>
+<subsection xml:id="subsec-volume-flux">
+  <title>Computing volume as a flux integral</title>
+  <p>
+    Remember that in <xref ref="subsection-green-area"/> we showed how to compute area using Green's Theorem.
+    A similar idea will allow us to compute volume using the Divergence Theorem.
+    If we have a vector field <m>\mathbf{F}</m> for which <m>\divg(\mathbf{F}) = 1</m>, 
+    then the triple integral in the statement of the Divergence Theorem becomes volume.
+    Luckily, there are many such vector fields <m>\mathbf{F}</m>.
+  </p>
+  <assemblage xml:id="assemblage-volume-flux">
+    <title>Using the Divergence Theorem to compute volume</title>
+    <p>
+      If <m>S</m> is a closed surface that serves as the boundary of a solid <m>W</m>,
+      then the volume of <m>W</m> is the flux out through <m>S</m> of any of the following vector fields
+      <m>\mathbf{F}</m>.
+      <md>
+        <mrow> \mathbf{F}(x,y,z) \amp = \langle x,0,0 \rangle </mrow>
+        <mrow> \mathbf{F}(x,y,z) \amp = \langle 0,y,0 \rangle </mrow>
+        <mrow> \mathbf{F}(x,y,z) \amp = \langle 0,0,z \rangle </mrow>
+        <mrow> \mathbf{F}(x,y,z) \amp = \frac13 \langle x,y,z \rangle </mrow>
+      </md>
+    </p>
+  </assemblage>
+  <example>
+    <statement>
+      <p>
+        Use the Divergence Theorem to find the volume of <m>W</m>,
+        the part of the solid <m>x^2 + y^2 \le (2 - z)^2</m> with <m>0 \le z \le 1</m>.
+        Use the vector field <m>\mathbf{F} = \frac12 \langle x,y,0 \rangle</m>.
+      </p>
+    </statement>
+    <solution>
+      <p>
+        Notice that the flux out of the top or bottom of the truncated cone
+        is 0 because <m>\mathbf{F} \cdot \pm \mathbf{k} = 0</m>.
+        So we only need to worry about the outer face.
+      </p>
+      <p>
+        The cone is given in polar coordinates by the equation <m>r = 2 - z</m>.
+        We parametrize the outer face using cylindrical coordinates:
+        <me>
+          \mathbf{r}(\theta,z) = \langle (2 - z)\cos\theta, (2-z)\sin\theta, z \rangle
+        </me>
+      </p>
+      <exercise>
+        <p>
+          Show that 
+          <me>\mathbf{r}_\theta \times \mathbf{r}_z = 
+            (2-z)\langle \cos\theta,\sin\theta,1 \rangle
+          </me>
+        </p>
+      </exercise>
+      <p>
+        Plugging everything in, we have
+        <md>
+          <mrow> \mathbf{F}(\mathbf{r}(\theta,z))  \amp = \frac12\langle (2-z) \cos\theta,(2-z)\sin\theta,0 \rangle
+            \cdot (2-z)\langle \cos\theta,\sin\theta,1 \rangle</mrow>
+          <mrow> \amp = \frac12 ((2-z)^2). </mrow>
+        </md>
+        Now we can compute the flux of <m>\mathbf{F}</m> through 
+        the outer face, which by the Divergence Theorem is the volume:
+        <me>
+          \text{flux} = \int\limits_{\theta = 0}^{2\pi}
+          \int\limits_{z = 0}^1
+          \frac12 (2 - z)^2 \,dzd\theta
+          = \cdots = \frac{7\pi}{3}.
+        </me>
+      </p>
+    </solution>
+  </example>
+  <example>
+    <statement>
+      <p>
+        By applying the Divergence Theorem to the vector field
+        <m>\mathbf{F} = \frac13 \langle x,y,z \rangle</m>,
+        compute the volume of the ellipsoid 
+        <m>(\frac{x}{a})^2 + (\frac{y}{b})^2 + (\frac{z}{c})^2 = 1</m>,
+        which is parametrized by
+        <md>
+          <mrow> x(\phi,\theta) \amp = a \sin\phi \cos\theta </mrow>
+          <mrow> y(\phi,\theta) \amp = b \sin\phi \sin\theta </mrow>
+          <mrow> z(\phi,\theta) \amp = c \cos\phi </mrow>
+        </md>
+        for <m>0 \le \theta \le 2\pi</m>, <m>0 \le \phi \le \pi</m>.
+      </p>
+    </statement>
+    <solution>
+      <p>
+        Writing <m>\mathbf{r}</m> for the parametrization described in the 
+        problem, you can show that 
+        <me>
+          \mathbf{r}_\phi \times \mathbf{r}_\theta
+          = abc \sin\phi \left\langle \frac{\sin\phi \cos\theta}{a},~
+          \frac{\sin\phi\sin\theta}{b},~ \frac{\cos\phi}{c}
+          \right\rangle .
+        </me>
+        Then 
+        <me>
+          \mathbf{F}(\mathbf{r}(\phi,\theta))\cdot (\mathbf{r}_\phi \times \mathbf{r}_\theta)
+          = \frac{abc \sin\phi}{3}.
+        </me>
+        Now we can finish the computation:
+        <me>
+          \int\limits_{\theta = 0}^{2\pi}
+          \int\limits_{\phi = 0}^\pi
+          \frac{abc}{3} \sin\phi \, d\phi d\theta
+          = \frac{4\pi}{3} abc
+        </me>
+      </p>
+    </solution>
+  </example>
 </subsection>
 <subsection>
   <title>Summary</title>
