@@ -1,0 +1,364 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!-- **********************************************************************-->
+<!-- Copyright 2013-2018                                                   -->
+<!-- Steven Schlicker                                                      -->
+<!--                                                                       -->
+<!-- This file is part of Active Calculus Multivariable.                   -->
+<!--                                                                       -->
+<!-- Permission is granted to copy, distribute and/or modify this document -->
+<!-- under the terms of the Creative Commons BY-NC-SA license.  The work   -->
+<!-- may be used for free by any party so long as attribution is given to  -->
+<!-- the author(s), the work and its derivatives are used in the spirit of -->
+<!-- "share and share alike"; no party may sell this work or any of its    -->
+<!-- derivatives for profit.  All trademarks are the registered marks of   -->
+<!-- their respective owners.                                              -->
+<!-- **********************************************************************-->
+
+<section xml:id="S-9-8-Arc-Length-Curvature">
+  <title>Arc Length</title>
+  
+    <objectives>
+        <ul>
+          <li>
+            <p>
+              How can a definite integral be used to measure the length of a
+                  curve in 2- or 3-space?
+            </p>
+          </li>
+
+          <!-- <li>
+            <p>
+              Why is arc length useful as a parameter?
+            </p>
+          </li>
+
+          <li>
+            <p>
+              What is the curvature of a curve?
+            </p>
+          </li> -->
+        </ul>
+    </objectives>
+
+    <introduction>
+    <p>
+      Given a space curve, there are two natural
+      geometric questions one might ask: how long is the curve and how much
+      does it bend? In this section and the optional next section, we answer both questions by
+      developing techniques for measuring the length of a space
+      curve as well as its curvature.
+    </p>
+
+    <exploration xml:id="PA_9_8">
+      <p>
+        In earlier investigations, we have used
+        integration to calculate quantities such as area, volume, mass, and
+        work. We are now interested in determining the
+        length of a space curve.
+      </p>
+
+      <p>
+        Consider the smooth curve in 3-space defined by the vector-valued
+        function <m>\vr</m>, where
+        <me>
+          \vr(t) = \langle x(t), y(t), z(t) \rangle = \langle \cos(t), \sin(t), t \rangle
+        </me>
+        for <m>t</m> in the interval <m>[0,2\pi]</m>. Pictures of the graph of <m>\vr</m> are shown in <xref ref="F-9-8-Arclength">Figure</xref>.
+        We will use the integration process to calculate the length of this curve. In this situation we partition the interval <m>[0,2\pi]</m> into <m>n</m> subintervals of equal length and let <m>0 = t_0 \lt  t_1 \lt  t_2 \lt  \cdots \lt  t_n = b</m> be the endpoints of the subintervals. We then approximate the length of the curve on each subinterval with some related quantity that we can compute. In this case, we approximate the length of the curve on each subinterval with the length of the segment connecting the endpoints. <xref ref="F-9-8-Arclength">Figure</xref> illustrates the process in three different instances using increasing values of <m>n</m>.
+      </p>
+
+      <figure xml:id="F-9-8-Arclength" >
+        <caption>Approximating the length of the curve with <m>n=3</m>, <m>n=6</m>, and <m>n=9</m>.</caption>
+        <sidebyside widths="33% 33% 33%" margins="0%">
+        <image source="images/fig_9_8_length_animate_02" />
+        <image source="images/fig_9_8_length_animate_05" />
+        <image source="images/fig_9_8_length_animate_08" />
+        </sidebyside>
+      </figure>
+
+      <ol marker="a.">
+        <li>
+          <p>
+            Write a formula for the length of the line segment that connects the endpoints of the curve on the <m>i</m>th subinterval <m>[t_{i-1},t_i]</m>. (This length is our approximation of the length of the curve on this interval.)
+          </p>
+        </li>
+
+        <li>
+          <p>
+            Use your formula in part (a) to write a sum that adds all of the approximations to the lengths on each subinterval.
+          </p>
+        </li>
+
+        <li>
+          <p>
+            What do we need to do with the sum in part (b) in order to obtain the exact value of the length of the graph of <m>\vr(t)</m> on the interval <m>[0,2\pi]</m>?
+          </p>
+        </li>
+      </ol>
+      
+    </exploration>
+  </introduction>
+
+
+  <subsection>
+    <title>Arc Length</title>
+    <p>
+      Consider a smooth curve in 3-space that is parametrically described by
+      the vector-valued function <m>\vr</m> defined by <m>\vr(t) = \langle x(t), y(t), z(t)
+      \rangle.</m>
+      <xref ref="PA_9_8">Preview Activity</xref> shows that to approximate the
+      length of the curve defined by <m>\vr(t)</m> as the values of <m>t</m> run over
+      an interval <m>[a,b]</m>, we partition the interval <m>[a,b]</m> into <m>n</m>
+      subintervals of equal length <m>\Delta t</m>, with <m>a = t_0 \lt  t_1 \lt  \cdots
+      \lt  t_n = b</m> as the endpoints of the subintervals. On each subinterval,
+      we approximate the length of the curve by the length of the line
+      segment connecting the endpoints. The points on the curve
+      corresponding to <m>t = t_{i-1}</m> and <m>t = t_i</m> are <m>(x(t_{i-1}),
+      y(t_{i-1}), z(t_{i-1}))</m> and <m>(x(t_i), y(t_i), z(t_i))</m>, respectively,
+      so the length of the line segment connecting these points is
+      <me>
+        \sqrt{(x(t_i) - x(t_{i-1}))^2 + (y(t_i) - y(t_{i-1}))^2 + (z(t_i) -
+          z(t_{i-1}))^2}.
+      </me>
+    </p>
+
+    <p>
+      Now we add all of these approximations together to obtain an
+      approximation to the length <m>L</m> of the curve:
+      <me>
+        L \approx \sum_{i=1}^n \sqrt{(x(t_i) - x(t_{i-1}))^2 + (y(t_i) -
+          y(t_{i-1}))^2 + (z(t_i) - z(t_{i-1}))^2}.
+      </me>
+    </p>
+
+    <p>
+      We now want to take the limit of this sum as <m>n</m> goes to infinity, but in its present form it
+      might be difficult to see how. We first introduce <m>\Delta t</m> by multiplying by <m>\frac{\Delta t}{\Delta t}</m>, and see that
+      <md>
+        <mrow>L \amp \approx \sum_{i=1}^n \sqrt{(x(t_i) - x(t_{i-1}))^2 + (y(t_i) - y(t_{i-1}))^2 + (z(t_i) - z(t_{i-1}))^2}</mrow>
+        <mrow>\amp = \sum_{i=1}^n \sqrt{(x(t_i) - x(t_{i-1}))^2 + (y(t_i) - y(t_{i-1}))^2 + (z(t_i) - z(t_{i-1}))^2} \frac{\Delta t}{\Delta t}</mrow>
+        <mrow>\amp = \sum_{i=1}^n \sqrt{(x(t_i) - x(t_{i-1}))^2 + (y(t_i) - y(t_{i-1}))^2 + (z(t_i) - z(t_{i-1}))^2} \frac{\Delta t}{\sqrt{(\Delta t)^2}}</mrow>
+      </md>
+    </p>
+
+    <p>
+      To get the difference quotients under the radical, we use properties of the square root function to see further that
+      <md>
+        <mrow>L \amp \approx \sum_{i=1}^n \sqrt{\left[(x(t_i) - x(t_{i-1}))^2 + (y(t_i) - y(t_{i-1}))^2 + (z(t_i) - z(t_{i-1})^2\right] \frac{1}{(\Delta t)^2}} \Delta t</mrow>
+        <mrow>\amp = \sum_{i=1}^n \sqrt{\left(\frac{x(t_i) - x(t_{i-1})}{\Delta t}\right)^2 + \left(\frac{y(t_i) - y(t_{i-1})}{\Delta t}\right)^2 + \left(\frac{z(t_i) - z(t_{i-1})}{\Delta t}\right)^2} \Delta t.</mrow>
+      </md>
+    </p>
+
+    <p>
+      Recall that as <m>n \to \infty</m> we also have <m>\Delta t \to 0</m>. Since
+      <md>
+        <mrow> x'(t) \amp = \lim_{\Delta t \to 0} \frac{x(t_i) - x(t_{i-1})}{\Delta t},</mrow> 
+        <mrow> y'(t) \amp = \lim_{\Delta t \to 0} \frac{y(t_i) - y(t_{i-1})}{\Delta t}, \ \text{ and }  </mrow>
+        <mrow> z'(t) \amp \lim_{\Delta t \to 0} \frac{z(t_i) - z(t_{i-1})}{\Delta t}, </mrow> 
+      </md>
+
+      we see that
+          <me>\lim_{n \to \infty} \sum_{i=1}^n \sqrt{\left(\frac{x(t_i) - x(t_{i-1})}{\Delta t}\right)^2 + \left(\frac{y(t_i) - y(t_{i-1})}{\Delta t}\right)^2 + \left(\frac{z(t_i) - z(t_{i-1})}{\Delta t}\right)^2} \Delta t
+          </me>
+          is equal to 
+        <me>
+           \int_a^b \sqrt{(x'(t))^2 + (y'(t))^2 + (z'(t))^2} \, dt.
+         </me>
+    </p>
+
+    <p>
+      Noting further that
+      <me>
+        |\vr'(t)| = \sqrt{(x'(t))^2 + (y'(t))^2 + (z'(t))^2},
+      </me>
+      we can rewrite our arclength formula in a more succinct form as follows.
+    </p>
+
+    <assemblage xml:id="Length-of-a-curve">
+      <title>The length of a curve</title>
+    <p>
+      If <m>\vr(t)</m> defines a smooth curve <m>C</m> on an interval <m>[a,b]</m>, then the <em>length</em><idx><h>arclength</h></idx> <m>L</m> of <m>C</m> is given by
+      <men xml:id="eq_9_8_arclength_2" >
+        L = \int_a^b |\vr'(t)| \, dt.
+      </men>
+    </p>
+    </assemblage>
+
+
+    <p>
+      Note that formula <xref ref="eq_9_8_arclength_2" /> applies to curves in any
+      dimensional space. Moreover, this formula has a natural interpretation: if
+      <m>\vr(t)</m> records the position of a moving object, then <m>\vr'(t)</m> is
+      the object's velocity and <m>|\vr'(t)|</m> its speed. Formula
+      <xref ref="eq_9_8_arclength_2" /> says that we simply integrate the speed of
+      an object traveling over the curve to find the distance traveled by
+      the object, which is the same as the length of the curve,
+      just as in one-variable calculus.
+    </p>
+
+    <activity xml:id="A_9_8_1">
+      <p>
+        Here we calculate the arc length of two familiar curves.
+        <ol marker="a.">
+          <li>
+            <p>
+              Use Equation<nbsp /><xref ref="eq_9_8_arclength_2" /> to calculate the circumference of a circle of radius <m>r</m>.
+            </p>
+          </li>
+
+          <li>
+            <p>
+              Find the exact length of the spiral defined by <m>\vr(t) = \langle \cos(t), \sin(t), t \rangle</m> on the interval <m>[0,2\pi]</m>.
+            </p>
+          </li>
+        </ol>
+      </p>
+      
+    </activity>
+
+    <p>
+      We can adapt the arc length formula to curves in 2-space that define
+      <m>y</m> as a function of <m>x</m> as the following activity shows.
+    </p>
+
+    <activity xml:id="A_9_8_3">
+      <p>
+        Let <m>y = f(x)</m> define a smooth curve in 2-space. Parameterize this curve and use Equation<nbsp /><xref ref="eq_9_8_arclength_2" /> to show that the length of the curve defined by <m>f</m> on an interval <m>[a,b]</m> is
+        <me>
+          \int_a^b \sqrt{1+[f'(t)]^2} \, dt.
+        </me>
+      </p>
+      
+    </activity>
+  </subsection>
+
+  <subsection>
+    <title>Summary</title>
+    <ul>
+      <li>
+        <p>
+          The integration process shows that the length <m>L</m> of a smooth curve defined by <m>\vr(t)</m> on an interval <m>[a,b]</m> is
+          <me>
+            L = \int_a^b |\vr'(t)| \, dt.
+          </me>
+        </p>
+      </li>
+<!-- 
+      <li>
+        <p>
+          Arc length is useful as a parameter because when we parameterize with respect to arc length, we eliminate the role of speed in our calculation of curvature and the result is a measure that depends only on the geometry of the curve and not on the parameterization of the curve.
+        </p>
+      </li>
+
+      <li>
+        <p>
+          We define the curvature <m>\kappa</m> of a curve in 2- or 3-space to be the rate of change of the magnitude of the unit tangent vector with respect to arc length, or
+          <me>
+            \kappa = \left\lvert \frac{d\vT}{ds} \right\rvert.
+          </me>
+        </p>
+      </li> -->
+    </ul>
+
+    </subsection>
+
+
+    <exercises>
+      <p>
+          The WeBWorK problems are written by many different authors. Some authors use parentheses when writing vectors, e.g., <m>(x(t),y(t),z(t))</m> instead of angle brackets <m>\langle x(t),y(t),z(t) \rangle</m>. Please keep this in mind when working WeBWorK exercises. 
+      </p>
+      
+      <exercise xml:id="ex-9-8-WW-arc-length-1">
+      <!--<title>Length of a parameterized segment</title>-->
+         <webwork source="Library/Michigan/Chap17Sec2/Q13.pg" />
+      </exercise>
+
+      <exercise xml:id="ex-9-8-WW-arc-length-function">
+      <!--<title>Finding an arclength function</title>-->
+         <webwork source="Library/272/setStewart13_3/problem_2.pg" />
+      </exercise>
+
+      <exercise xml:id="ex-9-8-WW-arc-length-2">
+      <!--<title>Length of a spiral</title>-->
+         <webwork source="Library/Rochester/setVecFunction2Curvature/ur_vc_4_1.pg" />
+      </exercise>
+
+      <!-- <exercise xml:id="ex-9-8-WW-curvature-1"> -->
+      <!--<title>Curvature of a sine curve</title>-->
+         <!-- <webwork source="Library/Rochester/setVecFunction2Curvature/ur_vc_4_6.pg" /> -->
+      <!-- </exercise> -->
+
+      <exercise xml:id="ex-9-8-WW-arc-length-3">
+      <!--<title>Length of a space curve</title>-->
+         <webwork source="Library/Dartmouth/setMTWCh4S2/problem_3.pg" />
+      </exercise>
+
+      <!-- <exercise xml:id="ex-9-8-WW-curvature-2"> -->
+      <!--<title>Curvature of a space curve</title>-->
+         <!-- <webwork source="Library/Rochester/setVecFunction2Curvature/ur_vc_4_5.pg" /> -->
+      <!-- </exercise> -->
+
+      <!-- <exercise xml:id="ex-9-8-WW-curvature-wire"> -->
+      <!--<title>Bending a wire</title>-->
+         <!-- <webwork source="Library/Rochester/setVecFunction3Motion/ur_vc_4_10.pg" /> -->
+      <!-- </exercise> -->
+
+      <!-- <exercise xml:id="ex-9-8-WW-unit-tangent-1"> -->
+      <!--<title>Finding a unit tangent vector</title>-->
+         <!-- <webwork source="Library/272/setStewart13_2/problem_7.pg" /> -->
+      <!-- </exercise> -->
+
+      <!-- <exercise xml:id="ex-9-8-WW-unit-tangent-2"> -->
+      <!--<title>Analyzing a space curve</title>-->
+         <!-- <webwork source="Library/272/setStewart13_2/problem_8.pg" /> -->
+      <!-- </exercise> -->
+
+      <!-- <exercise xml:id="ex-9-8-WW-arc-length-parameterization-1"> -->
+      <!--<title>Parameterize in terms of arclength</title>-->
+         <!-- <webwork source="Library/Dartmouth/setMTWCh4S2/problem_4.pg" /> -->
+      <!-- </exercise> -->
+
+
+      <!-- MBX exception
+      <exercise xml:id="ex-9-8-WW-arc-length-astroid">
+      <title>Length of an astroid</title>
+         <webwork source="Library/UMN/calculusStewartCCC/s_6_4_30.pg Edit it Try it" />
+      </exercise> -->
+
+   
+   
+      <exercise xml:id="Ez_9_8_3">
+        <statement>
+          <p>
+            Consider the single variable function defined by <m>y = 4x^2 - x^3.</m>
+            <ol marker="a.">
+              <li>
+                <p>
+                  Find a parameterization of the form <m>\vr(t) = \langle x(t), y(t) \rangle</m> that traces the curve <m>y = 4x^2 - x^3</m> on the interval from <m>x =  -3</m> to <m>x = 3</m>.
+                </p>
+              </li>
+
+              <li>
+                <p>
+                  Write a definite integral that, if evaluated, gives the exact length of the given curve from <m>x =  -3</m> to <m>x = 3</m>.  Why is the integral difficult to evaluate exactly?
+                </p>
+              </li>
+<!-- 
+              <li>
+                <p>
+                  Determine the curvature, <m>\kappa(t)</m>, of the parameterized curve. (<xref ref="Ez_9_8_2">Exercise</xref> might be useful here.)
+                </p>
+              </li>
+
+              <li>
+                <p>
+                  Use appropriate technology to approximate the absolute maximum and minimum of <m>\kappa(t)</m> on the parameter interval for your parameterization.  Compare your results with the graph of <m>y = 4x^2 - x^3</m>.  How do the absolute maximum and absolute minimum of <m>\kappa(t)</m> align with the original curve?
+                </p>
+              </li> -->
+            </ol>
+          </p>
+        </statement>
+      </exercise>
+
+    </exercises>
+</section>
