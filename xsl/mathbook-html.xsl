@@ -8921,4 +8921,38 @@ var scJsHost = (("https:" == document.location.protocol) ? "https://secure." : "
 <!-- element into a problem in the PGML language    -->
 <xsl:include href="./mathbook-webwork-pg.xsl" />
 
+<!-- (JB, 6/4/2024) Merging mfg-html.xsl below, which seemed to be book-specific before. With new CLI compilation standards, it is more difficult to have two distinct xsl files with different relative paths referenced. -->
+<!--  List Chapters and Sections in Table of Contents  -->
+<xsl:param name="toc.level" select="'3'"/>
+<!--simple numbering -->
+<xsl:param name="numbering.projects.level" select="'1'" />
+<xsl:param name="numbering.theorems.level" select="'1'" /> 
+<xsl:param name="numbering.maximum.level" select="'2'" /> 
+<xsl:param name="numbering.equations.level" select="'1'" />
+<xsl:param name="numbering.footnotes.level" select="'1'" />
+<xsl:template match="exercises//exercise" mode="xref-number">
+    <xsl:apply-templates select="." mode="serial-number" />
+</xsl:template>
+<!-- Knowls -->
+<xsl:param name="html.knowl.example" select="'no'" />
+<xsl:param name="html.knowl.exercise.inline" select="'yes'" />
+<xsl:param name="html.knowl.example.solution" select="'yes'" />
+<xsl:param name="html.knowl.warning" select="'no'" />
+<xsl:param name="html.knowl.technology" select="'no'" />
+<!-- color theme -->
+<xsl:param name="html.css.file"   select="'mathbook-3.css'" />
+
+<!--
+ Exercises have "solution"s which should be put in the back. 
+-->
+<!--  Not sure what to do for homework solutions  -->
+<xsl:param name="exercise.text.statement" select="'yes'"/>
+<xsl:param name="exercise.text.hint" select="'yes'"/>
+<xsl:param name="exercise.text.answer" select="'no'"/>
+<xsl:param name="exercise.text.solution" select="'yes'"/>
+<xsl:param name="exercise.backmatter.statement" select="'no'"/>
+<xsl:param name="exercise.backmatter.hint" select="'yes'"/>
+<xsl:param name="exercise.backmatter.answer" select="'yes'"/>
+<xsl:param name="exercise.backmatter.solution" select="'no'"/>
+
 </xsl:stylesheet>
