@@ -1,0 +1,1902 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!-- **********************************************************************-->
+<!-- Copyright 2019                                                        -->
+<!-- UNL Department of Mathematics                                         -->
+<!-- Based upon the work of                                                -->
+<!-- Matthew Boelkins                                                      -->
+<!-- Copyright 2012-2018                                                   -->
+<!--                                                                       -->
+<!-- This file is part of Coordinated Calculus.                            -->
+<!-- This file is based on Active Calculus.                                -->
+<!--                                                                       -->
+<!-- Permission is granted to copy, distribute and/or modify this document -->
+<!-- under the terms of the Creative Commons BY-SA license.  The work      -->
+<!-- may be used for free by any party so long as attribution is given to  -->
+<!-- the author(s), the work and its derivatives are used in the spirit of -->
+<!-- "share and share alike".  All trademarks are the registered marks of  -->
+<!-- their respective owners.                                              -->
+<!-- **********************************************************************-->
+<section xmlns:xi="http://www.w3.org/2001/XInclude" xml:id="sec-7-1-sequences" permid="kXx">
+  <title>Sequences</title>
+  <objectives permid="pHq">
+    <ul permid="icR">
+      <li permid="urj">
+        <p permid="fil">
+          What is a sequence?
+        </p>
+      </li>
+      
+      <li permid="ays">
+        <p permid="Lpu">
+          What does it mean for a sequence to converge?
+        </p>
+      </li>
+      
+      <li permid="GFB">
+        <p permid="rwD">
+          What does it mean for a sequence to diverge?
+        </p>
+      </li>
+    </ul>
+  </objectives>
+  
+  <introduction permid="BVI">
+    <sidebyside widths="47% 47%" margins="0%" permid="VOz" valign="middle">
+      <p permid="cnF">
+        We encounter sequences every day.
+        Your monthly utility payments,
+        the annual interest you earn on investments,
+        the amount you spend on groceries each week;
+        all are examples of sequences.
+        Other sequences with which you may be familiar include the Fibonacci sequence
+        <idx><h>Fibonacci sequence</h></idx>
+        <m> 1, 1, 2, 3, 5, 8, \ldots </m>,
+        where each term is the sum of the two preceding terms,
+        and the triangular numbers
+        <idx><h>triangular numbers</h></idx>
+        <m> 1, 3, 6, 10, 15, 21, 28, 36, 45, 55, \ldots </m>,
+        the number of vertices in the triangles shown on the right in <xref ref="F-8-1-Triangular-numbers">Figure</xref>.
+      </p>
+      
+      <figure xml:id="F-8-1-Triangular-numbers" permid="IuO">
+        <caption>Triangular numbers</caption>
+        <image source="images/8_1_Triangular_Numbers" />
+      </figure>
+    </sidebyside>
+    
+    <p permid="oBX">
+      Sequences of integers are of such interest to mathematicians and others that they have a journal<fn>
+        <pubtitle>The Journal of Integer Sequences</pubtitle> at <url href="http://www.cs.uwaterloo.ca/journals/JIS/" />
+      </fn> devoted to them and an online encyclopedia<fn>
+        The On-Line Encyclopedia of Integer Sequences at <url href="http://oeis.org/" />
+      </fn> that catalogs a huge number of integer sequences and their connections.
+      Sequences are also used in digital recordings and images.
+    </p>
+    
+    <p permid="UJg">
+      Our studies in calculus have dealt with continuous functions.
+      Sequences model <em>discrete</em>
+      instead of continuous information.
+      We will study ways to represent and work with discrete information in this chapter as we investigate
+      <em>sequences</em> and <em>series</em>,
+      and ultimately see key connections between the discrete and continuous.
+    </p>
+    
+    <example xml:id="PA-8-1" permid="XLQ">
+      <statement>
+        <p permid="mUO">
+          Suppose you receive <m>\$5,\!000</m> through an inheritance.
+          You decide to invest this money into a fund that pays <m>8\%</m> annually,
+          compounded monthly.
+          That means that each month your investment earns <m>\frac{0.08}{12} \cdot P</m> additional dollars,
+          where <m>P</m> is your principal balance at the start of the month.
+          So in the first month your investment earns
+          <me permid="zjg">
+            5000 \left(\frac{0.08}{12}\right)
+          </me>
+          or <m>\$ 33.33</m>.
+          If you reinvest this money,
+          you will then have <m>\$ 5033.33</m> in your account at the end of the first month.
+          From this point on,
+          assume that you reinvest all of the interest you earn.
+        </p>
+        
+        <p permid="TbX">
+          <ol label="a." permid="JIl">
+            <li permid="pPu">
+              <p permid="Ose">
+                How much interest will you earn in the second month?
+                How much money will you have in your account at the end of the second month?
+              </p>
+            </li>
+            
+            <li permid="VWD">
+              <p permid="uzn">
+                Complete <xref ref="T-PA-8-1-Interest">Table</xref> below
+                to determine the interest earned and total amount of money in this investment each month for one year.
+              </p>
+              
+              <table xml:id="T-PA-8-1-Interest" permid="Lxy">
+                <caption>Interest earned on an investment</caption>
+                <tabular top="minor" bottom="minor" halign="right" permid="rEH">
+                  <row halign="center" valign="top">
+                    <cell>Month</cell>
+                    <cell>
+                      <line>Interest</line>
+                      <line>earned</line></cell>
+                    <cell>
+                      <line>Total amount</line>
+                      <line>of money</line>
+                      <line>in the account</line></cell>
+                  </row>
+                  <row>
+                    <cell><m>0</m></cell>
+                    <cell><m>\$0.00</m></cell>
+                    <cell><m>\$5000.00</m></cell>
+                  </row>
+                  <row>
+                    <cell><m>1</m></cell>
+                    <cell><m>\$33.33</m></cell>
+                    <cell><m>\$5033.33</m></cell>
+                  </row>
+                  <row>
+                    <cell><m>2</m></cell>
+                    <cell></cell>
+                    <cell></cell>
+                  </row>
+                  <row>
+                    <cell><m>3</m></cell>
+                    <cell></cell>
+                    <cell></cell>
+                  </row>
+                  <row>
+                    <cell><m>4</m></cell>
+                    <cell></cell>
+                    <cell></cell>
+                  </row>
+                  <row>
+                    <cell><m>5</m></cell>
+                    <cell></cell>
+                    <cell></cell>
+                  </row>
+                  <row>
+                    <cell><m>6</m></cell>
+                    <cell></cell>
+                    <cell></cell>
+                  </row>
+                  <row>
+                    <cell><m>7</m></cell>
+                    <cell></cell>
+                    <cell></cell>
+                  </row>
+                  <row>
+                    <cell><m>8</m></cell>
+                    <cell></cell>
+                    <cell></cell>
+                  </row>
+                  <row>
+                    <cell><m>9</m></cell>
+                    <cell></cell>
+                    <cell></cell>
+                  </row>
+                  <row>
+                    <cell><m>10</m></cell>
+                    <cell></cell>
+                    <cell></cell>
+                  </row>
+                  <row>
+                    <cell><m>11</m></cell>
+                    <cell></cell>
+                    <cell></cell>
+                  </row>
+                  <row>
+                    <cell><m>12</m></cell>
+                    <cell></cell>
+                    <cell></cell>
+                  </row>
+                </tabular>
+                
+              </table>
+              
+            </li>
+            
+            <li permid="CdM">
+              <p permid="aGw">
+                As we will see later,
+                the amount of money <m>P_n</m> in the account after month <m>n</m> is given by
+                <me permid="fqp">
+                  P_n = 5000\left(1+\frac{0.08}{12}\right)^{n}
+                </me>.
+                Use this formula to check your calculations in <xref ref="T-PA-8-1-Interest">Table</xref>.
+                Then find the amount of money in the account after 5 years.
+              </p>
+            </li>
+            
+            <li permid="ikV">
+              <p permid="GNF">
+                How many years will it be before the account has doubled in value to <m>\$10,\!000</m>?
+              </p>
+            </li>
+          </ol>
+        </p>
+      </statement>
+      
+      <solution>
+        <p>
+          <ol label="a.">
+            <li>
+              <p>
+                We will apply the monthly interest rate of <m> \frac{.08}{12} </m> to the balance at the end of month one. Thus, the interest earned during the second month will be
+                <me>
+                  \$ 5033.33\left(\frac{.08}{12}\right)=\$ 33.56.
+                </me>
+                This means that the account balance at the end of the second month will be <m>\$ 5066.89.</m> 
+              </p>
+            </li>
+            
+            <li>
+              <p>
+                The completed table is as follows.
+              </p>
+              
+              <table xml:id="T-PA-8-1-Interest-Filled">
+                <caption>Interest earned on an investment</caption>
+                <tabular top="minor" bottom="minor" halign="right">
+                  <row halign="center" valign="top">
+                    <cell>Month</cell>
+                    <cell>
+                      <line>Interest</line>
+                      <line>earned</line></cell>
+                    <cell>
+                      <line>Total amount</line>
+                      <line>of money</line>
+                      <line>in the account</line></cell>
+                  </row>
+                  <row>
+                    <cell><m>0</m></cell>
+                    <cell><m>\$0.00</m></cell>
+                    <cell><m>\$5000.00</m></cell>
+                  </row>
+                  <row>
+                    <cell><m>1</m></cell>
+                    <cell><m>\$33.33</m></cell>
+                    <cell><m>\$5033.33</m></cell>
+                  </row>
+                  <row>
+                    <cell><m>2</m></cell>
+                    <cell><m>\$33.56</m></cell>
+                    <cell><m>\$5066.89</m></cell>
+                  </row>
+                  <row>
+                    <cell><m>3</m></cell>
+                    <cell><m>\$33.78</m></cell>
+                    <cell><m>\$5100.67</m></cell>
+                  </row>
+                  <row>
+                    <cell><m>4</m></cell>
+                    <cell><m>\$34.00</m></cell>
+                    <cell><m>\$5134.67</m></cell>
+                  </row>
+                  <row>
+                    <cell><m>5</m></cell>
+                    <cell><m>\$34.23</m></cell>
+                    <cell><m>\$5168.90</m></cell>
+                  </row>
+                  <row>
+                    <cell><m>6</m></cell>
+                    <cell><m>\$34.46</m></cell>
+                    <cell><m>\$5203.36</m></cell>
+                  </row>
+                  <row>
+                    <cell><m>7</m></cell>
+                    <cell><m>\$34.69</m></cell>
+                    <cell><m>\$5238.05</m></cell>
+                  </row>
+                  <row>
+                    <cell><m>8</m></cell>
+                    <cell><m>\$34.92</m></cell>
+                    <cell><m>\$5272.97</m></cell>
+                  </row>
+                  <row>
+                    <cell><m>9</m></cell>
+                    <cell><m>\$35.15</m></cell>
+                    <cell><m>\$5308.12</m></cell>
+                  </row>
+                  <row>
+                    <cell><m>10</m></cell>
+                    <cell><m>\$35.39</m></cell>
+                    <cell><m>\$5343.51</m></cell>
+                  </row>
+                  <row>
+                    <cell><m>11</m></cell>
+                    <cell><m>\$35.62</m></cell>
+                    <cell><m>\$5379.13</m></cell>
+                  </row>
+                  <row>
+                    <cell><m>12</m></cell>
+                    <cell><m>\$35.86</m></cell>
+                    <cell><m>\$5414.99</m></cell>
+                  </row>
+                </tabular>
+                
+              </table>
+            </li>
+            
+            <li>
+              <p>You may notice some small difference in your results from the formula, due to the way rounding happens in each method. To compute the balance in the account after 5 years, we can use the formula with <m>n=60</m> months, to get
+                <me>
+                  P_{60}=5000\left(1+\frac{.08}{12}\right)^{60} = \$7449.23.
+                </me>
+              </p>
+            </li>
+            
+            <li>
+              <p>
+                The goal is to find the time it takes for the account to reach a balance of <m>\$ 10,\!000</m>. To do this, we can use the formula, and filling in everything we know, we have
+                <me>
+                  10000=5000\left(1+\frac{.08}{12}\right)^n.
+                </me>
+                We can then solve for the number of months as follows:
+                <md>
+                  <mrow> 10000 \amp = 5000\left(1+\frac{.08}{12}\right)^n</mrow>
+                  <mrow> 2 \amp = \left(1+\frac{.08}{12}\right)^n</mrow>
+                  <mrow> \ln (2) \amp = n \ln \left(1+\frac{.08}{12}\right)</mrow>
+                  <mrow> \frac{\ln (2)}{\ln\left(1+\frac{.08}{12}\right)} \amp = n </mrow>
+                </md>.
+                This gives us that the number of months until the account reaches <m>\$ 10,\!000</m> is <m>\frac{\ln (2)}{\ln\left(1+\frac{.08}{12}\right)} \approx 104.3 </m>. This amounts to about <m>8.7</m> years.
+              </p>
+            </li>
+          </ol>
+        </p>
+      </solution>
+    </example>
+    
+  </introduction>
+  
+  <subsection permid="ReG">
+    <title>Sequences</title>
+    
+    <p permid="AQp">
+      As <xref ref="PA-8-1">Example</xref> illustrates,
+      many discrete phenomena can be represented as lists of numbers
+      (like the amount of money in an account over a period of months).
+      We call any such list a <term>sequence</term>.
+      A sequence is nothing more than list of terms in some order.
+      We often list the entries of the sequence with subscripts,
+      <me permid="ROA">
+        s_1, s_2, \ldots, s_n, \ldots
+      </me>,
+      where the subscript denotes the position of the entry in the sequence.
+    </p>
+    
+    <p permid="PZn">
+    <assemblage><idx><h>sequence</h></idx>
+      <title> Sequence </title>
+      <p>
+        A <term>sequence</term> is a list of terms
+        <m>s_1, s_2, s_3, \ldots</m> in a specified order.
+      </p>
+    </assemblage>
+    </p>
+    
+    <p permid="gXy">
+      We can think of a sequence as a function <m>f</m> whose domain is the set of positive integers where 
+      <m>f(n) = s_n</m> for each positive integer <m>n</m>.
+      This alternative view will be be useful in many situations.
+    </p>
+    
+    <p permid="NeH">
+      We often denote the sequence
+      <m permid="xVJ">
+        s_1, s_2, s_3, \ldots
+      </m>
+      by <m>\{s_n\}</m>.
+      The value <m>s_n</m> (alternatively <m>s(n)</m>) is called the <m>n</m>th <term>term</term>
+      <idx><h>sequence</h><h>term</h></idx>
+      in the sequence.
+      If the terms are all 0 after some fixed value of <m>n</m>,
+      we say the sequence is finite.
+      Otherwise the sequence is infinite.</p>
+    
+    <p> We often define sequences using formulas, which can be explicit or recursive. 
+      Explicit formulas write the term <m>s_n</m> in terms of <m>n</m>, while recursive formulas
+      write <m>s_n</m> in terms of the earlier entries in the sequence.
+      Often, explicit formulas are easier to work with because they can be used to directly find any term in the sequence.
+      
+    </p>
+    
+    <example>
+      <statement>
+        <p> Given the explicit sequence formula <m>s_n=\frac{3n-1}{n+2}</m>, find <m>s_1, s_2, s_{10}</m>, and <m>s_{1000}</m>. </p>
+      </statement>
+      <solution>
+        <p> Since the formula is explicit, we simply substitute in the appropriate value for <m>n</m>.
+          
+          <me> s_1= \frac{3(1)-1}{1+2}=\frac{2}{3}</me>,
+          <me> s_2=\frac{3(2)-1}{2+2}=\frac{5}{4}</me>,
+          <me> s_{10}=\frac{3(10)-1}{10+2}=\frac{29}{12}</me>,
+          <me> s_{1000}=\frac{3(1000)-1}{1000+2}=\frac{2999}{1002}</me>.
+        </p>
+      </solution>
+    </example>
+    
+    <p> Recursively defined sequences, on the other hand, use a formula that relies on previous terms in the sequence and requires
+      some of the first few terms to be set to get started.
+    </p>
+    
+    <example>
+      <statement>
+        <p>For each of the following recursively defined sequences, give the first six terms.
+          <ol label="a.">
+            <li>
+              <p><m>s_n=s_{n-1}+2</m> for <m>n>1</m> and <m>s_1=2.</m></p>
+            </li>	
+            <li>
+              <p><m>s_n=-2s_{n-1}</m> for <m>n>1</m> and <m>s_1=1.</m></p>
+            </li>
+            <li>
+              <p><m>s_n=s_{n-1}+2s_{n-2}</m> for <m>n>2</m> and <m>s_1=1, s_2=3</m>.</p>
+            </li>
+          </ol>
+        </p>
+      </statement>
+      <solution>
+        <p>
+          <ol label="a.">
+            <li>
+              <p>
+                Notice that <m>s_1=2</m> was given and we'll need it to find <m>s_2</m>. For <m>n=2</m>,
+                
+                <me>s_2=s_{2-1}+2=s_1+2=2+2=4.</me>
+                Similarly, to get <m>s_3</m> we'll need to know <m>s_2</m>.
+                <md>
+                  <mrow>s_3\amp=s_2+2=4+2=6,</mrow>
+                  <mrow>s_4\amp=s_3+2=6+2=8,</mrow>
+                  <mrow>s_5\amp=s_4+2=8+2=10,</mrow>
+                  <mrow>s_6\amp=s_5+2=12</mrow>
+                </md>.
+              </p>
+            </li>
+            <li>
+              <p>This formula says that each term is the previous term multiplied by -2. We have
+                <md>
+                  <mrow> s_1\amp =1, </mrow>
+                  <mrow> s_2\amp=-2(1)=-2, </mrow>
+                  <mrow> s_3\amp=-2(-2)=4,</mrow>
+                  <mrow> s_4\amp= -2(4)=-8, </mrow>
+                  <mrow> s_5\amp=-2(-8)=16, </mrow>
+                  <mrow> s_6\amp=-2(16)=-32 </mrow>
+                </md>.
+              </p>
+            </li>
+            <li>
+              <p>
+                Notice that this formula relies on two previous terms, not just one, which is why we had to give the 
+                first two terms ahead of time.
+                <md>
+                  <mrow> s_1\amp=1,</mrow>
+                  <mrow> s_2\amp=3,</mrow>
+                  <mrow> s_3\amp=s_2 + 2 s_1 = 3+2(1)=5,</mrow>
+                  <mrow> s_4\amp=s_3+2s_2 = 5 + 2(3)=11,</mrow>
+                  <mrow> s_5\amp=s_4+2s_3 = 11 + 2(5)=21,</mrow>
+                  <mrow> s_6\amp=s_5+2s_4 = 21+2(11) = 43</mrow>
+                </md>.
+              </p>
+            </li>
+          </ol>
+        </p>
+      </solution>
+    </example>
+    
+    <p>
+      With infinite sequences,
+      we are often interested in their end behavior and the idea of
+      <em>convergent</em> sequences.
+    </p>
+    
+    <example xml:id="act-8-1-1" permid="SIu">
+      <statement>
+        <p permid="BKj">
+          <ol label="a." permid="DUV">
+            <li permid="IEO">
+              <p permid="emS">
+                Let <m>s_n</m> be the <m>n</m>th term in the sequence <m>1, 2, 3, \ldots</m>.
+                
+                Find a formula for <m>s_n</m> and use appropriate technological tools to draw a graph of entries in this sequence by plotting points of the form <m>(n,s_n)</m> for some values of <m>n</m>.
+                Most graphing calculators can plot sequences;
+                directions follow for the TI-84.
+                
+                <ul permid="XNM">
+                  <li permid="kce">
+                    <p permid="dhz">
+                      In the <c>MODE</c>menu,
+                      highlight <c>SEQ</c>in the <c>FUNC</c>line and press <c>ENTER</c>.
+                    </p>
+                  </li>
+                  
+                  <li permid="Qjn">
+                    <p permid="Kub">
+                      In the <c>Y=</c>menu,
+                      you will now see lines to enter sequences.
+                      Enter a value for <c>nMin</c>
+                      (where the sequence starts),
+                      a function for <c>u(n)</c>
+                      (the <m>n</m>th term in the sequence),
+                      and the value of <c>u_{n Min}</c>.
+                    </p>
+                  </li>
+                  
+                  <li permid="wqw">
+                    <p permid="qBk">
+                      Set your window coordinates (this involves choosing limits for <m>n</m> as well as the window coordinates <c>XMin</c>,
+                      <c>XMax</c>, <c>YMin</c>, and <c>YMax</c>.
+                    </p>
+                  </li>
+                  
+                  <li permid="cxF">
+                    <p permid="WIt">
+                      The <c>GRAPH</c>key will draw a plot of your sequence.
+                    </p>
+                  </li>
+                </ul>
+                
+                Using your knowledge of limits of continuous functions as <m>x \to \infty</m>,
+                decide if this sequence <m>\{s_n\}</m> has a limit as <m>n \to \infty</m>.
+                Explain your reasoning.
+              </p>
+            </li>
+            
+            <li permid="oLX">
+              <p permid="CPC">
+                Let <m>s_n</m> be the <m>n</m>th term in the sequence <m>1, \frac{1}{2}, \frac{1}{3}, \ldots</m>.
+                Find a formula for <m>s_n</m>.
+                Draw a graph of some points in this sequence.
+                Using your knowledge of limits of continuous functions as <m>x \to \infty</m>,
+                decide if this sequence <m>\{s_n\}</m> has a limit as <m>n \to \infty</m>.
+                Explain your reasoning.
+              </p>
+            </li>
+            
+            <li permid="UTg">
+              <p permid="iWL">
+                Let <m>s_n</m> be the <m>n</m>th term in the sequence <m>2, \frac{3}{2}, \frac{4}{3}, \frac{5}{4}, \ldots</m>.
+                Find a formula for <m>s_n</m>.
+                Using your knowledge of limits of continuous functions as <m>x \to \infty</m>,
+                decide if this sequence <m>\{s_n\}</m> has a limit as <m>n \to \infty</m>.
+                Explain your reasoning.
+              </p>
+            </li>
+          </ol>
+        </p>
+      </statement>
+      <hint permid="zlc">
+        <p permid="VDa">
+          <ol label="a." permid="rGD">
+            <li permid="Bap">
+              <p permid="PdU">
+                When <m>n=1</m>, <m>s_n = 1</m>;
+                when <m>n=2</m>, <m>s_n = 2</m>.
+              </p>
+            </li>
+            
+            <li permid="hhy">
+              <p permid="vld">
+                Think about the value of <m>\frac{1}{n}</m>.
+              </p>
+            </li>
+            
+            <li permid="NoH">
+              <p permid="bsm">
+                Note that the numerator of each term of the sequence is one more than the denominator of the term.
+              </p>
+            </li>
+          </ol>
+        </p>
+      </hint>
+      <answer permid="TdT">
+        <p permid="pvR">
+          <ol label="a." permid="Lzu">
+            <li permid="tvQ">
+              <p permid="Hzv">
+                <m>s_n = n</m>.
+                A plot of the first 20 points in the sequence is shown below.
+              </p>
+              
+              <sidebyside width="50%" permid="hRs">
+                <image source="images/8_1_Sequence_n" />
+              </sidebyside>
+              
+              <p permid="nGE">
+                This sequence does not have a limit as <m>n</m> goes to infinity.
+              </p>
+            </li>
+            
+            <li permid="ZCZ">
+              <p permid="TNN">
+                <m>s_n = \frac{1}{n}</m>.
+                A plot of the first 20 points in the sequence is shown below.
+              </p>
+              
+              <sidebyside width="50%" permid="NYB">
+                <image source="images/8_1_Sequence_1overn" />
+              </sidebyside>
+              
+              <p permid="zUW">
+                This sequence has a limit of 0 as <m>n</m> goes to infinity.
+              </p>
+            </li>
+            
+            <li permid="FKi">
+              <p permid="gcf">
+                <m>s_n = \frac{n+1}{n}</m>.
+                A plot of the first 20 points in the sequence is shown below.
+              </p>
+              
+              <sidebyside width="50%" permid="ufK">
+                <image source="images/8_1_Sequence_nplus1overn" />
+              </sidebyside>
+              
+              <p permid="Mjo">
+                This sequence has a limit of 1 as <m>n</m> goes to infinity.
+              </p>
+            </li>
+          </ol>
+        </p>
+      </answer>
+      <solution permid="mWK">
+        <p permid="JoI">
+          <ol label="a." permid="fsl">
+            <li permid="lRr">
+              <p permid="sqx">
+                By observation we see that a formula for <m>s_n</m> is <m>s_n = n</m>.
+                A plot of the first 20 points in the sequence is shown below.
+              </p>
+              
+              <sidebyside width="50%" permid="amT">
+                <image source="images/8_1_Sequence_n" />
+              </sidebyside>
+              
+              <p permid="YxG">
+                We recall that a function <m>f</m> <!--has a limit <m>L</m> at--> diverges to infinity (and hence does not have a limit<fn>Limits <mdash /> when they exist <mdash /> are inherently finite. This is true even though we sometimes use the notation <q><m>\lim\limits_{x\to\infty}f(x)=\infty</m></q> to mean that a function increases without bound.</fn> as <m>x\to\infty</m>) if we can make the values of <m>f(x)</m> as large as we want by choosing large enough values of <m>x</m>.
+                Since we can make the values of <m>n</m> in our sequence as large as we want by choosing <m>n</m> to be arbitrarily large,
+                we suspect that this sequence does not have a limit as <m>n</m> goes to infinity.
+                The fact that <m>\lim\limits_{x\to\infty}x=\infty</m> supports this reasoning.
+              </p>
+            </li>
+            
+            <li permid="RYA">
+              <p permid="EEP">
+                By observation we see that a formula for <m>s_n</m> is <m>s_n = \frac{1}{n}</m>.
+                A plot of the first 20 points in the sequence is shown below.
+              </p>
+              
+              <sidebyside width="50%" permid="Guc">
+                <image source="images/8_1_Sequence_1overn" />
+              </sidebyside>
+              
+              <p permid="kLY">
+                Since we can make the values of
+                <m>\frac{1}{n}</m> in our sequence as close to 0 as we want by choosing <m>n</m> to be arbitrarily large,
+                we suspect that this sequence has a limit of 0 as <m>n</m> goes to infinity.
+                This is supported by the fact that <m>\lim\limits_{x\to\infty}\frac1x=0</m>.
+              </p>
+            </li>
+            
+            <li permid="yfJ">
+              <p permid="QTh">
+                Since the numerator is always 1 more than the denominator,
+                a formula for <m>s_n</m> is <m>s_n = \frac{n+1}{n}</m>.
+                A plot of the first 20 points in the sequence is shown below.
+              </p>
+              
+              <sidebyside width="50%" permid="mBl">
+                <image source="images/8_1_Sequence_nplus1overn" />
+              </sidebyside>
+              
+              <p permid="xaq">
+                Since we can make the values of
+                <m>\frac{n+1}{n}</m> in our sequence as close to 1 as we want by choosing <m>n</m> to be arbitrarily large,
+                we suspect that this sequence has a limit of 1 as <m>n</m> goes to infinity.
+                This is supported by the fact that <m>\lim\limits_{x\to\infty}\frac{x+1}x=1</m>.
+              </p>
+            </li>
+          </ol>
+        </p>
+      </solution>
+    </example>
+    
+    <p permid="tlQ">
+      Next we formalize the ideas from <xref ref="act-8-1-1">Example</xref>.
+    </p>
+    
+    <example xml:id="act-8-1-2" permid="Cud">
+      <statement>
+        <p permid="WmU">
+          <ol label="a." permid="Xsn">
+            <li permid="Dzw">
+              <p permid="gLZ">
+                Recall our earlier work with limits involving infinity in <xref ref="sec-2-8-LHR">Section</xref>.
+                State clearly what it means for a continuous function <m>f</m> to have a limit <m>L</m> as <m>x \to \infty</m>.
+              </p>
+            </li>
+            
+            <li permid="jGF">
+              <p permid="MTi">
+                Given that an infinite sequence of real numbers is a function from the integers to the real numbers,
+                apply the idea from part (a) to explain what you think it means for a sequence <m>\{s_n\}</m> to have a limit as <m>n \to \infty</m>.
+              </p>
+            </li>
+            
+            <li permid="PNO">
+              <p permid="tar">
+                Based on your response to part (b),
+                decide if the sequence
+                <m>\left\{ \frac{1+n}{2+n}\right\}</m> has a limit as <m>n \to \infty</m>.
+                If so, what is the limit?
+                If not, why not?
+              </p>
+            </li>
+          </ol>
+        </p>
+      </statement>
+      <hint permid="eWM">
+        <p permid="qfL">
+          <ol label="a." permid="rle">
+            <li permid="vUX">
+              <p permid="ZhA">
+                A function <m>f</m> has limit <m>L</m> as
+                <m>x \to \infty</m> if we can make <m>f(x)</m> as close to <m>L</m> as we like by <m>\ldots</m>.
+              </p>
+            </li>
+            
+            <li permid="ccg">
+              <p permid="FoJ">
+                Think about making <m>s_n</m> as close as you want to <m>L</m> for large values of <m>n</m>.
+              </p>
+            </li>
+            
+            <li permid="Ijp">
+              <p permid="lvS">
+                Consider the behavior of the function <m>f(x) = \frac{1+x}{2+x}</m> as <m>x \to \infty</m>.
+              </p>
+            </li>
+          </ol>
+        </p>
+      </hint>
+      <solution permid="yPD">
+        <p permid="JYC">
+          <ol label="a." permid="LdV">
+            <li permid="oqy">
+              <p permid="RDb">
+                A continuous function <m>f</m> has a limit <m>L</m> as the independent variable <m>x</m> goes to infinity if we can make the values of <m>f(x)</m> as close to <m>L</m> as we want by choosing large enough values of <m>x</m>.
+              </p>
+            </li>
+            
+            <li permid="UxH">
+              <p permid="xKk">
+                We expect that a sequence <m>\{s_n\}</m> will have a limit <m>L</m> as <m>n</m> goes to infinity if we can make the entries <m>s_n</m> in the sequence as close to <m>L</m> as we want by choosing <m>n</m> to be sufficiently large.
+              </p>
+            </li>
+            
+            <li permid="AEQ">
+              <p permid="dRt">
+                As <m>n</m> gets large,
+                the constant terms become infinitesimally small compared to <m>n</m> and so <m>\frac{1+n}{2+n}</m> looks like
+                <m>\frac{n}{n}</m> or 1 for large <m>n</m>.
+                So the sequence <m>\left\{ \frac{1+n}{2+n}\right\}</m> has a limit of 1 at infinity.
+              </p>
+              <p>
+                More rigorously, we can either write <m>\frac{1+n}{2+n}=1-\frac1{2+n}</m> and note that <m>\lim\limits_{n\to\infty}\frac1{2+n}=0</m>, or we can apply L'Hopital's rule to the function <m>f(x)=\frac{1+x}{2+x}</m> as <m>x\to\infty</m> to assert that <m>\left\{\frac{1+n}{2+n}\right\}</m> has limit <m>1</m> as <m>n\to\infty</m>.
+              </p>
+            </li>
+          </ol>
+        </p>
+      </solution>
+    </example>
+    
+    <p permid="ZsZ">
+      In <xref ref="act-8-1-1">Example</xref>
+      and <xref ref="act-8-1-2">Example</xref>
+      we investigated a few sequences <m>\{s_n\}</m> that had a limit as <m>n</m> goes to infinity.
+      More formally, we 
+      make the following definition.
+    </p>
+    
+    <p permid="wgw">
+    <assemblage>
+      <title> Sequence Convergence </title>
+      <p>
+        The sequence <m>\{ s_n \}</m> <term>converges</term>
+        <idx><h>converge</h><h>sequence</h></idx>
+        <idx><h>sequence</h><h>converge</h></idx>
+        or is a
+        <term>convergent sequence</term>
+        <idx><h>convergent sequence</h></idx>
+        if there is a number <m>L</m> so that the terms <m>s_n</m> get and stay as close to <m>L</m> as we choose.
+        This means that for some, perhaps very large, number <m>N</m>, we have that every <m>s_n</m> after <m>s_N</m> is within our chosen distance of <m>L.</m> 
+        In this situation, we call <m>L</m> the <term>limit</term>
+        <idx><h>sequence</h><h>limit</h></idx>
+        of the convergent sequence and write
+        <me permid="ecS">
+          \lim_{n \to \infty} s_n = L
+        </me>.
+        If the sequence <m>\{s_n\}</m> does not converge,
+        we say that the sequence <m>\{s_n\}</m> <term>diverges</term>.
+        <idx><h>diverge</h><h>sequence</h></idx>
+        <idx><h>sequence</h><h>diverge</h></idx>
+      </p>
+    </assemblage>
+    </p>
+    
+    <p permid="FAi">
+      The idea of sequence having a limit as
+      <m>n \to \infty</m> is the same as the idea of a continuous function having a limit as <m>x \to \infty</m>.
+      The only difference is that sequences are discrete instead of continuous. 
+    </p>
+      
+    <p> 
+      We will apply the same terminology from limits of continuous functions to the limits of discrete functions. 
+      For example, we will say that a sequence converges to a limit <m>L</m> <em>from below</em> if the terms of the sequence are smaller than
+      <m>L</m>, and <em>from above</em> if the terms of the sequence are larger than <m>L</m>.
+    </p>
+    
+    <p>
+      Many properties of limits carry over from the continuous to discrete setting as well. 
+      These algebraic properties are essentially identical to the properties of limits listed in <xref ref="lims">Section</xref>:
+    </p>
+  <p>
+    <idx><h>limit</h><h>properties (discrete)</h></idx>
+  <assemblage>
+  <title>Properties of Discrete Limits</title>
+  <p>
+  Assuming all the limits on the right-hand side exist:
+
+<ul>
+<li> If <m>b</m> is a constant, then <m>\lim\limits_{n \rightarrow \infty} (bs_n)=b\left(\lim\limits_{n \rightarrow \infty} s_n \right)</m></li>
+<li> <m>\lim\limits_{n \rightarrow \infty} \left( s_n+t_n\right)=\lim\limits_{n \rightarrow \infty} s_n+\lim\limits_{n \rightarrow \infty}t_n</m> </li>
+<li> <m>\lim\limits_{n \rightarrow \infty} \left( s_n \cdot t_n\right)=\lim\limits_{n \rightarrow \infty} s_n\cdot\lim\limits_{n \rightarrow \infty}t_n</m> </li>
+<li> <m>\lim\limits_{n \rightarrow \infty} \left(\frac{s_n}{t_n}\right)=\frac{\lim\limits_{n \rightarrow \infty} s_n}{\lim\limits_{n \rightarrow \infty} t_n}</m>, provided <m>\lim\limits_{n \rightarrow \infty} t_n \neq 0</m> </li>
+<li> For any constant <m>k</m>, <m>\lim\limits_{n \rightarrow \infty} k=k</m> </li>
+</ul>
+  </p>
+  </assemblage>
+  </p>
+    
+    <example xml:id="act-8-1-3" permid="MxJ">
+      <statement>
+        <p permid="bGH">
+          Use graphical and/or algebraic methods to determine whether each of the following sequences converges or diverges.
+          
+          <ol label="a." permid="Tso">
+            <li permid="zzx">
+              <p permid="VhB">
+                <m>\left\{\frac{1+2n}{3n-2}\right\}</m>
+              </p>
+            </li>
+            
+            <li permid="fGG">
+              <p permid="BoK">
+                <m>\left\{\frac{5+3^n}{10+2^n}\right\}</m>
+              </p>
+            </li>
+            
+            <li permid="LNP">
+              <p permid="hvT">
+                <m>\left\{\frac{10^n}{n!}\right\}</m><fn>Note that <m>!</m> is the <em>factorial</em>
+                symbol, and <m>n! = n(n-1)(n-2) \cdots (2)(1)</m> for any positive integer <m>n</m>. By convention, we define <m>0!</m> to be <m>1</m>.</fn>
+              </p>
+            </li>
+          </ol>
+        </p>
+      </statement>
+      <hint permid="uPE">
+        <p permid="vzy">
+          <ol label="a." permid="nlf">
+            <li permid="rUY">
+              <p permid="NDc">
+                Multiply the numerator and denominator each by <m>\frac{1}{n}</m>.
+              </p>
+            </li>
+            
+            <li permid="Ych">
+              <p permid="tKl">
+                Compare the <m>n</m>th term to <m>\frac{3^n}{2^n}</m>.
+              </p>
+            </li>
+            
+            <li permid="Ejq">
+              <p permid="ZRu">
+                Plot the sequence and think about what the graph suggests.
+              </p>
+            </li>
+          </ol>
+        </p>
+      </hint>
+      <answer permid="OIv">
+        <p permid="Psp">
+          <ol label="a." permid="HdW">
+            <li permid="kqz">
+              <p permid="FYD">
+                The sequence <m>\left\{\frac{1+2n}{3n-2}\right\}</m> converges to <m>\frac{2}{3}</m>.
+              </p>
+            </li>
+            
+            <li permid="QxI">
+              <p permid="mfM">
+                The sequence <m>\left\{\frac{5+3^n}{10+2^n}\right\}</m> diverges to infinity.
+              </p>
+            </li>
+            
+            <li permid="wER">
+              <p permid="SmV">
+                <m>\frac{10^n}{n!} \to 0</m> as <m>n \to \infty</m>.
+              </p>
+            </li>
+          </ol>
+        </p>
+      </answer>
+      <solution permid="iBm">
+        <p permid="jlg">
+          <ol label="a." permid="aWN">
+            <li permid="cMa">
+              <p permid="yue">
+                A plot of the first 20 terms of the sequence <m>\left\{\frac{1+2n}{3n-2}\right\}</m> is shown below.
+              </p>
+              
+              <sidebyside width="50%" permid="Uci">
+                <image source="images/8_2_Sequence_a" />
+              </sidebyside>
+              
+              <p permid="eBn">
+                The plot suggests that the sequence has a limit between 0.5 and 1.
+                <!--For large <m>n</m> the <m>2n</m> term controls the numerator and the <m>3n</m> term controls the denominator.
+                So <m>\frac{1+2n}{3n-2}</m> looks like
+                <m>\frac{2n}{3n} = \frac{2}{3}</m> when <m>n</m> is big.-->
+                Evaluating the limit algebraically, we find that 
+                <me>\lim\limits_{n\to\infty}\frac{1+2n}{3n-2}=\lim\limits_{n\to\infty}\frac{\frac1n+2}{3-\frac2n}=\frac23</me>.
+                So the sequence <m>\left\{\frac{1+2n}{3n-2}\right\}</m> converges to <m>\frac{2}{3}</m>.
+              </p>
+            </li>
+            
+            <li permid="ITj">
+              <p permid="KIw">
+                A plot of the first 20 terms of the sequence <m>\left\{\frac{5+3^n}{10+2^n}\right\}</m> is shown below. Note the scale on the vertical axis.
+              </p>
+              
+              <sidebyside width="50%" permid="Ajr">
+                <image source="images/8_2_Sequence_b" />
+              </sidebyside>
+              
+              <p permid="qPF">
+                The plot implies that the sequence does not have a limit as <m>n</m> goes to infinity.
+                Evaluating the limit algebraically, we factor <m>3^n</m> from the numerator and <m>2^n</m> from the denominator. Doing so yields 
+                <me>
+                \lim\limits_{n\to\infty}\frac{5+3^n}{10+2^n}=\lim\limits_{n\to\infty}\frac{3^n\left(\frac{5}{3^n}+1\right)}{2^n\left(\frac{10}{2^n}+1\right)}
+                </me>.
+                Now, since <m>\lim\limits_{n\to\infty}\frac{\frac5{3^n}+1}{\frac{10}{2^n}+1}=1</m>, it follows that <me>
+                \lim\limits_{n\to\infty}\frac{3^n\left(\frac{5}{3^n}+1\right)}{2^n\left(\frac{10}{2^n}+1\right)}=\lim\limits_{n\to\infty}\left(\frac32\right)^n
+                </me>.
+                <!--For large <m>n</m> the <m>3^n</m> term dominates the numerator and the <m>2^n</m> term the denominator.
+                So the quotient <m>\frac{5+3^n}{10+2^n}</m> looks like
+                <m>\frac{3^n}{2^n} = \left(\frac{3}{2}\right)^n</m> when <m>n</m> is big.-->
+                Since <m>\frac{3}{2} \gt 1</m>, this limit is infinite and 
+                the sequence <m>\left\{\frac{5+3^n}{10+2^n}\right\}</m> diverges to infinity as the plot suggests.
+              </p>
+            </li>
+            
+            <li permid="pas">
+              <p permid="WWO">
+                A plot of the first 20 terms of the sequence <m>\left\{\frac{10^n}{n!}\right\}</m> is shown below. Note the scale on the vertical axis.
+              </p>
+              
+              <sidebyside width="50%" permid="gqA">
+                <image source="images/8_2_Sequence_c" />
+              </sidebyside>
+              
+              <p permid="DdX">
+                Initially,
+                it looks as though the terms increase without bound,
+                but beginning at about <m>n=10</m> the factorial in the denominator dominates the numerator.
+                Notice that
+                <me permid="HNQ">
+                  \frac{10^n}{n!} = \frac{10 \times 10 \times 10 \times \cdots \times 10}{1 \times 2 \times 3 \times \cdots \times n}
+                </me>.
+                When <m>n \gt 20</m>,
+                we have that <m>\frac{10}{n} \lt  \frac{1}{2}</m> and thus
+                <md permid="nUZ">
+                  <mrow>\frac{10^n}{n!} \amp = \left(\frac{10 \times 10 \times 10 \times \cdots \times 10}{1 \times 2 \times 3 \times \cdots\times 20}\right) \left(\frac{10 \times 10 \times 10 \times \cdots \times 10}{21 \times 22 \times 23 \times \cdots\times n}\right)</mrow>
+                  <mrow>\amp = \left(\frac{10^{20}}{20!}\right) \left(\frac{10}{21}\right) \left(\frac{10}{22}\right) \cdots \left(\frac{10}{n}\right)</mrow>
+                  <mrow>\amp \lt  \left(\frac{10^{20}}{20!}\right) \left(\frac{1}{2}\right)^{n-20}</mrow>
+                </md>.
+                Since <m>\frac{1}{2}\lt 1</m>,
+                the term <m>\left(\frac{1}{2}\right)^{n-20}</m> goes to 0 as <m>n</m> goes to infinity.
+                The fact that <m>\frac{10^{20}}{20!}</m> is a constant means that
+                <m>\frac{10^n}{n!} \to 0</m> as <m>n \to \infty</m>.
+              </p>
+            </li>
+          </ol>
+        </p>
+      </solution>
+    </example>
+    
+    <p> There are some special types of sequences for which convergence is sometimes easier to determine. </p>
+    
+    <p>
+    <assemblage><idx><h>sequence</h><h>bounded</h></idx>
+    <idx><h>sequence</h><h>upper bound</h></idx>
+    <idx><h>sequence</h><h>lower bound</h></idx>
+      <title> Bounded Sequence </title>
+      <p> A sequence <m>\{s_n\}</m> is <term>bounded</term> if there are numbers <m>U</m> and <m>L</m> such that <m> U \leq s_n \leq L </m> 
+        for all <m>n</m>. The number <m>U</m> is called a <term>upper bound </term>, while <m>L</m> is called a <term>lower bound </term>.
+      </p>
+    </assemblage>
+    </p>
+    
+    <p>
+    <assemblage><idx><h>sequence</h><h>monotone</h></idx>
+      <title> Monotone Sequence </title>
+      <p> A sequence is <term>monotone</term> if it is either increasing or decreasing.
+        That is, if either <m> s_n \leq s_{n+1} </m> for all <m>n</m>, or <m>s_n \geq s_{n+1}</m> for all <m>n</m>.
+      </p>
+    </assemblage>
+    </p>
+    
+    <example xml:id="example-8-1-11">
+      <statement>
+        <p> Determine whether the following sequences are bounded, monotone, both, or neither. Then, determine whether the sequence 
+          converges or diverges.
+          <ol label="a.">
+            <li>
+              <p> <m>s_n = \left(\frac{1}{3}\right)^n </m></p>
+            </li>
+            <li>
+              <p> <m>s_n = (-1)^n </m> </p>
+            </li>
+            <li>
+              <p> <m> s_n = 2^n +1 </m> </p>
+            </li>
+            <li>
+              <p><m>s_n= \frac{1}{2}s_{n-1}</m> for <m>n>1</m> and <m>s_1=30</m>.</p>
+            </li>
+            <li>
+              <p> <m> s_n = (-2)^n </m> </p>
+            </li>
+            <li>
+              <p> <m> s_n=\frac{(-1)^n}{n} </m> </p>
+            </li>
+            <li>
+              <p> <m> s_n = \left( 1+\frac{1}{n}\right) </m> </p>
+            </li>
+          </ol>
+        </p>
+      </statement>
+      <solution>
+        <p>
+          <ol label = "a.">
+            <li>
+              <p> This sequence is bounded because <m> 0 \leq \left(\frac{1}{3}\right)^n \leq \frac{1}{3} </m> for all <m>n\geq 1</m>.
+                It's also decreasing, so it's monotone as well. It converges and has limit 0.
+              </p>
+            </li>
+            <li>
+              <p> This sequence is bounded because <m> -1 \leq (-1)^n \leq 1 </m> for all <m>n</m>. However, since <m>s_n</m>
+                oscillates between <m>-1</m> and <m>1</m>, it is not monotone. The sequence diverges because of the oscillation.
+              </p>
+            </li>
+            <li>
+              <p> <m>2^n +1</m> is unbounded because it gets arbitrarily large as <m>n</m> gets large. It is monotone increasing. The sequence
+                diverges because it's unbounded.
+              </p> 
+            </li>
+            <li>
+              <p>
+                This recursive sequence is bounded between <m>0</m> and <m>30</m>, and since each term is half the previous one, it is monotone decreasing. The sequence converges to <m>0</m>.
+              </p>
+            </li>
+            <li>
+              <p> <m>(-2)^n </m> is neither bounded nor monotone. It is not bounded below or above, and is not monotone since it alternates between positive
+                and negative terms. The sequence diverges.
+              </p>
+            </li>
+            <li>
+              <p> This sequence is not monotone, since it alternates between positive and negative terms. It is bounded
+                 between <m>-1</m> and <m>1</m> (also between <m>-1</m> and <m>\frac12</m>). This sequence converges to 0.
+              </p>
+            </li>
+            <li>
+              <p> This sequence is both bounded and monotone. It's decreasing and bounded between 1 and 2. It converges with limit 1.</p>
+            </li>
+          </ol>
+        </p>
+      </solution>
+    </example>
+    
+    <p> Notice in the examples above, being bounded or monotone alone does not guarantee convergence. However, each example that was both 
+      bounded and monotone was convergent. This is true in general.
+    </p>
+    
+    <assemblage>
+      <title>Convergence of Monotone Bounded Sequences</title>
+      <p> If a sequence <m> \{s_n\}</m> is bounded and monotone, then it converges. </p>
+    </assemblage>
+    
+    <assemblage>
+      <title>Boundedness of Convergent Sequences</title>
+      <p> If a sequence <m> \{s_n\}</m> converges, then it is bounded. </p>
+    </assemblage>
+    
+    Besides these two rules <q>Monotone + Bounded <m>\rightarrow </m> Convergent</q> and <q>Convergent <m>\rightarrow </m> Bounded</q>),
+    any combination of monotone/not monotone, bounded/not bounded, and convergent/not convergent is possible. 
+    For example, we've already seen a sequence in <xref ref="example-8-1-11">Example</xref> which is bounded but not convergent.
+    
+    
+    
+    
+  </subsection>
+  
+  
+  
+  <subsection permid="xlP">
+    <title>Summary</title>
+    <p permid="lHr">
+      <ul permid="Oka">
+        <li permid="mMK">
+          <p permid="XDM">
+            A sequence is a list of objects in a specified order.
+            We will typically work with sequences of real numbers.
+            We can think of a sequence as a function from the positive integers to the set of real numbers.
+          </p>
+        </li>
+        
+        <li permid="STT">
+          <p permid="DKV">
+            A sequence <m>\{s_n\}</m> of real numbers converges to a number <m>L</m> if <mdash /> by choosing <m>n</m> sufficiently large <mdash /> we can make every value of <m>s_k</m> as close as we want to <m>L</m>, for <m>k \ge n</m>.
+          </p>
+        </li>
+        
+        <li permid="zbc">
+          <p permid="jSe">
+            A sequence diverges if it does not converge.
+          </p>
+        </li>
+        
+        <li permid="zbc">
+          <p permid="jSe">
+            Sequences are monotone if they are always increasing or always decreasing, and bounded if
+            the terms of the sequence are always between an upper bound and a lower bound. Bounded monotone sequences converge,
+            and convergent sequences are bounded.
+          </p>
+        </li>
+      </ul>
+    </p>
+  </subsection>
+  
+  <exercises xmlns:xi="http://www.w3.org/2001/XInclude"> 
+    <!-- Not compatible with PTX-WeBWorK bridge -->
+    <!--
+    <exercise xml:id="ez-8-1-WW1">
+      <webwork source="Library/Michigan/Chap9Sec1/Q17.pg" />
+    </exercise>
+    -->
+    
+    
+    
+    <exercise xml:id="ez-8-1-WW2" permid="dTx">
+      <title>Limits of Five Sequences</title>
+      <webwork source="Library/Michigan/Chap9Sec1/Q19.pg" />
+    </exercise>
+    
+    <exercise xml:id="ez-8-1-WW3" permid="KaG">
+      <title>Formula for a Sequence, Given First Terms</title>
+      <webwork source="Library/Michigan/Chap9Sec1/Q09.pg" />
+    </exercise>
+    
+    <exercise xml:id="ez-8-1-WW4" permid="qhP">
+      <title>Divergent or Convergent Sequences</title>
+      <webwork source="Library/Michigan/Chap9Sec1/Q23.pg" />
+    </exercise>
+    
+    <exercise xml:id="ez-8-1-WW5" permid="WoY">
+      <title>Terms of a Sequence from Sampling a Signal</title>
+      <webwork source="Library/Michigan/Chap9Sec1/Q33.pg" />
+    </exercise>
+    
+    <exercise permid="Cwh">
+      <title> Finding the Limit of a Convergent Sequence</title>
+      <statement>
+        <p permid="Gpc">
+          Finding limits of convergent sequences can be a challenge.
+          However, there is a useful tool we can adapt from our study of limits of continuous functions at infinity to use to find limits of sequences.
+          We illustrate in this exercise with the example of the sequence
+          <me permid="Duw">
+            \frac{\ln(n)}{n}
+          </me>.
+          <ol label="a." permid="VjF">
+            <li permid="tMp">
+              <p permid="Luu">
+                Calculate the first 10 terms of this sequence.
+                Based on these calculations,
+                do you think the sequence converges or diverges?
+                Why?
+              </p>
+            </li>
+            
+            <li permid="ZTy">
+              <p permid="rBD">
+                For this sequence,
+                there is a corresponding continuous function <m>f</m> defined by
+                <me permid="jBF">
+                  f(x) = \frac{\ln(x)}{x}
+                </me>.
+                Draw the graph of <m>f(x)</m> on the interval <m>[0,10]</m> and then plot the entries of the sequence on the graph.
+                What conclusion do you think we can draw about the sequence
+                <m>\left\{\frac{\ln(n)}{n}\right\}</m> if <m>\lim_{x \to \infty} f(x) = L</m>?
+                Explain.
+              </p>
+            </li>
+            
+            <li permid="GaH">
+              <p permid="XIM">
+                Note that <m>f(x)</m> has the indeterminate form
+                <m>\frac{\infty}{\infty}</m> as <m>x</m> goes to infinity.
+                What idea from differential calculus can we use to calculate <m>\lim_{x \to \infty} f(x)</m>?
+                Use this method to find <m>\lim_{x \to \infty} f(x)</m>.
+                What,
+                then, is <m>\lim_{n \to \infty} \frac{\ln(n)}{n}</m>?
+              </p>
+            </li>
+          </ol>
+        </p>
+      </statement>
+      <answer permid="Hga">
+        <p permid="BFj">
+          <ol label="a." permid="cOe">
+            <li permid="mhQ">
+              <p permid="DPV">
+                Unclear whether it converges or diverges.
+              </p>
+              
+              <sidebyside permid="ZjE">
+                
+                <tabular top="minor" bottom="minor" permid="Ryb">
+                  <row>
+                    <cell><m>n</m></cell>
+                    <cell><m>1</m></cell>
+                    <cell><m>2</m></cell>
+                    <cell><m>3</m></cell>
+                    <cell><m>4</m></cell>
+                    <cell><m>5</m></cell>
+                  </row>
+                  <row>
+                    <cell><m>\frac{\ln(n)}{n}</m></cell>
+                    <cell><m>0</m></cell>
+                    <cell><m>0.3466</m></cell>
+                    <cell><m>0.3663</m></cell>
+                    <cell><m>0.3466</m></cell>
+                    <cell><m>0.3218</m></cell>
+                  </row>
+                  <row>
+                    <cell><m>t</m></cell>
+                    <cell><m>6</m></cell>
+                    <cell><m>7</m></cell>
+                    <cell><m>8</m></cell>
+                    <cell><m>9</m></cell>
+                    <cell><m>10</m></cell>
+                  </row>
+                  <row>
+                    <cell><m>\frac{\ln(n)}{n}</m></cell>
+                    <cell><m>0.2987</m></cell>
+                    <cell><m>0.2781</m></cell>
+                    <cell><m>0.2599</m></cell>
+                    <cell><m>0.2442</m></cell>
+                    <cell><m>0.2303</m></cell>
+                  </row>
+                </tabular>
+                
+              </sidebyside>
+              
+            </li>
+            
+            <li permid="SoZ">
+              <p permid="jXe">
+                If <m>\lim_{x \to \infty} f(x) = L</m>,
+                then <m>\lim_{n \to \infty} \frac{\ln(n)}{n} = L</m> as well.
+              </p>
+            </li>
+            
+            <li permid="ywi">
+              <p permid="Qen">
+                <me permid="PIO">
+                  \lim_{n \to \infty} \frac{\ln(n)}{n} = \lim_{x \to \infty} \frac{\ln(x)}{x} = 0
+                </me>.
+              </p>
+            </li>
+          </ol>
+        </p>
+      </answer>
+      <solution permid="aYR">
+        <p permid="dcz">
+          <ol label="a." permid="Elu">
+            <li permid="eDr">
+              <p permid="wlw">
+                Decimal approximations of the first <m>10</m> terms of this sequence are given in the following table.
+                The numbers in this sequence originally increase,
+                but then seem to be decreasing.
+                It looks as though the sequence might converge,
+                but if so it isn't clear to what value the sequence converges.
+              </p>
+              
+              <sidebyside permid="FqN">
+                
+                <tabular top="minor" bottom="minor" permid="xFk">
+                  <row>
+                    <cell><m>n</m></cell>
+                    <cell><m>1</m></cell>
+                    <cell><m>2</m></cell>
+                    <cell><m>3</m></cell>
+                    <cell><m>4</m></cell>
+                    <cell><m>5</m></cell>
+                  </row>
+                  <row>
+                    <cell><m>\frac{\ln(n)}{n}</m></cell>
+                    <cell><m>0</m></cell>
+                    <cell><m>0.3466</m></cell>
+                    <cell><m>0.3663</m></cell>
+                    <cell><m>0.3466</m></cell>
+                    <cell><m>0.3218</m></cell>
+                  </row>
+                  <row>
+                    <cell><m>t</m></cell>
+                    <cell><m>6</m></cell>
+                    <cell><m>7</m></cell>
+                    <cell><m>8</m></cell>
+                    <cell><m>9</m></cell>
+                    <cell><m>10</m></cell>
+                  </row>
+                  <row>
+                    <cell><m>\frac{\ln(n)}{n}</m></cell>
+                    <cell><m>0.2987</m></cell>
+                    <cell><m>0.2781</m></cell>
+                    <cell><m>0.2599</m></cell>
+                    <cell><m>0.2442</m></cell>
+                    <cell><m>0.2303</m></cell>
+                  </row>
+                </tabular>
+                
+              </sidebyside>
+              
+            </li>
+            
+            <li permid="KKA">
+              <p permid="csF">
+                The graph of <m>f</m> on the interval <m>[1, 10]</m> and the graph of the sequence
+                <m>\left\{\frac{n}{\ln(n)}\right\}</m> for <m>n</m> from 1 to 10 are shown in the figure below.
+                Since the graph of the sequence follows the graph of the function <m>f</m>,
+                and since <m>f</m> is a strictly decreasing function,
+                we should expect that if <m>\lim_{x \to \infty} f(x) = L</m>,
+                then <m>\lim_{n \to \infty} \frac{\ln(n)}{n} = L</m> as well.
+              </p>
+              
+              <sidebyside width="50%" permid="lxW">
+                <image source="images/8_1_Ez1Soln" />
+              </sidebyside>
+              
+            </li>
+            
+            <li permid="qRJ">
+              <p permid="IzO">
+                Since we have the indeterminate form <m>\frac{\infty}{\infty}</m>,
+                we can apply L'Hopital's Rule to determine the limit.
+                In this case, we have
+                <me permid="vPX">
+                  \lim_{x \to \infty} \frac{\ln(x)}{x} = \lim_{x \to \infty} \frac{1}{x} = 0
+                </me>.
+                So we should expect that
+                <me permid="bXg">
+                  \lim_{n \to \infty} \frac{\ln(n)}{n} = \lim_{x \to \infty} \frac{\ln(x)}{x} = 0
+                </me>.
+              </p>
+            </li>
+          </ol>
+        </p>
+      </solution>
+    </exercise>
+    
+    <exercise permid="iDq">
+      <title> The Formula for the Amount in a Bank Account</title>
+      <statement>
+        <p permid="mwl">
+          We return to the example begun in <xref ref="PA-8-1">Preview Activity</xref>
+          to see how to derive the formula for the amount of money in an account at a given time.
+          We do this in a general setting.
+          Suppose you invest <m>P</m> dollars
+          (called the <em>principal</em>)
+          in an account paying <m>r\%</m> interest compounded monthly.
+          In the first month you will receive <m>\frac{r}{12}</m>
+          (here <m>r</m> is in decimal form;
+          e.g., if we have <m>8\%</m> interest,
+          we write <m>\frac{0.08}{12}</m>)
+          of the principal <m>P</m> in interest, so you earn
+          <me permid="Iep">
+            P\left(\frac{r}{12}\right)
+          </me>
+          dollars in interest.
+          Assume that you reinvest all interest.
+          Then at the end of the first month your account will contain the original principal <m>P</m> plus the interest,
+          or a total of
+          <me permid="oly">
+            P_1 = P + P\left(\frac{r}{12}\right) = P\left( 1 + \frac{r}{12}\right)
+          </me>
+          dollars.
+          
+          <ol label="a." permid="BqO">
+            <li permid="WYS">
+              <p permid="oGX">
+                Given that your principal is now <m>P_1</m> dollars,
+                how much interest will you earn in the second month?
+                If <m>P_2</m> is the total amount of money in your account at the end of the second month,
+                explain why
+                <me permid="UsH">
+                  P_2 = P_1\left( 1 + \frac{r}{12}\right) = P\left( 1 + \frac{r}{12}\right)^2
+                </me>.
+              </p>
+            </li>
+            
+            <li permid="Dgb">
+              <p permid="UOg">
+                Find a formula for <m>P_3</m>,
+                the total amount of money in the account at the end of the third month in terms of the original investment <m>P</m>.
+              </p>
+            </li>
+            
+            <li permid="jnk">
+              <p permid="AVp">
+                There is a pattern to these calculations.
+                Let <m>P_n</m> the total amount of money in the account at the end of the third month in terms of the original investment <m>P</m>.
+                Find a formula for <m>P_n</m>.
+              </p>
+            </li>
+          </ol>
+        </p>
+      </statement>
+      <answer permid="Tus">
+        <p permid="hMs">
+          <ol label="a." permid="IVn">
+            <li permid="Put">
+              <p permid="hcy">
+                <m>P_1\left(\frac{r}{12}\right)</m> in interest in the second month;
+                at the end of the second month, 
+                <m>
+                  P_2 = P\left( 1 + \frac{r}{12}\right)^2
+                </m>.
+              </p>
+            </li>
+            
+            <li permid="vBC">
+              <p permid="NjH">
+                <m>
+                  P_3 = P\left( 1 + \frac{r}{12}\right)^3
+                </m>.
+              </p>
+            </li>
+            
+            <li permid="bIL">
+              <p permid="tqQ">
+                <m>
+                  P_n = P\left( 1 + \frac{r}{12}\right)^n
+                </m> is a pattern to these calculations.
+              </p>
+            </li>
+          </ol>
+        </p>
+      </answer>
+      <solution permid="nnj">
+        <p permid="JjI">
+          <ol label="a." permid="ksD">
+            <li permid="HPU">
+              <p permid="ZxZ">
+                The principal of <m>P_1</m> dollars will earn <m>P_1\left(\frac{r}{12}\right)</m>
+                in interest in the second month.
+                Thus, at the end of the second month, the total amount 
+                <m>P_2</m> in your account will be
+                <me permid="AzQ">
+                  P_2 = P_1 + P_1\left(\frac{r}{12}\right)
+                </me>.
+                Factoring and recalling that <m>P_1 = P\left( 1 + \frac{r}{12}\right)</m>
+                <me permid="gGZ">
+                  P_2 = P_1\left( 1 + \frac{r}{12}\right) = P\left( 1 + \frac{r}{12}\right)^2
+                </me>.
+              </p>
+            </li>
+            
+            <li permid="nXd">
+              <p permid="FFi">
+                The principal of <m>P_2</m> dollars will earn <m>P_2\left(\frac{r}{12}\right)</m>
+                in interest in the third month.
+                Thus, at the end of the third month, the total amount 
+                <m>P_3</m> in your account will be
+                <me permid="MOi">
+                  P_3 = P_2 + P_2\left(\frac{r}{12}\right)
+                </me>.
+                Factoring and recalling that <m>P_2 = P\left( 1 + \frac{r}{12}\right)^2</m>
+                <me permid="sVr">
+                  P_3 = P_2\left( 1 + \frac{r}{12}\right) = P\left( 1 + \frac{r}{12}\right)^3
+                </me>.
+              </p>
+            </li>
+            
+            <li permid="Uem">
+              <p permid="lMr">
+                Based on the pattern we observe,
+                continuing the same line of reasoning we find that
+                <me permid="ZcA">
+                  P_n = P_{n-1}\left( 1 + \frac{r}{12}\right) = P\left( 1 + \frac{r}{12}\right)^n
+                </me>
+                is a pattern to these calculations.
+              </p>
+            </li>
+          </ol>
+        </p>
+      </solution>
+    </exercise>
+    
+    <exercise permid="OKz">
+      <title> Half-life of GLP-1</title>
+      <statement>
+        <p permid="SDu">
+          Sequences have many applications in mathematics and the sciences.
+          In a recent paper<fn>
+            Hui H, Farilla L, Merkel P, Perfetti R. The short half-life of glucagon-like peptide-1 in plasma does not reflect its long-lasting beneficial effects,
+            <em>Eur J Endocrinol</em>
+            2002 Jun;146(6):863-9.
+          </fn> the authors write
+        </p>
+        
+        <blockquote permid="LPT">
+          <p permid="ahT">
+            The incretin hormone glucagon-like peptide-1 (GLP-1) is capable of ameliorating glucose-dependent insulin secretion in subjects with diabetes.
+            However, its very short half-life (1.5-5 min) in plasma represents a major limitation for its use in the clinical setting.
+          </p>
+        </blockquote>
+        
+        <p permid="yKD">
+          The half-life of GLP-1 is the time it takes for half of the hormone to decay in its medium.
+          For this exercise, assume the half-life of GLP-1 is 5 minutes.
+          So if <m>A</m> is the amount of GLP-1 in plasma at some time <m>t</m>,
+          then only <m>\frac{A}{2}</m> of the hormone will be present after <m>t+5</m> minutes.
+          Suppose <m>A_0 = 100</m> grams of the hormone are initially present in plasma.
+          
+          <ol label="a." permid="hxX">
+            <li permid="Alv">
+              <p permid="RTA">
+                Let <m>A_1</m> be the amount of GLP-1 present after 5 minutes.
+                Find the value of <m>A_1</m>.
+              </p>
+            </li>
+            
+            <li permid="gsE">
+              <p permid="yaJ">
+                Let <m>A_2</m> be the amount of GLP-1 present after 10 minutes.
+                Find the value of <m>A_2</m>.
+              </p>
+            </li>
+            
+            <li permid="MzN">
+              <p permid="ehS">
+                Let <m>A_3</m> be the amount of GLP-1 present after 15 minutes.
+                Find the value of <m>A_3</m>.
+              </p>
+            </li>
+            
+            <li permid="sGW">
+              <p permid="Kpb">
+                Let <m>A_4</m> be the amount of GLP-1 present after 20 minutes.
+                Find the value of <m>A_4</m>.
+              </p>
+            </li>
+            
+            <li permid="YOf">
+              <p permid="qwk">
+                Let <m>A_n</m> be the amount of GLP-1 present after <m>5n</m> minutes.
+                Find a formula for <m>A_n</m>.
+              </p>
+            </li>
+            
+            <li permid="EVo">
+              <p permid="WDt">
+                Does the sequence <m>\{A_n\}</m> converge or diverge?
+                If the sequence converges,
+                find its limit and explain why this value makes sense in the context of this problem.
+              </p>
+            </li>
+            
+            <li permid="lcx">
+              <p permid="CKC">
+                Determine the number of minutes it takes until the amount of GLP-1 in plasma is 1 gram.
+              </p>
+            </li>
+          </ol>
+        </p>
+      </statement>
+      <answer permid="fIK">
+        <p permid="NTB">
+          Exercise Answer
+        </p>
+      </answer>
+      <solution permid="zBB">
+        <p permid="pqR">
+          <ol label="a." permid="QzM">
+            <li permid="RjG">
+              <p permid="iRL">
+                Since one half-life has passed at <m>t = 5</m>,
+                <m>A_1 = \frac{1}{2} A_0 = \frac{1}{2}(100)</m>.
+              </p>
+            </li>
+            
+            <li permid="xqP">
+              <p permid="OYU">
+                Since another half-life has passed at <m>t = 10</m>,
+                <m>A_2 = \frac{1}{2} A_1 = \frac{1}{2}\left( \frac{1}{2} (100) \right) = \left( \frac{1}{2} \right)^2 \cdot 100</m>.
+              </p>
+            </li>
+            
+            <li permid="dxY">
+              <p permid="vgd">
+                Yet another half-life has passed at <m>t = 15</m>,
+                so <m>A_3 = \frac{1}{2} A_2 = \frac{1}{2}\left( \left( \frac{1}{2} \right)^2 \cdot 100 \right) = \left( \frac{1}{2} \right)^3 \cdot 100</m>.
+              </p>
+            </li>
+            
+            <li permid="JFh">
+              <p permid="bnm">
+                Continuing, <m>A_4 = \frac{1}{2} A_3 = \frac{1}{2}\left( \left( \frac{1}{2} \right)^3 \cdot 100 \right) = \left( \frac{1}{2} \right)^4 \cdot 100</m>.
+              </p>
+            </li>
+            
+            <li permid="pMq">
+              <p permid="Huv">
+                After <m>5n</m> minutes,
+                <m>n</m> half-lives have elapsed, and thus we find that
+                <me permid="FjJ">
+                  A_n = \left( \frac{1}{2} \right)^n \cdot 100
+                </me>.
+              </p>
+            </li>
+            
+            <li permid="VTz">
+              <p permid="nBE">
+                From the behavior of exponential functions,
+                we know that if <m>0 \lt a \lt 1</m>,
+                then <m>a^x \to 0</m> as <m>x \to \infty</m>.
+                It follows that <m>\left( \frac{1}{2} \right)^n \to 0</m> as <m>n \to \infty</m>,
+                and therefore <m>A_n \to 0</m> as time goes on.
+                This makes sense because the human body will consume and change the drug in the body and eliminate it unless additional doses are taken.
+              </p>
+            </li>
+            
+            <li permid="CaI">
+              <p permid="TIN">
+                To determine the time at which <m>1</m> gram of the hormone remains in the body,
+                we solve the equation
+                <me permid="lqS">
+                  1 = \left( \frac{1}{2} \right)^n \cdot 100
+                </me>.
+                This implies that <m>\left( \frac{1}{2} \right)^n = 0.01</m>,
+                and thus <m>n = \frac{\ln(0.01)}{\ln(0.5)} \approx 6.6439</m>.
+                Thus, it takes about <m>6.6439</m> half-lives to elapse to get down to <m>1</m> gram remaining,
+                or <m>5 \cdot 6.6439 = 33.2193</m> minutes.
+              </p>
+            </li>
+          </ol>
+        </p>
+      </solution>
+    </exercise>
+    
+    <exercise permid="uRI">
+      <title> Sampling Continuous Data</title>
+      <statement>
+        <p permid="eRM">
+          Continuous data is the basis for analog information,
+          like music stored on old cassette tapes or vinyl records.
+          A digital signal like on a CD or MP3 file is obtained by sampling an analog signal at some regular time interval and storing that information.
+          For example,
+          the sampling rate of a compact disk is 44,100 samples per second.
+          So a digital recording is only an approximation of the actual analog information.
+          Digital information can be manipulated in many useful ways that allow for,
+          among other things,
+          noisy signals to be cleaned up and large collections of information to be compressed and stored in much smaller space.
+          While we won't investigate these techniques in this chapter,
+          this exercise is intended to give an idea of the importance of discrete (digital) techniques.
+        </p>
+        
+        <p permid="KYV">
+          Let <m>f</m> be the continuous function defined by
+          <m>f(x) = \sin(4x)</m> on the interval <m>[0,10]</m>.
+          A graph of <m>f</m> is shown in <xref ref="F-8-1-PA1">Figure</xref>.
+        </p>
+        
+        <figure xml:id="F-8-1-PA1" permid="Xnn">
+          <caption>The graph of <m>f(x) = \sin(4x)</m> on the interval <m>[0,10]</m></caption>
+          <image width="73%" source="images/8_1_Exercise_1" />
+        </figure>
+        
+        <p permid="rge">
+          We approximate <m>f</m> by <em>sampling</em>,
+          that is by partitioning the interval <m>[0,10]</m> into uniform subintervals and recording the values of <m>f</m> at the endpoints.
+          
+          <ol label="a." permid="NFg">
+            <li permid="ihR">
+              <p permid="zPW">
+                Ineffective sampling can lead to several problems in reproducing the original signal.
+                As an example,
+                partition the interval <m>[0,10]</m> into 8 equal length subintervals and create a list of points
+                (the <em>sample</em>)
+                using the endpoints of each subinterval.
+                Plot your sample on graph of <m>f</m> in Figure <xref ref="F-8-1-PA1">Figure</xref>.
+                What can you say about the period of your sample as compared to the period of the original function?
+              </p>
+            </li>
+            
+            <li permid="Opa">
+              <p permid="fXf">
+                The sampling rate is the number of samples of a signal taken per second.
+                As the part (a) illustrates,
+                sampling at too small a rate can cause serious problems with reproducing the original signal
+                (this problem of inefficient sampling leading to an inaccurate approximation is called <em>aliasing</em>).
+                There is an elegant theorem called the Nyquist-Shannon Sampling Theorem that says that human perception is limited,
+                which allows that replacement of a continuous signal with a digital one without any perceived loss of information.
+                This theorem also provides the <em>lowest</em>
+                rate at which a signal can be sampled
+                (called the Nyquist rate)
+                without such a loss of information.
+                The theorem states that we should sample at double the maximum desired frequency so that every cycle of the original signal will be sampled at at least two points.
+                Recall that the frequency of a sinusoidal function is the reciprocal of the period.
+                Identify the frequency of the function <m>f</m> and determine the number of partitions of the interval <m>[0,10]</m> that give us the Nyquist rate.
+              </p>
+            </li>
+            
+            <li permid="uwj">
+              <p permid="Meo">
+                Humans cannot typically pick up signals above 20 kHz.
+                Explain why, then,
+                that information on a compact disk is sampled at 44,100 Hz.
+              </p>
+            </li>
+          </ol>
+        </p>
+      </statement>
+      <answer permid="Yel">
+        <p permid="uaK">
+          <ol label="a." permid="pcw">
+            <li permid="aDs">
+              <p permid="slx">
+                The data points do not appear periodic at all.
+              </p>
+              
+              <sidebyside width="50%" permid="RFf">
+                <image source="images/8_1_Ez4Soln" />
+              </sidebyside>
+              
+            </li>
+            
+            <li permid="GKB">
+              <p permid="YsG">
+                At least <m>13</m> samples,
+                so at least every <m>10/13 \approx 0.76923</m> seconds.
+              </p>
+            </li>
+            
+            <li permid="mRK">
+              <p permid="EzP">
+                <m>44100</m> Hz is slightly more than double <m>20</m> KHz.
+              </p>
+            </li>
+          </ol>
+        </p>
+      </answer>
+      <solution permid="rXc">
+        <p permid="Vya">
+          <ol label="a." permid="wGV">
+            <li permid="SYT">
+              <p permid="kGY">
+                Sampling the function at the endpoints of <m>8</m> equal subintervals of length <m>10/8 = 1.25</m>,
+                we see the data pictured in the following figure
+                (with the sample points in red).
+                While the function is periodic with a period of <m>\frac{2\pi}{4} = \frac{\pi}{2}</m>,
+                the <m>9</m> data points do not appear periodic at all as none of them has repeated (yet) over the course of the pictured interval.
+              </p>
+              
+              <sidebyside width="50%" permid="xMo">
+                <image source="images/8_1_Ez4Soln" />
+              </sidebyside>
+              
+            </li>
+            
+            <li permid="zgc">
+              <p permid="QOh">
+                Since the period of the function
+                <m>f(x) = \sin(4x)</m> is <m>P = \frac{\pi}{2}</m>,
+                its frequency is <m>\frac{2}{\pi} \approx 0.6366</m>,
+                which means that this function completes about <m>0.6366</m> cycles per second.
+                Doubling this frequncy gives us a value of <m>\frac{4}{\pi} \approx 1.2732</m>.
+                This means that we should sample the function at at least a rate of twice per cycle,
+                or at least <m>1.2732</m> samples per second.
+                On a 10-second interval, we therefore need at least <m>13</m> samples,
+                so we should do so at least every <m>10/13 \approx 0.76923</m> seconds.
+              </p>
+            </li>
+            
+            <li permid="fnl">
+              <p permid="wVq">
+                Since the theorem says to sample at a minimum of double the maximum desired frequency,
+                and humans can't detect signals above <m>20</m> KHz, it follows that double <m>20</m> KHz is <m>40</m> KHz, or <m>40000</m> Hz, so sampling at <m>44100</m> Hz slightly exceeds the minimum sampling needed by the formal result.
+              </p>
+            </li>
+          </ol>
+        </p>
+      </solution>
+    </exercise>
+    
+    <exercise xml:id="ez-8-1-Bounded-Monotone">
+      <title>Deciding if a Sequence is Bounded or Monotone</title>
+      <statement>
+        <p>
+          For each of the sequences below, decide if the sequence is bounded and if it is monotone. 
+          (It may help you to list out the first few terms of the sequence.)
+          
+          <ol label="a.">
+            <li>
+              <m>a_n= 7- (\frac 1 5)^n</m>
+            </li>
+            
+            <li>
+              <m>b_n= 4\sin(n)</m>
+            </li>
+            
+            <li>
+              <m>c_n= n (-1)^n</m>
+            </li>
+            
+            <li>
+              <m>d_n= n^2+n</m>
+            </li>
+            
+          </ol>
+          
+        </p>
+      </statement>
+    </exercise>
+    
+    <exercise>
+      <title>Writing Recursive Sequences in Explicit Form</title>
+      <statement>
+        <p>
+          For each of the recursive sequences below, list the first 6 terms, then write
+          an explicit expression for the <m>n</m>th term. Check your work by looking up the sequence
+          on the Online Encyclopedia of Integer Sequences at <url href="http://oeis.org/" />.
+          
+          <ol label="a.">
+            <li>
+              <p> <m>a_n= a_{n-1}+3</m> for <m>n>1</m> and <m>a_1=4</m>.</p>
+            </li>
+            
+            <li>
+              <p> <m>b_n= nb_{n-1}</m> for <m>n>1</m> and <m>b_1=1</m>.</p>
+            </li>
+            
+            <li>
+              <p> <m>c_n= \frac 1 2 c_{n-1}</m> for <m>n>1</m> and <m>c_1=5</m>.</p>
+            </li>
+            
+            <li>
+              <p> <m>d_n= d_{n-1}+4n-2</m> for <m>n>1</m> and <m>d_1=2</m>.</p>
+            </li>
+            
+          </ol>
+          
+        </p>
+      </statement>
+    </exercise>
+    
+  </exercises>
+</section>

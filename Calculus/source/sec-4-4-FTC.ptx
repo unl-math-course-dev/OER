@@ -1,0 +1,1417 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!-- **********************************************************************-->
+<!-- Copyright 2019                                                        -->
+<!-- UNL Department of Mathematics                                         -->
+<!-- Based upon the work of                                                -->
+<!-- Matthew Boelkins                                                      -->
+<!-- Copyright 2012-2018                                                   -->
+<!--                                                                       -->
+<!-- This file is part of Coordinated Calculus.                            -->
+<!-- This file is based on Active Calculus.                                -->
+<!--                                                                       -->
+<!-- Permission is granted to copy, distribute and/or modify this document -->
+<!-- under the terms of the Creative Commons BY-SA license.  The work      -->
+<!-- may be used for free by any party so long as attribution is given to  -->
+<!-- the author(s), the work and its derivatives are used in the spirit of -->
+<!-- "share and share alike".  All trademarks are the registered marks of  -->
+<!-- their respective owners.                                              -->
+<!-- **********************************************************************-->
+<section xmlns:xi="http://www.w3.org/2001/XInclude" xml:id="sec-4-4-FTC" permid="LCP">
+  <title>The Fundamental Theorem of Calculus</title>
+  <objectives permid="oPs">
+    <ul permid="Nsc">
+      <li permid="FND">
+        <p permid="jag">
+          How can we find the exact value of a definite integral without taking the limit of a Riemann sum?
+        </p>
+      </li>
+
+      <li permid="lUM">
+        <p permid="Php">
+          What is the statement of the Fundamental Theorem of Calculus,
+          and how do antiderivatives of functions play a key role in applying the theorem?
+        </p>
+      </li>
+
+      <li permid="SbV">
+        <p permid="voy">
+          What is the meaning of the definite integral of a rate of change in contexts other than when the rate of change represents velocity?
+        </p>
+      </li>
+    </ul>
+  </objectives>
+
+<assemblage><title>Supplemental Videos</title>
+<p>The main topics of this section are also presented in the following videos:
+    <ul>
+          <li><url href="https://unl.yuja.com/V/Video?v=7114324&amp;node=34303214&amp;a=67922072&amp;autoplay=1">FTC</url></li>
+          <li><url href="https://unl.yuja.com/V/Video?v=7114325&amp;node=34303225&amp;a=123424228&amp;autoplay=1">FTC Examples</url></li>
+    </ul>
+</p>
+</assemblage>
+
+  <introduction permid="UWB">
+    <p permid="pzm">
+      Much of our work in <xref ref="C-4">Chapter</xref>
+      has been motivated by the velocity-distance problem:
+      if we know the instantaneous velocity function, <m>v(t)</m>,
+      for a moving object on a given time interval <m>[a,b]</m>,
+      can we determine the distance it traveled on <m>[a,b]</m>?
+      If the velocity function is nonnegative on <m>[a,b]</m>,
+      the area bounded by
+      <m>y = v(t)</m> and the <m>t</m>-axis on <m>[a,b]</m> is equal to the distance traveled.
+      This area is also the value of the definite integral <m>\int_a^b v(t) \, dt</m>.
+      If the velocity is sometimes negative,
+      the total area bounded by the velocity function still tells us distance traveled,
+      while the net signed area tells us the object's change in position.
+    </p>
+
+    <p permid="VGv">
+      For instance,
+      for the velocity function in <xref ref="F-4-4-Intro">Figure</xref>,
+      the total distance <m>D</m> traveled by the moving object on <m>[a,b]</m> is
+      <me permid="OLQ">
+        D = A_1 + A_2 + A_3
+      </me>,
+      and the total change in the object's position is
+      <me permid="uSZ">
+        s(b) - s(a) = A_1 - A_2 + A_3
+      </me>.
+      The areas <m>A_1</m>, <m>A_2</m>,
+      and <m>A_3</m> are each given by definite integrals, which
+      may be computed by limits of Riemann sums
+      (and in special circumstances by geometric formulas).
+    </p>
+
+    <figure xml:id="F-4-4-Intro" permid="hUN">
+      <caption>A velocity function that is sometimes negative.</caption>
+      <image width="47%" source="images/4_2_Intro" />
+    </figure>
+
+    <p permid="BNE">
+      We turn our attention to an alternate approach.
+    </p>
+
+<example xml:id="PA-4-4" permid="ZAQ">
+<statement>
+  <p permid="ttH">
+    A student with a third floor dormitory window 32 feet off the ground tosses a water balloon straight up in the air with an initial velocity of 16 feet per second.
+    It turns out that the instantaneous velocity of the water balloon is given by <m>v(t) = -32t + 16</m>,
+    where <m>v</m> is measured in feet per second and <m>t</m> is measured in seconds.
+
+    <ol label="a." permid="DSM">
+      <li permid="jZV">
+        <p permid="oJO">
+          Let <m>s(t)</m> represent the height of the water balloon above the ground at time <m>t</m>,
+          and note that <m>s</m> is an antiderivative of <m>v</m>.
+          That is,
+          <m>v</m> is the derivative of <m>s</m>: <m>s'(t) = v(t)</m>.
+          Find a formula for <m>s(t)</m> that satisfies the initial condition that the balloon is tossed from 32 feet above ground.
+          In other words,
+          make your formula for <m>s</m> satisfy <m>s(0) = 32</m>.
+        </p>
+      </li>
+
+      <li permid="Qhe">
+        <p permid="UQX">
+          When does the water balloon reach its maximum height?
+          When does it land?
+        </p>
+      </li>
+
+      <li permid="won">
+        <p permid="AYg">
+          Compute <m>s(\frac{1}{2}) - s(0)</m>,
+          <m>s(2) - s(\frac{1}{2})</m>, and <m>s(2) - s(0)</m>.
+          What do these represent?
+        </p>
+      </li>
+
+      <li permid="cvw">
+        <p permid="hfp">
+          What is the total vertical distance traveled by the water balloon from the time it is tossed until the time it lands?
+        </p>
+      </li>
+
+      <li permid="ICF">
+        <p permid="Nmy">
+          Sketch a graph of the velocity function
+          <m>y = v(t)</m> on the time interval <m>[0,2]</m>.
+          What is the total net signed area bounded by
+          <m>y = v(t)</m> and the <m>t</m>-axis on <m>[0,2]</m>?
+        </p>
+      </li>
+    </ol>
+  </p>
+  </statement>
+  <hint>
+  <p permid="ttH">
+    <ol label="a." permid="DSM">
+      <li permid="jZV">
+        <p permid="oJO">
+          Try to find a function whose derivative is <m>v(t)</m>. Shift this function to satisfy the initial condition.
+        </p>
+      </li>
+
+      <li permid="Qhe">
+        <p permid="UQX">
+          Remember what the derivative tells us about the maximum height, and use the function from above to find the time it hits the ground.
+        </p>
+      </li>
+
+      <li permid="won">
+        <p permid="AYg">
+          Use the function to find the given values.
+        </p>
+      </li>
+
+      <li permid="cvw">
+        <p permid="hfp">
+          Try finding the maximum height.
+        </p>
+      </li>
+
+      <li permid="ICF">
+        <p permid="Nmy">
+          Graph the function.
+        </p>
+      </li>
+    </ol>
+  </p>
+  </hint>
+  <answer>
+  <p permid="ttH">
+    <ol label="a." permid="DSM">
+      <li permid="jZV">
+        <p permid="oJO">
+          <m>s(t)=-16t^2+16t+32</m>
+        </p>
+      </li>
+
+      <li permid="Qhe">
+        <p permid="UQX">
+          The water balloon reaches its maximum height at 0.5 seconds. It hits the ground at 2 seconds.
+        </p>
+      </li>
+
+      <li permid="won">
+        <p permid="AYg">
+          <m>s(\frac{1}{2}) - s(0)=36-32=4</m>,
+          <m>s(2) - s(\frac{1}{2})=0-36=-36</m>, and <m>s(2) - s(0)=0-32=-32</m>.
+        </p>
+      </li>
+
+      <li permid="cvw">
+        <p permid="hfp">
+          The total vertical distance traveled by the water balloon is 40 feet.
+        </p>
+      </li>
+
+      <li permid="ICF">
+        <p permid="Nmy">
+              <figure xml:id="F-4-4-balloon" permid="DCR">
+      <caption>A graph of the velocity function.</caption>
+      <image width="47%" source="images/4-4-balloon.jpg" />
+    </figure> </p>
+        <p> The total net signed area is -32.
+        </p>
+      </li>
+    </ol>
+  </p>
+  </answer>
+  <solution>
+    <p permid="ttH">
+    <ol label="a." permid="DSM">
+      <li permid="jZV">
+        <p permid="oJO">
+          Starting with the velocity function given, <m>v(t)=-32t+16</m>, we want to think about what function could give us <m>v(t)</m> as its derivative. Using the power rule, we know that <m>\frac{d}{dt}t^k=kt^{k-1}</m>. In this case, we are starting with some <m>at^{k-1}</m>, so we must add 1 to the exponent and divide by that new exponent to <em>undo</em> the differentiation. So, we get that <m>s(t)=\frac{-32t^2}{2}+\frac{16t}{1}</m>. However, adding a constant to <m>s(t)</m> keeps the derivative <m>v(t)</m> (remember that constants have derivative 0). So, we have most generally that <m>s(t)=-16t^2+16t+c</m>, where <m>c</m> is some constant.
+          </p>
+          <p> Now we want to find <m>c</m> given the condition that <m>s(0)=32</m>. So, <me>32=s(0)=-16(0)^2+16(0)+c.</me> Therefore, <m>c=32</m>. Then <m>s(t)=-16t^2+16t+32</m>
+        </p>
+      </li>
+
+      <li permid="Qhe">
+        <p permid="UQX">
+          Recall that we have a critical point where the derivative of a function is 0, which will result in a maximum point. Since the position function is a quadratic function, this will tell us the time that the water balloon reaches its maximum height. So, let's set the derivative equal to 0: <me>-32t+16=0,</me> so <m>t=0.5</m>. Therefore, after 0.5 seconds the water balloon reaches its maximum height.</p>
+        <p>To find the time it takes for the water balloon to land we set the position function equal to 0: <me>-16t^2+16t+32=0</me> <me>-16(t-2)(t+1)=0</me> Thus, it takes 2 seconds for the water balloon to hit the groups.
+        </p>
+      </li>
+
+      <li permid="won">
+        <p permid="AYg">
+          We just need to plug the values into the position function: <m>s(\frac{1}{2}) - s(0)=36-32=4</m>,
+          <m>s(2) - s(\frac{1}{2})=0-36=-36</m>, and <m>s(2) - s(0)=0-32=-32</m>.
+        </p>
+      </li>
+
+      <li permid="cvw">
+        <p permid="hfp">
+          We know from part (c) that the total vertical distance from time 0 to the maximum height is 4 feet. Again, from part (c), we know that from the maximum height to when the water balloon hits the ground is a vertical distance of 36 feet. The total vertical distance traveled by the water balloon is 40 feet.
+        </p>
+      </li>
+
+      <li permid="ICF">
+        <p permid="Nmy">
+              <figure xml:id="F-4-4-balloonV2" permid="DCR">
+      <caption>A graph of the velocity function.</caption>
+      <image width="47%" source="images/4-4-balloon.jpg" />
+    </figure> </p>
+        <p> We can calculate the area under the curve by breaking this into two triangles. The first triangle has height 16 and width 0.5, so the area is <m>16\cdot 0.5\cdot 0.5=4</m>. The second triangle has a negative height of -48 and width of 1.5, so the area is <m>-48\cdot 1.5\cdot 0.5=-36</m>. Notice that we want to keep the area under the <m>x</m>-axis negative. Thus, the total net signed area is -32.
+        </p>
+      </li>
+    </ol>
+  </p>
+  </solution>
+</example>
+  </introduction>
+
+  <subsection permid="rJY">
+    <title>The Fundamental Theorem of Calculus</title>
+    <idx><h>fundamental theorem of calculus</h></idx>
+
+    <p permid="ObW">
+      Suppose we know the position function <m>s(t)</m> and the velocity function <m>v(t)</m> of an object moving in a straight line,
+      and for the moment let us assume that <m>v(t)</m> is positive on <m>[a,b]</m>.
+      Then, as shown in <xref ref="F-4-4-FTCVel">Figure</xref>,
+      we know two different ways to compute the distance,
+      <m>D</m>, the object travels:
+      one is that <m>D = s(b) - s(a)</m>,
+      the object's change in position.
+      The other is the area under the velocity curve,
+      which is given by the definite integral,
+      so <m>D = \int_a^b v(t) \, dt</m>.
+    </p>
+
+    <figure xml:id="F-4-4-FTCVel" permid="DCR">
+      <caption>Finding distance traveled when we know a velocity function <m>v</m>.</caption>
+      <image width="47%" source="images/4_4_FTCVel" />
+    </figure>
+
+    <p permid="ujf">
+      Since both of these expressions tell us the distance traveled,
+      it follows that they are equal, so
+      <men xml:id="E-FTCVel" permid="bai">
+        s(b) - s(a) = \int_a^b v(t) \, dt
+      </men>.
+    </p>
+
+    <p permid="aqo">
+      <xref ref="E-FTCVel">Equation</xref>
+      holds even when velocity is sometimes negative,
+      because <m>s(b) - s(a)</m>,the object's change in position,
+      is also measured by the net signed area on <m>[a,b]</m> which is given by <m>\int_a^b v(t) \, dt</m>.
+    </p>
+
+    <p permid="Gxx">
+      Perhaps the most powerful fact <xref ref="E-FTCVel">Equation</xref>
+      reveals is that we can compute the integral's value if we can find a formula for <m>s</m>.
+      Remember, <m>s</m> and <m>v</m> are related by the fact that <m>v</m> is the derivative of <m>s</m>,
+      or equivalently that <m>s</m> is an antiderivative of <m>v</m>.
+    </p>
+
+    <example xml:id="Ex-FTCVel" permid="cBa">
+      <statement>
+        <p permid="xdL">
+          Determine the exact distance traveled on <m>[1,5]</m> by an object with velocity function <m>v(t) = 3t^2 + 40</m> feet per second.
+
+          The distance traveled on the interval <m>[1,5]</m> is given by
+          <me permid="Hhr">
+            D  =  \int_1^5 v(t) \,dt  =  \int_1^5 (3t^2 + 40) \, dt  =   s(5) - s(1)
+          </me>,
+          where <m>s</m> is an antiderivative of <m>v</m>.
+          Now, the derivative of <m>t^3</m> is <m>3t^2</m> and the derivative of <m>40t</m> is <m>40</m>,
+          so it follows that <m>s(t) = t^3 + 40t</m> is an antiderivative of <m>v</m>.
+          Therefore,
+          <md permid="noA">
+            <mrow>D &amp;= \int_1^5 3t^2 + 40 \, dt  = s(5) - s(1)</mrow>
+            <mrow>&amp;=  (5^3 + 40 \cdot 5) - (1^3 + 40\cdot 1) = 284 \ \text{feet}</mrow>
+          </md>.
+        </p>
+      </statement>
+    </example>
+
+    <p permid="mEG">
+      Note the key lesson of <xref ref="Ex-FTCVel">Example</xref>:
+      to find the distance traveled,
+      we need to compute the area under a curve,
+      which is given by the definite integral.
+      But to evaluate the integral,
+      we can find an antiderivative,
+      <m>s</m>, of the velocity function,
+      and then compute the total change in <m>s</m> on the interval.
+      In particular,
+      we can evaluate the integral without computing the limit of a Riemann sum.
+    </p>
+
+    <figure xml:id="F-4-4-FTCVel2" permid="jKa">
+      <caption>The exact area of the region enclosed by <m>v(t) = 3t^2 + 40</m> on <m>[1,5]</m>.</caption>
+      <image width="47%" source="images/4_4_FTCVel2" />
+    </figure>
+
+    <p permid="SLP">
+     Mathematicians find it convenient to have a shorthand symbol for a function's antiderivative and so we introduce the following notation.
+      For a continuous function <m>f</m>,
+      we often denote an antiderivative of <m>f</m> by <m>F</m>.
+      That is,
+      <m>F'(x) = f(x)</m> for all relevant <m>x</m>.
+      Using a similar notation <m>V</m> in place of <m>s</m>
+      (so that <m>V</m> is an antiderivative of <m>v</m>, that is <m>V'(x)=v(x)</m>)
+      in Equation<nbsp /><xref ref="E-FTCVel" />, we can write
+      <men xml:id="E-FTCV" permid="TvJ">
+        V(b) - V(a) = \int_a^b v(t) \, dt
+      </men>.
+    </p>
+
+    <p permid="ySY">
+      Now, to evaluate the definite integral
+      <m>\int_a^b f(x) \, dx</m> for an arbitrary continuous function <m>f</m>,
+      we could certainly think of <m>f</m> as representing the velocity of some moving object,
+      and <m>x</m> as the variable that represents time.
+      But <xref ref="E-FTCVel">Equations</xref>
+      and<nbsp /><xref ref="E-FTCV" /> hold for any
+      continuous velocity function,
+      even when <m>v</m> is sometimes negative.
+      So <xref ref="E-FTCV">Equation</xref>
+      offers a shortcut route to evaluating any definite integral,
+      provided that we can find an antiderivative of the integrand.
+      The Fundamental Theorem of Calculus (FTC)
+          <idx><h>FTC</h></idx>
+      summarizes these observations.
+    </p>
+
+    <assemblage xml:id="FTC" permid="QmI">
+      <title>Fundamental Theorem of Calculus</title>
+      <p permid="fah">
+            <idx><h>fundamental theorem of calculus</h></idx>
+        If <m>f'(x)</m> is a continuous function on <m>[a,b]</m>,
+        and <m>f</m> is any antiderivative of <m>f'(x)</m>,
+        then <m>\int_a^b f'(x) \, dx = f(b) - f(a)</m>.
+      </p>
+    </assemblage>
+
+<p>
+It is important to note that there is an alternative way of writing the fundamental theorem that is employed in many texts and examples using our convenient notation.
+</p>
+<assemblage xml:id="FTC_2"><title>Fundamental Theorem of Calculus</title>
+<p>
+  If <m>f(x)</m> is a continuous function on <m>[a,b]</m>,
+        and <m>F</m> is any antiderivative of <m>f(x)</m>,
+        then <m>\int_a^b f(x) \, dx = F(b) - F(a)</m>.
+</p>
+</assemblage>
+<p>
+These two statements of the fundamental theorem are equivalent.  Specifically, many authors choose to denote a function by <m>f</m> and the antiderivative of that function by <m>F</m>.
+</p>
+
+
+    <p permid="Lhq">
+      A common alternate notation for <m>F(b) - F(a)</m> is
+      <me permid="zCS">
+        F(b) - F(a) = \left.
+        F(x) \right|_a^b
+      </me>,
+      where we read the righthand side as
+      <q>the function <m>F</m> evaluated from <m>a</m> to <m>b</m>.</q>
+      In this notation, the FTC says that
+      <me permid="fKb">
+        \int_a^b f(x) \, dx = \left.
+        F(x) \right|_a^b
+      </me>.
+    </p>
+
+    <p permid="roz">
+      The FTC opens the door to evaluating a wide range of integrals if we can find an antiderivative <m>F</m> for the integrand <m>f</m>.
+      For instance since <m>\frac{d}{dx}[\frac{1}{3}x^3] = x^2</m>,
+      the FTC tells us that
+      <md permid="LRk">
+        <mrow>\int_0^1 x^2 \, dx =\mathstrut \amp  \left. \frac{1}{3} \, x^3 \right|_0^1</mrow>
+        <mrow>=\mathstrut \amp  \frac{1}{3} \, (1)^3 - \frac{1}{3} \, (0)^3</mrow>
+        <mrow>=\mathstrut \amp  \frac{1}{3}</mrow>
+      </md>.
+    </p>
+
+    <p permid="XvI">
+      But finding an antiderivative can be far from simple;
+      it is often difficult or even impossible.
+      While we can differentiate just about any function,
+      even some relatively simple functions don't have an elementary antiderivative.
+      A significant portion of integral calculus
+      (which is the main focus of second semester college calculus)
+      is devoted to the problem of finding antiderivatives.
+    </p>
+
+<example xml:id="act-4-4-1" permid="jcc">
+  <statement>
+    <p permid="lWI">
+      Use the Fundamental Theorem of Calculus to evaluate each of the following integrals exactly.
+
+
+      <ol label="a." cols="2" permid="bTc">
+        <li permid="Ial">
+          <p permid="aNJ">
+            <m>\int_{-1}^4 (2-2x) \, dx</m>
+          </p>
+        </li>
+
+        <li permid="ohu">
+          <p permid="GUS">
+            <m>\int_{0}^{\frac{\pi}{2}} \sin(x) \, dx</m>
+          </p>
+        </li>
+
+        <li permid="UoD">
+          <p permid="ncb">
+            <m>\int_0^1 e^x \, dx</m>
+          </p>
+        </li>
+
+        <li permid="AvM">
+          <p permid="Tjk">
+            <m>\int_{-1}^{1} x^5 \, dx</m>
+          </p>
+        </li>
+
+        <li permid="gCV">
+          <p permid="zqt">
+            <m>\int_0^2 (3x^3 - 2x^2 - e^x) \, dx</m>
+          </p>
+        </li>
+      </ol>
+    </p>
+  </statement>
+  <hint permid="Dqs">
+    <p permid="FPz">
+      <ol label="a." permid="vLT">
+        <li permid="MKe">
+          <p permid="fxC">
+            Find a function whose derivative is <m>2 - 2x</m>.
+          </p>
+        </li>
+
+        <li permid="sRn">
+          <p permid="LEL">
+            Which familiar function has derivative <m>\sin(x)</m>?
+          </p>
+        </li>
+
+        <li permid="YYw">
+          <p permid="rLU">
+            What is special about <m>e^x</m> when it comes to differentiation?
+          </p>
+        </li>
+
+        <li permid="FfF">
+          <p permid="XTd">
+            Consider the derivative of <m>x^6</m>.
+          </p>
+        </li>
+
+        <li permid="lmO">
+          <p permid="Eam">
+            Find an antiderivative for each of the three individual terms in the integrand.
+          </p>
+        </li>
+      </ol>
+    </p>
+  </hint>
+  <answer permid="Xjj">
+    <p permid="ZIq">
+      <ol label="a." permid="PEK">
+        <li permid="RtX">
+          <p permid="khv">
+            <m> \int_{-1}^4 (2-2x) \, dx = -5</m>.
+          </p>
+        </li>
+
+        <li permid="xBg">
+          <p permid="QoE">
+            <m> \int_{0}^{\frac{\pi}{2}} \sin(x) \, dx = 1</m>.
+          </p>
+        </li>
+
+        <li permid="dIp">
+          <p permid="wvN">
+            <m> \int_0^1 e^x \, dx = e-1</m>.
+          </p>
+        </li>
+
+        <li permid="JPy">
+          <p permid="cCW">
+            <m> \int_{-1}^{1} x^5 \, dx = 0</m>.
+          </p>
+        </li>
+
+        <li permid="pWH">
+          <p permid="IKf">
+            <m> \int_0^2 (3x^3 - 2x^2 - e^x) \, dx = \frac{23}{3} - e^2</m>.
+          </p>
+        </li>
+      </ol>
+    </p>
+  </answer>
+  <solution permid="rca">
+    <p permid="tBh">
+      <ol label="a." permid="jxB">
+        <li permid="WdQ">
+          <p permid="oRo">
+            Because <m>\frac{d}{dx}[2x - x^2] = 2-2x</m>,
+            by the Fundamental Theorem of Calculus,
+            <me permid="SdR">
+              \int_{-1}^4 (2-2x) \, dx = \left. 2x - x^2 \right|_{-1}^4
+            </me>,
+            and therefore
+            <me permid="yla">
+              \int_{-1}^4 (2-2x) \, dx = (2 \cdot 4 - 4^2) - (2(-1) - (-1)^2) = -8 + 3 = -5
+            </me>.
+          </p>
+        </li>
+
+        <li permid="CkZ">
+          <p permid="UYx">
+            Since <m>\frac{d}{dx} [\cos(x)] = -\sin(x)</m>,
+            an antiderivative of
+            <m>f(x) = \sin(x)</m> is <m>F(x) = -\cos(x)</m>.
+            Therefore, by the FTC,
+            <me permid="esj">
+              \int_{0}^{\frac{\pi}{2}} \sin(x) \, dx = \left. -\cos(x) \right|_{-\frac{\pi}{2}}^{\frac{\pi}{2}}
+            </me>,
+            so
+            <me permid="Kzs">
+              \int_{0}^{\frac{\pi}{2}} \sin(x) \, dx = -\cos(\frac{\pi}{2}) - (-\cos(0)) = -0 + 1 = 1
+            </me>.
+          </p>
+        </li>
+
+        <li permid="isi">
+          <p permid="BfG">
+            Since <m>e^x</m> is its own derivative,
+            it is also its own antiderivative.
+            Hence,
+            <me permid="qGB">
+              \int_0^1 e^x \, dx = \left. e^x \right|_0^1 = e^1 - e^0 = e-1
+            </me>.
+          </p>
+        </li>
+
+        <li permid="Ozr">
+          <p permid="hmP">
+            Note that since <m>\frac{d}{dx} [x^6] = 6x^5</m>,
+            it follows that <m>\frac{d}{dx} [\frac{1}{6}x^6] = x^5</m>, and thus
+            <me permid="WNK">
+              \int_{-1}^{1} x^5 \, dx = \left. \frac{1}{6}x^6 \right|_{-1}^1 = \frac{1}{6} (1)^6 - \frac{1}{6}(-1)^6 = 0
+            </me>.
+          </p>
+        </li>
+
+        <li permid="uGA">
+          <p permid="NtY">
+            Using the sum and constant multiple rules for differentiation,
+            we can see that similar results hold for antidifferentiation,
+            and thus that <m>F(x) = \frac{3}{4} x^4 - \frac{2}{3} x^3 - e^x</m> is an antiderivative of <m>f(x) = 3x^3 - 2x^2 - e^x</m>.
+            Now, by the FTC,
+            <md permid="CUT">
+              <mrow>\int_0^2 (3x^3 - 2x^2 - e^x) \, dx =\mathstrut \amp  \left. \frac{3}{4} x^4 - \frac{2}{3} x^3 - e^x \right|_0^2</mrow>
+              <mrow>=\mathstrut \amp  \frac{3}{4} (2)^4 - \frac{2}{3} (2)^3 - e^2 - (\frac{3}{4} (0)^4 - \frac{2}{3} (0)^3 - e^0)</mrow>
+              <mrow>=\mathstrut \amp  12 - \frac{16}{3} - e^2 - (0 - 0 - 1)</mrow>
+              <mrow>=\mathstrut \amp  \frac{23}{3} - e^2</mrow>
+            </md>.
+          </p>
+        </li>
+      </ol>
+    </p>
+  </solution>
+</example>
+  </subsection>
+
+
+
+  <subsection permid="DYq">
+    <title>The Total Change Theorem</title>
+    <idx><h>total change theorem</h></idx>
+
+    <p permid="tdM">
+      Let us review three interpretations of the definite integral.
+
+      <ul permid="tzl">
+        <li permid="yje">
+          <p permid="bvH">
+            For a moving object with instantaneous velocity <m>v(t)</m>,
+            the object's change in position on the time interval <m>[a,b]</m> is given by <m>\int_a^b v(t) \, dt</m>,
+            and whenever <m>v(t) \ge 0</m> on <m>[a,b]</m>,
+            <m>\int_a^b v(t) \, dt</m> tells us the total distance traveled by the object on <m>[a,b]</m>.
+          </p>
+        </li>
+
+        <li permid="eqn">
+          <p permid="HCQ">
+            For any continuous function <m>f</m>,
+            its definite integral
+            <m>\int_a^b f(x) \, dx</m> represents the net signed area bounded by
+            <m>y = f(x)</m> and the <m>x</m>-axis on <m>[a,b]</m>,
+            where regions that lie below the <m>x</m>-axis have a minus sign associated with their area.
+          </p>
+        </li>
+
+        <li permid="Kxw">
+          <p permid="nJZ">
+            The value of a definite integral is linked to the average value of a function:
+            for a continuous function <m>f</m> on <m>[a,b]</m>,
+            its average value <m>f_{\operatorname{AVG} [a,b]}</m> is given by
+            <me permid="cPv">
+              f_{\operatorname{AVG} [a,b]} = \frac{1}{b-a} \int_a^b f(x) \, dx
+            </me>.
+          </p>
+        </li>
+      </ul>
+    </p>
+
+    <p permid="ZkV">
+      The Fundamental Theorem of Calculus now enables us to evaluate exactly
+      (without taking a limit of Riemann sums)
+      any definite integral for which we are able to find an antiderivative of the integrand.
+    </p>
+
+    <p permid="Fse">
+      A slight change in perspective allows us to gain even more insight into the meaning of the definite integral.
+      Recall <xref ref="E-FTCV">Equation</xref>,
+      where we wrote the Fundamental Theorem of Calculus for a velocity function <m>v</m> with antiderivative <m>V</m> as
+      <me permid="IWE">
+        V(b) - V(a) = \int_a^b v(t) \, dt
+      </me>.
+    </p>
+
+    <p permid="lzn">
+      If we instead replace <m>V</m> with <m>s</m>
+      (which represents position)
+      and replace <m>v</m> with <m>s'</m>
+      (since velocity is the derivative of position),
+      <xref ref="E-FTCV">Equation</xref> then reads as
+      <men xml:id="E-FTCs" permid="pdN">
+        s(b) - s(a) = \int_a^b s'(t) \, dt
+      </men>.
+    </p>
+
+    <p permid="RGw">
+      In words, this version of the FTC tells us that the total change in an object's position function on a particular interval is given by the definite integral of the position function's derivative over that interval.
+    </p>
+
+    <p permid="xNF">
+      Of course, this result is not limited to only the setting of position and velocity.
+      Writing the result in terms of a more general function <m>f</m>,
+      we have the Total Change Theorem.
+    </p>
+
+    <assemblage xml:id="total-change-theorem" permid="wtR">
+      <title>Total Change Theorem</title>
+      <p permid="dUO">
+            <idx><h>total change theorem</h></idx>
+        If <m>f</m> is a continuously differentiable function on <m>[a,b]</m> with derivative <m>f'</m>,
+        then <m>f(b) - f(a) = \int_a^b f'(x) \, dx</m>.
+        That is, the definite integral of the rate of change of a function on <m>[a,b]</m> is the total change of the function itself on <m>[a,b]</m>.
+      </p>
+    </assemblage>
+
+    <p permid="KbX">
+      The Total Change Theorem tells us more about the relationship between the graph of a function and that of its derivative.
+      Recall that heights on the graph of the derivative function are equal to slopes on the graph of the function itself.
+      If instead we know <m>f'</m> and are seeking information about <m>f</m>,
+      we can say the following:
+    </p>
+
+    <blockquote permid="hkT">
+      <p permid="QWC">
+        <em>differences in heights on <m>f</m> correspond to net signed areas bounded by <m>f'</m>.</em>
+      </p>
+    </blockquote>
+
+    <figure xml:id="F-4-4-TCT" permid="Cxy">
+      <caption>The graphs of <m>f'(x) = 4 - 2x</m> (at left) and an antiderivative <m>f(x) = 4x - x^2</m> at right.  Differences in heights on <m>f</m> correspond to net signed areas bounded by <m>f'</m>.</caption>
+      <image width="80%" source="images/4_4_TCT" />
+    </figure>
+
+    <p permid="qjg">
+      To see why this is so, consider the difference <m>f(1) - f(0)</m>.
+      This value is 3, because <m>f(1) = 3</m> and <m>f(0) = 0</m>,
+      but also because the net signed area bounded by
+      <m>y = f'(x)</m> on <m>[0,1]</m> is 3.
+      That is,
+      <me permid="VkW">
+        f(1) - f(0) = \int_0^1 f'(x) \, dx
+      </me>.
+    </p>
+
+    <p permid="Wqp">
+      In addition to this observation about area,
+      the Total Change Theorem enables us to answer questions about a function whose rate of change we know.
+    </p>
+
+    <example xml:id="Ex-4-4-1" permid="IIj">
+      <statement>
+        <p permid="dkU">
+          Suppose that pollutants are leaking out of an underground storage tank at a rate of <m>r(t)</m> gallons/day,
+          where <m>t</m> is measured in days.
+          It is conjectured that <m>r(t)</m> is given by the formula
+          <m>r(t) = 0.0069t^3 -0.125t^2+11.079</m> over a certain 12-day period.
+          The graph of <m>y=r(t)</m> is given in <xref ref="F-4-4-TCTEx">Figure</xref>.
+          What is the meaning of <m>\int_4^{10} r(t) \, dt</m> and what is its value?
+          What is the average rate at which pollutants are leaving the tank on the time interval <m>4 \le t \le 10</m>?
+        </p>
+
+        <figure xml:id="F-4-4-TCTEx" permid="Jsd">
+          <caption>The rate <m>r(t)</m> of pollution leaking from a tank, measured in gallons per day.</caption>
+          <image width="47%" source="images/4_4_TCTEx" />
+        </figure>
+      </statement>
+      <solution permid="BdK">
+        <p permid="MmJ">
+          Since <m>r(t) \ge 0</m>,
+          the value of <m>\int_4^{10} r(t) \, dt</m> is the area under the curve on the interval <m>[4,10]</m>.
+          A Riemann sum for this area will have rectangles with heights measured in gallons per day and widths measured in days,
+          so the area of each rectangle will have units of
+          <me permid="Bsf">
+            \frac{\text{gallons} }{\text{day} } \cdot \text{days}  = \text{gallons}
+          </me>.
+        </p>
+
+        <p permid="stS">
+          Thus, the definite integral tells us the total number of gallons of pollutant that leak from the tank from day 4 to day 10.
+          The Total Change Theorem tells us the same thing:
+          if we let <m>R(t)</m> denote the total number of gallons of pollutant that have leaked from the tank up to day <m>t</m>,
+          then <m>R'(t) = r(t)</m>, and
+          <me permid="hzo">
+            \int_4^{10} r(t) \, dt = R(10) - R(4)
+          </me>,
+          the number of gallons that have leaked from day 4 to day 10.
+        </p>
+
+        <p permid="YBb">
+          To compute the exact value of the integral,
+          we use the Fundamental Theorem of Calculus.
+          Antidifferentiating <m>r(t) = 0.0069t^3 -0.125t^2+11.079</m>,
+          we find that
+          <md permid="NGx">
+            <mrow>\int_4^{10} 0.0069t^3 -0.125t^2+11.079 \, dt =\mathstrut \amp  \left. 0.0069 \cdot \frac{1}{4} \, t^4 - 0.125 \cdot \frac{1}{3} t^3 + 11.079t \right|_4^{10}</mrow>
+            <mrow>\approx\mathstrut \amp  44.282</mrow>
+          </md>.
+        </p>
+
+        <p permid="EIk">
+          Thus, approximately 44.282 gallons of pollutant leaked over the six day time period.
+        </p>
+
+        <p permid="kPt">
+          To find the average rate at which pollutant leaked from the tank over <m>4 \le t \le 10</m>,
+          we compute the average value of <m>r</m> on <m>[4,10]</m>.
+          Thus,
+          <me permid="tNG">
+            r_{\operatorname{AVG} [4,10]} = \frac{1}{10-4} \int_4^{10} r(t) \, dt \approx \frac{44.282}{6} = 7.380
+          </me>
+          gallons per day.
+        </p>
+      </solution>
+    </example>
+
+<example xml:id="act-4-4-3" permid="HTh">
+  <statement>
+    <p permid="Ssm">
+      During a 40-minute workout,
+      a person riding an exercise machine burns calories at a rate of <m>c</m> calories per minute,
+      where the function <m>y = c(t)</m> is given in <xref ref="F-4-4-Act3">Figure</xref>.
+      On the interval <m>0 \le t \le 10</m>,
+      the formula for <m>c</m> is <m>c(t) = -0.05t^2 + t + 10</m>,
+      while on <m>30 \le t \le 40</m>,
+      its formula is <m>c(t) = -0.05t^2 + 3t - 30</m>.
+    </p>
+
+    <figure xml:id="F-4-4-Act3" permid="eGE">
+      <caption>The rate <m>c(t)</m> at which a person exercising burns calories, measured in calories per minute.</caption>
+      <image width="80%" source="images/4_4_Act3" />
+    </figure>
+
+    <p permid="yzv">
+      <ol label="a." permid="Fua">
+        <li permid="lBj">
+          <p permid="fLX">
+            What is the exact total number of calories the person burns during the first 10 minutes of her workout?
+          </p>
+        </li>
+
+        <li permid="RIs">
+          <p permid="LTg">
+            Let <m>C(t)</m> be an antiderivative of <m>c(t)</m>.
+            What is the meaning of
+            <m>C(40) - C(0)</m> in the context of the person exercising?
+            Include units in your answer.
+          </p>
+        </li>
+
+        <li permid="xPB">
+          <p permid="sap">
+            Determine the exact average rate at which the person burned calories during the 40-minute workout.
+          </p>
+        </li>
+
+        <li permid="dWK">
+          <p permid="Yhy">
+            At what time(s), if any,
+            is the instantaneous rate at which the person is burning calories equal to the average rate at which she burns calories,
+            on the time interval <m>0 \le t \le 40</m>?
+          </p>
+        </li>
+      </ol>
+    </p>
+  </statement>
+  <hint permid="gRq">
+    <p permid="mld">
+      <ol label="a." permid="ZmR">
+        <li permid="KdT">
+          <p permid="EoH">
+            What are the units of the area of a rectangle found in a Riemann sum for the function <m>y= c(t)</m>?
+          </p>
+        </li>
+
+        <li permid="qlc">
+          <p permid="kvQ">
+            Use the FTC.
+          </p>
+        </li>
+
+        <li permid="Wsl">
+          <p permid="QCZ">
+            Recall the formula for <m>c_{\operatorname{AVG} [0,40]}</m>.
+          </p>
+        </li>
+
+        <li permid="Czu">
+          <p permid="wKi">
+            Think carefully about which function tells you the instantaneous rate at which calories are burned.
+          </p>
+        </li>
+      </ol>
+    </p>
+  </hint>
+  <answer permid="AKh">
+    <p permid="GdU">
+      <ol label="a." permid="tfI">
+        <li permid="iGD">
+          <p permid="cRr">
+            The person burned approximately 133.33 calories in the first 10 minutes of the workout.
+          </p>
+        </li>
+
+        <li permid="ONM">
+          <p permid="IYA">
+            <m>C(40) - C(0) = \int_0^{40} C'(t) \, dt = \int_0^{40} c(t) \, dt</m> is the total calories burned on <m>[0,40]</m>.
+          </p>
+        </li>
+
+        <li permid="uUV">
+          <p permid="pfJ">
+            The exact average rate at which the person burned calories on <m>0 \le t \le 40</m> is
+            <me permid="KNN">
+              c_{\operatorname{AVG} [0,40]} = \frac{1}{40-0} \int_0^{40} c(t) \, dt = \frac{1}{40} \cdot \frac{1700}{3} = \frac{1700}{120} \approx 14.17 \ \text{cal/min}
+            </me>.
+          </p>
+        </li>
+
+        <li permid="bce">
+          <p permid="VmS">
+            One time at which the instantaneous rate at which calories are burned equals the average rate on <m>[0,40]</m> is <m>t = \frac{5}{3}(6 - \sqrt{6}) \approx 5.918</m>.
+          </p>
+        </li>
+      </ol>
+    </p>
+  </answer>
+  <solution permid="UCY">
+    <p permid="ZWL">
+      <ol label="a." permid="MYz">
+        <li permid="Hjn">
+          <p permid="Bub">
+            Since the units on a rectangle in a Riemann sum are cal/min for the height and min for the width,
+            the units of the area of such a rectangle are calories,
+            and hence the units of area under the curve
+            <m>y = c(t)</m> are given in total calories.
+            Hence,
+            the total calories burned during the first 10 minutes of the workout is given by the definite integral <m>\int_0^{10} c(t) \, dt</m>.
+            We use the FTC and evaluate the integral, finding that
+            <md permid="qUW">
+              <mrow>\int_0^{10} (-0.05t^2 + t + 10) \, dt =\mathstrut \amp  \left. \left( -\frac{0.05}{3} t^3 + \frac{1}{2} t^2 + 10t \right) \right|_0^{10}</mrow>
+              <mrow>=\mathstrut \amp  \left( -\frac{0.05}{3} (10)^3 + \frac{1}{2} (10)^2 + 10(10) \right) - (0)</mrow>
+              <mrow>=\mathstrut \amp  \frac{400}{3} \ \text{calories}</mrow>
+            </md>.
+            Thus,
+            the person burned approximately 133.33 calories in the first 10 minutes of the workout.
+          </p>
+        </li>
+
+        <li permid="nqw">
+          <p permid="hBk">
+            We observe first that by the Total Change Theorem,
+            <m>C(40) - C(0) = \int_0^{40} C'(t) \, dt = \int_0^{40} c(t) \, dt</m>,
+            and therefore, as discussed in (a),
+            the meaning of this value is the total calories burned on <m>[0,40]</m>.
+          </p>
+        </li>
+
+        <li permid="TxF">
+          <p permid="NIt">
+            The exact average rate at which the person burned calories on <m>0 \le t \le 40</m> is given by
+            <me permid="Xcf">
+              c_{\text{AVG} [0,40]} = \frac{1}{40-0} \int_0^{40} c(t) \, dt
+            </me>.
+            To calculate <m>\int_0^{40} c(t) \, dt</m>,
+            we recognize that <m>c(t)</m> is defined in piecewise fashion,
+            and use the additive property of the definite integral,
+            which tells us that
+            <me permid="Djo">
+              \int_0^{40} c(t) \, dt = \int_0^{10} c(t) \, dt +  \int_{10}^{30} c(t) \, dt +  \int_{30}^{40} c(t) \, dt
+            </me>.
+            We know from our work in (a) that <m>\int_0^{10} c(t) \, dt = \frac{400}{3}</m>.
+            Since <m>c(t) = 15</m> is constant on <m>10 \le t \le 20</m>,
+            it follows that <m>\int_{10}^{30} c(t) \, dt  = 15 \cdot 30 = 300</m>.
+            And finally,
+            it is straightforward to show using <m>c(t) = -0.05t^2 + 3t - 30</m>
+            (or symmetry)
+            on <m>30 \le t \le 40</m> that <m>\int_{30}^{40} c(t) \, dt = \frac{400}{3}</m>.
+            Hence,
+            <md permid="PxG">
+              <mrow>\int_0^{40} c(t) \, dt =\mathstrut \amp  \int_0^{10} c(t) \, dt +  \int_{10}^{30} c(t) \, dt +  \int_{30}^{40} c(t) \, dt</mrow>
+              <mrow>=\mathstrut \amp  \frac{400}{3} + 300 + \frac{400}{3}</mrow>
+              <mrow>=\mathstrut \amp  \frac{1700}{3} \approx 566.67 \ \text{calories}</mrow>
+            </md>.
+            Now, it follows that the exact average rate at which calories were burned on <m>[0,40]</m> is
+            <me permid="jqx">
+              c_{\text{AVG} [0,40]} = \frac{1}{40-0} \int_0^{40} c(t) \, dt = \frac{1}{40} \cdot \frac{1700}{3} = \frac{1700}{120} \approx 14.17 \ \text{cal/min}
+            </me>.
+          </p>
+        </li>
+
+        <li permid="zEO">
+          <p permid="tPC">
+            It makes sense intuitively that there must be at least one time at which the instantaneous rate at which calories are burned equals the average rate at which calories are burned,
+            as it would be impossible for a continuous instantaneous rate of change to always be above its average value.
+            Since we know from (c) that <m>c_{\text{AVG} [0,40]} = \frac{85}{6}</m>,
+            and <m>c(t)</m> tells us the instantaneous rate at which calories are burned,
+            it follows that we want to solve the equation
+            <me permid="vEP">
+              c(t) = \frac{85}{6}
+            </me>.
+            From the graph,
+            it appears that there are two such values of <m>t</m> for which this equation is true,
+            one in the first ten minutes, and one in the last ten.
+            For instance, solving
+            <me permid="bLY">
+              -0.05t^2 + t + 10 = \frac{85}{6}
+            </me>,
+            it follows that <m>t = \frac{5}{3}(6 \pm \sqrt{6}) \approx 14.082, 5.918</m>,
+            only the second of which lies in <m>0 \le t \le 10</m>.
+            So one time at which the instantaneous rate at which calories are burned equals the average rate on <m>[0,40]</m> is <m>t = \frac{5}{3}(6 - \sqrt{6}) \approx 5.918</m>.
+            Similar reasoning leads to the second time that lies in <m>[30,40]</m>.
+          </p>
+        </li>
+      </ol>
+    </p>
+  </solution>
+</example>
+  </subsection>
+
+  <subsection permid="kfz">
+    <title>Summary</title>
+    <p permid="iEH">
+      <ul permid="ZGu">
+        <li permid="qEF">
+          <p permid="TRi">
+            We can find the exact value of a definite integral without taking the limit of a Riemann sum or using a familiar area formula by finding the antiderivative of the integrand,
+            and hence applying the Fundamental Theorem of Calculus.
+          </p>
+        </li>
+
+        <li permid="WLO">
+          <p permid="zYr">
+            The Fundamental Theorem of Calculus says that if <m>f</m> is a continuous function on <m>[a,b]</m> and <m>F</m> is an antiderivative of <m>f</m>, then
+            <me permid="ZUP">
+              \int_a^b f(x) \, dx = F(b) - F(a)
+            </me>.
+            Hence,
+            if we can find an antiderivative for the integrand <m>f</m>,
+            evaluating the definite integral comes from simply computing the change in <m>F</m> on <m>[a,b]</m>.
+          </p>
+        </li>
+
+        <li permid="CSX">
+          <p permid="gfA">
+            A slightly different perspective on the FTC allows us to restate it as the Total Change Theorem,
+            which says that
+            <me permid="GbY">
+              \int_a^b f'(x) \, dx = f(b) - f(a)
+            </me>,
+            for any continuously differentiable function <m>f</m>.
+            This means that the definite integral of the instantaneous rate of change of a function <m>f</m> on an interval <m>[a,b]</m> is equal to the total change in the function <m>f</m> on <m>[a,b]</m>.
+          </p>
+        </li>
+      </ul>
+    </p>
+  </subsection>
+
+
+<exercises xmlns:xi="http://www.w3.org/2001/XInclude">
+
+    <exercise xml:id="ez-4-4-WW0" permid="laK">
+    <title>Using Graphs to Evaluate</title>
+    <webwork source="Library/Rochester/setIntegrals4FTC/S05.03.FundThmCalc.PTP01.pg" />
+  </exercise>
+
+    <exercise xml:id="ez-4-4-WW1" permid="laK">
+    <title>Using Graphs to Evaluate</title>
+    <webwork source="Library/Rochester/setIntegrals4FTC/S05.03.FundThmCalc.PTP03.pg" />
+  </exercise>
+
+      <exercise xml:id="ez-4-4-WW2" permid="laK">
+    <title>Estimating using the FTC</title>
+    <webwork source="Library/Michigan/Chap5Sec4/Q01.pg" />
+  </exercise>
+
+        <exercise xml:id="ez-4-4-WW3" permid="laK">
+    <title>Finding Values using the FTC</title>
+    <webwork source="Library/Michigan/5e/Chap6Sec1/Q15.pg" />
+  </exercise>
+
+          <exercise xml:id="ez-4-4-WW4" permid="laK">
+    <title>Average Value</title>
+    <webwork source="Library/Michigan/Chap5Sec3/Q11.pg" />
+  </exercise>
+
+            <exercise xml:id="ez-4-4-WW5" permid="laK">
+    <title>Average Value (Estimating from a Graph)</title>
+    <webwork source="Library/UCSB/Stewart5_6_5/Stewart5_6_5_16/Stewart5_6_5_16.pg" />
+  </exercise>
+
+              <exercise xml:id="ez-4-4-WW6" permid="laK">
+    <title>Average Value (Estimating from a Table)</title>
+    <webwork source="Library/UCSB/Stewart5_6_5/Stewart5_6_5_15.pg" />
+  </exercise>
+
+  <exercise permid="ige">
+   <title>Creating and using new functions from data</title>
+    <statement>
+      <p permid="fzT">
+        When an aircraft attempts to climb as rapidly as possible,
+        its climb rate
+        (in feet per minute)
+        decreases as altitude increases,
+        because the air is less dense at higher altitudes.
+        Given below is a table showing performance data for a certain single engine aircraft,
+        giving its climb rate at various altitudes,
+        where <m>c(h)</m> denotes the climb rate of the airplane at an altitude <m>h</m>.
+      </p>
+
+      <sidebyside permid="sFj">
+
+        <tabular top="minor" bottom="minor" permid="bzU">
+          <row>
+            <cell><m>h</m> (feet)</cell>
+            <cell><m>0</m></cell>
+            <cell><m>1000</m></cell>
+            <cell><m>2000</m></cell>
+            <cell><m>3000</m></cell>
+            <cell><m>4000</m></cell>
+            <cell><m>5000</m></cell>
+            <cell><m>6000</m></cell>
+            <cell><m>7000</m></cell>
+            <cell><m>8000</m></cell>
+            <cell><m>9000</m></cell>
+            <cell><m>10{,}000</m></cell>
+          </row>
+          <row>
+            <cell><m>c</m> (ft/min)</cell>
+            <cell><m>925</m></cell>
+            <cell><m>875</m></cell>
+            <cell><m>830</m></cell>
+            <cell><m>780</m></cell>
+            <cell><m>730</m></cell>
+            <cell><m>685</m></cell>
+            <cell><m>635</m></cell>
+            <cell><m>585</m></cell>
+            <cell><m>535</m></cell>
+            <cell><m>490</m></cell>
+            <cell><m>440</m></cell>
+          </row>
+        </tabular>
+
+      </sidebyside>
+
+      <p permid="LHc">
+        Let a new function called <m>m(h)</m> measure
+        the number of minutes required for a plane at altitude <m>h</m> to climb the
+        next foot of altitude.
+
+        <ol label="a." permid="oFk">
+          <li permid="THa">
+            <p permid="UqU">
+              Determine a similar table of values for <m>m(h)</m> and explain how it is related to the table above.
+              Be sure to explain the units.
+            </p>
+          </li>
+
+          <li permid="zOj">
+            <p permid="Ayd">
+              Give a careful interpretation of a function whose derivative is <m>m(h)</m>.
+              Describe what the input is and what the output is.
+              Also,
+              explain in plain English what the function tells us.
+            </p>
+          </li>
+
+          <li permid="fVs">
+            <p permid="gFm">
+              Determine a definite integral whose value tells us exactly the number of minutes required for the airplane to ascend to 10,000 feet of altitude.
+              Clearly explain why the value of this integral has the required meaning.
+            </p>
+          </li>
+
+          <li permid="McB">
+            <p permid="MMv">
+              Use the Riemann sum <m>M_5</m> to estimate the value of the integral you found in (c).
+              Include units on your result.
+            </p>
+          </li>
+        </ol>
+      </p>
+    </statement>
+    <answer permid="zep">
+      <p permid="uIR">
+        <ol label="a." permid="wjJ">
+          <li permid="sjK">
+
+            <sidebyside permid="YMs">
+
+              <tabular top="minor" bottom="minor" permid="KBJ">
+                <row>
+                  <cell><m>h</m> (feet)</cell>
+                  <cell><m>0</m></cell>
+                  <cell><m>1000</m></cell>
+                  <cell><m>2000</m></cell>
+                  <cell><m>3000</m></cell>
+                  <cell><m>4000</m></cell>
+                  <cell><m>5000</m></cell>
+                  <cell><m>6000</m></cell>
+                  <cell><m>7000</m></cell>
+                  <cell><m>8000</m></cell>
+                  <cell><m>9000</m></cell>
+                  <cell><m>10{,}000</m></cell>
+                </row>
+                <row>
+                  <cell><m>c</m> (ft/min)</cell>
+                  <cell><m>925</m></cell>
+                  <cell><m>875</m></cell>
+                  <cell><m>830</m></cell>
+                  <cell><m>780</m></cell>
+                  <cell><m>730</m></cell>
+                  <cell><m>685</m></cell>
+                  <cell><m>635</m></cell>
+                  <cell><m>585</m></cell>
+                  <cell><m>535</m></cell>
+                  <cell><m>490</m></cell>
+                  <cell><m>440</m></cell>
+                </row>
+                <row>
+                  <cell><m>m</m> (min/ft)</cell>
+                  <cell><m>\frac{1}{925}</m></cell>
+                  <cell><m>\frac{1}{875}</m></cell>
+                  <cell><m>\frac{1}{830}</m></cell>
+                  <cell><m>\frac{1}{780}</m></cell>
+                  <cell><m>\frac{1}{730}</m></cell>
+                  <cell><m>\frac{1}{685}</m></cell>
+                  <cell><m>\frac{1}{635}</m></cell>
+                  <cell><m>\frac{1}{585}</m></cell>
+                  <cell><m>\frac{1}{535}</m></cell>
+                  <cell><m>\frac{1}{490}</m></cell>
+                  <cell><m>\frac{1}{440}</m></cell>
+                </row>
+              </tabular>
+
+            </sidebyside>
+
+          </li>
+
+          <li permid="YqT">
+            <p permid="sTE">
+              The antiderivative function tells the total number of minutes it takes for the plane to climb to an altitude of <m>h</m> feet.
+            </p>
+          </li>
+
+          <li permid="Eyc">
+            <p permid="ZaN">
+              <m>
+              M = \int_{0}^{10000} m(h) \, dh
+              </m>.
+            </p>
+          </li>
+
+          <li permid="kFl">
+            <p permid="FhW">
+              It takes the plane aabout <m>M_5 \approx 15.27</m> minutes.
+            </p>
+          </li>
+        </ol>
+      </p>
+    </answer>
+    <solution permid="SXg">
+      <p permid="Wgh">
+        <ol label="a." permid="DOi">
+          <li permid="QMu">
+            <p permid="lpf">
+              Since the given climb rate, <m>c(h)</m>, is in feet per minute,
+              and the new function, <m>m(h)</m>,
+              is measured in minutes per foot,
+              it follows that <m>m(h)</m> is the reciprocal of <m>c(h)</m>,
+              so <m>m(h) = \frac{1}{c(h)}</m>.
+              Hence we get the following updated table.
+            </p>
+
+            <sidebyside permid="ETB">
+
+              <tabular top="minor" bottom="minor" permid="vsL">
+                <row>
+                  <cell><m>h</m> (feet)</cell>
+                  <cell><m>0</m></cell>
+                  <cell><m>1000</m></cell>
+                  <cell><m>2000</m></cell>
+                  <cell><m>3000</m></cell>
+                  <cell><m>4000</m></cell>
+                  <cell><m>5000</m></cell>
+                  <cell><m>6000</m></cell>
+                  <cell><m>7000</m></cell>
+                  <cell><m>8000</m></cell>
+                  <cell><m>9000</m></cell>
+                  <cell><m>10{,}000</m></cell>
+                </row>
+                <row>
+                  <cell><m>c</m> (ft/min)</cell>
+                  <cell><m>925</m></cell>
+                  <cell><m>875</m></cell>
+                  <cell><m>830</m></cell>
+                  <cell><m>780</m></cell>
+                  <cell><m>730</m></cell>
+                  <cell><m>685</m></cell>
+                  <cell><m>635</m></cell>
+                  <cell><m>585</m></cell>
+                  <cell><m>535</m></cell>
+                  <cell><m>490</m></cell>
+                  <cell><m>440</m></cell>
+                </row>
+                <row>
+                  <cell><m>m</m> (min/ft)</cell>
+                  <cell><m>\frac{1}{925}</m></cell>
+                  <cell><m>\frac{1}{875}</m></cell>
+                  <cell><m>\frac{1}{830}</m></cell>
+                  <cell><m>\frac{1}{780}</m></cell>
+                  <cell><m>\frac{1}{730}</m></cell>
+                  <cell><m>\frac{1}{685}</m></cell>
+                  <cell><m>\frac{1}{635}</m></cell>
+                  <cell><m>\frac{1}{585}</m></cell>
+                  <cell><m>\frac{1}{535}</m></cell>
+                  <cell><m>\frac{1}{490}</m></cell>
+                  <cell><m>\frac{1}{440}</m></cell>
+                </row>
+              </tabular>
+
+            </sidebyside>
+
+          </li>
+
+          <li permid="wTD">
+            <p permid="Rwo">
+              Given an original function,
+              we know that the units on its derivative are ``units of input per unit of output.'' Since the units on <m>m(h)</m> are ``minutes per foot'', it follows that the antiderivative of <m>m(h)</m> should have output units of ``minutes'' since its input units are ``feet''. The antiderivative function should thus tell us the total number of minutes that it takes for the plane to climb to an altitude of <m>h</m> feet.
+            </p>
+          </li>
+
+          <li permid="daM">
+            <p permid="xDx">
+              The number of minutes required for the airplane to ascend to
+              <m>10{,}000</m> feet of altitude is given by the definite integral
+              <me permid="qIS">
+                M = \int_{0}^{10000} m(h) \, dh
+              </me>
+              since the units on <m>m(h)</m> are ``minutes per foot'' and the units on
+              <m>\triangle h</m> in the corresponding Riemann sum are ``feet'', so when we take the product of quantities with these units,
+              the resulting numerical quantity is measured in minutes.
+            </p>
+          </li>
+
+          <li permid="JhV">
+            <p permid="dKG">
+              For the Riemann sum <m>M_5</m>,
+              we have <m>5</m> subintervals.
+              Given the original data,
+              this means that we need to evaluate the function at every other known data point.
+              In particular,
+              <md permid="WQb">
+                <mrow>\int_{0}^{10000} m(h) \, dh &amp;\approx M_5</mrow>
+                <mrow>&amp;= m(1000) \cdot 2000 + m(3000) \cdot 2000 + m(5000) \cdot 2000</mrow>
+                <mrow>&amp;+ m(7000) \cdot 2000 + m(9000) \cdot 2000</mrow>
+                <mrow>&amp;= \left( \frac{1}{875} + \frac{1}{780} + \frac{1}{685} + \frac{1}{585} + \frac{1}{490} \right) \cdot 2000</mrow>
+                <mrow>&amp;\approx 0.007634980475 \cdot 2000</mrow>
+                <mrow>&amp;\approx 15.27</mrow>
+              </md>.
+              Thus, it takes the plane a bit more than <m>15</m> minutes to climb to an altitude of 10,000 feet.
+            </p>
+          </li>
+        </ol>
+      </p>
+    </solution>
+  </exercise>
+
+  <exercise permid="Onn">
+   <title>Connecting average rate of change and average value of a function</title>
+    <statement>
+      <p permid="rOl">
+        In <xref ref="C-1">Chapter</xref>,
+        we showed that for an object moving along a straight line with position function <m>s(t)</m>,
+        the object's <q>average velocity on the interval <m>[a,b]</m></q> is given by
+        <me permid="CXk">
+          AV_{[a,b]} =  \frac{s(b)-s(a)}{b-a}
+        </me>.
+      </p>
+
+      <p permid="XVu">
+        More recently in <xref ref="C-4">Chapter</xref>,
+        we found that for an object moving along a straight line with velocity function <m>v(t)</m>,
+        the object's <q>average value of its velocity function on <m>[a,b]</m></q> is
+        <me permid="jet">
+          \displaystyle v_{\operatorname{AVG} [a,b]}  = \frac{1}{b-a} \int_a^b v(t) \, dt
+        </me>.
+      </p>
+
+      <p permid="EcD">
+        Are the <q>average velocity on the interval <m>[a,b]</m></q>
+        and the <q>average value of the velocity function on <m>[a,b]</m></q> the same thing?
+        Why or why not?
+        Explain.
+      </p>
+    </statement>
+    <answer permid="LsH">
+      <p permid="aQa">
+        Yes.
+      </p>
+    </answer>
+    <solution permid="fly">
+      <p permid="Cnq">
+        Yes, <m>AV_{[a,b]} = \displaystyle v_{\operatorname{AVG} [a,b]}</m>.
+        This is true because of the Fundamental Theorem of Calculus and the definitions of these two quantities.
+        In particular,
+        <md permid="PlC">
+          <mrow>\displaystyle v_{\operatorname{AVG} [a,b]} &amp;= \frac{1}{b-a} \int_a^b v(t) \, dt</mrow>
+          <mrow>&amp;= \frac{s(b)-s(a)}{b-a}</mrow>
+          <mrow>&amp;= AV_{a,b}</mrow>
+        </md>.
+        Average velocity can be thought of in two very different ways:
+        one as the change in position divided by change in time,
+        the other as an average of the values of <m>v(t)</m> itself.
+      </p>
+    </solution>
+  </exercise>
+
+ </exercises>
+</section>

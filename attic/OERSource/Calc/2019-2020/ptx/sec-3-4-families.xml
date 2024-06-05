@@ -1,0 +1,1657 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!-- **********************************************************************-->
+<!-- Copyright 2019                                                        -->
+<!-- UNL Department of Mathematics                                         -->
+<!-- Based upon the work of                                                -->
+<!-- Matthew Boelkins                                                      -->
+<!-- Copyright 2012-2018                                                   -->
+<!--                                                                       -->
+<!-- This file is part of Coordinated Calculus.                            -->
+<!-- This file is based on Active Calculus.                                -->
+<!--                                                                       -->
+<!-- Permission is granted to copy, distribute and/or modify this document -->
+<!-- under the terms of the Creative Commons BY-SA license.  The work      -->
+<!-- may be used for free by any party so long as attribution is given to  -->
+<!-- the author(s), the work and its derivatives are used in the spirit of -->
+<!-- "share and share alike".  All trademarks are the registered marks of  -->
+<!-- their respective owners.                                              -->
+<!-- **********************************************************************-->
+<section xmlns:xi="http://www.w3.org/2001/XInclude" xml:id="sec-3-2-families" permid="sAJ">
+  <title>Using Derivatives to Describe Families of Functions</title>
+  <objectives permid="Rdt">
+    <ul permid="JyU">
+      <li permid="VNm">
+        <p permid="upW">
+          Given a family of functions that depends on one or more parameters,
+          how does the shape of the graph of a typical function in the family depend on the value of the parameters?
+        </p>
+      </li>
+
+      <li permid="BUv">
+        <p permid="axf">
+          How can we construct first and second derivative sign charts of functions that depend on one or more parameters while allowing those parameters to remain arbitrary constants?
+        </p>
+      </li>
+    </ul>
+  </objectives>
+
+  <introduction permid="xkC">
+    <p permid="Ndu">
+      Mathematicians are often interested in making general observations,
+      say by describing patterns that hold in a large number of cases.
+      Think about the Pythagorean Theorem:
+      it doesn't tell us something about a single right triangle,
+      but rather a fact about <em>every</em> right triangle.
+      In the next part of our studies,
+      we use calculus to make general observations about families of functions that depend on one or more <term>parameters</term>.
+      <idx><h>parameters</h></idx>
+      People who use applied mathematics,
+      such as engineers and economists,
+      often encounter the same types of functions where only small changes to certain constants occur.
+      These constants are called parameters.
+    </p>
+
+    <figure xml:id="F-3-2-SineFam" permid="lGe">
+      <caption>The graph of <m>y=f(t)</m>, where <m>f(t) = a \sin(b(t-c)) + d</m>, based on parameters <m>a</m>, <m>b</m>, <m>c</m>, and <m>d</m>.</caption>
+      <image width="65%" source="images/3_2_SineFam" />
+    </figure>
+
+    <p permid="tkD">
+      You are already familiar with certain families of functions.
+      For example,
+      <m>f(t) = a \sin(b(t-c)) + d</m> is a stretched and shifted version of the sine function with amplitude <m>a</m>,
+      period <m>\frac{2\pi}{b}</m>,
+      phase shift <m>c</m>, and vertical shift <m>d</m>.
+      We know that <m>a</m> affects the size of the oscillation,
+      <m>b</m> the rapidity of oscillation,
+      and <m>c</m> where the oscillation starts,
+      as shown above in <xref ref="F-3-2-SineFam">Figure</xref>,
+      while <m>d</m> affects the vertical positioning of the graph.
+    </p>
+
+    <p permid="ZrM">
+      Here is another example: every function of the form
+      <m>y = mx + b</m> is a line with slope <m>m</m> and <m>y</m>-intercept <m>(0,b)</m>.
+      The value of <m>m</m> affects the line's steepness,
+      and the value of <m>b</m> situates the line vertically on the coordinate axes.
+      These two parameters describe all possible non-vertical lines.
+    </p>
+
+    <p permid="FyV">
+      For other less familiar families of functions,
+      we can use calculus to discover where key behavior occurs:
+      e.g. where members of the family are increasing or decreasing,
+      concave up or concave down,
+      where relative extrema occur, and more,
+      all in terms of the parameters involved.
+      To get started,
+      we revisit a common collection of functions to see how calculus confirms things we already know.
+    </p>
+
+<example xml:id="PA-3-2" permid="ukF">
+<statement>
+  <p permid="Odw">
+    Let <m>a</m>, <m>h</m>,
+    and <m>k</m> be arbitrary real numbers with <m>a \ne 0</m>,
+    and let <m>f</m> be the function given by the rule <m>f(x) = a(x-h)^2 + k</m>.
+
+    <ol label="a." permid="YCB">
+      <li permid="EJK">
+        <p permid="JtD">
+          What familiar type of function is <m>f</m>?
+          What information do you know about <m>f</m> just by looking at its form? (Think about the roles of <m>a</m>,
+          <m>h</m>,
+          and <m>k</m>.)
+        </p>
+      </li>
+
+      <li permid="kQT">
+        <p permid="pAM">
+          Next we use some calculus to develop familiar ideas from a different perspective.
+          To start, treat <m>a</m>, <m>h</m>,
+          and <m>k</m> as constants and compute <m>f'(x)</m>.
+        </p>
+      </li>
+
+      <li permid="QYc">
+        <p permid="VHV">
+          Find all critical numbers of <m>f</m>.
+          (These will depend on at least one of <m>a</m>,
+          <m>h</m>,
+          and <m>k</m>.)
+        </p>
+      </li>
+
+      <li permid="xfl">
+        <p permid="BPe">
+          Assume that <m>a \lt 0</m>.
+          Construct a first derivative sign chart for <m>f</m>.
+        </p>
+      </li>
+
+      <li permid="dmu">
+        <p permid="hWn">
+          Based on the information you've found above,
+          classify the critical values of <m>f</m> as maxima or minima.
+        </p>
+      </li>
+    </ol>
+  </p>
+</statement>
+<hint>
+<p>
+<ol label="a">
+  <li>
+  <p>
+  <m>f</m> is written in vertex form for this type of function; what does that tell you?
+  </p>
+  </li>
+  <li>
+  <p>
+  Try using the chain rule to differentiate <m>f</m> as written (instead of expanding <m>f</m> before taking the derivative).
+  </p>
+  </li>
+  <li>
+  <p>
+  If <m>c</m> is a critical number of <m>f</m>, what must be true about <m>f'(c)</m>? Remember, there are two possibilities in general. 
+  </p>
+  </li>
+  <li>
+  <p>
+  What does the graph of <m>y=f(x)</m> look like when <m>a\lt 0</m>?
+  </p>
+  </li>
+  <li>
+  <p>
+  Use what you know prior about the shape of <m>y=f(x)</m> to support the answer you get 
+  with calculus and the first derivative sign chart you made in (d).
+  </p>
+  </li>
+</ol>
+</p>
+</hint>
+<answer>
+<p>
+<ol label="a">
+  <li>
+  <p>
+  <m>f</m> is quadratic.
+  </p>
+  </li>
+  <li>
+  <p>
+  <m>f'(x)=2a(x-h)</m>.
+  </p>
+  </li>
+  <li>
+  <p>
+  <m>h</m> is the only critical number of <m>f</m>.
+  </p>
+  </li>
+  <li>
+  <p>
+  For <m>x\lt h</m>, we have <m>f'(x)\gt0</m> and <m>f(x)</m> increasing. 
+  For <m>x\gt h</m>, we have <m>f'(x)\lt0</m> and <m>f(x)</m> decreasing. 
+  </p>
+  </li>
+  <li>
+  <p>
+  <m>k</m> is a maximum of <m>f</m>.
+  </p>
+  </li>
+</ol>
+</p>
+</answer>
+<solution>
+<p>
+<ol label="a">
+  <li>
+  <p>
+  Since <m>f</m> is a second-degree polynomial in <m>x</m>, <m>f</m> is a quadratic function, and 
+  the graph of <m>y=f(x)</m> is a parabola. The vertex of this parabola is at the point <m>(h,k)</m>, and 
+  the sign of <m>a</m> determines whether the parabola opens upward (when <m>a\gt0</m>) or downward (when <m>a\lt0</m>).
+  </p>
+  </li>
+  <li>
+  <p>
+  Because <m>h</m> and <m>k</m> are constants, their derivatives are both <m>0</m> and 
+  this simplifies the application of the sum rule in taking the derivative. 
+  Furthermore, the product rule is unnecessary because <m>a</m> is a constant as well, 
+  so we instead make use of the constant multiple rule. 
+  Doing so while also applying the chain rule, we find that <me>f'(x)=2a(x-h)</me>. 
+  </p>
+  </li>
+  <li>
+  <p>
+  Since <m>f'</m> is linear with slope <m>2a\neq0</m>, it is continuous (hence, defined 
+  everywhere) and has exactly one root (where <m>f'(x)=0</m>). Thus the function 
+  <m>f</m> will have exactly one critical number. Indeed, we see that <m>f'(x)=0</m> 
+  only at the point <m>x=h</m>. 
+  Therefore, the only critical number of <m>f</m> is <m>h</m>.
+  We note that this agrees with our previous assertion that the vertex of <m>y=f(x)</m> 
+  is at the point <m>(h,k)</m>.
+  </p>
+  </li>
+  <li>
+  <p>
+  If <m>a\lt0</m>, then our algebra knowledge tells us that the graph of <m>y=f(x)</m> 
+  is a parabola that opens down, so we should find that <m>f</m> is increasing for <m>x\lt h</m> 
+  and decreasing for <m>x\gt h</m>. 
+  Testing this intuition, we note that 
+  <ul>
+  <li>
+  When <m>x\lt h</m>, then <m>x-h\lt0</m> and hence <m>2a(x-h)\gt0</m> since <m>a</m> also is known to be negative.
+  Therefore, on the interval <m>(-\infty,h)</m> we have <m>f'(x)\gt0</m> and <m>f</m> increasing.
+  </li>
+  <li>
+  When <m>x\gt h</m>, then <m>x-h\gt0</m> and hence <m>2a(x-h)\lt0</m> since <m>a</m> is known to be negative.
+  Therefore, on the interval <m>(h,\infty)</m> we have <m>f'(x)\lt0</m> and <m>f</m> decreasing.
+  </li>
+  </ul>
+  </p>
+  </li>
+  <li>
+  <p>
+  Applying the first derivative test, we see that at the point <m>x=h</m>, the value of <m>f'(x)</m>
+  switches from positive to negative, and thus <m>k</m>, the critical value corresponding to the critical number <m>h</m>, is a maximum of <m>f</m>.
+  This agrees with our existing knowledge of parabolas, as we had established that this parabola opens downward. 
+  </p>
+  </li>
+</ol>
+</p>
+</solution>
+</example>
+  </introduction>
+
+  <subsection permid="YHS">
+    <title>Describing Families of Functions in Terms of Parameters</title>
+    <p permid="RNn">
+      Our goal is to describe the key characteristics of the overall behavior of each member of a family of functions in terms of its parameters.
+      By finding the first and second derivatives and constructing sign charts
+      (each of which may depend on one or more of the parameters),
+      we can often make broad conclusions about how each member of the family will appear.
+    </p>
+
+    <example xml:id="Ex-3-2-1" permid="kWk">
+      <statement>
+        <p permid="gWl">
+          Consider the two-parameter family of functions given by <m>g(x) = axe^{-bx}</m>,
+          where <m>a</m> and <m>b</m> are positive real numbers.
+          Fully describe the behavior of a typical member of the family in terms of <m>a</m> and <m>b</m>,
+          including: the location of all critical numbers;
+          where <m>g</m> is increasing, decreasing, concave up,
+          and concave down; and the long-term behavior of <m>g</m>.
+        </p>
+      </statement>
+      <hint>
+      <p>
+      Start by finding the first and second derivatives of <m>g</m>. Be careful with your use of the product rule and chain rule. 
+      </p>
+      </hint>
+      <answer>
+      <p>
+      <m>g</m> has one critical number, at <m>x=\frac1b</m>. </p>
+      <p><m>g</m> is increasing on <m>\big(-\infty,\frac1b\big)</m>, decreasing on <m>\big(\frac1b,\infty\big)</m>, 
+      concave down on <m>\big(-\infty,\frac2b\big)</m>, and concave up on <m>\big(\frac2b,\infty\big)</m>.</p>
+      <p><m>\lim_{x\to-\infty}g(x)=-\infty</m> and <m>\lim_{x\to\infty}g(x)=0</m>.
+      </p>
+      </answer>
+      <solution permid="drL">
+        <p permid="SSG">
+          We begin by computing <m>g'(x)</m>.
+          By the product rule,
+          <me permid="KiO">
+            g'(x) = \frac{d}{dx}[ax]e^{-bx} +ax \frac{d}{dx}\left[e^{-bx}\right] 
+          </me>.
+          By applying the chain rule and constant multiple rule,
+          we find that
+          <me permid="qpX">
+            g'(x) = ae^{-bx}+axe^{-bx}(-b)
+          </me>.
+        </p>
+
+        <p permid="yZP">
+          To find the critical numbers of <m>g</m>,
+          we note that <m>g'</m> is defined everywhere and proceed to solve the equation <m>g'(x) = 0</m>.
+          By factoring <m>g'(x)</m>, we find
+          <me permid="Wxg">
+            0 = ae^{-bx}(1-bx)
+          </me>.
+        </p>
+
+        <p permid="fgY">
+          Since we are given that <m>a \ne 0</m> and we know that
+          <m>e^{-bx} \ne 0</m> for all values of <m>x</m>,
+          the only way this equation can hold is when <m>1-bx = 0</m>.
+          Solving for <m>x</m>, we find <m>x = \frac{1}{b}</m>,
+          and this is therefore the only critical number of <m>g</m>.
+        </p>
+
+        <p permid="rvq">
+          Because the factor <m>ae^{-bx}</m> is always positive,
+          the sign of <m>g'</m> depends on the linear factor <m>(1-bx)</m>,
+          which is positive for
+          <m>x \lt \frac{1}{b}</m> and negative for <m>x \gt \frac{1}{b}</m>.
+          Hence we can not only conclude that <m>g</m> is always increasing for
+          <m>x \lt \frac{1}{b}</m> and decreasing for <m>x \gt \frac{1}{b}</m>,
+          but also that <m>g</m> has a global maximum at
+          <m>\big(\frac{1}{b}, g\big(\frac{1}{b}\big)\big)</m> and no local minimum.
+          The first derivative sign chart for <m>g</m> is shown below in <xref ref="F-3-2-signchartg">Figure</xref>.
+        </p>
+
+        <figure xml:id="F-3-2-signchartg" permid="oAK">
+          <caption>The first derivative sign chart for <m>g(x) = axe^{-bx}</m>.</caption>
+          <image width="50%" source="images/3_2_signchartg" />
+        </figure>
+
+        <p permid="XCz">
+          We turn next to analyzing the concavity of <m>g</m>.
+          With <m>g'(x) = ae^{-bx}-abxe^{-bx}</m>,
+          we differentiate to find that
+          <me permid="CEp">
+            g''(x) = ae^{-bx}(-b)-ab\left(e^{-bx}+xe^{-bx}(-b)\right)
+          </me>.
+        </p>
+
+        <p permid="DJI">
+          Combining like terms and factoring, we now have
+          <me permid="iLy">
+            g''(x) = ab^2xe^{-bx} - 2abe^{-bx} = abe^{-bx}(bx - 2)
+          </me>.
+        </p>
+
+        <p permid="jQR">
+          We observe that <m>abe^{-bx}</m> is always positive,
+          and thus the sign of <m>g''</m> depends on the sign of <m>(bx-2)</m>,
+          which is zero when <m>x = \frac{2}{b}</m>.
+          Since <m>b</m> is positive,
+          the value of <m>(bx-2)</m> is negative for
+          <m>x \lt \frac{2}{b}</m> and positive for <m>x \gt \frac{2}{b}</m>.
+          The sign chart for <m>g''</m> is shown below in <xref ref="F-3-2-signchartg2">Figure</xref>.
+          Thus, <m>g</m> is concave down for all
+          <m>x \lt \frac{2}{b}</m> and concave up for all <m>x \gt \frac{2}{b}</m>.
+        </p>
+
+        <figure xml:id="F-3-2-signchartg2" permid="UHT">
+          <caption>The second derivative sign chart for <m>g(x) = axe^{-bx}</m>.</caption>
+          <image width="50%" source="images/3_2_signchartg2" />
+        </figure>
+
+        <p permid="PYa">
+          Finally, we analyze the long-term behavior of <m>g</m> by considering two limits.
+          First, we note that
+          <me permid="OSH">
+            \lim_{x \to \infty} g(x) = \lim_{x \to \infty} axe^{-bx} = \lim_{x \to \infty} \frac{ax}{e^{bx}}
+          </me>.
+        </p>
+
+        <p permid="wfj">
+          This limit has indeterminate form <m>\frac{\infty}{\infty}</m>, so 
+          with our current tools, we can not evaluate the limit algebraically. We can, however, 
+          reason that <m>ax</m> is linear while <m>e^{bx}</m> is exponential, and conclude that 
+          because exponential growth is so much more rapid than linear growth, we 
+          expect the limiting value to be zero. A more rigorous answer will 
+          be possible following <xref ref="sec-2-8-LHR">Section</xref>, but for now we can also
+          use graphical evidence<fn>
+          A good tool to use here is <url href="http://www.desmos.com/calculator/vvscoo435h">desmos.com</url>.
+          </fn>
+          to support the claim that <m>\lim_{x\to\infty}g(x)=0</m>. We do so by examining 
+          the graphs of several different functions in this family, noting that each has a 
+          horizontal asymptote of <m>y=0</m> as <m>x\to\infty</m>.
+          <!--we apply L'Hopital's Rule and find that <m>\lim_{x \to \infty} g(x) = 0</m>.-->
+          In the other direction,
+          <me permid="uZQ">
+            \lim_{x \to -\infty} g(x) = \lim_{x \to -\infty} axe^{-bx} = -\infty
+          </me>,
+          because <m>ax \to -\infty</m> and
+          <m>e^{-bx} \to \infty</m> as <m>x \to -\infty</m>.
+          Hence, as we move left on its graph,
+          <m>g</m> decreases without bound,
+          while as we move to the right, <m>g(x) \to 0</m>.
+        </p>
+
+        <p permid="cms">
+          All of this information now helps us produce the graph of a typical member of this family of functions without using a graphing utility
+          (and without choosing particular values for <m>a</m> and <m>b</m>),
+          as shown in <xref ref="F-3-2-SurgeFam">Figure</xref> below.
+        </p>
+
+        <figure xml:id="F-3-2-SurgeFam" permid="APc">
+          <caption>The graph of <m>g(x) = axe^{-bx}</m>.</caption>
+          <image width="80%" source="images/3_2_SurgeFam" />
+        </figure>
+
+        <p permid="ItB">
+          Note that the value of <m>b</m> controls the horizontal location of the global maximum and the inflection point,
+          as neither depends on <m>a</m>.
+          The value of <m>a</m> affects the vertical stretch of the graph.
+          For example,
+          the global maximum occurs at the point <m>\big(\frac{1}{b}, g\big(\frac{1}{b}\big)\big) = \big(\frac{1}{b}, \frac{a}{b}e^{-1}\big)</m>,
+          so the larger the value of <m>a</m>,
+          the greater the value of the global maximum.
+        </p>
+      </solution>
+    </example>
+
+    <p permid="xUw">
+      The work we've completed in <xref ref="Ex-3-2-1">Example</xref>
+      can often be replicated for other families of functions that depend on parameters.
+      Normally we are most interested in determining all critical numbers,
+      a first derivative sign chart,
+      a second derivative sign chart,
+      and the limit of the function as <m>x \to \infty</m>.
+      Throughout,
+      we prefer to work with the parameters as arbitrary constants.
+      In addition,
+      we can experiment with some particular values of the parameters present to reduce the algebraic complexity of our work.
+      What follows are several key examples where we see that the values of the parameters substantially affect the behavior of individual functions within a given family.
+    </p>
+
+<example xml:id="act-3-2-1" permid="wQz">
+  <statement>
+    <p permid="YnP">
+      Consider the family of functions defined by <m>p(x) = x^3 - ax</m>,
+      where <m>a \ne 0</m> is an arbitrary constant.
+
+      <ol label="a." permid="zbl">
+        <li permid="fiu">
+          <p permid="FAr">
+            Find <m>p'(x)</m> and determine the critical numbers of <m>p</m>.
+            How many critical numbers does <m>p</m> have?
+          </p>
+        </li>
+
+        <li permid="LpD">
+          <p permid="lHA">
+            Construct a first derivative sign chart for <m>p</m>.
+            What can you say about the overall behavior of <m>p</m> if the constant <m>a</m> is positive?
+            Why?
+            What if the constant <m>a</m> is negative?
+            In each case, describe the relative extrema of <m>p</m>.
+          </p>
+        </li>
+
+        <li permid="rwM">
+          <p permid="ROJ">
+            Find <m>p''(x)</m> and construct a second derivative sign chart for <m>p</m>.
+            What does this tell you about the concavity of <m>p</m>?
+            What role does <m>a</m> play in determining the concavity of <m>p</m>?
+          </p>
+        </li>
+
+        <li permid="XDV">
+          <p permid="xVS">
+            Without using a graphing utility,
+            sketch and label typical graphs of <m>p(x)</m> for the cases where <m>a\gt 0</m> and <m>a \lt 0</m>.
+            Label all inflection points and local extrema.
+          </p>
+        </li>
+
+        <li permid="DLe">
+          <p permid="edb">
+            Finally,
+            use a graphing utility to test your observations above by entering and plotting the function
+            <m>p(x) = x^3 - ax</m> for at least four different values of <m>a</m>.
+            Write several sentences to describe your overall conclusions about how the behavior of <m>p</m> depends on <m>a</m>.
+          </p>
+        </li>
+      </ol>
+    </p>
+  </statement>
+  <hint permid="ayB">
+    <p permid="sgG">
+      <ol label="a." permid="SUc">
+        <li permid="jSn">
+          <p permid="qrt">
+            When solving <m>p'(x) = 0</m>,
+            think about two possible cases:
+            when <m>a\gt 0</m> and when <m>a \lt 0</m>.
+          </p>
+        </li>
+
+        <li permid="PZw">
+          <p permid="WyC">
+            Remember that any quadratic function can be zero at most two times.
+            How does the graph of <m>y = 3x^2 - a</m> look?
+          </p>
+        </li>
+
+        <li permid="wgF">
+          <p permid="CFL">
+            Don't forget that <m>\frac{d}{dx}[a] = 0</m>.
+          </p>
+        </li>
+
+        <li permid="cnO">
+          <p permid="iMU">
+            Think about how the graph of a typical cubic polynomial behaves.
+          </p>
+        </li>
+      </ol>
+    </p>
+  </hint>
+  <answer permid="urs">
+    <p permid="LZx">
+      <ol label="a." permid="mMT">
+        <li permid="IuX">
+          <p permid="OUd">
+            <m>p</m> has two critical numbers <m>\left(x = \pm \sqrt{\frac{a}{3}}\right)</m> whenever <m>a \gt 0</m> and no critical numbers when <m>a \lt 0</m>.
+          </p>
+        </li>
+
+        <li permid="oCg">
+          <p permid="vbm">
+            When <m>a \lt 0</m>,
+            <m>p</m> is always increasing and has no relative extreme values.
+            When <m>a\gt 0</m>, <m>p</m> has a relative maximum at
+            <m>x = -\sqrt{\frac{a}{3}}</m> and a relative minimum at <m>x = +\sqrt{\frac{a}{3}}</m>.
+          </p>
+        </li>
+
+        <li permid="UJp">
+          <p permid="biv">
+            <m>p</m> is concave down for <m>x \lt 0</m> and <m>p</m> is concave up for <m>x\gt 0</m>,
+            making <m>x = 0</m> an inflection point.
+          </p>
+        </li>
+
+        <li permid="AQy">
+        <p>On the left, <m>a\lt0</m>; on the right, <m>a\gt0</m>.</p>
+
+          <sidebyside width="100%" permid="kCh">
+            <image source="images/3_2_Act1Soln" />
+          </sidebyside>
+
+        </li>
+        <li>
+          <p>
+          See <url href="http://www.desmos.com/calculator/2x1j8cwozg">desmos.com</url> for additional graph samples.
+          As <m>a</m> decreases towards <m>-\infty</m>, the graph of <m>y=p(x)</m> looks more and more linear. 
+          As <m>a</m> increases towards <m>\infty</m>, the two bumps on the graph get more pronounced. 
+          </p>
+        </li>
+      </ol>
+    </p>
+  </answer>
+  <solution permid="Okj">
+    <p permid="fSo">
+      <ol label="a." permid="GFK">
+        <li permid="gXH">
+          <p permid="HpE">
+            We first note that <m>p'(x) = 3x^2 - a</m>,
+            so to find critical numbers we set
+            <m>p'(x) = 0</m> and solve for <m>x</m>.
+            This leads to the equation <m>3x^2 - a = 0</m>,
+            which implies
+            <me permid="EuY">
+              x^2 = \frac{a}{3}
+            </me>.
+            If <m>a \gt 0</m>,
+            then the solutions to this equation are <m>x = \pm \sqrt{\frac{a}{3}}</m>;
+            if <m>a \lt  0</m>, then the equation has no solution.
+            Hence,
+            <m>p</m> has two critical numbers <m>\left(x = \pm \sqrt{\frac{a}{3}}\right)</m> whenever <m>a \gt 0</m> and no critical numbers when <m>a \lt  0</m>.
+          </p>
+        </li>
+
+        <li permid="NeQ">
+          <p permid="nwN">
+            For the case when <m>a \lt 0</m>,
+            we observe that <m>p'(x) = 3x^2 - a</m> is positive for every value of <m>x</m>,
+            and thus <m>p</m> is always increasing and has no relative extreme values.
+            (There are no critical numbers to place on the first derivative sign chart,
+            and <m>p'</m> is always positive.)
+            For the case when <m>a\gt 0</m>,
+            we observe that <m>p'(x) = 3x^2 - a</m> is a concave up parabola with zeros at
+            <m>x = -\sqrt{\frac{a}{3}}</m> and <m>x = +\sqrt{\frac{a}{3}}</m>.
+            It follows that for <m>x \lt -\sqrt{\frac{a}{3}}</m>,
+            <m>p'(x)\gt 0</m>
+            (so <m>p</m> is increasing);
+            for <m>-\sqrt{\frac{a}{3}} \lt x \lt \sqrt{\frac{a}{3}}</m>,
+            <m>p'(x)\gt 0</m> (so <m>p</m> is decreasing);
+            and for <m>x\gt \sqrt{\frac{a}{3}}</m>,
+            <m>p'(x)\gt 0</m>
+            (so <m>p</m> is again increasing).
+            In this situation, we see that <m>p</m> has a relative maximum at
+            <m>x = -\sqrt{\frac{a}{3}}</m> and a relative minimum at <m>x = +\sqrt{\frac{a}{3}}</m>.
+          </p>
+        </li>
+
+        <li permid="tlZ">
+          <p permid="TDW">
+            Since <m>p'(x) = 3x^2 - a</m> and <m>a</m> is constant,
+            it follows that <m>p''(x) = 6x</m>.
+            Note that <m>p''(x) = 0</m> when <m>x = 0</m> and that
+            <m>p''(x) \lt 0</m> for <m>x \lt 0</m> and <m>p''(x)\gt 0</m> for <m>x\gt 0</m>.
+            Hence <m>p</m> is concave down for <m>x \lt 0</m> and <m>p</m> is concave up for <m>x\gt 0</m>,
+            making <m>x = 0</m> an inflection point.
+          </p>
+        </li>
+
+        <li permid="Zti">
+          <p permid="zLf">
+            Below, we show the two possible situations.
+            At left,
+            for the case when <m>a \lt 0</m> and <m>p</m> is always increasing with an inflection point at <m>x = 0</m>,
+            and at right for when <m>a\gt 0</m> and <m>p</m> has a relative maximum at
+            <m>x = -\sqrt{\frac{a}{3}}</m> and a relative minimum at <m>x = +\sqrt{\frac{a}{3}}</m>,
+            again with an inflection point at <m>x = 0</m>.
+            Note, too,
+            that <m>p</m> has its <m>x</m>-intercepts at <m>x = \pm \sqrt{a}</m>.
+          </p>
+
+          <sidebyside width="80%" permid="QJq">
+            <image source="images/3_2_Act1Soln" />
+          </sidebyside>
+
+        </li>
+        <li>
+          <p>
+          See <url href="http://www.desmos.com/calculator/2x1j8cwozg">desmos.com</url> for additional graph samples.
+          We note that as <m>a</m> gets increasingly negative, the graph of <m>y=p(x)</m> 
+          gets steeper near the origin, tending more and more toward a linear shape (which it never achieves).
+          Conversely, as <m>a</m> gets increasingly positive, the two bumps on the graph get more and more pronounced. 
+          </p>
+        </li>
+      </ol>
+    </p>
+  </solution>
+</example>
+
+<example xml:id="act-3-2-2" permid="cCj">
+  <statement>
+    <p permid="rLh">
+      Consider the two-parameter family of functions of the form <m>h(x) = a(1-e^{-bx})</m>,
+      where <m>a</m> and <m>b</m> are positive real numbers.
+
+      <ol label="a." permid="NOK">
+        <li permid="tVT">
+          <p permid="MJr">
+            Find the first derivative and the critical numbers of <m>h</m>.
+            Use these to construct a first derivative sign chart and determine for which values of <m>x</m> the function <m>h</m> is increasing and decreasing.
+          </p>
+        </li>
+
+        <li permid="adc">
+          <p permid="sQA">
+            Find the second derivative and build a second derivative sign chart.
+            For which values of <m>x</m> is a function in this family concave up? Concave down?
+          </p>
+        </li>
+
+        <li permid="Gkl">
+          <p permid="YXJ">
+            What is the value of
+            <m>\lim_{x \to \infty} a(1-e^{-bx})</m>? What about <m>\lim_{x \to -\infty} a(1-e^{-bx})</m>?
+          </p>
+        </li>
+
+        <li permid="mru">
+          <p permid="FeS">
+            How does changing the value of <m>b</m> affect the shape of the curve?
+          </p>
+        </li>
+
+        <li permid="SyD">
+          <p permid="lmb">
+            Without using a graphing utility,
+            sketch the graph of a typical member of this family.
+            Write several sentences to describe the overall behavior of a typical function <m>h</m> and how this behavior depends on <m>a</m> and <m>b</m>.
+          </p>
+        </li>
+      </ol>
+    </p>
+  </statement>
+  <hint permid="pma">
+    <p permid="LDY">
+      <ol label="a." permid="hHB">
+        <li permid="yFM">
+          <p permid="Rtk">
+            Expand to write <m>h(x) = a - ae^{-bx}</m> before differentiating.
+          </p>
+        </li>
+
+        <li permid="eMV">
+          <p permid="xAt">
+            Remember that <m>e^{-bx}</m> is always positive (hence, never zero),
+            regardless of the value of <m>x</m>.
+          </p>
+        </li>
+
+        <li permid="KUe">
+          <p permid="dHC">
+            Recall that <m>e^{-x} \to 0</m> as <m>x \to \infty</m> and
+            <m>e^{-x} \to \infty</m> as <m>x \to -\infty</m>.
+          </p>
+        </li>
+
+        <li permid="rbn">
+          <p permid="JOL">
+            Consider how <m>b</m> affects the value of <m>h'(x)</m>.
+          </p>
+        </li>
+
+        <li permid="Xiw">
+          <p permid="pVU">
+            Use your work in (a)-(d).
+          </p>
+        </li>
+      </ol>
+    </p>
+  </hint>
+  <answer permid="JeR">
+    <p permid="fwP">
+      <ol label="a." permid="BAs">
+        <li permid="DpF">
+          <p permid="Wdd">
+            <m>h</m> is an always increasing function.
+          </p>
+        </li>
+
+        <li permid="jwO">
+          <p permid="Ckm">
+            <m>h</m> is always concave down.
+          </p>
+        </li>
+
+        <li permid="PDX">
+          <p permid="irv">
+            <m> \lim_{x \to \infty} a(1-e^{-bx}) = a</m>,
+            and <m> \lim_{x \to -\infty} a(1-e^{-bx}) = -\infty</m>.
+          </p>
+        </li>
+
+        <li permid="vLg">
+          <p permid="OyE">
+            If <m>b</m> is large and <m>x</m> is close to zero,
+            <m>h'(x)</m> is relatively large near <m>x = 0</m>,
+            and the curve's slope will quickly approach zero as <m>x</m> increases.
+            If <m>b</m> is small,
+            the graph is less steep near <m>x = 0</m> and its slope goes to zero less quickly as <m>x</m> increases.
+          </p>
+        </li>
+
+        <li permid="bSp">
+
+          <sidebyside width="50%" permid="QnR">
+            <image source="images/3_2_Act2Soln" />
+          </sidebyside>
+
+        </li>
+      </ol>
+    </p>
+  </answer>
+  <solution permid="cXI">
+    <p permid="zpG">
+      <ol label="a." permid="Vtj">
+        <li permid="HZy">
+          <p permid="uFN">
+            Since <m>h(x) = a - ae^{-bx}</m>,
+            we have by the constant multiple and chain rules that
+            <me permid="XSq">
+              h'(x) = -ae^{-bx}(-b) = abe^{-bx}
+            </me>.
+            Since <m>a</m> and <m>b</m> are positive constants and <m>e^{-bx} \gt 0</m> for all <m>x</m>,
+            we see that <m>h'(x)</m> is never zero
+            (nor undefined),
+            and indeed <m>h'(x) \gt 0</m> for all <m>x</m>.
+            Hence <m>h</m> is an always increasing function.
+          </p>
+        </li>
+
+        <li permid="ogH">
+          <p permid="aMW">
+            Because <m>h'(x) = abe^{-bx}</m>,
+            we have that <m>h''(x) = abe^{-bx}(-b) = -ab^2e^{-bx}</m>.
+            As with <m>h'</m>, we recognize that <m>a</m>, <m>b^2</m>,
+            and <m>e^{-bx}</m> are always positive,
+            and thus <m>h''(x) = -ab^2e^{-bx} \lt 0</m> for all values of <m>x</m>,
+            making <m>h</m> always concave down.
+          </p>
+        </li>
+
+        <li permid="UnQ">
+          <p permid="GUf">
+            As <m>x \to \infty</m>, <m>e^{-bx} \to 0</m>.
+            Thus,
+            <me permid="DZz">
+              \lim_{x \to \infty} a(1-e^{-bx}) = \lim_{x \to \infty} (a - ae^{-bx}) = a - 0 = a
+            </me>.
+            This shows that <m>h</m> has a horizontal asymptote at <m>y = a</m> as we move rightward on its graph.
+
+            As <m>x \to -\infty</m>,
+            <m>e^{-bx} \to \infty</m>.
+            Thus,
+            <me permid="kgI">
+              \lim_{x \to -\infty} a(1-e^{-bx}) = \lim_{x \to -\infty} (a - ae^{-bx}) = -\infty
+            </me>.
+          </p>
+        </li>
+
+        <li permid="AuZ">
+          <p permid="nbo">
+            Noting that <m>h'(x) = abe^{-bx}</m>,
+            we see that if we consider different values of <m>b</m>,
+            the slope of the graph changes.
+            If <m>b</m> is large and <m>x</m> is close to zero,
+            <m>h'(x) \approx ab</m>
+            (since <m>e^0 = 1</m>),
+            so <m>h'(x)</m> is relatively large near <m>x = 0</m>.
+            At the same time, for large <m>b</m>,
+            <m>e^{-bx}</m> approaches zero quickly as <m>x</m> increases,
+            so the curve's slope will quickly approach zero as <m>x</m> increases.
+            If <m>b</m> is small,
+            the graph is less steep near <m>x = 0</m> and its slope goes to zero less quickly as <m>x</m> increases.
+          </p>
+        </li>
+
+        <li permid="gCi">
+          <p permid="Tix">
+            Observing that <m>h(0) = 0</m> and <m>\lim_{x \to \infty} h(x) = a</m>,
+            along with the facts that <m>h</m> is always increasing and always concave down,
+            we see that a typical member of this family looks like the following graph.
+          </p>
+
+          <sidebyside width="40%" permid="wva">
+            <image source="images/3_2_Act2Soln" />
+          </sidebyside>
+
+        </li>
+      </ol>
+    </p>
+  </solution>
+</example>
+
+<example xml:id="act-3-2-3" permid="Zme">
+  <statement>
+    <p permid="jLj">
+      Let <m>L(t) = \frac{A}{1+ce^{-kt}}</m>, where <m>A</m>,
+      <m>c</m>, and <m>k</m> are all positive real numbers.
+
+      <ol label="a." permid="tAu">
+        <li permid="ZHD">
+          <p permid="YCk">
+            Observe that we can equivalently write <m>L(t) = A(1+ce^{-kt})^{-1}</m>.
+            Find <m>L'(t)</m> and explain why <m>L</m> has no critical numbers.
+            Is <m>L</m> always increasing or always decreasing?
+            Why?
+          </p>
+        </li>
+
+        <li permid="FOM">
+          <p permid="EJt">
+            Given the fact that
+            <me permid="PSs">
+              L''(t) = Ack^2e^{-kt} \frac{ce^{-kt}-1}{(1+ce^{-kt})^3}
+            </me>,
+            find all values of <m>t</m> such that
+            <m>L''(t) = 0</m> and then construct a second derivative sign chart.
+            For which values of <m>t</m> is a function in this family concave up?  Concave down?
+          </p>
+        </li>
+
+        <li permid="lVV">
+          <p permid="kQC">
+            What is the value of
+            <m>\lim_{t \to \infty} \frac{A}{1+ce^{-kt}}</m>? <m>\lim_{t \to -\infty} \frac{A}{1+ce^{-kt}}</m>?
+          </p>
+        </li>
+
+        <li permid="Sde">
+          <p permid="QXL">
+            Find the value of <m>L(t)</m> at the inflection point found in (b).
+          </p>
+        </li>
+
+        <li permid="ykn">
+          <p permid="xeU">
+            Without using a graphing utility,
+            sketch the graph of a typical member of this family.
+            Write several sentences to describe the overall behavior of a typical function <m>L</m> and how this behavior depends on the values of the parameters <m>A</m>,
+            <m>c</m>, and <m>k</m>.
+          </p>
+        </li>
+
+        <li permid="erw">
+          <p permid="dmd">
+            Explain why it is reasonable to think that the function <m>L(t)</m> models the growth of a population over time,
+            in a setting where the surrounding environment cannot support a population larger than <m>A</m>.
+          </p>
+        </li>
+      </ol>
+    </p>
+  </statement>
+  <hint permid="UXK">
+    <p permid="DEa">
+      <ol label="a." permid="Ntl">
+        <li permid="KyF">
+          <p permid="Jtm">
+            Use the chain rule, treating <m>A</m>,
+            <m>c</m>, and <m>k</m> as constants.
+          </p>
+        </li>
+
+        <li permid="qFO">
+          <p permid="pAv">
+            Note that the only way
+            <m>L''(t) = 0</m> is if <m>ce^{-kt}-1 = 0</m>.
+          </p>
+        </li>
+
+        <li permid="WMX">
+          <p permid="VHE">
+            Remember that <m>e^{-t} \to 0</m> as <m>t \to \infty</m> and
+            <m>e^{-t} \to \infty</m> as <m>t \to -\infty</m>.
+          </p>
+        </li>
+
+        <li permid="CUg">
+          <p permid="BON">
+            Note that at the inflection point <m>t_0</m>, we have <m>ce^{-kt_0}=1</m>.
+          </p>
+        </li>
+
+        <li permid="jbp">
+          <p permid="hVW">
+            Think about horizontal asymptotes,
+            where <m>L</m> is increasing and decreasing, and concavity.
+          </p>
+        </li>
+        <li>
+        <p>
+        Intuitively, if an environment can only support a population of a certain size, how 
+        should the population be growing when it is well below the limit? When it is approaching the limit? 
+        Does this intuition describe what you found to be true for <m>L</m>?
+        </p>
+        </li>
+      </ol>
+    </p>
+  </hint>
+  <answer permid="oQB">
+    <p permid="XwR">
+      <ol label="a." permid="hmc">
+        <li permid="Piy">
+          <p permid="Odf">
+            <m>L</m> is an always increasing function.
+          </p>
+        </li>
+
+        <li permid="vpH">
+          <p permid="uko">
+            <m>L</m> is concave up for all
+            <m>t \lt -\frac{1}{k} \ln \big(\frac{1}{c}\big)</m> and concave down for all <m>t\gt-\frac1k\ln\big(\frac1c\big)</m>.
+          </p>
+        </li>
+
+        <li permid="bwQ">
+          <p permid="arx">
+            <m>
+            \lim_{t \to \infty} \frac{A}{1+ce^{-kt}} = A</m>,
+            and
+            <me permid="vZB">
+              \lim_{t \to -\infty} \frac{A}{1+ce^{-kt}} = 0
+            </me>.
+          </p>
+        </li>
+
+        <li permid="HDZ">
+          <p permid="GyG">
+            The inflection point on the graph of <m>L</m> is <m>\big( -\frac{1}{k} \ln \big(\frac{1}{c}\big), \frac{A}{2}\big)</m>.
+          </p>
+        </li>
+
+        <li permid="nLi">
+
+          <sidebyside width="50%" permid="MXM">
+            <image source="images/3_2_Act3Soln" />
+          </sidebyside>
+
+        </li>
+        <li>
+        <p>
+        The population grows rapidly at first, but its growth rate decreases to near zero as the population approaches the 
+        limiting size of <m>A</m>.
+        </p>
+        </li>
+      </ol>
+    </p>
+  </answer>
+  <solution permid="IJs">
+    <p permid="rpI">
+      <ol label="a." permid="BeT">
+        <li permid="TSr">
+          <p permid="mFP">
+            By the chain rule and treating <m>A</m>, <m>c</m>,
+            and <m>k</m> as constants, we find that
+            <me permid="cgK">
+              L'(t) = A(-1)(1+ce^{-kt})^{-2} ce^{-kt}(-k) = Acke^{-kt}(1+ce^{-kt})^{-2}
+            </me>.
+            Since <m>A</m>, <m>c</m>,
+            and <m>k</m> are all positive and
+            <m>e^{-kt} \gt 0</m> for all values of <m>t</m>,
+            it is apparent that <m>L'(t)</m> is never zero (nor undefined),
+            and indeed is positive for every value of <m>t</m>.
+            Thus, <m>L</m> is an always increasing function.
+          </p>
+        </li>
+
+        <li permid="zZA">
+          <p permid="SMY">
+            Given that
+            <me permid="InT">
+              L''(t) = Ack^2e^{-kt} \frac{ce^{-kt}-1}{(1+ce^{-kt})^3}
+            </me>,
+            the only way <m>L''(t) = 0</m> is if <m>ce^{-kt}-1 = 0</m>.
+            Solving <m>ce^{-kt}-1 = 0</m> for <m>t</m>,
+            we first write <m>e^{-kt} = \frac{1}{c}</m>.
+            Taking the natural logarithm of both sides yields
+            <m>-kt = \ln\big(\frac{1}{c}\big)</m>, so that
+            <me permid="ovc">
+              t = -\frac{1}{k} \ln \left(\frac{1}{c}\right)
+            </me>
+            is the only value of <m>t</m> for which <m>L''(t) = 0</m>.
+            Now, observe that since
+            <m>ce^{-kt} \to 0</m> as <m>t \to \infty</m> and <m>ce^{-kt}\to\infty</m> as <m>t\to-\infty</m>,
+            it follows that the quantity <m>ce^{-kt} - 1</m> will be positive to the left of where it is zero and negative to the right of where it is zero.
+            Since this is the only term in <m>L''(t)</m> that can change sign,
+            it follows that <m>L''(t) \gt 0</m> for <m>t \lt  -\frac{1}{k} \ln \big(\frac{1}{c}\big)</m> and
+            <m>L''(t) \lt 0</m> for <m>t \gt -\frac{1}{k} \ln \big(\frac{1}{c}\big)</m>,
+            making <m>L</m> concave up to the left of the noted inflection point and concave down thereafter.
+          </p>
+        </li>
+
+        <li permid="ggJ">
+          <p permid="yUh">
+            Recalling that <m>e^{-kt} \to 0</m> as <m>t \to \infty</m>,
+            we observe that
+            <me permid="UCl">
+              \lim_{t \to \infty} \frac{A}{1+ce^{-kt}} = \frac{A}{1+0} = A
+            </me>,
+            so <m>L</m> has a horizontal asymptote of <m>y = A</m> as <m>t \to \infty</m>.
+            On the other hand,
+            since <m>e^{-kt} \to \infty</m> as <m>t \to -\infty</m>,
+            this causes the denominator of <m>L</m> to grow without bound
+            (while the numerator remains constant),
+            and therefore
+            <me permid="AJu">
+              \lim_{t \to -\infty} \frac{A}{1+ce^{-kt}} = 0
+            </me>,
+            which means <m>L</m> has a horizontal asymptote of <m>y = 0</m> as <m>t \to -\infty</m>.
+          </p>
+        </li>
+
+        <li permid="MnS">
+          <p permid="fbq">
+            From (b), we know that
+            <m>t = -\frac{1}{k} \ln \big(\frac{1}{c}\big)</m> is the location of the inflection point of <m>L</m>.
+            We evaluate <m>L\big( -\frac{1}{k} \ln \big(\frac{1}{c}\big) \big)</m>,<fn>
+            If you prefer to evaluate the function without this apparent <q>shortcut</q>, 
+            be careful with parentheses as you plug in and evaluate. 
+            In particular, notice that we do indeed have 
+            <m>ce^{-k\left[-\frac{\ln(\frac{1}{c})}{k}\right]}=ce^{k\frac{\ln(\frac{1}{c})}{k}}=ce^{\ln(\frac{1}{c})}=c(\frac{1}{c})=1</m>.
+            The remainder of the calculation should match what is shown below.
+            </fn>
+            recalling that at this <m>t</m>-value we have the equality <m>ce^{-kt}=1</m>, thus 
+            <me permid="gQD">
+              L\left( -\frac{1}{k} \ln \left(\frac{1}{c}\right) \right) = \frac{A}{1+1} = \frac{A}{2}
+            </me>.
+            Thus,
+            the inflection point on the graph of <m>L</m> is located at  <m>\big( -\frac{1}{k} \ln \big(\frac{1}{c}\big), \frac{A}{2}\big)</m>.
+          </p>
+        </li>
+
+        <li permid="svb">
+          <p permid="Liz">
+            We have shown that <m>L</m> is an always increasing function that has horizontal asymptotes at <m>y =0</m> and <m>y = A</m>,
+            as well as an inflection point at <m>\big( -\frac{1}{k} \ln \big(\frac{1}{c}\big), \frac{A}{2}\big)</m>,
+            which we note lies vertically halfway between the asymptotes.
+            In addition, we see that <m>L(0) = \frac{A}{1+c}</m>.
+            The combination of all of this information shows us that a typical graph in this family of functions is given by the following figure.
+          </p>
+
+          <sidebyside width="40%" permid="teV">
+            <image source="images/3_2_Act3Soln" />
+          </sidebyside>
+
+        </li>
+        <li>
+        <p>
+        The population grows rapidly at first, but its growth rate decreases to near zero as the population approaches the 
+        limiting size of <m>A</m>.
+        This makes sense when environmental factors would affect the population to keep it at a sustainable size.
+        </p>
+        </li>
+      </ol>
+    </p>
+  </solution>
+</example>
+  </subsection>
+
+  <subsection permid="EPb">
+    <title>Summary</title>
+    <p permid="ebF">
+      <ul permid="pGd">
+        <li permid="ibE">
+          <p permid="GEo">
+            Given a family of functions that depends on one or more parameters,
+			we can often accurately describe the shape of the function in terms of the parameters
+            by investigating how critical numbers and locations where the second derivative is zero depend on the values of these parameters.
+          </p>
+        </li>
+
+        <li permid="OiN">
+          <p permid="mLx">
+            In particular,
+            just as we can creat first and second derivative sign charts for a single function,
+            we can often do so for entire families of functions where critical numbers and possible inflection points depend on arbitrary constants.
+            These sign charts then reveal where members of the family are increasing or decreasing,
+            concave up or concave down,
+            and help us to identify relative extrema and inflection points.
+          </p>
+        </li>
+      </ul>
+    </p>
+  </subsection>
+
+<exercises xmlns:xi="http://www.w3.org/2001/XInclude"> 
+
+  <exercise xml:id="ez-3-2-WW1" permid="iIh">
+    <title>Drug dosage with a parameter</title>
+    <webwork source="Library/Michigan/Chap4Sec3/Q21.pg" />
+  </exercise>
+
+  <exercise xml:id="ez-3-2-WW2" permid="OPq">
+    <title>Using the graph of <m>g'</m></title>
+    <webwork source="Library/Michigan/Chap4Sec3/Q35.pg" />
+  </exercise>
+  <!--  These WeBWorK problems do not exist in the OPL -->
+  <!--
+  <exercise xml:id="ez-3-2-WW3">
+    <webwork source="Library/Michigan/Chap4Sec3/Q17.pg" />
+  </exercise>
+  <exercise xml:id="ez-3-2-WW4">
+    <webwork source="Library/Michigan/Chap4Sec3/Q27.pg" />
+  </exercise>
+  -->
+  
+    <exercise xml:id="ez-3-2-WW3" permid="OPq">
+    <title>Using the graph of <m>f</m></title>
+    <webwork source="Library/ma122DB/set8/s4_3_27.pg" />
+  </exercise>
+  
+  
+      <exercise xml:id="ez-3-2-WW4" permid="OPq">
+    <title>Sign Change</title>
+    <webwork source="Library/WHFreeman/Rogawski_Calculus_Early_Transcendentals_Second_Edition/4_Applications_of_the_Derivative/4.6_Graph_Sketching_and_Asymptotes/4.6.1.pg" />
+  </exercise>
+  
+  
+      <exercise xml:id="ez-3-2-WW5" permid="OPq">
+    <title>Critical and inflection points of a function with parameters</title>
+    <webwork source="Library/Valdosta/APEX_Calculus/3.5/APEX_3.5_28.pg" />
+  </exercise>
+  
+  
+        <exercise xml:id="ez-3-2-WW6" permid="OPq">
+    <title>Behavior of a function with parameters</title>
+    <webwork source="Library/Michigan/Chap4Sec2/Q27.pg" />
+  </exercise>
+  
+          <exercise xml:id="ez-3-2-WW7" permid="OPq">
+    <title>Analyzing and curve sketching</title>
+    <webwork source="Library/Michigan/Chap2Sec5/Q23.pg" />
+  </exercise>
+  
+  
+  <exercise permid="uWz">
+  <title>Analyzing families of functions</title>
+    <statement>
+      <p permid="pvI">
+        Consider the one-parameter family of functions given by
+        <m>p(x) = x^3-ax^2</m>, where <m>a \gt 0</m>.
+
+        <ol label="a." permid="Jae">
+          <li permid="BvF">
+            <p permid="zkT">
+              Sketch a plot of a typical member of the family,
+              using the fact that each is a cubic polynomial with a repeated zero at <m>x = 0</m> and another zero at <m>x = a</m>.
+            </p>
+          </li>
+
+          <li permid="hCO">
+            <p permid="fsc">
+              Find all critical numbers of <m>p</m>.
+            </p>
+          </li>
+
+          <li permid="NJX">
+            <p permid="Lzl">
+              Compute <m>p''</m> and find all values for which <m>p''(x) = 0</m>.
+              Hence construct a second derivative sign chart for <m>p</m>.
+            </p>
+          </li>
+
+          <li permid="tRg">
+            <p permid="rGu">
+              Describe how the location of the critical numbers and the inflection point of <m>p</m> change as <m>a</m> changes.
+              That is, if the value of <m>a</m> is increased,
+              what happens to the critical numbers and inflection point?
+            </p>
+          </li>
+        </ol>
+      </p>
+    </statement>
+    <answer permid="Tzj">
+      <p permid="xah">
+        <ol label="a." permid="QED">
+          <li permid="ZYp">
+
+            <sidebyside width="50%" permid="xRf">
+              <image source="images/3_2_Ez1Soln" />
+            </sidebyside>
+
+          </li>
+
+          <li permid="Gfy">
+            <p permid="XND">
+              <m>x = 0</m> and <m>x = \frac{2a}{3}</m>.
+            </p>
+          </li>
+
+          <li permid="mmH">
+            <p permid="DUM">
+              <m>x = \frac{a}{2}</m>;
+              <m>p''(x)</m> changes sign from negative to positive at <m>x = \frac{a}{2}</m>.
+            </p>
+          </li>
+
+          <li permid="StQ">
+            <p permid="kbV">
+              As we increase the value of <m>a</m>,
+              both the location of the critical number and the inflection point move to the right along with <m>a</m>.
+            </p>
+          </li>
+        </ol>
+      </p>
+    </answer>
+    <solution permid="nsa">
+      <p permid="EEG">
+        <ol label="a." permid="Yjc">
+          <li permid="yAZ">
+            <p permid="Qje">
+              Writing <m>p(x) = x^3 - ax^2 = x^2(x-a)</m>,
+              we see that <m>p(x) = 0</m> at <m>x=0</m> and <m>x=a</m>.
+              Further, since <m>x^2 \ge 0</m> for all <m>x</m>,
+              we note that <m>p(x) \le 0</m> whenever <m>x \lt a </m> and
+              <m>p(x) \gt 0</m> for all <m>x \gt a</m>.
+              A typical such function is plotted below.
+            </p>
+
+            <sidebyside width="50%" permid="dYo">
+              <image source="images/3_2_Ez1Soln" />
+            </sidebyside>
+
+          </li>
+
+          <li permid="eIi">
+            <p permid="wqn">
+              To find the critical numbers of <m>p</m>,
+              we first compute <m>p'(x)</m>.
+              Treating <m>a</m> as constant,
+              we have <m>p'(x) = 3x^2 - 2ax = x(3x - 2a)</m>.
+              Thus, setting <m>p'(x) = 0</m>,
+              we find that <m>x(3x-2a) = 0</m> and thus <m>x = 0</m> and
+              <m>x = \frac{2a}{3}</m> are the critical numbers of <m>p</m>.
+            </p>
+          </li>
+
+          <li permid="KPr">
+            <p permid="cxw">
+              Observe that <m>p''(x) = 6x - 2a</m> and thus
+              <m>p''(x) = 0</m> implies that <m>x = \frac{a}{2}</m>.
+              Since <m>p''(x)</m> is linear with positive slope,
+              we see that <m>p''(x)</m> changes sign from negative to positive at <m>x = \frac{a}{2}</m>,
+              and thus <m>p</m> is concave down for
+              <m>x \lt \frac{a}{2}</m> and concave up for <m>x \gt \frac{a}{2}</m> and
+              <m>x = \frac{a}{2}</m> is the only inflection point of <m>p</m>.
+            </p>
+          </li>
+
+          <li permid="qWA">
+            <p permid="IEF">
+              There is always a critical number of <m>p</m> at <m>x = 0</m>.
+              But the other critical number at
+              <m>x = \frac{2a}{3}</m> and the inflection point at
+              <m>x = \frac{a}{3}</m> both obviously depend directly on <m>a</m>:
+              as we increase the value of <m>a</m>,
+              both the location of the critical number and the inflection point move to the right along with <m>a</m>.
+            </p>
+          </li>
+        </ol>
+      </p>
+    </solution>
+  </exercise>
+
+  <exercise permid="bdI">
+  <title>Analyzing families of functions</title>
+    <statement>
+      <p permid="VCR">
+        Let <m>q(x) = \frac{e^{-x}}{x-c}</m> be a one-parameter family of functions where <m>c \gt 0</m>.
+
+        <ol label="a." permid="phn">
+          <li permid="XdJ">
+            <p permid="oLO">
+              Explain why <m>q</m> has a vertical asymptote at <m>x = c</m>.
+            </p>
+          </li>
+
+          <li permid="DkS">
+            <p permid="USX">
+              Determine <m>\lim_{x \to \infty} q(x)</m> and <m>\lim_{x \to -\infty} q(x)</m>.
+            </p>
+          </li>
+
+          <li permid="jsb">
+            <p permid="Bag">
+              Compute <m>q'(x)</m> and find all critical numbers of <m>q</m>.
+            </p>
+          </li>
+
+          <li permid="Pzk">
+            <p permid="hhp">
+              Construct a first derivative sign chart for <m>q</m> and determine whether each critical number leads to a local minimum,
+              local maximum, or neither for the function <m>q</m>.
+            </p>
+          </li>
+
+          <li permid="vGt">
+            <p permid="Noy">
+              Sketch a typical member of this family of functions with important behaviors clearly labeled.
+            </p>
+          </li>
+        </ol>
+      </p>
+    </statement>
+    <answer permid="fNB">
+      <p permid="dhq">
+        <ol label="a." permid="wLM">
+          <li permid="bNC">
+            <p permid="tvH">
+              <m>x=c</m> is a vertical asymptote because
+              <m>\lim_{x \to c^+} \frac{e^{-x}}{x-c} = \infty</m> and <m>\lim_{x \to c^-} \frac{e^{-x}}{x-c} = -\infty</m>.
+            </p>
+          </li>
+
+          <li permid="HUL">
+            <p permid="ZCQ">
+              <m>\lim_{x \to \infty} \frac{e^{-x}}{x-c} = 0</m>; 
+              <m>
+              \lim_{x \to -\infty} \frac{e^{-x}}{x-c} = -\infty</m>.
+            </p>
+          </li>
+
+          <li permid="obU">
+            <p permid="FJZ">
+              The only critical number for <m>q</m> is <m>x=c-1</m>.
+            </p>
+          </li>
+
+          <li permid="Ujd">
+            <p permid="lRi">
+              When <m>x \lt c-1</m>, <m>q'(x) \gt 0</m>;
+              when <m>x \gt c-1</m>, <m>q'(x) \lt 0</m>;
+              <m>q</m> has a local maximum at <m>x = c-1</m>.
+            </p>
+          </li>
+
+          <li permid="Aqm">
+
+            <sidebyside width="50%" permid="Kfx">
+              <image source="images/3_2_Ez2Soln" />
+            </sidebyside>
+
+          </li>
+        </ol>
+      </p>
+    </answer>
+    <solution permid="zGs">
+      <p permid="kLP">
+        <ol label="a." permid="Eql">
+          <li permid="gxv">
+            <p permid="RYr">
+              The value of the numerator at <m>x=c</m> is <m>e^{-c} \ne 0</m>,
+              while the value of the denominator is <m>0</m> at <m>x=c</m>.
+              Thus, <m>\lim_{x \to c^+} \frac{e^{-x}}{x-c} = \infty</m> and <m>\lim_{x \to c^-} \frac{e^{-x}}{x-c} = -\infty</m>.
+              This makes the line <m>x=c</m> a vertical asymptote for <m>q</m>.
+            </p>
+          </li>
+
+          <li permid="MEE">
+            <p permid="yfA">
+              We can write <m>q(x)</m> as
+              <m>q(x) = \frac{1}{(x-c)e^x}</m> and thus see the denominator increases without bound as <m>x \to \infty</m>.
+              Therefore, <m>\lim_{x \to \infty} \frac{e^{-x}}{x-c} = 0</m>.
+              This makes the line <m>y=0</m> a horizontal asymptote for <m>q</m>.
+
+              As <m>x \to -\infty</m>,
+              <m>e^{-x}</m> increases without bound,
+              while <m>(x-c)</m> decreases without bound.
+              Thus, <m>q</m> has an indeterminate form as <m>x \to -infty</m>.
+              Applying L'Hopital's Rule gives us
+              <me permid="hRj">
+                \lim_{x \to -\infty} \frac{e^{-x}}{x-c} = \lim_{x \to -\infty} \frac{-e^{-x}}{1} = -\infty
+              </me>.
+            </p>
+          </li>
+
+          <li permid="sLN">
+            <p permid="emJ">
+              Using <m>q(x) = \frac{1}{(x-c)e^x}</m>,
+              the quotient and product rules along with algebraic simplification show that
+              <me permid="NYs">
+                q'(x) = -\frac{(x-c)e^x + e^x}{(x-c)^2\left(e^x\right)^2} = -\frac{x-c+1}{(x-c)^2e^x}
+              </me>.
+              The function <m>q</m> has critical points in its domain where
+              <m>q'(x) = 0</m> or <m>q'(x)</m> doesn't exist.
+              Note that <m>q'(x)</m> is undefined at <m>x=c</m>,
+              but <m>c</m> is not in the domain of mq.
+              Thus, the only critical points of <m>q</m> occur when <m>q'(x)=0</m>.
+              The only way the fraction <m>q'(x)</m> can be <m>0</m> is if the numerator is <m>0</m>.
+              Since <m>x-c+1=0</m> when <m>x=c-1</m>,
+              the only critical number for <m>q</m> is <m>x=c-1</m>.
+            </p>
+          </li>
+
+          <li permid="YSW">
+            <p permid="KtS">
+              The values of the exponential function <m>e^x</m> and the quadratic <m>(x-c)^2</m> are positive for <m>x \neq c</m>,
+              so the sign of <m>q'(x) = -\frac{x-c+1}{(x-c)^2e^x}</m> depends entirely on the sign of <m>x-(c-1)</m>.
+              When <m>x \lt c-1</m> we see that <m>q'(x) \gt 0</m> and when
+              <m>x \gt c-1</m> we have <m>q'(x) \lt 0</m>.
+              Thus, <m>q</m> is increasing on
+              <m>(-\infty,
+              c-1)</m> and is decreasing on <m>(c-1,c)</m>,
+              so it follows that <m>q(c-1)</m> is a relative maximum value.
+              This value is a local maximum,
+              since the value of <m>q</m> can be made as large as we like as shown in part (b).
+            </p>
+          </li>
+
+          <li permid="Faf">
+            <p permid="qBb">
+              We've shown that a typical member of the family of functions given by
+              <m>q(x) = \frac{1}{(x-c)e^x}</m> has a vertical asymptote at <m>x = c</m> and a critical number at which a local maximum occurs one unit to the left of <m>c</m> at <m>x = c-1</m>.
+              A typical such graph is shown below.
+              Note how <m>q</m> is increasing and decreasing according to our earlier work in (d).
+            </p>
+
+            <sidebyside width="50%" permid="qmG">
+              <image source="images/3_2_Ez2Soln" />
+            </sidebyside>
+
+          </li>
+        </ol>
+      </p>
+    </solution>
+  </exercise>
+
+  <exercise permid="HkR">
+  <title>Analyzing families of functions</title>
+    <statement>
+      <p permid="BKa">
+        Let <m>E(x) = e^{-\frac{(x-m)^2}{2s^2}}</m>,
+        where <m>m</m> is any real number and <m>s</m> is a positive real number.
+
+        <ol label="a." permid="Vow">
+          <li permid="lho">
+            <p permid="WIk">
+              Compute <m>E'(x)</m> and hence find all critical numbers of <m>E</m>.
+            </p>
+          </li>
+
+          <li permid="Rox">
+            <p permid="CPt">
+              Construct a first derivative sign chart for <m>E</m> and classify each critical number of the function as a local minimum,
+              local maximum, or neither.
+            </p>
+          </li>
+
+          <li permid="xvG">
+            <p permid="iWC">
+              It can be shown that <m>E''(x)</m> is given by the formula
+              <me permid="ufB">
+                E''(x) = e^{-\frac{(x-m)^2}{2s^2}} \left(\frac{(x-m)^2 - s^2}{s^4} \right)
+              </me>.
+              Find all values of <m>x</m> for which <m>E''(x) = 0</m>.
+            </p>
+          </li>
+
+          <li permid="dCP">
+            <p permid="PdL">
+              Determine <m>\lim_{x \to \infty} E(x)</m> and <m>\lim_{x \to -\infty} E(x)</m>.
+            </p>
+          </li>
+
+          <li permid="JJY">
+            <p permid="vkU">
+              Construct a labeled graph of a typical function <m>E</m> that clearly shows how important points on the graph of
+              <m>y = E(x)</m> depend on <m>m</m> and <m>s</m>.
+            </p>
+          </li>
+        </ol>
+      </p>
+    </statement>
+    <answer permid="sbT">
+      <p permid="Joz">
+        <ol label="a." permid="cSV">
+          <li permid="pRh">
+            <p permid="bsd">
+              <m>x = m</m>.
+            </p>
+          </li>
+
+          <li permid="VYq">
+            <p permid="Hzm">
+              <m>E</m> is increasing for <m>x \lt m</m> and decreasing for <m>x \gt m</m>,
+              with a local maximum at <m>x = m</m>.
+            </p>
+          </li>
+
+          <li permid="Cfz">
+            <p permid="nGv">
+              <m>x = m \pm s</m>.
+            </p>
+          </li>
+
+          <li permid="imI">
+            <p permid="TNE">
+              <m>\lim_{x \to \infty} E(x) = \lim_{x \to -\infty} E(x) = 0</m>.
+            </p>
+          </li>
+
+          <li permid="OtR">
+
+            <sidebyside width="100%" permid="WtP">
+              <image source="images/3_2_Ez3Soln" />
+            </sidebyside>
+
+          </li>
+        </ol>
+      </p>
+    </answer>
+    <solution permid="LUK">
+      <p permid="QSY">
+        <ol label="a." permid="kxu">
+          <li permid="uBa">
+            <p permid="zUN">
+              Treating <m>m</m> and <m>s</m> as constants, by the chain rule,
+              <me permid="amK">
+                E'(x) = e^{-\frac{(x-m)^2}{2s^2}} \cdot \frac{d}{dx}\left[ -\frac{(x-m)^2}{2s^2} \right] = e^{-\frac{(x-m)^2}{2s^2}} \cdot \left[ -\frac{2(x-m)}{2s^2} \right]
+              </me>
+              Note that <m>E'(x)</m> is defined for every value of <m>x</m>,
+              thus the only critical numbers occur where <m>E'(x) = 0</m>.
+              Since <m>e</m> raised to any power is never zero,
+              the only way that <m>E'(x) = 0</m> is for <m>\left[ -\frac{2(x-m)}{2s^2} \right] = 0</m>,
+              which implies that <m>x = m</m>.
+              Thus, <m>x = m</m> is the only critical number of <m>E</m>.
+            </p>
+          </li>
+
+          <li permid="aIj">
+            <p permid="gbW">
+              As we noted in (a),
+              <m>x = m</m> is the only critical number of <m>E</m>.
+              More over, since <m>e</m> to any power is always positive,
+              the sign of <m>E'(x)</m> depends entirely on the expression <m>-\frac{2(x-m)}{2s^2} = -\frac{1}{2}(x-m)</m>.
+              This linear function of <m>x</m> has negative slope,
+              and thus is positive for <m>x \lt m</m> and negative for <m>x \gt m</m>,
+              and thus <m>E'(x)</m> is positive for <m>x \lt m</m> and negative for <m>x \gt m</m>.
+              Therefore, <m>E</m> is increasing for <m>x \lt m</m> and decreasing for <m>x \gt m</m>,
+              with a local maximum at <m>x = m</m>.
+            </p>
+          </li>
+
+          <li permid="GPs">
+            <p permid="Mjf">
+              From the given formula for <m>E''(x)</m> and our knowledge that <m>e</m> to any power is positive,
+              the only way <m>E''(x) = 0</m> is for
+              <me permid="GtT">
+                \left(\frac{(x-m)^2 - s^2}{s^4} \right) = 0
+              </me>,
+              which implies that <m>(x-m)^2 = s^2</m>,
+              and therefore <m>x-m = \pm s</m>, or <m>x = m \pm s</m>.
+              These are the two values for which <m>E''(x) = 0</m>.
+            </p>
+          </li>
+
+          <li permid="mWB">
+            <p permid="sqo">
+              As <m>x \to \pm \infty</m>,
+              we know that the quadratic function
+              <m>-\frac{(x-m)^2}{2s^2}</m> must decrease without bound because the quadratic function opens down.
+              Thus, the power to which we are raising <m>e</m> in the formula for <m>E(x)</m> is decreasing without bound,
+              which means that <m>E(x)</m> must approach <m>0</m> since raising <m>e</m> to more and more negative numbers drives the result to <m>0</m>.
+              Thus, <m>\lim_{x \to \infty} E(x) = \lim_{x \to -\infty} E(x) = 0</m>.
+            </p>
+          </li>
+
+          <li permid="TdK">
+            <p permid="Yxx">
+              We've shown that <m>E</m> has a single critical number at <m>x = m</m> and two potential points of inflection at <m>x = m \pm s</m>,
+              as well as that <m>E(x) \to 0</m> as <m>x \to \pm \infty</m>.
+              All of these properties are reflected in the following figure.
+            </p>
+
+            <sidebyside width="100%" permid="CAY">
+              <image source="images/3_2_Ez3Soln" />
+            </sidebyside>
+
+          </li>
+        </ol>
+      </p>
+    </solution>
+  </exercise>
+
+ </exercises>
+</section>
+
