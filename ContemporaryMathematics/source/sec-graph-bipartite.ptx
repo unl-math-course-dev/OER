@@ -1,405 +1,603 @@
+<?xml version="1.0" encoding="UTF-8" ?>
 <section xmlns:xi="http://www.w3.org/2001/XInclude" xml:id="sec-graph-bipartite">
-
-<title>Bipartite Graphs and Stable Matchings</title>
-
-
-
-<subsection><title>Bipartite Graphs</title>
-
-	<p>Most of the real-world graphs we've seen so far have vertices representing a single type of object, and edges representing a symmetric relationship that the vertices can have with each other.  For example, in a graph of people and friendships, the vertices are all people, and each edge represents a friendship, where if Amy is a friend of Tom, then Tom is also a friend of Amy.  Or in a graph of the streets in a neighborhood, the vertices are all intersections and the edges are connections between them, where if intersection A is connected to intersection B by a street, then intersection B is connected to intersection A by the same street.</p>
-
-	<p>However, there are also many situations where we might want to consider  multiple types of objects as vertices, with edges representing asymmetric relationships between two vertices of different types.  For example, consider the graph where each vertex is either a house or a person, and two vertices are connected by an edge if one of them is an owner of the other.  Amy owns her house, so there is an edge between them, but her house does not own her!  This is an example of a <term>bipartite graph</term>.</p>
-
-	<assemblage><title>Bipartite Graphs</title>
-
-		<p>A <term>bipartite graph</term> is a graph in which the vertices can be divided into two parts, with no edges between vertices from the same part.</p>
-	</assemblage>
-
-		<p>We will often draw bipartite graphs with the two parts being top and bottom, or left and right, as shown here:</p>
-
-	<sidebyside widths="25% 50% 25%">
-		<p></p>
-		<image source="images/bipartite-exemplar.png"/>
-		<p></p>
-	</sidebyside>
-
-	<p>Of course, not all bipartite graphs need to <i>look</i> bipartite, with the different parts grouped in different areas of the drawing.  For example, consider this graph:</p>
-
-	<sidebyside widths="25% 50% 25%">
-		<p></p>
-		<image source="images/bipartite-tricky.png"/>
-		<p></p>
-	</sidebyside>
-
-	<p>At first glance, it isn't clear how to group the vertices into two distinct parts, with no edges connecting vertices from the same part.  However, if we color the vertices, as below, we can see that no two blue vertices are connected, and no two red vertices are connected.  So the blue collection and red collection make up the two parts, demonstrating that this graph is bipartite.</p>
-
-	<sidebyside widths="25% 50% 25%">
-		<p></p>
-		<image source="images/bipartite-tricky-colored.png"/>
-		<p></p>
-	</sidebyside>
-
-	<p>We can also move some of the vertices around to make the two parts more obviously distinct.  In this case, just moving the bottom blue vertex up towards the top of the picture makes it look like this:</p>
-
-	<sidebyside widths="25% 50% 25%">
-		<p></p>
-		<image source="images/bipartite-tricky-colored-moved.png"/>
-		<p></p>
-	</sidebyside>
-
-	<aside>
-		<p>There is actually a neat trick to tell if a graph is bipartite or not.  If a graph has a circuit whose length is odd (for example, a triangle), then it cannot be bipartite.  However, if all the circuits are even, then the graph is bipartite.  Can you figure out why this is true?</p>
-	</aside>
-
-</subsection>
-
-
-
-<subsection><title>Matchings</title>
-
-	<p>Oftentimes, bipartite graphs are useful to consider because we want to find a way to pair vertices from one part with vertices from another part.  For example, we might have a number of job openings, and we want to give each job to a person who is qualified for it.  We might consider the bipartite graph where vertices are jobs and people, and an edge connects a job and a person whenever that person is qualified for that job.  For example, the graph might look like this:</p>
-
-	<image source="images/people-jobs-graph.png"/>
-
-	<p>Let's assume that each person can only work one job, and each job will be given to only one person.  Then a way to fill all of the job openings corresponds to a particular collection of edges; each edge pairs one person with one job.  For example, we might fill the jobs by picking all of the blue edges below.  Each job is given to the person connected to it by a blue edge.</p>
-
-	<image source="images/people-jobs-matching.png"/>
-
-	<p>Notice that no vertex is on two different blue edges, since that would either correspond to a job that is given to two different people, or a person who is given two different jobs (both of which we're assuming shouldn't happen).  A collection of edges that satisfies this property is called a <term>matching</term>.</p>
-
-	<assemblage><title>Matchings</title>
-
-		<p>A <term>matching</term> is a collection of edges where no two edges share a vertex.  In other words, a matching is a way of pairing up vertices that are connected.</p>
-
-		<p>We will notate matchings by listing their edges.  For example, matching vertex A with vertex C and vertex B with vertex D could be notated as {AC, BD}.</p>
-
-		<p>A <term>perfect matching</term> is a matching where every vertex in the graph is included in some edge from the matching.  A perfect matching is appropriate when we want to find a way to include every vertex in some pair.</p>
-
-	</assemblage>
-
-	<p>Notice that the matching from our example above is not a perfect matching.  Although all the jobs are included in some edge of the matching, not all the people are.  Unfortunately, a perfect matching in this graph is impossible, because there are more people than jobs.</p>
-
-	<example>
-		<p>UNL's mathematics graduate students engage in a mentorship program, where each incoming graduate student is paired with a more experienced graduate student who acts as their mentor.  The pairs are assigned based on shared interest areas, as well as other compatibility factors.</p>
-
-		<p>The process of assigning mentors can be thought of as finding a matching in a bipartite graph.  There are two groups of vertices: incoming students, and experienced students who are willing to act as mentors.  An edge between an incoming student and an experienced student indicates that the pair is compatible.  A matching in this graph would represent a way of assigning a mentor to some collection of incoming students.  This need not be a perfect matching; there is no need for every experienced student to act as a mentor.  However, we do at least want a matching that covers all of the incoming students, so that all of them have mentors.</p>
-	</example>
-
-	<exploration>
-		<statement>
-			<p>If possible, find a perfect matching for each of the following graphs.  If not, find a matching that covers as many vertices as possible.</p>
-
-			<ol>
-				<li>
-					<sidebyside widths="25% 50% 25%">
-						<p></p>
-						<image source="images/find-matching-1.png"/>
-						<p></p>
-					</sidebyside>
-				</li>
-				<li>
-					<sidebyside widths="25% 50% 25%">
-						<p></p>
-						<image source="images/find-matching-2.png"/>
-						<p></p>
-					</sidebyside>
-				</li>
-				<li>
-					<sidebyside widths="25% 50% 25%">
-						<p></p>
-						<image source="images/find-matching-3.png"/>
-						<p></p>
-					</sidebyside>
-				</li>
-			</ol>
-		</statement>
-		<solution>
-			<ol>
-				<li>
-					<p>There is exactly one perfect matching for this graph:</p>
-					<sidebyside widths="25% 50% 25%">
-						<p></p>
-						<image source="images/find-matching-1-sol.png"/>
-						<p></p>
-					</sidebyside>
-				</li>
-				<li>
-					<p>There is no perfect matching for this graph.  The best we can do is to cover eight of the ten vertices.  Here is one such matching:</p>
-					<sidebyside widths="25% 50% 25%">
-						<p></p>
-						<image source="images/find-matching-2-sol.png"/>
-						<p></p>
-					</sidebyside>
-					<p>Can you prove to yourself why there cannot be a perfect matching?</p>
-				</li>
-				<li>
-					<p>There are several perfect matchings for this graph.  Here is one:</p>
-					<sidebyside widths="25% 50% 25%">
-						<p></p>
-						<image source="images/find-matching-3-sol.png"/>
-						<p></p>
-					</sidebyside>
-				</li>
-			</ol>
-		</solution>
-	</exploration>
-
-</subsection>
-
-
-
-<subsection><title>Stable Matchings</title>
-
-	<p>In many cases, we want to do more than find just any matching; some matchings may be more desirable than others.  This often happens when the vertices of a graph have preferences about who they will be matched with.  For example, consider again the bipartite graph of people and jobs, where there is an edge connecting a person to a job when they are qualified for the job.  Each person prefers some jobs over others; their preferences can be expressed as an ordered list, with their most preferred jobs at the top and their least preferred at the bottom.  Each employer also has a similar list of potential employees.  A bipartite graph that comes equipped with preference lists like this is called <term>preference-labeled</term>.</p>
-
-	<p>We would like to find a matching where the new hires like the job they have, and where their employers are also happy with their new hires.  Obviously, we won't always be able to give everyone their first choice of jobs or employees.  However, if we are tasked with coming up with a good matching, the least we can do is try to avoid a situation where individual employees and employers are incentivized to quit or fire someone.  For example, if Colby would have preferred the job opening at Google, and Google would rather have hired Colby than the person we matched them with, then Colby will quit their job and Google will replace their current employee with Colby, leaving others in the lurch.  Such a matching is unstable, since individual vertices are incentivized to break their pairings; matchings that avoid this kind of instability are called <term>stable matchings</term>.</p>
-
-	<assemblage><title>Stable Matchings</title>
-		<p>A bipartite graph is <term>preference-labeled</term> if each vertex is given an ordering of vertices (their preferences) in the opposite part of the graph.</p>
-		<p>A <term>stable matching</term> in a preference-labeled bipartite graph is a matching such that there is no pair of vertices which prefer each other to their matched partners, and no vertex prefers an unmatched vertex to their matched partner.</p>
-	</assemblage>
-
-	<p>If we want people and institutions to trust a matching we create and not go their own way, we need a way to find a stable matching.  But this brings up an interesting question: does every preference-labeled bipartite graph have a stable matching?</p>
-
-	<p>It turns out that the answer is yes!  Even better, there is an algorithm that can always find a stable matching, called the Gale-Shapley algorithm.</p>
-
-	<assemblage><title>The Gale-Shapley Algorithm</title>
+	<title>Bipartite Graphs and Stable Matchings</title>
+	<subsection>
+		<title>Bipartite Graphs</title>
 		<p>
-			<ol>
-				<li>Choose one part of the graph to be the proposers.</li>
-				<li>Each proposer proposes to the highest vertex on their preference list which has not rejected them.</li>
-				<li>Each vertex being proposed to says "maybe" to their favorite of the vertices currently proposing to them, and rejects all other vertices currently proposing to them.</li>
-				<li>Repeat steps 2 and 3 until you reach a step where nobody is rejected. At this point, you have a stable matching.</li>
-			</ol>
+			Most of the real-world graphs we've seen so far have vertices representing a single type of object, and edges representing a symmetric relationship that the vertices can have with each other.
+			For example, in a graph of people and friendships, the vertices are all people, and each edge represents a friendship, where if Amy is a friend of Tom, then Tom is also a friend of Amy.
+			Or in a graph of the streets in a neighborhood, the vertices are all intersections and the edges are connections between them, where if intersection A is connected to intersection B by a street, then intersection B is connected to intersection A by the same street.
 		</p>
-	</assemblage>
 
-	<example>
-		<!-- do algorithm in detail with graduating education majors and teaching jobs, with teachers proposing.  Explain notation for preferences within the example. -->
+		<p>
+			However, there are also many situations where we might want to consider  multiple types of objects as vertices, with edges representing asymmetric relationships between two vertices of different types.
+			For example, consider the graph where each vertex is either a house or a person, and two vertices are connected by an edge if one of them is an owner of the other.
+			Amy owns her house, so there is an edge between them, but her house does not own her!  This is an example of a <term>bipartite graph</term>.
+		</p>
 
-		<p>Let's practice applying the Gale-Shapley algorithm to a relatively small graph, to keep things simple.</p>
-		<p>Alexis, Brandon, and Casey are graduating elementary education majors looking for teaching jobs.  There are positions open at three local schools, which we'll number 1, 2, and 3.  Here is a preference-labeled graph of the prospective teachers and teaching positions:</p>
+		<assemblage>
+			<title>Bipartite Graphs</title>
+			<p>
+				A <term>bipartite graph</term> is a graph in which the vertices can be divided into two parts, with no edges between vertices from the same part.
+			</p>
+		</assemblage>
 
-		<sidebyside widths="25% 50% 25%">
-			<p></p>
-			<image source="images/teachers-jobs-preferences.png"/>
-			<p></p>
-		</sidebyside>
-
-		<p>Since all three prospective teachers are qualified for all three positions, there is an edge connecting each of them to each of the positions in the bipartite graph of people and jobs.  The list next to each vertex indicates that vertex's preferences for the vertices in the opposite part of the graph.  So, for example, Alexis would prefer to work at school 2 over school 1, and school 1 over school 3.  And school 1 would prefer to hire Casey over Brandon, and Brandon over Alexis.</p>
-
-		<p>The first step is to choose one side to be proposers.  Let's choose the teachers to propose.  We'll keep track of propositions and responses over the course of the algorithm in the tables below.  For the first round of proposals, all the teachers propose to their first-choice school, since there have not yet been any rejections.  So Alexis and Brandon propose to school 2 and Casey proposes to school 3.  Since school 2 prefers Alexis to Brandon, it rejects Brandon and says "maybe" to Alexis.  Since school 3 only received one proposal, it tells Casey "maybe".  This first round can be summed up in the following table:</p>
-
-		<sidebyside>
-			<tabular halign="center" right="minor" left="minor" top="minor" bottom="minor">
-				<row>
-					<cell></cell>
-					<cell>Propose</cell>
-					<cell>Reply</cell>
-				</row>
-				<row>
-					<cell>Alexis</cell>
-					<cell>2</cell>
-					<cell>Maybe</cell>
-				</row>
-				<row>
-					<cell>Brandon</cell>
-					<cell>2</cell>
-					<cell>No</cell>
-				</row>
-				<row>
-					<cell>Casey</cell>
-					<cell>3</cell>
-					<cell>Maybe</cell>
-				</row>
-			</tabular>
-		</sidebyside>
-
-		<p>Next, since there was a rejection in the first round, we do another round of proposals.  Since Brandon was rejected by his first choice, he will propose to his second choice, school 3.  Since Alexis and Casey still have a chance with their first choices, they will propose to them again.  Now school 2 only has one proposal, from Alexis, and tells her "maybe".  School 3 has a proposal from Brandon and Casey, and since it prefers Brandon, it rejects Casey and says "maybe" to Brandon:</p>
-
-		<sidebyside>
-			<tabular halign="center" right="minor" left="minor" top="minor" bottom="minor">
-				<row>
-					<cell></cell>
-					<cell>Propose</cell>
-					<cell>Reply</cell>
-					<cell>Propose</cell>
-					<cell>Reply</cell>
-				</row>
-				<row>
-					<cell>Alexis</cell>
-					<cell>2</cell>
-					<cell>Maybe</cell>
-					<cell>2</cell>
-					<cell>Maybe</cell>
-				</row>
-				<row>
-					<cell>Brandon</cell>
-					<cell>2</cell>
-					<cell>No</cell>
-					<cell>3</cell>
-					<cell>Maybe</cell>
-				</row>
-				<row>
-					<cell>Casey</cell>
-					<cell>3</cell>
-					<cell>Maybe</cell>
-					<cell>3</cell>
-					<cell>No</cell>
-				</row>
-			</tabular>
-		</sidebyside>
-
-		<p>Since there was another rejection, we need a third round of proposals.  Alexis and Brandon were not rejected, so will repeat their proposals from the last round.  Casey, having been rejected by school 3, will propose to their second choice, school 2.  School 2 now has a proposal from Alexis and Casey, and prefers Casey, so it will reject Alexis and tell Casey "maybe".  School 3 only has a proposal from Brandon, so will tell him "maybe":</p>
-
-		<sidebyside>
-			<tabular halign="center" right="minor" left="minor" top="minor" bottom="minor">
-				<row>
-					<cell></cell>
-					<cell>Propose</cell>
-					<cell>Reply</cell>
-					<cell>Propose</cell>
-					<cell>Reply</cell>
-					<cell>Propose</cell>
-					<cell>Reply</cell>
-				</row>
-				<row>
-					<cell>Alexis</cell>
-					<cell>2</cell>
-					<cell>Maybe</cell>
-					<cell>2</cell>
-					<cell>Maybe</cell>
-					<cell>2</cell>
-					<cell>No</cell>
-				</row>
-				<row>
-					<cell>Brandon</cell>
-					<cell>2</cell>
-					<cell>No</cell>
-					<cell>3</cell>
-					<cell>Maybe</cell>
-					<cell>3</cell>
-					<cell>Maybe</cell>
-				</row>
-				<row>
-					<cell>Casey</cell>
-					<cell>3</cell>
-					<cell>Maybe</cell>
-					<cell>3</cell>
-					<cell>No</cell>
-					<cell>2</cell>
-					<cell>Maybe</cell>
-				</row>
-			</tabular>
-		</sidebyside>
-
-		<p>Since there was a rejection last round, we need another round of proposals.  Brandon and Casey were not rejected, so they will repeat their proposals.  Alexis was rejected by her first choice, so will propose to her second choice, school 1.  Now each school has exactly one proposal, so they will each say "maybe":</p>
-
-		<sidebyside>
-			<tabular halign="center" right="minor" left="minor" top="minor" bottom="minor">
-				<row>
-					<cell></cell>
-					<cell>Propose</cell>
-					<cell>Reply</cell>
-					<cell>Propose</cell>
-					<cell>Reply</cell>
-					<cell>Propose</cell>
-					<cell>Reply</cell>
-					<cell>Propose</cell>
-					<cell>Reply</cell>
-				</row>
-				<row>
-					<cell>Alexis</cell>
-					<cell>2</cell>
-					<cell>Maybe</cell>
-					<cell>2</cell>
-					<cell>Maybe</cell>
-					<cell>2</cell>
-					<cell>No</cell>
-					<cell>1</cell>
-					<cell>Maybe</cell>
-				</row>
-				<row>
-					<cell>Brandon</cell>
-					<cell>2</cell>
-					<cell>No</cell>
-					<cell>3</cell>
-					<cell>Maybe</cell>
-					<cell>3</cell>
-					<cell>Maybe</cell>
-					<cell>3</cell>
-					<cell>Maybe</cell>
-				</row>
-				<row>
-					<cell>Casey</cell>
-					<cell>3</cell>
-					<cell>Maybe</cell>
-					<cell>3</cell>
-					<cell>No</cell>
-					<cell>2</cell>
-					<cell>Maybe</cell>
-					<cell>2</cell>
-					<cell>Maybe</cell>
-				</row>
-			</tabular>
-		</sidebyside>
-
-		<p>Since there were no rejections, we're now done!  We pair Alexis with school 1, Brandon with school 3, and Casey with school 2.</p>
-
-	</example>
-
-	<p>Notice that the matching reached in the example above must be stable because of the way it was chosen.  If any of the prospective teachers ended up with a less-than-ideal position, they must have been rejected from all the positions that they preferred more.  And the fact that they were rejected means that those schools had already been proposed to by a candidate the school preferred more, meaning that those schools ended up hiring someone they preferred over the prospective teacher in question.  Therefore, there is no teacher-school pair such that the teacher prefers that school to the one they ended up with AND the school prefers that teacher to the one they ended up with.  Hence, this algorithm must give a stable matching.</p>
-
-	<example>
-		<p>Let's try the previous example again, but this time with schools proposing, to see how that changes things.  Recall the preference-labeled graph we're using:</p>
+		<p>
+			We will often draw bipartite graphs with the two parts being top and bottom, or left and right, as shown here:
+		</p>
 
 		<sidebyside widths="25% 50% 25%">
-			<p></p>
-			<image source="images/teachers-jobs-preferences.png"/>
-			<p></p>
-		</sidebyside>
+			<p>
+			</p>
 
-		<p>The table below describes the sequence of proposals and responses that should happen if we use the Gale-Shapley algorithm:</p>
+			<image source="bipartite-exemplar.png"/>
+				<p>
+				</p>
+			</sidebyside>
 
-		<sidebyside>
-			<tabular halign="center" right="minor" left="minor" top="minor" bottom="minor">
-				<row>
-					<cell></cell>
-					<cell>Propose</cell>
-					<cell>Reply</cell>
-					<cell>Propose</cell>
-					<cell>Reply</cell>
-				</row>
-				<row>
-					<cell>1</cell>
-					<cell>C</cell>
-					<cell>No</cell>
-					<cell>B</cell>
-					<cell>Maybe</cell>
-				</row>
-				<row>
-					<cell>2</cell>
-					<cell>C</cell>
-					<cell>Maybe</cell>
-					<cell>C</cell>
-					<cell>Maybe</cell>
-				</row>
-				<row>
-					<cell>3</cell>
-					<cell>A</cell>
-					<cell>Maybe</cell>
-					<cell>A</cell>
-					<cell>Maybe</cell>
-				</row>
-			</tabular>
-		</sidebyside>
+			<p>
+				Of course, not all bipartite graphs need to <em>look</em> bipartite, with the different parts grouped in different areas of the drawing.
+				For example, consider this graph:
+			</p>
 
-		<p>In this case, we match school 1 with Brandon, school 2 with Casey, and school 3 with Alexis.</p>
+			<sidebyside widths="25% 50% 25%">
+				<p>
+				</p>
 
-	</example>
+				<image source="bipartite-tricky.png"/>
+					<p>
+					</p>
+				</sidebyside>
 
-	<p>The matching we found this time is different.  If you compared the two matchings closely, you would notice something interesting: when teachers propose, they end up in jobs they prefer more than when schools propose, and vice versa.  The Gale-Shapley algorithm is biased towards the proposers.  This makes sense, because the proposers get to chose what pairs are considered, and they always get to propose to the highest preference that they still have chance with.  Those being proposed to, on the other hand, may never even receive a proposition from their highest preference, even if there could be a stable matching in which they are paired with their highest preference.</p>
+				<p>
+					At first glance, it isn't clear how to group the vertices into two distinct parts, with no edges connecting vertices from the same part.
+					However, if we color the vertices, as below, we can see that no two blue vertices are connected, and no two red vertices are connected.
+					So the blue collection and red collection make up the two parts, demonstrating that this graph is bipartite.
+				</p>
 
-</subsection>
+				<sidebyside widths="25% 50% 25%">
+					<p>
+					</p>
 
-</section>
+					<image source="bipartite-tricky-colored.png"/>
+						<p>
+						</p>
+					</sidebyside>
+
+					<p>
+						We can also move some of the vertices around to make the two parts more obviously distinct.
+						In this case, just moving the bottom blue vertex up towards the top of the picture makes it look like this:
+					</p>
+
+					<sidebyside widths="25% 50% 25%">
+						<p>
+						</p>
+
+						<image source="bipartite-tricky-colored-moved.png"/>
+							<p>
+							</p>
+						</sidebyside>
+						<aside>
+						<p>
+							There is actually a neat trick to tell if a graph is bipartite or not.
+							If a graph has a circuit whose length is odd (for example, a triangle), then it cannot be bipartite.
+							However, if all the circuits are even, then the graph is bipartite.
+							Can you figure out why this is true?
+						</p>
+						</aside>
+					</subsection>
+
+					<subsection>
+						<title>Matchings</title>
+						<p>
+							Oftentimes, bipartite graphs are useful to consider because we want to find a way to pair vertices from one part with vertices from another part.
+							For example, we might have a number of job openings, and we want to give each job to a person who is qualified for it.
+							We might consider the bipartite graph where vertices are jobs and people, and an edge connects a job and a person whenever that person is qualified for that job.
+							For example, the graph might look like this:
+						</p>
+
+						<image source="people-jobs-graph.png"/>
+							<p>
+								Let's assume that each person can only work one job, and each job will be given to only one person.
+								Then a way to fill all of the job openings corresponds to a particular collection of edges; each edge pairs one person with one job.
+								For example, we might fill the jobs by picking all of the blue edges below.
+								Each job is given to the person connected to it by a blue edge.
+							</p>
+
+							<image source="people-jobs-matching.png"/>
+								<p>
+									Notice that no vertex is on two different blue edges, since that would either correspond to a job that is given to two different people, or a person who is given two different jobs (both of which we're assuming shouldn't happen).
+									A collection of edges that satisfies this property is called a <term>matching</term>.
+								</p>
+
+								<assemblage>
+									<title>Matchings</title>
+									<p>
+										A <term>matching</term> is a collection of edges where no two edges share a vertex.
+										In other words, a matching is a way of pairing up vertices that are connected.
+									</p>
+
+									<p>
+										We will notate matchings by listing their edges.
+										For example, matching vertex A with vertex C and vertex B with vertex D could be notated as {AC, BD}.
+									</p>
+
+									<p>
+										A <term>perfect matching</term> is a matching where every vertex in the graph is included in some edge from the matching.
+										A perfect matching is appropriate when we want to find a way to include every vertex in some pair.
+									</p>
+								</assemblage>
+
+								<p>
+									Notice that the matching from our example above is not a perfect matching.
+									Although all the jobs are included in some edge of the matching, not all the people are.
+									Unfortunately, a perfect matching in this graph is impossible, because there are more people than jobs.
+								</p>
+
+								<example>
+									<p>
+										UNL's mathematics graduate students engage in a mentorship program, where each incoming graduate student is paired with a more experienced graduate student who acts as their mentor.
+										The pairs are assigned based on shared interest areas, as well as other compatibility factors.
+									</p>
+
+									<p>
+										The process of assigning mentors can be thought of as finding a matching in a bipartite graph.
+										There are two groups of vertices: incoming students, and experienced students who are willing to act as mentors.
+										An edge between an incoming student and an experienced student indicates that the pair is compatible.
+										A matching in this graph would represent a way of assigning a mentor to some collection of incoming students.
+										This need not be a perfect matching; there is no need for every experienced student to act as a mentor.
+										However, we do at least want a matching that covers all of the incoming students, so that all of them have mentors.
+									</p>
+								</example>
+
+								<exploration>
+									<statement>
+										<p>
+											If possible, find a perfect matching for each of the following graphs.
+											If not, find a matching that covers as many vertices as possible.
+										</p>
+
+										<p>
+											<ol>
+												<li>
+													<p>
+													</p>
+
+													<figure xml:id="find-matching-1">
+														<caption></caption>
+														<image source="find-matching-1.png"/>
+														</figure>
+													</li>
+
+													<li>
+														<p>
+														</p>
+
+														<figure xml:id="find-matching-2">
+															<caption></caption>
+															<image source="find-matching-2.png"/>
+															</figure>
+														</li>
+
+														<li>
+															<figure xml:id="find-matching-3">
+																<caption></caption>
+																<image source="find-matching-3.png"/>
+																</figure>
+															</li>
+														</ol>
+													</p>
+												</statement>
+
+												<solution>
+													<p>
+														<ol>
+															<li>
+																<p>
+																	There is exactly one perfect matching for this graph:
+																</p>
+
+																<sidebyside widths="25% 50% 25%">
+																	<p>
+																	</p>
+
+																	<image source="find-matching-1-sol.png"/>
+																		<p>
+																		</p>
+																	</sidebyside>
+																</li>
+
+																<li>
+																	<p>
+																		There is no perfect matching for this graph.
+																		The best we can do is to cover eight of the ten vertices.
+																		Here is one such matching:
+																	</p>
+
+																	<sidebyside widths="25% 50% 25%">
+																		<p>
+																		</p>
+
+																		<image source="find-matching-2-sol.png"/>
+																			<p>
+																			</p>
+																		</sidebyside>
+
+																		<p>
+																			Can you prove to yourself why there cannot be a perfect matching?
+																		</p>
+																	</li>
+
+																	<li>
+																		<p>
+																			There are several perfect matchings for this graph.
+																			Here is one:
+																		</p>
+
+																		<sidebyside widths="25% 50% 25%">
+																			<p>
+																			</p>
+
+																			<image source="find-matching-3-sol.png"/>
+																				<p>
+																				</p>
+																			</sidebyside>
+																		</li>
+																	</ol>
+																</p>
+															</solution>
+														</exploration>
+													</subsection>
+
+													<subsection>
+														<title>Stable Matchings</title>
+														<p>
+															In many cases, we want to do more than find just any matching; some matchings may be more desirable than others.
+															This often happens when the vertices of a graph have preferences about who they will be matched with.
+															For example, consider again the bipartite graph of people and jobs, where there is an edge connecting a person to a job when they are qualified for the job.
+															Each person prefers some jobs over others; their preferences can be expressed as an ordered list, with their most preferred jobs at the top and their least preferred at the bottom.
+															Each employer also has a similar list of potential employees.
+															A bipartite graph that comes equipped with preference lists like this is called <term>preference-labeled</term>.
+														</p>
+
+														<p>
+															We would like to find a matching where the new hires like the job they have, and where their employers are also happy with their new hires.
+															Obviously, we won't always be able to give everyone their first choice of jobs or employees.
+															However, if we are tasked with coming up with a good matching, the least we can do is try to avoid a situation where individual employees and employers are incentivized to quit or fire someone.
+															For example, if Colby would have preferred the job opening at Google, and Google would rather have hired Colby than the person we matched them with, then Colby will quit their job and Google will replace their current employee with Colby, leaving others in the lurch.
+															Such a matching is unstable, since individual vertices are incentivized to break their pairings; matchings that avoid this kind of instability are called <term>stable matchings</term>.
+														</p>
+
+														<assemblage>
+															<title>Stable Matchings</title>
+															<p>
+																A bipartite graph is <term>preference-labeled</term> if each vertex is given an ordering of vertices (their preferences) in the opposite part of the graph.
+															</p>
+
+															<p>
+																A <term>stable matching</term> in a preference-labeled bipartite graph is a matching such that there is no pair of vertices which prefer each other to their matched partners, and no vertex prefers an unmatched vertex to their matched partner.
+															</p>
+														</assemblage>
+
+														<p>
+															If we want people and institutions to trust a matching we create and not go their own way, we need a way to find a stable matching.
+															But this brings up an interesting question: does every preference-labeled bipartite graph have a stable matching?
+														</p>
+
+														<p>
+															It turns out that the answer is yes!  Even better, there is an algorithm that can always find a stable matching, called the Gale-Shapley algorithm.
+														</p>
+
+														<assemblage>
+															<title>The Gale-Shapley Algorithm</title>
+															<p>
+																<ol>
+																	<li>
+																		Choose one part of the graph to be the proposers.
+																	</li>
+
+																	<li>
+																		Each proposer proposes to the highest vertex on their preference list which has not rejected them.
+																	</li>
+
+																	<li>
+																		Each vertex being proposed to says "maybe" to their favorite of the vertices currently proposing to them, and rejects all other vertices currently proposing to them.
+																	</li>
+
+																	<li>
+																		Repeat steps 2 and 3 until you reach a step where nobody is rejected.
+																		At this point, you have a stable matching.
+																	</li>
+																</ol>
+															</p>
+														</assemblage>
+
+														<example>
+															<!-- do algorithm in detail with graduating education majors and teaching jobs, with teachers proposing.  Explain notation for preferences within the example. -->
+															<p>
+																Let's practice applying the Gale-Shapley algorithm to a relatively small graph, to keep things simple.
+															</p>
+
+															<p>
+																Alexis, Brandon, and Casey are graduating elementary education majors looking for teaching jobs.
+																There are positions open at three local schools, which we'll number 1, 2, and 3.
+																Here is a preference-labeled graph of the prospective teachers and teaching positions:
+															</p>
+
+															<sidebyside widths="25% 50% 25%">
+																<p>
+																</p>
+
+																<image source="teachers-jobs-preferences.png"/>
+																	<p>
+																	</p>
+																</sidebyside>
+
+																<p>
+																	Since all three prospective teachers are qualified for all three positions, there is an edge connecting each of them to each of the positions in the bipartite graph of people and jobs.
+																	The list next to each vertex indicates that vertex's preferences for the vertices in the opposite part of the graph.
+																	So, for example, Alexis would prefer to work at school 2 over school 1, and school 1 over school 3.
+																	And school 1 would prefer to hire Casey over Brandon, and Brandon over Alexis.
+																</p>
+
+																<p>
+																	The first step is to choose one side to be proposers.
+																	Let's choose the teachers to propose.
+																	We'll keep track of propositions and responses over the course of the algorithm in the tables below.
+																	For the first round of proposals, all the teachers propose to their first-choice school, since there have not yet been any rejections.
+																	So Alexis and Brandon propose to school 2 and Casey proposes to school 3.
+																	Since school 2 prefers Alexis to Brandon, it rejects Brandon and says "maybe" to Alexis.
+																	Since school 3 only received one proposal, it tells Casey "maybe".
+																	This first round can be summed up in the following table:
+																</p>
+
+																<sidebyside>
+																	<tabular halign="center" right="minor" left="minor" top="minor" bottom="minor">
+																		<row>
+																		<cell></cell>
+																		<cell>Propose</cell>
+																		<cell>Reply</cell>
+																		</row>
+																		<row>
+																		<cell>Alexis</cell>
+																		<cell>2</cell>
+																		<cell>Maybe</cell>
+																		</row>
+																		<row>
+																		<cell>Brandon</cell>
+																		<cell>2</cell>
+																		<cell>No</cell>
+																		</row>
+																		<row>
+																		<cell>Casey</cell>
+																		<cell>3</cell>
+																		<cell>Maybe</cell>
+																		</row>
+																	</tabular>
+																</sidebyside>
+
+																<p>
+																	Next, since there was a rejection in the first round, we do another round of proposals.
+																	Since Brandon was rejected by his first choice, he will propose to his second choice, school 3.
+																	Since Alexis and Casey still have a chance with their first choices, they will propose to them again.
+																	Now school 2 only has one proposal, from Alexis, and tells her "maybe".
+																	School 3 has a proposal from Brandon and Casey, and since it prefers Brandon, it rejects Casey and says "maybe" to Brandon:
+																</p>
+
+																<sidebyside>
+																	<tabular halign="center" right="minor" left="minor" top="minor" bottom="minor">
+																		<row>
+																		<cell></cell>
+																		<cell>Propose</cell>
+																		<cell>Reply</cell>
+																		<cell>Propose</cell>
+																		<cell>Reply</cell>
+																		</row>
+																		<row>
+																		<cell>Alexis</cell>
+																		<cell>2</cell>
+																		<cell>Maybe</cell>
+																		<cell>2</cell>
+																		<cell>Maybe</cell>
+																		</row>
+																		<row>
+																		<cell>Brandon</cell>
+																		<cell>2</cell>
+																		<cell>No</cell>
+																		<cell>3</cell>
+																		<cell>Maybe</cell>
+																		</row>
+																		<row>
+																		<cell>Casey</cell>
+																		<cell>3</cell>
+																		<cell>Maybe</cell>
+																		<cell>3</cell>
+																		<cell>No</cell>
+																		</row>
+																	</tabular>
+																</sidebyside>
+
+																<p>
+																	Since there was another rejection, we need a third round of proposals.
+																	Alexis and Brandon were not rejected, so will repeat their proposals from the last round.
+																	Casey, having been rejected by school 3, will propose to their second choice, school 2.
+																	School 2 now has a proposal from Alexis and Casey, and prefers Casey, so it will reject Alexis and tell Casey "maybe".
+																	School 3 only has a proposal from Brandon, so will tell him "maybe":
+																</p>
+
+																<sidebyside>
+																	<tabular halign="center" right="minor" left="minor" top="minor" bottom="minor">
+																		<row>
+																		<cell></cell>
+																		<cell>Propose</cell>
+																		<cell>Reply</cell>
+																		<cell>Propose</cell>
+																		<cell>Reply</cell>
+																		<cell>Propose</cell>
+																		<cell>Reply</cell>
+																		</row>
+																		<row>
+																		<cell>Alexis</cell>
+																		<cell>2</cell>
+																		<cell>Maybe</cell>
+																		<cell>2</cell>
+																		<cell>Maybe</cell>
+																		<cell>2</cell>
+																		<cell>No</cell>
+																		</row>
+																		<row>
+																		<cell>Brandon</cell>
+																		<cell>2</cell>
+																		<cell>No</cell>
+																		<cell>3</cell>
+																		<cell>Maybe</cell>
+																		<cell>3</cell>
+																		<cell>Maybe</cell>
+																		</row>
+																		<row>
+																		<cell>Casey</cell>
+																		<cell>3</cell>
+																		<cell>Maybe</cell>
+																		<cell>3</cell>
+																		<cell>No</cell>
+																		<cell>2</cell>
+																		<cell>Maybe</cell>
+																		</row>
+																	</tabular>
+																</sidebyside>
+
+																<p>
+																	Since there was a rejection last round, we need another round of proposals.
+																	Brandon and Casey were not rejected, so they will repeat their proposals.
+																	Alexis was rejected by her first choice, so will propose to her second choice, school 1.
+																	Now each school has exactly one proposal, so they will each say "maybe":
+																</p>
+
+																<sidebyside>
+																	<tabular halign="center" right="minor" left="minor" top="minor" bottom="minor">
+																		<row>
+																		<cell></cell>
+																		<cell>Propose</cell>
+																		<cell>Reply</cell>
+																		<cell>Propose</cell>
+																		<cell>Reply</cell>
+																		<cell>Propose</cell>
+																		<cell>Reply</cell>
+																		<cell>Propose</cell>
+																		<cell>Reply</cell>
+																		</row>
+																		<row>
+																		<cell>Alexis</cell>
+																		<cell>2</cell>
+																		<cell>Maybe</cell>
+																		<cell>2</cell>
+																		<cell>Maybe</cell>
+																		<cell>2</cell>
+																		<cell>No</cell>
+																		<cell>1</cell>
+																		<cell>Maybe</cell>
+																		</row>
+																		<row>
+																		<cell>Brandon</cell>
+																		<cell>2</cell>
+																		<cell>No</cell>
+																		<cell>3</cell>
+																		<cell>Maybe</cell>
+																		<cell>3</cell>
+																		<cell>Maybe</cell>
+																		<cell>3</cell>
+																		<cell>Maybe</cell>
+																		</row>
+																		<row>
+																		<cell>Casey</cell>
+																		<cell>3</cell>
+																		<cell>Maybe</cell>
+																		<cell>3</cell>
+																		<cell>No</cell>
+																		<cell>2</cell>
+																		<cell>Maybe</cell>
+																		<cell>2</cell>
+																		<cell>Maybe</cell>
+																		</row>
+																	</tabular>
+																</sidebyside>
+
+																<p>
+																	Since there were no rejections, we're now done!  We pair Alexis with school 1, Brandon with school 3, and Casey with school 2.
+																</p>
+															</example>
+
+															<p>
+																Notice that the matching reached in the example above must be stable because of the way it was chosen.
+																If any of the prospective teachers ended up with a less-than-ideal position, they must have been rejected from all the positions that they preferred more.
+																And the fact that they were rejected means that those schools had already been proposed to by a candidate the school preferred more, meaning that those schools ended up hiring someone they preferred over the prospective teacher in question.
+																Therefore, there is no teacher-school pair such that the teacher prefers that school to the one they ended up with AND the school prefers that teacher to the one they ended up with.
+																Hence, this algorithm must give a stable matching.
+															</p>
+
+															<example>
+																<p>
+																	Let's try the previous example again, but this time with schools proposing, to see how that changes things.
+																	Recall the preference-labeled graph we're using:
+																</p>
+
+																<sidebyside widths="25% 50% 25%">
+																	<p>
+																	</p>
+
+																	<image source="teachers-jobs-preferences.png"/>
+																		<p>
+																		</p>
+																	</sidebyside>
+
+																	<p>
+																		The table below describes the sequence of proposals and responses that should happen if we use the Gale-Shapley algorithm:
+																	</p>
+
+																	<sidebyside>
+																		<tabular halign="center" right="minor" left="minor" top="minor" bottom="minor">
+																			<row>
+																			<cell></cell>
+																			<cell>Propose</cell>
+																			<cell>Reply</cell>
+																			<cell>Propose</cell>
+																			<cell>Reply</cell>
+																			</row>
+																			<row>
+																			<cell>1</cell>
+																			<cell>C</cell>
+																			<cell>No</cell>
+																			<cell>B</cell>
+																			<cell>Maybe</cell>
+																			</row>
+																			<row>
+																			<cell>2</cell>
+																			<cell>C</cell>
+																			<cell>Maybe</cell>
+																			<cell>C</cell>
+																			<cell>Maybe</cell>
+																			</row>
+																			<row>
+																			<cell>3</cell>
+																			<cell>A</cell>
+																			<cell>Maybe</cell>
+																			<cell>A</cell>
+																			<cell>Maybe</cell>
+																			</row>
+																		</tabular>
+																	</sidebyside>
+
+																	<p>
+																		In this case, we match school 1 with Brandon, school 2 with Casey, and school 3 with Alexis.
+																	</p>
+																</example>
+
+																<p>
+																	The matching we found this time is different.
+																	If you compared the two matchings closely, you would notice something interesting: when teachers propose, they end up in jobs they prefer more than when schools propose, and vice versa.
+																	The Gale-Shapley algorithm is biased towards the proposers.
+																	This makes sense, because the proposers get to chose what pairs are considered, and they always get to propose to the highest preference that they still have chance with.
+																	Those being proposed to, on the other hand, may never even receive a proposition from their highest preference, even if there could be a stable matching in which they are paired with their highest preference.
+																</p>
+															</subsection>
+														</section>
