@@ -1,138 +1,245 @@
+<?xml version="1.0" encoding="UTF-8" ?>
 <section xmlns:xi="http://www.w3.org/2001/XInclude" xml:id="sec-3-3-prob">
-
 	<title>Continuous Probability Distributions</title>
+	<subsection>
+		<title>Continuous probability distributions</title>
+		<p>
+			At the beginning of this chapter we discussed discrete probability distributions which summarized the probabilities of experiments with a finite number of possible outcomes.
+			However, in some situations, it makes sense to consider the outcomes of an experiment to fall within a continuous range of outcomes, in which case there are infinitely many possible outcomes.
+		</p>
 
-<subsection>
-	<p>At the beginning of this chapter we discussed discrete probability distributions which summarized the probabilities of experiments with a finite number of possible outcomes. However, in some situations, it makes sense to consider the outcomes of an experiment to fall within a continuous range of outcomes, in which case there are infinitely many possible outcomes.</p>
+		<p>
+			Consider again the probability distribution from <xref ref="commute-example"/>, regarding commute time.
+			In that Exploration, we considered the outcomes to be integer numbers of minutes for simplicity's sake, but we could add more detail.
+			A given commute might take closer to 23.25 minutes than 23 minutes, a level of precision that we ignored.
+			In theory, your commute could take any number of minutes, including decimal numbers of minutes like 21.326 or even 26.202002000200002....
+			Although we would never be able to measure your travel time with an infinite amount of precision, it makes sense to say that your actual travel time could be any of the infinitely-many real numbers within a reasonable range; all of these numbers are possible outcomes.
+		</p>
 
-	<p>Consider again the probability distribution from <xref ref="commute-example"/>, regarding commute time.  In that Exploration, we considered the outcomes to be integer numbers of minutes for simplicity's sake, but we could add more detail.  A given commute might take closer to 23.25 minutes than 23 minutes, a level of precision that we ignored.  In theory, your commute could take any number of minutes, including decimal numbers of minutes like 21.326 or even 26.202002000200002....  Although we would never be able to measure your travel time with an infinite amount of precision, it makes sense to say that your actual travel time could be any of the infinitely-many real numbers within a reasonable range; all of these numbers are possible outcomes.</p>
+		<p>
+			There is an interesting consequence for probability when the outcomes of an experiment span a continuous interval of numbers: the probability of any given outcome is typically 0.
+			To get some intuition for why this should be true, consider what happens to the commute time probability distribution if we start splitting outcomes into more precise categories, from the nearest minute, to the nearest half-minute, to the nearest quarter-minute, and so on:
+		</p>
 
-	<p>There is an interesting consequence for probability when the outcomes of an experiment span a continuous interval of numbers: the probability of any given outcome is typically 0.  To get some intuition for why this should be true, consider what happens to the commute time probability distribution if we start splitting outcomes into more precise categories, from the nearest minute, to the nearest half-minute, to the nearest quarter-minute, and so on:</p>
+		<figure xml:id="commute-discrete-distributions">
+			<caption>Splitting the commute time distribution into more and more precise outcomes.</caption>
+			<sidebyside>
+				<figure>
+					<caption>Measuring commute time to the nearest minute</caption>
+					<image source="commute-hist-1.png"/>
+					</figure>
 
-	<figure xml:id="commute-discrete-distributions">
-		<sidebyside>
-			<figure>
-				<caption>Measuring commute time to the nearest minute</caption>
-				<image source="images/commute-hist-1.png"/>
-			</figure>
-			<figure>
-				<caption>...to the nearest half-minute</caption>
-				<image source="images/commute-hist-2.png"/>
-			</figure>
-		</sidebyside>
-		<sidebyside>
-			<figure>
-				<caption>...to the nearest quarter-minute</caption>
-				<image source="images/commute-hist-3.png"/>
-			</figure>
-			<figure>
-				<caption>...to the nearest eighth-minute</caption>
-				<image source="images/commute-hist-4.png"/>
-			</figure>
-		</sidebyside>
-		<caption>Splitting the commute time distribution into more and more precise outcomes.</caption>
-	</figure>
+					<figure>
+						<caption>...to the nearest half-minute</caption>
+						<image source="commute-hist-2.png"/>
+						</figure>
 
-	<p>Notice that the probabilities of the outcomes keep getting closer and closer to 0 as we add more precision to our outcomes.  This makes sense; it is much less likely that you will arrive within one second of your expected arrival time than that you will arrive within one minute of it.  If we continue this process indefinitely, the probabilities approach 0.  Since the probability of arriving exactly 23 minutes after you left, for example, must be even less than that of arriving within one millisecond of 23 minutes, or within any tiny amount of error, the probability of your commute taking exactly 23 minutes must be 0.  Similarly, the probability of any number being the exact amount of time your commute takes is 0.</p>
+						<figure>
+							<caption>...to the nearest quarter-minute</caption>
+							<image source="commute-hist-3.png"/>
+							</figure>
 
-	<p>Because each outcome of this experiment has a probability of 0, listing the probability of each outcome or drawing a graph of the probability of each outcome isn't going to be useful to us like it was with discrete probability distributions.  However, given any interval of possible outcomes, there may be some non-zero probability that the outcome of the experiment falls within that interval; for example, there is some non-zero probability that your commute takes between 24 and 27 minutes, and a smaller probability that it takes between 24.5 and 26.15 minutes.  Our goal will be to convey the probability corresponding to any <i>interval</i> of minutes, rather than a particular number of minutes.</p>
+							<figure>
+								<caption>...to the nearest eighth-minute</caption>
+								<image source="commute-hist-4.png"/>
+								</figure>
+							</sidebyside>
+						</figure>
 
-	<p>You may have noticed in <xref ref="commute-discrete-distributions"/> that, although the individual probabilities are all getting smaller, the general shapes of the distributions all look similar.  To see this more clearly, here's what each of the distributions in <xref ref="commute-discrete-distributions"/> looks like if we scale their vertical axes so that they all appear to have the same height:</p>
+						<p>
+							Notice that the probabilities of the outcomes keep getting closer and closer to 0 as we add more precision to our outcomes.
+							This makes sense; it is much less likely that you will arrive within one second of your expected arrival time than that you will arrive within one minute of it.
+							If we continue this process indefinitely, the probabilities approach 0.
+							Since the probability of arriving exactly 23 minutes after you left, for example, must be even less than that of arriving within one millisecond of 23 minutes, or within any tiny amount of error, the probability of your commute taking exactly 23 minutes must be 0.
+							Similarly, the probability of any number being the exact amount of time your commute takes is 0.
+						</p>
 
-	<figure xml:id="commute-discrete-distributions-scaled">
-		<sidebyside>
-			<figure>
-				<caption>Measuring commute time to the nearest minute</caption>
-				<image source="images/commute-hist-1.png"/>
-			</figure>
-			<figure>
-				<caption>...to the nearest half-minute</caption>
-				<image source="images/commute-hist-2-scaled.png"/>
-			</figure>
-		</sidebyside>
-		<sidebyside>
-			<figure>
-				<caption>...to the nearest quarter-minute</caption>
-				<image source="images/commute-hist-3-scaled.png"/>
-			</figure>
-			<figure>
-				<caption>...to the nearest eighth-minute</caption>
-				<image source="images/commute-hist-4-scaled.png"/>
-			</figure>
-		</sidebyside>
-		<caption>Scaling each vertical axis so that each distribution appears to have the same height.</caption>
-	</figure>
+						<p>
+							Because each outcome of this experiment has a probability of 0, listing the probability of each outcome or drawing a graph of the probability of each outcome isn't going to be useful to us like it was with discrete probability distributions.
+							However, given any interval of possible outcomes, there may be some non-zero probability that the outcome of the experiment falls within that interval; for example, there is some non-zero probability that your commute takes between 24 and 27 minutes, and a smaller probability that it takes between 24.5 and 26.15 minutes.
+							Our goal will be to convey the probability corresponding to any <em>interval</em> of minutes, rather than a particular number of minutes.
+						</p>
 
-	<p>If we continue this process of splitting the distribution into more and more precise outcomes, and keep scaling the vertical axis to keep the height of the distributions constant, these graphs will approach a smooth curve, as in <xref ref="commute-density-function"/>.  This curve is called the <term>probability density function</term>, or the <term>continuous probability distribution</term> for the experiment.  The probability density function will tell us the probability corresponding to any interval.</p>
+						<p>
+							You may have noticed in <xref ref="commute-discrete-distributions"/> that, although the individual probabilities are all getting smaller, the general shapes of the distributions all look similar.
+							To see this more clearly, here's what each of the distributions in <xref ref="commute-discrete-distributions"/> looks like if we scale their vertical axes so that they all appear to have the same height:
+						</p>
 
-	<figure xml:id="commute-density-function">
-		<image source="images/commute-continuous-distribution.png"/>
-		<caption>The probability density function for your commute time.  The area of the shaded region is the probability that your commute takes between 24.5 and 26.15 minutes.</caption>
-	</figure>
+						<figure xml:id="commute-discrete-distributions-scaled">
+							<caption>Scaling each vertical axis so that each distribution appears to have the same height.</caption>
+							<sidebyside>
+								<figure>
+									<caption>Measuring commute time to the nearest minute</caption>
+									<image source="commute-hist-1.png"/>
+									</figure>
 
-	<p>Notice that, in each of the bar graphs representing a finite probability distribution, the proportion of area in the graph over a given interval roughly represents the probability that the outcome of the experiment will fall within that interval.  For example, the proportion of area in the bars past the 27 minute mark represents the probability that your commute takes at least 27 minutes.  In the same way, given any interval of minutes, the probability that your commute time falls within that interval is the proportion of area under the probability density function over that interval.  To make things simpler, we scale the density function so that the total area under the curve is 1, making area equal to probability.</p>
+									<figure>
+										<caption>...to the nearest half-minute</caption>
+										<image source="commute-hist-2-scaled.png"/>
+										</figure>
 
-	<assemblage><title>Probability Density Functions</title>
+										<figure>
+											<caption>...to the nearest quarter-minute</caption>
+											<image source="commute-hist-3-scaled.png"/>
+											</figure>
 
-		<p>A <term>probability density function</term> (also known as a <term>continuous probability distribution</term>) is a curve that fully describes the probabilities involved in an experiment where the collection of outcomes is a continuous interval.</p>
+											<figure>
+												<caption>...to the nearest eighth-minute</caption>
+												<image source="commute-hist-4-scaled.png"/>
+												</figure>
+											</sidebyside>
+										</figure>
 
-		<p>The probability of any given outcome of such an experiment is typically 0, so we only measure the probability that the result of the experiment falls within an interval of outcomes.</p>
+										<p>
+											If we continue this process of splitting the distribution into more and more precise outcomes, and keep scaling the vertical axis to keep the height of the distributions constant, these graphs will approach a smooth curve, as in <xref ref="commute-density-function"/>.
+											This curve is called the <term>probability density function</term>, or the <term>continuous probability distribution</term> for the experiment.
+											The probability density function will tell us the probability corresponding to any interval.
+										</p>
 
-		<p>Given an interval of outcomes, the probability associated to the interval is the area under the probability density function over that interval.</p>
+										<figure xml:id="commute-density-function">
+											<caption>The probability density function for your commute time.
+											The area of the shaded region is the probability that your commute takes between 24.5 and 26.15 minutes.</caption>
+											<image source="commute-continuous-distribution.png"/>
+											</figure>
 
-		<p>The total area under a probability density function is 1, since this is the probability that any outcome in the interval of all possible outcomes occurs.</p>
+											<p>
+												Notice that, in each of the bar graphs representing a finite probability distribution, the proportion of area in the graph over a given interval roughly represents the probability that the outcome of the experiment will fall within that interval.
+												For example, the proportion of area in the bars past the 27 minute mark represents the probability that your commute takes at least 27 minutes.
+												In the same way, given any interval of minutes, the probability that your commute time falls within that interval is the proportion of area under the probability density function over that interval.
+												To make things simpler, we scale the density function so that the total area under the curve is 1, making area equal to probability.
+											</p>
 
-	</assemblage>
+											<assemblage>
+												<title>Probability Density Functions</title>
+												<p>
+													A <term>probability density function</term> (also known as a <term>continuous probability distribution</term>) is a curve that fully describes the probabilities involved in an experiment where the collection of outcomes is a continuous interval.
+												</p>
 
-	<exploration>
-		<!-- example where you can actually compute area under curve by hand, because it's piecewise linear (maybe just a triangle?) -->
-		<statement>
-			<p>Suppose a computer program outputs a random number between 0 and 5 with the following probability density function:</p>
-			<image source="images/piecewise-linear-distribution.png"/>
-			<ol>
-				<li>What is the probability that the output is greater than 2?</li>
-				<li>What is the probability that the output is between 1 and 2?</li>
-				<li>What is the probability that the output is at least 1.5?</li>
-			</ol>
-		</statement>
-		<solution>
-			<ol>
-				<li>This probability is represented by the area under the curve from 2 to 5 on the horizontal axis, which is the area of the triangle with vertices <m>(2,0)</m>, <m>(2,0.4)</m>, and <m>(5,0)</m>.  It has a base of 3 and a height of 0.4, so its area is <m>\frac{1}{2} \cdot 3 \cdot 0.4 = 0.6</m>.  Therefore, the probability that the output is greater than 2 is 0.6, or 60%.</li>
-				<li>This probability is represented by the area of the trapezoid with vertices at <m>(1,0)</m>, <m>(1,0.2)</m>, <m>(2,0.4)</m>, and <m>(2,0)</m>.  One way to find its area is to split it into a triangle with base 1 and height 0.2, and a rectangle with base 1 and height 0.2, making the total area <m>\frac{1}{2} \cdot 1 \cdot 0.2 + 1 \cdot 0.2 = 0.3</m>.  Therefore, the probability that the output is between 1 and 2 is 0.3 or 30%.</li>
-				<li>This probability is represented by the area of the quadrilateral with vertices <m>(1.5,0)</m>, <m>(1.5,0.3)</m>, <m>(2,0.4)</m>, and <m>(5,0)</m>.  However, it is probably easiest to find this area by subtracting the area under the curve between 0 and 1.5 from the total area under the curve, which we know to be 1.  The area under the curve between 0 and 1.5 is the area of a triangle with vertices <m>(0,0)</m>, <m>(1.5,0.3)</m>, and <m>(1.5,0)</m>, which has a base of 1.5 and height of 0.3, making its area <m>\frac{1}{2} \cdot 1.5 \cdot 0.3 = 0.225</m>.  So the area under the curve from 1.5 to 5, and therefore the probability that the output is at least 1.5, is <m>1 - 0.225 = 0.775</m>, or 77.5%.</li>
-			</ol>
-		</solution>
-	</exploration>
+												<p>
+													The probability of any given outcome of such an experiment is typically 0, so we only measure the probability that the result of the experiment falls within an interval of outcomes.
+												</p>
 
-	<exploration>
-		<!-- example where they just look at qualitative stuff, perhaps something bimodal would be interesting? -->
-		<statement>
-			<p>Riley sometimes works a morning shift and sometimes works an afternoon shift.  Below is a probability density function for the time they wake up in the morning.</p>
-			<image source="images/wake-up.png"/>
-			<ol>
-				<li>Is Riley more likely to wake up before or after 8am?</li>
-				<li>Distributions that have multiple peaks like this one are called <term>bimodal</term>.  Based on the context of the problem, why do you think this distribution is bimodal?</li>
-				<li>The first peak is taller and thinner, and the second peak is shorter and wider.  What do you think accounts for these differences in the width and height of the two peaks?</li>
-			</ol>
-		</statement>
-		<solution>
-			<ol>
-				<li>Although the peak in the graph before 8am is higher than the peak after, the area under the curve after 8am is larger, since the second peak is much wider.  Since area represents probability, this means that Riley is more likely to wake up after 8am.</li>
-				<li>It is probably bimodal because Riley sometimes needs to get up for work early in the morning (accounting for the first peak) and sometimes doesn't, and sleeps in more (accounting for the second peak).  Based on the answer to the previous question, Riley likely works afternoon shifts more often than morning shifts.</li>
-				<li>The fact that the first peak is tall and skinny means that a relatively large amount of probability is distributed over a short time period.  In other words, on days that Riley gets up early for their morning shift, they probably set an alarm around 7:15am and wake up to it fairly quickly and consistently in order to avoid being late for work.  The fact that the second peak is shorter and wider means that on days that Riley doesn't work a morning shift, their wake-up time is not quite as consistent; although they most often wake up around 9am, they also often sleep in.</li>
-			</ol>
-		</solution>
-	</exploration>
+												<p>
+													Given an interval of outcomes, the probability associated to the interval is the area under the probability density function over that interval.
+												</p>
 
-	<exploration>
-		<statement>
-			<p>Can the height of a probability density function go above 1?  Explain why or why not.</p>
-		</statement>
-		<solution>
-			<p>The height can go above 1.  Since the height of the function does not represent probability, there is no limit on the height of a probability density function.  It is true that the area under a probability density function must equal 1, and therefore if there is a very high peak, it must be very thin in order to avoid accumulating more than 1 unit of area under the curve.</p>
-		</solution>
-	</exploration>
+												<p>
+													The total area under a probability density function is 1, since this is the probability that any outcome in the interval of all possible outcomes occurs.
+												</p>
+											</assemblage>
 
-</subsection>
+											<exploration>
+												<!-- example where you can actually compute area under curve by hand, because it's piecewise linear (maybe just a triangle?) -->
+												<statement>
+													<p>
+														Suppose a computer program outputs a random number between 0 and 5 with the following probability density function:
+													</p>
 
-</section>
+													<image source="piecewise-linear-distribution.png"/>
+														<ol>
+															<li>
+																What is the probability that the output is greater than 2?
+															</li>
+
+															<li>
+																What is the probability that the output is between 1 and 2?
+															</li>
+
+															<li>
+																What is the probability that the output is at least 1.5?
+															</li>
+														</ol>
+													</statement>
+
+													<solution>
+														<p>
+															<ol>
+																<li>
+																	This probability is represented by the area under the curve from 2 to 5 on the horizontal axis, which is the area of the triangle with vertices <m>(2,0)</m>, <m>(2,0.4)</m>, and <m>(5,0)</m>.
+																	It has a base of 3 and a height of 0.4, so its area is <m>\frac{1}{2} \cdot 3 \cdot 0.4 = 0.6</m>.
+																	Therefore, the probability that the output is greater than 2 is 0.6, or 60%.
+																</li>
+
+																<li>
+																	This probability is represented by the area of the trapezoid with vertices at <m>(1,0)</m>, <m>(1,0.2)</m>, <m>(2,0.4)</m>, and <m>(2,0)</m>.
+																	One way to find its area is to split it into a triangle with base 1 and height 0.2, and a rectangle with base 1 and height 0.2, making the total area <m>\frac{1}{2} \cdot 1 \cdot 0.2 + 1 \cdot 0.2 = 0.3</m>.
+																	Therefore, the probability that the output is between 1 and 2 is 0.3 or 30%.
+																</li>
+
+																<li>
+																	This probability is represented by the area of the quadrilateral with vertices <m>(1.5,0)</m>, <m>(1.5,0.3)</m>, <m>(2,0.4)</m>, and <m>(5,0)</m>.
+																	However, it is probably easiest to find this area by subtracting the area under the curve between 0 and 1.5 from the total area under the curve, which we know to be 1.
+																	The area under the curve between 0 and 1.5 is the area of a triangle with vertices <m>(0,0)</m>, <m>(1.5,0.3)</m>, and <m>(1.5,0)</m>, which has a base of 1.5 and height of 0.3, making its area <m>\frac{1}{2} \cdot 1.5 \cdot 0.3 = 0.225</m>.
+																	So the area under the curve from 1.5 to 5, and therefore the probability that the output is at least 1.5, is <m>1 - 0.225 = 0.775</m>, or 77.5%.
+																</li>
+															</ol>
+														</p>
+													</solution>
+												</exploration>
+
+												<exploration>
+													<!-- example where they just look at qualitative stuff, perhaps something bimodal would be interesting? -->
+													<statement>
+														<p>
+															Riley sometimes works a morning shift and sometimes works an afternoon shift.
+															Below is a probability density function for the time they wake up in the morning.
+														</p>
+
+														<image source="wake-up.png"/>
+															<ol>
+																<li>
+																	Is Riley more likely to wake up before or after 8am?
+																</li>
+
+																<li>
+																	Distributions that have multiple peaks like this one are called <term>bimodal</term>.
+																	Based on the context of the problem, why do you think this distribution is bimodal?
+																</li>
+
+																<li>
+																	The first peak is taller and thinner, and the second peak is shorter and wider.
+																	What do you think accounts for these differences in the width and height of the two peaks?
+																</li>
+															</ol>
+														</statement>
+
+														<solution>
+															<p>
+																<ol>
+																	<li>
+																		Although the peak in the graph before 8am is higher than the peak after, the area under the curve after 8am is larger, since the second peak is much wider.
+																		Since area represents probability, this means that Riley is more likely to wake up after 8am.
+																	</li>
+
+																	<li>
+																		It is probably bimodal because Riley sometimes needs to get up for work early in the morning (accounting for the first peak) and sometimes doesn't, and sleeps in more (accounting for the second peak).
+																		Based on the answer to the previous question, Riley likely works afternoon shifts more often than morning shifts.
+																	</li>
+
+																	<li>
+																		The fact that the first peak is tall and skinny means that a relatively large amount of probability is distributed over a short time period.
+																		In other words, on days that Riley gets up early for their morning shift, they probably set an alarm around 7:15am and wake up to it fairly quickly and consistently in order to avoid being late for work.
+																		The fact that the second peak is shorter and wider means that on days that Riley doesn't work a morning shift, their wake-up time is not quite as consistent; although they most often wake up around 9am, they also often sleep in.
+																	</li>
+																</ol>
+															</p>
+														</solution>
+													</exploration>
+
+													<exploration>
+														<statement>
+															<p>
+																Can the height of a probability density function go above 1?  Explain why or why not.
+															</p>
+														</statement>
+
+														<solution>
+															<p>
+																The height can go above 1.
+																Since the height of the function does not represent probability, there is no limit on the height of a probability density function.
+																It is true that the area under a probability density function must equal 1, and therefore if there is a very high peak, it must be very thin in order to avoid accumulating more than 1 unit of area under the curve.
+															</p>
+														</solution>
+													</exploration>
+												</subsection>
+											</section>
