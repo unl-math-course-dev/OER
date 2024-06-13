@@ -1,460 +1,575 @@
+<?xml version="1.0" encoding="UTF-8" ?>
 <section xmlns:xi="http://www.w3.org/2001/XInclude" xml:id="sec-7-1-rcv">
-
-<title>Introduction to Ranked Voting Theory</title>
-
-<introduction>
-
-<p>In many decision making situations, it is necessary to gather the group consensus. This happens when a group of friends decides which movie to watch, when a company decides which product design to manufacture, and when a democratic country elects its leaders.</p>
-
-<p>While the basic idea of voting is fairly universal, the method by which those votes are used to determine a winner can vary. Amongst a group of friends, you may decide upon a movie by voting for all the movies you're willing to watch, with the winner being the one with the greatest approval. A company might eliminate unpopular designs then revote on the remaining. A country might look for the candidate with the most votes.</p>
-
-<p>In deciding upon a winner, there is always one main goal: to reflect the preferences of the people in the most fair way possible.</p>
-
-</introduction>
-
-<subsection><title>Preference Schedules</title>
-
-	<p>We use the word <term>ballot</term> to refer to whatever information a voter provides about their preferences. In many elections, a voter's ballot consists of nothing more than their choice of one favorite candidate from the list of all possibilities. This system, however, fails to provide detailed information about voters' preferences. In particular, we will be interested in voters' rankings of all candidates: not only who a voter would choose first, but also their second, third, and subsequent choices.</p>
-
-<assemblage>
-	<title>Expressing voter preferences</title>
-	<p><ul>
-		<li>The options voters are choosing between are called <term>alternatives</term>. In an election for public office, these will be the candidates.</li>
-		<li>The complete rankings of the alternatives by each voter are called the <term>preference lists</term>. This information can be presented as a table, called a <term>preference table</term> or a <term>preference schedule</term>.</li>
-		<li>The information voters actually provide in an election is called a <term>ballot</term>. This may or may not include all the information included in the voter's preference list.</li>
-		<li>A <term>voting method</term> is a set of rules that takes a set of alternatives and ballots and produces an <term>outcome</term> (i.e. a winner).</li>
-	</ul></p>
-</assemblage>
-
-<example xml:id="vacation">
-<p>A vacation club is trying to decide which destination to visit this year: Hawaii (H), Paris (P), or Colorado (C).  Their votes are shown below:</p>
-
-<table><caption></caption>
-	<tabular left="minor" right="minor" top="minor" bottom="minor">
-		<row>
-			<cell></cell>
-			<cell>Bob</cell>
-			<cell>Ann</cell>
-			<cell>Mary</cell>
-			<cell>Alice</cell>
-			<cell>Eve</cell>
-			<cell>Omar</cell>
-			<cell>Lupe</cell>
-			<cell>Dave</cell>
-			<cell>Tish</cell>
-			<cell>Jim</cell>
-		</row>
-		<row>
-			<cell>1st choice</cell>
-			<cell>C</cell>
-			<cell>C</cell>
-			<cell>P</cell>
-			<cell>H</cell>
-			<cell>C</cell>
-			<cell>P</cell>
-			<cell>H</cell>
-			<cell>P</cell>
-			<cell>H</cell>
-			<cell>C</cell>
-		</row>
-		<row>
-			<cell>2nd choice</cell>
-			<cell>P</cell>
-			<cell>H</cell>
-			<cell>H</cell>
-			<cell>C</cell>
-			<cell>H</cell>
-			<cell>H</cell>
-			<cell>C</cell>
-			<cell>H</cell>
-			<cell>C</cell>
-			<cell>H</cell>
-		</row>
-		<row>
-			<cell>3rd choice</cell>
-			<cell>H</cell>
-			<cell>P</cell>
-			<cell>C</cell>
-			<cell>P</cell>
-			<cell>P</cell>
-			<cell>C</cell>
-			<cell>P</cell>
-			<cell>C</cell>
-			<cell>P</cell>
-			<cell>P</cell>
-		</row>
-	</tabular>
-</table>
-
-<p>These individual ballots are typically combined into one <term>preference schedule</term> as follows:</p>
-
-<table><caption></caption>
-	<tabular right="minor">
-		<row>
-			<cell></cell>
-			<cell colspan="4" left="minor" bottom="minor">Number of votes</cell>
-		</row>
-		<row bottom="major">
-			<cell></cell>
-			<cell>1</cell>
-			<cell top="minor">3</cell>
-			<cell top="minor">3</cell>
-			<cell top="minor">3</cell>
-		</row>
-		<row left="minor" bottom="minor">
-			<cell>1st choice</cell>
-			<cell>C</cell>
-			<cell>C</cell>
-			<cell>P</cell>
-			<cell>H</cell>
-
-		</row>
-		<row left="minor" bottom="minor">
-			<cell>2nd choice</cell>
-			<cell>P</cell>
-			<cell>H</cell>
-			<cell>H</cell>
-			<cell>C</cell>
-		</row>
-		<row left="minor" bottom="minor">
-			<cell>3rd choice</cell>
-			<cell>H</cell>
-			<cell>P</cell>
-			<cell>C</cell>
-			<cell>P</cell>
-		</row>
-	</tabular>
-</table>
-
-<p>
-		This table tells us, for example, that one voter prefers Colorado first, then Paris, and lastly Hawaii. Three voters prefer Colorado first, followed by Hawaii and then Paris.
-</p>
-
-<p>Also notice that by totaling the vote counts across the top of the preference schedule we can recover the total number of votes cast: 1+3+3+3=10 total votes.</p>
-
-</example>
-
-<p>
-	It is important to emphasize that <alert>the outcome of an election depends on both the voters' preferences and the voting method used</alert>. You should be very suspicious of any news story which claims, <q>Party X won the most seats the parliament of Country Y, indicated that voters strongly support the policies of Party X.</q> This is the case even if the country in question is a democracy with free and fair elections.
-</p>
-<p>
-	For a simple example, consider the election to the Australian parliament in 2016. In that year, election for both houses of Parliament (called the Senate and House of Representatives respectively) were held at the same time, but using two different voting systems. The results are shown in <xref ref="aus-parli"/>, with each color representing a different political party.
-</p>
-
-<!--
-<figure xml:id="aus-parli"><caption>Seats in the Australian Parliament, by party, after the 2016 election</caption>
-<sbsgroup widths="50% 50%">
-<sidebyside>
-<image source="images/aus-house.png" width="100%"/>
-<image source="images/aus-senate.png" width="100%"/>
-</sidebyside>
-<sidebyside>
-<p>House of Representatives (150 members)</p>
-<p>Senate (75 members)</p>
-</sidebyside>
-</sbsgroup>
-</figure>
--->
-
-<figure xml:id="aus-parli">
-	<caption>Seats in the Australian Parliament, by party, after the 2016 election
-		<fn>Source: <url href="https://en.wikipedia.org/wiki/2016_Australian_federal_election">Wikipedia</url></fn>
-	</caption>
-<sidebyside>
-	<figure xml:id="aus-house"><caption>House of Representatives (150 members)</caption>
-		<image source="images/aus-house2016.png" width="50%"/>
-	</figure>
-	<figure xml:id="aus-senate"><caption>Senate (76 members)</caption>
-		<image source="images/aus-senate2016.png" width="50%"/>
-	</figure>
-</sidebyside>
-</figure>
-
-<!--
-<sidebyside>
-	<figure xml:id="aus-house"><caption>Australian House of Representatives (150 members)</caption>
-		<image source="images/aus-house.png" width="50%"/>
-	</figure>
-	<figure xml:id="aus-senate"><caption>Australian Senate (75 members)</caption>
-		<image source="images/aus-senate.png" width="50%"/>
-	</figure>
-</sidebyside>
--->
-
-<p>
-	The Australian House is elected using instant runoff voting (IRV), which we will discuss in <xref ref="sec-7-2-alternatives"/>, and produced a small majority for the blue party.
-	<fn>Blue represents the Liberal-National Coalition, red is the Labor Party, green is the Green Party, yellow is One Nation, and orange is Centre Alliance. Purple represents independents and a number of minor parties with one seat each.</fn>
-	The Australian Senate, in contrast, is elected using a form of proportional representation, which led to more parties gaining seats and none with a majority. This happened even though both houses were chosen in the same election, with the same voters casting ballots. This is a dramatic example of how the result of an election depends on the voting system as much as on the choices of the voters, even in a democracy.
-	<aside><p>Specifically, the Senate is elected using a method called the single transferrable vote (STV).</p></aside>
-</p>
-
-
-</subsection>
-
-<subsection><title>Plurality and Its Problems</title>
-
-<subsubsection><title>The Plurality Method</title>
-
-<p>The voting method we're most familiar with in the United States is the  <term>plurality method</term>. We sometimes think of this as <q>majority rule</q>, but it is important to note that these two concepts are different (sometimes profoundly so).</p>
-
-<assemblage><title>Plurality versus Majority</title>
-<p><ul>
-	<li>An alternative is said to have a <term>plurality</term> if it receives the largest number of votes.</li>
-	<li>In the <term>plurality method</term>, the alternative with the plurality of first-preference votes is declared the winner.</li>
-	<li>An alternative is said to have a <term>majority</term> if it is ranked first by <em>greater than 50%</em> of the voters.</li>
-</ul></p>
-</assemblage>
-
-<example xml:id="more-vacation">
-	<p>
-		In <xref ref="vacation"/> above, the first choice votes are 3 for Paris, 3 for Hawaii, and <m>3+1=4</m> for Colorado. Thus, the plurality winner of this election is Colorado.
-	</p>
-	<p>
-		However, Colorado does <em>not</em> have a majority. Colorado was ranked first by 4 out of 10 voters; that is, 40%. The other 60% would prefer to go somewhere other than Colorado.
-	</p>
-
-</example>
-
-<p>
-	In an election with only two candidates, the plurality candidate will also have a majority. This is not generally the case with more than two candidates. In the US, primary elections often have more than two candidates and thus routinely produce plurality winners who do not have majority support.
-</p>
-
-<example xml:id="ma3">
-	<p>The results of the 2018 Democratic primary election for Massachusetts's 3rd Congressional district are shown in <xref ref="trahan-is-happy"/>.</p>
-
-	<table xml:id="trahan-is-happy"><caption></caption>
-		<tabular top="minor" bottom="minor" left="minor" right="minor">
-			<row bottom="medium">
-				<cell>Candidate</cell>
-				<cell>Percent of vote</cell>
-			</row>
-			<row>
-				<cell>Trahan</cell>
-				<cell>21.6</cell>
-			</row>
-			<row>
-				<cell>Koh</cell>
-				<cell>21.5</cell>
-			</row>
-			<row>
-				<cell>L'Italien</cell>
-				<cell>15.2</cell>
-			</row>
-			<row>
-				<cell>Matias</cell>
-				<cell>15.1</cell>
-			</row>
-			<row>
-				<cell>Gifford</cell>
-				<cell>15.1</cell>
-			</row>
-			<row>
-				<cell>Chandler</cell>
-				<cell>5.7</cell>
-			</row>
-			<row>
-				<cell>Four other candidates (plus write-ins)</cell>
-				<cell>5.8</cell>
-			</row>
-		</tabular>
-	</table>
-
-	<p>
-		In this election, Trahan was the plurality winner with 21.6% of the vote. She did not, however, have majority support; 78.4% of voters preferred someone else.
-	</p>
-</example>
-
-<exploration xml:id="pierce-vote">
-<statement>
-<p>
-	Three candidates are running in an election for County Executive:  Goings (G), McCarthy (M), and Bunney (B).   The preference schedule is shown below.  Which candidate wins under the plurality method? Does that candidate have a majority?
-</p>
-<p>(Note: This data is loosely based on the 2008 County Executive election in Pierce County, Washington.)</p>
-
-<table><caption></caption>
-	<tabular top="none" bottom="minor" left="minor" right="minor">
-		<row left="none">
-    	<cell bottom="none" right="medium"></cell>
-			<cell colspan="7">Number of voters (in thousands)</cell>
-		</row>
-		<row bottom="medium">
-    	<cell right="medium">Rankings</cell>
-			<cell>44</cell>
-			<cell>14</cell>
-			<cell>20</cell>
-			<cell>70</cell>
-			<cell>22</cell>
-			<cell>80</cell>
-			<cell>39</cell>
-		</row>
-  	<row>
-    	<cell right="medium">1st choice</cell>
-			<cell>G</cell>
-			<cell>G</cell>
-			<cell>G</cell>
-			<cell>M</cell>
-			<cell>M</cell>
-			<cell>B</cell>
-			<cell>B</cell>
-		</row>
-		<row>
-    	<cell right="medium">2nd choice</cell>
-			<cell>M</cell>
-			<cell>B</cell>
-			<cell></cell>
-			<cell>G</cell>
-			<cell>B</cell>
-			<cell>M</cell>
-			<cell></cell>
-		</row>
-		<row>
-    	<cell right="medium">3rd choice</cell>
-			<cell>B</cell>
-			<cell>M</cell>
-			<cell></cell>
-			<cell>B</cell>
-			<cell>G</cell>
-			<cell>G</cell>
-			<cell></cell>
-		</row>
-	</tabular>
-</table>
-
-</statement>
-<solution>
-<p>The total number of voters is <m>44+14+20+70+22+80+39=289</m> thousand. For each candidate, the totals are:
-
-<ul>
-<li>Goings: <m>44+14+20=78</m> thousand</li>
-<li>McCarthy: <m>70+22=92</m> thousand</li>
-<li>Bunney: <m>80+39=119</m> thousand</li>
-</ul>
-
-Using the plurality system, Bunney wins with 119 thousand votes. This is about 41.2%<mdash/>not a majority.
-</p>
-</solution>
-</exploration>
-
-</subsubsection>
-
-<subsubsection><title>Insincere Voting</title>
-
-<p>
-	Is it a problem when a plurality candidate does not have a majority? On the one hand, a large majority of voters would have preferred another candidate. On the other hand, if any other candidate were chosen as the winner instead, they would be opposed by an even larger majority!
-</p>
-
-<p>
-	To illustrate one problem with plurality voting (we will see more later), consider the following example.
-</p>
-
-<example xml:id="color-vote">
-<p>
-	Suppose a certain city is choosing a mayor, and has three main political parties: Team Yellow, Team Purple, and Team Violet. Purple and Violet are fairly similar to each other: their voters would prefer either of them over Yellow. So, a preference table for this election might look like the following:
-</p>
-
-<table><caption></caption>
-<tabular top="none" bottom="minor" left="minor" right="minor">
-	<row left="none">
-    	<cell bottom="none" right="medium"></cell>
-			<cell colspan="4">Percent of voters</cell>
-		</row>
-		<row bottom="medium" left="none">
-			<cell right="medium" left="none"></cell>
-			<cell>40%</cell>
-			<cell>35%</cell>
-			<cell>25%</cell>
-		</row>
-		<row>
-			<cell right="medium">1st choice</cell>
-			<cell>Yellow</cell>
-			<cell>Purple</cell>
-			<cell>Violet</cell>
-		</row>
-		<row>
-			<cell right="medium">2nd choice</cell>
-			<cell>Purple</cell>
-			<cell>Violet</cell>
-			<cell>Purple</cell>
-		</row>
-		<row>
-			<cell right="medium">3rd choice</cell>
-			<cell>Violet</cell>
-			<cell>Yellow</cell>
-			<cell>Yellow</cell>
-		</row>
-	</tabular>
-</table>
-
-<p>
-	If this election were held using plurality, then Yellow would be the winner. However, 60% of the city, who prefers either Purple or Violet over Yellow, will be unhappy with this result. In the next election, Violet voters might choose to vote for the Purple candidate, choosing the <q>lesser of two evils</q> to prevent Yellow from winning. We call this <term>insincere voting</term>.
-
-	Over time, this process will likely cause the Violet party to die out, and the city will develop a two-party system.
-</p>
-
-</example>
-
-<p>
-	Insincere voting is quite common in countries that use plurality elections. Even if many or most voters would prefer to be represented by many different parties, the plurality system makes it in their best interest to vote for one of the two main parties. This is why, for instance, there are only two significant parties in the US; other democracies which do not use the plurality system tend to have more than two major parties.
-</p>
-
-<aside><p>This is known in political science as <em>Duverger's law</em>.</p></aside>
-
-</subsubsection>
-
-<subsubsection><title>Runoff Elections</title>
-
-<p>
-	Thinking in terms of voters' entire preference lists, rather than just their first choices, can provide alternatives to plurality voting. Instead of just asking who everyone's <em>favorite</em> candidate is, we can try to identify a candidate who, even if they aren't everyone's first choice, is broadly supported by a larger portion of the population.
-</p>
-
-<p>
-	One simple way of doing this is to have a second election, called a <term>runoff election</term> between just the top two candidates. Every voter would choose whichever of those two candidates they prefer (even if they didn't vote for them in the first round). This way, the winning candidate will have a majority. Since there are two rounds of voting, this system is often called a <term>two-round system</term>.
-</p>
-
-<example>
-	<p>
-		If the mayoral election in <xref ref="color-vote"/> used a two-round system, the runoff would be held between Yellow and Purple. Yellow would receive 40% of the vote, while Purple would receive <m>35+25=60\%</m> of the vote. Hence, Purple would win with a clear majority.
-	</p>
-</example>
-
-<p>
-	Runoff elections are used for primary elections in a number of US states. Additionally, the top-two primary system used for the Nebraska Legislature is essentially a two-round system. The primary election, in which all candidates compete in one nonpartisan election, functions as the first round. The general election, in which the top two candidates run against each other (whether they are of the same or different parties) functions as a runoff election.
-</p>
-
-<p>
-	Finally, it is worth mentioning that most (though not all) countries with a popularly elected president choose him or her using a two-round system, rather than plurality voting.
-</p>
-
-</subsubsection>
-
-</subsection>
-
-<subsection><title>Ranked Voting Systems and Fairness</title>
-
-<p>
-	A runoff election, however, really only looks at voters' first and second choices. We can do better by looking at voters' entire preference lists, and that is what we will do for the rest of this chapter. We will consider several different voting methods in which voters' entire preference lists are included in their ballot. Unlike runoff elections, there is no actual second election; instead, voters submit their entire preference list all on one ballot, ranking candidates in order of preference. We will sometimes, therefore, refer to these methods in general as <term>ranked voting</term>. An example of a ranked voting ballot is shown in <xref ref="me-ballot"/>.
-</p>
-
-<figure xml:id="me-ballot"><caption>Sample ballot for ranked choice voting in Maine</caption>
-<image source="images/irv-ballot.png"/>
-</figure>
-
-<p>
-We will see that there are actually many different voting systems and, as mentioned above, they can produce very different results even given the same voters' preferences. How can we evaluate which method is best?
-</p>
-
-<assemblage><title>Fairness Criteria</title>
-<p>A <term>fairness criterion</term> is a precise statement of a specific behavior that we expect to happen if an election is to be considered fair. (Note that <q>criterion</q> is the singular form, and <q>criteria</q> is the plural form.)</p>
-</assemblage>
-
-<p>
-	The mathematics of ranked voting will not give any magic answer as to which method is best, but it can give us tools to answer the question in an intelligent way. Instead of asking the question, <q>Which method is best</q> (which is imprecise and could easily depend on personal opinion), we can ask the question, <q>Does voting method X satisfy fairness criterion Y?</q> That is a question that can be answered objectively.
-</p>
-
-<p>
-	We will see that different methods satisfy different criteria, and in fact, no method will satisfy every criterion. Therefore, we still ultimately must use our judgement to assess which method we think is most fair overall. The mathematics of voting, however, lets us do so in a more thoughtful way.
-</p>
-
-</subsection>
-
-</section>
+	<title>Introduction to Ranked Voting Theory</title>
+	<introduction>
+		<p>
+			In many decision making situations, it is necessary to gather the group consensus.
+			This happens when a group of friends decides which movie to watch, when a company decides which product design to manufacture, and when a democratic country elects its leaders.
+		</p>
+
+		<p>
+			While the basic idea of voting is fairly universal, the method by which those votes are used to determine a winner can vary.
+			Amongst a group of friends, you may decide upon a movie by voting for all the movies you're willing to watch, with the winner being the one with the greatest approval.
+			A company might eliminate unpopular designs then revote on the remaining.
+			A country might look for the candidate with the most votes.
+		</p>
+
+		<p>
+			In deciding upon a winner, there is always one main goal: to reflect the preferences of the people in the most fair way possible.
+		</p>
+	</introduction>
+
+	<subsection>
+		<title>Preference Schedules</title>
+		<p>
+			We use the word <term>ballot</term> to refer to whatever information a voter provides about their preferences.
+			In many elections, a voter's ballot consists of nothing more than their choice of one favorite candidate from the list of all possibilities.
+			This system, however, fails to provide detailed information about voters' preferences.
+			In particular, we will be interested in voters' rankings of all candidates: not only who a voter would choose first, but also their second, third, and subsequent choices.
+		</p>
+
+		<assemblage>
+			<title>Expressing voter preferences</title>
+			<p>
+				<ul>
+					<li>
+						The options voters are choosing between are called <term>alternatives</term>.
+						In an election for public office, these will be the candidates.
+					</li>
+
+					<li>
+						The complete rankings of the alternatives by each voter are called the <term>preference lists</term>.
+						This information can be presented as a table, called a <term>preference table</term> or a <term>preference schedule</term>.
+					</li>
+
+					<li>
+						The information voters actually provide in an election is called a <term>ballot</term>.
+						This may or may not include all the information included in the voter's preference list.
+					</li>
+
+					<li>
+						A <term>voting method</term> is a set of rules that takes a set of alternatives and ballots and produces an <term>outcome</term> (i.e.
+						a winner).
+					</li>
+				</ul>
+			</p>
+		</assemblage>
+
+		<example xml:id="vacation">
+			<p>
+				A vacation club is trying to decide which destination to visit this year: Hawaii (H), Paris (P), or Colorado (C).
+				Their votes are shown below:
+			</p>
+
+			<table>
+				<!-- Add a title here -->
+				<title></title>
+				<tabular left="minor" right="minor" top="minor" bottom="minor">
+					<row>
+					<cell></cell>
+					<cell>Bob</cell>
+					<cell>Ann</cell>
+					<cell>Mary</cell>
+					<cell>Alice</cell>
+					<cell>Eve</cell>
+					<cell>Omar</cell>
+					<cell>Lupe</cell>
+					<cell>Dave</cell>
+					<cell>Tish</cell>
+					<cell>Jim</cell>
+					</row>
+					<row>
+					<cell>1st choice</cell>
+					<cell>C</cell>
+					<cell>C</cell>
+					<cell>P</cell>
+					<cell>H</cell>
+					<cell>C</cell>
+					<cell>P</cell>
+					<cell>H</cell>
+					<cell>P</cell>
+					<cell>H</cell>
+					<cell>C</cell>
+					</row>
+					<row>
+					<cell>2nd choice</cell>
+					<cell>P</cell>
+					<cell>H</cell>
+					<cell>H</cell>
+					<cell>C</cell>
+					<cell>H</cell>
+					<cell>H</cell>
+					<cell>C</cell>
+					<cell>H</cell>
+					<cell>C</cell>
+					<cell>H</cell>
+					</row>
+					<row>
+					<cell>3rd choice</cell>
+					<cell>H</cell>
+					<cell>P</cell>
+					<cell>C</cell>
+					<cell>P</cell>
+					<cell>P</cell>
+					<cell>C</cell>
+					<cell>P</cell>
+					<cell>C</cell>
+					<cell>P</cell>
+					<cell>P</cell>
+					</row>
+				</tabular>
+			</table>
+
+			<p>
+				These individual ballots are typically combined into one <term>preference schedule</term> as follows:
+			</p>
+
+			<table>
+				<!-- Add a title here -->
+				<title></title>
+				<tabular right="minor">
+					<row left="minor">
+					<cell></cell>
+					<cell colspan="4"  bottom="minor">Number of votes</cell>
+					</row>
+					<row bottom="major">
+					<cell></cell>
+					<cell>1</cell>
+					<cell>3</cell>
+					<cell>3</cell>
+					<cell>3</cell>
+					</row>
+					<row left="minor" bottom="minor">
+					<cell>1st choice</cell>
+					<cell>C</cell>
+					<cell>C</cell>
+					<cell>P</cell>
+					<cell>H</cell>
+					</row>
+					<row left="minor" bottom="minor">
+					<cell>2nd choice</cell>
+					<cell>P</cell>
+					<cell>H</cell>
+					<cell>H</cell>
+					<cell>C</cell>
+					</row>
+					<row left="minor" bottom="minor">
+					<cell>3rd choice</cell>
+					<cell>H</cell>
+					<cell>P</cell>
+					<cell>C</cell>
+					<cell>P</cell>
+					</row>
+				</tabular>
+			</table>
+
+			<p>
+				This table tells us, for example, that one voter prefers Colorado first, then Paris, and lastly Hawaii.
+				Three voters prefer Colorado first, followed by Hawaii and then Paris.
+			</p>
+
+			<p>
+				Also notice that by totaling the vote counts across the top of the preference schedule we can recover the total number of votes cast: 1+3+3+3=10 total votes.
+			</p>
+		</example>
+
+		<p>
+			It is important to emphasize that <em>the outcome of an election depends on both the voters' preferences and the voting method used</em>.
+			You should be very suspicious of any news story which claims, <q>Party X won the most seats the parliament of Country Y, indicated that voters strongly support the policies of Party X.</q> This is the case even if the country in question is a democracy with free and fair elections.
+		</p>
+
+		<p>
+			For a simple example, consider the election to the Australian parliament in 2016.
+			In that year, election for both houses of Parliament (called the Senate and House of Representatives respectively) were held at the same time, but using two different voting systems.
+			The results are shown in <xref ref="aus-parli"/>, with each color representing a different political party.
+		</p>
+		<!--
+		<figure xml:id="aus-parli"><caption>Seats in the Australian Parliament, by party, after the 2016 election</caption>
+			<sbsgroup widths="50% 50%">
+				<sidebyside>
+					<image source="aus-house.png" width="100%"/>
+						<image source="aus-senate.png" width="100%"/>
+						</sidebyside>
+
+						<sidebyside>
+							<p>
+								House of Representatives (150 members)
+							</p>
+
+							<p>
+								Senate (75 members)
+							</p>
+						</sidebyside>
+					</sbsgroup>
+				</figure>
+				-->
+				<figure xml:id="aus-parli">
+					<caption>Seats in the Australian Parliament, by party, after the 2016 election.
+					<url href="https://en.wikipedia.org/wiki/2016_Australian_federal_election" visual="wikipedia.org">Source</url>
+					</caption>
+
+					<sidebyside>
+						<figure xml:id="aus-house"><caption>House of Representatives (150 members)</caption>
+							<image source="aus-house2016.png" width="50%"/>
+							</figure>
+
+							<figure xml:id="aus-senate"><caption>Senate (76 members)</caption>
+								<image source="aus-senate2016.png" width="50%"/>
+								</figure>
+							</sidebyside>
+						</figure>
+						<!--
+						<sidebyside>
+							<figure xml:id="aus-house"><caption>Australian House of Representatives (150 members)</caption>
+								<image source="aus-house.png" width="50%"/>
+								</figure>
+
+								<figure xml:id="aus-senate"><caption>Australian Senate (75 members)</caption>
+									<image source="aus-senate.png" width="50%"/>
+									</figure>
+								</sidebyside>
+								-->
+								<p>
+									The Australian House is elected using instant runoff voting (IRV), which we will discuss in <xref ref="sec-7-2-alternatives"/>, and produced a small majority for the blue party.
+									<fn>Blue represents the Liberal-National Coalition, red is the Labor Party, green is the Green Party, yellow is One Nation, and orange is Centre Alliance.
+									Purple represents independents and a number of minor parties with one seat each.</fn>
+									The Australian Senate, in contrast, is elected using a form of proportional representation, which led to more parties gaining seats and none with a majority.
+									This happened even though both houses were chosen in the same election, with the same voters casting ballots.
+									This is a dramatic example of how the result of an election depends on the voting system as much as on the choices of the voters, even in a democracy.
+									<fn>
+									Specifically, the Senate is elected using a method called the single transferrable vote (STV).
+									</fn>
+								</p>
+							</subsection>
+
+							<subsection>
+								<title>Plurality and Its Problems</title>
+								<subsubsection>
+									<title>The Plurality Method</title>
+									<p>
+										The voting method we're most familiar with in the United States is the  <term>plurality method</term>.
+										We sometimes think of this as <q>majority rule</q>, but it is important to note that these two concepts are different (sometimes profoundly so).
+									</p>
+
+									<assemblage>
+										<title>Plurality versus Majority</title>
+										<p>
+											<ul>
+												<li>
+													An alternative is said to have a <term>plurality</term> if it receives the largest number of votes.
+												</li>
+
+												<li>
+													In the <term>plurality method</term>, the alternative with the plurality of first-preference votes is declared the winner.
+												</li>
+
+												<li>
+													An alternative is said to have a <term>majority</term> if it is ranked first by <em>greater than 50%</em> of the voters.
+												</li>
+											</ul>
+										</p>
+									</assemblage>
+
+									<example xml:id="more-vacation">
+										<p>
+											In <xref ref="vacation"/> above, the first choice votes are 3 for Paris, 3 for Hawaii, and <m>3+1=4</m> for Colorado.
+											Thus, the plurality winner of this election is Colorado.
+										</p>
+
+										<p>
+											However, Colorado does <em>not</em> have a majority.
+											Colorado was ranked first by 4 out of 10 voters; that is, 40%.
+											The other 60% would prefer to go somewhere other than Colorado.
+										</p>
+									</example>
+
+									<p>
+										In an election with only two candidates, the plurality candidate will also have a majority.
+										This is not generally the case with more than two candidates.
+										In the US, primary elections often have more than two candidates and thus routinely produce plurality winners who do not have majority support.
+									</p>
+
+									<example xml:id="ma3">
+										<p>
+											The results of the 2018 Democratic primary election for Massachusetts's 3rd Congressional district are shown in <xref ref="trahan-is-happy"/>.
+										</p>
+
+										<table xml:id="trahan-is-happy">
+											<title></title>
+											<tabular top="minor" bottom="minor" left="minor" right="minor">
+												<row bottom="medium">
+												<cell>Candidate</cell>
+												<cell>Percent of vote</cell>
+												</row>
+												<row>
+												<cell>Trahan</cell>
+												<cell>21.6</cell>
+												</row>
+												<row>
+												<cell>Koh</cell>
+												<cell>21.5</cell>
+												</row>
+												<row>
+												<cell>L'Italien</cell>
+												<cell>15.2</cell>
+												</row>
+												<row>
+												<cell>Matias</cell>
+												<cell>15.1</cell>
+												</row>
+												<row>
+												<cell>Gifford</cell>
+												<cell>15.1</cell>
+												</row>
+												<row>
+												<cell>Chandler</cell>
+												<cell>5.7</cell>
+												</row>
+												<row>
+												<cell>Four other candidates (plus write-ins)</cell>
+												<cell>5.8</cell>
+												</row>
+											</tabular>
+										</table>
+
+										<p>
+											In this election, Trahan was the plurality winner with 21.6% of the vote.
+											She did not, however, have majority support; 78.4% of voters preferred someone else.
+										</p>
+									</example>
+
+									<exploration xml:id="pierce-vote">
+										<statement>
+											<p>
+												Three candidates are running in an election for County Executive:  Goings (G), McCarthy (M), and Bunney (B).
+												The preference schedule is shown below.
+												Which candidate wins under the plurality method? Does that candidate have a majority?
+											</p>
+
+											<p>
+												(Note: This data is loosely based on the 2008 County Executive election in Pierce County, Washington.)
+											</p>
+
+											<table>
+												<title></title>
+												<tabular top="none" bottom="minor" left="minor" right="minor">
+													<row left="none">
+													<cell bottom="none" right="medium"></cell>
+													<cell colspan="7">Number of voters (in thousands)</cell>
+													</row>
+													<row bottom="medium">
+													<cell right="medium">Rankings</cell>
+													<cell>44</cell>
+													<cell>14</cell>
+													<cell>20</cell>
+													<cell>70</cell>
+													<cell>22</cell>
+													<cell>80</cell>
+													<cell>39</cell>
+													</row>
+													<row>
+													<cell right="medium">1st choice</cell>
+													<cell>G</cell>
+													<cell>G</cell>
+													<cell>G</cell>
+													<cell>M</cell>
+													<cell>M</cell>
+													<cell>B</cell>
+													<cell>B</cell>
+													</row>
+													<row>
+													<cell right="medium">2nd choice</cell>
+													<cell>M</cell>
+													<cell>B</cell>
+													<cell></cell>
+													<cell>G</cell>
+													<cell>B</cell>
+													<cell>M</cell>
+													<cell></cell>
+													</row>
+													<row>
+													<cell right="medium">3rd choice</cell>
+													<cell>B</cell>
+													<cell>M</cell>
+													<cell></cell>
+													<cell>B</cell>
+													<cell>G</cell>
+													<cell>G</cell>
+													<cell></cell>
+													</row>
+												</tabular>
+											</table>
+										</statement>
+
+										<solution>
+											<p>
+												The total number of voters is <m>44+14+20+70+22+80+39=289</m> thousand.
+												For each candidate, the totals are:
+												<ul>
+													<li>
+														Goings: <m>44+14+20=78</m> thousand
+													</li>
+
+													<li>
+														McCarthy: <m>70+22=92</m> thousand
+													</li>
+
+													<li>
+														Bunney: <m>80+39=119</m> thousand
+													</li>
+												</ul>
+												Using the plurality system, Bunney wins with 119 thousand votes.
+												This is about 41.2%<mdash/>not a majority.
+											</p>
+										</solution>
+									</exploration>
+								</subsubsection>
+
+								<subsubsection>
+									<title>Insincere Voting</title>
+									<p>
+										Is it a problem when a plurality candidate does not have a majority? On the one hand, a large majority of voters would have preferred another candidate.
+										On the other hand, if any other candidate were chosen as the winner instead, they would be opposed by an even larger majority!
+									</p>
+
+									<p>
+										To illustrate one problem with plurality voting (we will see more later), consider the following example.
+									</p>
+
+									<example xml:id="color-vote">
+										<p>
+											Suppose a certain city is choosing a mayor, and has three main political parties: Team Yellow, Team Purple, and Team Violet.
+											Purple and Violet are fairly similar to each other: their voters would prefer either of them over Yellow.
+											So, a preference table for this election might look like the following:
+										</p>
+
+										<table>
+											<title></title>
+											<tabular top="none" bottom="minor" left="minor" right="minor">
+												<row left="none">
+												<cell bottom="none" right="medium"></cell>
+												<cell colspan="4">Percent of voters</cell>
+												</row>
+												<row bottom="medium" left="none">
+												<cell right="medium"></cell>
+												<cell>40%</cell>
+												<cell>35%</cell>
+												<cell>25%</cell>
+												</row>
+												<row>
+												<cell right="medium">1st choice</cell>
+												<cell>Yellow</cell>
+												<cell>Purple</cell>
+												<cell>Violet</cell>
+												</row>
+												<row>
+												<cell right="medium">2nd choice</cell>
+												<cell>Purple</cell>
+												<cell>Violet</cell>
+												<cell>Purple</cell>
+												</row>
+												<row>
+												<cell right="medium">3rd choice</cell>
+												<cell>Violet</cell>
+												<cell>Yellow</cell>
+												<cell>Yellow</cell>
+												</row>
+											</tabular>
+										</table>
+
+										<p>
+											If this election were held using plurality, then Yellow would be the winner.
+											However, 60% of the city, who prefers either Purple or Violet over Yellow, will be unhappy with this result.
+											In the next election, Violet voters might choose to vote for the Purple candidate, choosing the <q>lesser of two evils</q> to prevent Yellow from winning.
+											We call this <term>insincere voting</term>.
+											Over time, this process will likely cause the Violet party to die out, and the city will develop a two-party system.
+										</p>
+									</example>
+
+									<p>
+										Insincere voting is quite common in countries that use plurality elections.
+										Even if many or most voters would prefer to be represented by many different parties, the plurality system makes it in their best interest to vote for one of the two main parties.
+										This is why, for instance, there are only two significant parties in the US; other democracies which do not use the plurality system tend to have more than two major parties.
+									</p>
+									<aside>
+									<p>
+										This is known in political science as <em>Duverger's law</em>.
+									</p>
+									</aside>
+								</subsubsection>
+
+								<subsubsection>
+									<title>Runoff Elections</title>
+									<p>
+										Thinking in terms of voters' entire preference lists, rather than just their first choices, can provide alternatives to plurality voting.
+										Instead of just asking who everyone's <em>favorite</em> candidate is, we can try to identify a candidate who, even if they aren't everyone's first choice, is broadly supported by a larger portion of the population.
+									</p>
+
+									<p>
+										One simple way of doing this is to have a second election, called a <term>runoff election</term> between just the top two candidates.
+										Every voter would choose whichever of those two candidates they prefer (even if they didn't vote for them in the first round).
+										This way, the winning candidate will have a majority.
+										Since there are two rounds of voting, this system is often called a <term>two-round system</term>.
+									</p>
+
+									<example>
+										<p>
+											If the mayoral election in <xref ref="color-vote"/> used a two-round system, the runoff would be held between Yellow and Purple.
+											Yellow would receive 40% of the vote, while Purple would receive <m>35+25=60\%</m> of the vote.
+											Hence, Purple would win with a clear majority.
+										</p>
+									</example>
+
+									<p>
+										Runoff elections are used for primary elections in a number of US states.
+										Additionally, the top-two primary system used for the Nebraska Legislature is essentially a two-round system.
+										The primary election, in which all candidates compete in one nonpartisan election, functions as the first round.
+										The general election, in which the top two candidates run against each other (whether they are of the same or different parties) functions as a runoff election.
+									</p>
+
+									<p>
+										Finally, it is worth mentioning that most (though not all) countries with a popularly elected president choose him or her using a two-round system, rather than plurality voting.
+									</p>
+								</subsubsection>
+							</subsection>
+
+							<subsection>
+								<title>Ranked Voting Systems and Fairness</title>
+								<p>
+									A runoff election, however, really only looks at voters' first and second choices.
+									We can do better by looking at voters' entire preference lists, and that is what we will do for the rest of this chapter.
+									We will consider several different voting methods in which voters' entire preference lists are included in their ballot.
+									Unlike runoff elections, there is no actual second election; instead, voters submit their entire preference list all on one ballot, ranking candidates in order of preference.
+									We will sometimes, therefore, refer to these methods in general as <term>ranked voting</term>.
+									An example of a ranked voting ballot is shown in <xref ref="me-ballot"/>.
+								</p>
+
+								<figure xml:id="me-ballot"><caption>Sample ballot for ranked choice voting in Maine</caption>
+									<image source="irv-ballot.png"/>
+									</figure>
+
+									<p>
+										We will see that there are actually many different voting systems and, as mentioned above, they can produce very different results even given the same voters' preferences.
+										How can we evaluate which method is best?
+									</p>
+
+									<assemblage>
+										<title>Fairness Criteria</title>
+										<p>
+											A <term>fairness criterion</term> is a precise statement of a specific behavior that we expect to happen if an election is to be considered fair.
+											(Note that <q>criterion</q> is the singular form, and <q>criteria</q> is the plural form.)
+										</p>
+									</assemblage>
+
+									<p>
+										The mathematics of ranked voting will not give any magic answer as to which method is best, but it can give us tools to answer the question in an intelligent way.
+										Instead of asking the question, <q>Which method is best</q> (which is imprecise and could easily depend on personal opinion), we can ask the question, <q>Does voting method X satisfy fairness criterion Y?</q> That is a question that can be answered objectively.
+									</p>
+
+									<p>
+										We will see that different methods satisfy different criteria, and in fact, no method will satisfy every criterion.
+										Therefore, we still ultimately must use our judgement to assess which method we think is most fair overall.
+										The mathematics of voting, however, lets us do so in a more thoughtful way.
+									</p>
+								</subsection>
+							</section>
