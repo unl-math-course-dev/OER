@@ -1,450 +1,682 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
 <!-- This file is part of the book                                 -->
 <!--                                                               -->
 <!--    Ordinary Differential Equations Project                    -->
 <!--                                                               -->
 <!-- Copyright (C) 2013-2022 Thomas W. Judson                      -->
 <!-- See the file COPYING for copying conditions.                  -->
-
 <section xml:id="laplace02" xmlns:xi="http://www.w3.org/2001/XInclude">
-    <objectives>
-        <ul>
+	<title>Solving Initial Value Problems</title>
+	<objectives>
+		<ul>
+			<li>
+				<p>
+					To understand how the Laplace transform acts on derivatives.
+				</p>
+			</li>
 
-            <li><p>To understand how the Laplace transform acts on derivatives.</p></li>
+			<li>
+				<p>
+					To understand how the Laplace transform can be used to solve initial value problems such as
+					<md>
+						<mrow>a y''(t) + b y'(t) + c y(t) \amp = f(t)</mrow>
+						<mrow>y(0) \amp = y_0</mrow>
+						<mrow>y'(0) \amp = y'_0</mrow>
+					</md>
+					even when <m>f(t)</m> is discontinuous.
+				</p>
+			</li>
+		</ul>
+	</objectives>
 
-            <li><p>To understand how the Laplace transform can be used to solve initial value problems such as
-                <md>
-                    <mrow>a y''(t) + b y'(t) + c y(t) \amp = f(t)</mrow>
-                    <mrow>y(0) \amp = y_0</mrow>
-                    <mrow>y'(0) \amp = y'_0</mrow>
-                </md>
-            even when <m>f(t)</m> is discontinuous.</p></li>
+	<introduction>
+		<p>
+			There is no need for Laplace transforms when solving many initial value problems.
+			If we consider the initial value problem
+			<md>
+				<mrow>y''  + 7y' + 10y &amp; = 0</mrow>
+				<mrow>y(0) &amp; = 1</mrow>
+				<mrow>y'(0) &amp; = 1,</mrow>
+			</md>
+			the methods described in <xref ref="secondorder" /> work quite well.
+			The characteristic polynomial of <m>y'' + 7y' + 10y = 0</m> is
+			<me>
+				r^2 + 7r + 10 = (r + 2)(r + 5),
+			</me>
+			and the general solution of the differential equation must be
+			<me>
+				y(t) = c_1 e^{-2t} + c_2 e^{-5t}.
+			</me>
+			Applying the initial conditions, we find that the solution to our initial value problem is
+			<me>
+				y(t) = 2 e^{-2t} - e^{-5t}.
+			</me>
+			However, suppose that we have a harmonic oscillator with a discontinuous forcing term,
+			<md>
+				<mrow>y'' + 2 y' + 5y = h(t)</mrow>
+				<mrow>y(0) = y'(0) = 0,</mrow>
+			</md>
+			where <m>h(t)</m> is given by
+			<me>
+				h(t)
+				=
+				\begin{cases}
+				7 &amp; t \lt 5 \\
+				0 &amp; t \geq 5.
+				\end{cases}
+			</me>
+			None of the previous techniques that we described are sufficient to solve such an initial value problem.
+			Yet, we can easily imagine such equations arising in physics or engineering.
+		</p>
 
-        </ul>
-    </objectives>    <title>Solving Initial Value Problems</title>
+		<p>
+			Fortunately, Laplace transforms forms behave very nicely with respect to derivatives.
+			We can use Laplace transforms to transform an initial value problem into an algebraic equation.
+			Once the algebraic equation is solved, we can use the inverse transform to obtain the solution to our original initial value problem.
+		</p>
+	</introduction>
 
-    <introduction>
+	<subsection xml:id="laplace02-subsection-derivatives">
+		<title>Laplace Transforms of the Derivative</title>
+		<p>
+			Suppose that we have linear differential equation with constant coefficients
+			<me>
+				a y''(t) + b y'(t) + c y(t) = f(t)
+			</me>
+			and initial conditions <m>y(0) = y_0</m> and <m>y'(0) = y_0'</m>.
+			We can take the Laplace transform of both sides to obtain
+			<me>
+				a {\mathcal L}(y''(t)) + b {\mathcal L}(y'(t)) + c {\mathcal L}(y(t)) = {\mathcal L}(f(t)).
+			</me>
+			Notice that we have used the fact that the Laplace transform is a linear operator (<xref ref="laplace01-theorem-linearity"/>).
+			To proceed further, we need to know the Laplace transform of the derivative of a function.
+		</p>
 
-        <p>There is no need for Laplace transforms when solving many initial value problems. If we consider the initial value problem
-                <md>
-                    <mrow>y''  + 7y' + 10y &amp; = 0</mrow>
-                    <mrow>y(0) &amp; = 1</mrow>
-                    <mrow>y'(0) &amp; = 1,</mrow>
-                </md>
-        the methods described in <xref ref="secondorder" /> work quite well. The characteristic polynomial of <m>y'' + 7y' + 10y = 0</m> is
-           <me>r^2 + 7r + 10 = (r + 2)(r + 5),</me>
-        and the general solution of the differential equation must be 
-            <me>y(t) = c_1 e^{-2t} + c_2 e^{-5t}.</me>
-        Applying the initial conditions, we find that the solution to our initial value problem is
-            <me>y(t) = 2 e^{-2t} - e^{-5t}.</me>
-        However, suppose that we have a harmonic oscillator with a discontinuous forcing term,
-            <md>
-                <mrow>y'' + 2 y' + 5y = h(t)</mrow>
-                <mrow>y(0) = y'(0) = 0,</mrow>
-            </md>
-        where <m>h(t)</m> is given by
-            <me>h(t) 
-            =
-            \begin{cases}
-            7 &amp; t \lt 5 \\
-            0 &amp; t \geq 5.
-            \end{cases}</me>
-        None of the previous techniques that we described are sufficient to solve such an initial value problem. Yet, we can easily imagine such equations arising in physics or engineering.</p>
-
-        <p>Fortunately, Laplace transforms forms behave very nicely with respect to derivatives. We can use Laplace transforms to transform an initial value problem into an algebraic equation. Once the algebraic equation is solved, we can use the inverse transform to obtain the solution to our original initial value problem.</p>
-    </introduction>
-  
-    <subsection xml:id="laplace02-subsection-derivatives">
-        <title>Laplace Transforms of the Derivative</title>
-
-        <p>Suppose that we have linear differential equation with constant coefficients
-            <me>a y''(t) + b y'(t) + c y(t) = f(t)</me>
-        and initial conditions <m>y(0) = y_0</m> and <m>y'(0) = y_0'</m>. We can take the Laplace transform of both sides to obtain
-            <me>a {\mathcal L}(y''(t)) + b {\mathcal L}(y'(t)) + c {\mathcal L}(y(t)) = {\mathcal L}(f(t)).</me>
-        Notice that we have used the fact that the Laplace transform is a linear operator (<xref ref="laplace01-theorem-linearity"/>).  To proceed further, we need to know the Laplace transform of the derivative of a function.</p>
-
-        <theorem xml:id="laplace02-theorem-derivative">
-            <statement>
-                <p>Let <m>y = y(t)</m> be a piecewise continuous, exponentially bounded function and assume that <m>y'</m> is also exponentially bounded. Then for large values of <m>s</m>
-                    <me>{\mathcal L}(y')(s) = s {\mathcal L}(y)(s) - y(0) = s Y(s) - y(0),</me>
-                where <m>Y(s)</m> is the Laplace transform of <m>y</m>.</p>
-            </statement>
-        </theorem> 
-
-        <proof>
-            <p>We can evaluate the Laplace transform of <m>y'</m> by using integration by parts,
-                <md>
-                    <mrow>{\mathcal L}(y')(s) &amp; = \int_0^\infty y'(t) e^{-st} \, dt</mrow>
-                    <mrow>&amp; = \lim_{b \to \infty}\left[  e^{-st} y(t) \Big|_0^b + s \int_0^b y(t) e^{-st} \, dt \right]</mrow>
-                    <mrow>&amp; =  \lim_{b \to \infty}\left[  e^{-sb} y(b) -y(0) + s {\mathcal L}(y)(s) \right].</mrow>
-                </md>
-            We claim that <m>\lim_{b \to \infty} e^{-sb} y(b) = 0</m>.  Since, <m>y</m> is exponentially bounded, there exist constants <m>M \geq 0</m> and <m>a</m> such that <m>|y(t)| \leq Me^{at}</m>, for all <m>t</m> in <m>[0, \infty)</m>.  Thus,
-                <me>|e^{-sb} y(b)| \leq Me^{-(s -a)b}.</me>
-            The right-hand side of this inequality as <m>b \to \infty</m> for <m>s \gt a</m>. Thus,
-                <me>{\mathcal L}(y')(s) = s {\mathcal L}(y)(s) - y(0).</me></p>
-        </proof>
-
-        <p>The Laplace transform also behave nicely with respect to higher order derivatives.</p>
-
-        <theorem xml:id="laplace02-theorem-derivative-higher">
-            <statement>
-                <p>Let <m>y = y(t)</m> and <m>y'(t)</m> be piecewise continuous, exponentially bounded functions and assume that <m>y''</m> is  exponentially bounded. Then for large values of <m>s</m>
-                    <me>{\mathcal L}(y'')(s) = s^2 {\mathcal L}(y)(s) - sy(0) - y'(0)= s^2 Y(s) - sy(0) - y'(0),</me>
-                where <m>Y(s)</m> is the Laplace transform of <m>y</m>.  In general, if <m>y = y(t)</m> and all of its derivatives up to order <m>k - 1</m> are piecewise continuous, exponentially bounded functions and <m>y^{(k)}</m> is piecewise continuous, then
-                    <md>
-                        <mrow>{\mathcal L}(y^{(k)})(s) = s^k {\mathcal L}(y)(s) - s^{k - 1}y(0) - \cdots - s y^{(k -2)}(0) - y^{(k -1)}(0)</mrow>
-                        <mrow>= s^k Y(s) - s^{k - 1}y(0) - s^{k - 1}y(0)- \cdots - s y^{(k -2)}(0) - y^{(k -1)}(0).</mrow>
-                    </md></p>
-            </statement>
-        </theorem> 
-
-        <p>We can use <xref ref="laplace02-theorem-derivative"/> and <xref ref="laplace02-theorem-derivative-higher"/> to solve initial value problems.</p>
-
-        <example>
-            <p>Consider the initial value problem
-                <md>
-                    <mrow>y''  + 7y' + 10y &amp; = 0</mrow>
-                    <mrow>y(0) &amp; = 1</mrow>
-                    <mrow>y'(0) &amp; = 1.</mrow>
-                </md>
-            By <xref ref="laplace02-theorem-derivative"/> and <xref ref="laplace02-theorem-derivative-higher"/>
-                <md>
-                    <mrow>{\mathcal L}(y')(s) = s {\mathcal L}(y)(s) - y(0) = s Y(s) - y(0)</mrow>
-                    <mrow>{\mathcal L}(y'')(s) = s^2 {\mathcal L}(y)(s) - sy(0) - y'(0)= s^2 Y(s) - sy(0) - y'(0).</mrow>
-                </md>
-            where <m>Y(s)</m> is the Laplace transform of <m>y</m>. If we take the Laplace transform of <m>y'' + 7y' + 10y</m>, we have
-                <md>
-                    <mrow>{\mathcal L}(y'' + 7y' + 10y) &amp; = {\mathcal L}(y'') + 7{\mathcal L}(y') + 10{\mathcal L}(y)</mrow>
-                    <mrow>&amp; = [s^2 Y(s) - sy(0) - y'(0)] + 7[s Y(s) - y(0)] + 10Y(s)</mrow>
-                    <mrow>&amp; = [s^2 Y(s) - s - 1] + 7[s Y(s) - 1] + 10Y(s).</mrow>
-                </md>
-            Since <m>{\mathcal L}(0)</m>, we have the algebraic equation
-                <me>[s^2 Y(s) - s - 1] + 7[s Y(s) - 1] + 10Y(s) = 0.</me>
-            Solving for <m>Y(s)</m>, we get
-                <me>Y(s) = \frac{s + 8}{s^2 + 7s + 10} = \frac{s + 8}{(s + 5)(s + 2)} = \frac{2}{s + 2} - \frac{1}{s + 5},</me>
-            where we have used partial fractions to get the last expression.</p>
-
-            <p>Since the Laplace transform of <m>e^{at}</m> is <m>1/(s - a)</m>, we know that
-                <me>{\mathcal L}^{-1} \left( \frac{1}{s-a}\right) = e^{at}.</me>
-            We can now solve our initial value problem,
-                <me>y(t) = 2 e^{-2t} - e^{-5t},</me>
-            and our solution agrees with the one that we found at the beginning of this section.</p> 
-        </example>
-
-        <activity>
-            <title>Solving Linear Differential Equations with Laplace Transforms</title>
-
-            <introduction>
-                <p>Use Laplace Transforms to solve each of the following initial value problems.</p>
-            </introduction>
-            <task>
-                <statement>
-                    <p><m>x' - 5x = e^{5t}</m>, <m>x(0) = 0</m></p>
-                </statement>
-            </task>   
-            <task>
-                <statement>
-                    <p><m>x'' - x' - 6x  = 0</m>, <m>x(0) = 2</m>, <m>x'(0) = -1</m></p>
-                </statement>
-            </task>
-            <task>
-                <statement>
-                    <p><m>x'' + 4x  = \sin 3t</m>, <m>x(0) = 0</m>, <m>x'(0) = 0</m></p>
-                </statement>
-            </task>   
-        </activity>
+		<theorem xml:id="laplace02-theorem-derivative">
+			<statement>
+				<p>
+					Let <m>y = y(t)</m> be a piecewise continuous, exponentially bounded function and assume that <m>y'</m> is also exponentially bounded.
+					Then for large values of <m>s</m>
+					<me>
+						{\mathcal L}(y')(s) = s {\mathcal L}(y)(s) - y(0) = s Y(s) - y(0),
+					</me>
+					where <m>Y(s)</m> is the Laplace transform of <m>y</m>.
+				</p>
+			</statement>
+		</theorem>
 
 
-    </subsection>
+		<proof>
+			<p>
+				We can evaluate the Laplace transform of <m>y'</m> by using integration by parts,
+				<md>
+					<mrow>{\mathcal L}(y')(s) &amp; = \int_0^\infty y'(t) e^{-st} \, dt</mrow>
+					<mrow>&amp; = \lim_{b \to \infty}\left[  e^{-st} y(t) \Big|_0^b + s \int_0^b y(t) e^{-st} \, dt \right]</mrow>
+					<mrow>&amp; =  \lim_{b \to \infty}\left[  e^{-sb} y(b) -y(0) + s {\mathcal L}(y)(s) \right].</mrow>
+				</md>
+				We claim that <m>\lim_{b \to \infty} e^{-sb} y(b) = 0</m>.
+				Since, <m>y</m> is exponentially bounded, there exist constants <m>M \geq 0</m> and <m>a</m> such that <m>|y(t)| \leq Me^{at}</m>, for all <m>t</m> in <m>[0, \infty)</m>.
+				Thus,
+				<me>
+					|e^{-sb} y(b)| \leq Me^{-(s -a)b}.
+				</me>
+				The right-hand side of this inequality as <m>b \to \infty</m> for <m>s \gt a</m>.
+				Thus,
+				<me>
+					{\mathcal L}(y')(s) = s {\mathcal L}(y)(s) - y(0).
+				</me>
+			</p>
+		</proof>
+
+		<p>
+			The Laplace transform also behave nicely with respect to higher order derivatives.
+		</p>
+
+		<theorem xml:id="laplace02-theorem-derivative-higher">
+			<statement>
+				<p>
+					Let <m>y = y(t)</m> and <m>y'(t)</m> be piecewise continuous, exponentially bounded functions and assume that <m>y''</m> is  exponentially bounded.
+					Then for large values of <m>s</m>
+					<me>
+						{\mathcal L}(y'')(s) = s^2 {\mathcal L}(y)(s) - sy(0) - y'(0)= s^2 Y(s) - sy(0) - y'(0),
+					</me>
+					where <m>Y(s)</m> is the Laplace transform of <m>y</m>.
+					In general, if <m>y = y(t)</m> and all of its derivatives up to order <m>k - 1</m> are piecewise continuous, exponentially bounded functions and <m>y^{(k)}</m> is piecewise continuous, then
+					<md>
+						<mrow>{\mathcal L}(y^{(k)})(s) = s^k {\mathcal L}(y)(s) - s^{k - 1}y(0) - \cdots - s y^{(k -2)}(0) - y^{(k -1)}(0)</mrow>
+						<mrow>= s^k Y(s) - s^{k - 1}y(0) - s^{k - 1}y(0)- \cdots - s y^{(k -2)}(0) - y^{(k -1)}(0).</mrow>
+					</md>
+				</p>
+			</statement>
+		</theorem>
+
+		<p>
+			We can use <xref ref="laplace02-theorem-derivative"/> and <xref ref="laplace02-theorem-derivative-higher"/> to solve initial value problems.
+		</p>
+
+		<example>
+			<p>
+				Consider the initial value problem
+				<md>
+					<mrow>y''  + 7y' + 10y &amp; = 0</mrow>
+					<mrow>y(0) &amp; = 1</mrow>
+					<mrow>y'(0) &amp; = 1.</mrow>
+				</md>
+				By <xref ref="laplace02-theorem-derivative"/> and <xref ref="laplace02-theorem-derivative-higher"/>
+				<md>
+					<mrow>{\mathcal L}(y')(s) = s {\mathcal L}(y)(s) - y(0) = s Y(s) - y(0)</mrow>
+					<mrow>{\mathcal L}(y'')(s) = s^2 {\mathcal L}(y)(s) - sy(0) - y'(0)= s^2 Y(s) - sy(0) - y'(0).</mrow>
+				</md>
+				where <m>Y(s)</m> is the Laplace transform of <m>y</m>.
+				If we take the Laplace transform of <m>y'' + 7y' + 10y</m>, we have
+				<md>
+					<mrow>{\mathcal L}(y'' + 7y' + 10y) &amp; = {\mathcal L}(y'') + 7{\mathcal L}(y') + 10{\mathcal L}(y)</mrow>
+					<mrow>&amp; = [s^2 Y(s) - sy(0) - y'(0)] + 7[s Y(s) - y(0)] + 10Y(s)</mrow>
+					<mrow>&amp; = [s^2 Y(s) - s - 1] + 7[s Y(s) - 1] + 10Y(s).</mrow>
+				</md>
+				Since <m>{\mathcal L}(0)</m>, we have the algebraic equation
+				<me>
+					[s^2 Y(s) - s - 1] + 7[s Y(s) - 1] + 10Y(s) = 0.
+				</me>
+				Solving for <m>Y(s)</m>, we get
+				<me>
+					Y(s) = \frac{s + 8}{s^2 + 7s + 10} = \frac{s + 8}{(s + 5)(s + 2)} = \frac{2}{s + 2} - \frac{1}{s + 5},
+				</me>
+				where we have used partial fractions to get the last expression.
+			</p>
+
+			<p>
+				Since the Laplace transform of <m>e^{at}</m> is <m>1/(s - a)</m>, we know that
+				<me>
+					{\mathcal L}^{-1} \left( \frac{1}{s-a}\right) = e^{at}.
+				</me>
+				We can now solve our initial value problem,
+				<me>
+					y(t) = 2 e^{-2t} - e^{-5t},
+				</me>
+				and our solution agrees with the one that we found at the beginning of this section.
+			</p>
+		</example>
+
+		<activity>
+			<title>Solving Linear Differential Equations with Laplace Transforms</title>
+			<introduction>
+				<p>
+					Use Laplace Transforms to solve each of the following initial value problems.
+				</p>
+			</introduction>
 
 
-    <subsection xml:id="laplace02-subsection-discontinuous-functions">
-        <title>Discontinuous Functions</title>
-
-        <p>If <m>c \geq 0</m> and we define the function
-            <me>u_c(t)
-            =
-            \begin{cases}
-            0 &amp; t \lt c \\
-            1 &amp; t \geq c,
-            \end{cases}</me>
-        recall that the Laplace transform of <m>u_c</m> is given by
-            <me>{\mathcal L}(u_c(t))(s) = \int_0^\infty u_c(t) e^{-st} \, dt = \frac{e^{-cs}}{s}.</me>
-            We can use this inforamtion to solve initial value problems with discontinuous functions.</p>
-
-        <example>
-            <p>Consider the initial value problem
-                <md>
-                    <mrow>y' + y&amp; = u_3(t)</mrow>
-                    <mrow>y(0) &amp; = 1.</mrow>
-                </md>
-            If we take the Laplace transform of both sides of  <m>y' + y = u_3(t)</m>, we obtain
-                <me>sY(s) - y(0) + Y(s) = \frac{e^{-3s}}{s}.</me>
-            Using the fact that <m>y(0) = 1</m> and solving for <m>Y(s)</m>, we get
-                <me>Y(s) = \frac{1}{s + 1} + \frac{e^{-3s}}{s(s+1)}.</me>
-            Therefore,
-                <me>y(t) = {\mathcal L}^{-1} \left(  \frac{1}{s + 1} \right) + {\mathcal L}^{-1} \left( \frac{e^{-3s}}{s(s+1)} \right).</me>
-            The inverse Laplace transform of the first term is
-                <me>{\mathcal L}^{-1} \left(  \frac{1}{s + 1} \right) = e^{-t}.</me>
-            To compute the inverse Laplace transform of the second term, recall from <xref ref="laplace01-example-shift"/> that if <m>{\mathcal L}(f) = F(s)</m>, then
-                <me>{\mathcal L}(u_a(t) f( t- a)) = e^{-as} F(s).</me>
-            Using partial fractions to obtain
-                <me>\frac{1}{s(s+1)} = \frac{1}{s} - \frac{1}{s - 1}.</me>
-            Hence,
-                <me>{\mathcal L}^{-1} \left( \frac{e^{-3s}}{s(s+1)} \right) = {\mathcal L}^{-1} \left( \frac{e^{-3s}}{s} \right) - {\mathcal L}^{-1} \left(\frac{e^{-3s}}{s+1} \right) = u_3(t) - {\mathcal L}^{-1} \left( \frac{e^{-3s}}{s+1} \right).</me>
-            If <m>g(t) = u_3(t) e^{-(t - 3)}</m>, then the Laplace transform of <m>g(t)</m> is
-                <me>{\mathcal L}(g) = e^{-3s} {\mathcal L}(e^{-t}) = \frac{e^{-3s}}{s + 1}.</me>
-            Thus, 
-                <me>y(t) = e^{-t} + u_3(t)\left( 1 -  e^{-(t - 3)} \right).</me></p>
-        </example>
-    
-    </subsection>
-
-    <subsection xml:id="laplace02-subsection-harmonic-oscillators">
-        <title>Forced Harmonic Oscillators</title>
-
-        <example>
-            <p>Consider the forced harmonic oscillator
-                <md>
-                    <mrow>y'' + 4y = 3 \cos t</mrow>
-                    <mrow>y(0) = y'(0) = 0.</mrow>
-                </md>
-            Taking the Laplace transform of both sides of the equation <m>y'' + 4y = 3 \cos t</m>, we obtain
-                <me>{\mathcal L}(y'') + 4 {\mathcal L}(y) = 3{\mathcal L}(\cos t)</me>
-            or
-                <me>s^2 Y(s) - sy(0) - y'(0) + 4Y(s) = \frac{3s}{s^2 + 1},</me>
-            where <m>{\mathcal L}(y)(s) = Y(s)</m>. Substituting the initial conditions and solving for <m>Y</m>, we have
-                <me>Y(s) = \frac{3s}{(s^2 + 4)(s^2 + 1)} = \frac{-s}{s^2 + 4} + \frac{s}{s^2 + 1},</me>
-            where the last expression was obtained using partial fractions.  Taking the inverse Laplace transform, we have our solution
-                <me>y(t) = {\mathcal L}^{-1} \left( \frac{-s}{s^2 + 4} \right) + {\mathcal L}^{-1} \left(  \frac{s}{s^2 + 1} \right) = -\cos 2t + \cos t.</me></p>
-        </example>
-
-        <example>
-            <p>Now let us consider a harmonic oscillator with discontinuous forcing,
-                <md>
-                    <mrow>y'' + 2 y' + 5y = h(t)</mrow>
-                    <mrow>y(0) = y'(0) = 0,</mrow>
-                </md>
-            where <m>h(t)</m> is given by
-                <me>h(t) 
-                =
-                \begin{cases}
-                5 &amp; t \lt 7 \\
-                0 &amp; t \geq 7.
-                \end{cases}</me>
-            That is, <m>h(t) = 5 (1 - u_7(t))</m>. We may consider this to be a mass-spring system sliding on a table, where the mass is one unit, the spring constant is 5, and the damping coefficient is 2. When <m>t \lt 7</m> the table is tilted so that gravity provides a force of 5 units when stretching the spring. At time <m>t = 7</m>, the table is suddenly returned to the level position.</p>
-
-            <p>Taking the Laplace transform of both sides of <m>y'' + 2 y' + 5y = h(t)</m>, we obtain
-                <me>[s^2 Y(s) -sy(0) - y'(0)] + 2 [sY(s) - y(0)] + 5Y(s) = {\mathcal L}(h),</me>
-            where <m>{\mathcal L}(y)(s) = Y(s)</m>.  Substituting the initial conditions and evaluating the Laplace transform on the right, we have
-                <me>(s^2 + 2s + 5)Y(s) = 5 \left( \frac{1}{s} - \frac{e^{-7s}}{s} \right).</me>
-            Solving for <m>Y(s)</m>, we have
-                <me>Y(s) = \frac{5}{s(s^2 + 2s + 5)} - \frac{5e^{-7s}}{s(s^2 + 2s + 5)}</me>
-            and
-                <me>y = {\mathcal L}^{-1} \left(  \frac{5}{s(s^2 + 2s + 5)} - \frac{5e^{-7s}}{s(s^2 + 2s + 5)} \right).</me>
-            Using partial fractions, we can rewrite the first term as
-                <me>\frac{5}{s(s^2 + 2s + 5)} = \frac{1}{s} - \frac{s + 2}{s^2 + 2s + 5}.</me></p>
-            
-            <p>The inverse Laplace transform of <m>1/s</m> is 1. To find the inverse Laplace transform of the second term, we complete the square of the denominator,
-                <md>
-                    <mrow>\frac{s + 2}{s^2 + 2s + 5} &amp; = \frac{s + 2}{(s+ 1)^2 + 4}</mrow>
-                    <mrow>&amp; = \frac{s + 1}{(s+ 1)^2 + 4} + \frac{1}{(s+ 1)^2 + 4}</mrow>
-                    <mrow>&amp; = \frac{s + 1}{(s+ 1)^2 + 4} + \frac{1}{2} \frac{2}{(s+ 1)^2 + 4}.</mrow>
-                </md>
-            Consequently,
-                <me>{\mathcal L}^{-1} \left( \frac{s + 2}{s^2 + 2s + 5} \right) = e^{-t} \cos 2t + \frac{1}{2} e^{-t} \sin 2t = e^{-t} \left( \cos 2t + \frac{1}{2} \sin 2t \right).</me>
-            and
-                <me>{\mathcal L}^{-1} \left( \frac{5}{s(s^2 + 2s + 5)} \right) = {\mathcal L}^{-1} \left( \frac{1}{s} - \frac{s + 2}{s^2 + 2s + 5} \right) = 1 - e^{-t} \left( \cos 2t + \frac{1}{2} \sin 2t \right).</me></p>
-
-            <p>We can compute the inverse Laplace transform of
-                <me>\frac{5e^{-7s}}{s(s^2 + 2s + 5)}</me>
-            using the Heaviside function <m>u_7(t)</m> and the inverse Laplace transform that we just calculated to obtain
-                <me>{\mathcal L}^{-1} \left( \frac{5e^{-7s}}{s(s^2 + 2s + 5)} \right) = u_7(t) \left(  1 - e^{-(t-7)} \left( \cos 2(t - 7) + \frac{1}{2} \sin 2(t - 7) \right) \right).</me>
-            Therefore, the solution to our original initial value problem is
-                <me>y(t) = 1 - e^{-t} \left( \cos 2t + \frac{1}{2}  \sin 2t \right) - u_7(t) \left(  1 - e^{-(t-7)} \left( \cos 2(t - 7) + \frac{1}{2} \sin 2(t - 7) \right) \right).</me></p>
-
-        </example>
-        
-        <activity>
-            <title>Solving Differential Equations with Laplace Transforms with Discontinuous Forcing Functions</title>
-
-            <introduction>
-                <p>Use Laplace Transforms to solve each of the following initial value problems.</p>
-            </introduction>
-            <task>
-                <statement>
-                    <p><m>x' + x = u_3(t)</m>, <m>x(0) = 2</m></p>
-                </statement>
-            </task>   
-            <task>
-                <statement>
-                    <p><m>x'' + x  = h(t)</m>, <m>x(0) = 0</m>, <m>x'(0) = 0</m> where
-                        <me>h(t) 
-                        =
-                        \begin{cases}
-                        0 &amp; t \lt 1 \\
-                        2 &amp; t \geq 1.
-                        \end{cases}</me></p>
-                </statement>
-            </task>     
-        </activity>
-
-    </subsection>
-
-    <subsection xml:id="laplace02-subsection-important-lessons">
-        <title>Important Lessons</title>
-
-        <p><ul>
-
-            <li><p>Using the Laplace transform including how the transform behaves, we can solve initial value problems such as
-                <md>
-                    <mrow>a y''(t) + b y'(t) + c y(t) \amp = f(t)</mrow>
-                    <mrow>y(0) \amp = y_0</mrow>
-                    <mrow>y'(0) \amp = y'_0</mrow>
-                </md>
-            even when <m>f(t)</m> is discontinuous.</p></li>
-        
-            <li><p>Let <m>y = y(t)</m> be a piecewise continuous, exponentially bounded function and assume that <m>y'</m> is also exponentially bounded. Then for large values of <m>s</m>
-                <me>{\mathcal L}(y')(s) = s {\mathcal L}(y)(s) - y(0) = s Y(s) - y(0),</me>
-            where <m>Y(s)</m> is the Laplace transform of <m>y</m>.</p></li>
-
-            <li><p>Let <m>y = y(t)</m> and <m>y'(t)</m> be piecewise continuous, exponentially bounded functions and assume that <m>y''</m> is exponentially bounded. Then for large values of <m>s</m>
-                <me>{\mathcal L}(y'')(s) = s^2 {\mathcal L}(y)(s) - sy(0) - y'(0)= s^2 Y(s) - sy(0) - y'(0),</me>
-            where <m>Y(s)</m> is the Laplace transform of <m>y</m>. In general, if <m>y = y(t)</m> and all of its derivatives up to order <m>k - 1</m> are piecewise continuous, exponentially bounded functions and <m>y^{(k)}</m> is piecewise continuous, then
-                <md>
-                    <mrow>{\mathcal L}(y^{(k)})(s) = s^k {\mathcal L}(y)(s) - s^{k - 1}y(0) - \cdots - s y^{(k -2)}(0) - y^{(k -1)}(0)</mrow>
-                    <mrow>= s^k Y(s) - s^{k - 1}y(0) - s^{k - 1}y(0)- \cdots - s y^{(k -2)}(0) - y^{(k -1)}(0).</mrow>
-                </md></p></li>
-
-        </ul></p>
-        
-    </subsection>
-
-    <reading-questions xml:id="reading-questions-laplace02">
-
-        <exercise xml:id="reading-questions-laplace02-1">
-            <statement>
-                <p>Describe in your own words how the Laplace transform can be used to solve an initial value problem.</p>
-            </statement>
-            <response/>
-        </exercise>
-
-        <exercise xml:id="reading-questions-laplace02-2">
-            <statement>
-                <p>Explain what an exponentially bounded function is.  Give an example.</p>
-            </statement>
-            <response/>
-        </exercise>
-
-    </reading-questions>
+			<task>
+				<statement>
+					<p>
+						<m>x' - 5x = e^{5t}</m>, <m>x(0) = 0</m>
+					</p>
+				</statement>
+			</task>
 
 
-    <exercises xml:id="laplace02-exercises" filenamebase="laplace02">
-    <title>Exercises</title>A
+			<task>
+				<statement>
+					<p>
+						<m>x'' - x' - 6x  = 0</m>, <m>x(0) = 2</m>, <m>x'(0) = -1</m>
+					</p>
+				</statement>
+			</task>
 
-         <exercisegroup xml:id="laplace02-exercises-solve-ivps">
-            <title>Solving Initial Value Problems</title>
-            <introduction><p>Solve the initial problems in <xref ref="laplace02-exercises-solve-ivps"/> using the Laplace transform.</p></introduction>
-            <exercise>
-                <statement>
-                    <p><m>y'' - 2y' - 3y = 3 e^{2t}</m>, <m>y(0) = 1</m>, <m>y'(0) = 0</m></p>
-                </statement>
-            </exercise>
-            <exercise>
-                <statement>
-                    <p><m>y'' - y' - 2y = 4x^2</m>, <m>y(0) = -1</m>, <m>y'(0) = 1</m></p>
-                </statement>
-            </exercise>
-            <exercise>
-                <statement>
-                    <p><m>\dfrac{d^2x}{dx^2} - 6 \dfrac{dx}{dt} + 25 x = 64e^{-t}</m>, <m>x(0) = 1</m>, <m>x'(0) = -2</m></p>
-                </statement>
-            </exercise>
-            <exercise>
-                <statement>
-                    <p><m>y'' + 16y = 2 \sin 2t</m>, <m>y(0) = 1</m>, <m>y'(0) = 0</m></p>
-                </statement>
-            </exercise>
-            <exercise>
-                <statement>
-                    <p><m>y'' + 16y = 2 \sin 4t</m>, <m>y(0) = 1</m>, <m>y'(0) = 0</m></p>
-                </statement>
-            </exercise>
-            <exercise>
-                <statement>
-                    <p><m>y'' + 2y' + y = 2e^{-t}</m>, <m>y(0) = -1</m>, <m>y'(0) = 3</m></p>
-                </statement>
-            </exercise>
-            <exercise>
-                <statement>
-                    <p><m>y'' + 6y' + 8y = \cos 3t</m>, <m>y(0) = -2</m>, <m>y'(0) = 1</m></p>
-                </statement>
-            </exercise>            
-            <exercise>
-                <statement>
-                    <p><m>u'' + \omega_0^2 y = \cos \omega t</m>, <m>\omega^2 \neq \omega_0^2</m>, <m>u(0) = 1</m>, <m>u'(0) = -1</m></p>
-                </statement>
-            </exercise>                       
-        </exercisegroup>  
 
-        <exercise>
-            <statement>
-                <p>Find the solution of the initial value problem
-                    <md>
-                        <mrow>2 y'' + y' + 2y = g(t)</mrow>
-                        <mrow>y(0) = y'(0) = 0</mrow>
-                    </md>
-                where <m>g(t)</m> is defined by
-                    <me>g(t) = u_5(t) - u_{20}(t) 
-                    =
-                    \begin{cases}
-                    1, &amp; 5 \leq t \lt 20, \\
-                    0, &amp; 0 \leq t \lt 5 \text{ and } t \geq 20.
-                    \end{cases}</me></p>
-            </statement>
-        </exercise>
+			<task>
+				<statement>
+					<p>
+						<m>x'' + 4x  = \sin 3t</m>, <m>x(0) = 0</m>, <m>x'(0) = 0</m>
+					</p>
+				</statement>
+			</task>
+		</activity>
+	</subsection>
 
-        <exercise>
-            <statement>
-                <p>Let <m>y = y(t)</m> and <m>y'(t)</m> be piecewise continuous, exponentially bounded functions and assume that <m>y''</m> is  exponentially bounded.<ol>
+	<subsection xml:id="laplace02-subsection-discontinuous-functions">
+		<title>Discontinuous Functions</title>
+		<p>
+			If <m>c \geq 0</m> and we define the function
+			<me>
+				u_c(t)
+				=
+				\begin{cases}
+				0 &amp; t \lt c \\
+				1 &amp; t \geq c,
+				\end{cases}
+			</me>
+			recall that the Laplace transform of <m>u_c</m> is given by
+			<me>
+				{\mathcal L}(u_c(t))(s) = \int_0^\infty u_c(t) e^{-st} \, dt = \frac{e^{-cs}}{s}.
+			</me>
+			We can use this inforamtion to solve initial value problems with discontinuous functions.
+		</p>
 
-                    <li><p>Prove that
-                        <me>{\mathcal L}(y'')(s) = s^2 {\mathcal L}(y)(s) - sy(0) - y'(0)= s^2 Y(s) - sy(0) - y'(0)</me>
-                    for large values of <m>s</m>, where <m>Y(s)</m> is the Laplace transform of <m>y</m>.</p></li>
+		<example>
+			<p>
+				Consider the initial value problem
+				<md>
+					<mrow>y' + y&amp; = u_3(t)</mrow>
+					<mrow>y(0) &amp; = 1.</mrow>
+				</md>
+				If we take the Laplace transform of both sides of  <m>y' + y = u_3(t)</m>, we obtain
+				<me>
+					sY(s) - y(0) + Y(s) = \frac{e^{-3s}}{s}.
+				</me>
+				Using the fact that <m>y(0) = 1</m> and solving for <m>Y(s)</m>, we get
+				<me>
+					Y(s) = \frac{1}{s + 1} + \frac{e^{-3s}}{s(s+1)}.
+				</me>
+				Therefore,
+				<me>
+					y(t) = {\mathcal L}^{-1} \left(  \frac{1}{s + 1} \right) + {\mathcal L}^{-1} \left( \frac{e^{-3s}}{s(s+1)} \right).
+				</me>
+				The inverse Laplace transform of the first term is
+				<me>
+					{\mathcal L}^{-1} \left(  \frac{1}{s + 1} \right) = e^{-t}.
+				</me>
+				To compute the inverse Laplace transform of the second term, recall from <xref ref="laplace01-example-shift"/> that if <m>{\mathcal L}(f) = F(s)</m>, then
+				<me>
+					{\mathcal L}(u_a(t) f( t- a)) = e^{-as} F(s).
+				</me>
+				Using partial fractions to obtain
+				<me>
+					\frac{1}{s(s+1)} = \frac{1}{s} - \frac{1}{s - 1}.
+				</me>
+				Hence,
+				<me>
+					{\mathcal L}^{-1} \left( \frac{e^{-3s}}{s(s+1)} \right) = {\mathcal L}^{-1} \left( \frac{e^{-3s}}{s} \right) - {\mathcal L}^{-1} \left(\frac{e^{-3s}}{s+1} \right) = u_3(t) - {\mathcal L}^{-1} \left( \frac{e^{-3s}}{s+1} \right).
+				</me>
+				If <m>g(t) = u_3(t) e^{-(t - 3)}</m>, then the Laplace transform of <m>g(t)</m> is
+				<me>
+					{\mathcal L}(g) = e^{-3s} {\mathcal L}(e^{-t}) = \frac{e^{-3s}}{s + 1}.
+				</me>
+				Thus,
+				<me>
+					y(t) = e^{-t} + u_3(t)\left( 1 -  e^{-(t - 3)} \right).
+				</me>
+			</p>
+		</example>
+	</subsection>
 
-                    <li><p>If <m>y = y(t)</m> and all of its derivatives up to order <m>k - 1</m> are piecewise continuous, exponentially bounded functions and <m>y^{(k)}</m> is piecewise continuous, prove that
-                        <md>
-                            <mrow>{\mathcal L}(y^{(k)})(s) = s^k {\mathcal L}(y)(s) - s^{k - 1}y(0) - \cdots - s y^{(k -2)}(0) - y^{(k -1)}(0)</mrow>
-                            <mrow>= s^k Y(s) - s^{k - 1}y(0) - s^{k - 1}y(0)- \cdots - s y^{(k -2)}(0) - y^{(k -1)}(0).</mrow>
-                        </md></p></li>
+	<subsection xml:id="laplace02-subsection-harmonic-oscillators">
+		<title>Forced Harmonic Oscillators</title>
+		<example>
+			<p>
+				Consider the forced harmonic oscillator
+				<md>
+					<mrow>y'' + 4y = 3 \cos t</mrow>
+					<mrow>y(0) = y'(0) = 0.</mrow>
+				</md>
+				Taking the Laplace transform of both sides of the equation <m>y'' + 4y = 3 \cos t</m>, we obtain
+				<me>
+					{\mathcal L}(y'') + 4 {\mathcal L}(y) = 3{\mathcal L}(\cos t)
+				</me>
+				or
+				<me>
+					s^2 Y(s) - sy(0) - y'(0) + 4Y(s) = \frac{3s}{s^2 + 1},
+				</me>
+				where <m>{\mathcal L}(y)(s) = Y(s)</m>.
+				Substituting the initial conditions and solving for <m>Y</m>, we have
+				<me>
+					Y(s) = \frac{3s}{(s^2 + 4)(s^2 + 1)} = \frac{-s}{s^2 + 4} + \frac{s}{s^2 + 1},
+				</me>
+				where the last expression was obtained using partial fractions.
+				Taking the inverse Laplace transform, we have our solution
+				<me>
+					y(t) = {\mathcal L}^{-1} \left( \frac{-s}{s^2 + 4} \right) + {\mathcal L}^{-1} \left(  \frac{s}{s^2 + 1} \right) = -\cos 2t + \cos t.
+				</me>
+			</p>
+		</example>
 
-                    </ol></p>
-            </statement>
-        </exercise>
+		<example>
+			<p>
+				Now let us consider a harmonic oscillator with discontinuous forcing,
+				<md>
+					<mrow>y'' + 2 y' + 5y = h(t)</mrow>
+					<mrow>y(0) = y'(0) = 0,</mrow>
+				</md>
+				where <m>h(t)</m> is given by
+				<me>
+					h(t)
+					=
+					\begin{cases}
+					5 &amp; t \lt 7 \\
+					0 &amp; t \geq 7.
+					\end{cases}
+				</me>
+				That is, <m>h(t) = 5 (1 - u_7(t))</m>.
+				We may consider this to be a mass-spring system sliding on a table, where the mass is one unit, the spring constant is 5, and the damping coefficient is 2.
+				When <m>t \lt 7</m> the table is tilted so that gravity provides a force of 5 units when stretching the spring.
+				At time <m>t = 7</m>, the table is suddenly returned to the level position.
+			</p>
 
-        <exercise>
-            <statement>
-                <p>Prove <xref ref="laplace02-theorem-derivative-higher"/>.</p>
-            </statement>
-        </exercise>
+			<p>
+				Taking the Laplace transform of both sides of <m>y'' + 2 y' + 5y = h(t)</m>, we obtain
+				<me>
+					[s^2 Y(s) -sy(0) - y'(0)] + 2 [sY(s) - y(0)] + 5Y(s) = {\mathcal L}(h),
+				</me>
+				where <m>{\mathcal L}(y)(s) = Y(s)</m>.
+				Substituting the initial conditions and evaluating the Laplace transform on the right, we have
+				<me>
+					(s^2 + 2s + 5)Y(s) = 5 \left( \frac{1}{s} - \frac{e^{-7s}}{s} \right).
+				</me>
+				Solving for <m>Y(s)</m>, we have
+				<me>
+					Y(s) = \frac{5}{s(s^2 + 2s + 5)} - \frac{5e^{-7s}}{s(s^2 + 2s + 5)}
+				</me>
+				and
+				<me>
+					y = {\mathcal L}^{-1} \left(  \frac{5}{s(s^2 + 2s + 5)} - \frac{5e^{-7s}}{s(s^2 + 2s + 5)} \right).
+				</me>
+				Using partial fractions, we can rewrite the first term as
+				<me>
+					\frac{5}{s(s^2 + 2s + 5)} = \frac{1}{s} - \frac{s + 2}{s^2 + 2s + 5}.
+				</me>
+			</p>
 
-        <exercise>
-            <statement>
-                <p>Let <m>f(t)</m> be a peicewise continuous function for <m>t \geq 0</m>. In addition, suppose that <m>f(t)</m>satisfies the condition <m>|f(t)| \leq M e^{ct}</m> with <m>t \geq 0</m>.
-                <ol>
-                    <li><p>Prove that
-                        <me>{\mathcal L} \left(  \int_0^t f(\tau) \, d\tau \right) = \frac{1}{s} {\mathcal L}(f(t) = \frac{F(s)}{s}.</me></p></li>
+			<p>
+				The inverse Laplace transform of <m>1/s</m> is 1.
+				To find the inverse Laplace transform of the second term, we complete the square of the denominator,
+				<md>
+					<mrow>\frac{s + 2}{s^2 + 2s + 5} &amp; = \frac{s + 2}{(s+ 1)^2 + 4}</mrow>
+					<mrow>&amp; = \frac{s + 1}{(s+ 1)^2 + 4} + \frac{1}{(s+ 1)^2 + 4}</mrow>
+					<mrow>&amp; = \frac{s + 1}{(s+ 1)^2 + 4} + \frac{1}{2} \frac{2}{(s+ 1)^2 + 4}.</mrow>
+				</md>
+				Consequently,
+				<me>
+					{\mathcal L}^{-1} \left( \frac{s + 2}{s^2 + 2s + 5} \right) = e^{-t} \cos 2t + \frac{1}{2} e^{-t} \sin 2t = e^{-t} \left( \cos 2t + \frac{1}{2} \sin 2t \right).
+				</me>
+				and
+				<me>
+					{\mathcal L}^{-1} \left( \frac{5}{s(s^2 + 2s + 5)} \right) = {\mathcal L}^{-1} \left( \frac{1}{s} - \frac{s + 2}{s^2 + 2s + 5} \right) = 1 - e^{-t} \left( \cos 2t + \frac{1}{2} \sin 2t \right).
+				</me>
+			</p>
 
-                    <li><p>Show that 
-                        <me>{\mathcal L}^{-1} \left(  \frac{F(s)}{s} \right) = \int_0^t f(\tau) \, d\tau</me>
-                    follows from (a).</p></li>
-                </ol></p>
-            </statement>
-        </exercise>
-            
-    </exercises>
+			<p>
+				We can compute the inverse Laplace transform of
+				<me>
+					\frac{5e^{-7s}}{s(s^2 + 2s + 5)}
+				</me>
+				using the Heaviside function <m>u_7(t)</m> and the inverse Laplace transform that we just calculated to obtain
+				<me>
+					{\mathcal L}^{-1} \left( \frac{5e^{-7s}}{s(s^2 + 2s + 5)} \right) = u_7(t) \left(  1 - e^{-(t-7)} \left( \cos 2(t - 7) + \frac{1}{2} \sin 2(t - 7) \right) \right).
+				</me>
+				Therefore, the solution to our original initial value problem is
+				<me>
+					y(t) = 1 - e^{-t} \left( \cos 2t + \frac{1}{2}  \sin 2t \right) - u_7(t) \left(  1 - e^{-(t-7)} \left( \cos 2(t - 7) + \frac{1}{2} \sin 2(t - 7) \right) \right).
+				</me>
+			</p>
+		</example>
 
+		<activity>
+			<title>Solving Differential Equations with Laplace Transforms with Discontinuous Forcing Functions</title>
+			<introduction>
+				<p>
+					Use Laplace Transforms to solve each of the following initial value problems.
+				</p>
+			</introduction>
+
+
+			<task>
+				<statement>
+					<p>
+						<m>x' + x = u_3(t)</m>, <m>x(0) = 2</m>
+					</p>
+				</statement>
+			</task>
+
+
+			<task>
+				<statement>
+					<p>
+						<m>x'' + x  = h(t)</m>, <m>x(0) = 0</m>, <m>x'(0) = 0</m> where
+						<me>
+							h(t)
+							=
+							\begin{cases}
+							0 &amp; t \lt 1 \\
+							2 &amp; t \geq 1.
+							\end{cases}
+						</me>
+					</p>
+				</statement>
+			</task>
+		</activity>
+	</subsection>
+
+	<subsection xml:id="laplace02-subsection-important-lessons">
+		<title>Important Lessons</title>
+		<p>
+			<ul>
+				<li>
+					<p>
+						Using the Laplace transform including how the transform behaves, we can solve initial value problems such as
+						<md>
+							<mrow>a y''(t) + b y'(t) + c y(t) \amp = f(t)</mrow>
+							<mrow>y(0) \amp = y_0</mrow>
+							<mrow>y'(0) \amp = y'_0</mrow>
+						</md>
+						even when <m>f(t)</m> is discontinuous.
+					</p>
+				</li>
+
+				<li>
+					<p>
+						Let <m>y = y(t)</m> be a piecewise continuous, exponentially bounded function and assume that <m>y'</m> is also exponentially bounded.
+						Then for large values of <m>s</m>
+						<me>
+							{\mathcal L}(y')(s) = s {\mathcal L}(y)(s) - y(0) = s Y(s) - y(0),
+						</me>
+						where <m>Y(s)</m> is the Laplace transform of <m>y</m>.
+					</p>
+				</li>
+
+				<li>
+					<p>
+						Let <m>y = y(t)</m> and <m>y'(t)</m> be piecewise continuous, exponentially bounded functions and assume that <m>y''</m> is exponentially bounded.
+						Then for large values of <m>s</m>
+						<me>
+							{\mathcal L}(y'')(s) = s^2 {\mathcal L}(y)(s) - sy(0) - y'(0)= s^2 Y(s) - sy(0) - y'(0),
+						</me>
+						where <m>Y(s)</m> is the Laplace transform of <m>y</m>.
+						In general, if <m>y = y(t)</m> and all of its derivatives up to order <m>k - 1</m> are piecewise continuous, exponentially bounded functions and <m>y^{(k)}</m> is piecewise continuous, then
+						<md>
+							<mrow>{\mathcal L}(y^{(k)})(s) = s^k {\mathcal L}(y)(s) - s^{k - 1}y(0) - \cdots - s y^{(k -2)}(0) - y^{(k -1)}(0)</mrow>
+							<mrow>= s^k Y(s) - s^{k - 1}y(0) - s^{k - 1}y(0)- \cdots - s y^{(k -2)}(0) - y^{(k -1)}(0).</mrow>
+						</md>
+					</p>
+				</li>
+			</ul>
+		</p>
+	</subsection>
+
+	<reading-questions xml:id="reading-questions-laplace02">
+	<exercise xml:id="reading-questions-laplace02-1">
+		<statement>
+			<p>
+				Describe in your own words how the Laplace transform can be used to solve an initial value problem.
+			</p>
+		</statement>
+		<response/>
+	</exercise>
+
+	<exercise xml:id="reading-questions-laplace02-2">
+		<statement>
+			<p>
+				Explain what an exponentially bounded function is.
+				Give an example.
+			</p>
+		</statement>
+		<response/>
+	</exercise>
+	</reading-questions>
+
+	<exercises xml:id="laplace02-exercises" xml:base="laplace02">
+	<title>Exercises</title>
+	<exercisegroup xml:id="laplace02-exercises-solve-ivps">
+	<title>Solving Initial Value Problems</title>
+	<introduction>
+		<p>
+			Solve the initial problems in <xref ref="laplace02-exercises-solve-ivps"/> using the Laplace transform.
+		</p>
+	</introduction>
+
+	<exercise>
+		<statement>
+			<p>
+				<m>y'' - 2y' - 3y = 3 e^{2t}</m>, <m>y(0) = 1</m>, <m>y'(0) = 0</m>
+			</p>
+		</statement>
+	</exercise>
+
+	<exercise>
+		<statement>
+			<p>
+				<m>y'' - y' - 2y = 4x^2</m>, <m>y(0) = -1</m>, <m>y'(0) = 1</m>
+			</p>
+		</statement>
+	</exercise>
+
+	<exercise>
+		<statement>
+			<p>
+				<m>\dfrac{d^2x}{dx^2} - 6 \dfrac{dx}{dt} + 25 x = 64e^{-t}</m>, <m>x(0) = 1</m>, <m>x'(0) = -2</m>
+			</p>
+		</statement>
+	</exercise>
+
+	<exercise>
+		<statement>
+			<p>
+				<m>y'' + 16y = 2 \sin 2t</m>, <m>y(0) = 1</m>, <m>y'(0) = 0</m>
+			</p>
+		</statement>
+	</exercise>
+
+	<exercise>
+		<statement>
+			<p>
+				<m>y'' + 16y = 2 \sin 4t</m>, <m>y(0) = 1</m>, <m>y'(0) = 0</m>
+			</p>
+		</statement>
+	</exercise>
+
+	<exercise>
+		<statement>
+			<p>
+				<m>y'' + 2y' + y = 2e^{-t}</m>, <m>y(0) = -1</m>, <m>y'(0) = 3</m>
+			</p>
+		</statement>
+	</exercise>
+
+	<exercise>
+		<statement>
+			<p>
+				<m>y'' + 6y' + 8y = \cos 3t</m>, <m>y(0) = -2</m>, <m>y'(0) = 1</m>
+			</p>
+		</statement>
+	</exercise>
+
+	<exercise>
+		<statement>
+			<p>
+				<m>u'' + \omega_0^2 y = \cos \omega t</m>, <m>\omega^2 \neq \omega_0^2</m>, <m>u(0) = 1</m>, <m>u'(0) = -1</m>
+			</p>
+		</statement>
+	</exercise>
+	</exercisegroup>
+
+	<exercise>
+		<statement>
+			<p>
+				Find the solution of the initial value problem
+				<md>
+					<mrow>2 y'' + y' + 2y = g(t)</mrow>
+					<mrow>y(0) = y'(0) = 0</mrow>
+				</md>
+				where <m>g(t)</m> is defined by
+				<me>
+					g(t) = u_5(t) - u_{20}(t)
+					=
+					\begin{cases}
+					1, &amp; 5 \leq t \lt 20, \\
+					0, &amp; 0 \leq t \lt 5 \text{ and } t \geq 20.
+					\end{cases}
+				</me>
+			</p>
+		</statement>
+	</exercise>
+
+	<exercise>
+		<statement>
+			<p>
+				Let <m>y = y(t)</m> and <m>y'(t)</m> be piecewise continuous, exponentially bounded functions and assume that <m>y''</m> is  exponentially bounded.
+				<ol>
+					<li>
+						<p>
+							Prove that
+							<me>
+								{\mathcal L}(y'')(s) = s^2 {\mathcal L}(y)(s) - sy(0) - y'(0)= s^2 Y(s) - sy(0) - y'(0)
+							</me>
+							for large values of <m>s</m>, where <m>Y(s)</m> is the Laplace transform of <m>y</m>.
+						</p>
+					</li>
+
+					<li>
+						<p>
+							If <m>y = y(t)</m> and all of its derivatives up to order <m>k - 1</m> are piecewise continuous, exponentially bounded functions and <m>y^{(k)}</m> is piecewise continuous, prove that
+							<md>
+								<mrow>{\mathcal L}(y^{(k)})(s) = s^k {\mathcal L}(y)(s) - s^{k - 1}y(0) - \cdots - s y^{(k -2)}(0) - y^{(k -1)}(0)</mrow>
+								<mrow>= s^k Y(s) - s^{k - 1}y(0) - s^{k - 1}y(0)- \cdots - s y^{(k -2)}(0) - y^{(k -1)}(0).</mrow>
+							</md>
+						</p>
+					</li>
+				</ol>
+			</p>
+		</statement>
+	</exercise>
+
+	<exercise>
+		<statement>
+			<p>
+				Prove <xref ref="laplace02-theorem-derivative-higher"/>.
+			</p>
+		</statement>
+	</exercise>
+
+	<exercise>
+		<statement>
+			<p>
+				Let <m>f(t)</m> be a peicewise continuous function for <m>t \geq 0</m>.
+				In addition, suppose that <m>f(t)</m>satisfies the condition <m>|f(t)| \leq M e^{ct}</m> with <m>t \geq 0</m>.
+				<ol>
+					<li>
+						<p>
+							Prove that
+							<me>
+								{\mathcal L} \left(  \int_0^t f(\tau) \, d\tau \right) = \frac{1}{s} {\mathcal L}(f(t) = \frac{F(s)}{s}.
+							</me>
+						</p>
+					</li>
+
+					<li>
+						<p>
+							Show that
+							<me>
+								{\mathcal L}^{-1} \left(  \frac{F(s)}{s} \right) = \int_0^t f(\tau) \, d\tau
+							</me>
+							follows from (a).
+						</p>
+					</li>
+				</ol>
+			</p>
+		</statement>
+	</exercise>
+	</exercises>
 </section>
-
-<!--</section>-->
+<!--
+</section>
+-->
