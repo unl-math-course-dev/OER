@@ -1,206 +1,291 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
 <!-- This file is part of the book                                 -->
 <!--                                                               -->
 <!--    Ordinary Differential Equations Project                    -->
 <!--                                                               -->
 <!-- Copyright (C) 2013-2022 Thomas W. Judson                      -->
 <!-- See the file COPYING for copying conditions.                  -->
-
 <section xml:id="systems04" xmlns:xi="http://www.w3.org/2001/XInclude">
-    <title>Solving Systems Analytically</title>
-    <objectives>
-        <ul>
+	<title>Solving Systems Analytically</title>
+	<objectives>
+		<ul>
+			<li>
+				<p>
+					To understand that a system of the form
+					<md>
+						<mrow>\frac{dx}{dt} &amp; =f(x)</mrow>
+						<mrow>\frac{dy}{dt} &amp; = g(y)</mrow>
+					</md>
+					is <term>decoupled</term> and can be solved by solving each equation independently.
+				</p>
+			</li>
 
-            <li><p>To understand that a system of the form
-                <md>
-                    <mrow>\frac{dx}{dt} &amp; =f(x)</mrow>
-                    <mrow>\frac{dy}{dt} &amp; = g(y)</mrow>
-                </md>
-            is <term>decoupled</term> and can be solved by solving each equation independently.</p></li>
- 
-            <li><p>To understand that a system of the form
-                <md>
-                    <mrow>\frac{dx}{dt} &amp; =f(x),</mrow>
-                    <mrow>\frac{dy}{dt} &amp; = g(x, y)</mrow>
-                </md>
-            is <term>partially coupled system</term> and can be solved by first solving the first equation and then substituting the solution into the second equation, which can then be solved.</p></li>
+			<li>
+				<p>
+					To understand that a system of the form
+					<md>
+						<mrow>\frac{dx}{dt} &amp; =f(x),</mrow>
+						<mrow>\frac{dy}{dt} &amp; = g(x, y)</mrow>
+					</md>
+					is <term>partially coupled system</term> and can be solved by first solving the first equation and then substituting the solution into the second equation, which can then be solved.
+				</p>
+			</li>
+		</ul>
+	</objectives>
 
-        </ul>
-    </objectives>  
-    <introduction>
+	<introduction>
+		<p>
+			Mixing problems model how substances flow back and forth between two or more compartments.
+			These problems often arise in applications<mdash />for example, we might want to model how greenhouse gases flow back and forth between different layers of the earth's atomosphere<xref ref="malcolm-1994" />, how chemicals move between tanks in a refinery or a brewery, or how pollutants move between a series of lakes or ponds.
+			Systems of differential equations can prove very useful when it comes to modeling such situations.
+		</p>
+	</introduction>
 
-        <p>Mixing problems model how substances flow back and forth between two or more compartments. These problems often arise in applications<mdash />for example, we might want to model how greenhouse gases flow back and forth between different layers of the earth's atomosphere<xref ref="malcolm-1994" />, how chemicals move between tanks in a refinery or a brewery, or how pollutants move between a series of lakes or ponds. Systems of differential equations can prove very useful when it comes to modeling such situations.</p>
+	<subsection xml:id="systems04-subsection-partially-coupled">
+		<title>Partially Coupled Systems</title>
+		<p>
+			We will use linear systems of differential equations such as
+			<md>
+				<mrow>\frac{dx}{dt} &amp; = ax + by</mrow>
+				<mrow>\frac{dy}{dt} &amp; = cx + dy</mrow>
+			</md>
+			to illustrate how we can use systems of differential equations to model how substances flow back and forth between two or more compartments.
+			Suppose that we have two tanks (<m>A</m> and <m>B</m>) between which a mixture of brine flows (<xref ref="systems04-figure-mixing-example"/>).
+			Tank <m>A</m> contains 300 liters of water in which 100 kilograms of salt has been dissolved and Tank <m>B</m> contains 300 liters of pure water.
+			Fresh water is pumped into Tank <m>A</m> at the rate of 500 liters per hour, and brine is pumped into Tank <m>B</m> from Tank <m>A</m> at the rate of 500 liters per hour.
+			Brine is also drained at a rate 500 liters of brine per hour from Tank <m>B</m>.
+			All brine mixtures are well-stirred.
+			If we let <m>x = x(t)</m> be the amount of salt in Tank <m>A</m> at time <m>t</m> and <m>y = y(t)</m> be the amount of salt in Tank <m>B</m> at time <m>t</m>, then we know that
+			<md>
+				<mrow>x(0) &amp; = 100</mrow>
+				<mrow>y(0) &amp; = 0</mrow>
+			</md>
+			We know that the salt concentrations in the two tanks are <m>x/300</m> kilograms per liter and <m>y/300</m> kilograms per liter.
+			Thus, we can describe the rate of change in each tank with a differential equation,
+			<md>
+				<mrow>\frac{dx}{dt} &amp; = - 500 \cdot \frac{x}{300} = - \frac{5}{3} x,</mrow>
+				<mrow>\frac{dy}{dt} &amp; = 500 \cdot \frac{x}{300} - 500 \cdot \frac{y}{300} = \frac{5}{3} x - \frac{5}{3} y.</mrow>
+			</md>
+		</p>
 
-    </introduction>
+		<figure xml:id="systems04-figure-mixing-example">
+			<caption>Mixing example with two tanks</caption>
+			<image width="60%" xml:id="systems04-mixing-example">
+				<description>
+				<p>
+					two three hundred liter tanks connected with a pipe flowing from the first to the second tank with the first tank having an input pipe and the second having a drain pipe
+				</p>
+				</description>
+				<latex-image>
+				<xi:include href="tikz/systems04-mixing-example.tex" parse="text"/>
+				</latex-image>
+			</image>
+		</figure>
 
-    <subsection xml:id="systems04-subsection-partially-coupled">
-        <title>Partially Coupled Systems</title>
+		<p>
+			We can now ask how we might solve the system of equations
+			<md>
+				<mrow>\frac{dx}{dt} &amp; = - \frac{5}{3} x,</mrow>
+				<mrow>\frac{dy}{dt} &amp; = \frac{5}{3} x - \frac{5}{3} y.</mrow>
+			</md>
+			The task of solving the system
+			<md>
+				<mrow>\frac{dx}{dt} &amp; =f(x,y),</mrow>
+				<mrow>\frac{dy}{dt} &amp; = g(x,y),</mrow>
+			</md>
+			may be quite difficult or even impossible.
+			However, we can find solutions in certain cases.
+			For example, if we have a system of the form
+			<md>
+				<mrow>\frac{dx}{dt} &amp; =f(x),</mrow>
+				<mrow>\frac{dy}{dt} &amp; = g(y),</mrow>
+			</md>
+			then each equation is an autonomous first-order equation.
+			To solve our system, we only need to solve two first-order equations.
+			Such a system is said to be <term>decoupled</term><idx><h>system</h><h>decoupled</h></idx>.
+			Generalizing slightly, we say that a <term>partially coupled system</term><idx><h>system</h><h>partially coupled</h></idx> is a system of the form
+			<md>
+				<mrow>\frac{dx}{dt} &amp; =f(x),</mrow>
+				<mrow>\frac{dy}{dt} &amp; = g(x, y).</mrow>
+			</md>
+			Since the first equation is an autonomous first-order equation in <m>x</m>, we can solve this equation separately, and substitute our solution into the second equation.
+		</p>
 
-        <p>We will use linear systems of differential equations such as
-            <md>
-                <mrow>\frac{dx}{dt} &amp; = ax + by</mrow>
-                <mrow>\frac{dy}{dt} &amp; = cx + dy</mrow>
-            </md>
-        to illustrate how we can use systems of differential equations to model how substances flow back and forth between two or more compartments. Suppose that we have two tanks (<m>A</m> and <m>B</m>) between which a mixture of brine flows (<xref ref="systems04-figure-mixing-example"/>). Tank <m>A</m> contains 300 liters of water in which 100 kilograms of salt has been dissolved and Tank <m>B</m> contains 300 liters of pure water. Fresh water is pumped into Tank <m>A</m> at the rate of 500 liters per hour, and brine is pumped into Tank <m>B</m> from Tank <m>A</m> at the rate of 500 liters per hour. Brine is also drained at a rate 500 liters of brine per hour from Tank <m>B</m>. All brine mixtures are well-stirred.  If we let <m>x = x(t)</m> be the amount of salt in Tank <m>A</m> at time <m>t</m> and <m>y = y(t)</m> be the amount of salt in Tank <m>B</m> at time <m>t</m>, then we know that
-            <md>
-                <mrow>x(0) &amp; = 100</mrow>
-                <mrow>y(0) &amp; = 0</mrow>
-            </md>
-        We know that the salt concentrations in the two tanks are <m>x/300</m> kilograms per liter and <m>y/300</m> kilograms per liter. Thus, we can describe the rate of change in each tank with a differential equation,
-            <md>
-                <mrow>\frac{dx}{dt} &amp; = - 500 \cdot \frac{x}{300} = - \frac{5}{3} x,</mrow>
-                <mrow>\frac{dy}{dt} &amp; = 500 \cdot \frac{x}{300} - 500 \cdot \frac{y}{300} = \frac{5}{3} x - \frac{5}{3} y.</mrow>
-            </md></p>
+		<p>
+			Consider the system
+			<md>
+				<mrow>\frac{dx}{dt} &amp; = x </mrow>
+				<mrow>\frac{dy}{dt} &amp; = x + y.</mrow>
+			</md>
+			We can easily solve the first equation, <m>dx/dt = x</m>, to obtain <m>x = a e^t</m>.
+			Using this information in the second equation, we have
+			<me>
+				\frac{dy}{dt}  - y = a e^t
+			</me>
+			which is a first-order linear equation.
+			This equation has an integrating factor <m>\mu(t) = e^{-t}</m>, and
+			<me>
+				\frac{d}{dt} (e^{-t} y) = \mu(t) \left(\frac{dy}{dt}  - y \right)= a e^t \mu(t) = a.
+			</me>
+			Therefore, the solution to our second equation is
+			<me>
+				y(t) = at e^t + be^t.
+			</me>
+		</p>
 
-        <figure xml:id="systems04-figure-mixing-example">
-            <image width="60%" xml:id="systems04-mixing-example">
-                <description>two three hundred liter tanks connected with a pipe flowing from the first to the second tank with the first tank having an input pipe and the second having a drain pipe</description>
-                <latex-image>
-                    <xi:include href="tikz/systems04-mixing-example.tex" parse="text"/>
-                </latex-image>
-            </image>
+		<p>
+			Revisiting the mixing problem that we posed at the beginning of this section, we have the following initial value problem,
+			<md>
+				<mrow>\frac{dx}{dt} &amp; = - \frac{5}{3} x,</mrow>
+				<mrow>\frac{dy}{dt} &amp; = \frac{5}{3} x - \frac{5}{3} y.</mrow>
+				<mrow>x(0) &amp; = 100,</mrow>
+				<mrow>y(0) &amp; = 0.</mrow>
+			</md>
+			Solving <m>dx/dt = - (5/3) x</m> is easy.
+			We can quickly determine that <m>x(t) = c_1 e^{-5t/3}</m>.
+			Applying the initial condition <m>x(0) = 100</m>, we can determine that <m>c_1 = 100</m> and <m>x(t) = 100 e^{-5t/3}</m>.
+			Our second equation now becomes
+			<me>
+				\frac{dy}{dt}  = \frac{5}{3} x - \frac{5}{3} y = \frac{500}{3} e^{-5t/3} - \frac{5}{3} y.
+			</me>
+			This last equation is a first-order linear equation
+			<me>
+				\frac{dy}{dt} + \frac{5}{3} y = \frac{500}{3} e^{-5t/3}.
+			</me>
+			Multiplying both sides of this last equation by the integrating factor <m>\mu(t) = e^{5t/3}</m> yields
+			<me>
+				\frac{d}{dt} (e^{5t/3}y) = e^{5t/3}\frac{dy}{dt} + e^{5t/3}\frac{5}{3} y = \frac{500}{3}.
+			</me>
+			Integrating both sides of this last equation gives us
+			<me>
+				e^{5t/3}y = \frac{500}{3} t + c_2.
+			</me>
+			Using our initial condition <m>y(0) = 0</m>, we can determine that <m>c_2 = 0</m>.
+			Thus,
+			<me>
+				y = \frac{500}{3} t e^{-5t/3}
+			</me>
+		</p>
 
-            <caption>Mixing example with two tanks</caption>
-        </figure>
+		<example xml:id="systems04-example-partially-coupled-system">
+			<p>
+				Consider the partially coupled system
+				<md>
+					<mrow>x' &amp; = 2x</mrow>
+					<mrow>y' &amp; = x + 3y</mrow>
+				</md>
+				Notice that we already have the tools to solve <m>x' = 2x</m>.
+				In fact, the solution is <m>x(t) = c_1 e^{2t}</m>.
+				We can use this information to solve the second equation, <m>y' = x + 3y</m>.
+				That is, if we use the fact that <m>x(t) = c_1 e^{2t}</m>, the second equation becomes
+				<me>
+					y' = c_1 e^{2t} + 3y.
+				</me>
+				We can rewrite this equation as
+				<me>
+					y' - 3y = c_1 e^{2t},
+				</me>
+				which is a first-order linear equation.
+				If we multiply both sides of the equation by <m>\mu(t) = e^{-3t}</m>, we have
+				<me>
+					\frac{d}{dt}\left( e^{-3t}y \right) = e^{-3t}y' - 3e^{-3t}y = c_1 e^{-t}.
+				</me>
+				Integrating, we have
+				<me>
+					e^{-3t}y = - c_1 e^{-t} + c_2.
+				</me>
+				Solving for <m>y</m>, yields <m>y = - c_1 e^{2t} + c_2e^{3t}</m>.
+				Thus the solution to our system is
+				<md>
+					<mrow>x &amp; = c_1 e^{2t}</mrow>
+					<mrow>y &amp; = - c_1 e^{2t} + c_2e^{3t}.</mrow>
+				</md>
+			</p>
+		</example>
 
-        <p>We can now ask how we might solve the system of equations
-            <md>
-                <mrow>\frac{dx}{dt} &amp; = - \frac{5}{3} x,</mrow>
-                <mrow>\frac{dy}{dt} &amp; = \frac{5}{3} x - \frac{5}{3} y.</mrow>
-            </md>
-        The task of solving the system
-            <md>
-                <mrow>\frac{dx}{dt} &amp; =f(x,y),</mrow>
-                <mrow>\frac{dy}{dt} &amp; = g(x,y),</mrow>
-            </md>
-        may be quite difficult or even impossible. However, we can find solutions in certain cases. For example, if we have a system of the form
-            <md>
-                <mrow>\frac{dx}{dt} &amp; =f(x),</mrow>
-                <mrow>\frac{dy}{dt} &amp; = g(y),</mrow>
-            </md>
-        then each equation is an autonomous first-order equation. To solve our system, we only need to solve two first-order equations. Such a system is said to be <term>decoupled</term><idx><h>system</h><h>decoupled</h></idx>. Generalizing slightly, we say that a <term>partially coupled system</term><idx><h>system</h><h>partially coupled</h></idx> is a system of the form
-            <md>
-                <mrow>\frac{dx}{dt} &amp; =f(x),</mrow>
-                <mrow>\frac{dy}{dt} &amp; = g(x, y).</mrow>
-            </md>
-        Since the first equation is an autonomous first-order equation in <m>x</m>, we can solve this equation separately, and substitute our solution into the second equation.</p>
-
-        <p>Consider the system
-            <md>
-                <mrow>\frac{dx}{dt} &amp; = x </mrow>
-                <mrow>\frac{dy}{dt} &amp; = x + y.</mrow>
-            </md>
-        We can easily solve the first equation, <m>dx/dt = x</m>, to obtain <m>x = a e^t</m>. Using this information in the second equation, we have
-            <me>\frac{dy}{dt}  - y = a e^t</me>
-        which is a first-order linear equation. This equation has an integrating factor <m>\mu(t) = e^{-t}</m>, and 
-            <me>\frac{d}{dt} (e^{-t} y) = \mu(t) \left(\frac{dy}{dt}  - y \right)= a e^t \mu(t) = a.</me>
-        Therefore, the solution to our second equation is
-            <me>y(t) = at e^t + be^t.</me></p>
-
-        <p>Revisiting the mixing problem that we posed at the beginning of this section, we have the following initial value problem,
-            <md>
-                <mrow>\frac{dx}{dt} &amp; = - \frac{5}{3} x,</mrow>
-                <mrow>\frac{dy}{dt} &amp; = \frac{5}{3} x - \frac{5}{3} y.</mrow>
-                <mrow>x(0) &amp; = 100,</mrow>
-                <mrow>y(0) &amp; = 0.</mrow>
-            </md>
-        Solving <m>dx/dt = - (5/3) x</m> is easy.  We can quickly determine that <m>x(t) = c_1 e^{-5t/3}</m>. Applying the initial condition <m>x(0) = 100</m>, we can determine that <m>c_1 = 100</m> and <m>x(t) = 100 e^{-5t/3}</m>. Our second equation now becomes
-            <me>\frac{dy}{dt}  = \frac{5}{3} x - \frac{5}{3} y = \frac{500}{3} e^{-5t/3} - \frac{5}{3} y.</me>
-        This last equation is a first-order linear equation
-            <me>\frac{dy}{dt} + \frac{5}{3} y = \frac{500}{3} e^{-5t/3}.</me>
-        Multiplying both sides of this last equation by the integrating factor <m>\mu(t) = e^{5t/3}</m> yields
-            <me>\frac{d}{dt} (e^{5t/3}y) = e^{5t/3}\frac{dy}{dt} + e^{5t/3}\frac{5}{3} y = \frac{500}{3}.</me>
-        Integrating both sides of this last equation gives us
-            <me>e^{5t/3}y = \frac{500}{3} t + c_2.</me>
-        Using our initial condition <m>y(0) = 0</m>, we can determine that <m>c_2 = 0</m>. Thus,
-            <me>y = \frac{500}{3} t e^{-5t/3}</me></p>
+		<activity>
+			<title>Solving Partially Coupled Systems</title>
+			<introduction>
+				<p>
+					Solve each of the following systems of differential equations.
+				</p>
+			</introduction>
 
 
-        <example xml:id="systems04-example-partially-coupled-system">
-        	<p>Consider the partially coupled system
-        		<md>
-                    <mrow>x' &amp; = 2x</mrow>
-                    <mrow>y' &amp; = x + 3y</mrow>
-                </md>
-            Notice that we already have the tools to solve <m>x' = 2x</m>.  In fact, the solution is <m>x(t) = c_1 e^{2t}</m>.  We can use this information to solve the second equation, <m>y' = x + 3y</m>.  That is, if we use the fact that <m>x(t) = c_1 e^{2t}</m>, the second equation becomes
-        		<me>y' = c_1 e^{2t} + 3y.</me>
-        	We can rewrite this equation as 
-        		<me>y' - 3y = c_1 e^{2t},</me>
-        	which is a first-order linear equation.  If we multiply both sides of the equation by <m>\mu(t) = e^{-3t}</m>, we have
-        		<me>\frac{d}{dt}\left( e^{-3t}y \right) = e^{-3t}y' - 3e^{-3t}y = c_1 e^{-t}.</me>
-            Integrating, we have 
-                <me>e^{-3t}y = - c_1 e^{-t} + c_2.</me>
-            Solving for <m>y</m>, yields <m>y = - c_1 e^{2t} + c_2e^{3t}</m>.  Thus the solution to our system is
-                <md>
-                    <mrow>x &amp; = c_1 e^{2t}</mrow>
-                    <mrow>y &amp; = - c_1 e^{2t} + c_2e^{3t}.</mrow>
-                </md></p>
-	    </example>
+			<task>
+				<statement>
+					<p>
+						<md>
+							<mrow>x' &amp; = -x</mrow>
+							<mrow>y' &amp; = x - 3y</mrow>
+						</md>
+					</p>
+				</statement>
+			</task>
 
-        <activity>
-            <title>Solving Partially Coupled Systems</title>
 
-            <introduction>
-                <p>Solve each of the following systems of differential equations.</p>
-            </introduction>
-            <task>
-                <statement>
-                    <p><md>
-	                    <mrow>x' &amp; = -x</mrow>
-	                    <mrow>y' &amp; = x - 3y</mrow>
-	                </md></p>
-                </statement>
-            </task>
-            <task>
-                <statement>
-                    <p><md>
-	                    <mrow>x' &amp; = -x - y</mrow>
-	                    <mrow>y' &amp; = - 3y</mrow>
-	                </md></p>
-                </statement>
-            </task>
-            <task>
-                <statement>
-                    <p><md>
-	                    <mrow>x' &amp; = 2x</mrow>
-	                    <mrow>y' &amp; = 3x + 2y</mrow>
-	                </md></p>
-                </statement>
-            </task>
-            <task>
-                <statement>
-                    <p><md>
-	                    <mrow>x' &amp; = 3x + 4y</mrow>
-	                    <mrow>y' &amp; = -2y</mrow>
-	                </md></p>
-                </statement>
-            </task>  
-        </activity>
+			<task>
+				<statement>
+					<p>
+						<md>
+							<mrow>x' &amp; = -x - y</mrow>
+							<mrow>y' &amp; = - 3y</mrow>
+						</md>
+					</p>
+				</statement>
+			</task>
 
-    </subsection>
 
-    <!-- <subsection xml:id="systems04-subsection-sage-linear-systems">
-        <title>Using <em>Sage</em> to Solve Linear Systems</title>
+			<task>
+				<statement>
+					<p>
+						<md>
+							<mrow>x' &amp; = 2x</mrow>
+							<mrow>y' &amp; = 3x + 2y</mrow>
+						</md>
+					</p>
+				</statement>
+			</task>
 
-        <p>Solving linear systems such as
-            <md>
-                <mrow>x' &amp; = ax + by</mrow>
-                <mrow>y' &amp; = cx + dy</mrow>
-            </md>
-        is much more difficult, since we cannot use the same strategies that we used to solve partially-coupled systems. We will devote all of <xref ref="linear" /> to finding an answer.  However, we can use <em>Sage</em> to solve linear systems for the moment. The following is a <em>Sage</em> interact that will solve the initial value problem
-            <md>
-                <mrow>x' &amp; = 3x - 2y</mrow>
-                <mrow>y' &amp; = x + y</mrow>
-                <mrow>x(0) \amp = 1</mrow>
-                <mrow>y(0) \amp = 1;</mrow>
-            </md>
-        however, we can change the coefficients and initial values to be anything that we like.</p>
 
-        <figure xml:id="systems04-figure-interactive-linear-systems">
-            <caption>A Sage applet for solving linear systems</caption>
-            <interactive xml:id="interactive-systems04-linear-systems" platform="sage" width="100%" aspect="2:5">
-                <slate surface="sage">
+			<task>
+				<statement>
+					<p>
+						<md>
+							<mrow>x' &amp; = 3x + 4y</mrow>
+							<mrow>y' &amp; = -2y</mrow>
+						</md>
+					</p>
+				</statement>
+			</task>
+		</activity>
+	</subsection>
+
+	<!-- <subsection xml:id="systems04-subsection-sage-linear-systems">
+	<title>Using <em>Sage</em> to Solve Linear Systems</title>
+	<p>
+		Solving linear systems such as
+		<md>
+			<mrow>x' &amp; = ax + by</mrow>
+			<mrow>y' &amp; = cx + dy</mrow>
+		</md>
+		is much more difficult, since we cannot use the same strategies that we used to solve partially-coupled systems.
+		We will devote all of <xref ref="linear" /> to finding an answer.
+		However, we can use <em>Sage</em> to solve linear systems for the moment.
+		The following is a <em>Sage</em> interact that will solve the initial value problem
+		<md>
+			<mrow>x' &amp; = 3x - 2y</mrow>
+			<mrow>y' &amp; = x + y</mrow>
+			<mrow>x(0) \amp = 1</mrow>
+			<mrow>y(0) \amp = 1;</mrow>
+		</md>
+		however, we can change the coefficients and initial values to be anything that we like.
+	</p>
+
+	<figure xml:id="systems04-figure-interactive-linear-systems">
+		<caption>A Sage applet for solving linear systems</caption>
+		<interactive xml:id="interactive-systems04-linear-systems" platform="sage" width="100%" aspect="2:5">
+		<slate surface="sage">
 					t = var('t')
 					x = function('x')(t)
 					y = function('y')(t)
@@ -215,31 +300,36 @@
 					    sol[1].show()
 					    html(r"$\displaystyle\frac{dx}{dt} = %s$"  %latex(f))
 					    html(r"$\displaystyle\frac{dy}{dt} = %s$"  %latex(g))
-                </slate>
-            </interactive>
-        </figure>
-
-    </subsection> -->
-
-    <subsection xml:id="systems04-subsection-harmonic-oscillator">
-        <title>Harmonic Oscillators</title>
-
-        <p>The equation
-            <me>\frac{d^2 x}{dt^2} + 3 \frac{dx}{dt} + 2 x = 0</me>
-        is a specific case of a damped harmonic oscillator, where <m>m = 1</m>, the spring constant is 2, and the damping constant is 3. We can rewrite this equation as a first-order linear system,
-            <md>
-                <mrow>\frac{dx}{dt} &amp; = v,</mrow>
-                <mrow>\frac{dv}{dt} &amp; = - 2x - 3v.</mrow>
-            </md>
-       Suppose that <m>x(0) = 0</m> is the initial position of the mass and <m>v(0) = 1</m> is the initial velocity. To solve the system, one can simply use the characteristic equation to solve the original second order homogeneous equation <m>\frac{d^2 x}{dt^2} + 3 \frac{dx}{dt} + 2 x = 0</m>. The solution to the system is
-            <md>
-                <mrow>x(t) &amp; = e^{-t} - e^{-2t},</mrow>
-                <mrow>v(t) &amp; = - e^{-t} + 2  e^{-2t}.</mrow>
-            </md>
-        This is an example of an over-damped harmonic oscillator (<xref ref="systems04-figure-over-damped-oscillator" />). In other words, a spring-mass system that is modeled by this system of equations has so much damping that the mass will not oscillate.</p>
-
-        <!-- <sage>
-            <input>
+		</slate>
+		</interactive>
+	</figure>
+</subsection>
+-->
+<subsection xml:id="systems04-subsection-harmonic-oscillator">
+	<title>Harmonic Oscillators</title>
+	<p>
+		The equation
+		<me>
+			\frac{d^2 x}{dt^2} + 3 \frac{dx}{dt} + 2 x = 0
+		</me>
+		is a specific case of a damped harmonic oscillator, where <m>m = 1</m>, the spring constant is 2, and the damping constant is 3.
+		We can rewrite this equation as a first-order linear system,
+		<md>
+			<mrow>\frac{dx}{dt} &amp; = v,</mrow>
+			<mrow>\frac{dv}{dt} &amp; = - 2x - 3v.</mrow>
+		</md>
+		Suppose that <m>x(0) = 0</m> is the initial position of the mass and <m>v(0) = 1</m> is the initial velocity.
+		To solve the system, one can simply use the characteristic equation to solve the original second order homogeneous equation <m>\frac{d^2 x}{dt^2} + 3 \frac{dx}{dt} + 2 x = 0</m>.
+		The solution to the system is
+		<md>
+			<mrow>x(t) &amp; = e^{-t} - e^{-2t},</mrow>
+			<mrow>v(t) &amp; = - e^{-t} + 2  e^{-2t}.</mrow>
+		</md>
+		This is an example of an over-damped harmonic oscillator (<xref ref="systems04-figure-over-damped-oscillator" />).
+		In other words, a spring-mass system that is modeled by this system of equations has so much damping that the mass will not oscillate.
+	</p>
+	<!-- <sage>
+	<input>
                 t = var('t')
                 x = function('x')(t)
                 v = function('v')(t)
@@ -251,40 +341,46 @@
                 sol = desolve_system([de1, de2], [x,v], ics=[t_start, x_start, v_start])
                 sol[0].show()
                 sol[1].show()
-            </input>
-            <output>
-            </output>
-        </sage> -->
+	</input>
+	<output>
+	</output>
+	</sage> -->
 
-        <figure xml:id="systems04-figure-over-damped-oscillator">
-
-              <image width="60%" xml:id="system04-over-damped-oscillator">
-                <description>position and velocity curves that approach zero with no oscillations</description>
-                <sageplot>
+	<figure xml:id="systems04-figure-over-damped-oscillator">
+		<caption>An over-damped harmonic oscillator</caption>
+		<image width="60%" xml:id="system04-over-damped-oscillator">
+			<description>
+			<p>
+				position and velocity curves that approach zero with no oscillations
+			</p>
+			</description>
+			<sageplot>
                     t = var('t')
                     x(t) = exp(-t) - exp(-2*t)
                     v(t) = -exp(-t) + 2*exp(-2*t)
                     p = plot(x, t, 0, 5, legend_label='$x(t) = e^{-t} - e^{-2t}$', axes_labels=['$t$','$x(t), v(t)$'])
                     p += plot(v, t, 0, 5, color='red', legend_label='$v(t) = - e^{-t} + 2  e^{-2t}$')
                     p
-                </sageplot>
-            </image>
-            <caption>An over-damped harmonic oscillator</caption>
-        </figure>
+			</sageplot>
+		</image>
+	</figure>
 
-        <p>Now let us relax the damping and increase the spring constant on our harmonic oscillator,
-            <me>\frac{d^2 x}{dt^2} + 2 \frac{dx}{dt} + 10 x = 0.</me>
-        The corresponding linear system is
-            <md>
-                <mrow>\frac{dx}{dt} &amp; = v,</mrow>
-                <mrow>\frac{dv}{dt} &amp; = - 10x - 2v</mrow>
-                <mrow>x(0) \amp = 0</mrow>
-                <mrow>v(0) \amp = 1.</mrow>
-            </md>
-        Notice that our initial conditions have not changed.</p>
-
-        <!-- <sage>
-            <input>
+	<p>
+		Now let us relax the damping and increase the spring constant on our harmonic oscillator,
+		<me>
+			\frac{d^2 x}{dt^2} + 2 \frac{dx}{dt} + 10 x = 0.
+		</me>
+		The corresponding linear system is
+		<md>
+			<mrow>\frac{dx}{dt} &amp; = v,</mrow>
+			<mrow>\frac{dv}{dt} &amp; = - 10x - 2v</mrow>
+			<mrow>x(0) \amp = 0</mrow>
+			<mrow>v(0) \amp = 1.</mrow>
+		</md>
+		Notice that our initial conditions have not changed.
+	</p>
+	<!-- <sage>
+	<input>
                 t = var('t')
                 x = function('x')(t)
                 v = function('v')(t)
@@ -296,144 +392,192 @@
                 sol = desolve_system([de1, de2], [x,v], ics=[t_start, x_start, v_start])
                 sol[0].show()
                 sol[1].show()
-            </input>
-            <output>
-            </output>
-        </sage> -->
+	</input>
+	<output>
+	</output>
+	</sage> -->
 
-        <p>The solution is now 
-            <md>
-                <mrow>x(t) &amp; = \frac{1}{3} e^{-t} \sin 3t,</mrow>
-                <mrow>v(t) &amp; = e^{-t} \cos 3t -  \frac{1}{3} e^{-t} \sin 3t.</mrow>
-            </md>
-        Notice that the system oscillates due to the sine and cosine terms in the solution. This system is underdamped (<xref ref="systems04-figure-under-damped-oscillator" />).</p>
+	<p>
+		The solution is now
+		<md>
+			<mrow>x(t) &amp; = \frac{1}{3} e^{-t} \sin 3t,</mrow>
+			<mrow>v(t) &amp; = e^{-t} \cos 3t -  \frac{1}{3} e^{-t} \sin 3t.</mrow>
+		</md>
+		Notice that the system oscillates due to the sine and cosine terms in the solution.
+		This system is underdamped (<xref ref="systems04-figure-under-damped-oscillator" />).
+	</p>
 
-        <figure xml:id="systems04-figure-under-damped-oscillator">
-
-              <image width="60%" xml:id="system04-under-damped-oscillator">
-                <description>position and velocity curves that approach zero with smaller and smaller oscillations</description>
-                <sageplot>
+	<figure xml:id="systems04-figure-under-damped-oscillator">
+		<caption>An under-damped harmonic oscillator</caption>
+		<image width="60%" xml:id="system04-under-damped-oscillator">
+			<description>
+			<p>
+				position and velocity curves that approach zero with smaller and smaller oscillations
+			</p>
+			</description>
+			<sageplot>
                     t = var('t')
                     x(t) = exp(-t) * sin(3*t)/3
                     v(t) = exp(-t)* cos(3*t) - exp(-t)*sin(3*t)/3
                     p = plot(x, t, 0, 5, legend_label='$x(t) = (1/3)e^{-t} \\sin 3t$', axes_labels=['$t$','$x(t), v(t)$'])
                     p += plot(v, t, 0, 5, color='red', legend_label='$v(t) = e^{-t} \\cos 3t - (1/3) e^{-t} \\sin 3t$')
                     p
-                </sageplot>
-            </image>
-            <caption>An under-damped harmonic oscillator</caption>
-        </figure>
+			</sageplot>
+		</image>
+	</figure>
+</subsection>
 
-    </subsection>
+<subsection xml:id="systems04-subsection-important-lessons">
+	<title>Important Lessons</title>
+	<p>
+		<ul>
+			<li>
+				<p>
+					A system of the form
+					<md>
+						<mrow>\frac{dx}{dt} &amp; =f(x)</mrow>
+						<mrow>\frac{dy}{dt} &amp; = g(y)</mrow>
+					</md>
+					is said to be <em>decoupled</em>.
+					Such a system can be solved by solving each equation independently.
+				</p>
+			</li>
 
-    <subsection xml:id="systems04-subsection-important-lessons">
-        <title>Important Lessons</title>
+			<li>
+				<p>
+					A system of the form
+					<md>
+						<mrow>\frac{dx}{dt} &amp; =f(x),</mrow>
+						<mrow>\frac{dy}{dt} &amp; = g(x, y)</mrow>
+					</md>
+					is a <em>partially coupled system</em>.
+					Since the first equation is an autonomous first-order equation in <m>x</m>, we can solve this equation separately, and substitute our solution into the second equation.
+				</p>
+			</li>
+		</ul>
+	</p>
+</subsection>
 
-        <p><ul>
+<reading-questions xml:id="reading-questions-system04">
+<exercise xml:id="reading-questions-system04-1">
+	<statement>
+		<p>
+			Explain what a partially coupled system is.
+		</p>
+	</statement>
+	<response/>
+</exercise>
 
-                <li><p>A system of the form
-                    <md>
-                        <mrow>\frac{dx}{dt} &amp; =f(x)</mrow>
-                        <mrow>\frac{dy}{dt} &amp; = g(y)</mrow>
-                    </md>
-                is said to be <em>decoupled</em>. Such a system can be solved by solving each equation independently.</p></li>
-     
-                <li><p>A system of the form
-                    <md>
-                        <mrow>\frac{dx}{dt} &amp; =f(x),</mrow>
-                        <mrow>\frac{dy}{dt} &amp; = g(x, y)</mrow>
-                    </md>
-                is a <em>partially coupled system</em>.  Since the first equation is an autonomous first-order equation in <m>x</m>, we can solve this equation separately, and substitute our solution into the second equation.</p></li>
+<exercise xml:id="reading-questions-system04-2">
+	<statement>
+		<p>
+			Why would one expect that it is impossible to find explicit solutions for most systems of differential equations?
+		</p>
+	</statement>
+	<response/>
+</exercise>
+</reading-questions>
 
-            </ul></p>
+<exercises xml:id="systems04-exercises" xml:base="systems04">
+<title>Exercises</title>
+<exercise>
+	<statement>
+		<p>
+			Solve each of the following partially coupled systems.
+			<ol>
+				<li>
+					<p>
+						<md>
+							<mrow>x' &amp; = 2x</mrow>
+							<mrow>y' &amp; = x + 2y</mrow>
+						</md>
+					</p>
+				</li>
 
-    </subsection>
+				<li>
+					<p>
+						<md>
+							<mrow>x' &amp; = -x + 3y</mrow>
+							<mrow>y' &amp; = -2y</mrow>
+						</md>
+					</p>
+				</li>
 
-    <reading-questions xml:id="reading-questions-system04">
+				<li>
+					<p>
+						<md>
+							<mrow>x' &amp; = -3x</mrow>
+							<mrow>y' &amp; = 2x + 3y</mrow>
+						</md>
+					</p>
+				</li>
 
-        <exercise xml:id="reading-questions-system04-1">
-            <statement>
-                <p>Explain what a partially coupled system is.</p>
-            </statement>
-            <response/>
-        </exercise>
+				<li>
+					<p>
+						<md>
+							<mrow>x' &amp; = 2x - 3y</mrow>
+							<mrow>y' &amp; = 4y</mrow>
+						</md>
+					</p>
+				</li>
+			</ol>
+		</p>
+	</statement>
+</exercise>
 
-        <exercise xml:id="reading-questions-system04-2">
-            <statement>
-                <p>Why would one expect that it is impossible to find explicit solutions for most systems of differential equations?</p>
-            </statement>
-            <response/>
-        </exercise>
+<exercise>
+	<statement>
+		<p>
+			Suppose that we have two tanks (<m>A</m> and <m>B</m>) between which a mixture of brine flows.
+			Tank <m>A</m> contains 200 liters of water in which 20 kilograms of salt has been dissolved and Tank <m>B</m> contains 200 liters of water in which 10 kilograms of salt has been dissolved.
+			Fresh water is pumped into Tank <m>A</m> at the rate of 200 liters per hour, and brine is pumped into Tank <m>B</m> from Tank <m>A</m> at the rate of 200 liters per hour.
+			Brine is also drained at a rate 200 liters of brine per hour from Tank <m>B</m>.
+			All brine mixtures are well-stirred.
+			Find the amount of salt in each tank at time <m>t</m>.
+		</p>
+	</statement>
+</exercise>
 
-    </reading-questions>
+<exercise>
+	<statement>
+		<p>
+			For each of the following harmonic oscillators (1) rewrite the second-order initial value problem as a system of two first-order linear equations, (2) solve the system by solving the original second order homogeneous differential equation, and (3) classify the harmonic oscillator as underdamped, critically damped, or overdamped.
+			<ol>
+				<li>
+					<p>
+						<md>
+							<mrow>y'' + 7y' + 6y &amp; = 0</mrow>
+							<mrow>y(0) &amp; = 1</mrow>
+							<mrow>y'(0) &amp; = 0</mrow>
+						</md>
+					</p>
+				</li>
 
-    <exercises xml:id="systems04-exercises" filenamebase="systems04">
-    <title>Exercises</title>
-        
-        <exercise>
-            <statement>
-                <p>Solve each of the following partially coupled systems.
-                	<ol>
+				<li>
+					<p>
+						<md>
+							<mrow>y'' + 4y' + 5y &amp; = 0</mrow>
+							<mrow>y(0) &amp; = 1</mrow>
+							<mrow>y'(0) &amp; = 0</mrow>
+						</md>
+					</p>
+				</li>
 
-                		<li><p><md>
-		                    <mrow>x' &amp; = 2x</mrow>
-		                    <mrow>y' &amp; = x + 2y</mrow>
-		                </md></p></li>
-
-                 		<li><p><md>
-		                    <mrow>x' &amp; = -x + 3y</mrow>
-		                    <mrow>y' &amp; = -2y</mrow>
-		                </md></p></li>
-
-                		<li><p><md>
-		                    <mrow>x' &amp; = -3x</mrow>
-		                    <mrow>y' &amp; = 2x + 3y</mrow>
-		                </md></p></li>
-
-                		<li><p><md>
-		                    <mrow>x' &amp; = 2x - 3y</mrow>
-		                    <mrow>y' &amp; = 4y</mrow>
-		                </md></p></li>
-
-               	</ol></p>
-            </statement>
-	    </exercise>
-
-	    <exercise>
-	    	<statement>
-	    		<p>Suppose that we have two tanks (<m>A</m> and <m>B</m>) between which a mixture of brine flows. Tank <m>A</m> contains 200 liters of water in which 20 kilograms of salt has been dissolved and Tank <m>B</m> contains 200 liters of water in which 10 kilograms of salt has been dissolved. Fresh water is pumped into Tank <m>A</m> at the rate of 200 liters per hour, and brine is pumped into Tank <m>B</m> from Tank <m>A</m> at the rate of 200 liters per hour. Brine is also drained at a rate 200 liters of brine per hour from Tank <m>B</m>. All brine mixtures are well-stirred.  Find the amount of salt in each tank at time <m>t</m>.</p>
-	    	</statement>
-	    </exercise>
-
-	    <exercise>
-	    	<statement>
-	    		<p>For each of the following harmonic oscillators (1) rewrite the second-order initial value problem as a system of two first-order linear equations, (2) solve the system by solving the original second order homogeneous differential equation, and (3) classify the harmonic oscillator as underdamped, critically damped, or overdamped.
-	    			<ol>
-
-                		<li><p><md>
-		                    <mrow>y'' + 7y' + 6y &amp; = 0</mrow>
-		                    <mrow>y(0) &amp; = 1</mrow>
-		                    <mrow>y'(0) &amp; = 0</mrow>
-		                </md></p></li>
-
-                		<li><p><md>
-		                    <mrow>y'' + 4y' + 5y &amp; = 0</mrow>
-		                    <mrow>y(0) &amp; = 1</mrow>
-		                    <mrow>y'(0) &amp; = 0</mrow>
-		                </md></p></li>
-
-                		<li><p><md>
-		                    <mrow>y'' + 6y' + 9y &amp; = 0</mrow>
-		                    <mrow>y(0) &amp; = 1</mrow>
-		                    <mrow>y'(0) &amp; = 0</mrow>
-		                </md></p></li>
-
-	    			</ol></p>
-	    	</statement>
-	    </exercise>
-
-	 </exercises>
-
+				<li>
+					<p>
+						<md>
+							<mrow>y'' + 6y' + 9y &amp; = 0</mrow>
+							<mrow>y(0) &amp; = 1</mrow>
+							<mrow>y'(0) &amp; = 0</mrow>
+						</md>
+					</p>
+				</li>
+			</ol>
+		</p>
+	</statement>
+</exercise>
+</exercises>
 </section>
-
-<!--</section>-->
+<!--
+</section>
+-->
