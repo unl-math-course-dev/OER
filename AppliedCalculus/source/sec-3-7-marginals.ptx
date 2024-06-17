@@ -17,867 +17,1024 @@
 <!-- their respective owners.                                              -->
 <!-- **********************************************************************-->
 <section xmlns:xi="http://www.w3.org/2001/XInclude" xml:id="sec-3-7-marginals" permid="bgZ">
-  <title>Tangent Line Approximations</title>
-  <objectives permid="pyM">
-    <ul permid="hUn">
-    
-    
-      <li permid="uiF">
-        <p permid="eZH">
-          For a general differentiable function, how can we use the derivative of a function to approximate the values of the function? 
-        </p>
-      </li>
-
-  <li permid="apO">
-        <p permid="LgQ">
-        What is the marginal Profit, Revenue, and Cost? How can we use these to approximate the Profit, Revenue, and Cost functions?
-        </p>
-      </li>
-
-    
-    </ul>
-  </objectives>
-<introduction>
-<p>
-Often in business, explicit formulas for Cost, Revenue, and Profit (<m>C(x)</m>, <m>R(x)</m>, and <m>P(x)</m> respectively) are not known. However, information may exist about the cost, revenue and profit trends at a particular value <m>x=a</m>. For example, suppose that you are running a company that produces and sells computers. In an ideal world, you would have a function, <m>P(x)</m>, for the profit from the sale of <m>x</m> computers. However, in the real world, you only know that the profit from the sale of 100 laptops is <m>P(100)=\$5000</m>. You also know that the profit increased by <m>\$100</m> per laptop when 100 laptops are sold.</p>
-<p> From this information you could make an estimate that the profit from the sale of 101 computers would be <m>P(101)\approx 5100</m>. It is important to note that you can not assume that the profit grows at a linear (i.e. constant) rate! There are many variables when producing and selling an item, and for many companies a profit is not made unless a certain number of units are sold.</p>
-<p> Without creating an explicit function for the profit, can we estimate future profits? In this section, we will explore how to use the derivative (or rate of change) of a function to estimate the values of the function.
-</p>
-</introduction>
- <subsection>
-    <title>Linear Approximations</title>
-
-<p>  Among all functions, linear functions are simplest.
-      One of the powerful consequences of a function
-      <m>y = f(x)</m> being differentiable at a point <m>(a,f(a))</m> is that
-      up close
-      the function <m>y = f(x)</m> is locally linear and looks like its tangent line at that point.
-      In certain circumstances,
-      this allows us to approximate the original function <m>f</m> with a simpler function <m>L</m> that is linear:
-      this can be advantageous when we have limited information about <m>f</m> or when <m>f</m> is computationally or algebraically complicated.
-      We will explore all of these situations in what follows.
-    </p>
-
-    <p permid="nuR">
-      It is essential to recall that when <m>f</m> is differentiable at <m>x = a</m>,
-      the value of <m>f'(a)</m> provides the slope of the tangent line to
-      <m>y = f(x)</m> at the point <m>(a,f(a))</m>.
-      If we know both a point on the tangent line and the slope of the line we can find the equation of the tangent line and write the equation in point-slope form.<fn>
-      Recall that a line with slope <m>m</m> that passes through
-      <m>(x_0,y_0)</m> has equation <m>y - y_0 = m(x - x_0)</m>,
-      and this is the <term>point-slope form</term> of the equation.
-      </fn>
-    </p>
-
-<example xml:id="PA-1-9" permid="OkA">
-<statement>
-  <p permid="VOZ">
-    Consider the function <m>g(x) = -x^2+3x+2</m>.
-  </p>
-
-  <p permid="BWi">
-    <ol label="a." permid="goe">
-      <li permid="Mvn">
-        <p permid="Rfg">
-          Find the derivative <m>g'(x)</m>.
-        </p>
-      </li>
-
-      <li permid="sCw">
-        <p permid="xmp">
-          Determine the slope of the tangent line to the graph of 
-          <m>y = g(x)</m> at the value <m>x = 2</m>.
-        </p>
-      </li>
-
-      <li permid="YJF">
-        <p permid="dty">
-          Compute <m>g(2)</m>.
-        </p>
-      </li>
-
-      <li permid="EQO">
-        <p permid="JAH">
-          Find an equation for the tangent line to the graph of 
-          <m>y = g(x)</m> at the point <m>(2,g(2))</m>.
-          Write your result in point-slope form.
-        </p>
-      </li>
-
-      <li permid="kXX">
-        <p permid="pHQ">
-          <!--On the axes provided below in <xref ref="F-1-8-PA1">Figure</xref>,-->
-          Sketch an accurate,
-          labeled graph of <m>y = g(x)</m> on the interval <m>-1\le x\le4</m>. 
-          On the same axes, sketch its tangent line at the point <m>(2,g(2))</m>.
-        </p>
-      </li>
-    </ol>
-  </p>
-
-<!--
-  <figure xml:id="F-1-8-PA1" permid="idr">
-    <caption>Axes for plotting <m>y = g(x)</m> and its tangent line to the point <m>(2,g(2))</m>.</caption>
-    <image width="47%" source="images/1_8_PA1" />
-  </figure>
--->
-</statement>
-<answer>
-  <p>
-  <ol label="a.">
-    <li>
-    <p>
-    <m>g'(x)=-2x+3</m>.
-    </p>
-    </li>
-    <li>
-    <p>
-    <m>g'(2)=-1</m>.
-    </p>
-    </li>
-    <li>
-    <p>
-    <m>g(2)=4</m>.
-    </p>
-    </li>
-    <li>
-    <p>
-    <m>y-4=-1(x-2)</m>.
-    </p>
-    </li>
-    <li>
-    <p>
-    <figure>
-      <caption>The graph of <m>y=g(x)</m> along with its tangent line <m>L</m> at the point <m>(2,4)</m>, where <m>g(x)=-x^2+3x+2</m>.</caption>
-      <image width="40%" source="images/2_9_intro_soln.jpg" />
-    </figure>
-    </p>
-    </li>
-  </ol>
-  </p>
-</answer>
-<solution>
-  <p>
-  <ol label="a.">
-    <li>
-    <p>
-     <m>g'(x)=-2x+3</m>.
-    </p>
-    </li>
-    <li>
-    <p>
-    Since the slope of the tangent line at a point is the value of the derivative at that point, 
-    we have the slope as <me>g'(2)=-2(2)+3=-1</me>.
-    </p>
-    </li>
-    <li>
-    <p>
-    Evaluating <m>g(x)</m> at <m>x=2</m>, we find <me>g(2)=-(2)^2+3(2)+2=4</me>.
-    </p>
-    </li>
-    <li>
-    <p>
-    Using the slope of <m>-1</m> that we found in part (b) together with the value <m>g(2)=4</m>
-    found in (c), the tangent line to <m>y=g(x)</m> at <m>(2,4)</m> is
-    <me>y-4=-1(x-2)</me>.
-    </p>
-    </li>
-    <li>
-    <p>
-    <figure>
-      <caption>The graph of <m>y=g(x)</m> along with its tangent line <m>L</m> at the point <m>(2,4)</m>, where <m>g(x)=-x^2+3x+2</m>.</caption>
-      <image width="40%" source="images/2_9_intro_soln.jpg" />
-    </figure>
-    </p>
-    </li>
-  </ol>
-  </p>
-</solution>
-</example>
-  </subsection>
-
-  <subsection permid="LnH">
-    <title>The Tangent Line</title>
-
-    <p permid="TCa">
-      Given a function <m>f</m> that is differentiable at <m>x = a</m>,
-      we know that we can determine the slope of the tangent line to <m>y = f(x)</m> at
-      <m>(a,f(a))</m> by computing <m>f'(a)</m>. This allows us to write the equation for the tangent line as follows: 
-      <assemblage><title>The Tangent Line</title>
-      <p>
-      The equation of the resulting tangent line 
-        <idx><h>tangent line</h><h>equation</h></idx>
-      is given in point-slope form by
-      <me permid="pke">
-        y - f(a) = f'(a)(x-a) <!-- \ \ \text{or} \ \ y = f'(a)(x-a) + f(a) -->
-      </me>.
-      </p>
-      </assemblage>
-      </p>
-      
-      
-      <warning>
-      <p>
-      Note: there is a major difference between <m> f(a) </m> and <m> f(x) </m> in this context.
-      The former is a constant that results from using the given fixed value of <m>a</m>,
-      while the latter is the general expression for the rule that defines the function.
-      The same is true for <m>f'(a)</m> and <m>f'(x)</m>:
-      we must carefully distinguish between these expressions.
-      Each time we find the tangent line,
-      we need to evaluate the function and its derivative at a fixed <m>a</m>-value.
-    </p>
-    </warning>
-
-    <p permid="zJj">
-      In <xref ref="F-1-8-TanLine">Figure</xref> below,
-      we see the graph of a function <m>f</m> and its tangent line at the point <m>(a,f(a))</m>.
-      Notice how when we zoom in we see the local linearity of <m>f</m> more clearly highlighted.
-      The function and its tangent line are nearly indistinguishable up close.
-      Local linearity can also be seen dynamically in the java applet at
-      <url href="http://gvsu.edu/s/6J">http://gvsu.edu/s/6J</url>.
-    </p>
-
-    <figure xml:id="F-1-8-TanLine" permid="fQs">
-      <caption>The graph of a function <m>y = f(x)</m> and its tangent line at the point <m>(a,f(a))</m>: at left, from a distance, and at right, up close.  
-      If we let <m>L(x)=f'(a)(x-a)+f(a)</m> denote the tangent line function, then we observe in the right image that for <m>x</m> near <m>a</m>, <m>f(x) \approx L(x)</m>.</caption>
-      <image width="100%" source="images/1-8-TanLines.gif" />
-    </figure>
-  </subsection>
-
-  <subsection permid="ruQ">
-    <title>Approximations</title>
-<!--    <idx><h>approximation</h></idx>-->
-
-    <p permid="LXB">
-      A slight change in perspective and notation will enable us to be more precise in discussing how the tangent line approximates <m>f(x)</m> near <m>x = a</m>.
-      By solving for <m>y</m>,
-      we can write the equation for the tangent line as
-      <me permid="Vrn">
-        y = f'(a)(x-a) + f(a)
-      </me>.
-      This line is itself a function of <m>x</m>.
-      Replacing the variable <m>y</m> with the expression <m>L(x)</m>, we have the following. 
-      <assemblage><title>Tangent Line Approximation</title>
-      <p>
-      We call 
-      <me permid="Byw">
-        L(x) = f'(a)(x-a) + f(a)
-      </me>
-      the <term>tangent line approximation of <m>f</m>
-        <idx><h>tangent line approximation</h></idx>
-      at the point <m>(a,f(a))</m></term>.
-      </p>
-      </assemblage>
-
-
-      In this notation,
-      <m>L(x)</m> is nothing more than a "new name" for the tangent line.
-      As we saw above, for <m>x</m> close to <m>a</m>,
-      <m>f(x) \approx L(x)</m>. 
-    </p>
-
-<example><title> Using the Tangent Line Approximation </title>
-<statement>
-<p>Suppose that it is known that, for a given differentiable function <m>y = f(x)</m>, its tangent line approximation 
-at the point <m> x = 1 </m> is given by 
-<me> L(x) = 3-2(x-1).</me>
-<ol label="a">
-<li>
-<p>
-Compute <m> L(1) </m>.
-</p>
-</li>
-<li>
-<p>
-What must be the values of <m> f(1)</m> and <m> f'(1) </m>?
-</p>
-</li>
-<li>
-<p>
-Use the tangent line approximation from (a) to estimate the value of <m>f(1.2)</m>.
-</p>
-</li>
-</ol>
-</p>
-</statement>
-<answer>
-<ol label="a">
-<li>
-<p>
-<m>L(1) = 3 </m>.
-</p>
-</li>
-<li>
-<p>
-<m> f(1) = 3 </m> and <m> f'(1) = -2 </m>.
-</p>
-</li>
-<li>
-<p>
-<m>f(1.2) \approx2.6</m>.
-</p>
-</li>
-</ol>
-</answer>
-<solution>
-<ol label="a">
-<li>
-<p>
-Plugging <m> x = 1 </m> into <m> L(x) </m>,
-<me> L(1) = 3 - 2(1-1) = 3- 2(0) = 3. </me>
-</p>
-</li>
-<li>
-<p>
-Since <m> L(x) =  f(a) + f'(a)(x-a)</m>, we can match up with the given equation to get 
-<m> f(1) = 3 </m> and <m> f'(1) = -2 </m>.
-</p>
-</li>
-<li>
-<p>
-To approximate <m> f(1.2) </m>, we plug into <m> L(x) </m>:
-<me> f(1.2) \approx L(1.2) = 3 - 2(1.2 - 1) = 3 - 2(0.2) = 2.6. </me>
-</p>
-</li>
-</ol>
-<p>
-Note that we may reason through part b) in a different way as well. We know that the tangent line approximation <m>L(x)</m> to a function at a point <m>(a,f(a))</m> "touches" the function at that point, so <m>L(a)</m> must be the same as <m>f(a)</m>. In this case, since the tangent line was was approximated  at the point <m>a=1</m>, we know that <m>f(1)=L(1)=3</m>. Further, we know that the (constant) slope of the tangent line approximation was defined to be the slope of <m>f</m> at <m>x=a</m>. We could rewrite <m>L(x)</m> in slope-intercept form as <m>-2x+5</m> and see that its slope is <m>-2</m> (or we could take the derivative of <m>L(x)</m> to find that <m>L'(x)=-2</m>). In either case, we see that the <m>f'(1)</m> equals <m>-2</m>, the slope of the tangent line approximation.
-</p>
-</solution>
-</example>
-
-<example><title>Error in a Tangent Line Approximation</title>
-<statement>
-<p>Consider the function <m>p(t)=\ln(t)</m>. 
-<ol label="a">
-<li>
-<p>
-Find the tangent line approximation, <m>L(t)</m>, of <m>p</m> at <m>t=1</m>.
-</p>
-</li>
-<li>
-<p>
-Use the tangent line approximation from (a) to estimate the value of <m>\ln(1.01)</m>.
-</p>
-</li>
-<li>
-<p>
-Use the tangent line approximation from (a) to estimate the value of <m>\ln(1.3)</m>.
-</p>
-</li>
-<li>
-<p permid="TanErr">
-<idx><h>tangent line approximation</h><h>error</h></idx>
-The error of an approximation is the difference between the true value and the estimated value. 
-In particular, given a function <m>f</m> and its tangent line approximation <m>L(x)</m> at <m>(a,f(a))</m>, 
-we say the <term>error of the tangent line approximation</term> is 
-<md><mrow>E(x)\amp=f(x)-L(x)</mrow><mrow>\amp=f(x)-f(a)-f'(a)(x-a)</mrow></md>, for values of <m>x</m> near <m>a</m>. 
-</p>
-<p>
-Of the two estimates you found in (b) and (c), which do you expect to be more accurate? Why?
-Check your guess by calculating and comparing <m>E(1.01)</m> and <m>E(1.3)</m>.
-</p>
-</li>
-</ol> 
-</p>
-</statement>
-<hint>
-<ol label="a">
-<li>
-<p>
-Start by finding <m>\frac{d}{dt}[\ln(t)]</m>.
-</p>
-</li>
-<li>
-<p>
-By construction of <m>L(t)</m>, we know that <m>p(1.01)\approx L(1.01)</m>.
-</p>
-</li>
-<li>
-<p>
-Remember that <m>p(1.3)\approx L(1.3)</m>.
-</p>
-</li>
-<li>
-<p>
-The approximation should be best close to <m>t=1</m>. Note <m>E(1)=0</m> since <m>p(1)=L(1)</m>.
-</p>
-</li>
-</ol> 
-</hint>
-<answer>
-<ol label="a">
-<li>
-<p>
-<m>L(t)=t-1</m>.
-</p>
-</li>
-<li>
-<p>
-<m>\ln(1.01)\approx0.01</m>.
-</p>
-</li>
-<li>
-<p>
-<m>\ln(1.3)\approx0.3</m>.
-</p>
-</li>
-<li>
-<p>
-We expect <m>|E(1.3)|>|E(1.01)|</m>. Indeed, <m>E(1.01)=\ln(1.01)-0.01\approx-0.00005</m>, 
-whereas <m>E(1.3)=\ln(1.3)-0.3\approx-0.0376</m>.
-</p>
-</li>
-</ol> 
-</answer>
-<solution>
-<ol label="a">
-<li>
-<p>
-We start by computing <m>p'(t)</m>, and then evaluating <m>p(1)</m> and <m>p'(1)</m>. 
-Since <m>p(t)=\ln(t)</m>, the derivative is <m>p'(t)=\frac1t</m>. Furthermore, we have 
-<m>p(1)=\ln(1)=0</m> and <m>p'(1)=\frac11=1</m>. 
-Thus, the tangent line approximation of <m>p(t)=\ln(t)</m> at the point <m>(1,0)</m> is 
-<me>L(t)=p(1)+p'(1)(t-1)=0+1(t-1)=t-1</me>.
-</p>
-</li>
-<li>
-<p>
-Since we can use the tangent line approximation for <m>p</m> at <m>(1,0)</m> to estimate 
-output values of <m>p</m> at nearby points, it follows that <m>p(1.01)\approx L(1.01)</m>. 
-Thus we have <me>\ln(1.01)\approx0.01</me>.
-</p>
-</li>
-<li>
-<p>
-Since we can use the tangent line approximation for <m>p</m> at <m>(1,0)</m> to estimate 
-output values of <m>p</m> at nearby points, it follows that <m>p(1.3)\approx L(1.3)</m>. 
-Thus we have <me>\ln(1.3)\approx0.3</me>.
-</p>
-</li>
-<li>
-<p>
-Since <m>1.3</m> is farther away from the point of tangency <m>(t=1)</m> than <m>1.01</m> is, 
-we expect the estimate to be better for <m>1.01</m>. 
-We confirm this by computing the error at each point, finding that 
-<md>
-<mrow>E(1.01)\amp=p(1.01)-L(1.01)</mrow>
-<mrow>\amp=\ln(1.01)-0.01</mrow>
-<mrow>\amp\approx-0.0000497,</mrow>
-<mrow>\text{and} \ \ E(1.3)\amp=p(1.3)-L(1.3)</mrow>
-<mrow>\amp=\ln(1.3)-0.3</mrow>
-<mrow>\amp\approx-0.0376357</mrow>
-</md>.
-As expected, the error grew as the point moved farther from the initial point of tangency.
-</p>
-</li>
-</ol> 
-</solution>
-</example>
-
-    <p permid="seK">
-      We emphasize that 
-      <m>L(x)</m> is simply a new name for the tangent line function.
-      Using this new notation and our observation
-      that 
-      <m>L(x) \approx f(x)</m> for <m>x</m> near <m>a</m>,
-      it follows that we can write
-      <men xml:id="NMO">
-        f(x) \approx f(a) + f'(a)(x-a) \ \text{for}  \  x \ \text{near}  \ a
-      </men>.
-    </p>
-  </subsection>
-
-  
-<subsection>
-    <title>Marginals</title>
-<p permid="DYd">
-<p> We now seek to apply approximation techniques to specific business concepts. </p>
-
-<p>
-Suppose we have a cost function <m>C(n)</m>, giving information about the cost of selling <m>n</m> items. Building a tangent line approximation at <m>a=x</m>, we know from <xref ref="NMO" /> that
-<me>
-C(n) \approx C(x) + C'(x) (n-x) \ \text{for}  \  n \ \text{near}  \ x
-</me>
-Notice from the right-hand side that we only need to know information about the cost function for a specific number of items <m>x</m>, and we use this to approximate the cost function for a number of items <m>n</m> that is close to <m>x</m>. What about the next item sold, number <m>x+1</m>? For <m>n=x+1</m>, we would have
-<me>
-C(x+1) \approx C(x) + C'(x) ((x+1)-x) = C(x) + C'(x)(1) = C(x) + C'(x).
-</me>
-So to summarize,
-<men xml:id="Osn">
-C(x+1) \approx C(x) + C'(x).
-</men>
-We will use the principle given by <xref ref="Osn" /> a few times below with the Cost, Revenue, and Profit functions.
-</p>
-
-
-
-    <assemblage xml:id="Marginals" permid="zJJ">
-      <title>Marginal Cost, Revenue and Profit</title>
-      <p>
-
-The <em> marginal cost</em>  is the derivative <m>C'(x)</m> of the cost function.  If we know the cost of selling <m> x </m> items, then the marginal cost is used to approximate the cost of <m>x+1</m> items (by the reasoning used to obtain <xref ref="Osn" />) as follows: <me>C(x+1)\approx C(x)+ C'(x).</me></p>
-   
-<p>
-The <em> marginal revenue</em> is the derivative <m>R'(x)</m> of the revenue function. If we know the revenue from selling <m> x </m> items, then the marginal revenue is used to approximate the revenue from selling <m>x+1</m> items (by the reasoning used to obtain <xref ref="Osn" />) as follows: <me>R(x+1)\approx R(x)+ R'(x).</me></p>
-
-     <p>
-
-The <em> marginal profit</em>  is the derivative  <m>P'(x)</m> of the profit function. If we know the profit from selling <m> x </m> items, then the marginal profit is used to approximate the profit from selling <m>x+1</m> items (by the reasoning used to obtain <xref ref="Osn" />) as follows: <me>P(x+1)\approx P(x)+ P'(x).</me></p>
-
-    </assemblage>
-    </p>
-
-<example xml:id="PA-1-8" permid="OkA">
-<statement>
-  <p permid="VOZ">
-Suppose the monthly cost, in dollars, of producing <m>x</m> backpacks is <me>C(x)=0.001x^3+0.07x^2+19x+700,</me> and currently 25 backpacks are produced monthly.
-  </p>
-
-  <p permid="BWi">
-    <ol label="a." permid="goe">
-      <li permid="Mvn">
-        <p permid="Rfg">
-          What is the current monthly cost? What is the current marginal cost?
-        </p>
-      </li>
-
-      <li permid="sCw">
-        <p permid="xmp">
- What would be the additional cost of increasing the production to 26 backpacks monthly?
-        </p>
-      </li>
-
-      <li permid="YJF">
-        <p permid="dty">
-Using the marginal cost, what is the approximate cost to produce the 26th backpack monthly? Compare this to the actual additional cost computed in part (b).
-        </p>
-      </li>
-
-      <li permid="EQO">
-        <p permid="JAH">
-      Use the marginal cost to estimate <m>C(27)</m>, <m>C(28)</m>, and <m>C(23)</m>.
-        </p>
-      </li>
-
-      </ol>
-  </p>
-
-</statement>
-<answer>
-  <p>
-  <ol label="a.">
-    <li>
-    <p>
-    <m>C(25)=1234.38</m>, and <m>C'(25)=24.38</m>
-    </p>
-    </li>
-    <li>
-    <p>
-    <m>C(26)-C(25)=24.52</m>.
-    </p>
-    </li>
-    <li>
-    <p>
-    The approximate cost to produce the 26th item is <m>C'(25)=24.38</m>, the real cost is <m>24.52</m>, thus the approximation is only off by 14 cents!
-    </p>
-    </li>
-    <li>
-    <p>
-    <me>C(27)\approx C(25)+2C'(25)=1283.13</me>
-    <me>C(28)\approx C(25)+3C'(25)=1307.51</me>
-    <me>C(23)\approx C(25)-2C'(25)=1185.62</me>
-
-    </p>
-    </li>
-   </ol>
-  </p>
-</answer>
-<solution>
-  <p>
-  <ol label="a.">
-    <li>
-    <p>
-To find the current monthly cost, simply plug 25 into the given cost equation: <me>C(25)=0.001(25)^3+0.07(25)^2+19(25)+700=1234.38.</me>
-The marginal cost is the derivative of the cost function <me>C'(x)=0.003x^2+0.14x+19,</me>
-thus the marginal cost when 25 backpacks are produced monthly is:
-    </p>
-    </li>
-
-    <li>
-    <p>
-    The additional cost of increasing the production to 26 backpacks monthly is <me>C(26)-C(25)=24.52.</me>
-    </p>
-    </li>
-    <li>
-    <p>
-    The approximate cost to produce the 26th item is <m>C'(25)=24.38</m>, and the real cost is <m>24.52</m>. Thus the approximation is only off by 14 cents!
-    </p>
-    </li>
-    <li>
-    <p>
-To <em>estimate</em> the cost of producing 27 backpacks we can use:
-    <me>C(27)\approx C(25)+2C'(25)=1234.38+2(24.38)=1283.13.</me> 
-To <em>estimate</em> the cost of producing 28 backpacks we can use:
-    <me>C(28)\approx C(25)+3C'(25)=1234.38+3(24.38)=1307.51.</me> 
-To <em>estimate</em> the cost of producing 23 backpacks, which is 2 less, we can use:
-    <me>C(23)\approx C(25)-2C'(25)=1234.38-2(24.38)=1185.62.</me> 
-
-    </p>
-    </li>
-  </ol>
-  </p>
-</solution>
-
-
-</example>
-
-<example xml:id="PA-2-8" permid="OkA">
-<statement>
-  <p permid="VOZ">
-Suppose a company finds that the weekly profit, in dollars, from selling <m>x</m> cars is
-<me>
-P(x)=-0.006x^3-0.2x^2+900x-1200.
-</me>
-Currently <m>60</m> cars are sold weekly.
-  </p>
-
-  <p permid="BWi">
-    <ol label="a." permid="goe">
-      <li permid="Mvn">
-        <p permid="Rfg">
-          What is the current weekly profit? What is the current marginal profit?
-        </p>
-      </li>
-
-      <li permid="sCw">
-        <p permid="xmp">
-How much profit would be lost if the dealership were able to sell only <m>59</m> cars weekly? How does this value compare to the marginal profit found in part (a)?
-        </p>
-      </li>
-
-      <li permid="YJF">
-        <p permid="dty">
-Use the marginal profit to estimate the weekly profit if the sales increase to <m>61</m> cars weekly,  <m>62</m> cars weekly, and  <m>65</m> cars weekly.           </p>
-      </li>
-
-      </ol>
-  </p>
-
-</statement>
-<answer>
-  <p>
-  <ol label="a.">
-    <li>
-    <p>
-    <m>P(60)=\$50784</m>, <m>P'(60)=\$811.20</m>
-    </p>
-    </li>
-    <li>
-    <p>
-    <m>P(60)-P(59)=\$812.47</m>. 
-    </p>
-    </li>
-    <li>
-    <p>
-    Approximate profit when <m>61</m> cars are sold weekly is <m>\$51595.20</m>. 
-    Approximate profit when <m>62</m> cars are sold weekly is <m>\$52406.40</m>.
-    Approximate profit when <m>61</m> cars are sold weekly is <m>\$54840</m>.
-    </p>
-    </li>
-   </ol>
-  </p>
-</answer>
-<solution>
-  <p>
-  <ol label="a.">
-    <li>
-    <p>
-To find the current weekly profit, plug 60 into the given profit equation: <me>P(60)=-0.006(60)^3-0.2(60)^2+900(60)-1200=50784.</me>
-The marginal profit is the derivative of the profit function <me>P'(x)=-0.018x^2-0.4x+900,</me>
-and thus the marginal profit when 60 cars are produced weekly  is:<me>P'(60)=-0.018(60)^2-0.4(60)+900=811.20</me>
-    </p>
-    </li>
-
-    <li>
-    <p>
-   The profit lost if the dealership were able to sell only <m>59</m> cars weekly is <me>P(60)-P(59)=812.47.</me> When we compare this to the marginal profit, we observe that we are only off by <m>\$1.27</m>, which is a very good approximation.
-    </p>
-    </li>
-    <li>
-    <p>
-    Approximate profit when <m>61</m> cars are sold weekly is <me>P(61)\approx P(60)+P'(60)=\$51595.20</me>. 
-    Approximate profit when <m>62</m> cars are sold weekly is <me>P(62)\approx P(60)+2P'(60)=\$52406.40</me>.
-    Approximate profit when <m>61</m> cars are sold weekly is <me>P(65)\approx P(60)+5P'(60)=\$54840</me>.
-    </p>
-    </li>
-  </ol>
-  </p>
-</solution>
-
-
-</example>
-
-<p>
-Of course, the final part of these examples are just estimates. If we have an explicit function for <m>C(x)</m>  and <m>P(x)</m> in the real world, then we would never use an estimate. However, often in the real world we only have the information at a point and not an explicit function. This example demonstrates how we could approximate.
-</p>
-
-
-
-
-<example xml:id="PA-2-1" permid="OkA">
-<statement>
-  <p permid="VOZ">
-Suppose that a company that sells widgets determines that the daily revenue, <m>R(x),</m> in dollars, from the sale of <m>75</m> widgets are sold is <m>900</m> dollars. The marginal revenue when <m>75</m> widgets are sold is <m>11</m> dollars per widget.
-  </p>
-
-  <p permid="BWi">
-    <ol label="a." permid="goe">
-      <li permid="Mvn">
-        <p permid="Rfg">
-         Estimate the daily revenue from the sale of <m>77</m> widgets.
-        </p>
-      </li>
-
-      <li permid="sCw">
-        <p permid="xmp">
-         Estimate the daily revenue from the sale of <m>80</m> widgets.
-        </p>
-      </li>
-
-      <li permid="YJF">
-        <p permid="dty">
-         Estimate the daily revenue from the sale of <m>74</m> widgets. </p>
-      </li>
-
-      </ol>
-  </p>
-
-</statement>
-<answer>
-  <p>
-  <ol label="a.">
-    <li>
-    <p>
-    <m>R(77)\approx 922.</m>
-    </p>
-    </li>
-    <li>
-    <p>
-    <m>R(80)\approx 955</m>. 
-    </p>
-    </li>
-    <li>
-    <p>
-    <m>R(74)\approx 889.</m>
-    </p>
-    </li>
-   </ol>
-  </p>
-</answer>
-<solution>
-  <p>
-  <ol label="a.">
-    <li>
-    <p>
-Here we are not given the revenue function. However, we are given <m>R(75)=900</m> and <m>R'(75)=11</m>. In the real world these are values that could be computed even without ever finding an explicit revenue function. We can use this information to approximate the revenue from the sale of <m>77</m> items:
-<me> R(77)\approx R(75)+2R'(75)=900+2(11)=922.
-</me>
-We start at <m>75</m> since this is the only information given, then we multiply the marginal revenue by <m>2</m> since we have sold <m>2</m> more widgets to get to a total of <m>77</m> widgets. 
-
-    </p>
-    </li>
-
-    <li>
-    <p>
-<me> R(80)\approx R(75)+5R'(75)=900+5(11)=955.
-</me>
-We start at <m>75</m> since this is the only information given, then we multiply the marginal revenue by <m>5</m> since we have sold <m>5</m> more widgets to get to a total of <m>80</m> widgets. 
-</p>
-    </li>
-    <li>
-    <p>
-<me> R(74)\approx R(75)-R'(75)=900-(11)=889.
-</me>
-We start at <m>75</m> since this is the only information given, then we multiply the marginal revenue by <m>-1</m> since we have sold <m>1</m> less widgets to get to a total of <m>74</m> widgets. 
-
-    </p>
-    </li>
-  </ol>
-  </p>
-</solution>
-
-
-</example>
-
-
-
-</subsection>
-
- <subsection permid="XBZ">
-    <title>Summary</title>
-    <p permid="JcV">
-      <ul permid="oAk">
-              <li permid="xTW">
-          <p permid="iKY">
-            The tangent line to a differentiable function <m>y = f(x)</m> at the point
-            <m>(a,f(a))</m> is given in point-slope form by the equation
-            <me permid="mpy">
-              y - f(a) = f'(a)(x-a)
-            </me>.
-          </p>
-        </li>
-
-        <li permid="Kio">
-          <p permid="uZq">
-For a function <m> f </m> which is differentiable at <m> x=a </m>, we can use the equation for tangent line <m>L(x) = f(a) + f'(a)(x-a)</m> to approximate <m> f </m> near <m> a </m>. We often call <m> L(x) </m> the tangent line approximation of <m> f </m> at <m> a </m> (or you may see it referred to as the local linearization of <m>f</m> at <m>a</m>). Marginal cost, revenue, and profit are an example of using the tangent line approximation of the cost, revenue, and profit functions respectively to approximate these functions. 
-          </p>
-        </li>
-
- <li>
-          <p permid="uZq">
-            The marginal cost is the derivative <m> C'(x) </m> of the cost function, the marginal revenue is the derivative <m> R'(x) </m> of the revenue function, and the marginal profit is the derivative <m> P'(x) </m> of the profit function. If we know the cost of selling <m> x </m> items, then the marginal cost can be used to estimate the cost of selling another amount of items, if that amount is near <m> x </m>. The same holds true for the marginal revenue and marginal profit functions. 
-          </p>
-        </li>
-      </ul>
-    </p>
-  </subsection>
-
-
-  
-<exercises xmlns:xi="http://www.w3.org/2001/XInclude"> 
-
-  <exercise>
-    <title>Approximating value of unknown function</title>
-    <webwork source="UNL-Problems/104-Problems/TLA1.pg" />
-  </exercise>
-
-  <exercise>
-    <title>Approximating value of square root</title>
-    <webwork source="UNL-Problems/104-Problems/TLA2.pg" />
-  </exercise>
-
-  <exercise>
-    <title>Approximating value of natural log</title>
-    <webwork source="UNL-Problems/104-Problems/TLA3.pg" />
-  </exercise>
-
-  <exercise>
-    <title>Marginal cost, revenue, and profit</title>
-    <webwork source="UNL-Problems/104-Problems/Marginals3.pg" />
-  </exercise>
-  
-  <exercise>
-    <title>Using marginal revenue</title>
-    <webwork source="UNL-Problems/104-Problems/Marginals4.pg" />
-  </exercise>
-  
-  <exercise>
-    <title>Using marginal profit</title>
-    <webwork source="UNL-Problems/104-Problems/Marginals6.pg" />
-  </exercise>
-
-</exercises>
- 
-</section>
-
+	<title>Tangent Line Approximations</title>
+	<objectives permid="pyM">
+		<ul permid="hUn">
+			<li permid="uiF">
+				<p permid="eZH">
+					For a general differentiable function, how can we use the derivative of a function to approximate the values of the function?
+				</p>
+			</li>
+
+			<li permid="apO">
+				<p permid="LgQ">
+					What is the marginal Profit, Revenue, and Cost? How can we use these to approximate the Profit, Revenue, and Cost functions?
+				</p>
+			</li>
+		</ul>
+	</objectives>
+
+	<introduction>
+		<p>
+			Often in business, explicit formulas for Cost, Revenue, and Profit (<m>C(x)</m>, <m>R(x)</m>, and <m>P(x)</m> respectively) are not known.
+			However, information may exist about the cost, revenue and profit trends at a particular value <m>x=a</m>.
+			For example, suppose that you are running a company that produces and sells computers.
+			In an ideal world, you would have a function, <m>P(x)</m>, for the profit from the sale of <m>x</m> computers.
+			However, in the real world, you only know that the profit from the sale of 100 laptops is <m>P(100)=\$5000</m>.
+			You also know that the profit increased by <m>\$100</m> per laptop when 100 laptops are sold.
+		</p>
+
+		<p>
+			From this information you could make an estimate that the profit from the sale of 101 computers would be <m>P(101)\approx 5100</m>.
+			It is important to note that you can not assume that the profit grows at a linear (i.e.
+			constant) rate! There are many variables when producing and selling an item, and for many companies a profit is not made unless a certain number of units are sold.
+		</p>
+
+		<p>
+			Without creating an explicit function for the profit, can we estimate future profits? In this section, we will explore how to use the derivative (or rate of change) of a function to estimate the values of the function.
+		</p>
+	</introduction>
+
+	<subsection>
+		<title>Linear Approximations</title>
+		<p>
+			Among all functions, linear functions are simplest.
+			One of the powerful consequences of a function
+			<m>y = f(x)</m> being differentiable at a point <m>(a,f(a))</m> is that
+			up close
+			the function <m>y = f(x)</m> is locally linear and looks like its tangent line at that point.
+			In certain circumstances,
+			this allows us to approximate the original function <m>f</m> with a simpler function <m>L</m> that is linear:
+			this can be advantageous when we have limited information about <m>f</m> or when <m>f</m> is computationally or algebraically complicated.
+			We will explore all of these situations in what follows.
+		</p>
+
+		<p permid="nuR">
+			It is essential to recall that when <m>f</m> is differentiable at <m>x = a</m>,
+			the value of <m>f'(a)</m> provides the slope of the tangent line to
+			<m>y = f(x)</m> at the point <m>(a,f(a))</m>.
+			If we know both a point on the tangent line and the slope of the line we can find the equation of the tangent line and write the equation in point-slope form.<fn>
+			Recall that a line with slope <m>m</m> that passes through
+			<m>(x_0,y_0)</m> has equation <m>y - y_0 = m(x - x_0)</m>,
+			and this is the <term>point-slope form</term> of the equation.
+			</fn>
+		</p>
+
+		<example xml:id="PA-1-9" permid="OkA">
+			<statement>
+				<p permid="VOZ">
+					Consider the function <m>g(x) = -x^2+3x+2</m>.
+				</p>
+
+				<p permid="BWi">
+					<ol marker="a." permid="goe">
+						<li permid="Mvn">
+							<p permid="Rfg">
+								Find the derivative <m>g'(x)</m>.
+							</p>
+						</li>
+
+						<li permid="sCw">
+							<p permid="xmp">
+								Determine the slope of the tangent line to the graph of
+								<m>y = g(x)</m> at the value <m>x = 2</m>.
+							</p>
+						</li>
+
+						<li permid="YJF">
+							<p permid="dty">
+								Compute <m>g(2)</m>.
+							</p>
+						</li>
+
+						<li permid="EQO">
+							<p permid="JAH">
+								Find an equation for the tangent line to the graph of
+								<m>y = g(x)</m> at the point <m>(2,g(2))</m>.
+								Write your result in point-slope form.
+							</p>
+						</li>
+
+						<li permid="kXX">
+							<p permid="pHQ">
+								<!--On the axes provided below in <xref ref="F-1-8-PA1">Figure</xref>,-->
+								Sketch an accurate,
+								labeled graph of <m>y = g(x)</m> on the interval <m>-1\le x\le4</m>.
+								On the same axes, sketch its tangent line at the point <m>(2,g(2))</m>.
+							</p>
+						</li>
+					</ol>
+				</p>
+				<!--
+				<figure xml:id="F-1-8-PA1" permid="idr">
+					<caption>Axes for plotting <m>y = g(x)</m> and its tangent line to the point <m>(2,g(2))</m>.</caption>
+					<image width="47%" source="1_8_PA1" />
+					</figure>
+					-->
+				</statement>
+
+				<answer>
+					<p>
+						<ol marker="a.">
+							<li>
+								<p>
+									<m>g'(x)=-2x+3</m>.
+								</p>
+							</li>
+
+							<li>
+								<p>
+									<m>g'(2)=-1</m>.
+								</p>
+							</li>
+
+							<li>
+								<p>
+									<m>g(2)=4</m>.
+								</p>
+							</li>
+
+							<li>
+								<p>
+									<m>y-4=-1(x-2)</m>.
+								</p>
+							</li>
+
+							<li>
+								<figure>
+									<caption>The graph of <m>y=g(x)</m> along with its tangent line <m>L</m> at the point <m>(2,4)</m>, where <m>g(x)=-x^2+3x+2</m>.</caption>
+									<image width="40%" source="2_9_intro_soln.jpg" />
+									</figure>
+								</li>
+							</ol>
+						</p>
+					</answer>
+
+					<solution>
+						<p>
+							<ol marker="a.">
+								<li>
+									<p>
+										<m>g'(x)=-2x+3</m>.
+									</p>
+								</li>
+
+								<li>
+									<p>
+										Since the slope of the tangent line at a point is the value of the derivative at that point,
+										we have the slope as
+										<me>
+											g'(2)=-2(2)+3=-1
+										</me>.
+									</p>
+								</li>
+
+								<li>
+									<p>
+										Evaluating <m>g(x)</m> at <m>x=2</m>, we find
+										<me>
+											g(2)=-(2)^2+3(2)+2=4
+										</me>.
+									</p>
+								</li>
+
+								<li>
+									<p>
+										Using the slope of <m>-1</m> that we found in part (b) together with the value <m>g(2)=4</m>
+										found in (c), the tangent line to <m>y=g(x)</m> at <m>(2,4)</m> is
+										<me>
+											y-4=-1(x-2)
+										</me>.
+									</p>
+								</li>
+
+								<li>
+									<figure>
+										<caption>The graph of <m>y=g(x)</m> along with its tangent line <m>L</m> at the point <m>(2,4)</m>, where <m>g(x)=-x^2+3x+2</m>.</caption>
+										<image width="40%" source="2_9_intro_soln.jpg" />
+										</figure>
+									</li>
+								</ol>
+							</p>
+						</solution>
+					</example>
+				</subsection>
+
+				<subsection permid="LnH">
+					<title>The Tangent Line</title>
+					<p permid="TCa">
+						Given a function <m>f</m> that is differentiable at <m>x = a</m>,
+						we know that we can determine the slope of the tangent line to <m>y = f(x)</m> at
+						<m>(a,f(a))</m> by computing <m>f'(a)</m>.
+						This allows us to write the equation for the tangent line as follows:
+					</p>
+
+					<assemblage>
+						<title>The Tangent Line</title>
+						<p>
+							The equation of the resulting tangent line
+							<idx><h>tangent line</h><h>equation</h></idx>
+							is given in point-slope form by
+							<me permid="pke">
+								y - f(a) = f'(a)(x-a) <!-- \ \ \text{or} \ \ y = f'(a)(x-a) + f(a) -->
+							</me>.
+						</p>
+					</assemblage>
+
+					<warning>
+						<p>
+							Note: there is a major difference between <m> f(a) </m> and <m> f(x) </m> in this context.
+							The former is a constant that results from using the given fixed value of <m>a</m>,
+							while the latter is the general expression for the rule that defines the function.
+							The same is true for <m>f'(a)</m> and <m>f'(x)</m>:
+							we must carefully distinguish between these expressions.
+							Each time we find the tangent line,
+							we need to evaluate the function and its derivative at a fixed <m>a</m>-value.
+						</p>
+					</warning>
+
+					<p permid="zJj">
+						In <xref ref="F-1-8-TanLine">Figure</xref> below,
+						we see the graph of a function <m>f</m> and its tangent line at the point <m>(a,f(a))</m>.
+						Notice how when we zoom in we see the local linearity of <m>f</m> more clearly highlighted.
+						The function and its tangent line are nearly indistinguishable up close.
+						Local linearity can also be seen dynamically in the java applet at
+						<url href="http://gvsu.edu/s/6J">http://gvsu.edu/s/6J</url>.
+					</p>
+
+					<figure xml:id="F-1-8-TanLine" permid="fQs">
+						<caption>The graph of a function <m>y = f(x)</m> and its tangent line at the point <m>(a,f(a))</m>: at left, from a distance, and at right, up close.
+						If we let <m>L(x)=f'(a)(x-a)+f(a)</m> denote the tangent line function, then we observe in the right image that for <m>x</m> near <m>a</m>, <m>f(x) \approx L(x)</m>.</caption>
+						<image width="100%" source="1-8-TanLines.gif" />
+						</figure>
+					</subsection>
+
+					<subsection permid="ruQ">
+						<title>Approximations</title>
+						<!--    <idx><h>approximation</h></idx>-->
+						<p permid="LXB">
+							A slight change in perspective and notation will enable us to be more precise in discussing how the tangent line approximates <m>f(x)</m> near <m>x = a</m>.
+							By solving for <m>y</m>,
+							we can write the equation for the tangent line as
+							<me permid="Vrn">
+								y = f'(a)(x-a) + f(a)
+							</me>.
+							This line is itself a function of <m>x</m>.
+							Replacing the variable <m>y</m> with the expression <m>L(x)</m>, we have the following.
+						</p>
+
+						<assemblage>
+							<title>Tangent Line Approximation</title>
+							<p>
+								We call
+								<me permid="Byw">
+									L(x) = f'(a)(x-a) + f(a)
+								</me>
+								the <term>tangent line approximation of <m>f</m>
+								<!-- <idx><h>tangent line approximation</h></idx> -->
+								<!-- I'm not sure what this line above is doing.  It doesn't seem to do anything in the version currently published so I'm just going to comment it out -->
+								at the point <m>(a,f(a))</m></term>.
+							</p>
+						</assemblage>
+
+						<p>
+							In this notation,
+							<m>L(x)</m> is nothing more than a "new name" for the tangent line.
+							As we saw above, for <m>x</m> close to <m>a</m>,
+							<m>f(x) \approx L(x)</m>.
+						</p>
+
+						<example>
+							<title> Using the Tangent Line Approximation </title>
+							<statement>
+								<p>
+									Suppose that it is known that, for a given differentiable function <m>y = f(x)</m>, its tangent line approximation
+									at the point <m> x = 1 </m> is given by
+									<me>
+										L(x) = 3-2(x-1).
+									</me>
+
+									<ol marker="a">
+										<li>
+											<p>
+												Compute <m> L(1) </m>.
+											</p>
+										</li>
+
+										<li>
+											<p>
+												What must be the values of <m> f(1)</m> and <m> f'(1) </m>?
+											</p>
+										</li>
+
+										<li>
+											<p>
+												Use the tangent line approximation from (a) to estimate the value of <m>f(1.2)</m>.
+											</p>
+										</li>
+									</ol>
+								</p>
+							</statement>
+
+							<answer>
+								<p>
+									<ol marker="a">
+										<li>
+											<p>
+												<m>L(1) = 3 </m>.
+											</p>
+										</li>
+
+										<li>
+											<p>
+												<m> f(1) = 3 </m> and <m> f'(1) = -2 </m>.
+											</p>
+										</li>
+
+										<li>
+											<p>
+												<m>f(1.2) \approx2.6</m>.
+											</p>
+										</li>
+									</ol>
+								</p>
+							</answer>
+
+							<solution>
+								<p>
+									<ol marker="a">
+										<li>
+											<p>
+												Plugging <m> x = 1 </m> into <m> L(x) </m>,
+												<me>
+													L(1) = 3 - 2(1-1) = 3- 2(0) = 3.
+												</me>
+											</p>
+										</li>
+
+										<li>
+											<p>
+												Since <m> L(x) =  f(a) + f'(a)(x-a)</m>, we can match up with the given equation to get
+												<m> f(1) = 3 </m> and <m> f'(1) = -2 </m>.
+											</p>
+										</li>
+
+										<li>
+											<p>
+												To approximate <m> f(1.2) </m>, we plug into <m> L(x) </m>:
+												<me>
+													f(1.2) \approx L(1.2) = 3 - 2(1.2 - 1) = 3 - 2(0.2) = 2.6.
+												</me>
+											</p>
+										</li>
+									</ol>
+								</p>
+
+								<p>
+									Note that we may reason through part b) in a different way as well.
+									We know that the tangent line approximation <m>L(x)</m> to a function at a point <m>(a,f(a))</m> "touches" the function at that point, so <m>L(a)</m> must be the same as <m>f(a)</m>.
+									In this case, since the tangent line was was approximated  at the point <m>a=1</m>, we know that <m>f(1)=L(1)=3</m>.
+									Further, we know that the (constant) slope of the tangent line approximation was defined to be the slope of <m>f</m> at <m>x=a</m>.
+									We could rewrite <m>L(x)</m> in slope-intercept form as <m>-2x+5</m> and see that its slope is <m>-2</m> (or we could take the derivative of <m>L(x)</m> to find that <m>L'(x)=-2</m>).
+									In either case, we see that the <m>f'(1)</m> equals <m>-2</m>, the slope of the tangent line approximation.
+								</p>
+							</solution>
+						</example>
+
+						<example>
+							<title>Error in a Tangent Line Approximation</title>
+							<statement>
+								<p>
+									Consider the function <m>p(t)=\ln(t)</m>.
+									<ol marker="a">
+										<li>
+											<p>
+												Find the tangent line approximation, <m>L(t)</m>, of <m>p</m> at <m>t=1</m>.
+											</p>
+										</li>
+
+										<li>
+											<p>
+												Use the tangent line approximation from (a) to estimate the value of <m>\ln(1.01)</m>.
+											</p>
+										</li>
+
+										<li>
+											<p>
+												Use the tangent line approximation from (a) to estimate the value of <m>\ln(1.3)</m>.
+											</p>
+										</li>
+
+										<li>
+											<p permid="TanErr">
+												<idx><h>tangent line approximation</h><h>error</h></idx>
+												The error of an approximation is the difference between the true value and the estimated value.
+												In particular, given a function <m>f</m> and its tangent line approximation <m>L(x)</m> at <m>(a,f(a))</m>,
+												we say the <term>error of the tangent line approximation</term> is
+												<md>
+													<mrow>E(x)\amp=f(x)-L(x)</mrow><mrow>\amp=f(x)-f(a)-f'(a)(x-a)</mrow>
+												</md>,
+												for values of <m>x</m> near <m>a</m>.
+											</p>
+
+											<p>
+												Of the two estimates you found in (b) and (c), which do you expect to be more accurate? Why?
+												Check your guess by calculating and comparing <m>E(1.01)</m> and <m>E(1.3)</m>.
+											</p>
+										</li>
+									</ol>
+								</p>
+							</statement>
+
+							<hint>
+								<p>
+									<ol marker="a">
+										<li>
+											<p>
+												Start by finding <m>\frac{d}{dt}[\ln(t)]</m>.
+											</p>
+										</li>
+
+										<li>
+											<p>
+												By construction of <m>L(t)</m>, we know that <m>p(1.01)\approx L(1.01)</m>.
+											</p>
+										</li>
+
+										<li>
+											<p>
+												Remember that <m>p(1.3)\approx L(1.3)</m>.
+											</p>
+										</li>
+
+										<li>
+											<p>
+												The approximation should be best close to <m>t=1</m>.
+												Note <m>E(1)=0</m> since <m>p(1)=L(1)</m>.
+											</p>
+										</li>
+									</ol>
+								</p>
+							</hint>
+
+							<answer>
+								<p>
+									<ol marker="a">
+										<li>
+											<p>
+												<m>L(t)=t-1</m>.
+											</p>
+										</li>
+
+										<li>
+											<p>
+												<m>\ln(1.01)\approx0.01</m>.
+											</p>
+										</li>
+
+										<li>
+											<p>
+												<m>\ln(1.3)\approx0.3</m>.
+											</p>
+										</li>
+
+										<li>
+											<p>
+												We expect <m>|E(1.3)|>|E(1.01)|</m>.
+												Indeed, <m>E(1.01)=\ln(1.01)-0.01\approx-0.00005</m>,
+												whereas <m>E(1.3)=\ln(1.3)-0.3\approx-0.0376</m>.
+											</p>
+										</li>
+									</ol>
+								</p>
+							</answer>
+
+							<solution>
+								<p>
+									<ol marker="a">
+										<li>
+											<p>
+												We start by computing <m>p'(t)</m>, and then evaluating <m>p(1)</m> and <m>p'(1)</m>.
+												Since <m>p(t)=\ln(t)</m>, the derivative is <m>p'(t)=\frac1t</m>.
+												Furthermore, we have
+												<m>p(1)=\ln(1)=0</m> and <m>p'(1)=\frac11=1</m>.
+												Thus, the tangent line approximation of <m>p(t)=\ln(t)</m> at the point <m>(1,0)</m> is
+												<me>
+													L(t)=p(1)+p'(1)(t-1)=0+1(t-1)=t-1
+												</me>.
+											</p>
+										</li>
+
+										<li>
+											<p>
+												Since we can use the tangent line approximation for <m>p</m> at <m>(1,0)</m> to estimate
+												output values of <m>p</m> at nearby points, it follows that <m>p(1.01)\approx L(1.01)</m>.
+												Thus we have
+												<me>
+													\ln(1.01)\approx0.01
+												</me>.
+											</p>
+										</li>
+
+										<li>
+											<p>
+												Since we can use the tangent line approximation for <m>p</m> at <m>(1,0)</m> to estimate
+												output values of <m>p</m> at nearby points, it follows that <m>p(1.3)\approx L(1.3)</m>.
+												Thus we have
+												<me>
+													\ln(1.3)\approx0.3
+												</me>.
+											</p>
+										</li>
+
+										<li>
+											<p>
+												Since <m>1.3</m> is farther away from the point of tangency <m>(t=1)</m> than <m>1.01</m> is,
+												we expect the estimate to be better for <m>1.01</m>.
+												We confirm this by computing the error at each point, finding that
+												<md>
+													<mrow>E(1.01)\amp=p(1.01)-L(1.01)</mrow>
+													<mrow>\amp=\ln(1.01)-0.01</mrow>
+													<mrow>\amp\approx-0.0000497,</mrow>
+													<mrow>\text{and} \ \ E(1.3)\amp=p(1.3)-L(1.3)</mrow>
+													<mrow>\amp=\ln(1.3)-0.3</mrow>
+													<mrow>\amp\approx-0.0376357</mrow>
+												</md>.
+												As expected, the error grew as the point moved farther from the initial point of tangency.
+											</p>
+										</li>
+									</ol>
+								</p>
+							</solution>
+						</example>
+
+						<p permid="seK">
+							We emphasize that
+							<m>L(x)</m> is simply a new name for the tangent line function.
+							Using this new notation and our observation
+							that
+							<m>L(x) \approx f(x)</m> for <m>x</m> near <m>a</m>,
+							it follows that we can write
+							<men xml:id="NMO">
+								f(x) \approx f(a) + f'(a)(x-a) \ \text{for}  \  x \ \text{near}  \ a
+							</men>.
+						</p>
+					</subsection>
+
+					<subsection>
+						<title>Marginals</title>
+						<p>
+							We now seek to apply approximation techniques to specific business concepts.
+						</p>
+
+						<p>
+							Suppose we have a cost function <m>C(n)</m>, giving information about the cost of selling <m>n</m> items.
+							Building a tangent line approximation at <m>a=x</m>, we know from <xref ref="NMO" /> that
+							<me>
+								C(n) \approx C(x) + C'(x) (n-x) \ \text{for}  \  n \ \text{near}  \ x
+							</me>
+							Notice from the right-hand side that we only need to know information about the cost function for a specific number of items <m>x</m>, and we use this to approximate the cost function for a number of items <m>n</m> that is close to <m>x</m>.
+							What about the next item sold, number <m>x+1</m>? For <m>n=x+1</m>, we would have
+							<me>
+								C(x+1) \approx C(x) + C'(x) ((x+1)-x) = C(x) + C'(x)(1) = C(x) + C'(x).
+							</me>
+							So to summarize,
+							<men xml:id="Osn">
+								C(x+1) \approx C(x) + C'(x).
+							</men>
+							We will use the principle given by <xref ref="Osn" /> a few times below with the Cost, Revenue, and Profit functions.
+						</p>
+
+						<assemblage xml:id="Marginals" permid="zJJ">
+							<title>Marginal Cost, Revenue and Profit</title>
+							<p>
+								The <em> marginal cost</em>  is the derivative <m>C'(x)</m> of the cost function.
+								If we know the cost of selling <m> x </m> items, then the marginal cost is used to approximate the cost of <m>x+1</m> items (by the reasoning used to obtain <xref ref="Osn" />) as follows:
+								<me>
+									C(x+1)\approx C(x)+ C'(x).
+								</me>
+							</p>
+
+							<p>
+								The <em> marginal revenue</em> is the derivative <m>R'(x)</m> of the revenue function.
+								If we know the revenue from selling <m> x </m> items, then the marginal revenue is used to approximate the revenue from selling <m>x+1</m> items (by the reasoning used to obtain <xref ref="Osn" />) as follows:
+								<me>
+									R(x+1)\approx R(x)+ R'(x).
+								</me>
+							</p>
+
+							<p>
+								The <em> marginal profit</em>  is the derivative  <m>P'(x)</m> of the profit function.
+								If we know the profit from selling <m> x </m> items, then the marginal profit is used to approximate the profit from selling <m>x+1</m> items (by the reasoning used to obtain <xref ref="Osn" />) as follows:
+								<me>
+									P(x+1)\approx P(x)+ P'(x).
+								</me>
+							</p>
+						</assemblage>
+
+						<example xml:id="PA-1-8" permid="OkA">
+							<statement>
+								<p permid="VOZ">
+									Suppose the monthly cost, in dollars, of producing <m>x</m> backpacks is
+									<me>
+										C(x)=0.001x^3+0.07x^2+19x+700,
+									</me>
+									and currently 25 backpacks are produced monthly.
+								</p>
+
+								<p permid="BWi">
+									<ol marker="a." permid="goe">
+										<li permid="Mvn">
+											<p permid="Rfg">
+												What is the current monthly cost? What is the current marginal cost?
+											</p>
+										</li>
+
+										<li permid="sCw">
+											<p permid="xmp">
+												What would be the additional cost of increasing the production to 26 backpacks monthly?
+											</p>
+										</li>
+
+										<li permid="YJF">
+											<p permid="dty">
+												Using the marginal cost, what is the approximate cost to produce the 26th backpack monthly? Compare this to the actual additional cost computed in part (b).
+											</p>
+										</li>
+
+										<li permid="EQO">
+											<p permid="JAH">
+												Use the marginal cost to estimate <m>C(27)</m>, <m>C(28)</m>, and <m>C(23)</m>.
+											</p>
+										</li>
+									</ol>
+								</p>
+							</statement>
+
+							<answer>
+								<p>
+									<ol marker="a.">
+										<li>
+											<p>
+												<m>C(25)=1234.38</m>, and <m>C'(25)=24.38</m>
+											</p>
+										</li>
+
+										<li>
+											<p>
+												<m>C(26)-C(25)=24.52</m>.
+											</p>
+										</li>
+
+										<li>
+											<p>
+												The approximate cost to produce the 26th item is <m>C'(25)=24.38</m>, the real cost is <m>24.52</m>, thus the approximation is only off by 14 cents!
+											</p>
+										</li>
+
+										<li>
+											<p>
+												<me>
+													C(27)\approx C(25)+2C'(25)=1283.13
+												</me>
+												<me>
+													C(28)\approx C(25)+3C'(25)=1307.51
+												</me>
+												<me>
+													C(23)\approx C(25)-2C'(25)=1185.62
+												</me>
+											</p>
+										</li>
+									</ol>
+								</p>
+							</answer>
+
+							<solution>
+								<p>
+									<ol marker="a.">
+										<li>
+											<p>
+												To find the current monthly cost, simply plug 25 into the given cost equation:
+												<me>
+													C(25)=0.001(25)^3+0.07(25)^2+19(25)+700=1234.38.
+												</me>
+												The marginal cost is the derivative of the cost function
+												<me>
+													C'(x)=0.003x^2+0.14x+19,
+												</me>
+												thus the marginal cost when 25 backpacks are produced monthly is:
+											</p>
+										</li>
+
+										<li>
+											<p>
+												The additional cost of increasing the production to 26 backpacks monthly is
+												<me>
+													C(26)-C(25)=24.52.
+												</me>
+											</p>
+										</li>
+
+										<li>
+											<p>
+												The approximate cost to produce the 26th item is <m>C'(25)=24.38</m>, and the real cost is <m>24.52</m>.
+												Thus the approximation is only off by 14 cents!
+											</p>
+										</li>
+
+										<li>
+											<p>
+												To <em>estimate</em> the cost of producing 27 backpacks we can use:
+												<me>
+													C(27)\approx C(25)+2C'(25)=1234.38+2(24.38)=1283.13.
+												</me>
+												To <em>estimate</em> the cost of producing 28 backpacks we can use:
+												<me>
+													C(28)\approx C(25)+3C'(25)=1234.38+3(24.38)=1307.51.
+												</me>
+												To <em>estimate</em> the cost of producing 23 backpacks, which is 2 less, we can use:
+												<me>
+													C(23)\approx C(25)-2C'(25)=1234.38-2(24.38)=1185.62.
+												</me>
+											</p>
+										</li>
+									</ol>
+								</p>
+							</solution>
+						</example>
+
+						<example xml:id="PA-2-8" permid="OkA">
+							<statement>
+								<p permid="VOZ">
+									Suppose a company finds that the weekly profit, in dollars, from selling <m>x</m> cars is
+									<me>
+										P(x)=-0.006x^3-0.2x^2+900x-1200.
+									</me>
+									Currently <m>60</m> cars are sold weekly.
+								</p>
+
+								<p permid="BWi">
+									<ol marker="a." permid="goe">
+										<li permid="Mvn">
+											<p permid="Rfg">
+												What is the current weekly profit? What is the current marginal profit?
+											</p>
+										</li>
+
+										<li permid="sCw">
+											<p permid="xmp">
+												How much profit would be lost if the dealership were able to sell only <m>59</m> cars weekly? How does this value compare to the marginal profit found in part (a)?
+											</p>
+										</li>
+
+										<li permid="YJF">
+											<p permid="dty">
+												Use the marginal profit to estimate the weekly profit if the sales increase to <m>61</m> cars weekly,  <m>62</m> cars weekly, and  <m>65</m> cars weekly.
+											</p>
+										</li>
+									</ol>
+								</p>
+							</statement>
+
+							<answer>
+								<p>
+									<ol marker="a.">
+										<li>
+											<p>
+												<m>P(60)=\$50784</m>, <m>P'(60)=\$811.20</m>
+											</p>
+										</li>
+
+										<li>
+											<p>
+												<m>P(60)-P(59)=\$812.47</m>.
+											</p>
+										</li>
+
+										<li>
+											<p>
+												Approximate profit when <m>61</m> cars are sold weekly is <m>\$51595.20</m>.
+												Approximate profit when <m>62</m> cars are sold weekly is <m>\$52406.40</m>.
+												Approximate profit when <m>61</m> cars are sold weekly is <m>\$54840</m>.
+											</p>
+										</li>
+									</ol>
+								</p>
+							</answer>
+
+							<solution>
+								<p>
+									<ol marker="a.">
+										<li>
+											<p>
+												To find the current weekly profit, plug 60 into the given profit equation:
+												<me>
+													P(60)=-0.006(60)^3-0.2(60)^2+900(60)-1200=50784.
+												</me>
+												The marginal profit is the derivative of the profit function
+												<me>
+													P'(x)=-0.018x^2-0.4x+900,
+												</me>
+												and thus the marginal profit when 60 cars are produced weekly  is:
+												<me>
+													P'(60)=-0.018(60)^2-0.4(60)+900=811.20
+												</me>
+											</p>
+										</li>
+
+										<li>
+											<p>
+												The profit lost if the dealership were able to sell only <m>59</m> cars weekly is
+												<me>
+													P(60)-P(59)=812.47.
+												</me>
+												When we compare this to the marginal profit, we observe that we are only off by <m>\$1.27</m>, which is a very good approximation.
+											</p>
+										</li>
+
+										<li>
+											<p>
+												Approximate profit when <m>61</m> cars are sold weekly is
+												<me>
+													P(61)\approx P(60)+P'(60)=\$51595.20
+												</me>.
+												Approximate profit when <m>62</m> cars are sold weekly is
+												<me>
+													P(62)\approx P(60)+2P'(60)=\$52406.40
+												</me>.
+												Approximate profit when <m>61</m> cars are sold weekly is
+												<me>
+													P(65)\approx P(60)+5P'(60)=\$54840
+												</me>.
+											</p>
+										</li>
+									</ol>
+								</p>
+							</solution>
+						</example>
+
+						<p>
+							Of course, the final part of these examples are just estimates.
+							If we have an explicit function for <m>C(x)</m>  and <m>P(x)</m> in the real world, then we would never use an estimate.
+							However, often in the real world we only have the information at a point and not an explicit function.
+							This example demonstrates how we could approximate.
+						</p>
+
+						<example xml:id="PA-2-1" permid="OkA">
+							<statement>
+								<p permid="VOZ">
+									Suppose that a company that sells widgets determines that the daily revenue, <m>R(x),</m> in dollars, from the sale of <m>75</m> widgets are sold is <m>900</m> dollars.
+									The marginal revenue when <m>75</m> widgets are sold is <m>11</m> dollars per widget.
+								</p>
+
+								<p permid="BWi">
+									<ol marker="a." permid="goe">
+										<li permid="Mvn">
+											<p permid="Rfg">
+												Estimate the daily revenue from the sale of <m>77</m> widgets.
+											</p>
+										</li>
+
+										<li permid="sCw">
+											<p permid="xmp">
+												Estimate the daily revenue from the sale of <m>80</m> widgets.
+											</p>
+										</li>
+
+										<li permid="YJF">
+											<p permid="dty">
+												Estimate the daily revenue from the sale of <m>74</m> widgets.
+											</p>
+										</li>
+									</ol>
+								</p>
+							</statement>
+
+							<answer>
+								<p>
+									<ol marker="a.">
+										<li>
+											<p>
+												<m>R(77)\approx 922.</m>
+											</p>
+										</li>
+
+										<li>
+											<p>
+												<m>R(80)\approx 955</m>.
+											</p>
+										</li>
+
+										<li>
+											<p>
+												<m>R(74)\approx 889.</m>
+											</p>
+										</li>
+									</ol>
+								</p>
+							</answer>
+
+							<solution>
+								<p>
+									<ol marker="a.">
+										<li>
+											<p>
+												Here we are not given the revenue function.
+												However, we are given <m>R(75)=900</m> and <m>R'(75)=11</m>.
+												In the real world these are values that could be computed even without ever finding an explicit revenue function.
+												We can use this information to approximate the revenue from the sale of <m>77</m> items:
+												<me>
+													R(77)\approx R(75)+2R'(75)=900+2(11)=922.
+												</me>
+												We start at <m>75</m> since this is the only information given, then we multiply the marginal revenue by <m>2</m> since we have sold <m>2</m> more widgets to get to a total of <m>77</m> widgets.
+											</p>
+										</li>
+
+										<li>
+											<p>
+												<me>
+													R(80)\approx R(75)+5R'(75)=900+5(11)=955.
+												</me>
+												We start at <m>75</m> since this is the only information given, then we multiply the marginal revenue by <m>5</m> since we have sold <m>5</m> more widgets to get to a total of <m>80</m> widgets.
+											</p>
+										</li>
+
+										<li>
+											<p>
+												<me>
+													R(74)\approx R(75)-R'(75)=900-(11)=889.
+												</me>
+												We start at <m>75</m> since this is the only information given, then we multiply the marginal revenue by <m>-1</m> since we have sold <m>1</m> less widgets to get to a total of <m>74</m> widgets.
+											</p>
+										</li>
+									</ol>
+								</p>
+							</solution>
+						</example>
+					</subsection>
+
+					<subsection permid="XBZ">
+						<title>Summary</title>
+						<p permid="JcV">
+							<ul permid="oAk">
+								<li permid="xTW">
+									<p permid="iKY">
+										The tangent line to a differentiable function <m>y = f(x)</m> at the point
+										<m>(a,f(a))</m> is given in point-slope form by the equation
+										<me permid="mpy">
+											y - f(a) = f'(a)(x-a)
+										</me>.
+									</p>
+								</li>
+
+								<li permid="Kio">
+									<p permid="uZq">
+										For a function <m> f </m> which is differentiable at <m> x=a </m>, we can use the equation for tangent line <m>L(x) = f(a) + f'(a)(x-a)</m> to approximate <m> f </m> near <m> a </m>.
+										We often call <m> L(x) </m> the tangent line approximation of <m> f </m> at <m> a </m> (or you may see it referred to as the local linearization of <m>f</m> at <m>a</m>).
+										Marginal cost, revenue, and profit are an example of using the tangent line approximation of the cost, revenue, and profit functions respectively to approximate these functions.
+									</p>
+								</li>
+
+								<li>
+									<p permid="uZq">
+										The marginal cost is the derivative <m> C'(x) </m> of the cost function, the marginal revenue is the derivative <m> R'(x) </m> of the revenue function, and the marginal profit is the derivative <m> P'(x) </m> of the profit function.
+										If we know the cost of selling <m> x </m> items, then the marginal cost can be used to estimate the cost of selling another amount of items, if that amount is near <m> x </m>.
+										The same holds true for the marginal revenue and marginal profit functions.
+									</p>
+								</li>
+							</ul>
+						</p>
+					</subsection>
+
+					<exercises xmlns:xi="http://www.w3.org/2001/XInclude">
+					<exercise>
+						<title>Approximating value of unknown function</title>
+						<webwork source="UNL-Problems/104-Problems/TLA1.pg" />
+					</exercise>
+
+					<exercise>
+						<title>Approximating value of square root</title>
+						<webwork source="UNL-Problems/104-Problems/TLA2.pg" />
+					</exercise>
+
+					<exercise>
+						<title>Approximating value of natural log</title>
+						<webwork source="UNL-Problems/104-Problems/TLA3.pg" />
+					</exercise>
+
+					<exercise>
+						<title>Marginal cost, revenue, and profit</title>
+						<webwork source="UNL-Problems/104-Problems/Marginals3.pg" />
+					</exercise>
+
+					<exercise>
+						<title>Using marginal revenue</title>
+						<webwork source="UNL-Problems/104-Problems/Marginals4.pg" />
+					</exercise>
+
+					<exercise>
+						<title>Using marginal profit</title>
+						<webwork source="UNL-Problems/104-Problems/Marginals6.pg" />
+					</exercise>
+					</exercises>
+				</section>
