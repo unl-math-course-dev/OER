@@ -173,6 +173,28 @@
 			</figure>
 		</example>
 
+		<example>
+			<p>
+				Solve the initial value problem
+				<me>y' + y = t^2 + 2t + u_1(t)(t + 1 + \delta_1(t)), y(0) = 0</me>
+				We take the Laplace transformation of both sides. To take the Laplace transformation of <m>u_1(t)(t + 1 + \delta_1(t))</m>, we rewrite the factor being multiplied
+				by <m>u_1(t)</m> replacing <m>t</m> with <m>t+1</m>, giving <m>t+2 + \delta_1(t+1) = t + 2 + \delta_0(t+1-1) = t + 2 + \delta_0(t)</m>; take the Laplace of this and
+				multiply by <m>e^{-1s}</m>, giving <m>e^{-s}(\frac{1}{s^2} + \frac{2}{s} + 1)</m>. We arrive at the equation
+				<me>sY(s) + Y(s) = \frac{2}{s^3} + \frac{2}{s^2} + e^{-s}(\frac{1}{s^2} + \frac{2}{s} + 1)</me>
+				Therefore,
+				<me>Y(s) = \frac{2}{s^3(s+1)} + \frac{2}{s^2(s+1)} + e^{-s}(\frac{1}{s^2(s+1)} + \frac{2}{s(s+1)} + \frac{1}{s+1})</me>
+				It looks like we have to do extensive partial fractions, but we don't; observe that
+				<me>\frac{2}{s^3(s+1)} + \frac{2}{s^2(s+1)} = \frac{2+2s}{s^3(s+1)} = \frac{2}{s^3}</me>
+				and <m>\frac{1}{s^2(s+1)} + \frac{2}{s(s+1)} + \frac{1}{s+1} = \frac{1+2s+s^2}{s^2(s+1)} = \frac{s+1}{s^2}=\frac1s + \frac{1}{s^2}</m>
+				So we end up at the equation
+				<me>Y(s) = \frac{2}{s^3} + e^{-s}(\frac1s + \frac{1}{s^2})</me>
+				We now have to take the inverse Laplace to solve for <m>y(t)</m>. The first term on the right gives us <m>t^2</m>. The inverse Laplace of <m>\frac1s + \frac{1}{s^2}</m>
+				is <m>1 + t</m>. Since <m>\frac1s + \frac{1}{s^2}</m> is multiplied by <m>e^{-s}</m>, we subtract 1 to the arguments and multiply by <m>\delta_1(t)</m> to get the inverse
+				Laplace. The final answer is
+				<me>y(t) = t^2 + \delta_0(t)\cdot t</me>
+			</p>
+		</example>
+
 		<p>
 			It is important to notice that we are using the Dirac delta function like an ordinary function.
 			This requires some rigorous mathematics to justify that we can actually do this.

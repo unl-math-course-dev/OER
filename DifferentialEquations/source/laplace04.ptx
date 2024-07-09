@@ -174,6 +174,23 @@
 			</p>
 		</example>
 
+		<example>
+			Let's use the Convolution Theorem (<xref ref="laplace04-theorem-convolution" />) to calculate
+			<me>\mathcal{L}^{-1}(\frac{s}{(s^2+4)^2})</me>
+			We can split this into
+			<me>\mathcal{L}^{-1}(\frac{s}{s^2+4})*\mathcal{L}^{-1}(\frac{1}{s^2+4}) = \cos(2t)*\frac12\sin(2t) = \frac12 \cos(2t)*\sin(2t)</me>
+			This turns into an integral
+			<me>\frac12 \int_0^t \cos(2\tau)\sin(2t - 2\tau)d\tau</me>
+			To evaluate this, I will use the trigonometry identities <m>\sin(a-b) = \sin(a)\cos(b) - \sin(b)\cos(a), 
+			\cos^2(\theta) = \frac12(1 + \cos(2\theta)),</m><m> \sin^2(\theta) = \frac12(1 - \cos(2\theta)), \sin(\theta)\cos(\theta)=\frac12\sin(2\theta)</m>. We get the integrand is
+			<me>\cos(2\tau)[\sin(2t)\cos(2\tau) - \sin(2\tau)\cos(2t)] = </me>
+			<me>\frac12(1+\cos(4\tau))\sin(2t) - \frac12\sin(4\tau)\cos(2t)</me>
+			We thus get
+			<me>\frac14 \int_0^t \sin(2t) + \sin(2t)\cos(4\tau) - \cos(2t)\sin(4\tau)d\tau</me>
+			<me>=\frac14(t\sin(2t) + \frac14\sin(2t)\sin(4t) + \frac14\cos(2t)(\cos(4t)-1))</me>
+			<me>= \frac{t}{4}\sin(2t) + \frac{1}{16}\sin(2t)\sin(4t) + \frac{1}{16}\cos(2t)\cos(4t) - \frac{1}{16}\cos(2t)</me>
+		</example>
+
 		<p>
 			We can also use the Convolution Theorem to solve initial value problems.
 		</p>
@@ -451,16 +468,32 @@
 	<introduction>
 		<p>
 			Solve the initial problems in <xref ref="laplace04-exercises-solve-ivps"/> using the method described in <xref ref="laplace04-subsection-applying-convolution"/>.
+			The first problem has a solution to check your answer against.
 		</p>
 	</introduction>
 
 	<exercise>
 		<statement>
 			<p>
-				<m>2 y'' + y' + 2y = g(t)</m>, <m>y(0) = 0</m>, <m>y'(0) = 0</m>
+				<m>2 y'' + 5 y' + 2y = g(t)</m>, <m>y(0) = 0</m>, <m>y'(0) = 0</m>
 			</p>
 		</statement>
+		<answer>
+			<p>
+				Taking the Laplace transformation of both sides yields
+				<me>2s^2Y(s) + 5sY(s) + 2Y(s) = G(s)</me>
+				Therefore, <m>Y(s) = \frac{G(s)}{2s^2+5s+2}</m>. We now want to factor <m>2s^2+5s+2</m>. We multiply the <m>s^2</m> and constant coefficients to get 4, and search
+				for two numbers multiplying to 4 and adding to the <m>s</m> coefficient (<m>5</m>). We see that <m>4</m> and <m>1</m> work, and we can write
+				<m>2s^2 + 5s + 2 = 2s^2 + 4s + s + 2 = 2s(s + 2) + (s + 2) =</m><m> (2s + 1)(s + 2)</m>, so we get
+				<me>y(t) = \mathcal{L}^{-1}\lbrace\frac{G(s)}{(2s+1)(s+2)}\rbrace = g(t)*\mathcal{L}^{-1}\lbrace\frac{1}{(2s+1)(s+2)}\rbrace</me>
+				We could use partial fractions or another convolution to calculate <m>\mathcal{L}^{-1}\lbrace\frac{1}{(2s+1)(s+2)}\rbrace</m>. If we choose convolution,
+				we see <m>\mathcal{L}^{-1}\lbrace\frac{1}{(2s+1)(s+2)}\rbrace</m> <m>= \frac12e^{-t/2}*e^{-2t}</m> <m>= \frac12\int_0^te^{-\tau /2}e^{-2(t-\tau)}d\tau</m>
+				<m>= \frac13(e^{-t/2}-e^{-2t})</m>, so the final answer is
+				<me>\frac13 g(t)*(e^{-t/2}-e^{-2t}) = \frac13\int_0^tg(\tau)(e^{\frac{\tau-t}{2}}-e^{2(\tau-t)})d\tau</me>
+			</p>
+		</answer>
 	</exercise>
+
 
 	<exercise>
 		<statement>
@@ -505,8 +538,7 @@
 
 	<exercise>
 		<statement>
-			<p>
-				Prove that the distributive property holds for the convolution product.
+			<p>Prove that the convolution product is commutative.
 				That is, show that <m>f*g = g*f</m>.
 			</p>
 		</statement>
