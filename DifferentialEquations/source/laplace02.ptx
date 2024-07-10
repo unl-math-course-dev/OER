@@ -251,7 +251,31 @@
 			<me>
 				{\mathcal L}(u_c(t))(s) = \int_0^\infty u_c(t) e^{-st} \, dt = \frac{e^{-cs}}{s}.
 			</me>
-			We can use this inforamtion to solve initial value problems with discontinuous functions.
+			and we also have the formula, from <xref ref="laplace01-example-shift"/>
+			<me>\mathcal{L}(u_c(t)f(t - c))(s) = e^{-cs}F(s)</me>
+		</p>
+		<example>
+			<p>
+				Find the Laplace transformation of
+				<me>f(t) = u_6(t)\cdot t^2</me>
+				It would be helpful to use the formula
+				<me>\mathcal{L}(u_c(t)f(t - c))(s) = e^{-cs}F(s)</me>
+				In our case, we clearly see that <m>c = 6</m>. To find <m>f(t)</m>, we note that <m>f(t - 6) = t^2</m>; replacing <m>t</m> with <m>t + 6</m> gives
+				<m>f(t) = (t+6)^2 = t^2 + 12t + 36</m>. Taking the Laplace transformation of <m>t^2 + 12t + 36</m> will give our answer
+				<me>F(s) = e^{-6s}(\frac{2}{s^3}+\frac{12}{s^2}+\frac{36}{s})</me>
+			</p>
+		</example>
+		<example>
+			<p>
+				Find the inverse Laplace transformation of
+				<me>F(s) = e^{4s}\cdot\frac{3+s}{s^2}</me>
+				Recalling that <m>\mathcal{L}(u_c(t)f(t - c))(s) = e^{-cs}F(s)</m>, we quickly identify that <m>c = -4</m>, <m>F(s) = \frac{3+s}{s^2} = \frac{3}{s^2}+\frac{1}{s}</m>.
+				Taking the inverse Laplacian of <m>\frac{3}{s^2}+\frac{1}{s}</m> gives <m>3t + 1</m>, and our answer is
+				<me>u_{-4}(t)(3(t+4)+1) = u_{-4}(t)(3t+13)</me>
+			</p>
+		</example>
+		<p>
+			We can use this information to solve initial value problems with discontinuous functions.
 		</p>
 
 		<example>
@@ -297,6 +321,39 @@
 				<me>
 					y(t) = e^{-t} + u_3(t)\left( 1 -  e^{-(t - 3)} \right).
 				</me>
+			</p>
+		</example>
+
+		<example>
+			<p>
+			Solve the initial value problem
+			<me>y'' + y = \begin{cases} 2 &amp; t \le 2 \\ t &amp; t > 2 \end{cases}</me>
+			<me>y(0) = 0, y'(0) = 1</me>
+			We will first convert the piecewise-defined function into heaviside notation. The leftmost piece of the function is <m>2</m>. We want the rightmost part of the equation
+			to equal <m>t</m>; starting from <m>2</m>, we thus add on <m>t - 2</m> where <m>t \ge 2</m>, giving <m>2 + u_2(t)(t - 2)</m>. We then take the Laplace transformation
+			of both sides, using the initial conditions and applying the formula <m>\mathcal{L}(u_c(t)f(t-c))(s) = e^{-cs}F(s)</m> to <m>u_2(t)(t-2)</m>. With this formula
+			<m>c = 2</m>, <m>f(t - 2) = t - 2</m> so <m>f(t) = t</m>. Using this, together with the initial conditions and the formula for the Laplace transformation of a derivative,
+			we arrive at
+			<me>s^2Y(s) - 1 + Y(s) = \frac2s + \frac{e^{-2s}}{s^2}</me>
+			We can then solve for <m>Y(s)</m> and obtain
+			<me>Y(s) = \frac{2}{s(s^2+1)} + \frac{e^{-2s}}{s^2(s^2+1)} + \frac{1}{s^2+1}</me> 
+			Now we must take the inverse Laplace transformation of both sides. This requires a partial fraction decomposition; let's start with <m>s^2(s^2+1)</m>. Since each instance
+			of <m>s</m> gets squared, we can treat <m>s^2</m> as a variable and write <m>\frac{1}{s^2(s^2+1)} = \frac{A}{s^2} + \frac{B}{s^2+1} = \frac{(A+B)s^2+A}{s^2(s^2+1)}</m>;
+			solving yields <m>A = 1, B = -1, \frac{1}{s^2(s^2+1)} = \frac{1}{s^2} - \frac{1}{s^2+1}</m>.
+			</p>
+			<p>
+			Therefore, the inverse Laplace of <m>\frac{1}{s^2(s^2+1)}</m> is <m>t - \sin(t)</m>, and the inverse Laplace of <m>\frac{e^{-2s}}{s^2(s^2+1)}</m> is 
+			<m>u_2(t)(t - 2 - \sin(t-2))</m>.
+			</p>
+			<p>
+				Now we deal with the <m>\frac{2}{s(s^2+1)}</m> part; we can write
+				<me>\frac{2}{s(s^2+1)} = 2s\cdot \frac{1}{s^2(s^2+1)} = 2s \cdot (\frac{1}{s^2} - \frac{1}{s^2+1}) = \frac{2}{s}-\frac{2s}{s^2+1}</me>
+				Therefore the inverse Laplace of <m>\frac{2}{s(s^2+1)}</m> is <m>2 - 2\cos(t)</m>.
+			</p>
+			<p>
+				Finally, we obtain
+				<me>y(t) = \mathcal{L}^{-1}(\frac{2}{s(s^2+1)} + \frac{e^{-2s}}{s^2(s^2+1)} + \frac{1}{s^2+1})</me>
+				<me> = 2 - 2\cos(t) + u_2(t)(t-2-\sin(t-2)) + \sin(t)</me>
 			</p>
 		</example>
 	</subsection>
@@ -520,16 +577,29 @@
 	<title>Solving Initial Value Problems</title>
 	<introduction>
 		<p>
-			Solve the initial problems in <xref ref="laplace02-exercises-solve-ivps"/> using the Laplace transform.
+			Solve the initial problems in <xref ref="laplace02-exercises-solve-ivps"/> using the Laplace transform. THe first exercise has a solution provided.
 		</p>
 	</introduction>
 
 	<exercise>
 		<statement>
 			<p>
-				<m>y'' - 2y' - 3y = 3 e^{2t}</m>, <m>y(0) = 1</m>, <m>y'(0) = 0</m>
+				<m>y'' - 2y' - 3y = 24 e^{-3t}</m>, <m>y(0) = 1</m>, <m>y'(0) = 0</m>
 			</p>
 		</statement>
+		<answer>
+			<p>
+				Taking the Laplace transformation of both sides yields
+				<me>s^2Y(s) - s - 2sY(s) + 2 - 3Y(s) = \frac{24}{s+3}</me>
+				so
+				<me>Y(s) = \frac{24}{(s-3)(s+1)(s+3)} + \frac{s-2}{(s-3)(s+1)}</me>
+				A partial fractions decomposition reveals
+				<me>Y(s) = \frac{1}{s-3} + \frac{-3}{s+1} + \frac{2}{s+3} + \frac{1/4}{s-3} + \frac{3/4}{s+1}</me>
+				So the answer is
+				<me>y(t) = e^{3t} - 3e^{-t} + 2e^{-3t} + \frac{1}{4}e^{3t} + \frac34 e^{-t}</me>
+				<me>y(t) = \frac54 e^{3t} - \frac{9}{4}e^{-t} + 2e^{-3t} </me>
+			</p>
+		</answer>
 	</exercise>
 
 	<exercise>
