@@ -122,7 +122,125 @@
       The substitution demonstrated in the previous example can be generalized to situations in which the integrand contains <m> a^2-x^2 </m>, where <m> a </m> is a real number and <m> x </m> is a variable.
       In this case, setting <m> x = a\sin(\theta) </m> results in the simplification <m> a^{2}-x^{2} = a^{2}(1-\sin^{2}(\theta))=a^{2}\cos^{2}(\theta) </m>.
     </p>
+    <!-- Zach/Derek Changed this to have an ordered list in each statement/hint/etc as opposed to a separate statement/hint/etc in each list item.  Pretext doesn't like that other method -->
+    <example>
+      <statement>
+        <p>
+          In this example, we'll evaluate the definite integral <m> \int_{0}^{4} \sqrt{16-x^{2}} \,dx </m>.
+        </p>
 
+        <p>
+          <ol>
+            <li>
+              <p>
+                Use a trigonometric substitution of the form <m> x = a\sin(\theta) </m>, with <m> a </m> a real number, to find an antiderivative of
+                <me>
+                  \int \sqrt{16-x^{2}} \, dx.
+                </me>
+                Leave the antiderivative in terms of <m> \theta </m>.
+              </p>
+            </li>
+
+            <li>
+              <p>
+                Using the solution to part (a), evaluate the definite integral <m> \int_{0}^{4} \sqrt{16-x^{2}} \,dx </m> by writing the bounds of integration in terms of <m> \theta </m>.
+              </p>
+            </li>
+          </ol>
+        </p>
+      </statement>
+
+      <hint>
+        <p>
+          <ol>
+            <li>
+              <p>
+                Use the substitution <m> x=4\sin(\theta) </m> with <m> -\frac{\pi}{2} \leq \theta \leq \frac{\pi}{2} </m>.
+                The double angle formula <m> \cos^{2}(\theta) = \frac{1+\cos(2\theta)}{2} </m> will be useful in evaluating the integral that results from this substitution.
+              </p>
+            </li>
+
+            <li>
+              <p>
+                To rewrite the bounds in terms of <m> \theta </m>, solve the equations <m> 0 = 4 \sin(\theta) </m> and <m> 4 = 4 \sin(\theta) </m> for <m> \theta \in [-\pi/2, \pi/2] </m>.
+              </p>
+            </li>
+          </ol>
+        </p>
+      </hint>
+
+      <answer>
+        <p>
+          <ol>
+            <li>
+              <p>
+                With <m> x = 4\sin(\theta) </m>, a general antiderivative in terms of <m> \theta </m> is given by
+                <me>
+                  8\theta +4\sin(2\theta) + C
+                </me>
+              </p>
+            </li>
+
+            <li>
+              <p>
+                <me>
+                  \int_{0}^{4} \sqrt{16-x^{2}} \,dx = 4 \pi
+                </me>
+              </p>
+            </li>
+          </ol>
+        </p>
+      </answer>
+
+      <solution>
+        <p>
+          <ol>
+            <li>
+              <p>
+                Use the substitution <m> x=4\sin(\theta) </m>.
+                Then <m> x^2=16\sin^2(\theta) </m> and <m> dx=4\cos(\theta) d\theta </m>.
+                So
+                <md>
+                  <mrow>\int \sqrt{16-x^{2}} \, dx \amp = \int \sqrt{16-16\sin^2(\theta)}\cdot 4\cos(\theta) \, d\theta </mrow>
+                  <mrow>\amp = \int \sqrt{16(1-\sin^2(\theta))}\cdot 4\cos(\theta) \, d\theta </mrow>
+                  <mrow>\amp = \int \sqrt{16\cos^2(\theta)}\cdot 4\cos(\theta) \, d\theta</mrow>
+                  <mrow>\amp = \int 4\cos(\theta) \cdot 4\cos(\theta) \, d\theta</mrow>
+                  <mrow>\amp = 16\int \cos^{2}(\theta) \, d\theta </mrow>
+                </md>
+                From the hint, we may write <m> \cos^{2}(\theta) = \frac{1+\cos(2\theta)}{2} </m>.
+                Thus,
+                <md>
+                  <mrow> 16\int \cos^{2}(\theta) \, d\theta \amp = 16\int\frac{1+\cos(2\theta)}{2} \, d\theta </mrow>
+                  <mrow> \amp = 8 \int 1+\cos(2\theta) \,d \theta </mrow>
+                  <mrow> \amp = 8(\theta+\frac{1}{2}\sin(2\theta))+C </mrow>
+                  <mrow> \amp = 8\theta+4\sin(2\theta)+C </mrow>
+                </md>
+              </p>
+            </li>
+
+            <li>
+              <p>
+                Using <m> x = 4\sin(\theta) </m>, when <m> x = 0 </m> we must have <m> 0 = 4\sin(\theta) </m>, which implies <m> \theta = 0 </m> (recall <m> -\pi /2 \leq \theta \leq \pi/2 </m>).
+                Similarly, when <m> x = 4 </m> we have <m> 4=4\sin(\theta) </m>, which has solution <m> \theta = \pi/2.</m>
+              </p>
+
+              <p>
+                Thus, using part (a), we may write
+                <md>
+                  <mrow> \int_{0}^{4} \sqrt{16-x^{2}} \,dx \amp = \left. 8\theta+4\sin(2\theta) \right|_{0}^{\pi/2} </mrow>
+                  <mrow> \amp = 4\pi+4\sin(\pi)-(0+4\sin(0)) </mrow>
+                  <mrow> \amp = 4\pi </mrow>
+                </md>
+                It is worth noting that the curve <m> y = \sqrt{16-x^{2}} </m> for <m>0 \leq x \leq 4 </m> is the part of the circle of radius <m> 4 </m> centered at the origin which lies in the first quadrant of the plane.
+                The definite integral <m> \int_{0}^{4} \sqrt{16-x^{2}} \,dx </m> thus gives the area of the part of this circle which lies in the first quadrant.
+                Since the circle in question has total area <m> 16 \pi </m> and the portion in the first quadrant compirese precisely <m> 1/4 </m> of the total area, we are assured our solution of <m> 4\pi </m> is correct.
+              </p>
+            </li>
+          </ol>
+        </p>
+      </solution>
+    </example>
+    <!-- Zach/Derek Below is the original code that pretext doesn't like
     <example>
       <p>
         In this example, we'll evaluate the definite integral <m> \int_{0}^{4} \sqrt{16-x^{2}} \,dx </m>.
@@ -221,10 +339,7 @@
         </ol>
       </p>
     </example>
-
-    <p>
-    </p>
-
+    -->
     <example>
       <statement>
         <p>
@@ -326,12 +441,12 @@
           <me>
             \int \frac{9}{(9-x^2)^{3/2}} \, dx = \frac{x}{\sqrt{9-x^2}} + C
           </me>
+        </p>
 
-          <figure>
-            <caption>A right triangle corresponding to <m> \sin(\theta)=\frac{x}{3}</m> </caption>
-            <image width="33%" source="images/5_7_TS_1.jpg"/>
-            </figure>
-          </p>
+        <figure>
+          <caption>A right triangle corresponding to <m> \sin(\theta)=\frac{x}{3}</m> </caption>
+          <image width="33%" source="images/5_7_TS_1.jpg"/>
+          </figure>
         </solution>
       </example>
 
@@ -359,127 +474,255 @@
       <p>
         Another important trigonometric substitution is <m> x=\tan(\theta) </m> where <m>-\frac{\pi}{2} &lt; \theta &lt; \frac{\pi}{2}</m>.
         This substitution can be used to show that <m> \int \frac{1}{1+x^2} \, dx= \arctan(x) + C </m>.
-        <example xml:id="E-TS-T1">
-          <statement>
-            <p>
-              Use the trigonometric substitution <m> x=\tan(\theta) </m> to find the antiderivative
-              <me>
-                \int \frac{1}{1+x^2} \, dx
-              </me>.
-            </p>
-          </statement>
+      </p>
 
-          <hint>
-            <p>
-              Proceed in a manner analogous to <xref ref="E-TS-1">Example</xref>.
-            </p>
-          </hint>
+      <example xml:id="E-TS-T1">
+        <statement>
+          <p>
+            Use the trigonometric substitution <m> x=\tan(\theta) </m> to find the antiderivative
+            <me>
+              \int \frac{1}{1+x^2} \, dx
+            </me>.
+          </p>
+        </statement>
 
-          <answer>
+        <hint>
+          <p>
+            Proceed in a manner analogous to <xref ref="E-TS-1">Example</xref>.
+          </p>
+        </hint>
+
+        <answer>
+          <p>
             <me>
               \int \frac{1}{1+x^2} \, dx = \arctan(x)+C
             </me>
-          </answer>
+          </p>
+        </answer>
 
-          <solution>
-            <p>
-              When using the substitution <m> x=\tan(\theta) </m> where <m>-\frac{\pi}{2} &lt; \theta &lt; \frac{\pi}{2} </m>, we are regarding <m> x </m> as a function of <m> \theta </m>.
-              The goal is to change the integrand to contain trigonometric functions so that a modified version of the Pythagorean Identity can be used.
-              The version of the Pythagorean Identity we will use when simplifying after a tangent substitution is <m>\tan^2(\theta) + 1 =\sec^2(\theta) </m>.
-              To achieve this goal, the integral will be changed to be in terms of the variable <m> \theta</m>.
-              With this in mind, both <m> x </m> and <m> dx </m> will need to be changed.
-              Starting from <m> x=\tan(\theta) </m>, take the derivative with respect to <m> \theta </m> to find that
-              <me>
-                \frac{dx}{d\theta}=\sec^2(\theta) .
-              </me>
-              In other words, <m> dx=\sec^2(\theta) \, d\theta </m>.
-              Now, change the original integral to be in terms of the variable <m> \theta </m>:
-              <me>
-                \int\frac{1}{1+x^2}\, dx=\int \frac{\sec^2(\theta)}{1+\tan^2(\theta)} \, d\theta
-              </me>
-              Use a modified version of the Pythagorean Identity, <m>1+\tan^2(\theta)=\sec^2(\theta)</m> to simplify the denominator of the integrand:
-              <me>
-                \int \frac{\sec^2(\theta)}{1+\tan^2(\theta)} \, d\theta = \int\frac{\sec^2(\theta)}{\sec^2(\theta)} \, d \theta.
-              </me>
-              The integrand can now be further simplified, and the remaining steps lead to a familar antiderivative:
-              <md>
-                <mrow> \int\frac{\sec^2(\theta)}{\sec^2(\theta)} \, d \theta&amp;= \int 1 \, d \theta</mrow>
-                <mrow> &amp;=\theta + C</mrow>
-              </md>
-              While we have computed an antiderivative successfully, we aren't quite done yet because the answer is not written in terms of the original variable <m> x </m>.
-              Rearrange the substitution equation <m>x=\tan(\theta) </m> to find that <m> \theta=\arctan(x) </m> and use this to turn <m> \theta</m> back into a function of <m> x </m>.
-              Therefore,
-              <me>
-                \int\frac{1}{1+x^2} \, dx= \arctan(x) + C
-              </me>
+        <solution>
+          <p>
+            When using the substitution <m> x=\tan(\theta) </m> where <m>-\frac{\pi}{2} &lt; \theta &lt; \frac{\pi}{2} </m>, we are regarding <m> x </m> as a function of <m> \theta </m>.
+            The goal is to change the integrand to contain trigonometric functions so that a modified version of the Pythagorean Identity can be used.
+            The version of the Pythagorean Identity we will use when simplifying after a tangent substitution is <m>\tan^2(\theta) + 1 =\sec^2(\theta) </m>.
+            To achieve this goal, the integral will be changed to be in terms of the variable <m> \theta</m>.
+            With this in mind, both <m> x </m> and <m> dx </m> will need to be changed.
+            Starting from <m> x=\tan(\theta) </m>, take the derivative with respect to <m> \theta </m> to find that
+            <me>
+              \frac{dx}{d\theta}=\sec^2(\theta) .
+            </me>
+            In other words, <m> dx=\sec^2(\theta) \, d\theta </m>.
+            Now, change the original integral to be in terms of the variable <m> \theta </m>:
+            <me>
+              \int\frac{1}{1+x^2}\, dx=\int \frac{\sec^2(\theta)}{1+\tan^2(\theta)} \, d\theta
+            </me>
+            Use a modified version of the Pythagorean Identity, <m>1+\tan^2(\theta)=\sec^2(\theta)</m> to simplify the denominator of the integrand:
+            <me>
+              \int \frac{\sec^2(\theta)}{1+\tan^2(\theta)} \, d\theta = \int\frac{\sec^2(\theta)}{\sec^2(\theta)} \, d \theta.
+            </me>
+            The integrand can now be further simplified, and the remaining steps lead to a familar antiderivative:
+            <md>
+              <mrow> \int\frac{\sec^2(\theta)}{\sec^2(\theta)} \, d \theta&amp;= \int 1 \, d \theta</mrow>
+              <mrow> &amp;=\theta + C</mrow>
+            </md>
+            While we have computed an antiderivative successfully, we aren't quite done yet because the answer is not written in terms of the original variable <m> x </m>.
+            Rearrange the substitution equation <m>x=\tan(\theta) </m> to find that <m> \theta=\arctan(x) </m> and use this to turn <m> \theta</m> back into a function of <m> x </m>.
+            Therefore,
+            <me>
+              \int\frac{1}{1+x^2} \, dx= \arctan(x) + C
+            </me>
+          </p>
+        </solution>
+      </example>
+
+      <p>
+        Just as the substition <m> x = a\sin(\theta) </m> can be useful when <m> a^{2}-x^{2} </m> appears in the integrand, <m> x = a \tan(\theta) </m> may be the right substitution when dealing with terms involving <m> a^{2}+x^{2} </m>.
+        The following examples will explore this idea.
+      </p>
+
+      <example xml:id="E-TS-T2">
+        <statement>
+          <p>
+            Use a trigonometric substitution to find the antiderivative
+            <me>
+              \int \frac{1}{x^{2}\sqrt{4 + x^{2}}} \, dx
+            </me>.
+          </p>
+        </statement>
+
+        <hint>
+          <p>
+            Try the substitution <m> x=2\tan(\theta) </m>.
+            The integral that results from this substitution may require a <m>u</m>-substitution to compute.
+          </p>
+        </hint>
+
+        <answer>
+          <p>
+            <me>
+              \int \frac{1}{x^{2}\sqrt{4 + x^{2}}} \, dx = -\frac{\sqrt{4+x^{2}}}{4x}+C.
+            </me>
+          </p>
+        </answer>
+
+        <solution>
+          <p>
+            Set <m> x=2\tan(\theta) </m>, so that <m> dx=2\sec^2(\theta) d\theta</m>.
+            Since <m> x^{2}=4\tan^{2}(\theta) </m>, we get
+            <md>
+              <mrow> \int \frac{1}{x^{2}\sqrt{4 + x^2}} \, dx \amp= \int \frac{2\sec^2(\theta)}{4\tan^{2}(\theta)\sqrt{4 + 4\tan^2(\theta)}} \, d \theta</mrow>
+              <mrow> \amp= \int \frac{2\sec^2(\theta)}{4\tan^{2}(\theta)\cdot 2\sec(\theta)} \, d \theta</mrow>
+              <mrow> \amp= \frac{1}{4}\int \frac{\sec(\theta)}{\tan^{2}(\theta)} \, d \theta</mrow>
+            </md>
+            Since <m> \tan(\theta)=\frac{\sin(\theta)}{\cos(\theta)} </m> and <m> \sec(\theta) = \frac{1}{\cos(\theta)} </m>, we have
+            <me>
+              \frac{\sec(\theta)}{\tan^{2}(\theta)}=\frac{\cos^{2}(\theta)}{\sin^{2}(\theta)}\frac{1}{\cos(\theta)}=\frac{\cos(\theta)}{\sin^{2}(\theta)}.
+            </me>
+            The integral <m> \frac{1}{4}\int \frac{\cos(\theta)}{\sin^{2}(\theta)}\, d\theta </m> can be evaluated via yet another substitution---this time, a <m>u</m>-substitution in which we set <m> u = \sin(\theta).
+            </m> Then <m> du = \cos(\theta) d\theta </m>.
+            Finally,
+            <md>
+              <mrow>\frac{1}{4}\int \frac{\cos(\theta)}{\sin^{2}(\theta)}\, d\theta \amp = \frac{1}{4}\int\frac{1}{u^{2}}\,du </mrow>
+              <mrow> \amp = -\frac{1}{4u}+C </mrow>
+            </md>
+            Substituting back for <m> u </m>, we reach <m> -\frac{1}{4u} = -\frac{1}{4\sin(\theta)}=-\frac{\csc(\theta)}{4} </m>.
+          </p>
+
+          <p>
+            Now, one may establish a right triangle relating the angle <m> \theta </m> and the variable <m> x </m>, just as in <xref ref="E-TS-2">Example</xref>.
+            Doing this yields <m> \sin(\theta) = \frac{x}{\sqrt{4+x^{2}}} </m>, and thus <m>-\frac{\csc(\theta)}{4} = -\frac{\sqrt{4+x^{2}}}{4x}.</m> We conclude <m> \int \frac{1}{x^{2}\sqrt{4 + x^{2}}} \, dx = -\frac{\sqrt{4+x^{2}}}{4x}+C.</m>
+          </p>
+        </solution>
+      </example>
+
+      <p>
+        In the following example, we'll see why it is important that we restrict <m> \theta </m> to be in the interval <m> -\frac{\pi}{2} &lt; \theta &lt; \frac{\pi}{2} </m> when we use a tangent substitution.
+      </p>
+      <!-- Zach/Derek Same as above, I was forced to make each statement/hint/etc a separate ol -->
+      <example>
+        <statement>
+          <p>
+            <ol>
+              <li>
+                <p>
+                  Use a trigonometric substitution to find the integral
+                  <me>
+                    \int \frac{3x}{\sqrt{25+9x^2}} \, dx
+                  </me>.
+                </p>
+              </li>
+
+              <li>
+                <p>
+                  A trigonometric substitution was not necessary to find the antiderivative in part (a).
+                  In fact, only a standard <m> u </m>-subsitution was needed.
+                  Verify the answer from part (a) using the method of <m> u</m>-substitution.
+                </p>
+              </li>
+            </ol>
+          </p>
+        </statement>
+
+        <hint>
+          <p>
+            <ol>
+              <li>
+                <p>
+                  The expression <m> 25 + 9x^2 </m> can be rewritten as <m> 5^2+(3x)^2</m> so that it looks like <m> u^2+a^2</m>.
+                  Try the substitution <m> 3x=5\tan(\theta) </m>.
+                </p>
+              </li>
+
+              <li>
+                <p>
+                  The expressions <m> 3x </m> and <m> 9x^2 + 25</m> are nearly a function-derivative pair.
+                </p>
+              </li>
+            </ol>
+          </p>
+        </hint>
+
+        <answer>
+          <p>
+            <ol>
+              <li>
+                <p>
+                  <me>
+                    \int \frac{3x}{\sqrt{25+9x^2}} \, dx =\frac{1}{3} \sqrt{9x^2+25} + C
+                  </me>
+                </p>
+              </li>
+
+              <li>
+                <p>
+                  <me>
+                    \int \frac{3x}{\sqrt{25+9x^2}} \, dx =\frac{1}{3} \sqrt{9x^2+25} + C
+                  </me>
+                </p>
+              </li>
+            </ol>
+          </p>
+        </answer>
+
+        <solution>
+          <p>
+            <ol>
+              <li>
+                <p>
+                  The expression <m> 25 + 9x^2 </m> can be rewritten as <m> 5^2+(3x)^2</m> so that it looks like <m> u^2+a^2</m>.
+                  The substitution <m> 3x=5\tan(\theta) </m> will allow us to use the modified Pythagorean Identity.
+                  Then <m> (3x)^2=25\tan^2(\theta)</m> and <m> dx=\frac{5}{3} \sec^2(\theta) d\theta </m>.
+                  The original integral can be transformed using this substitution:
+                  <md>
+                    <mrow>\int \frac{3x}{\sqrt{25+9x^2}} \, dx &amp;= \frac{5}{3}\int \frac{5\tan(\theta)\sec^2(\theta)}{\sqrt{25+25\tan^2(\theta)}} \, d\theta </mrow>
+                    <mrow> &amp;= \frac{25}{3}\int \frac{\tan(\theta)\sec^2(\theta)}{\sqrt{25(1+\tan^2(\theta)}} \, d\theta </mrow>
+                    <mrow> &amp;= \frac{25}{3}\int \frac{\tan(\theta)\sec^2(\theta)}{\sqrt{25\sec^2(\theta)}} \, d\theta </mrow>
+                    <mrow> &amp;= \frac{25}{3}\int \frac{\tan(\theta)\sec^2(\theta)}{\sqrt{25}\sqrt{\sec^2(\theta)}} \, d\theta </mrow>
+                  </md>
+                  We must be careful at this step when we simplify <m>\sqrt{\sec^2(\theta)}</m>.
+                  Because we chose <m> -\frac{\pi}{2} &lt; \theta &lt; \frac{\pi}{2} </m>, then <m>\sec^2(\theta) \geq 1 \geq 0 </m>.
+                  Notice that if we had picked a different interval for <m> \theta </m>, <m>\sec(\theta) </m> could be negative and then we would have to introduce an absolute value in order for the square root to be defined.
+                  Since we know <m> \sec^2(\theta) \geq 1\geq 0</m> on the interval of <m> \theta</m> we care about then <m> \sqrt{\sec^2(\theta)}=\sec(\theta)</m>.
+                  Therefore, the integral simplifies further:
+                  <md>
+                    <mrow>\frac{25}{3}\int \frac{\tan(\theta)\sec^2(\theta)}{\sqrt{25}\sqrt{\sec^2(\theta)}} \, d\theta &amp;= \frac{5}{3} \int \frac{\tan(\theta) \sec^2(\theta) }{\sec(\theta)} \, d \theta </mrow>
+                    <mrow> &amp;= \frac{5}{3} \int \tan(\theta)\sec(\theta) \, d \theta </mrow>
+                    <mrow> &amp;=\frac{5}{3} \sec(\theta) + C </mrow>
+                    <mrow> &amp;= \frac{5}{3} \sec\left(\arctan\left(\frac{3x}{5} \right)\right) + C </mrow>
+                  </md>
+                  This answer can be simplified to a more recognizable form by using a right triangle with angle <m> \theta </m> and <m> \tan(\theta)=\frac{3x}{5} </m>, and finding <m> \sec(\theta) </m> by using the triangle.
+                </p>
+
+                <figure>
+                  <caption>A right triangle corresponding to <m> \tan(\theta)=\frac{3x}{5}</m>  </caption>
+                  <image width="33%" source="images/5_7_TS_2.jpg"/>
+                  </figure>
+
+                  <p>
+                    Thus
+                    <md>
+                      <mrow> \int \frac{3x}{\sqrt{25+9x^2}} \, dx &amp;=\frac{5}{3} \sec\left(\arctan\left(\frac{3x}{5} \right)\right) + C</mrow>
+                      <mrow> &amp;= \frac{5}{3} \cdot \frac{\sqrt{9x^2+25}}{5} + C</mrow>
+                      <mrow> &amp;=\frac{1}{3} \sqrt{9x^2+25} + C</mrow>
+                    </md>
+                  </p>
+                </li>
+
+                <li>
+                  <p>
+                    Use the substitution <m> u=9x^2 + 25 </m> with <m> du=18x dx</m> to change the original integral.
+                    <md>
+                      <mrow>\int \frac{3x}{\sqrt{25+9x^2}} \, dx &amp;= \frac{1}{6} \int u^{-1/2} \, du </mrow>
+                      <mrow> &amp;= \frac{1}{6} \cdot \frac{u^{1/2}}{1/2} + C</mrow>
+                      <mrow> &amp;= \frac{1}{3} \sqrt{9x^2+25} + C </mrow>
+                    </md>
+                  </p>
+                </li>
+              </ol>
             </p>
           </solution>
         </example>
-
-        <p>
-          Just as the substition <m> x = a\sin(\theta) </m> can be useful when <m> a^{2}-x^{2} </m> appears in the integrand, <m> x = a \tan(\theta) </m> may be the right substitution when dealing with terms involving <m> a^{2}+x^{2} </m>.
-          The following examples will explore this idea.
-        </p>
-
-        <example xml:id="E-TS-T2">
-          <statement>
-            <p>
-              Use a trigonometric substitution to find the antiderivative
-              <me>
-                \int \frac{1}{x^{2}\sqrt{4 + x^{2}}} \, dx
-              </me>.
-            </p>
-          </statement>
-
-          <hint>
-            <p>
-              Try the substitution <m> x=2\tan(\theta) </m>.
-              The integral that results from this substitution may require a <m>u</m>-substitution to compute.
-            </p>
-          </hint>
-
-          <answer>
-            <p>
-              <me>
-                \int \frac{1}{x^{2}\sqrt{4 + x^{2}}} \, dx = -\frac{\sqrt{4+x^{2}}}{4x}+C.
-              </me>
-            </p>
-          </answer>
-
-          <solution>
-            <p>
-              Set <m> x=2\tan(\theta) </m>, so that <m> dx=2\sec^2(\theta) d\theta</m>.
-              Since <m> x^{2}=4\tan^{2}(\theta) </m>, we get
-              <md>
-                <mrow> \int \frac{1}{x^{2}\sqrt{4 + x^2}} \, dx \amp= \int \frac{2\sec^2(\theta)}{4\tan^{2}(\theta)\sqrt{4 + 4\tan^2(\theta)}} \, d \theta</mrow>
-                <mrow> \amp= \int \frac{2\sec^2(\theta)}{4\tan^{2}(\theta)\cdot 2\sec(\theta)} \, d \theta</mrow>
-                <mrow> \amp= \frac{1}{4}\int \frac{\sec(\theta)}{\tan^{2}(\theta)} \, d \theta</mrow>
-              </md>
-              Since <m> \tan(\theta)=\frac{\sin(\theta)}{\cos(\theta)} </m> and <m> \sec(\theta) = \frac{1}{\cos(\theta)} </m>, we have
-              <me>
-                \frac{\sec(\theta)}{\tan^{2}(\theta)}=\frac{\cos^{2}(\theta)}{\sin^{2}(\theta)}\frac{1}{\cos(\theta)}=\frac{\cos(\theta)}{\sin^{2}(\theta)}.
-              </me>
-              The integral <m> \frac{1}{4}\int \frac{\cos(\theta)}{\sin^{2}(\theta)}\, d\theta </m> can be evaluated via yet another substitution---this time, a <m>u</m>-substitution in which we set <m> u = \sin(\theta).
-              </m> Then <m> du = \cos(\theta) d\theta </m>.
-              Finally,
-              <md>
-                <mrow>\frac{1}{4}\int \frac{\cos(\theta)}{\sin^{2}(\theta)}\, d\theta \amp = \frac{1}{4}\int\frac{1}{u^{2}}\,du </mrow>
-                <mrow> \amp = -\frac{1}{4u}+C </mrow>
-              </md>
-              Substituting back for <m> u </m>, we reach <m> -\frac{1}{4u} = -\frac{1}{4\sin(\theta)}=-\frac{\csc(\theta)}{4} </m>.
-            </p>
-
-            <p>
-              Now, one may establish a right triangle relating the angle <m> \theta </m> and the variable <m> x </m>, just as in <xref ref="E-TS-2">Example</xref>.
-              Doing this yields <m> \sin(\theta) = \frac{x}{\sqrt{4+x^{2}}} </m>, and thus <m>-\frac{\csc(\theta)}{4} = -\frac{\sqrt{4+x^{2}}}{4x}.</m> We conclude <m> \int \frac{1}{x^{2}\sqrt{4 + x^{2}}} \, dx = -\frac{\sqrt{4+x^{2}}}{4x}+C.</m>
-            </p>
-          </solution>
-        </example>
-
-        <p>
-          In the following example, we'll see why it is important that we restrict <m> \theta </m> to be in the interval <m> -\frac{\pi}{2} &lt; \theta &lt; \frac{\pi}{2} </m> when we use a tangent substitution.
-        </p>
-
+        <!-- Zach/Derek Below is the original code that makes pretext angry --> <!--
         <example xml:id="E-TS-T3">
           <ol marker="a.">
             <li>
@@ -581,7 +824,7 @@
               </li>
             </ol>
           </example>
-
+          -->
           <p>
             In our study of the method of partial fractions, we saw how to deal with rational functions whose denominators could be factored into smaller degree pieces.
             What if the denominator cannot be factored, as is the case with <m> \frac{1}{x^2+4x+13}</m>?
@@ -643,26 +886,24 @@
               </p>
             </solution>
           </example>
-        </p>
 
-        <assemblage>
-          <title>Trigonometric Substitution: <m> u=a\tan(\theta) </m></title>
+          <assemblage>
+            <title>Trigonometric Substitution: <m> u=a\tan(\theta) </m></title>
 
-          <p>
-            The substitution <m> u=a\tan(\theta) </m> where <m> u </m> is some function of <m> x </m>, <m> a </m> is a real number, and <m>-\frac{\pi}{2} &lt; \theta &lt; \frac{\pi}{2} </m> is often helpful when the integrand contains an expression of the form <m> a^2+u^2 </m>.
-            When this substitution is used, then <m> u^2=a^2\tan^2(\theta)</m> and after factoring out <m> a^2 </m>, the modified Pythagorean Identity <fn> <m>1+\tan^2(\theta)=\sec^2(\theta) </m></fn> can be used to simplify part of the integrand:
-            <me>
-              a^2+u^2=a^2+a^2\tan^2(\theta)=a^2(1+\tan^2(\theta))=a^2\sec^2(\theta)
-            </me>.
-          </p>
+            <p>
+              The substitution <m> u=a\tan(\theta) </m> where <m> u </m> is some function of <m> x </m>, <m> a </m> is a real number, and <m>-\frac{\pi}{2} &lt; \theta &lt; \frac{\pi}{2} </m> is often helpful when the integrand contains an expression of the form <m> a^2+u^2 </m>.
+              When this substitution is used, then <m> u^2=a^2\tan^2(\theta)</m> and after factoring out <m> a^2 </m>, the modified Pythagorean Identity <fn> <m>1+\tan^2(\theta)=\sec^2(\theta) </m></fn> can be used to simplify part of the integrand:
+              <me>
+                a^2+u^2=a^2+a^2\tan^2(\theta)=a^2(1+\tan^2(\theta))=a^2\sec^2(\theta)
+              </me>.
+            </p>
 
-          <p>
-            Since we assumed <m> -\frac{\pi}{2} &lt; \theta &lt; \frac{\pi}{2} </m>, then <m> \sec (\theta) \geq 1\geq 0 </m>.
-            This implies that <m> \sqrt{\sec^2(\theta)}=|\sec(\theta)|=\sec(\theta) </m>.
-          </p>
-        </assemblage>
+            <p>
+              Since we assumed <m> -\frac{\pi}{2} &lt; \theta &lt; \frac{\pi}{2} </m>, then <m> \sec (\theta) \geq 1\geq 0 </m>.
+              This implies that <m> \sqrt{\sec^2(\theta)}=|\sec(\theta)|=\sec(\theta) </m>.
+            </p>
+          </assemblage>
 
-        <p>
           <example xml:id="E-TS-End">
             <statement>
               <p>
@@ -727,228 +968,249 @@
             </hint>
 
             <answer>
-              <ol marker="a.">
-                <li>
-                  <p>
-                    <me>
-                      \int \frac{3}{(9x^2+1)^{3/2}} \, dx = \frac{3x}{\sqrt{9x^2+1}} + C
-                    </me>
-                  </p>
-                </li>
-
-                <li>
-                  <p>
-                    <me>
-                      \int \frac{1}{x^2\sqrt{5-x^2}} \, dx =\frac{-\sqrt{5-x^2}}{5x} + C
-                    </me>
-                  </p>
-                </li>
-
-                <li>
-                  <p>
-                    <me>
-                      \int \frac{\sqrt{25-9x^2}}{9x^2} \, dx=- \frac{\sqrt{25x^2-9}}{9x} - \frac{1}{3} \arcsin\left(\frac{3x}{5} \right) + C\
-                    </me>
-                  </p>
-                </li>
-
-                <li>
-                  <p>
-                    <me>
-                      \int \frac{2x+7}{x^2+6x+18} \, dx= \ln|x^2+6x+18| + \frac{4}{3}\arctan\left(\frac{x+3}{3} \right) + C
-                    </me>
-                  </p>
-                </li>
-              </ol>
-            </answer>
-
-            <solution>
-              <ol marker="a.">
-                <li>
-                  <p>
-                    Use the substitution <m>3x=\tan(\theta) </m>, so <m>(3x)^2=9x^2=\tan^2(\theta) </m> and <m>3dx=\sec^2(\theta)d\theta </m>.
-                    We can transform the orignal integral using this substitution:
-                    <md>
-                      <mrow> \int \frac{3}{(9x^2+1)^{3/2}} \, dx&amp;=\int \frac{\sec^2(\theta)}{(\tan^2(\theta)+ 1)^{3/2}} \, d \theta</mrow>
-                      <mrow> &amp;=\int \frac{\sec^2(\theta)}{(\sec^2(\theta))^{3/2}} \, d \theta</mrow>
-                      <mrow> &amp;=\int \frac{\sec^2(\theta)}{\sec^3(\theta)} \, d \theta</mrow>
-                      <mrow> &amp;=\int \cos(\theta) \, d \theta</mrow>
-                      <mrow> &amp;=\sin(\theta) + C</mrow>
-                    </md>
-                    To find the antiderivative in terms of <m> x</m>, consider a right triangle with angle <m> \theta</m> and <m> \tan(\theta)=3x</m>.
-                    <figure>
-                      <caption>A right triangle with one interior angle measureing <m> \theta </m> and with <m> \tan(\theta)=3x </m> </caption>
-                      <image width="33%" source="images/5_7_TS_3.jpg"/>
-                      </figure>
-                      From the triangle, we can see that <m>\sin(\theta)=\frac{3x}{\sqrt{9x^2+1}} </m>, so
+              <p>
+                <ol marker="a.">
+                  <li>
+                    <p>
                       <me>
-                        \int \frac{3}{(9x^2+1)^{3/2}} \, dx=\frac{3x}{\sqrt{9x^2+1}} + C
+                        \int \frac{3}{(9x^2+1)^{3/2}} \, dx = \frac{3x}{\sqrt{9x^2+1}} + C
                       </me>
                     </p>
                   </li>
 
                   <li>
                     <p>
-                      Use the substitution <m> x=\sqrt{5} \sin(\theta) </m>, then <m>x^2=5\sin^2(\theta)</m> and <m>dx=\sqrt{5} \cos(\theta) d\theta</m>.
+                      <me>
+                        \int \frac{1}{x^2\sqrt{5-x^2}} \, dx =\frac{-\sqrt{5-x^2}}{5x} + C
+                      </me>
+                    </p>
+                  </li>
+
+                  <li>
+                    <p>
+                      <me>
+                        \int \frac{\sqrt{25-9x^2}}{9x^2} \, dx=- \frac{\sqrt{25x^2-9}}{9x} - \frac{1}{3} \arcsin\left(\frac{3x}{5} \right) + C\
+                      </me>
+                    </p>
+                  </li>
+
+                  <li>
+                    <p>
+                      <me>
+                        \int \frac{2x+7}{x^2+6x+18} \, dx= \ln|x^2+6x+18| + \frac{4}{3}\arctan\left(\frac{x+3}{3} \right) + C
+                      </me>
+                    </p>
+                  </li>
+                </ol>
+              </p>
+            </answer>
+
+            <solution>
+              <p>
+                <ol marker="a.">
+                  <li>
+                    <p>
+                      Use the substitution <m>3x=\tan(\theta) </m>, so <m>(3x)^2=9x^2=\tan^2(\theta) </m> and <m>3dx=\sec^2(\theta)d\theta </m>.
+                      We can transform the orignal integral using this substitution:
                       <md>
-                        <mrow>\int \frac{1}{x^2\sqrt{5-x^2}} \, dx&amp;=\int \frac{\sqrt{5}\cos(\theta)}{5\sin^2(\theta) \sqrt{5-5\sin^2(\theta)}} \, d\theta</mrow>
-                        <mrow> &amp;=\int \frac{\sqrt{5}\cos(\theta)}{5\sin^2(\theta) \sqrt{5\cos^2(\theta)}} \, d\theta</mrow>
-                        <mrow> &amp;=\frac{\sqrt{5}}{5\sqrt{5}}\int \frac{\cos(\theta)}{\sin^2(\theta) \cos(\theta) } \, d\theta</mrow>
-                        <mrow> &amp;=\frac{1}{5}\int \frac{1}{\sin^2(\theta)} \, d\theta</mrow>
-                        <mrow>&amp;=-\frac{1}{5}\cot(\theta) + C </mrow>
+                        <mrow> \int \frac{3}{(9x^2+1)^{3/2}} \, dx&amp;=\int \frac{\sec^2(\theta)}{(\tan^2(\theta)+ 1)^{3/2}} \, d \theta</mrow>
+                        <mrow> &amp;=\int \frac{\sec^2(\theta)}{(\sec^2(\theta))^{3/2}} \, d \theta</mrow>
+                        <mrow> &amp;=\int \frac{\sec^2(\theta)}{\sec^3(\theta)} \, d \theta</mrow>
+                        <mrow> &amp;=\int \cos(\theta) \, d \theta</mrow>
+                        <mrow> &amp;=\sin(\theta) + C</mrow>
                       </md>
-                      Use a right triangle with one angle measuring <m> \theta </m> and with <m> \sin(\theta)=\frac{x}{\sqrt{5}} </m> to find the antiderivative with respect to <m> x </m>.
-                      <figure>
-                        <caption>A right triangle with one interior angle measureing <m> \theta </m> and with <m> \sin(\theta)=\frac{x}{\sqrt{5}} </m> </caption>
-                        <image width="33%" source="images/5_7_TS_5.jpg"/>
-                        </figure>
-                        We can see from the triangle that <m>\cot(\theta)=\frac{\sqrt{5-x^2}}{x}</m>.
-                        Therefore,
+                      To find the antiderivative in terms of <m> x</m>, consider a right triangle with angle <m> \theta</m> and <m> \tan(\theta)=3x</m>.
+                    </p>
+
+                    <figure>
+                      <caption>A right triangle with one interior angle measureing <m> \theta </m> and with <m> \tan(\theta)=3x </m> </caption>
+                      <image width="33%" source="images/5_7_TS_3.jpg"/>
+                      </figure>
+
+                      <p>
+                        From the triangle, we can see that <m>\sin(\theta)=\frac{3x}{\sqrt{9x^2+1}} </m>, so
                         <me>
-                          \int \frac{1}{x^2\sqrt{5-x^2}} \, dx =\frac{-\sqrt{5-x^2}}{5x} + C
+                          \int \frac{3}{(9x^2+1)^{3/2}} \, dx=\frac{3x}{\sqrt{9x^2+1}} + C
                         </me>
                       </p>
                     </li>
 
                     <li>
                       <p>
-                        Use the substitution <m> 3x=5\sin(\theta) </m>, then <m>9x^2=25\sin^2(\theta) </m> and <m> 3dx=5\cos(\theta) d\theta </m>.
+                        Use the substitution <m> x=\sqrt{5} \sin(\theta) </m>, then <m>x^2=5\sin^2(\theta)</m> and <m>dx=\sqrt{5} \cos(\theta) d\theta</m>.
                         <md>
-                          <mrow>\int\frac{\sqrt{25-9x^2}}{9x^2} \, dx &amp;= \int \frac{\sqrt{25-25\sin^2(\theta)}}{25\sin^2(\theta)}  \frac{5}{3} \cos(\theta) \, d\theta </mrow>
-                          <mrow> &amp;= \int \frac{25\cos^2(\theta)}{75\sin^2(\theta)}  \, d\theta </mrow>
-                          <mrow> &amp;= \frac{1}{3}\int \frac{1-\sin^2(\theta)}{\sin^2(\theta)}  \, d\theta </mrow>
-                          <mrow> &amp;= \frac{1}{3}\int \frac{1}{\sin^2(\theta)} \, d\theta - \frac{1}{3} \int 1 \, d\theta </mrow>
-                          <mrow> &amp;= -\frac{1}{3}\cot(\theta) -\frac{1}{3} \arcsin(\theta) + C </mrow>
+                          <mrow>\int \frac{1}{x^2\sqrt{5-x^2}} \, dx&amp;=\int \frac{\sqrt{5}\cos(\theta)}{5\sin^2(\theta) \sqrt{5-5\sin^2(\theta)}} \, d\theta</mrow>
+                          <mrow> &amp;=\int \frac{\sqrt{5}\cos(\theta)}{5\sin^2(\theta) \sqrt{5\cos^2(\theta)}} \, d\theta</mrow>
+                          <mrow> &amp;=\frac{\sqrt{5}}{5\sqrt{5}}\int \frac{\cos(\theta)}{\sin^2(\theta) \cos(\theta) } \, d\theta</mrow>
+                          <mrow> &amp;=\frac{1}{5}\int \frac{1}{\sin^2(\theta)} \, d\theta</mrow>
+                          <mrow>&amp;=-\frac{1}{5}\cot(\theta) + C </mrow>
                         </md>
-                        Use a right triangle with one angle measuring <m> \theta </m> and with <m> \sin(\theta) =\frac{3x}{5} </m> to find <m> \cot(\theta) </m>:
-                        <figure>
-                          <caption>A right triangle with one interior angle measureing <m> \theta </m> and with <m> \tan(\theta)=3x </m> </caption>
-                          <image width="33%" source="images/5_7_TS_4.jpg"/>
-                          </figure>
-                          From the triangle, we can see that <m> \cot(\theta)=\frac{\sqrt{25-9x^2}}{3x} </m>.
+                        Use a right triangle with one angle measuring <m> \theta </m> and with <m> \sin(\theta)=\frac{x}{\sqrt{5}} </m> to find the antiderivative with respect to <m> x </m>.
+                      </p>
+
+                      <figure>
+                        <caption>A right triangle with one interior angle measureing <m> \theta </m> and with <m> \sin(\theta)=\frac{x}{\sqrt{5}} </m> </caption>
+                        <image width="33%" source="images/5_7_TS_5.jpg"/>
+                        </figure>
+
+                        <p>
+                          We can see from the triangle that <m>\cot(\theta)=\frac{\sqrt{5-x^2}}{x}</m>.
                           Therefore,
                           <me>
-                            \int\frac{\sqrt{25-9x^2}}{9x^2} \, dx= -\frac{\sqrt{25-9x^2}}{9x} -\frac{1}{3}\arcsin\left(\frac{3x}{5} \right) + C
+                            \int \frac{1}{x^2\sqrt{5-x^2}} \, dx =\frac{-\sqrt{5-x^2}}{5x} + C
                           </me>
                         </p>
                       </li>
 
                       <li>
                         <p>
+                          Use the substitution <m> 3x=5\sin(\theta) </m>, then <m>9x^2=25\sin^2(\theta) </m> and <m> 3dx=5\cos(\theta) d\theta </m>.
                           <md>
-                            <mrow> \int \frac{2x+7}{x^2+6x+18} \, dx&amp;=\int \frac{2x+ 7}{(x+3)^2+9} \, dx </mrow>
-                            <mrow>\text{use the substitution } u=x+3 &amp;\qquad du=dx </mrow>
-                            <mrow> &amp;=\int \frac{2(u-3)+ 7}{u^2+9} \, dx </mrow>
-                            <mrow> &amp;=\int \frac{2u}{u^2+9} \, du + \int \frac{4}{u^2+9} \, du  </mrow>
+                            <mrow>\int\frac{\sqrt{25-9x^2}}{9x^2} \, dx &amp;= \int \frac{\sqrt{25-25\sin^2(\theta)}}{25\sin^2(\theta)}  \frac{5}{3} \cos(\theta) \, d\theta </mrow>
+                            <mrow> &amp;= \int \frac{25\cos^2(\theta)}{75\sin^2(\theta)}  \, d\theta </mrow>
+                            <mrow> &amp;= \frac{1}{3}\int \frac{1-\sin^2(\theta)}{\sin^2(\theta)}  \, d\theta </mrow>
+                            <mrow> &amp;= \frac{1}{3}\int \frac{1}{\sin^2(\theta)} \, d\theta - \frac{1}{3} \int 1 \, d\theta </mrow>
+                            <mrow> &amp;= -\frac{1}{3}\cot(\theta) -\frac{1}{3} \arcsin(\theta) + C </mrow>
                           </md>
-                          To integrate <m> \int \frac{2u}{u^2+9} \, du</m>, use the substitution <m> w=u^2+9 </m> and <m> dw= 2u \, du</m>.
-                          Thus,
-                          <md>
-                            <mrow> \int \frac{2u}{u^2+9} \, du&amp;=\int \frac{1}{w} \, dw</mrow>
-                            <mrow>&amp;=\ln|w| + C_1</mrow>
-                            <mrow>&amp;=\ln|(x+3)^2 + 9| + C_1 </mrow>
-                          </md>
-                          To integrate <m> \int \frac{4}{u^2+9} \, du </m>, we can use a trigonometric substitution or we can factor out the 9, use the substitution <m> v=w/3 \text{ and }dv=dw/3</m> and use the antidifferentiation rule <m> \int\frac{1}{1+u^2} \, du=\arctan(u) + C</m>.
-                          The latter method will be shown:
-                          <md>
-                            <mrow> \int \frac{4}{u^2+9} \, du &amp;=\frac{4}{9} \int \frac{1}{(u/3)^2 + 1} \, du</mrow>
-                            <mrow> &amp;=\frac{4}{3} \int \frac{1}{v^2 + 1} \, dv</mrow>
-                            <mrow> &amp;=\frac{4}{3} \arctan(v) + C_2 </mrow>
-                            <mrow> &amp;=\frac{4}{3} \arctan\left(\frac{x+3}{3}\right) + C_2 </mrow>
-                          </md>
-                          Therefore,
-                          <me>
-                            \int \frac{2x+7}{x^2+6x+18} \, dx= \ln|(x+3)^2 + 9|  + \frac{4}{3} \arctan\left(\frac{x+3}{3}\right) + C
-                          </me>
+                          Use a right triangle with one angle measuring <m> \theta </m> and with <m> \sin(\theta) =\frac{3x}{5} </m> to find <m> \cot(\theta) </m>:
                         </p>
-                      </li>
-                    </ol>
+
+                        <figure>
+                          <caption>A right triangle with one interior angle measureing <m> \theta </m> and with <m> \tan(\theta)=3x </m> </caption>
+                          <image width="33%" source="images/5_7_TS_4.jpg"/>
+                          </figure>
+
+                          <p>
+                            From the triangle, we can see that <m> \cot(\theta)=\frac{\sqrt{25-9x^2}}{3x} </m>.
+                            Therefore,
+                            <me>
+                              \int\frac{\sqrt{25-9x^2}}{9x^2} \, dx= -\frac{\sqrt{25-9x^2}}{9x} -\frac{1}{3}\arcsin\left(\frac{3x}{5} \right) + C
+                            </me>
+                          </p>
+                        </li>
+
+                        <li>
+                          <p>
+                            <md>
+                              <mrow> \int \frac{2x+7}{x^2+6x+18} \, dx&amp;=\int \frac{2x+ 7}{(x+3)^2+9} \, dx </mrow>
+                              <mrow>\text{use the substitution } u=x+3 &amp;\qquad du=dx </mrow>
+                              <mrow> &amp;=\int \frac{2(u-3)+ 7}{u^2+9} \, dx </mrow>
+                              <mrow> &amp;=\int \frac{2u}{u^2+9} \, du + \int \frac{4}{u^2+9} \, du  </mrow>
+                            </md>
+                            To integrate <m> \int \frac{2u}{u^2+9} \, du</m>, use the substitution <m> w=u^2+9 </m> and <m> dw= 2u \, du</m>.
+                            Thus,
+                            <md>
+                              <mrow> \int \frac{2u}{u^2+9} \, du&amp;=\int \frac{1}{w} \, dw</mrow>
+                              <mrow>&amp;=\ln|w| + C_1</mrow>
+                              <mrow>&amp;=\ln|(x+3)^2 + 9| + C_1 </mrow>
+                            </md>
+                            To integrate <m> \int \frac{4}{u^2+9} \, du </m>, we can use a trigonometric substitution or we can factor out the 9, use the substitution <m> v=w/3 \text{ and }dv=dw/3</m> and use the antidifferentiation rule <m> \int\frac{1}{1+u^2} \, du=\arctan(u) + C</m>.
+                            The latter method will be shown:
+                            <md>
+                              <mrow> \int \frac{4}{u^2+9} \, du &amp;=\frac{4}{9} \int \frac{1}{(u/3)^2 + 1} \, du</mrow>
+                              <mrow> &amp;=\frac{4}{3} \int \frac{1}{v^2 + 1} \, dv</mrow>
+                              <mrow> &amp;=\frac{4}{3} \arctan(v) + C_2 </mrow>
+                              <mrow> &amp;=\frac{4}{3} \arctan\left(\frac{x+3}{3}\right) + C_2 </mrow>
+                            </md>
+                            Therefore,
+                            <me>
+                              \int \frac{2x+7}{x^2+6x+18} \, dx= \ln|(x+3)^2 + 9|  + \frac{4}{3} \arctan\left(\frac{x+3}{3}\right) + C
+                            </me>
+                          </p>
+                        </li>
+                      </ol>
+                    </p>
                   </solution>
                 </example>
-              </p>
-            </subsection>
+              </subsection>
 
 
-            <subsection permid="fau">
-              <title>Summary</title>
+              <subsection permid="fau">
+                <title>Summary</title>
 
-              <p permid="dzC">
-                <ul permid="tdZ">
-                  <li permid="RGJ">
-                    <p permid="CxL">
-                      Trigonometric substitutions of the form <m>u=\sin(x)</m>, <m>u=\tan(x)</m>, or variants thereof let us find integrals like <m> \int \frac{1}{\sqrt{1-x^2}} dx</m>, <m> \int \frac{1}{1+x^2} dx</m>, and <m>\int \frac{1}{\sqrt{1-x^2}} \, dx </m>.
-                      A tangent-based substitution is essential for finding integrals of the form <m>\frac{Bx+C}{t(x)}</m> where <m>t(x)</m> is an irreducible quadratic.
-                    </p>
-                  </li>
-                </ul>
-              </p>
-            </subsection>
+                <p permid="dzC">
+                  <ul permid="tdZ">
+                    <li permid="RGJ">
+                      <p permid="CxL">
+                        Trigonometric substitutions of the form <m>u=\sin(x)</m>, <m>u=\tan(x)</m>, or variants thereof let us find integrals like <m> \int \frac{1}{\sqrt{1-x^2}} dx</m>, <m> \int \frac{1}{1+x^2} dx</m>, and <m>\int \frac{1}{\sqrt{1-x^2}} \, dx </m>.
+                        A tangent-based substitution is essential for finding integrals of the form <m>\frac{Bx+C}{t(x)}</m> where <m>t(x)</m> is an irreducible quadratic.
+                      </p>
+                    </li>
+                  </ul>
+                </p>
+              </subsection>
 
-            <exercises xmlns:xi="http://www.w3.org/2001/XInclude">
-            <exercise>
-              <title>Trigonometric Substitutions</title>
+              <exercises xmlns:xi="http://www.w3.org/2001/XInclude">
+              <exercise>
+                <title>Trigonometric Substitutions</title>
 
-              <statement>
-                Use a trigonometric substitution to find the following indefinite integrals:
-                <ol marker="a.">
-                  <li>
-                    <p>
-                      <m>\int \frac{1}{\sqrt{25-x^2}} dx </m>
-                    </p>
-                  </li>
+                <statement>
+                  <p>
+                    Use a trigonometric substitution to find the following indefinite integrals:
+                  </p>
 
-                  <li>
-                    <p>
-                      <m>\int \frac{1}{1+4x^2} dx </m>
-                    </p>
-                  </li>
+                  <ol marker="a.">
+                    <li>
+                      <p>
+                        <m>\int \frac{1}{\sqrt{25-x^2}} dx </m>
+                      </p>
+                    </li>
 
-                  <li>
-                    <p>
-                      <m>\int \frac{1}{\sqrt{25-4x^2}} dx </m>
-                    </p>
-                  </li>
+                    <li>
+                      <p>
+                        <m>\int \frac{1}{1+4x^2} dx </m>
+                      </p>
+                    </li>
 
-                  <li>
-                    <p>
-                      <m>\int \frac{1}{7+9x^2} dx </m>
-                    </p>
-                  </li>
-                </ol>
-              </statement>
-            </exercise>
+                    <li>
+                      <p>
+                        <m>\int \frac{1}{\sqrt{25-4x^2}} dx </m>
+                      </p>
+                    </li>
 
-            <exercise>
-              <title>Combined Methods</title>
+                    <li>
+                      <p>
+                        <m>\int \frac{1}{7+9x^2} dx </m>
+                      </p>
+                    </li>
+                  </ol>
+                </statement>
+              </exercise>
 
-              <statement>
-                Use any method or combination of methods to find the following indefinite integrals:
-                <ol marker="a.">
-                  <li>
-                    <p>
-                      <m>\int \frac{1+x}{1+x^2} dx </m>
-                    </p>
-                  </li>
+              <exercise>
+                <title>Combined Methods</title>
 
-                  <li>
-                    <p>
-                      <m>\int \frac{x^2+4x+1}{x^3+x} dx </m>
-                    </p>
-                  </li>
+                <statement>
+                  <p>
+                    Use any method or combination of methods to find the following indefinite integrals:
+                  </p>
 
-                  <li>
-                    <p>
-                      <m>\int \frac{1}{x^2+6x+10} dx </m>
-                    </p>
-                  </li>
+                  <ol marker="a.">
+                    <li>
+                      <p>
+                        <m>\int \frac{1+x}{1+x^2} dx </m>
+                      </p>
+                    </li>
 
-                  <li>
-                    <p>
-                      <m>\int \frac{e^x}{e^{2x}+1} dx </m>
-                    </p>
-                  </li>
-                </ol>
-              </statement>
-            </exercise>
-            </exercises>
-          </section>
+                    <li>
+                      <p>
+                        <m>\int \frac{x^2+4x+1}{x^3+x} dx </m>
+                      </p>
+                    </li>
+
+                    <li>
+                      <p>
+                        <m>\int \frac{1}{x^2+6x+10} dx </m>
+                      </p>
+                    </li>
+
+                    <li>
+                      <p>
+                        <m>\int \frac{e^x}{e^{2x}+1} dx </m>
+                      </p>
+                    </li>
+                  </ol>
+                </statement>
+              </exercise>
+              </exercises>
+            </section>
