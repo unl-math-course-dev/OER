@@ -272,9 +272,38 @@
 		</example>
 
 		<p>
-			If <m>2 \times 2</m> matrices and the rest of what we have described above make you nervous, you should work through the exercises at the end of this section.
+			If <m>2 \times 2</m> matrices and the rest of what we have described above make you nervous, you should work through the exercises at the end of this section. Below
+			are some examples of matrix operations.
 		</p>
+		<example>
+			<p>
+				Compute <m>Ay</m>, where <m>A</m> is the matrix <m>\begin{pmatrix}2 &amp; 4 \\ -5 &amp; -6\end{pmatrix}</m> and <m>y</m> is the vector <m>\begin{pmatrix}10 \\ 1\end{pmatrix}</m>
+			</p>
+			<p>
+				To solve this, we multiply each row of <m>A</m> by the vector <m>y</m>, and obtain
+				<me>Ay = \begin{pmatrix}2(10) + 4(1) \\ -5(10) + (-6)(1)\end{pmatrix} = \begin{pmatrix}24 \\ -56 \end{pmatrix}</me>
+			</p>
+		</example>
 
+		<example>
+			<p> Compute <m>AB</m>, where <m>A = \begin{pmatrix}2 &amp; 3 \\ -1 &amp; 5\end{pmatrix}, B = \begin{pmatrix}-4 &amp; -7 \\ 6 &amp; 0\end{pmatrix}</m>. </p>
+			<p>
+				We multiply each row of <m>A</m> by each column of <m>B</m>, which gives
+				<me>AB = \begin{pmatrix}2(-4) + 3(6) &amp; 2(-7) + 3(0) \\ -1(-4) + 5(6) &amp; (-1)(-7) + 5(0)\end{pmatrix} = \begin{pmatrix}10 &amp; -14 \\ 34 &amp; 7\end{pmatrix}</me>
+			</p>
+		</example>
+
+		<example>
+			<p>
+				Compute <m>A^{-1}</m>, where <m>A = \begin{pmatrix}5 &amp; 7 \\ 4 &amp; 6\end{pmatrix}</m>.
+			</p>
+			<p>
+				Using the formula <m>\begin{pmatrix}a &amp; b \\ c &amp; d\end{pmatrix}^{-1} = \frac{1}{ad - bc}\begin{pmatrix}d &amp; -b \\ -c &amp; a\end{pmatrix}</m> we find
+				<me>A^{-1} = \frac{1}{5(6) - 7(4)}\begin{pmatrix}6 &amp; -7 \\ -4 &amp; 5\end{pmatrix} = \frac12\begin{pmatrix}6 &amp; -7 \\ -4 &amp; 5\end{pmatrix}
+					= \begin{pmatrix}3 &amp; \frac{-7}{2} \\ -2 &amp; \frac52 \end{pmatrix}
+				</me>
+			</p>
+		</example>
 		<activity>
 			<title>Matrix Operations</title>
 			<introduction>
@@ -509,6 +538,30 @@
 						</p>
 					</li>
 				</ul>
+			</p>
+		</example>
+		<p>
+			There is also a short-cut to finding the eigenvectors of a <m>2 \times 2</m> matrix once you have the eigenvalues, illustrated in the following example.
+		</p>
+		<example>
+			<p>
+				Find the eigenvalues of the matrix <m>A</m> below, and for each eigenvalue, find an associated eigenvector.
+				<me>A = \begin{pmatrix}1 &amp; 10 \\ 12 &amp; 8\end{pmatrix}</me>
+			</p>
+			<p>
+				The characteristic polynomial is <m>(1 - \lambda)(8 - \lambda) - 10(12) = \lambda^2 - 9\lambda - 112</m>; setting this equal to zero and solving gives <m>\lambda = -7, 16</m>.
+			</p>
+			<p>
+				To find the eigenvectors, we look at each eigenvalue individually and subtract from the magin diagonal; let's start with <m>\lambda = -7</m>. We get
+			<me>A - (-7)I = \begin{pmatrix}1 - (-7) &amp; 10 \\ 12 &amp; 8 - (-7)\end{pmatrix} = \begin{pmatrix}8 &amp; 10 \\ 12 &amp; 15\end{pmatrix}</me>
+			We can "read off" an eigenvector as follows: take one of the rows of the new matrix and put them into a column, flip the numbers around, and change exactly one of the signs.
+			For example, we could take the top row <m>\begin{pmatrix}8 &amp; 10\end{pmatrix}</m> and find that <m>\begin{pmatrix}-10 \\ 8\end{pmatrix}</m> and <m>\begin{pmatrix}10 \\ -8\end{pmatrix}</m> are value eigenvectors.
+			Likewise, we could have used the bottom row <m>\begin{pmatrix}10 &amp; 12\end{pmatrix}</m> and gotten <m>\begin{pmatrix}-12 \\ 10\end{pmatrix}</m> and <m>\begin{pmatrix}12 \\ -10\end{pmatrix}</m>.
+			</p>
+			<p>
+				Now, working with <m>\lambda = 16</m>, we see
+				<me>A - 16I = \begin{pmatrix}1 - 16 &amp; 10 // 12 &amp; 8 - 16\end{pmatrix} = \begin{pmatrix}-15 &amp; 10 \\ 12 &amp; -8\end{pmatrix}</me>
+				Flipping a row and changing one sign could give us <m>\begin{pmatrix}-10 \\ -15\end{pmatrix}, \begin{pmatrix}10 \\ 15\end{pmatrix}, \begin{pmatrix}8 \\ 12\end{pmatrix}</m>, or <m>\begin{pmatrix}-8 \\ -12\end{pmatrix}</m> as eigenvectors.
 			</p>
 		</example>
 
@@ -939,11 +992,16 @@
 			<p>
 				<m>\displaystyle A =
 				\begin{pmatrix}
-				3 &amp; 4 \\
-				2 &amp; 1
+				1 &amp; 4 \\
+				2 &amp; 3
 				\end{pmatrix}</m>
 			</p>
 		</statement>
+		<answer>
+			<p>
+				<m>det(A) = 1(3) - 4(2) = -5</m>
+			</p>
+		</answer>
 	</exercise>
 
 	<exercise>
@@ -963,11 +1021,16 @@
 			<p>
 				<m>\displaystyle A =
 				\begin{pmatrix}
-				3 &amp; 1 \\
-				-1 &amp; 1
+				2 &amp; -6 \\
+				-2 &amp; 4
 				\end{pmatrix}</m>
 			</p>
 		</statement>
+		<answer>
+			<p>
+				<m>det(A) = 2(4) - (-6)(-2) = -4</m>
+			</p>
+		</answer>
 	</exercise>
 
 	<exercise>

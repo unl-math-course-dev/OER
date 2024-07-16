@@ -282,6 +282,43 @@
 			</p>
 		</example>
 
+		<example>
+			<p>
+				Solve the initial value problem
+				<md>
+					<mrow> x' &amp; = -5x - y </mrow>
+					<mrow> y' &amp; = -7x + y </mrow>
+					<mrow> x(0) &amp; = 0</mrow>
+					<mrow> y(0) &amp; =  32</mrow>
+				</md>
+			</p>
+			<p>
+				We can rewrite the system as <m>x' = Ax</m>, where
+				<me>A = \begin{pmatrix}-5 &amp; -1 \\ -7 &amp; 1\end{pmatrix}</me>
+				The characteristic polynomial is <m>(-5 - \lambda)(1 - \lambda) - (-1)(-7) = \lambda^2 + 4\lambda - 12</m>, with zeros (and therefore eigenvalues) <m>\lambda = -6, 2</m>. Then
+				<me>A - (-6)I = \begin{pmatrix}-5 + 6 &amp; -1 \\ -7 &amp; 7\end{pmatrix} = \begin{pmatrix}1 &amp; -1 \\ -7 &amp; 7\end{pmatrix}</me>
+				So an eigenvector associated to <m>\lambda = -6</m> is <m>v = \begin{pmatrix}1 \\ 1\end{pmatrix}</m>. Analogously,
+				<me>A - 2I = \begin{pmatrix}-5 - 2 &amp; -1 \\ -7 &amp; 1 - 2\end{pmatrix} = \begin{pmatrix}-7 &amp; -1 \\ -7 &amp; -1\end{pmatrix}</me>
+				So an eigenvector associated to <m>\lambda = 2</m> is <m>\begin{pmatrix}-1 \\ 7\end{pmatrix}</m>.
+			</p>
+			<p>
+				Therefore, the full set of solutions to the differential equation (ignoring initial value conditions) is
+				<me>c_1e^{-6t}\begin{pmatrix}1 \\ 1\end{pmatrix} + c_2e^{2t}\begin{pmatrix}-1 \\ 7\end{pmatrix}</me>
+				We want <m>x(0) = 0, y(0) = 32</m>. We plug in <m>t = 0</m> into this equation, setting the top to zero and the bottom to <m>32</m>, and arrive at the system
+				<md>
+					<mrow> c_1 - c_2 &amp; = 0 </mrow>
+					<mrow> c_1 + 7c_2 &amp; = 32 </mrow>
+				</md>
+				Solving yields <m>c_1 = 4, c_2 = 4</m>. Therefore the solution is
+				<me>\begin{pmatrix}x \\ y\end{pmatrix} = 4e^{-6t}\begin{pmatrix}1 \\ 1\end{pmatrix} + 4e^{2t}\begin{pmatrix}-1 \\ 7\end{pmatrix}</me>
+				which can also be written as
+				<md>
+					<mrow> x(t) = 4e^{-6t} - 4e^{2t}</mrow>
+					<mrow> y(t) = 4e^{-6t} + 28e^{2t}</mrow>
+				</md>
+			</p>
+		</example>
+
 		<activity xml:id="linear02-activity-distinct-real-eigenvalues">
 			<title>Planar Systems with Distinct Real Eigenvalues</title>
 			<introduction>
@@ -610,11 +647,22 @@
 		<statement>
 			<p>
 				<md>
-					<mrow>x' &amp; = 4x + 2y</mrow>
-					<mrow>y' &amp; = x + 3y</mrow>
+					<mrow>x' &amp; = -x + 2y</mrow>
+					<mrow>y' &amp; = 2x + 2y</mrow>
 				</md>
 			</p>
 		</statement>
+		<answer>
+			<p>
+				This is equivalent to <m>x' = Ax</m>, where <m>A = \begin{pmatrix}-1 &amp; 2 \\ 2 &amp; 2\end{pmatrix}</m>. The characteristic polynomial is <m>(-1-\lambda)(2-\lambda) - 2(2)</m>
+				<m>= \lambda^2 - \lambda - 6</m>, with zeros <m>\lambda = -2, 3</m>. We then get
+				<me>A - (-2)I = \begin{pmatrix}-1 + 2 &amp; 2 \\ 2 &amp; 2 + 2\end{pmatrix} = \begin{pmatrix}1 &amp; 2 \\ 2 &amp; 4\end{pmatrix}</me>
+				So <m>\lambda = -2</m> has corresponding eigenvector <m>\begin{pmatrix}-2 \\ 1\end{pmatrix}</m>. Analogously,
+				<me>A - 3I = \begin{pmatrix}-1 - 3 &amp; 2 \\ 2 &amp; 2 - 3\end{pmatrix} = \begin{pmatrix}-4 &amp; 2 \\ 2 &amp; -1\end{pmatrix}</me>
+				So <m>\lambda = 3</m> has corresponding eigenvector <m>\begin{pmatrix}1 \\ 2\end{pmatrix}</m>. Therefore the set of solutions is
+				<me>c_1e^{-2t}\begin{pmatrix}-2 \\ 1\end{pmatrix} + c_2e^{3t}\begin{pmatrix}1 \\ 2\end{pmatrix}</me>
+			</p>
+		</answer>
 	</exercise>
 
 	<exercise>
@@ -666,13 +714,31 @@
 		<statement>
 			<p>
 				<md>
-					<mrow>x' &amp; = 4x + 2y</mrow>
-					<mrow>y' &amp; = x + 3y</mrow>
-					<mrow>x(0) &amp; = 3</mrow>
-					<mrow>y(0) &amp; = 2</mrow>
+					<mrow>x' &amp; = -x + 2y</mrow>
+					<mrow>y' &amp; = 2x + 2y</mrow>
+					<mrow>x(0) &amp; = 19</mrow>
+					<mrow>y(0) &amp; = 8</mrow>
 				</md>
 			</p>
 		</statement>
+		<answer>
+			<p>
+				From exercise 2, we see the general solution to the system <m>x' = -x + 2y, y' = 2x + 2y</m> is
+				<me>c_1e^{-2t}\begin{pmatrix}-2 \\ 1\end{pmatrix} + c_2e^{3t}\begin{pmatrix}1 \\ 2\end{pmatrix}</me>
+				Plugging in <m>t = 0</m> and setting the top to <m>19</m>, the bottom to <m>8</m>, we end up at the system
+				<md>
+					<mrow> -2c_1 + c_2 = 19 </mrow>
+					<mrow> c_1 + 2c_2 = 8 </mrow>
+				</md>
+				Solving this yields <m>c_1 = -6, c_2 = 7</m>, and we thus have the solution
+				<me>-6e^{-2t}\begin{pmatrix}-2 \\ 1\end{pmatrix} + 7e^{3t}\begin{pmatrix}1 \\ 2\end{pmatrix}</me>
+				which can also be written as
+				<md>
+					<mrow> x(t) = &amp; 12e^{-2t} + 7e^{3t}</mrow>
+					<mrow> y(t) = &amp; -6e^{-2t} + 14e^{3t}</mrow>
+				</md>
+			</p>
+		</answer>
 	</exercise>
 
 	<exercise>
