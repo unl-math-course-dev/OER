@@ -504,7 +504,7 @@
 				<me>
 					\mathbf x(t) = \frac{1}{2} e^{t/10} \begin{pmatrix} \sin t \\ \cos t \end{pmatrix},
 				</me>
-				and he phase portrait is a spiral source (<xref ref="linear04-figure-source-phase-portrait" />).
+				and the phase portrait is a spiral source (<xref ref="linear04-figure-source-phase-portrait" />).
 			</p>
 
 			<figure xml:id="linear04-figure-source-phase-portrait">
@@ -642,6 +642,63 @@
 					\begin{pmatrix}  \sin 2t \\ - \cos 2t - \sin 2t \end{pmatrix}.
 				</me>
 			</p>
+		</example>
+
+		<example>
+			<p>
+				Solve the following linear system with the given initial conditions, and sketch a phase portrait of the solution.
+				<md>
+					<mrow> x' \amp = 3x - 2y </mrow>
+					<mrow> y' \amp =  13x + y</mrow>
+					<mrow> x(0) \amp = 1 </mrow>
+					<mrow> y(0) \amp = 3 </mrow>
+				</md>
+			</p>
+			<p>
+				The characteristic polynomial of the associated matrix is <m>(3 - \lambda)(1 - \lambda) + 26</m>, which gives eigenvalues <m>2 \pm 5i</m>. Choosing eigenvalue
+				<m>2 + 5i</m> (we could have chosen either one) and subtracting this from the main diagonal of the associated matrix gives <m>\begin{pmatrix}1 - 5i \amp -2 \\ 13 \amp -1 - 5i\end{pmatrix}</m>,
+				so we have eigenvector <m>\begin{pmatrix}1 + 5i \\ 13\end{pmatrix}</m>. This gives a complex solution (ignoring initial conditions)
+				<me>e^{(2+5i)t}\begin{pmatrix}1 + 5i \\ 13\end{pmatrix}</me>
+				We can write <m>e^{2+5i} = e^{2t}(\cos(5t) + i\sin(5t))</m>, so this solution equals
+				<me>e^{2t}(\cos(5t)+i\sin(5t))\begin{pmatrix}1 + 5i \\ 13\end{pmatrix} = e^{2t}\begin{pmatrix}\cos(5t) + 5i\cos(5t) + i\sin(5t) - 5\sin(5t) \\ 13\cos(5t) + 13i\sin(5t)\end{pmatrix}</me>
+				<me>= e^{2t}\begin{pmatrix}\cos(5t) - 5\sin(5t) \\ 13\cos(5t)\end{pmatrix} + i\cdot e^{2t}\begin{pmatrix}5\cos(5t) + \sin(5t) \\ 13\sin(5t)\end{pmatrix}</me>
+				So the set of all real solutions to the differential system (ignoring initial conditions) is
+				<me>c_1e^{2t}\begin{pmatrix}\cos(5t) - 5\sin(5t) \\ 13\cos(5t)\end{pmatrix} + c_2e^{2t}\begin{pmatrix}5\cos(5t) + \sin(5t) \\ 13\sin(5t)\end{pmatrix}</me>
+				Plugging in <m>t=0</m> and setting the top equal to the initial <m>x</m> value, the bottom equal to the initial <m>y</m> value, we get the system
+				<md>
+					<mrow>c_1 + 5c_2 \amp = 1</mrow>
+					<mrow>13c_1 \amp = 3 </mrow>
+				</md>
+				This gives the solutions <m>c_1 = \frac{3}{13}, c_2 = \frac{2}{13}</m>; plugging these into the general equation gives the solution
+				<me>e^{2t}\begin{pmatrix}\cos(5t) - \sin(5t) \\ 3\cos(5t) + 2\sin(5t) \end{pmatrix}</me>
+			</p>
+			<p>
+				Now we are asked to draw a sketch of the solution. Since the real part of the eigenvalue (<m>2</m>) is positive, we have a spiral source. We also have to determine whether
+				the spiral goes clockwise or counter-clockwise as we spiral out. The matrix associated to the equation is <m>A = \begin{pmatrix}3 \amp -2 \\ 13 \amp 1\end{pmatrix}</m>.
+				If we multiply this matrix by <m>\begin{pmatrix}1 \\ 0\end{pmatrix}</m> we get <m>\begin{pmatrix}3 \amp -2 \\ 13 \amp 1\end{pmatrix}\cdot \begin{pmatrix}1 \\ 0\end{pmatrix}</m>
+				<m>= \begin{pmatrix}3 \\ 13\end{pmatrix}</m>. This means that at the point <m>(1,0)</m> a solution curve will be pointing toward the diretion <m>\begin{pmatrix}3 \\ 13\end{pmatrix}</m>,
+				so we are spiraling counter-clockwise away from the origin. So we must draw a curve passing through <m>\begin{pmatrix}1 \\ 3\end{pmatrix}</m> spiraling counter-clockwise outward.
+			</p>
+			<figure xml:id="figure-solution-curve-example-section5-04">
+				<caption>Solution curve</caption>
+				<image width="60%" xml:id="solution-curve-example-section5-04">
+					<description>
+						<p>
+							This is the solution curve for our initial value problem.
+						</p>	
+					</description>
+					<sageplot>
+						x, y ,t = var('x y t')
+						F = [3*x - 2*y, 13*x + y]
+						n = sqrt(F[0]^2 + F[1]^2)
+						p = plot_vector_field((F[0]/n, F[1]/n), (x,-5,5), (y,-5,5), aspect_ratio=1)
+						P1=desolve_system_rk4(F,[x,y],ics=[0,-0.0253,-0.0262],ivar=t,end_points=2.52,step=0.04)
+						S1=[ [j, k] for i,j,k in P1]
+						p += line(S1, thickness=2, axes_labels=['$x(t)$','$y(t)$'], fontsize=12)
+						p
+					</sageplot>
+			</image>
+			</figure>
 		</example>
 
 		<p>
@@ -806,8 +863,8 @@
 		<statement>
 			<p>
 				<md>
-					<mrow>x' &amp; = 2x - 6y</mrow>
-					<mrow>y' &amp; = 2x + y</mrow>
+					<mrow>x' &amp; = 3x - 10y</mrow>
+					<mrow>y' &amp; = 2x - y</mrow>
 				</md>
 			</p>
 		</statement>
@@ -817,8 +874,8 @@
 		<statement>
 			<p>
 				<md>
-					<mrow>x' &amp; = -x - 4y</mrow>
-					<mrow>y' &amp; = 3x - 2y</mrow>
+					<mrow>x' &amp; = 5x - 2y</mrow>
+					<mrow>y' &amp; = 5x + 3y</mrow>
 				</md>
 			</p>
 		</statement>
@@ -861,10 +918,10 @@
 		<statement>
 			<p>
 				<md>
-					<mrow>x' &amp; = 2x - 6y</mrow>
-					<mrow>y' &amp; = 2x + y</mrow>
-					<mrow>x(0) &amp; = 2</mrow>
-					<mrow>y(0) &amp; = 1</mrow>
+					<mrow>x' &amp; = 3x - 10y</mrow>
+					<mrow>y' &amp; = 2x - y</mrow>
+					<mrow>x(0) &amp; = 11</mrow>
+					<mrow>y(0) &amp; = 5</mrow>
 				</md>
 			</p>
 		</statement>
@@ -874,10 +931,10 @@
 		<statement>
 			<p>
 				<md>
-					<mrow>x' &amp; = -x - 4y</mrow>
-					<mrow>y' &amp; = 3x - 2y</mrow>
-					<mrow>x(0) &amp; = 20</mrow>
-					<mrow>y(0) &amp; = 20</mrow>
+					<mrow>x' &amp; = 5x - 2y</mrow>
+					<mrow>y' &amp; = 5x + 3y</mrow>
+					<mrow>x(0) &amp; = 15</mrow>
+					<mrow>y(0) &amp; = 15</mrow>
 				</md>
 			</p>
 		</statement>

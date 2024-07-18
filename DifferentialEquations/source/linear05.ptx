@@ -371,6 +371,52 @@
 			</p>
 		</example>
 
+		<example>
+			<p>
+				Solve the following initial value problem, and draw a sketch of the phase portrait.
+				<md>
+					<mrow> x' \amp = 3x + 8y </mrow>
+					<mrow> y' \amp  = -2x - 5y </mrow>
+					<mrow> x(0) \amp = 1 </mrow>
+					<mrow> y(0) \amp = 0 </mrow>
+				</md>
+			</p>
+			<p>
+				The associated matrix has characteristic polynomial <m>(3 - \lambda)(-5 - \lambda) + 16 = \lambda^2 + 2\lambda + 1</m>, producing the unique eigenvalue
+				<m>\lambda = -1</m>. Subtracting <m>-1</m> from the main diagonal of the associated matrix gives <m>\begin{pmatrix}4 \amp 8 \\ -2 \amp -4\end{pmatrix}</m>, which
+				produces eigenvector <m>\begin{pmatrix}2 \\ -1\end{pmatrix}</m>. Then, guessing <m>\begin{pmatrix}1 \\ 0\end{pmatrix}</m> for the associated generalized
+				eigenvalue, we get
+				<me>\begin{pmatrix}4 \amp 8 \\ -2 \amp -4\end{pmatrix}\cdot\begin{pmatrix}1 \\ 0\end{pmatrix} = \begin{pmatrix}4 \\ -2 \end{pmatrix} = 2\cdot \begin{pmatrix}2 \\ -1\end{pmatrix}</me>
+				so our associated generalized eigenvalue is <m>\begin{pmatrix}\frac12 \\ 0\end{pmatrix}</m>, and the set of solutions to the system without initial conditions is
+				<me>c_1e^{-t}\begin{pmatrix}2 \\ -1\end{pmatrix} + c_2e^{-t}\begin{pmatrix}2t + \frac12 \\ -t \end{pmatrix}</me>
+				The initial value conditions then give us the system of equations <m>2c_1 + \frac{c_2}{2} = 1, -c_1 = 0</m>, with solution <m>c_1 = 0, c_2 = 2</m>, so the solution is
+				<me>\begin{pmatrix}x(t) \\ y(t)\end{pmatrix} = \begin{pmatrix}4t + 1 \\ -2t\end{pmatrix}e^{-t}</me>.
+				Now we have to graph this. The straight-line solution to the equation without the initial condition is the line passing through <m>\begin{pmatrix}2 \\ -1\end{pmatrix}</m>
+				and the origin. The negative exponent means this is a sink, and so we draw a curve passing through <m>(1,0)</m> toward the origin, tangent to the straight-line solution
+				at the origin.
+			</p>
+			<figure xml:id ="figure-repeatedeigen-sol-sec5-5">
+				<caption>Solution</caption>
+				<image width = "60%" xml:id = "repeatedeigen-sol-sec5-5">
+					<description>
+						<p>The blue line is a phase portrait of the solution to the system of equations given. The red line represents a straight-line solution.
+						</p>
+					</description>
+					<sageplot>
+						x, y ,t = var('x y t')
+						F = [3*x + 8*y, -2*x - 5*y]
+						n = sqrt(F[0]^2 + F[1]^2)
+						p = plot_vector_field((F[0]/n, F[1]/n), (x,-2,2), (y,-2,2), aspect_ratio=1)
+						P1=desolve_system_rk4(F,[x,y],ics=[0,-1.9,1.799],ivar=t,end_points=6.5,step=0.04)
+						S1=[ [j, k] for i,j,k in P1]
+						p += line(S1, thickness=2, axes_labels=['$x(t)$','$y(t)$'], fontsize=12)
+						p += line([(-2,1), (2,-1)], thickness = 2, color="red")
+						p
+					</sageplot>
+				</image>
+			</figure>
+		</example>
+
 		<p>
 			If the eigenvalue is positive, we will have a nodal source.
 			If it is negative, we will have a nodal sink.
