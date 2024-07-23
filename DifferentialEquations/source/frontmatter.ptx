@@ -426,6 +426,9 @@
               <cell><m>\tan(x)</m></cell><cell><m>\sec^2(x)</m></cell>
               </row>
               <row>
+              <cell><m>e^x</m></cell><cell><m>e^x</m></cell>
+              </row>
+              <row>
               <cell><m>\ln(x)</m></cell><cell><m>\frac{1}{x}</m></cell>
               </row>
               <row>
@@ -469,6 +472,246 @@
             term turns to <m>-4xy^3</m>. The final answer is <m>\frac{-x}{y^2} - 4xy^3</m>.
           </p>
         </example>
+      </subsection>
+      <subsection xml:id="subsec-Basic-integrals">
+        <title>Basic integrals</title>
+        <p>
+          Below is a chart showing integrals of common functions; make sure you know these rules. In differential equations, it is extra important that you remember the "+C"
+          when taking integrals, since you will be finding solutions to differential equations that depend on the value of C.
+        </p>
+        <p>
+          <table xml:id="frontmatter-basic-integrals">
+            <title>Table of basic integrals</title>
+            <tabular halign="center" top="medium">
+              <row bottom="medium">
+              <cell><m>f(x)</m></cell><cell><m>\int f(x) dx</m></cell>
+              </row>
+              <row>
+              <cell><m>a</m></cell><cell><m>ax+C</m></cell>
+              </row>
+              <row>
+              <cell><m>x^n, n \ne -1</m></cell><cell><m>\frac{x^{n+1}}{n+1}+C</m></cell>
+              </row>
+              <row>
+              <cell><m>\frac1x</m></cell><cell><m>\ln|x| + C</m></cell>
+              </row>
+              <row>
+              <cell><m>\sin(x)</m></cell><cell><m>-\cos(x)+C</m></cell>
+              </row>
+              <row>
+              <cell><m>\cos(x)</m></cell><cell><m>\sin(x)+C</m></cell>
+              </row>
+              <row>
+                <cell><m>\frac{1}{x^2+1}</m></cell><cell><m>\arctan(x)+C</m></cell>
+              </row>
+              <row>
+              <cell><m>f(x)\pm g(x)</m></cell><cell><m>\int f(x)dx \pm \int g(x)dx</m></cell>
+              </row>
+              <row bottom="medium">
+              <cell><m>c\cdot f(x)</m></cell><cell><m>c\cdot \int f(x)dx</m></cell>
+              </row>
+            </tabular>
+          </table>
+        </p>
+      </subsection>
+      <subsection xml:id="subsec-integration-by-u-substitution">
+        <title>Integration by u-substitution</title>
+        <p> Integration by u-substition is the inverse of the chain rule for derivatives. What this does is changes the variables to make integration easier. Below are some examples.
+        </p>
+        <example>
+          <p> Compute <m>\int e^x(2e^x + 1)^2 dx</m>
+          </p>
+          <p>
+            We want <m>u</m> to be something whose derivative appears (or has something similar to it appearing) elsewhere in the integral. Notice that the derivative of <m>2e^x+1</m>
+            is <m>2e^x</m> which is the same as the <m>e^x</m> at the front, except there's an extra factor of <m>2</m>. Therefore <m>u = 2e^x + 1</m> is probably the best choice.
+          </p>
+          <p>
+            With this, we compute the derivative and write <m>du = 2e^x dx</m>, and solving for <m>dx</m> gives <m>dx = \frac{du}{2e^x}</m>. Substiting our values of <m>x</m> and <m>dx</m>
+            gives
+            <me>\int e^x(2e^x+1)^2 \, dx = \int e^xu^2 \frac{du}{2e^x} \, dx = \int \frac{u^2}{2} du = \frac{u^3}{6} + C</me>
+            Substituting back in <m>u = 2e^x+1</m> the final answer is
+            <me>\frac{u^3}{3}+C = \frac{(2e^x+1)^3}{6}+C</me>
+          </p>
+        </example>
+        <example>
+          <p>
+            Compute <m>\int \frac{\sin(x)}{\cos(x)+1} \,dx</m>
+          </p>
+          <p>
+            We want <m>u</m> to be something whose derivative appears elsewhere in the expression. It looks like <m>u=\sin(x)</m> and <m>u=\cos(x)+1</m> work in this regard, but it's best
+            not to have the derivative of <m>u</m> appear in the denominator of a fraction, so <m>u = \cos(x)+1</m> is probably a better choice. We then have <m>du = -\sin(x) dx</m> so
+            <m>dx = -\frac{du}{\sin(x)}</m>. Therefore,
+            <me>\int \frac{\sin(x)}{\cos(x)+1} \, dx = \int \frac{\sin(x)}{u}\cdot \frac{-du}{\sin(x)} = \int \frac{-1}{u} \, du = -\ln|u| +C</me><me> = -\ln|\cos(x)+1|+C</me>
+          </p>
+        </example>
+        <p>
+        If we are asked to evaluate a definite integral, it is possible to do so entirely in the u-world without having to convert back to the x-world, as the examples below show.
+        </p>
+        <example>
+          <p>
+            Compute <m>\int_{\pi^2/4}^{\pi^2}\frac{\sin(\sqrt{x})}{\sqrt{x}} \, dx</m>
+          </p>
+          <p>
+            We substitute <m>u = \sqrt{x}</m>, which gives <m>du = \frac{1}{2\sqrt{x}}dx</m> so <m>dx = 2\sqrt{x}du</m>. Also, the bounds of the integral go from <m>x = \frac{\pi^2}{4}</m>
+            to <m>x = \pi^2</m>; the substitution means the integral now goes from <m>u = \frac{\pi}{2}</m> to <m>u = \pi</m>. We therefore get
+            <me>\int_{\pi^2/4}^{\pi^2}\frac{\sin(\sqrt{x})}{\sqrt{x}} \, dx = \int_{\pi/2}^{\pi}\frac{\sin(u)}{\sqrt{x}}\cdot 2\sqrt{x}du = \int_{\pi/2}^{\pi}2\sin(u)\, du</me>
+            <me>= -2\cos(\pi)+2\cos(\frac{\pi}{2}) = 2</me>
+          </p>
+        </example>
+        <example>
+          <p>
+            Compute <m>\int_3^7\sqrt{\frac{x-1}{2}}\, dx</m>.
+          </p>
+          <p>
+            Substituting <m>u = \frac{x-1}{2}</m> we get <m>du = \frac{dx}{2}</m> so <m>dx = 2du</m>. Also, this substitution turns the lower bound <m>x = 3</m> to <m>u = \frac{3-1}{2} = 1</m>
+            and the upper bound <m>x = 7</m> to <m>u = \frac{7-1}{2} = 3</m>. This gives us
+            <m>\int_3^7\sqrt{\frac{x-1}{2}}\, dx = \int_1^3 \sqrt{u}\cdot 2 du = \frac{4}{3}3^{\frac32}-\frac{4}{3}1^{\frac32} = 4\sqrt{3}-\frac43</m>
+          </p>
+        </example>
+      </subsection>
+      <subsection xml:id="subsec-Integration-by-parts">
+        <title>Integration by parts</title>
+        <p>
+          Integration by parts is the reverse of the product rule; it is done via the formula
+          <me>\int uv' = uv - \int vu'</me>
+          Here is a list of the order of preferences for the choice of <m>u</m> (e.g., if there is a logarithm in the integral, it is best to let <m>u</m> be the logarithmic function). The
+          inverse trigonometric one is unlikely to show up in this course.
+        </p>
+        <ul>
+          <li>
+            <p>
+              Logarithmic functions
+            </p>
+          </li>
+          <li>
+            <p>
+              Inverse trigonometric functions
+            </p>
+          </li>
+          <li>
+            <p>
+              polynomials and roots
+            </p>
+          </li>
+          <li>
+            <p>
+              trigonometric functions
+            </p>
+          </li>
+          <li>
+            <p>
+              exponential functions
+            </p>
+          </li>
+        </ul>
+        <p>
+          Below are some examples of integrals solved using integration by parts.
+        </p>
+        <example>
+          <p>
+            Compute <m>\int (x + 1)e^x \, dx</m>
+          </p>
+          <p>
+            We do <m>u = x + 1, v' = e^x</m>, which gives <m>u' = 1, v = e^x</m>; the formula therefore says
+            <me>\int (x + 1)e^x \, dx = (x+1)e^x - \int e^x \, dx = (x+1)e^x - e^x + C = xe^x + C</me>
+          </p>
+        </example>
+        <example>
+          <p>
+            Compute <m>\int e^{2x}\sin(x) \, dx</m>
+          </p>
+          <p>
+            We do <m>u = \sin(x), v' = e^{2x}</m>, which gives <m>u' = \cos(x), v = \frac{e^{2x}}{2}</m>, so
+            <me>\int e^{2x}\sin(x)\,dx = \frac{\sin(x)e^{2x}}{2}-\int \frac{e^{2x}\cos(x)}{2}\,dx</me><me> = \frac{\sin(x)e^{2x}}{2}-\frac12 \int e^{2x}\cos(x)\,dx</me>
+            We now have to calculate <m>\int e^{2x}\cos(x)\,dx</m>. Using integration by parts again, we have <m>u = \cos(x), v' = e^{2x}</m>, so <m>u' = -\sin(x), v = \frac{e^{2x}}{2}</m>,
+            and we get
+            <me>\int e^{2x}\cos(x)\,dx = \frac{\cos(x)e^{2x}}{2}-\int \frac{-\sin(x)e^{2x}}{2}\,dx</me><me> = \frac{\cos(x)e^{2x}}{2} + \frac12 \int \sin(x)e^{2x}\,dx </me>
+          </p>
+          It looks like we are back at square one, but this is actually helpful. We can write
+          <me>\int e^{2x}\sin(x) \, dx = \frac{\sin(x)e^{2x}}{2}-\frac12(\frac{\cos(x)e^{2x}}{2} + \frac12 \int \sin(x)e^{2x}\,dx)</me>
+          <me>= \frac{\sin(x)e^{2x}}{2} - \frac{\cos(x)e^{2x}}{4} - \frac14 \int \sin(x)e^{2x}\,dx</me>
+          If we denote <m>I = \int e^{2x}\sin(x) \, dx</m>, this equation can be written as
+          <me>I = \frac{\sin(x)e^{2x}}{2} - \frac{\cos(x)e^{2x}}{4} - \frac14I</me>
+          solving this equation for <m>I</m> yields
+          <me>I = \frac{2\sin(x)e^{2x}}{5} - \frac{\cos(x)e^{2x}}{5} + C</me>
+        </example>
+        <example>
+          <p>
+            Compute <m>\int_1^2 x^2\ln(x)\,dx</m>
+          </p>
+          <p>
+            We do <m>u = \ln(x), v' = x^2</m>, which gives us <m>u' = \frac1x, v = \frac{x^3}{3}</m>, so this ends up being
+            <me>\frac{\ln(x)x^3}{3}\Big|_1^2 - \int_1^2 \frac{x^3}{3}\cdot\frac1x \, dx</me>
+            <me>= \frac83\ln(2) - \frac{x^3}{9}\Big|_1^2 = \frac83\ln(2) - \frac79</me>
+          </p>
+        </example>
+      </subsection>
+      <subsection xml:id="subsec-integration-by-partial-fractions">
+        <title>Integration by partial fractions</title>
+        <p> For rational functions (i.e. a quotient of two polynomials), the easiest way to integrate is to rewrite the function as a sum of functions whose integrals are easier to compute.
+        They are typically split into terms of the form <m>\frac{a}{x+b}</m> or <m>\frac{a}{(x+b)^n}</m>. Below is a basic example.
+        </p>
+      <example>
+        <p>
+          Compute <m>\int \frac{8x-20}{x^2-2x-3}\,dx</m>
+        </p>
+        <p>
+          The denominator factors as <m>(x - 3)(x + 1)</m>, so we want to write this as <m>\frac{8x-20}{x^2-2x-3} = \frac{A}{x-3} + \frac{B}{x+1}</m>; multiplying both sides
+          by <m>(x-3)(x+1)</m> gives
+          <me>8x-20 = A(x+1) + B(x-3)</me>
+          There are two ways to solve this; we can expand out the right-hand-side and equate like terms, or pick "smart" choices for <m>x</m> that help us solve. Both methods
+          are useful in different situations, so I will show both.
+        </p>
+        <p>
+          If we multiply out the right side, we get <m>Ax + A + Bx - 3B = (A + B)x + (A - 3B)</m> which has to equal <m>8x-20</m>; equating coefficients gives <m>A + B = 8, A - 3B = -20</m>,
+          and solving yields <m>A = 1, B = 7</m>.
+        </p>
+        <p>
+          Instead of multiplying out, we could have noted that plugging in <m>x=-1</m> into the equation eliminates the <m>A</m> variable, and we get <m>-28=-4B</m>, so <m>B=7</m>,
+          and plugging in <m>x = 3</m> gives <m>4=4A</m>, so <m>A=1</m>. We then have
+          <me>\int \frac{8x-20}{x^2-2x-3}\,dx = \int \frac{1}{x-3} + \frac{7}{x+1}\,dx = \ln|x-3| + 7\ln|x+1| + C</me>
+        </p>
+      </example>
+      <p>
+        Below is an example where we have to use a term of the form <m>\frac{a}{(x+b)^n}</m>, where <m>n > 1</m>.
+      </p>
+      <example>
+        <p>
+          Compute <m>\int \frac{3x^2+3x+1}{x^3+2x^2+x}\,dx</m>
+        </p>
+        <p>
+          Factoring the denominator gives <m>x^3+2x^2+x = x(x^2+2x+1) = x(x+1)^2</m>. The partial fractions split-up will therefore be of the form <m>\frac{A}{x} + \frac{B}{x+1} + \frac{C}{(x+1)^2}</m>.
+          Then we take the equation <m>\frac{A}{x} + \frac{B}{x+1} + \frac{C}{(x+1)^2} = \frac{3x^2+3x+1}{x^3+2x^2+x}</m> and multiply both sides by <m>x(x+1)^2</m>, which yields
+          <me>A(x+1)^2 + Bx(x+1) + Cx = 3x^2 + 3x + 1</me>
+          Plugging in <m>x = 0</m> gives <m>A = 1</m>. Plugging in <m>x = -1</m> gives <m>-C = 1</m>, so <m>C = -1</m>. Then plugging in <m>x = 1</m> gives <m>4A + 2B + C = 7</m>, So
+          <m>3+2B=7</m>, so <m>B = 2</m>. Therefore,
+          <me>\int \frac{3x^2+3x+1}{x^3+2x^2+x}\,dx = \int \frac{1}{x} + \frac{2}{x+1} - \frac{1}{(x+1)^2}\, dx</me><me> = \ln|x| + 2\ln|x+1| + \frac{1}{x+1} + C</me>
+        </p>
+      </example>
+      <p>
+      Below is an example where there we cannot factor the denominator into linear terms.
+      </p>
+      <example>
+        <p>
+          Compute <m>\int \frac{4x^2-5x+15}{x^3-2x^2+5x}\,dx</m>
+        </p>
+        <p>
+          The best we can factor the denominator is <m>x^3 - 2x^2 + 5x</m><m>= x(x^2-2x+5)</m>. As <m>x^2-2x+5</m> does not factor, our backup plan is to complete the square with it,
+          giving <m>(x-1)^2+4</m>. The partial fraction split-up is therefore
+          <me>\frac{4x^2-5x+15}{x^3-2x^2+5x} = \frac{A}{x} + \frac{B(x-1)+C}{(x-1)^2+4}</me>
+          Multiplying both sides by <m>x((x-1)^2+4)</m> gives
+          <me>4x^2-5x+15 = A((x-1)^2+4) + Bx(x-1) + Cx</me>
+          Plugging in <m>x=0</m> gives <m>15 = 5A</m>, so <m>A=3</m>. Plugging in <m>x=1</m> gives <m>4A + C = 14</m>; since <m>A=3</m> this yields <m>C=2</m>.
+          Finally, plugging in <m>x=2</m> gives <m>21 = 5A + 2B + 2C</m>, so <m>B = 1</m>. Therefore,
+          <me>\int \frac{4x^2-5x+15}{x^3-2x^2+5x}\,dx = \int \frac{3}{x} + \int\frac{(x-1)+2}{(x-1)^2+4}\,dx</me><me> = 3\ln|x| +  \int\frac{(x-1)+2}{(x-1)^2+4}</me>
+          To evaluate that last integral, we split it into
+          <me>\frac{x-1}{(x-1)^2+4} + \frac{2}{(x-1)^2+4}.</me>
+           The first term can be integrated by substituting <m>u = (x-1)^2+4</m>, and we get <m>\frac{1}{2}\ln((x-1)^2+4)</m>. For the second term, recall that
+           <m>\int \frac{1}{t^2+1}\,dt = \arctan(t)+C</m>. Since <m>4 = 2^2</m> we can substitute <m>x-1 = 2u</m> and find the second term integrates to <m>\arctan(\frac{x-1}{2})</m>,
+           so the final answer is
+           <me>3\ln|x| + \frac{1}{2}\ln((x-1)^2+4) + \arctan(\frac{x-1}{2}) + C</me>
+        </p>
+      </example>
       </subsection>
   </preface>
 
