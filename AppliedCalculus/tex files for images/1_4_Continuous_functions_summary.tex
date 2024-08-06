@@ -1,0 +1,31 @@
+\documentclass{standalone}
+\usepackage{pgfplots}
+\pgfplotsset{soldot/.style={color=black,only marks,mark=*},
+             holdot/.style={color=black,fill=white,only marks,mark=*},
+             compat=1.12}
+\begin{document}
+\begin{tikzpicture}
+\begin{axis}[
+ axis lines=middle,
+ %ticklabel style={fill=blue!5!white},
+ xmin=-10,xmax=10,
+ ymin=-10,ymax=10,
+ xtick={-9,...,1,2,3,4,...,9},xticklabels={},
+ ytick={-9,...,1,2,3,4,5,6,7,8,9},yticklabels={},        %<--
+% minor tick = {-5,-3,...,5}, %<--
+ xlabel=\(x\),ylabel=\(y\),
+ samples=200]
+
+
+\addplot[domain=-10:-4.01,thick,blue] {-1/(x+4)-2};
+\addplot[domain=-4:-1,thick,blue] {x-2};
+\addplot[domain=-1:2,thick,blue] {-3};
+\addplot[domain=2:10,thick,blue] {5};
+\addplot[soldot, blue] coordinates{(2,-3)};
+
+\draw [blue] (axis cs:6.25,8)  node [] {$f$};
+\addplot[holdot] coordinates{(-4,-6)(-1,-3)(2,5)};
+
+\end{axis}
+\end{tikzpicture}
+\end{document}
