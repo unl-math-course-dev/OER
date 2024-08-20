@@ -1,917 +1,839 @@
-<?xml version="1.0" encoding="UTF-8" ?>
+<?xml version="1.0" encoding="UTF-8"?>
 <!--
 <mathbook>
 	<book>
 		-->
-		<section xml:id="sec-1-4-cont-func"   xmlns:xi="http://www.w3.org/2001/XInclude">
-			<title> Continuous Functions</title>
-			<objectives permid="xFB">
-				<ul permid="JTT">
-					<li permid="ODM">
-						<p permid="wAi">
-							What does it mean to say that a function <m>f</m> is continuous at <m>x = a</m>?
-						</p>
+<section xml:id="sec-1-4-cont-func" xmlns:xi="http://www.w3.org/2001/XInclude">
+	<title> Continuous Functions</title>
+	<objectives permid="xFB">
+		<ul permid="JTT">
+			<li permid="ODM">
+				<p permid="wAi"> What does it mean to say that a function <m>f</m> is continuous at <m>x
+					= a</m>? </p>
+			</li>
+
+			<li permid="ODM">
+				<p permid="wAi"> What does it mean to say that a function <m>f</m> is continuous
+					everywhere? </p>
+			</li>
+		</ul>
+	</objectives>
+
+	<introduction>
+		<p permid="tTK">
+			<em>This section corresponds to</em> 1.4 Continuity <em>in the workbook.</em>
+		</p>
+		<p>
+			In this section we introduce the idea of a continuous function.
+			Many of the results in calculus require that the functions be continuous, so having a
+			strong understanding of continuous functions will be very important.
+		</p>
+	</introduction>
+
+	<subsection permid="gHq">
+		<title>Being Continuous at a Point</title>
+		<idx>
+			<h>continuous</h>
+		</idx>
+		<p permid="AeI">
+			Intuitively,
+			a function is continuous if we can draw its graph without ever lifting our pencil from
+			the page.
+			Alternatively,
+			we might say that the graph of a continuous function has no jumps or holes in it.
+		</p>
+
+		<figure xml:id="F-1-1-Cont" permid="kVK">
+			<caption>Functions <m>f</m>, <m>g</m>, and <m>h</m> that demonstrate subtly different
+				behaviors at <m>a = 1</m>.</caption>
+			<image width="100%" source="1_7_Cont" />
+		</figure>
+
+		<p> First consider the function in the left-most graph in <xref ref="F-1-1-Cont">Figure</xref>.
+			Note that <m>f(1)</m> is not defined, which leads to the resulting hole in the graph of <m>
+			f</m> at <m>a = 1</m>. If you were to draw the graph of <m>f</m> yourself then you would
+			need to lift your pencil when you reached <m>f(1)</m>. We will naturally say that <m>f</m>
+			is <em>not continuous at <m>a = 1</m></em>. </p>
+
+		<p> For the function <m>g</m> in <xref ref="F-1-1-Cont">Figure</xref>, we observe that while <m>
+			g(1)</m> is defined, the value of <m>g(1) = 2</m> is not what you would <q>expect.</q>
+			Specifically, you would expect <m>g(1)</m> to be 3, not 2. Thus, to draw the graph of <m>
+			g</m> you would need to lift your pencil at <m>a=1</m>. Again, we will say that <m>g</m>
+			is <em>not continuous</em> at <m>a=1</m>, even though the function is defined at <m>a =
+				1</m>. </p>
+
+		<p> Finally, the function <m>h</m> in <xref ref="F-1-1-Cont">Figure</xref> appears to be the
+			most <q>well-behaved</q> of all three, since at <m>a = 1</m> the function value is what
+			you might expect it to be if you were to try and draw the graph of the function without
+			lifting your pencil. In this case we would say that <m>h</m> is continuous at <m>a=1</m>
+			. </p>
+
+		<p> The above examples demonstrate a discontinuity commonly know as a <em>removable
+			discontinuity</em>. This is, however, not the only way in which a function can be
+			discontinuous. Another type of discontinuity is the so-called <em>jump</em>
+			discontinuity illustrated below in <xref ref="F-1-2-Cont">Figure</xref>. </p>
+
+		<figure xml:id="F-1-2-Cont" permid="kVK">
+			<caption>Places where functions make a <q>jump</q> also produce discontinuities.</caption>
+			<image width="50%" source="Piecewise.jpg" />
+		</figure>
+
+		<p> A third type of discontinuity is the so-called <em>infinite</em> discontinuity. Infinite
+			discontinuities exist at points where the values of a function diverge to infinity. A
+			classic example of an infinite discontinuity is the point <m>x=0</m> for the function <m>\displaystyle
+			f(x)=\frac{1}{x}</m>; you can see the behavior of the infinite discontinuity in the
+			graph of <m>y=f(x)</m> in <xref ref="F-1-3-Cont">Figure</xref>. </p>
+
+		<figure xml:id="F-1-3-Cont" permid="kVK">
+			<caption>A plot of the function <m>y=f(x)</m> for the function <m>f(x)=\displaystyle
+				\frac{1}{x}</m>.</caption>
+			<image width="50%" source="1overx.png" />
+		</figure>
+
+		<p>
+			The graph below demonstrates the three types of discontinuity listed above: removable,
+			jump, and infinite discontinuity.
+		</p>
+
+		<figure xml:id="continuous-functions-summary-1-4">
+			<caption> Infinite discontinuity at <m>x=-4</m>, removable discontinuity at <m>x=-1</m>,
+				and jump discontinuity at <m>x=2</m>.</caption>
+			<image width="50%" source="1_4_Continuous_functions_summary" />
+		</figure>
+
+
+	</subsection>
+
+	<subsection permid="gHq">
+		<title>Limits and Continuity</title>
+		<p permid="AeI"> Using limits, we can formalize the idea of continuity. Let us start by
+			re-examining our first example given in <xref ref="F-1-1-Cont">Figure</xref>. </p>
+
+		<p permid="glR"> Consider the function in the left-most graph of <xref ref="F-1-1-Cont">
+			Figure</xref>. We noted that <m>f(1)</m> is not defined, or <m>f(1)=DNE</m>, thus <m>f</m>
+			is <em>not continuous at <m>c = 1</m></em>. For the function <m>g</m>, we observe that
+			while <m>\displaystyle \lim_{x \to 1} g(x) = 3</m>, the value of <m>g(1)</m> is <m>2</m>,
+			and thus <em>the limit does not equal the function value</em>. Here, too, we will say
+			that <m>g</m> is <em>not continuous</em>, even though the function is defined at <m>c =
+				1</m>. Finally, the function <m>h</m> appears to be the most well-behaved of all
+			three, since at <m>c = 1</m> its limit and its function value agree. That is, <me
+				permid="SSg">
+				\lim_{x \to 1} h(x) = 3 = h(1)
+			</me>. </p>
+
+		<p permid="Mta"> With no hole or jump in the graph of <m>h</m> at <m>c = 1</m>, we say that <m>
+			h</m> is <em>continuous</em> there. </p>
+
+		<p> In <xref ref="F-1-2-Cont">Figure</xref> we have what we called a jump discontinuity.
+			Note that at the location of each jump: <me>
+				\lim_{x\to c^-} y \neq \lim_{x\to c^+}y,
+			</me> thus at each point that the graph
+			of had a jump the <m>\displaystyle \lim_{x\to c} y=DNE.</m>
+		</p>
+
+		<p> Similarly in <xref ref="F-1-3-Cont">Figure</xref> we noted that the function was
+			discontinuous at <m>x=0</m> again <me>
+				\lim_{x\to 0^-} f(x) \neq \lim_{x\to 0^+}f(x),
+			</me> thus the <m>\displaystyle
+			\lim_{x\to 0} f(x)=DNE.</m>
+		</p>
+
+		<p>
+			From these three examples we see that in order for a function to be continuous we need
+			the limit to exist at the point.
+			More formally, we make the following definition.
+		</p>
+
+		<assemblage>
+			<title>Continuous Function</title>
+			<idx>
+				<h>continuous</h>
+				<h>at <m>x = c</m></h>
+			</idx>
+			<p permid="ewE"> A function <m>f</m> is <term>continuous at <m>x = c</m></term> provided
+				that <ol marker="a." permid="qbc">
+					<li permid="XXy">
+						<p permid="oVJ">
+							<m>f</m> has a limit as <m>x \to c</m>, </p>
 					</li>
 
-					<li permid="ODM">
-						<p permid="wAi">
-							What does it mean to say that a function <m>f</m> is continuous everywhere?
-						</p>
+					<li permid="EeH">
+						<p permid="VcS">
+							<m>f</m> is defined at <m>x = c</m>, and </p>
+					</li>
+
+					<li permid="klQ">
+						<p permid="Bkb">
+							<m>\lim_{x \to c} f(x) = f(c)</m>. </p>
+					</li>
+				</ol>
+			</p>
+		</assemblage>
+
+		<p permid="sAj"> Conditions (a) and (b) are technically contained implicitly in (c), but we
+			state them explicitly to emphasize their individual importance. The definition says that
+			a function is continuous at <m>x = c</m> provided that its limit as <m>x \to c</m>
+			exists and equals its function value at <m>x = c</m>. Applying this definition to the
+			types of discontinuities we have looked we can observe the following: <ul>
+				<li permid="yZp"> If the graph of a function has a hole at <m>x=a</m> then <m>
+			f(a)=DNE </m>. </li>
+
+				<li permid="yZp"> If the graph of a function has an asymptote at <m>x=a</m> then <m>
+			f(a)=DNE</m> or <m>\displaystyle\lim_{x \to a}f(x)=DNE</m>. </li>
+
+				<li permid="yZp"> If the graph of a function has an jump at <m>x=a</m> then <m>\displaystyle\lim_{x\to
+			a} f(x)=DNE</m>. </li>
+
+				<li permid="yZp"> If the graph of a function has a hole with a value at another
+			y-value at <m>x=a</m> then <m>\displaystyle\lim_{x \to a}f(x)\neq f(a)</m>. </li>
+			</ul>
+		</p>
+
+		<assemblage>
+			<title>Continuous Function</title>
+			<p> A function is said to be <term>continuous on an interval <m>[a,b]</m></term> if the <m>\displaystyle
+				\lim_{x\to c}f(x)=f(c)</m> at every point <m>x=c</m> on the interval. That is, the
+				function has no points of discontinuity on that interval. </p>
+
+			<p>
+				<alert>Note:</alert> A function is continuous if nearby values of the independent
+				variable give nearby values of the function. In practical work, continuity is
+				important because it means that small errors in the independent variable lead to
+				smalls errors in the function. </p>
+		</assemblage>
+
+		<p> If a function is continuous at every point in an interval <m>[a,b]</m>, we say the
+			function is <q>continuous on <m>[a,b]</m>.</q> If a function is continuous at every
+			point in its domain, we simply say the function is <q>continuous.</q> Thus we note that
+			continuous functions are particularly nice: to evaluate the limit of a continuous
+			function at a point, all we need to do is evaluate the function. </p>
+
+		<p permid="YHs"> For example, consider <m>p(x) = x^2 - 2x + 3</m>. It can be proved that
+			every polynomial is a continuous function at every real number, and thus if we would
+			like to know <m>\displaystyle \lim_{x \to 2} p(x)</m>, we simply compute <me
+				permid="yZp">
+				\lim_{x \to 2} (x^2 - 2x + 3) = 2^2 - 2 \cdot 2 + 3 = 3 = p(2)
+			</me>. </p>
+
+		<p permid="EOB">
+			This route of substituting an input value to evaluate a limit works whenever we know
+			that the function being considered is continuous.
+			Besides polynomial functions,
+			all exponential functions and the sine and cosine functions are continuous at every
+			point,
+			as are many other familiar functions and combinations thereof.
+		</p>
+
+		<example>
+			<statement>
+				<p> Consider the function <me>
+						f(x)=\frac{3x(x+4)}{x^2-16}
+					</me>. Are there <m>x</m>-values where
+					the function is discontinuous? If so, how do those <m>x</m>-values fail the
+					limit definition of continuity? </p>
+			</statement>
+
+			<hint>
+				<p> Consider the graph of <m>y=f(x)</m>. </p>
+
+				<figure>
+					<caption>A plot of the function <m>y=f(x)</m>.</caption>
+					<image width="50%" source="0-4-rational.jpg" />
+				</figure>
+			</hint>
+
+			<answer>
+				<p>
+					<m>f(x)</m> is discontinuous at <m>x=4, -4</m>. At both points <m>f(4)=DNE</m>
+					and <m>f(-4)=DNE</m>. Also <m>\displaystyle \lim_{x\to4}f(x)=DNE</m>. </p>
+			</answer>
+
+			<solution>
+				<p> We first consider a graph of <m>y=f(x)</m>, shown below. </p>
+
+				<figure>
+					<caption>A plot of the function <m>y=f(x)</m>.</caption>
+					<image width="50%" source="0-4-rational.jpg" />
+				</figure>
+
+				<p> Visual inspection of the graph certainly indicates discontinuities. However, we
+					can make our visual inspection more precise through a little algebra. We start
+					by expanding the numerator and denominator of the function. Specifically, we
+					have <me>
+						f(x)=\frac{3x(x+4)}{x^2-16}=\frac{3x(x+4)}{(x+4)(x-4)}.
+					</me> From
+					here we see that there are two <m>x</m>-values at which the function is
+					undefined: at <m>x=-4,4</m>, that is <m>f(x)=DNE</m> at these points hence the
+					function is not continuous. </p>
+
+				<p>
+					<alert> Note:</alert> Rational functions can be a challenging topic. For a more
+					complete discussion of rational functions we refer the reader to <url
+						href="https://mathbooks.unl.edu/PreCalculus/Graphing-Rational-Functions.html">Short-Run
+					Behavior of Rational Functions</url>
+				</p>
+			</solution>
+		</example>
+	</subsection>
+
+	<subsection permid="PwFns">
+		<title>Piecewise Functions</title>
+		<idx>
+			<h>function</h>
+			<h>piecewise function</h>
+		</idx>
+		<p> In many cases a simple function like <m>f(x)=x^2</m> may not fully describe the behavior
+			of a phenomenon. In some of these cases we can turn to <em>piecewise</em> functions to
+			give us the tools we need. </p>
+
+		<example xml:id="example-piecewise">
+			<statement>
+				<p> Is the function <m>f(x)</m>, defined below, continuous at <m>x=1</m>, use the
+					limit to argue your answer <me>
+						f(x) =
+						\begin{cases}
+						x +1 \amp \text{if } x\le 1\\
+						3 \amp \text{if } x\gt 1
+						\end{cases}.
+					</me>
+				</p>
+			</statement>
+
+			<hint>
+				<p> Consider the graph of <m>f(x)</m>
+				</p>
+
+				<figure xml:id="fig-piecewise">
+					<caption></caption>
+					<image source="fig-piecewise.jpg">
+						<description>
+							<p>
+								piecewise function
+							</p>
+						</description>
+					</image>
+				</figure>
+			</hint>
+
+			<answer>
+				<p> The function <m>f(x)</m> is not continuous since the <m>\displaystyle
+					\lim_{x\to1}f(x)=DNE</m>. </p>
+			</answer>
+
+			<solution>
+				<p> For a piecewise function we must examine the point where the function changes.
+					To do so we will examine the right and left hand limits. Here we use the fact
+					that to the left of 1, that is <m>x\lt1</m> the function is defined as <m>
+					f(x)=x+1</m>. To the right of 1, that is <m>x\gt 1</m> the function is defined
+					as <m>f(x)=3</m>. Thus: <me permid="yZp">
+						\lim_{x \to 1^-} f(x)=\lim_{x \to 1^-} x+1=1+1=2
+					</me> . <me
+						permid="yZp">
+						\lim_{x \to 1^+} f(x)=\lim_{x \to 1^+} 3=3
+					</me>. Since the two
+					sides are not the same <me permid="yZp">
+						\lim_{x \to 1} f(x)=DNE
+					</me>. So the function <m>f(x)</m> is not
+					continuous at <m>x=1</m>. </p>
+			</solution>
+		</example>
+
+		<p>
+			The jumps that a piecewise function possesses make piecewise functions a natural place
+			in which to explore continuity.
+		</p>
+
+		<example xml:id="example-piecewise2">
+			<statement>
+				<p> Is the function <m>h(x)</m>, defined below, continuous for all values of <m>x</m>
+					? <me>
+						h(x)=\begin{cases} 4x^2 \amp \text{ if } x\leq 2 \\ 5x+6 \amp \text{ if }
+					x\gt2 \end{cases}
+					</me>
+				</p>
+			</statement>
+
+			<hint>
+				<p> Consider the limit from the left and the limit from the right at <m>x=2</m>. </p>
+			</hint>
+
+			<answer>
+				<p> The function <m>h(x)</m> is continuous on the interval <m>(-\infty,\infty)</m>,
+					that is for all values of <m>x</m>. </p>
+			</answer>
+
+			<solution>
+				<p> For a piecewise function we must examine the point where the function changes.
+					To do so we will examine the right and left hand limits. Here we use the fact
+					that to the left of 2, that is <m>x\lt2</m> the function is defined as <m>
+					h(x)=4x^2</m>. To the right of 2, that is <m>x\gt 2</m> the function is defined
+					as <m>h(x)=5x+6</m>. Thus: <me permid="yZp">
+						\lim_{x \to 2^-} h(x)=\lim_{x \to 2^-} 4x^2=4(2)^2=16
+					</me> . <me
+						permid="yZp">
+						\lim_{x \to 2^+} h(x)=\lim_{x \to 2^+} 5x+6=5(2)+6=16
+					</me>. Since
+					the two sides are the same <me permid="yZp">
+						\lim_{x \to 2} h(x)=16
+					</me>. So the function <m>h(x)</m> is
+					continuous at <m>x=2</m>, and since each piece is a polynomial this function is
+					continuous on the interval <m>(-\infty,\infty)</m>, that is for all values of <m>
+					x</m>. </p>
+			</solution>
+		</example>
+
+		<p>
+			Not only can we ask questions about when a piecewise function is continuous but we can
+			also ask questions about how to make a piecewise function continuous by varying
+			parameters.
+		</p>
+
+		<example>
+			<statement>
+				<p> Consider the piecewise function <me>
+						D(x)=\begin{cases}
+						4x^2-k\amp\text{ if } x \lt 2,\\
+						kx+1\amp\text{ if } x \geq 2.\\
+						\end{cases}
+					</me>
+					Find the value of <m>k</m> to make this function continuous for all <m>x</m>. </p>
+			</statement>
+
+			<hint>
+				<p> Consider the limit from the left and the limit from the right at <m>x=2</m>. </p>
+			</hint>
+
+			<answer>
+				<p>
+					<m>k=5</m>
+				</p>
+			</answer>
+
+			<solution>
+				<p> To determine a value of <m>k</m> to make <m>D(x)</m> continuous we will examine
+					the right and left hand limits at <m>x=2</m>. Here we use the fact that to the
+					left of 2, that is <m>x\lt2</m> the function is defined as <m>D(x)=4x^2-k</m>.
+					To the right of 2, that is <m>x\gt 2</m> the function is defined as <m>D(x)=kx+1</m>.
+					Thus: <me permid="yZp">
+						\lim_{x \to 2^-} D(x)=\lim_{x \to 2^-} 4x^2-k=4(2)^2-k=16-k
+					</me> . <me
+						permid="yZp">
+						\lim_{x \to 2^+} D(x)=\lim_{x \to 2^+} kx+1=k(2)+1=2k+1
+					</me>. In
+					order for <m>D(x)</m> to be continuous need the two sides to be equal, thus set
+					them equal and solve for <m>k</m>. <me permid="yZp">
+						16-k=2k+1
+					</me>. <me permid="yZp">
+						15=3k
+					</me>. So the function <m>D(x)</m> is continuous at <m>x=2</m>
+					when <m>k=5</m>. </p>
+			</solution>
+		</example>
+
+		<example>
+			<statement>
+				<p> Determine if each of the functions below is continuous at <m>x=2</m>. <ol
+						marker='a.'>
+						<li>
+							<m>f(x)=\ln(3-x)</m>. </li>
+
+						<li>
+							<m>g(x)=\frac{1}{x-2}</m>. </li>
+
+						<li>
+							<m>h(x)=\begin{cases}
+								x^2+1\amp\text{ if } x \neq 2,\\
+								3\amp\text{ if } x=2.\\
+								\end{cases}</m>
+						</li>
+					</ol>
+				</p>
+			</statement>
+
+			<hint>
+				<p>
+					Consider evaluating limits on each side and comparing that value to the value of
+					the function at the point.
+				</p>
+			</hint>
+
+			<answer>
+				<p>
+					<ol marker='a.'>
+						<li>
+							<m>f</m> is continuous at <m>x=2</m>. </li>
+
+						<li>
+							<m>g</m> is not continuous at <m>x=2</m>. </li>
+
+						<li>
+							<m>h</m> is not continuous at <m>x=2</m>. </li>
+					</ol>
+				</p>
+			</answer>
+
+			<solution>
+				<p> For each of these functions, we want to check that the limit exists at <m>x=2</m>,
+					the function is defined at <m>x=2</m>, and these two values match. <ol
+						marker='a.'>
+						<li> We can examine the graph of <m>y=f(x)</m> at <m>x=2</m> or examine
+					function values nearby <m>x=2</m> on the left and right to find that <m>\lim_{x\to
+					2} f(x)=0</m>. Evaluating <m>f(2)=\ln(3-2)=\ln(1)=0</m>. Thus, <m>
+					\lim_{x\to2}f(x)=f(2)</m>, and <m>f</m> is continuous at <m>x=2</m>. </li>
+
+						<li> Notice that the graph of <m>g</m> has a vertical asymptote at <m>x=2</m>,
+					so <m>g(2)</m> is undefined. Hence, <m>g</m> is not continuous at <m>x=2</m>. </li>
+
+						<li> For values of <m>x</m> near 2 (from the left and right), we have <m>
+					h(x)</m> getting close to 5. Therefore, <m>\lim_{x\to2}h(x)=5</m>. However, <m>
+					h(2)=3</m>. Since <m>\displaystyle \lim_{x\to2}h(x)\neq h(2)</m>, <m>h</m> is
+					not continuous at <m>x=2</m>. </li>
+					</ol>
+				</p>
+			</solution>
+		</example>
+	</subsection>
+
+	<subsection>
+		<title>Properties of Limits and Continuous Functions</title>
+		<p>
+			There are several properties of limits and continuous functions that are useful to have
+			in your toolbox.
+			Specifically, limits and continuous functions behave well under typical mathematical
+			operations.
+			While these properties can be proven in detail, we proceed to only state the properties.
+		</p>
+
+		<assemblage>
+			<title>Properties of Limits</title>
+			<p permid="limP">
+				<idx>
+					<h>limit</h>
+					<h>properties</h>
+				</idx> Assuming all the limits on the
+				right-hand side exist: <ul>
+					<li> If <m>b</m> is a constant, then <m>\lim\limits_{x \rightarrow c}
+				(bf(x))=b\left(\lim\limits_{x \rightarrow c} f(x) \right)</m>
+					</li>
+
+					<li>
+						<m>\lim\limits_{x \rightarrow c} \left( f(x)+g(x)\right)=\lim\limits_{x
+				\rightarrow c} f(x)+\lim\limits_{x \rightarrow c}g(x)</m>
+					</li>
+
+					<li>
+						<m>\lim\limits_{x \rightarrow c} \left( f(x) \cdot
+							g(x)\right)=\lim\limits_{x \rightarrow c} f(x)\cdot\lim\limits_{x
+				\rightarrow c}g(x)</m>
+					</li>
+
+					<li>
+						<m>\lim\limits_{x \rightarrow c}
+				\left(\frac{f(x)}{g(x)}\right)=\frac{\lim\limits_{x \rightarrow c}
+				f(x)}{\lim\limits_{x \rightarrow c} g(x)}</m>, provided <m>\lim\limits_{x
+							\rightarrow c} g(x) \neq 0</m>
+					</li>
+
+					<li> For any constant <m>k</m>, <m>\lim\limits_{x \rightarrow c} k=k</m>
+					</li>
+
+					<li>
+						<m>\lim\limits_{x \rightarrow c} x=c</m>
 					</li>
 				</ul>
-			</objectives>
+			</p>
+		</assemblage>
 
-			<introduction>
-				<p permid="tTK">
-					<em>This section corresponds to</em>  1.4 Continuity <em>in the workbook.</em> 
+		<example>
+			<p> We can use algebra to compute <m>\lim\limits_{x \rightarrow 1} x^2(x^3+2).</m>
+				Specifically, <md>
+					<mrow>\lim\limits_{x \rightarrow 1} x^2(x^3+2)\amp=\left(\lim\limits_{x
+				\rightarrow 1} x^2\right)\left(\lim\limits_{x \rightarrow 1} (x^3+2)\right)</mrow>
+					<mrow>\amp=\left(\lim\limits_{x \rightarrow 1} x^2\right)\left(\lim\limits_{x
+				\rightarrow 1} x^3+\lim\limits_{x \rightarrow 1}2\right)</mrow>
+					<mrow>\amp=1(1+2) </mrow>
+					<mrow>\amp=3.
+					</mrow>
+				</md>
+			</p>
+		</example>
+
+		<assemblage>
+			<title>Continuity of Sums, Products, and Quotients of Functions</title>
+			<idx>
+				<h>continuous</h>
+				<h>properties</h>
+			</idx>
+			<p permid="conP"> Suppose that <m>f</m> and <m>g</m> are continuous on an interval and
+				that <m>b</m> is a constant. Then, on that same interval, <ul>
+					<li>
+						<m>bf(x)</m> is continuous. </li>
+
+					<li>
+						<m>f(x) + g(x)</m> is continuous. </li>
+
+					<li>
+						<m>f(x)g(x)</m> is continuous. </li>
+
+					<li>
+						<m>\frac{f(x)}{g(x)}</m> is continuous, provided <m>g(x) \neq 0</m> on the
+				interval. </li>
+				</ul>
+			</p>
+		</assemblage>
+
+		<assemblage>
+			<title>Continuity of Composite Functions</title>
+			<p> If <m>f</m> and <m>g</m> are continuous, and if the composite function <m>f(g(x))</m>
+				is defined on an interval, then <m>f(g(x))</m> is continuous on that interval. </p>
+		</assemblage>
+	</subsection>
+
+	<subsection>
+		<title>Summary of Limits and Continuity</title>
+		<p> The concepts discussed in the last two sections will be important in later sections. The
+			following is a short summary of these sections and an example that ties together the
+			concepts of limits and continuity. <ul>
+				<li> For a function <m>f</m> defined on an interval around a number <m>c</m>, <me>
+			\lim_{x \rightarrow c} f(x)=L
+					</me> means that the value of <m>f(x)</m>
+			gets as close as we want to a number <m>L</m> whenever <m>x</m> is sufficiently close to <m>
+			c</m>, assuming the value <m>L</m> exists. </li>
+
+				<li> We define a limit from the left and a limit from the right in the same way as
+			above, while adding the stipulation that <m>x\lt c</m> for the left limit and <m>x\gt c</m>
+			for the right limit. That is, as we move <m>x</m> sufficiently close to <m>c</m> <em>from
+			the left</em> on a number line (<m>x\lt c</m>), <m>f(x)</m> gets as close to the limit
+			value as we want. Similarly for the limit from the right. </li>
+
+				<li> The one-sided limits help to determine if a limit exists as <m>x</m> approaches
+			a value <m>c</m>. More specifically, <m>\lim_{x \rightarrow c} f(x)=L</m> if and only if <m>\displaystyle
+			\lim_{x \rightarrow c^-} f(x)=L=\lim_{x \rightarrow c^+} f(x)</m>
+				</li>
+
+				<li> Limits also help us determine the continuity of a function at a point <m>x=c</m>.
+			A function <m>f</m> that has a limit as <m>x\rightarrow c</m>, is defined at <m>x=c</m>,
+			and <m>\displaystyle \lim_{x\rightarrow c} f(x)=f(c)</m> is continuous at <m>x=c</m>. </li>
+			</ul>
+		</p>
+
+		<example xml:id="act-1-7-2" permid="Ufz">
+			<statement>
+				<p permid="bJY"> In this example, we take a closer look at a function whose graph we
+					previously encountered. For convenience, this graph is reproduced below in <xref
+						ref="F-1-7-A2">Figure</xref>. </p>
+
+				<figure xml:id="F-1-7-A2" permid="nYq">
+					<caption>The graph of <m>y = f(x)</m> for <xref ref="act-1-7-2">Example</xref>.</caption>
+					<image width="47%" source="1_7_PA1" />
+				</figure>
+
+				<p permid="HRh">
+					<ol marker="a." permid="RGs">
+						<li permid="xNB">
+							<p permid="QAZ"> At which values of <m>c</m> does <m>\displaystyle
+								\lim_{x \to c} f(x)</m> not exist? </p>
+						</li>
+
+						<li permid="dUK">
+							<p permid="wIi"> At which values of <m>c</m> is <m>f(c)</m> not defined? </p>
+						</li>
+
+						<li permid="KbT">
+							<p permid="cPr"> At which values of <m>c</m> does <m>f</m> have a limit,
+								but <m>\displaystyle \lim_{x \to c} f(x) \ne f(c)</m>? </p>
+						</li>
+
+						<li permid="qjc">
+							<p permid="IWA"> State all values of <m>c</m> for which <m>f</m> is not
+								continuous at <m>x = c</m>. </p>
+						</li>
+
+						<li permid="Wql">
+							<p permid="pdJ"> Which condition is stronger, and hence implies the
+								other: <m>f</m> has a limit at <m>x = c</m> or <m>f</m> is
+								continuous at <m>x = c</m>? Explain, and hence complete the
+								following sentence: <q>If <m>f</m> <fillin /> at <m>x = c</m>, then <m>
+								f</m> <fillin /> at <m>x = c</m>,</q> where you complete the blanks
+								with <em>has a limit</em> and <em>is continuous</em>, using each
+								phrase once. </p>
+						</li>
+					</ol>
 				</p>
-				<p>
-					In this section we introduce the idea of a continuous function.
-					Many of the results in calculus require that the functions be continuous, so having a strong understanding of continuous functions will be very important.
+			</statement>
+
+			<hint permid="tdI">
+				<p permid="vCP">
+					<ol marker="a." permid="lzj">
+						<li permid="Cxu">
+							<p permid="VkS">
+								Consider the left- and right-hand limits at each value.
+							</p>
+						</li>
+
+						<li permid="iED">
+							<p permid="Bsb">
+								Carefully examine places on the graph where there's an open circle.
+							</p>
+						</li>
+
+						<li permid="OLM">
+							<p permid="hzk">
+								Are there locations on the graph where the function has a limit but
+								there's a hole in the graph?
+							</p>
+						</li>
+
+						<li permid="uSV">
+							<p permid="NGt"> Remember that at least one of three conditions must
+								fail: if the function lacks a limit, if the function is undefined,
+								or if the limit exists but does not equal the function value, then <m>
+								f</m> is not continuous at the point. </p>
+						</li>
+
+						<li permid="bae">
+							<p permid="tNC">
+								Note that the definition of being continuous requires the limit to
+								exist.
+							</p>
+						</li>
+					</ol>
 				</p>
-			</introduction>
+			</hint>
 
-			<subsection permid="gHq">
-				<title>Being Continuous at a Point</title>
-				<idx><h>continuous</h></idx>
-				<p permid="AeI">
-					Intuitively,
-					a function is continuous if we can draw its graph without ever lifting our pencil from the page.
-					Alternatively,
-					we might say that the graph of a continuous function has no jumps or holes in it.
+			<answer permid="MWz">
+				<p permid="PvG">
+					<ol marker="a." permid="Fsa">
+						<li permid="Hhn">
+							<p permid="ZUL">
+								<m>c = -2</m>; <m>c = +2</m>. </p>
+						</li>
+
+						<li permid="now">
+							<p permid="GbU">
+								<m>c = 3</m>. </p>
+						</li>
+
+						<li permid="TvF">
+							<p permid="mjd">
+								<m>c = -1</m>; <m>c = 3</m>. </p>
+						</li>
+
+						<li permid="zCO">
+							<p permid="Sqm">
+								<m>c=-2</m>; <m>c = 2</m>; <m>c = 3</m>; <m>c = -1</m>. </p>
+						</li>
+
+						<li permid="fJX">
+							<p permid="yxv">
+								<q>If <m>f</m> <em>is continuous</em> at <m>x = c</m>, then <m>f</m> <em>has
+									a limit</em> at <m>x = c</m>.</q>
+							</p>
+						</li>
+					</ol>
 				</p>
-
-				<figure xml:id="F-1-1-Cont" permid="kVK">
-					<caption>Functions <m>f</m>, <m>g</m>, and <m>h</m> that demonstrate subtly different behaviors at <m>a = 1</m>.</caption>
-					<image width="100%" source="1_7_Cont" />
-					</figure>
-
-					<p>
-						First consider the function in the left-most graph in <xref ref="F-1-1-Cont">Figure</xref>.
-						Note that <m>f(1)</m> is not defined,
-						which leads to the resulting hole in the graph of <m>f</m> at <m>a = 1</m>.
-						If you were to draw the graph of <m>f</m> yourself then you would need to lift your pencil when you reached <m>f(1)</m>.
-						We will naturally say that <m>f</m> is
-						<em>not continuous at <m>a = 1</m></em>.
-					</p>
-
-					<p>
-						For the function <m>g</m> in <xref ref="F-1-1-Cont">Figure</xref>,
-						we observe that while <m>g(1)</m> is defined,
-						the value of <m>g(1) = 2</m> is not what you would <q>expect.</q>  Specifically, you would expect <m>g(1)</m> to be 3, not 2.
-						Thus, to draw the graph of <m>g</m> you would need to lift your pencil at <m>a=1</m>.
-						Again, we will say that <m>g</m> is
-						<em>not continuous</em> at <m>a=1</m>,
-						even though the function is defined at <m>a = 1</m>.
-					</p>
-
-					<p>
-						Finally, the function <m>h</m> in <xref ref="F-1-1-Cont">Figure</xref> appears to be the most <q>well-behaved</q> of all three,
-						since at <m>a = 1</m> the function value is what you might expect it to be if you were to try and draw the graph of the function without lifting your pencil.
-						In this case we would say that <m>h</m> is continuous at <m>a=1</m>.
-					</p>
-
-					<p>
-						The above examples demonstrate a discontinuity commonly know as a <em>removable discontinuity</em>.
-						This is, however, not the only way in which a function can be discontinuous.
-						Another type of discontinuity is the so-called <em>jump</em> discontinuity illustrated below in <xref ref="F-1-2-Cont">Figure</xref>.
-					</p>
-
-					<figure xml:id="F-1-2-Cont" permid="kVK">
-						<caption>Places where functions make a <q>jump</q> also produce discontinuities.</caption>
-						<image width="50%" source="Piecewise.jpg" />
-						</figure>
-
-						<p>
-							A third type of discontinuity is the so-called <em>infinite</em> discontinuity.
-							Infinite discontinuities exist at points where the values of a function diverge to infinity.
-							A classic example of an infinite discontinuity is the point <m>x=0</m> for the function <m>\displaystyle f(x)=\frac{1}{x}</m>;
-							you can see the behavior of the infinite discontinuity in the graph of <m>y=f(x)</m> in <xref ref="F-1-3-Cont">Figure</xref>.
-						</p>
-
-						<figure xml:id="F-1-3-Cont" permid="kVK">
-							<caption>A plot of the function <m>y=f(x)</m> for the function <m>f(x)=\displaystyle \frac{1}{x}</m>.</caption>
-							<image width="50%" source="1overx.png" />
-							</figure>
-
-						<p>	
-							The graph below demonstrates the three types of discontinuity listed above: removable, jump, and infinite discontinuity.
-						</p>
-
-						<figure xml:id="1_4_Continuous_functions_summary" permid="kVK">
-							<caption> Infinite discontinuity at <m>x=-4</m>, removable discontinuity at <m>x=-1</m>, and jump discontinuity at <m>x=2</m>.</caption>
-							<image width="50%" source="1_4_Continuous_functions_summary" />
-							</figure>
-
-
-						</subsection>
-
-						<subsection permid="gHq">
-							<title>Limits and Continuity</title>
-							<p permid="AeI">
-								Using limits, we can formalize the idea of continuity.
-								Let us start by re-examining our first example given in <xref ref="F-1-1-Cont">Figure</xref>.
-							</p>
-
-							<p permid="glR">
-								Consider the function in the left-most graph of <xref ref="F-1-1-Cont">Figure</xref>.
-								We noted that <m>f(1)</m> is not defined, or <m>f(1)=DNE</m>, thus <m>f</m> is <em>not continuous at <m>c = 1</m></em>.
-								For the function <m>g</m>,
-								we observe that while <m>\displaystyle \lim_{x \to 1} g(x) = 3</m>,
-								the value of <m>g(1)</m> is <m>2</m>,
-								and thus <em>the limit does not equal the function value</em>.
-								Here, too, we will say that <m>g</m> is
-								<em>not continuous</em>,
-								even though the function is defined at <m>c = 1</m>.
-								Finally, the function <m>h</m> appears to be the most well-behaved of all three,
-								since at <m>c = 1</m> its limit and its function value agree.
-								That is,
-								<me permid="SSg">
-									\lim_{x \to 1} h(x) = 3 = h(1)
-								</me>.
-							</p>
-
-							<p permid="Mta">
-								With no hole or jump in the graph of <m>h</m> at <m>c = 1</m>,
-								we say that <m>h</m> is
-								<em>continuous</em> there.
-							</p>
-
-							<p>
-								In <xref ref="F-1-2-Cont">Figure</xref> we have what we called a jump discontinuity.
-								Note that at the location of each jump:
-								<me>
-									\lim_{x\to c^-} y \neq \lim_{x\to c^+}y,
-								</me>
-								thus at each point that the graph of had a jump the <m>\displaystyle \lim_{x\to c} y=DNE.</m>
-							</p>
-
-							<p>
-								Similarly in <xref ref="F-1-3-Cont">Figure</xref> we noted that the function was discontinuous at <m>x=0</m> again
-								<me>
-									\lim_{x\to 0^-} f(x) \neq \lim_{x\to 0^+}f(x),
-								</me>
-								thus the <m>\displaystyle \lim_{x\to 0} f(x)=DNE.</m>
-							</p>
-
-							<p>
-								From these three examples we see that in order for a function to be continuous we need the limit to exist at the point.
-								More formally, we make the following definition.
-							</p>
-
-							<assemblage>
-								<title>Continuous Function</title>
-								<idx><h>continuous</h><h>at <m>x = c</m></h></idx>
-								<p permid="ewE">
-									A function <m>f</m> is <term>continuous at <m>x = c</m></term>
-									provided that
-									<ol marker="a." permid="qbc">
-										<li permid="XXy">
-											<p permid="oVJ">
-												<m>f</m> has a limit as <m>x \to c</m>,
-											</p>
-										</li>
-
-										<li permid="EeH">
-											<p permid="VcS">
-												<m>f</m> is defined at <m>x = c</m>, and
-											</p>
-										</li>
-
-										<li permid="klQ">
-											<p permid="Bkb">
-												<m>\lim_{x \to c} f(x) = f(c)</m>.
-											</p>
-										</li>
-									</ol>
-								</p>
-							</assemblage>
-
-							<p permid="sAj">
-								Conditions (a) and (b) are technically contained implicitly in (c),
-								but we state them explicitly to emphasize their individual importance.
-								The definition says that a function is continuous at <m>x = c</m> provided that its limit as <m>x \to c</m> exists and equals its function value at <m>x = c</m>.
-								Applying this definition to the types of discontinuities we have looked we can observe the following:
-								<ul>
-									<li permid="yZp">
-										If the graph of a function has a hole at <m>x=a</m> then <m>f(a)=DNE </m>.
-									</li>
-
-									<li permid="yZp">
-										If the graph of a function has an asymptote at <m>x=a</m> then <m>f(a)=DNE</m> or <m>\displaystyle\lim_{x \to a}f(x)=DNE</m>.
-									</li>
-
-									<li permid="yZp">
-										If the graph of a function has an jump at <m>x=a</m> then <m>\displaystyle\lim_{x\to a} f(x)=DNE</m>.
-									</li>
-
-									<li permid="yZp">
-										If the graph of a function has a hole with a value at another y-value at <m>x=a</m> then <m>\displaystyle\lim_{x \to a}f(x)\neq f(a)</m>.
-									</li>
-								</ul>
-							</p>
-
-							<assemblage>
-								<title>Continuous Function</title>
-								<p>
-									A function is said to be <term>continuous on an interval <m>[a,b]</m></term> if the <m>\displaystyle \lim_{x\to c}f(x)=f(c)</m> at every point <m>x=c</m> on the interval.
-									That is, the function has no points of discontinuity on that interval.
-								</p>
-
-								<p>
-									<alert>Note:</alert>
-									A function is continuous if nearby values of the independent variable give nearby values of the function.
-									In practical work, continuity is important because it means that small errors in the independent variable lead to smalls errors in the function.
-								</p>
-							</assemblage>
-
-							<p>
-								If a function is continuous at every point in an interval <m>[a,b]</m>,
-								we say the function is <q>continuous on <m>[a,b]</m>.</q>
-								If a function is continuous at every point in its domain,
-								we simply say the function is <q>continuous.</q> Thus we note that
-								continuous functions are particularly nice:
-								to evaluate the limit of a continuous function at a point,
-								all we need to do is evaluate the function.
-							</p>
-
-							<p permid="YHs">
-								For example, consider <m>p(x) = x^2 - 2x + 3</m>.
-								It can be proved that every polynomial is a continuous function at every real number,
-								and thus if we would like to know <m>\displaystyle \lim_{x \to 2} p(x)</m>,
-								we simply compute
-								<me permid="yZp">
-									\lim_{x \to 2} (x^2 - 2x + 3) = 2^2 - 2 \cdot 2 + 3 = 3 = p(2)
-								</me>.
-							</p>
-
-							<p permid="EOB">
-								This route of substituting an input value to evaluate a limit works whenever we know that the function being considered is continuous.
-								Besides polynomial functions,
-								all exponential functions and the sine and cosine functions are continuous at every point,
-								as are many other familiar functions and combinations thereof.
-							</p>
-
-							<example>
-								<statement>
-									<p>
-										Consider the function
-										<me>
-											f(x)=\frac{3x(x+4)}{x^2-16}
-										</me>.
-										Are there <m>x</m>-values where the function is discontinuous?  If so, how do those  <m>x</m>-values fail the limit definition of continuity?
-									</p>
-								</statement>
-
-								<hint>
-									<p>
-										Consider the graph of <m>y=f(x)</m>.
-									</p>
-
-									<figure>
-										<caption>A plot of the function <m>y=f(x)</m>.</caption>
-										<image width="50%" source="0-4-rational.jpg" />
-										</figure>
-									</hint>
-
-									<answer>
-										<p>
-											<m>f(x)</m> is discontinuous at <m>x=4, -4</m>.
-											At both points <m>f(4)=DNE</m> and <m>f(-4)=DNE</m>.
-											Also <m>\displaystyle \lim_{x\to4}f(x)=DNE</m>.
-										</p>
-									</answer>
-
-									<solution>
-										<p>
-											We first consider a graph of <m>y=f(x)</m>, shown below.
-										</p>
-
-										<figure>
-											<caption>A plot of the function <m>y=f(x)</m>.</caption>
-											<image width="50%" source="0-4-rational.jpg" />
-											</figure>
-
-											<p>
-												Visual inspection of the graph certainly indicates discontinuities.
-												However, we can make our visual inspection more precise through a little algebra.
-												We start by expanding the numerator and denominator of the function.
-												Specifically, we have
-												<me>
-													f(x)=\frac{3x(x+4)}{x^2-16}=\frac{3x(x+4)}{(x+4)(x-4)}.
-												</me>
-												From here we see that there are two <m>x</m>-values at which the function is undefined: at <m>x=-4,4</m>, that is <m>f(x)=DNE</m> at these points hence the function is not continuous.
-											</p>
-
-											<p>
-												<alert> Note:</alert>
-												Rational functions can be a challenging topic.
-												For a more complete discussion of rational functions we refer the reader to <url href="https://mathbooks.unl.edu/PreCalculus/Graphing-Rational-Functions.html">Short-Run Behavior of Rational Functions</url>
-											</p>
-										</solution>
-									</example>
-								</subsection>
-
-								<subsection permid="PwFns"><title>Piecewise Functions</title>
-									<idx><h>function</h><h>piecewise function</h></idx>
-									<p>
-										In many cases a simple function like <m>f(x)=x^2</m> may not fully describe the behavior of a phenomenon.
-										In  some of these cases we can turn to <em>piecewise</em> functions to give us the tools we need.
-									</p>
-
-									<example xml:id="example-piecewise">
-										<statement>
-											<p>
-												Is the function <m>f(x)</m>, defined below, continuous at <m>x=1</m>, use the limit to argue your answer
-												<me>
-													f(x) =
-													\begin{cases}
-													x +1  \amp \text{if } x\le 1\\
-													3  \amp \text{if } x\gt 1
-													\end{cases}.
-												</me>
-											</p>
-										</statement>
-
-										<hint>
-											<p>
-												Consider the graph of <m>f(x)</m>
-											</p>
-
-											<figure xml:id="fig-piecewise">
-												<caption></caption>
-												<image source="fig-piecewise.jpg">
-													<description>
-													<p>
-														piecewise function
-													</p>
-													</description>
-												</image>
-											</figure>
-										</hint>
-
-										<answer>
-											<p>
-												The function <m>f(x)</m> is not continuous since the <m>\displaystyle \lim_{x\to1}f(x)=DNE</m>.
-											</p>
-										</answer>
-
-										<solution>
-											<p>
-												For a piecewise function we must examine the point where the function changes.
-												To do so we will examine the right and left hand limits.
-												Here we use the fact that to the left of 1, that is <m>x\lt1</m> the function is defined as <m>f(x)=x+1</m>.
-												To the right of 1, that is <m>x\gt 1</m> the function is defined as <m>f(x)=3</m>.
-												Thus:
-												<me permid="yZp">
-													\lim_{x \to 1^-} f(x)=\lim_{x \to 1^-} x+1=1+1=2
-												</me>.
-												<me permid="yZp">
-													\lim_{x \to 1^+} f(x)=\lim_{x \to 1^+} 3=3
-												</me>.
-												Since the two sides are not the same
-												<me permid="yZp">
-													\lim_{x \to 1} f(x)=DNE
-												</me>.
-												So the function <m>f(x)</m> is not continuous at <m>x=1</m>.
-											</p>
-										</solution>
-									</example>
-
-									<p>
-										The jumps that a piecewise function possesses make piecewise functions a natural place in which to explore continuity.
-									</p>
-
-									<example xml:id="example-piecewise2">
-										<statement>
-											<p>
-												Is the function <m>h(x)</m>, defined below, continuous for all values of <m>x</m>?
-												<me>
-													h(x)=\begin{cases} 4x^2 \amp \text{ if } x\leq 2 \\ 5x+6 \amp \text{ if } x\gt2 \end{cases}
-												</me>
-											</p>
-										</statement>
-
-										<hint>
-											<p>
-												Consider the limit from the left and the limit from the right at <m>x=2</m>.
-											</p>
-										</hint>
-
-										<answer>
-											<p>
-												The function <m>h(x)</m> is  continuous on the interval <m>(-\infty,\infty)</m>, that is for all values of <m>x</m>.
-											</p>
-										</answer>
-
-										<solution>
-											<p>
-												For a piecewise function we must examine the point where the function changes.
-												To do so we will examine the right and left hand limits.
-												Here we use the fact that to the left of 2, that is <m>x\lt2</m> the function is defined as <m>h(x)=4x^2</m>.
-												To the right of 2, that is <m>x\gt 2</m> the function is defined as <m>h(x)=5x+6</m>.
-												Thus:
-												<me permid="yZp">
-													\lim_{x \to 2^-} h(x)=\lim_{x \to 2^-} 4x^2=4(2)^2=16
-												</me>.
-												<me permid="yZp">
-													\lim_{x \to 2^+} h(x)=\lim_{x \to 2^+} 5x+6=5(2)+6=16
-												</me>.
-												Since the two sides are the same
-												<me permid="yZp">
-													\lim_{x \to 2} h(x)=16
-												</me>.
-												So the function <m>h(x)</m> is  continuous at <m>x=2</m>, and since each piece is a polynomial this function is continuous  on the interval <m>(-\infty,\infty)</m>, that is for all values of <m>x</m>.
-											</p>
-										</solution>
-									</example>
-
-									<p>
-										Not only can we ask questions about when a piecewise function is continuous but we can also ask questions about how to make a piecewise function continuous by varying parameters.
-									</p>
-
-									<example>
-										<statement>
-											<p>
-												Consider the piecewise function
-												<me>
-													D(x)=\begin{cases}
-													4x^2-k\amp\text{ if } x \lt 2,\\
-													kx+1\amp\text{ if } x \geq 2.\\
-													\end{cases}
-												</me>
-												Find the value of <m>k</m> to make this function continuous for all <m>x</m>.
-											</p>
-										</statement>
-
-										<hint>
-											<p>
-												Consider the limit from the left and the limit from the right at <m>x=2</m>.
-											</p>
-										</hint>
-
-										<answer>
-											<p>
-												<m>k=5</m>
-											</p>
-										</answer>
-
-										<solution>
-											<p>
-												To determine a value of <m>k</m> to make <m>D(x)</m> continuous  we will examine the right and left hand limits at <m>x=2</m>.
-												Here we use the fact that to the left of 2, that is <m>x\lt2</m> the function is defined as <m>D(x)=4x^2-k</m>.
-												To the right of 2, that is <m>x\gt 2</m> the function is defined as <m>D(x)=kx+1</m>.
-												Thus:
-												<me permid="yZp">
-													\lim_{x \to 2^-} D(x)=\lim_{x \to 2^-} 4x^2-k=4(2)^2-k=16-k
-												</me>.
-												<me permid="yZp">
-													\lim_{x \to 2^+} D(x)=\lim_{x \to 2^+} kx+1=k(2)+1=2k+1
-												</me>.
-												In order for <m>D(x)</m> to be continuous need the two sides to be equal, thus set them equal and solve for <m>k</m>.
-												<me permid="yZp">
-													16-k=2k+1
-												</me>.
-												<me permid="yZp">
-													15=3k
-												</me>.
-												So the function <m>D(x)</m> is  continuous at <m>x=2</m> when <m>k=5</m>.
-											</p>
-										</solution>
-									</example>
-
-									<example>
-										<statement>
-											<p>
-												Determine if each of the functions below is continuous at <m>x=2</m>.
-												<ol marker='a.'>
-													<li>
-														<m>f(x)=\ln(3-x)</m>.
-													</li>
-
-													<li>
-														<m>g(x)=\frac{1}{x-2}</m>.
-													</li>
-
-													<li>
-														<m>h(x)=\begin{cases}
-														x^2+1\amp\text{ if } x \neq 2,\\
-														3\amp\text{ if } x=2.\\
-														\end{cases}</m>
-													</li>
-												</ol>
-											</p>
-										</statement>
-
-										<hint>
-											<p>
-												Consider evaluating limits on each side and comparing that value to the value of the function at the point.
-											</p>
-										</hint>
-
-										<answer>
-											<p>
-												<ol marker='a.'>
-													<li>
-														<m>f</m> is continuous at <m>x=2</m>.
-													</li>
-
-													<li>
-														<m>g</m> is not continuous at <m>x=2</m>.
-													</li>
-
-													<li>
-														<m>h</m> is not continuous at <m>x=2</m>.
-													</li>
-												</ol>
-											</p>
-										</answer>
-
-										<solution>
-											<p>
-												For each of these functions, we want to check that the limit exists at <m>x=2</m>, the function is defined at <m>x=2</m>, and these two values match.
-												<ol marker='a.'>
-													<li>
-														We can examine the graph of <m>y=f(x)</m> at <m>x=2</m> or examine function values nearby <m>x=2</m> on the left and right to find that <m>\lim_{x\to 2} f(x)=0</m>.
-														Evaluating <m>f(2)=\ln(3-2)=\ln(1)=0</m>.
-														Thus, <m>\lim_{x\to2}f(x)=f(2)</m>, and <m>f</m> is continuous at <m>x=2</m>.
-													</li>
-
-													<li>
-														Notice that the graph of <m>g</m> has a vertical asymptote at <m>x=2</m>, so <m>g(2)</m> is undefined.
-														Hence, <m>g</m> is not continuous at <m>x=2</m>.
-													</li>
-
-													<li>
-														For values of <m>x</m> near 2 (from the left and right), we have <m>h(x)</m> getting close to 5.
-														Therefore, <m>\lim_{x\to2}h(x)=5</m>.
-														However, <m>h(2)=3</m>.
-														Since <m>\displaystyle \lim_{x\to2}h(x)\neq h(2)</m>, <m>h</m> is not continuous at <m>x=2</m>.
-													</li>
-												</ol>
-											</p>
-										</solution>
-									</example>
-								</subsection>
-
-								<subsection>
-									<title>Properties of Limits and Continuous Functions</title>
-									<p>
-										There are several properties of limits and continuous functions that are useful to have in your toolbox.
-										Specifically, limits and continuous functions behave well under typical mathematical operations.
-										While these properties can be proven in detail, we proceed to only state the properties.
-									</p>
-
-									<assemblage>
-										<title>Properties of Limits</title>
-										<p permid="limP">
-											<idx><h>limit</h><h>properties</h></idx>
-											Assuming all the limits on the right-hand side exist:
-											<ul>
-												<li>
-													If <m>b</m> is a constant, then <m>\lim\limits_{x \rightarrow c} (bf(x))=b\left(\lim\limits_{x \rightarrow c} f(x) \right)</m>
-												</li>
-
-												<li>
-													<m>\lim\limits_{x \rightarrow c} \left( f(x)+g(x)\right)=\lim\limits_{x \rightarrow c} f(x)+\lim\limits_{x \rightarrow c}g(x)</m>
-												</li>
-
-												<li>
-													<m>\lim\limits_{x \rightarrow c} \left( f(x) \cdot g(x)\right)=\lim\limits_{x \rightarrow c} f(x)\cdot\lim\limits_{x \rightarrow c}g(x)</m>
-												</li>
-
-												<li>
-													<m>\lim\limits_{x \rightarrow c} \left(\frac{f(x)}{g(x)}\right)=\frac{\lim\limits_{x \rightarrow c} f(x)}{\lim\limits_{x \rightarrow c} g(x)}</m>, provided <m>\lim\limits_{x \rightarrow c} g(x) \neq 0</m>
-												</li>
-
-												<li>
-													For any constant <m>k</m>, <m>\lim\limits_{x \rightarrow c} k=k</m>
-												</li>
-
-												<li>
-													<m>\lim\limits_{x \rightarrow c} x=c</m>
-												</li>
-											</ul>
-										</p>
-									</assemblage>
-
-									<example>
-										<p>
-											We can use algebra to compute <m>\lim\limits_{x \rightarrow 1} x^2(x^3+2).</m>  Specifically,
-											<md>
-												<mrow>\lim\limits_{x \rightarrow 1} x^2(x^3+2)\amp=\left(\lim\limits_{x \rightarrow 1} x^2\right)\left(\lim\limits_{x \rightarrow 1} (x^3+2)\right)</mrow>
-												<mrow>\amp=\left(\lim\limits_{x \rightarrow 1} x^2\right)\left(\lim\limits_{x \rightarrow 1} x^3+\lim\limits_{x \rightarrow 1}2\right)</mrow>
-												<mrow>\amp=1(1+2) </mrow>
-												<mrow>\amp=3.
-												</mrow>
-											</md>
-										</p>
-									</example>
-
-									<assemblage>
-										<title>Continuity of Sums, Products, and Quotients of Functions</title>
-										<idx><h>continuous</h><h>properties</h></idx>
-										<p permid="conP">
-											Suppose that <m>f</m> and <m>g</m> are continuous on an interval and that <m>b</m> is a constant.
-											Then, on that same interval,
-											<ul>
-												<li>
-													<m>bf(x)</m> is continuous.
-												</li>
-
-												<li>
-													<m>f(x) + g(x)</m> is continuous.
-												</li>
-
-												<li>
-													<m>f(x)g(x)</m> is continuous.
-												</li>
-
-												<li>
-													<m>\frac{f(x)}{g(x)}</m> is continuous, provided <m>g(x) \neq 0</m> on the interval.
-												</li>
-											</ul>
-										</p>
-									</assemblage>
-
-									<assemblage>
-										<title>Continuity of Composite Functions</title>
-										<p>
-											If <m>f</m> and <m>g</m> are continuous, and if the composite function <m>f(g(x))</m> is defined on an interval, then <m>f(g(x))</m> is continuous on that interval.
-										</p>
-									</assemblage>
-								</subsection>
-
-								<subsection>
-									<title>Summary of Limits and Continuity</title>
-									<p>
-										The concepts discussed in the last two sections will be important in later sections.
-										The following is a short summary of these sections and an example that ties together the concepts of limits and continuity.
-										<ul>
-											<li>
-												For a function <m>f</m> defined on an interval around a number <m>c</m>,
-												<me>
-													\lim_{x \rightarrow c} f(x)=L
-												</me>
-												means that the value of <m>f(x)</m> gets as close as we want to a number <m>L</m> whenever <m>x</m> is sufficiently close to <m>c</m>, assuming the value <m>L</m> exists.
-											</li>
-
-											<li>
-												We define a limit from the left and a limit from the right in the same way as above, while adding the stipulation that <m>x\lt c</m> for the left limit and <m>x\gt c</m> for the right limit.
-												That is, as we move <m>x</m> sufficiently close to <m>c</m> <em>from the left</em> on a number line (<m>x\lt c</m>), <m>f(x)</m> gets as close to the limit value as we want.
-												Similarly for the limit from the right.
-											</li>
-
-											<li>
-												The one-sided limits help to determine if a limit exists as <m>x</m> approaches a value <m>c</m>.
-												More specifically, <m>\lim_{x \rightarrow c} f(x)=L</m> if and only if <m>\displaystyle \lim_{x \rightarrow c^-} f(x)=L=\lim_{x \rightarrow c^+} f(x)</m>
-											</li>
-
-											<li>
-												Limits also help us determine the continuity of a function at a point <m>x=c</m>.
-												A function <m>f</m> that has a limit as <m>x\rightarrow c</m>, is defined at <m>x=c</m>, and <m>\displaystyle \lim_{x\rightarrow c} f(x)=f(c)</m> is continuous at <m>x=c</m>.
-											</li>
-										</ul>
-									</p>
-
-									<example xml:id="act-1-7-2" permid="Ufz">
-										<statement>
-											<p permid="bJY">
-												In this example, we take a closer look at a function whose graph we previously encountered.
-												For convenience, this graph is reproduced below in <xref ref="F-1-7-A2">Figure</xref>.
-											</p>
-
-											<figure xml:id="F-1-7-A2" permid="nYq">
-												<caption>The graph of <m>y = f(x)</m> for <xref ref="act-1-7-2">Example</xref>.</caption>
-												<image width="47%" source="1_7_PA1" />
-												</figure>
-
-												<p permid="HRh">
-													<ol marker="a." permid="RGs">
-														<li permid="xNB">
-															<p permid="QAZ">
-																At which values of <m>c</m> does <m>\displaystyle \lim_{x \to c} f(x)</m> not exist?
-															</p>
-														</li>
-
-														<li permid="dUK">
-															<p permid="wIi">
-																At which values of <m>c</m> is <m>f(c)</m> not defined?
-															</p>
-														</li>
-
-														<li permid="KbT">
-															<p permid="cPr">
-																At which values of <m>c</m> does <m>f</m> have a limit,
-																but <m>\displaystyle \lim_{x \to c} f(x) \ne f(c)</m>?
-															</p>
-														</li>
-
-														<li permid="qjc">
-															<p permid="IWA">
-																State all values of <m>c</m> for which <m>f</m> is not continuous at <m>x = c</m>.
-															</p>
-														</li>
-
-														<li permid="Wql">
-															<p permid="pdJ">
-																Which condition is stronger,
-																and hence implies the other:
-																<m>f</m> has a limit at <m>x = c</m> or <m>f</m> is continuous at <m>x = c</m>?
-																Explain, and hence complete the following sentence:
-																<q>If <m>f</m> <fillin /> at <m>x = c</m>,
-																then <m>f</m> <fillin /> at <m>x = c</m>,</q>
-																where you complete the blanks with <em>has a limit</em>
-																and <em>is continuous</em>, using each phrase once.
-															</p>
-														</li>
-													</ol>
-												</p>
-											</statement>
-
-											<hint permid="tdI">
-												<p permid="vCP">
-													<ol marker="a." permid="lzj">
-														<li permid="Cxu">
-															<p permid="VkS">
-																Consider the left- and right-hand limits at each value.
-															</p>
-														</li>
-
-														<li permid="iED">
-															<p permid="Bsb">
-																Carefully examine places on the graph where there's an open circle.
-															</p>
-														</li>
-
-														<li permid="OLM">
-															<p permid="hzk">
-																Are there locations on the graph where the function has a limit but there's a hole in the graph?
-															</p>
-														</li>
-
-														<li permid="uSV">
-															<p permid="NGt">
-																Remember that at least one of three conditions must fail:
-																if the function lacks a limit,
-																if the function is undefined,
-																or if the limit exists but does not equal the function value,
-																then <m>f</m> is not continuous at the point.
-															</p>
-														</li>
-
-														<li permid="bae">
-															<p permid="tNC">
-																Note that the definition of being continuous requires the limit to exist.
-															</p>
-														</li>
-													</ol>
-												</p>
-											</hint>
-
-											<answer permid="MWz">
-												<p permid="PvG">
-													<ol marker="a." permid="Fsa">
-														<li permid="Hhn">
-															<p permid="ZUL">
-																<m>c = -2</m>; <m>c = +2</m>.
-															</p>
-														</li>
-
-														<li permid="now">
-															<p permid="GbU">
-																<m>c = 3</m>.
-															</p>
-														</li>
-
-														<li permid="TvF">
-															<p permid="mjd">
-																<m>c = -1</m>; <m>c = 3</m>.
-															</p>
-														</li>
-
-														<li permid="zCO">
-															<p permid="Sqm">
-																<m>c=-2</m>; <m>c = 2</m>;
-																<m>c = 3</m>; <m>c = -1</m>.
-															</p>
-														</li>
-
-														<li permid="fJX">
-															<p permid="yxv">
-																<q>If <m>f</m> <em>is continuous</em> at <m>x = c</m>,
-																then <m>f</m> <em>has a limit</em> at <m>x = c</m>.</q>
-															</p>
-														</li>
-													</ol>
-												</p>
-											</answer>
-
-											<solution permid="gPq">
-												<p permid="jox">
-													<ol marker="a." permid="ZkR">
-														<li permid="LRg">
-															<p permid="eEE">
-																<m>\lim_{x \to c} f(x)</m> does not exist at <m>c = -2</m> since
-																<me>
-																	\lim_{x \to -2^-} f(x) = 2 \ne -1 = \lim_{x \to -2^+}
-																</me>,
-																and
-																<m>\lim_{x \to c} f(x)</m> does not exist at <m>c = 2</m> since
-																<m>\lim_{x \to 2^+} f(x)</m> does not exist due to the infinitely oscillatory behavior of <m>f</m>.
-															</p>
-														</li>
-
-														<li permid="rYp">
-															<p permid="KLN">
-																The only point at which <m>f</m> is not defined is at <m>c = 3</m>.
-															</p>
-														</li>
-
-														<li permid="Yfy">
-															<p permid="qSW">
-																At <m>c = -1</m>, note that <m>\lim_{x \to -1} f(x)</m> exists
-																(and appears to have value approximately <m>-3.25</m>),
-																but <m>f(-1) = 1</m> and thus <m>\lim_{x \to -1} f(x) \ne f(-1)</m>.
-																At <m>c = 3</m>, we have <m>\lim_{x \to 3} f(x) = -2.5</m>,
-																but <m>f(3)</m> is not defined
-																so the limit exists but does not equal the function value.
-															</p>
-														</li>
-
-														<li permid="EmH">
-															<p permid="Xaf">
-																Based on our work in (a), (b), and (c),
-																<m>f</m> is not continuous at <m>c=-2</m> and <m>c = 2</m> because <m>f</m> does not have a limit at those points;
-																<m>f</m> is not continuous at <m>c = 3</m> since <m>f</m> is not defined there;
-																and <m>f</m> is not continuous at <m>c = -1</m> because at that point its limit does not equal its function value.
-															</p>
-														</li>
-
-														<li permid="ktQ">
-															<p permid="Dho">
-																<q>If <m>f</m> <em>is continuous</em> at <m>x = c</m>,
-																then <m>f</m> <em>has a limit</em> at <m>x = c</m>,</q>
-																since one of the defining properties of
-																<q>being continuous</q>
-																at <m>x = c</m> is that the function has a limit at that input value.
-																This shows that being continuous is a stronger condition than having a limit.
-															</p>
-														</li>
-													</ol>
-												</p>
-											</solution>
-										</example>
-									</subsection>
-
-									<exercises xmlns:xi="http://www.w3.org/2001/XInclude">
-									<exercise>
-										<title>Types of discontinuity</title>
-										<webwork source="Library/WHFreeman/Rogawski_Calculus_Early_Transcendentals_Second_Edition/2_Limits/2.4_Limits_and_Continuity/2.4.17.pg" />
-									</exercise>
-
-									<exercise>
-										<title>Types of discontinuity</title>
-										<webwork source="Library/WHFreeman/Rogawski_Calculus_Early_Transcendentals_Second_Edition/2_Limits/2.4_Limits_and_Continuity/2.4.19.pg" />
-									</exercise>
-
-									<exercise>
-										<title>Types of discontinuity</title>
-										<webwork source="Library/WHFreeman/Rogawski_Calculus_Early_Transcendentals_Second_Edition/2_Limits/2.4_Limits_and_Continuity/2.4.22.pg" />
-									</exercise>
-
-									<exercise>
-										<title>Determining continuity from a graph</title>
-										<webwork source="Library/Valdosta/APEX_Calculus/1.5/APEX_1.5_11-12.pg" />
-									</exercise>
-
-									<exercise>
-										<title>Determining continuity from a graph</title>
-										<webwork source="Library/Valdosta/APEX_Calculus/1.5/APEX_1.5_16.pg" />
-									</exercise>
-
-									<exercise>
-										<title>Interpretting continuity</title>
-										<webwork source="Library/Michigan/Chap1Sec7/Q15.pg" />
-									</exercise>
-
-									<exercise>
-										<title>Values that make a function continuous</title>
-										<webwork source="Library/Michigan/Chap1Sec7/Q17.pg" />
-									</exercise>
-
-									<exercise>
-										<title>Values that make a function continuous</title>
-										<webwork source="Library/Wiley/setAnton_Section_1.5/anton1_5_Q29.pg" />
-									</exercise>
-
-									<exercise>
-										<title>Values that make a function continuous</title>
-										<webwork source="Library/Michigan/Chap1Sec7/Q19.pg" />
-									</exercise>
-									</exercises>
-								</section>
-								<!--
+			</answer>
+
+			<solution permid="gPq">
+				<p permid="jox">
+					<ol marker="a." permid="ZkR">
+						<li permid="LRg">
+							<p permid="eEE">
+								<m>\lim_{x \to c} f(x)</m> does not exist at <m>c = -2</m> since <me>
+								\lim_{x \to -2^-} f(x) = 2 \ne -1 = \lim_{x \to -2^+}
+								</me>,
+								and <m>\lim_{x \to c} f(x)</m> does not exist at <m>c = 2</m> since <m>\lim_{x
+								\to 2^+} f(x)</m> does not exist due to the infinitely oscillatory
+								behavior of <m>f</m>. </p>
+						</li>
+
+						<li permid="rYp">
+							<p permid="KLN"> The only point at which <m>f</m> is not defined is at <m>c
+								= 3</m>. </p>
+						</li>
+
+						<li permid="Yfy">
+							<p permid="qSW"> At <m>c = -1</m>, note that <m>\lim_{x \to -1} f(x)</m>
+								exists (and appears to have value approximately <m>-3.25</m>), but <m>f(-1)
+								= 1</m> and thus <m>\lim_{x \to -1} f(x) \ne f(-1)</m>. At <m>c = 3</m>,
+								we have <m>\lim_{x \to 3} f(x) = -2.5</m>, but <m>f(3)</m> is not
+								defined so the limit exists but does not equal the function value. </p>
+						</li>
+
+						<li permid="EmH">
+							<p permid="Xaf"> Based on our work in (a), (b), and (c), <m>f</m> is not
+								continuous at <m>c=-2</m> and <m>c = 2</m> because <m>f</m> does not
+								have a limit at those points; <m>f</m> is not continuous at <m>c = 3</m>
+								since <m>f</m> is not defined there; and <m>f</m> is not continuous
+								at <m>c = -1</m> because at that point its limit does not equal its
+								function value. </p>
+						</li>
+
+						<li permid="ktQ">
+							<p permid="Dho">
+								<q>If <m>f</m> <em>is continuous</em> at <m>x = c</m>, then <m>f</m> <em>has
+								a limit</em> at <m>x = c</m>,</q> since one of the defining
+								properties of <q>being continuous</q> at <m>x = c</m> is that the
+								function has a limit at that input value. This shows that being
+								continuous is a stronger condition than having a limit. </p>
+						</li>
+					</ol>
+				</p>
+			</solution>
+		</example>
+	</subsection>
+
+	<exercises xmlns:xi="http://www.w3.org/2001/XInclude">
+		<exercise>
+			<title>Types of discontinuity</title>
+			<webwork
+				source="Library/WHFreeman/Rogawski_Calculus_Early_Transcendentals_Second_Edition/2_Limits/2.4_Limits_and_Continuity/2.4.17.pg" />
+		</exercise>
+
+		<exercise>
+			<title>Types of discontinuity</title>
+			<webwork
+				source="Library/WHFreeman/Rogawski_Calculus_Early_Transcendentals_Second_Edition/2_Limits/2.4_Limits_and_Continuity/2.4.19.pg" />
+		</exercise>
+
+		<exercise>
+			<title>Types of discontinuity</title>
+			<webwork
+				source="Library/WHFreeman/Rogawski_Calculus_Early_Transcendentals_Second_Edition/2_Limits/2.4_Limits_and_Continuity/2.4.22.pg" />
+		</exercise>
+
+		<exercise>
+			<title>Determining continuity from a graph</title>
+			<webwork source="Library/Valdosta/APEX_Calculus/1.5/APEX_1.5_11-12.pg" />
+		</exercise>
+
+		<exercise>
+			<title>Determining continuity from a graph</title>
+			<webwork source="Library/Valdosta/APEX_Calculus/1.5/APEX_1.5_16.pg" />
+		</exercise>
+
+		<exercise>
+			<title>Interpretting continuity</title>
+			<webwork source="Library/Michigan/Chap1Sec7/Q15.pg" />
+		</exercise>
+
+		<exercise>
+			<title>Values that make a function continuous</title>
+			<webwork source="Library/Michigan/Chap1Sec7/Q17.pg" />
+		</exercise>
+
+		<exercise>
+			<title>Values that make a function continuous</title>
+			<webwork source="Library/Wiley/setAnton_Section_1.5/anton1_5_Q29.pg" />
+		</exercise>
+
+		<exercise>
+			<title>Values that make a function continuous</title>
+			<webwork source="Library/Michigan/Chap1Sec7/Q19.pg" />
+		</exercise>
+	</exercises>
+</section>
+<!--
 							</book>
 						</mathbook>
 						-->
