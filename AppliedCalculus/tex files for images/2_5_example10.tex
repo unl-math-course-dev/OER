@@ -1,0 +1,29 @@
+\documentclass{standalone}
+\usepackage{pgfplots}
+\pgfplotsset{soldot/.style={color=black,only marks,mark=*},
+             holdot/.style={color=black,fill=white,only marks,mark=*},
+             compat=1.12}
+\begin{document}
+\begin{tikzpicture}
+\begin{axis}[
+ axis lines=middle,
+ %ticklabel style={fill=blue!5!white},
+ xmin=-2,xmax=12,
+ ymin=-3,ymax=5,
+ xtick={-1,...,1,2,3,4,...,11},xticklabels={,,,,,,,,,,9},
+ ytick={-2,...,1,2,3,4},yticklabels={},        %<--
+% minor tick = {-5,-3,...,5}, %<--
+ xlabel=\(x\),ylabel=\(y\),
+ samples=200]
+
+\addplot[domain=-10:12,thick,blue] {3*x^.5-x};
+
+\addplot[domain=-10:12,thick,red] {-.5*(x-9)};
+
+\draw [blue] (axis cs:3,1.7)  node [] {$f$};
+\draw [red] (axis cs:7,2.7)  node [] {$y=-\frac{1}{2}(x-9)$};
+\addplot[soldot] coordinates{(9,0)};
+
+\end{axis}
+\end{tikzpicture}
+\end{document}
