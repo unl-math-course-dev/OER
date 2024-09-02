@@ -1,87 +1,91 @@
-<?xml version="1.0" encoding="UTF-8" ?>
+<?xml version="1.0" encoding="UTF-8"?>
 
-<!-- **********************************************************************--> <!-- Copyright 2019                                                        --> <!-- UNL Department of Mathematics                                         --> <!-- Based upon the work of                                                --> <!-- Matthew Boelkins                                                      --> <!-- Copyright 2012-2018                                                   --> <!--                                                                       --> <!-- This file is part of Coordinated Calculus.                            --> <!-- This file is based on Active Calculus.                                --> <!--                                                                       --> <!-- Permission is granted to copy, distribute and/or modify this document --> <!-- under the terms of the Creative Commons BY-SA license.  The work      --> <!-- may be used for free by any party so long as attribution is given to  --> <!-- the author(s), the work and its derivatives are used in the spirit of --> <!-- "share and share alike".  All trademarks are the registered marks of  --> <!-- their respective owners.                                              --> <!-- **********************************************************************-->
+<!-- **********************************************************************--> <!-- Copyright 2019                                                        --> <!-- UNL Department of Mathematics                                         --> <!-- Based upon the work of                                                --> <!-- Matthew Boelkins                                                      --> <!-- Copyright 2012-2018                                                   --> <!--                                                                       --> <!-- This file is part of Coordinated Calculus.                            --> <!-- This file is based on Active Calculus.                                --> <!--                                                                       --> <!-- Permission is granted to copy, distribute and/or modify this
+document --> <!-- under the terms of the Creative Commons BY-SA license.  The work      --> <!-- may be used for free by any party so long as attribution is
+given to  --> <!-- the author(s), the work and its derivatives are used in the
+spirit of --> <!-- "share and share alike".  All trademarks are the registered marks
+of  --> <!-- their respective owners.                                              --> <!--
+**********************************************************************-->
 <section xmlns:xi="http://www.w3.org/2001/XInclude" xml:id="sec-5-6-parts" permid="cWM">
   <title>Integration by Parts</title>
 
   <objectives permid="yEQ">
     <ul permid="jvS">
       <li permid="vKk">
-        <p permid="gBm">
-          How do we evaluate indefinite integrals that involve products of basic functions such as <m>\int x \sin(x) \, dx</m> and <m>\int x e^x \, dx</m>?
-        </p>
+        <p permid="gBm"> How do we evaluate indefinite integrals that involve products of basic
+          functions such as <m>\int x \sin(x) \, dx</m> and <m>\int x e^x \, dx</m>? </p>
       </li>
 
       <li>
         <p>
           In the last section, we learned how to reverse the chain rule.
-          How do we reverse other rules of differentiation? In this section, we'll tackle this question for the product rule of differentiation.
+          How do we reverse other rules of differentiation? In this section, we'll tackle this
+          question for the product rule of differentiation.
         </p>
       </li>
 
       <li permid="bRt">
         <p permid="MIv">
-          What is the method of integration by parts and how can we consistently apply it to integrate products of basic functions?
+          What is the method of integration by parts and how can we consistently apply it to
+          integrate products of basic functions?
         </p>
       </li>
 
       <li permid="HYC">
-        <p permid="sPE">
-          How does the algebraic structure of functions guide us in identifying <m>u</m> and <m>dv</m> in using integration by parts?
-        </p>
+        <p permid="sPE"> How does the algebraic structure of functions guide us in identifying <m>u</m>
+          and <m>dv</m> in using integration by parts? </p>
       </li>
     </ul>
   </objectives>
 
   <introduction permid="eLZ">
-    <p permid="LDc">
-      In <xref ref="sec-5-5-substitution">Section</xref>, we learned the technique of <m>u</m>-substitution for evaluating indefinite integrals.
-      For example, the indefinite integral <m>\int x^3 \sin(x^4) \, dx</m> is perfectly suited to <m>u</m>-substitution, because one factor is a composite function and the other factor is the derivative (up to a constant) of the inner function.
-      Recognizing the algebraic structure of a function can help us to find its antiderivative.
-    </p>
+    <p permid="LDc"> In <xref ref="sec-5-5-substitution">Section</xref>, we learned the technique of <m>
+      u</m>-substitution for evaluating indefinite integrals. For example, the indefinite integral <m>\int
+      x^3 \sin(x^4) \, dx</m> is perfectly suited to <m>u</m>-substitution, because one factor is a
+      composite function and the other factor is the derivative (up to a constant) of the inner
+      function. Recognizing the algebraic structure of a function can help us to find its
+      antiderivative. </p>
 
-    <p permid="rKl">
-      Next we consider integrands with a different elementary algebraic structure: a product of basic functions.
-      For instance, suppose we are interested in evaluating the indefinite integral
-      <me permid="CTk">
+    <p permid="rKl"> Next we consider integrands with a different elementary algebraic structure: a
+      product of basic functions. For instance, suppose we are interested in evaluating the
+      indefinite integral <me permid="CTk">
         \int x \sin(x) \, dx
-      </me>.
-    </p>
+      </me>. </p>
 
-    <p permid="XRu">
-      The integrand is the product of the basic functions <m>f(x) = x</m> and <m>g(x) = \sin(x)</m>.
-      We know that it is relatively complicated to compute the derivative of the product of two functions, so we should expect that antidifferentiating a product should be similarly involved.
-      Intuitively, we expect that evaluating <m>\int x \sin(x) \, dx</m> will involve somehow reversing the Product Rule.
-    </p>
+    <p permid="XRu"> The integrand is the product of the basic functions <m>f(x) = x</m> and <m>g(x)
+      = \sin(x)</m>. We know that it is relatively complicated to compute the derivative of the
+      product of two functions, so we should expect that antidifferentiating a product should be
+      similarly involved. Intuitively, we expect that evaluating <m>\int x \sin(x) \, dx</m> will
+      involve somehow reversing the Product Rule. </p>
 
-    <p permid="DYD">
-      To that end, in <xref ref="PA-5-4">Example</xref> we refresh our understanding of the Product Rule and then investigate some indefinite integrals that involve products of basic functions.
-    </p>
+    <p permid="DYD"> To that end, in <xref ref="PA-5-4">Example</xref> we refresh our understanding
+      of the Product Rule and then investigate some indefinite integrals that involve products of
+      basic functions. </p>
 
     <assemblage>
       <title> The Product Rule of Differentiation </title>
 
-      <p permid="ERb">
-        In <xref ref="sec-2-3-prod-quot">Section</xref>, we developed the Product Rule and studied how it is employed to differentiate a product of two functions.
-        In particular, recall that if <m>f</m> and <m>g</m> are differentiable functions of <m>x</m>, then
-        <md>
-          <mrow>\frac{d}{dx} \left[ f(x) \cdot g(x)  \right] = f(x) \cdot g'(x) + g(x) \cdot f'(x) </mrow>
-        </md>.
+      <p permid="ERb"> In <xref ref="sec-2-3-prod-quot">Section</xref>, we developed the Product
+        Rule and studied how it is employed to differentiate a product of two functions. In
+        particular, recall that if <m>f</m> and <m>g</m> are differentiable functions of <m>x</m>,
+        then <md>
+          <mrow>\frac{d}{dx} \left[ f(x) \cdot g(x) \right] = f(x) \cdot g'(x) + g(x) \cdot f'(x) </mrow>
+        </md>
+        .
       </p>
     </assemblage>
     <!-- Zach/Derek Another place where I had to make separate ols for each of statement/hint/etc -->
     <example>
       <statement>
-        <p>
-          For each of the following functions, use the Product Rule to find the function's derivative.
-          Be sure to label each derivative by name (e.g., the derivative of <m>g(x)</m> should be labeled <m>g'(x)</m>).
-        </p>
+        <p> For each of the following functions, use the Product Rule to find the function's
+          derivative. Be sure to label each derivative by name (e.g., the derivative of <m>g(x)</m>
+          should be labeled <m>g'(x)</m>). </p>
 
         <p>
           <ol>
             <li>
               <p permid="qNw">
-                <ol marker="i."  permid="idE">
+                <ol marker="i." permid="idE">
                   <li permid="BWv">
                     <p permid="VPm">
                       <m>g(x) = x\sin(x)</m>
@@ -116,10 +120,8 @@
             </li>
 
             <li>
-              <p permid="vxp">
-                Use your work in (a) to help you evaluate the following indefinite integrals.
-                Use differentiation to check your work.
-                <ol marker="i."  permid="koq">
+              <p permid="vxp"> Use your work in (a) to help you evaluate the following indefinite
+                integrals. Use differentiation to check your work. <ol marker="i." permid="koq">
                   <li permid="BmB">
                     <p permid="sCJ">
                       <m>\int xe^x + e^x \, dx</m>
@@ -155,7 +157,8 @@
           </ol>
         </p>
       </statement>
-      <!-- Zach/Derek Hints seem less than helpful and I am unsure how to index this now to make it line up.  I'm just going to omit for now
+      <!-- Zach/Derek Hints seem less than helpful and I am unsure how to index this now to make it
+      line up.  I'm just going to omit for now
       <hint>
         <p>
           <ol>
@@ -166,7 +169,8 @@
 
             <li>
               <p>
-                How do the integrands in part (b) compare to the answers in part (a)? What relationship holds between <m> h(x)</m> from part a) ii.
+                How do the integrands in part (b) compare to the answers in part (a)? What relationship holds
+      between <m> h(x)</m> from part a) ii.
                 and the integrand from part b) i.?
               </p>
             </li>
@@ -261,7 +265,8 @@
                   <li>
                     <p>
                       <md>
-                        <mrow> g'(x)&amp;=x\cdot \frac{d}{dx}[\sin(x)] + \sin(x)\cdot \frac{d}{dx} [x] </mrow>
+                        <mrow> g'(x)&amp;=x\cdot \frac{d}{dx}[\sin(x)] + \sin(x)\cdot \frac{d}{dx}
+                          [x] </mrow>
                         <mrow> &amp;=x \cos(x)+ \sin(x) </mrow>
                       </md>
                     </p>
@@ -279,7 +284,8 @@
                   <li>
                     <p>
                       <md>
-                        <mrow> p'(x)&amp;=x \cdot \frac{d}{dx}[\ln(x)] + \ln(x) \cdot \frac{d}{dx} [x] </mrow>
+                        <mrow> p'(x)&amp;=x \cdot \frac{d}{dx}[\ln(x)] + \ln(x) \cdot \frac{d}{dx}
+                          [x] </mrow>
                         <mrow> &amp;=\frac{x}{x} + \ln (x) </mrow>
                         <mrow> &amp;=1+ \ln(x) </mrow>
                       </md>
@@ -289,7 +295,8 @@
                   <li>
                     <p>
                       <md>
-                        <mrow> q'(x)&amp;=x^2\cdot \frac{d}{dx} [\cos(x)] + \cos(x) \cdot \frac{d}{dx}[x^2] </mrow>
+                        <mrow> q'(x)&amp;=x^2\cdot \frac{d}{dx} [\cos(x)] + \cos(x) \cdot
+                          \frac{d}{dx}[x^2] </mrow>
                         <mrow> &amp;=-x^2 \sin(x) + 2x\cos(x) </mrow>
                       </md>
                     </p>
@@ -298,7 +305,8 @@
                   <li>
                     <p>
                       <md>
-                        <mrow> r'(x)&amp;=e^x \cdot \frac{d}{dx}[\sin(x)] + \sin(x) \cdot \frac{d}{dx} [e^x] </mrow>
+                        <mrow> r'(x)&amp;=e^x \cdot \frac{d}{dx}[\sin(x)] + \sin(x) \cdot
+                          \frac{d}{dx} [e^x] </mrow>
                         <mrow> &amp;=e^x \cos(x) + e^x \sin(x) </mrow>
                       </md>
                     </p>
@@ -311,39 +319,39 @@
               <p>
                 <ol marker="i.">
                   <li>
-                    <p>
-                      Since the derivative of <m> xe^x </m> is <m> xe^x + e^x </m>, then <m> xe^x +C</m> is the general antiderivative of <m> xe^x + e^x </m>.
-                      Thus, we know that <m>\int xe^x + e^x \, dx = xe^x + C</m>.
-                      We can check our answer by differentiating <m> xe^x </m>, which we did in part a), to make sure we get the integrand, <m> xe^x + e^x </m>.
+                    <p> Since the derivative of <m> xe^x </m> is <m> xe^x + e^x </m>, then <m> xe^x
+                      +C</m> is the general antiderivative of <m> xe^x + e^x </m>. Thus, we know
+                      that <m>\int xe^x + e^x \, dx = xe^x + C</m>. We can check our answer by
+                      differentiating <m> xe^x </m>, which we did in part a), to make sure we get
+                      the integrand, <m> xe^x + e^x </m>. </p>
+                  </li>
+
+                  <li>
+                    <p> Since the derivative of <m> e^x \sin(x) </m> is <m> e^x(\sin(x) + \cos(x)) </m>,
+                      then <m> e^x\sin(x) +C</m> is the general antiderivative of <m> e^x(\sin(x) +
+                      \cos(x)) </m>. Thus, we know that <m>\int e^x(\sin(x) + \cos(x)) \, dx=e^x
+                      \sin(x) + C</m>. </p>
+                  </li>
+
+                  <li>
+                    <p> Since the derivative of <m> x^2\cos(x) </m> is <m> 2x\cos(x) -x^2\sin(x) </m>,
+                      then <m> x^2\cos(x)+C</m> is the general antiderivative of <m>
+                      2x\cos(x)-x^2\sin(x) </m>. Thus, we know that <m>\int 2x\cos(x) - x^2 \sin(x)
+                      \, dx =x^2 \cos(x) + C</m>. </p>
+                  </li>
+
+                  <li>
+                    <p> Since the derivative of <m> x\sin(x) </m> is <m> x\cos(x) + \sin(x) </m>,
+                      then <m> x\sin(x) +C</m> is the general antiderivative of <m> x\cos(x)+
+                      \sin(x) </m>. Thus, we know that <m>\int x\cos(x) + \sin(x) \, dx=x\sin(x) + C</m>
+                      .
                     </p>
                   </li>
 
                   <li>
-                    <p>
-                      Since the derivative of <m> e^x \sin(x) </m> is <m> e^x(\sin(x) + \cos(x)) </m>, then <m> e^x\sin(x) +C</m> is the general antiderivative of <m> e^x(\sin(x) + \cos(x)) </m>.
-                      Thus, we know that <m>\int e^x(\sin(x) + \cos(x)) \, dx=e^x \sin(x) + C</m>.
-                    </p>
-                  </li>
-
-                  <li>
-                    <p>
-                      Since the derivative of <m> x^2\cos(x) </m> is <m> 2x\cos(x) -x^2\sin(x) </m>, then <m> x^2\cos(x)+C</m> is the general antiderivative of <m> 2x\cos(x)-x^2\sin(x) </m>.
-                      Thus, we know that <m>\int 2x\cos(x) - x^2 \sin(x) \, dx =x^2 \cos(x) + C</m>.
-                    </p>
-                  </li>
-
-                  <li>
-                    <p>
-                      Since the derivative of <m> x\sin(x) </m> is <m> x\cos(x) + \sin(x) </m>, then <m> x\sin(x) +C</m> is the general antiderivative of <m> x\cos(x)+ \sin(x) </m>.
-                      Thus, we know that <m>\int x\cos(x) + \sin(x) \, dx=x\sin(x) + C</m>.
-                    </p>
-                  </li>
-
-                  <li>
-                    <p>
-                      Since the derivative of <m> x\ln(x) </m> is <m> 1+\ln(x) </m>, then <m> x\ln(x) +C</m> is the general antiderivative of <m> 1+ \ln(x) </m>.
-                      Thus, we know that <m>\int 1 + \ln(x) \, dx = x\ln(x) + C </m>.
-                    </p>
+                    <p> Since the derivative of <m> x\ln(x) </m> is <m> 1+\ln(x) </m>, then <m>
+                      x\ln(x) +C</m> is the general antiderivative of <m> 1+ \ln(x) </m>. Thus, we
+                      know that <m>\int 1 + \ln(x) \, dx = x\ln(x) + C </m>. </p>
                   </li>
                 </ol>
               </p>
@@ -361,7 +369,8 @@
             <statement>
               <p permid="KGn">
                 For each of the following functions, use the Product Rule to find the function's derivative.
-                Be sure to label each derivative by name (e.g., the derivative of <m>g(x)</m> should be labeled <m>g'(x)</m>).
+                Be sure to label each derivative by name (e.g., the derivative of <m>g(x)</m> should be labeled
+    <m>g'(x)</m>).
               </p>
 
               <p permid="qNw">
@@ -530,7 +539,8 @@
             2.
             <hint>
               <p>
-                How do the integrands in part (b) compare to the answers in part (a)? What relationship holds between <m> h(x)</m> from part a) ii.
+                How do the integrands in part (b) compare to the answers in part (a)? What relationship holds
+    between <m> h(x)</m> from part a) ii.
                 and the integrand from part b) i.?
               </p>
             </hint>
@@ -576,36 +586,42 @@
                 <ol marker="i.">
                   <li>
                     <p>
-                      Since the derivative of <m> xe^x </m> is <m> xe^x + e^x </m>, then <m> xe^x +C</m> is the general antiderivative of <m> xe^x + e^x </m>.
+                      Since the derivative of <m> xe^x </m> is <m> xe^x + e^x </m>, then <m> xe^x +C</m> is the general
+    antiderivative of <m> xe^x + e^x </m>.
                       Thus, we know that <m>\int xe^x + e^x \, dx = xe^x + C</m>.
-                      We can check our answer by differentiating <m> xe^x </m>, which we did in part a), to make sure we get the integrand, <m> xe^x + e^x </m>.
+                      We can check our answer by differentiating <m> xe^x </m>, which we did in part a), to make sure we
+    get the integrand, <m> xe^x + e^x </m>.
                     </p>
                   </li>
 
                   <li>
                     <p>
-                      Since the derivative of <m> e^x \sin(x) </m> is <m> e^x(\sin(x) + \cos(x)) </m>, then <m> e^x\sin(x) +C</m> is the general antiderivative of <m> e^x(\sin(x) + \cos(x)) </m>.
+                      Since the derivative of <m> e^x \sin(x) </m> is <m> e^x(\sin(x) + \cos(x)) </m>, then <m>
+    e^x\sin(x) +C</m> is the general antiderivative of <m> e^x(\sin(x) + \cos(x)) </m>.
                       Thus, we know that <m>\int e^x(\sin(x) + \cos(x)) \, dx=e^x \sin(x) + C</m>.
                     </p>
                   </li>
 
                   <li>
                     <p>
-                      Since the derivative of <m> x^2\cos(x) </m> is <m> 2x\cos(x) -x^2\sin(x) </m>, then <m> x^2\cos(x)+C</m> is the general antiderivative of <m> 2x\cos(x)-x^2\sin(x) </m>.
+                      Since the derivative of <m> x^2\cos(x) </m> is <m> 2x\cos(x) -x^2\sin(x) </m>, then <m>
+    x^2\cos(x)+C</m> is the general antiderivative of <m> 2x\cos(x)-x^2\sin(x) </m>.
                       Thus, we know that <m>\int 2x\cos(x) - x^2 \sin(x) \, dx =x^2 \cos(x) + C</m>.
                     </p>
                   </li>
 
                   <li>
                     <p>
-                      Since the derivative of <m> x\sin(x) </m> is <m> x\cos(x) + \sin(x) </m>, then <m> x\sin(x) +C</m> is the general antiderivative of <m> x\cos(x)+ \sin(x) </m>.
+                      Since the derivative of <m> x\sin(x) </m> is <m> x\cos(x) + \sin(x) </m>, then <m> x\sin(x) +C</m>
+    is the general antiderivative of <m> x\cos(x)+ \sin(x) </m>.
                       Thus, we know that <m>\int x\cos(x) + \sin(x) \, dx=x\sin(x) + C</m>.
                     </p>
                   </li>
 
                   <li>
                     <p>
-                      Since the derivative of <m> x\ln(x) </m> is <m> 1+\ln(x) </m>, then <m> x\ln(x) +C</m> is the general antiderivative of <m> 1+ \ln(x) </m>.
+                      Since the derivative of <m> x\ln(x) </m> is <m> 1+\ln(x) </m>, then <m> x\ln(x) +C</m> is the
+    general antiderivative of <m> 1+ \ln(x) </m>.
                       Thus, we know that <m>\int 1 + \ln(x) \, dx = x\ln(x) + C </m>.
                     </p>
                   </li>
@@ -617,41 +633,37 @@
       </p>
     </example>
     -->
-    <p>
-      Observe that the examples in part (b) work nicely because of the derivatives you were asked to  calculate in part (a).
-      Each integrand in part (b) is precisely the result of differentiating one of the products of basic functions found in part (a).
-      To see what happens when an integrand is still a product but not necessarily the result of differentiating a product of functions, we consider how to evaluate
-      <me permid="xmC">
+    <p> Observe that the examples in part (b) work nicely because of the derivatives you were asked
+      to calculate in part (a). Each integrand in part (b) is precisely the result of
+      differentiating one of the products of basic functions found in part (a). To see what happens
+      when an integrand is still a product but not necessarily the result of differentiating a
+      product of functions, we consider how to evaluate <me permid="xmC">
         \int x\cos(x) \, dx
-      </me>.
-    </p>
+      </me>. </p>
 
     <example>
       <statement>
-        <p>
-          Follow the steps outlined below to evlauate <m> \int x\cos(x) \, dx </m>.
-        </p>
+        <p> Follow the steps outlined below to evlauate <m> \int x\cos(x) \, dx </m>. </p>
 
         <p>
           <ol>
             <li>
-              <p permid="YJS">
-                First, observe that
-                <me permid="dtL">
+              <p permid="YJS"> First, observe that <me permid="dtL">
                   \frac{d}{dx} \left[ x\sin(x) \right] = x\cos(x) + \sin(x)
                 </me>.
-                Integrating both sides indefinitely and using the fact that the integral of a sum is the sum of the integrals, we find that
-                <me permid="JAU">
-                  \int \left(\frac{d}{dx} \left[ x\sin(x) \right] \right) \, dx = \int  x\cos(x) \, dx +  \int \sin(x) \, dx
+                Integrating both sides indefinitely and using the fact that the integral of a sum is
+                the sum of the integrals, we find that <me permid="JAU">
+                  \int \left(\frac{d}{dx} \left[ x\sin(x) \right] \right) \, dx = \int x\cos(x) \,
+                dx + \int \sin(x) \, dx
                 </me>.
-                In this last equation, evaluate the indefinite integral on the left side of the equation as well as the rightmost indefinite integral on the right side of the equation.
-              </p>
+                In this last equation, evaluate the indefinite integral on the left side of the
+                equation as well as the rightmost indefinite integral on the right side of the
+                equation. </p>
             </li>
 
             <li>
-              <p>
-                In the most recent equation from (i.), solve the equation for the expression <m>\int x \cos(x) \, dx</m>.
-              </p>
+              <p> In the most recent equation from (i.), solve the equation for the expression <m>\int
+                x \cos(x) \, dx</m>. </p>
             </li>
 
             <li>
@@ -667,11 +679,10 @@
         <p>
           <ol>
             <li>
-              <p>
-                From the <xref ref="sec-5-4-FTC2"> Second Fundamental Theorem of Calculus </xref>, we know that <m>\int \frac{d}{dx} \left[x\sin(x) \right] =x\sin(x) + C_1 </m> where <m> C_1 </m> is any constant.
-                We also know that <m> \int \sin(x) \, dx = -\cos(x) + C_2 </m> where <m> C_2 </m> is any constant.
-                Thus, we obtain the following equation:
-                <md>
+              <p> From the <xref ref="sec-5-4-FTC2"> Second Fundamental Theorem of Calculus </xref>,
+                we know that <m>\int \frac{d}{dx} \left[x\sin(x) \right] =x\sin(x) + C_1 </m> where <m>
+                C_1 </m> is any constant. We also know that <m> \int \sin(x) \, dx = -\cos(x) + C_2 </m>
+                where <m> C_2 </m> is any constant. Thus, we obtain the following equation: <md>
                   <mrow> x\sin(x) + C_1 = \int x \cos(x) \, dx - \cos(x) + C_2</mrow>
                 </md>
               </p>
@@ -683,14 +694,12 @@
                   <mrow>\int x \cos(x) \, dx&amp;= x\sin(x) + \cos(x) + C_1-C_2 </mrow>
                   <mrow>\int x \cos(x) \, dx &amp;= x\sin(x) + \cos(x) + C </mrow>
                 </md>
-                where <m> C</m> is any constant.
-              </p>
+                where <m> C</m> is any constant. </p>
             </li>
 
             <li>
-              <p>
-                We found the antiderivative of the product of the functions <m> x </m> and <m> \cos(x) </m>.
-              </p>
+              <p> We found the antiderivative of the product of the functions <m> x </m> and <m>
+                \cos(x) </m>. </p>
             </li>
           </ol>
         </p>
@@ -709,17 +718,22 @@
                 <me permid="dtL">
                   \frac{d}{dx} \left[ x\sin(x) \right] = x\cos(x) + \sin(x)
                 </me>.
-                Integrating both sides indefinitely and using the fact that the integral of a sum is the sum of the integrals, we find that
+                Integrating both sides indefinitely and using the fact that the integral of a sum is the sum of the
+    integrals, we find that
                 <me permid="JAU">
-                  \int \left(\frac{d}{dx} \left[ x\sin(x) \right] \right) \, dx = \int  x\cos(x) \, dx +  \int \sin(x) \, dx
+                  \int \left(\frac{d}{dx} \left[ x\sin(x) \right] \right) \, dx = \int  x\cos(x) \, dx +  \int \sin(x)
+    \, dx
                 </me>.
-                In this last equation, evaluate the indefinite integral on the left side of the equation as well as the rightmost indefinite integral on the right side of the equation.
+                In this last equation, evaluate the indefinite integral on the left side of the equation as well as
+    the rightmost indefinite integral on the right side of the equation.
               </p>
             </statement>
             1.
             <solution>
               <p>
-                From the <xref ref="sec-5-4-FTC2"> Second Fundamental Theorem of Calculus </xref>, we know that <m>\int \frac{d}{dx} \left[x\sin(x) \right] =x\sin(x) + C_1 </m> where <m> C_1 </m> is any constant.
+                From the <xref ref="sec-5-4-FTC2"> Second Fundamental Theorem of Calculus </xref>, we know that
+    <m>\int \frac{d}{dx} \left[x\sin(x) \right] =x\sin(x) + C_1 </m> where <m> C_1 </m> is any
+    constant.
                 We also know that <m> \int \sin(x) \, dx = -\cos(x) + C_2 </m> where <m> C_2 </m> is any constant.
                 Thus, we obtain the following equation:
                 <md>
@@ -733,7 +747,8 @@
             2.
             <statement>
               <p permid="gor">
-                In the most recent equation from (i.), solve the equation for the expression <m>\int x \cos(x) \, dx</m>.
+                In the most recent equation from (i.), solve the equation for the expression <m>\int x \cos(x) \,
+    dx</m>.
               </p>
             </statement>
             2.
@@ -772,1613 +787,1519 @@
   <subsection permid="JdV">
     <title>Reversing the Product Rule: Integration by Parts</title>
 
-    <idx><h>integration by parts</h></idx>
+    <idx>
+      <h>integration by parts</h>
+    </idx>
     <p permid="kfM">
-      <xref ref="PA-5-4-2">Example</xref> provides a clue to the general technique known as Integration by Parts, which comes from reversing the Product Rule. Recall that the Product Rule states that
-      <me permid="jat">
-        \frac{d}{dx} \left[ f(x) g(x) \right] = f(x) g'(x) + g(x)  f'(x)
-      </me>.
+      <xref ref="PA-5-4-2">Example</xref> provides a clue to the general technique known as
+      Integration by Parts, which comes from reversing the Product Rule. Recall that the Product
+      Rule states that <me permid="jat">
+        \frac{d}{dx} \left[ f(x) g(x) \right] = f(x) g'(x) + g(x) f'(x)
+      </me>. </p>
+
+    <p permid="QmV"> Integrating both sides of this equation indefinitely with respect to <m>x</m>,
+      we find <men xml:id="E-intprod" permid="PhC">
+        \int \frac{d}{dx} \left[ f(x) g(x) \right] \, dx = \int f(x) g'(x) \, dx + \int g(x) f'(x)
+      \, dx
+      </men>
+      .
     </p>
 
-    <p permid="QmV">
-      Integrating both sides of this equation indefinitely with respect to <m>x</m>, we find
-      <men xml:id="E-intprod" permid="PhC">
-        \int \frac{d}{dx} \left[ f(x)  g(x) \right] \, dx = \int f(x) g'(x) \, dx + \int g(x)  f'(x) \, dx
-      </men>.
-    </p>
+    <p permid="wue"> On the left side of <xref ref="E-intprod">Equation</xref>, we have the
+      indefinite integral of the derivative of a function. Temporarily omitting the constant that
+      may arise, we have <men xml:id="E-intprod2" permid="voL">
+        f(x) g(x) = \int f(x) g'(x) \, dx + \int g(x) f'(x) \, dx
+      </men>. </p>
 
-    <p permid="wue">
-      On the left side of <xref ref="E-intprod">Equation</xref>, we have the indefinite integral of the derivative of a function.
-      Temporarily omitting the constant that may arise, we have
-      <men xml:id="E-intprod2" permid="voL">
-        f(x)  g(x) = \int f(x) g'(x) \, dx + \int g(x)  f'(x) \, dx
-      </men>.
-    </p>
+    <p permid="cBn"> We solve for the first indefinite integral on the left to generate the rule <men
+        xml:id="E-IBP1" permid="bvU">
+        \int f(x) g'(x) \, dx = f(x) g(x) - \int g(x) f'(x) \, dx
+      </men>. </p>
 
-    <p permid="cBn">
-      We solve for the first indefinite integral on the left to generate the rule
-      <men xml:id="E-IBP1" permid="bvU">
-        \int f(x) g'(x) \, dx  = f(x)  g(x) -  \int g(x)  f'(x) \, dx
-      </men>.
-    </p>
-
-    <p permid="IIw">
-      Often we express <xref ref="E-IBP1">Equation</xref> in terms of the variables <m>u</m> and <m>v</m>, where <m>u = f(x)</m> and <m>v = g(x)</m>.
-      In differential notation, <m>du = f'(x) \, dx</m> and <m>dv = g'(x) \, dx</m>, so we can state the rule for <em> Integration by Parts </em> in its most common form as follows:
-    </p>
+    <p permid="IIw"> Often we express <xref ref="E-IBP1">Equation</xref> in terms of the variables <m>
+      u</m> and <m>v</m>, where <m>u = f(x)</m> and <m>v = g(x)</m>. In differential notation, <m>du
+      = f'(x) \, dx</m> and <m>dv = g'(x) \, dx</m>, so we can state the rule for <em> Integration
+      by Parts </em> in its most common form as follows: </p>
 
     <assemblage permid="tUX">
       <title> Integration by Parts Formula</title>
 
-      <p permid="oPF">
-        If <m> u=f(x) </m> and <m> v=g(x) </m>, then <m> du=f'(x) \, dx</m> and <m> dv=g'(x) \, dx </m>.
-        Then we can change <xref ref="E-IBP1"> Equation </xref> to the following equation:
-        <me permid="HDd">
-          \int u \, dv  = uv -  \int v \, du
-        </me>.
-      </p>
+      <p permid="oPF"> If <m> u=f(x) </m> and <m> v=g(x) </m>, then <m> du=f'(x) \, dx</m> and <m>
+        dv=g'(x) \, dx </m>. Then we can change <xref ref="E-IBP1"> Equation </xref> to the
+        following equation: <me permid="HDd">
+          \int u \, dv = uv - \int v \, du
+        </me>. </p>
     </assemblage>
 
     <p>
       A way to remember the integration by parts formula is the following picture:
     </p>
 
-    <image width="50%" source="5_6_Parts_Figure.svg"/>
-      <p>
-        Here, the curve <m>(u(x), v(x))</m> cuts a rectangle in half.
-        There are two ways to compute the area of the rectangle:
-        <ol marker="i.">
+    <image width="50%" source="5_6_Parts_Figure" />
+    <p> Here, the curve <m>(u(x), v(x))</m> cuts a rectangle in half. There are two ways to compute
+      the area of the rectangle: <ol marker="i.">
+        <li> The first is the usual length times height. The length of the rectangle is <m>u</m>,
+      and the height is <m>v</m>, so the area of the rectangle is <m>uv</m>. </li>
+
+        <li> The other way to find the area of the rectangle is to add the area under the curve and
+      above the curve. The area under the curve comes from integrated <m>v(x)</m> with respect to
+      the horizontal axis (the <m>u</m>-axis), so the area under the curve is <m>\int v du</m>.
+      Similarly, the area above the curve is integrated with respect to the vertical axis, so its
+      area is <m>\int u dv</m>. Summing these gives the total area of the rectangle is <m>\int u dv
+      + \int v du </m>. </li>
+      </ol> Comparing the two methods tells us that <m>uv = \int u dv +
+      \int v du </m>, and rearranging this expression gives the integration by parts formula. </p>
+
+    <assemblage>
+      <title> Method of Integration by Parts </title>
+
+      <p permid="UWO"> To apply integration by parts to evaluate an indefinite integral, perform the
+        following steps: <ul>
           <li>
-            The first is the usual length times height.
-            The length of the rectangle is <m>u</m>, and the height is <m>v</m>, so the area of the rectangle is <m>uv</m>.
-          </li>
-
-          <li>
-            The other way to find the area of the rectangle is to add the area under the curve and above the curve.
-            The area under the curve comes from integrated <m>v(x)</m> with respect to the horizontal axis (the <m>u</m>-axis), so the area under the curve is <m>\int v du</m>.
-            Similarly, the area above the curve is integrated with respect to the vertical axis, so its area is <m>\int u dv</m>.
-            Summing these gives the total area of the rectangle is <m>\int u dv + \int v du </m>.
-          </li>
-        </ol>
-        Comparing the two methods tells us that <m>uv = \int u dv + \int v du </m>, and rearranging this expression gives the integration by parts formula.
-      </p>
-
-      <assemblage>
-        <title> Method of Integration by Parts </title>
-
-        <p permid="UWO">
-          To apply integration by parts to evaluate an indefinite integral, perform the following steps:
-          <ul>
-            <li>
-              <p>
-                Look for a product of basic functions that we can identify as <m>u</m> and <m>dv</m>.
-                We need to antidifferentiate <m> dv </m> to find <m> v</m>, so keep this in mind when picking <m> u</m> and <m> dv </m>.
-              </p>
-            </li>
-
-            <li>
-              <p>
-                Once <m> u, v, du, </m> and <m> dv </m> have been identified, apply the integration by parts formula.
-              </p>
-            </li>
-
-            <li>
-              <p>
-                If evaluating <m>\int v \, du</m> is not more difficult than evaluating <m>\int u \, dv</m>, then this substitution usually proves to be fruitful.
-              </p>
-            </li>
-          </ul>
-          Note: there are some exceptions where <m> \int v\, du </m> is just as difficult as <m> \int u \, dv </m> but integration by parts is still helpful.
-          We cover those cases in <xref ref="IBP-MT"> Using Integration by Parts Multiple Times </xref>.
-        </p>
-      </assemblage>
-
-      <p>
-        To demonstrate this method, we consider the following example.
-      </p>
-
-      <example xml:id="Ex-5-4-IBP" permid="acg">
-        <statement>
-          <p permid="nas">
-            Evaluate the indefinite integral
-            <me permid="nKm">
-              \int x\cos(x) \, dx
-            </me>
-            using integration by parts.
-          </p>
-        </statement>
-
-        <solution permid="KTi">
-          <p permid="Rso">
-            When we use integration by parts, we have a choice for <m>u</m> and <m>dv</m>.
-            In this problem, we can either let <m>u = x</m> and <m>dv = \cos(x) \, dx</m>, or let <m>u = \cos(x)</m> and <m>dv = x \, dx</m>.
-            While there is not a universal rule for how to choose <m>u</m> and <m>dv</m>, a good guideline is this: do so in a way that <m>\int v \, du</m> is at least as simple as the original problem <m>\int u \, dv</m>.
-          </p>
-
-          <p permid="xzx">
-            This leads us to choose<fn> Observe that if we considered the alternate choice, and let <m>u = \cos(x)</m> and <m>dv = x \, dx</m>, then <m>du = -\sin(x) \, dx</m> and <m>v = \frac{1}{2}x^2</m>, from which we would write <m>\int x\cos(x) \, dx = \frac{1}{2}x^2 \cos(x) - \int \frac{1}{2}x^2 (-\sin(x)) \, dx</m>.
-            Thus we have replaced the problem of integrating <m>x \cos(x)</m> with that of integrating <m>\frac{1}{2}x^2 \sin(x)</m>; the latter is clearly more complicated, which shows that this alternate choice is not as helpful as the first choice.
-            </fn><m>u = x</m> and <m>dv = \cos(x) \, dx</m>, from which it follows that <m>du = 1 \, dx</m> and <m>v = \sin(x)</m>.
-            With this substitution, the rule for integration by parts tells us that
-            <me permid="TRv">
-              \int x \cos(x) \, dx = x \sin(x) - \int \sin(x) \cdot 1 \, dx
-            </me>.
-          </p>
-
-          <p permid="dGG">
-            All that remains to do is evaluate the (simpler) integral <m>\int \sin(x) \cdot 1 \, dx</m>.
-            Doing so, we find
-            <me permid="zYE">
-              \int x \cos(x) \, dx = x \sin(x) - (-\cos(x)) + C = x\sin(x) + \cos(x) + C
-            </me>.
-            Observe that when we get to the final stage of evaluating the last remaining antiderivative, it is at this step that we include the integration constant, <m>+C</m>.
-          </p>
-        </solution>
-      </example>
-
-      <p permid="BdX">
-        The general technique of integration by parts involves trading one integral for another since it converts the problem of evaluating <m>\int u \, dv</m> to that of evaluating <m>\int v \, du</m>.
-        It is therefore important that our choice of <m>u</m> and <m>v</m> make the problem easier instead of harder! In <xref ref="Ex-5-4-IBP">Example</xref>, the original integral to evaluate was <m>\int x \cos(x) \,dx</m>, and through the substitution provided by integration by parts, we were instead able to evaluate <m>\int \sin(x) \cdot 1 \, dx</m>.
-        Note that the original function <m>x</m> was replaced by its derivative, while <m>\cos(x)</m> was replaced by its antiderivative.
-      </p>
-
-      <example xml:id="act-5-4-1" permid="vxY">
-        <statement>
-          <p permid="Slv">
-            Evaluate each of the following indefinite integrals.
-            Check each antiderivative that you find by differentiating.
-            <ol marker="a."  permid="Fnj">
-              <li permid="lus">
-                <p permid="fFg">
-                  <m>\int te^{-t} \, dt</m>
-                </p>
-              </li>
-
-              <li permid="RBB">
-                <p permid="LMp">
-                  <m>\int 4x \sin(3x) \, dx</m>
-                </p>
-              </li>
-
-              <li permid="xIK">
-                <p permid="rTy">
-                  <m>\int z \sec^2(z) \,dz</m>
-                </p>
-              </li>
-
-              <li permid="dPT">
-                <p permid="YaH">
-                  <m>\int x \ln(x) \, dx</m>
-                </p>
-              </li>
-            </ol>
-          </p>
-        </statement>
-
-        <hint permid="gKz">
-          <p permid="mem">
-            <ol marker="a." permid="Zga">
-              <li permid="JXc">
-                <p permid="EhQ">
-                  Try <m>u=t</m>.
-                </p>
-              </li>
-
-              <li permid="qel">
-                <p permid="koZ">
-                  Let <m>dv=\sin(3x)dx</m>
-                </p>
-              </li>
-
-              <li permid="Wlu">
-                <p permid="Qwi">
-                  Remember that <m>\int \sec^2(z) \,dz = \tan(z)</m>.
-                </p>
-              </li>
-
-              <li permid="CsD">
-                <p permid="wDr">
-                  Note that <m>\ln(x) \, dx</m> has a simple derivative to work with.
-                </p>
-              </li>
-            </ol>
-          </p>
-        </hint>
-
-        <answer permid="ADq">
-          <p permid="FXd">
-            <ol marker="a." permid="sYR">
-              <li permid="izM">
-                <p permid="cKA">
-                  <m>\int t e^{-t} dt = -te^{-t} - e^{-t} +C</m>.
-                </p>
-              </li>
-
-              <li permid="OGV">
-                <p permid="IRJ">
-                  <m> \int 4x \sin(3x) dx = -\dfrac{4}{3} x \cos(3x) + \frac{4}{9} \sin(3x) + C </m>.
-                </p>
-              </li>
-
-              <li permid="uOe">
-                <p permid="oYS">
-                  <m> \int z \sec^2(z) dz = z \tan(z) + \ln |\cos(z)| + C </m>.
-                </p>
-              </li>
-
-              <li permid="aVn">
-                <p permid="Vgb">
-                  <m> \int x\ln(x) dx = \frac{1}{2}x^2 \ln(x) - \frac{1}{4}x^2 + C </m>.
-                </p>
-              </li>
-            </ol>
-          </p>
-        </answer>
-
-        <solution permid="Uwh">
-          <p permid="ZPU">
-            <ol marker="a." permid="MRI">
-              <li permid="Hcw">
-                <p permid="Bnk">
-                  Using <m>u = t</m> and <m>dv = e^{-t} dt</m>, we obtain <m>du = dt</m> and <m>v = -e^{-t}</m>.
-                  So
-                  <md>
-                    <mrow>\int t e^{-t} dt \amp = -te^{-t} + \int e^{-t} dt</mrow>
-                    <mrow>\amp = -te^{-t} - e^{-t} + C</mrow>
-                  </md>
-                  We check using differentiation as follows:
-                  <md>
-                    <mrow>\frac{d}{dt} \left( -te^{-t} - e^{-t} + C \right) \amp = \left( t e^{-t} - e^{-t} \right) + e^{-t}</mrow>
-                    <mrow>\amp = te^{-t}</mrow>
-                  </md>
-                </p>
-              </li>
-
-              <li permid="njF">
-                <p permid="hut">
-                  Using <m>u = 4x</m> and <m>dv = \sin(3x) dx</m>, we obtain <m>du = 4 dx</m> and <m>v = -\dfrac{1}{3} \cos(3x)</m>.
-                  So
-                  <md>
-                    <mrow>\int 4x \sin(3x) dx \amp = -\dfrac{4}{3} x \cos(3x) + \dfrac{4}{3} \int \cos(3x) dx</mrow>
-                    <mrow>\amp = -\dfrac{4}{3} x \cos(3x) + \frac{4}{9} \sin(3x) + C</mrow>
-                  </md>
-                  We check using differentiation as follows:
-                  <md>
-                    <mrow>\frac{d}{dx} \left( -\dfrac{4}{3} x \cos(3x) + \frac{4}{9} \sin(3x) + C \right) \amp =  4x \sin(3x) - \frac{4}{3} \cos(3x)  + \frac{4}{3} \cos(3x)</mrow>
-                    <mrow>\amp = 4x \sin(3x)</mrow>
-                  </md>
-                </p>
-              </li>
-
-              <li permid="TqO">
-                <p permid="NBC">
-                  Using <m>u = z</m> and <m>dv = \sec^2(z) dz</m>, we obtain <m>du = dz</m> and <m>v = \tan(z)</m>.
-                  So
-                  <md>
-                    <mrow>\int z \sec^2(z) dz \amp = z \tan(z) - \int \tan(z) \,dz</mrow>
-                    <mrow>\int z \sec^2(z) dz \amp = z \tan(z) - \int \frac{\sin(z)}{\cos(z)} \,dz</mrow>
-                    <mrow>\amp = z \tan(z) + \ln |\cos(z)| + C</mrow>
-                  </md>
-                  We check using differentiation as follows:
-                  <md>
-                    <mrow>\frac{d}{dz} \left( z \tan(z) + \ln |\cos(z)| + C \right) \amp = z\sec^2(z) + \tan(z) - \frac{\sin(z)}{\cos(z)}</mrow>
-                    <mrow>\amp = z\sec^2(z) + \tan(z) - \tan(z)</mrow>
-                    <mrow>\amp = z \sec^2(z)</mrow>
-                  </md>
-                </p>
-              </li>
-
-              <li permid="zxX">
-                <p permid="tIL">
-                  Using <m>u = \ln(x)</m> and <m>dv = x dx</m>, we obtain <m>du = \dfrac{1}{x} dx</m> and <m>v = \dfrac{1}{2}x^2</m>.
-                  So
-                  <md>
-                    <mrow>\int x\ln(x) dx \amp = \frac{1}{2}x^2 \ln(x) - \frac{1}{2} \int x dx</mrow>
-                    <mrow>\amp = \frac{1}{2}x^2 \ln(x) - \frac{1}{4}x^2 + C</mrow>
-                  </md>
-                  We check using differentiation as follows:
-                  <md>
-                    <mrow>\frac{d}{dx} \left( \frac{1}{2}x^2 \ln(x) - \frac{1}{4}x^2 + C \right) \amp = \frac{1}{2}x + x \ln(x) - \frac{1}{2} x</mrow>
-                    <mrow>\amp = x \ln(x)</mrow>
-                  </md>
-                </p>
-              </li>
-            </ol>
-          </p>
-        </solution>
-      </example>
-    </subsection>
-
-
-    <subsection permid="ple">
-      <title>Some Subtleties with Integration by Parts</title>
-
-      <p permid="hlg">
-        Sometimes integration by parts is not an obvious choice, but the technique is appropriate nonetheless.
-        Integration by parts allows us to replace one function in a product with its derivative while replacing the other with its antiderivative.
-        For instance, consider evaluating
-        <me permid="gfN">
-          \int \arctan(x) \, dx
-        </me>.
-      </p>
-
-      <p permid="Nsp">
-        Initially, this problem seems ill-suited to integration by parts, since there does not appear to be a product of functions present.
-        But if we note that <m>\arctan(x) = \arctan(x) \cdot 1</m>, and realize that we know the derivative of <m>\arctan(x)</m> as well as the antiderivative of <m>1</m>, we see the possibility for the substitution <m>u = \arctan(x)</m> and <m>dv = 1 \, dx</m>.
-        We explore this substitution further in <xref ref="act-5-4-2">Example</xref>.
-      </p>
-
-      <p permid="tzy">
-        In a related problem, consider <m>\int t^3 \sin(t^2) \, dt</m>.
-        Observe that there is a composite function present in <m>\sin(t^2)</m>, which normally suggests <m>u</m>-substitution, but there is not an obvious function-derivative pair, as we have <m>t^3</m> (rather than simply <m>t</m>) multiplying <m>\sin(t^2)</m>.
-        In this problem we use both <m>u</m>-substitution and integration by parts.
-        First we write <m>t^3 = t \cdot t^2</m> and consider the indefinite integral
-        <me permid="MmW">
-          \int t \cdot t^2 \cdot \sin(t^2) \, dt
-        </me>.
-        We let <m>z = t^2</m> so that <m>dz = 2t \, dt</m>, and thus <m>t \, dt = \frac{1}{2} \, dz</m>.
-        (We are using the variable <m>z</m> to perform a <q><m>z</m>-substitution</q> first so that we may then apply integration by parts.) Under this <m>z</m>-substitution, we now have
-        <me permid="suf">
-          \int t \cdot t^2 \cdot \sin(t^2) \, dt = \int z \cdot \sin(z) \cdot \frac{1}{2} \, dz
-        </me>.
-      </p>
-
-      <p permid="ZGH">
-        The resulting integral can be evaluated by parts.
-        This, too, is explored further in <xref ref="act-5-4-2">Example</xref>.
-      </p>
-
-      <p permid="FNQ">
-        These problems show that we sometimes must think creatively in choosing the variables for substitution in integration by parts, and that we may need to use substitution for an additional change of variables.
-      </p>
-
-      <example xml:id="act-5-4-2" permid="qsG">
-        <statement>
-          <p permid="UKC">
-            Evaluate each of the following indefinite integrals, using the provided hints.
-            <ol marker="a." permid="AhR">
-              <li permid="gpa">
-                <p permid="usF">
-                  Evaluate <m>\int \arctan(x) \, dx</m> by using Integration by Parts with the substitution <m>u = \arctan(x)</m> and <m>dv = 1 \, dx</m>.
-                </p>
-              </li>
-
-              <li permid="Mwj">
-                <p permid="azO">
-                  Evaluate <m>\int \ln(z) \,dz</m>.
-                  Consider a similar substitution to the one in (a).
-                </p>
-              </li>
-
-              <li permid="sDs">
-                <p permid="GGX">
-                  Use the substitution <m>z = t^2</m> to transform the integral <m>\int t^3 \sin(t^2) \, dt</m> to a new integral in the variable <m>z</m>, and evaluate that new integral by parts.
-                </p>
-              </li>
-
-              <li permid="YKB">
-                <p permid="mOg">
-                  Evaluate <m>\int s^5 e^{s^3} \, ds</m> using an approach similar to that described in (c).
-                </p>
-              </li>
-
-              <li permid="ERK">
-                <p permid="SVp">
-                  Evaluate <m>\int e^{2t} \cos(e^t) \, dt</m>.
-                  You will find it helpful to note that <m>e^{2t} = e^t \cdot e^t</m>.
-                </p>
-              </li>
-            </ol>
-          </p>
-        </statement>
-
-        <answer permid="HMq">
-          <p permid="oDt">
-            <ol marker="a." permid="UaI">
-              <li permid="kYT">
-                <p permid="zcy">
-                  <m>\int{\arctan(x) dx} = x\arctan(x) - \frac{1}{2} \ln \left( 1 + x^2 \right) + C </m>.
-                </p>
-              </li>
-
-              <li permid="Rgc">
-                <p permid="fjH">
-                  <m>\int \ln(z) dz = z \ln(z) - z + C </m>.
-                </p>
-              </li>
-
-              <li permid="xnl">
-                <p permid="LqQ">
-                  <m>\int t^3 \sin(t^2) dt = \frac{1}{2} \left( -t^2 \cos\left(t^2 \right) + \sin\left(t^2\right) \right) +C</m>.
-                </p>
-              </li>
-
-              <li permid="duu">
-                <p permid="rxZ">
-                  <m>\int s^5 e^{s^3} ds = \frac{1}{3} \left( s^3 e^{s^3} - e^{s^3} \right) + C </m>.
-                </p>
-              </li>
-
-              <li permid="JBD">
-                <p permid="XFi">
-                  <m>\int e^{2t} \cos\left( e^t \right) dt = e^t \sin \left( e^t \right) + \cos \left( e^t \right) + C </m>.
-                </p>
-              </li>
-            </ol>
-          </p>
-        </answer>
-
-        <solution permid="bFh">
-          <p permid="Iwk">
-            <ol marker="a." permid="nTz">
-              <li permid="pIM">
-                <p permid="DMr">
-                  We use integration by parts with <m>u = \arctan(x)</m> and <m>dv = dx</m>.
-                  So <m>du = \dfrac{1}{1+x^2}dx</m> and <m>v = x</m>.
-                  <md>
-                    <mrow>\int{\arctan(x) dx} \amp = uv - \int{v du}</mrow>
-                    <mrow>\amp = x\arctan(x) - \int\frac{x}{1+x^2} dx</mrow>
-                  </md>
-                  For the integral in the last equation, use the substitution <m>z = 1+x^2</m> and <m>dz = 2x\, dx</m>.
-                  <md>
-                    <mrow>\int \arctan(x) dx  \amp = x\arctan(x) -\int\frac{x}{1+x^2} dx</mrow>
-                    <mrow>\amp = x\arctan(x) - \frac{1}{2} \int \frac{1}{z} dz</mrow>
-                    <mrow>\amp = x\arctan(x) - \frac{1}{2} \ln(z) + C</mrow>
-                    <mrow>\amp = x\arctan(x) - \frac{1}{2} \ln \left( 1 + x^2 \right) + C</mrow>
-                  </md>
-                </p>
-              </li>
-
-              <li permid="VPV">
-                <p permid="jTA">
-                  Using <m>u = \ln(z)</m> and <m>dv = dz</m>, we obtain <m>du = \dfrac{1}{z} dz</m> and <m>v = z</m>.
-                  So
-                  <md>
-                    <mrow>\int \ln(z) dz \amp = z \ln(z) - \int dz</mrow>
-                    <mrow>\amp = z \ln(z) - z + C</mrow>
-                  </md>
-                </p>
-              </li>
-
-              <li permid="BXe">
-                <p permid="QaJ">
-                  Using <m>z = t^2</m>, we obtain <m>dz = 2t dt</m> and <m>\dfrac{1}{2} dz = t dt</m>.
-                  So
-                  <md>
-                    <mrow>\int t^3 \sin(t^2) dt \amp = \int t^2 \sin(t^2) \cdot t dt</mrow>
-                    <mrow>\amp = \int z \sin(z) \frac{1}{2} dz</mrow>
-                    <mrow>\amp = \frac{1}{2} \int z \sin(z) dz</mrow>
-                  </md>
-                  Now using integration by parts with <m>u = z</m> and <m>dv = \sin(z) dz</m>, we obtain <m>du = dz</m> and <m>v = -\cos(z)</m>.
-                  So
-                  <md>
-                    <mrow>\int t^3 \sin(t^2) dt \amp = \frac{1}{2} \int z \sin(z) dz</mrow>
-                    <mrow>\amp = \frac{1}{2} \left( -z \cos(z) + \int \cos(z) dz \right)</mrow>
-                    <mrow>\amp = \frac{1}{2} \left( -z \cos(z) + \sin(z) \right) + C</mrow>
-                  </md>
-                  Finally, we use <m>z = t^2</m> and obtain
-                  <me permid="tnm">
-                    \int t^3 \sin(t^2) dt = \frac{1}{2} \left( -t^2 \cos\left(t^2 \right) + \sin\left(t^2\right) \right) +C
-                  </me>.
-                </p>
-              </li>
-
-              <li permid="ien">
-                <p permid="whS">
-                  Use a substitution with <m>z = s^3</m> and <m>dz = 3s^2 ds</m>.
-                  <md>
-                    <mrow>\int s^5 e^{s^3} ds \amp = \int s^2 s^3 e^{s^3} ds</mrow>
-                    <mrow>\amp = \frac{1}{3} \int z e^z dz</mrow>
-                  </md>
-                  Now use integration by parts with <m>u = z</m> and <m>dv = e^z dz</m>.
-                  So <m>du = dz</m> and <m>v = e^z</m>.
-                  <md>
-                    <mrow>\int s^5 e^{s^3} ds \amp = \frac{1}{3} \int z e^z dz</mrow>
-                    <mrow>\amp = \frac{1}{3} \left( z e^z - \int e^z dz \right)</mrow>
-                    <mrow>\amp = \frac{1}{3} \left( z e^z - e^z \right) + C</mrow>
-                    <mrow>\amp = \frac{1}{3} \left( s^3 e^{s^3} - e^{s^3} \right) + C</mrow>
-                  </md>
-                </p>
-              </li>
-
-              <li permid="Olw">
-                <p permid="cpb">
-                  Using <m>z = e^t</m>, we see that <m>dz = e^t dt</m> and so
-                  <md>
-                    <mrow>\int e^{2t} \cos\left( e^t \right) dt \amp = \int e^t \cos\left( e^t \right) \cdot e^t  dt</mrow>
-                    <mrow>\amp = \int z \cos(z) dz</mrow>
-                  </md>
-                  In <xref ref="Ex-5-4-IBP">Example</xref>, we saw that
-                  <me permid="xXf">
-                    \int z \cos(z) dz = z \sin(z) + \cos(z) + C
-                  </me>.
-                  Combining these two results, we obtain
-                  <md>
-                    <mrow>\int e^{2t} \cos\left( e^t \right) dt \amp = \int z \cos(z) dz</mrow>
-                    <mrow>\amp = z \sin(z) + \cos(z) + C</mrow>
-                    <mrow>\amp = e^t \sin \left( e^t \right) + \cos \left( e^t \right) + C</mrow>
-                  </md>
-                </p>
-              </li>
-            </ol>
-          </p>
-        </solution>
-      </example>
-    </subsection>
-
-
-    <subsection xml:id="IBP-MT" permid="Vsn">
-      <title>Using Integration by Parts Multiple Times</title>
-
-      <p permid="lUZ">
-        Integration by parts is well suited to integrating the product of basic functions, allowing us to trade a given integrand for a new one where one function in the product is replaced by its derivative, and the other is replaced by its antiderivative.
-        The goal in this trade of <m>\int u \, dv</m> for <m>\int v \, du</m> is that the new integral be simpler to evaluate than the original one.
-        Sometimes it is necessary to apply integration by parts more than once in order to evaluate a given integral.
-      </p>
-
-      <example permid="Gjp">
-        <statement>
-          <p permid="ThB">
-            Evaluate <m>\int t^2 e^t \, dt</m>.
-          </p>
-        </statement>
-
-        <solution permid="rar">
-          <p permid="JNP">
-            Let <m>u = t^2</m> and <m>dv = e^t \, dt</m>.
-            Then <m>du = 2t \, dt</m> and <m>v = e^t</m>, and thus
-            <me permid="YBo">
-              \int t^2 e^t \, dt = t^2 e^t - \int 2t e^t \, dt
-            </me>.
-          </p>
-
-          <p permid="pUY">
-            The integral on the right side is simpler to evaluate than the one on the left, but it still requires integration by parts.
-            Now letting <m>u = 2t</m> and <m>dv = e^t \, dt</m>, we have <m>du = 2\, dt</m> and <m>v = e^t</m>, so that
-            <me permid="EIx">
-              \int t^2 e^t \, dt = t^2 e^t - \left( 2t e^t - \int 2 e^t \, dt \right)
-            </me>.
-          </p>
-
-          <p permid="Wch">
-            (Note the parentheses, which remind us to distribute the minus sign to the entire value of the integral <m>\int 2t e^t \, dt</m>.) The final integral on the right is a basic one; evaluating that integral and distributing the minus sign, we find
-            <me permid="kPG">
-              \int t^2 e^t \, dt = t^2 e^t - 2t e^t +  2 e^t + C
-            </me>.
-          </p>
-        </solution>
-      </example>
-
-      <p permid="Sci">
-        Of course, even more than two applications of integration by parts may be necessary.
-        In the preceding example, if the integrand had been <m>t^3e^t</m>, we would have had to use integration by parts three times.
-      </p>
-
-      <p permid="yjr">
-        Next, we consider the slightly different scenario where multiple uses of integration by parts are necessary.
-      </p>
-
-      <example permid="mqy">
-        <statement>
-          <p permid="zoK">
-            Evaluate <m>\int e^t \cos(t) \, dt</m>.
-          </p>
-        </statement>
-
-        <hint>
-          <p>
-            Apply integration by parts twice, then rearrange the equation to solve for <m>\int e^t \cos(t) \, dt</m>.
-          </p>
-        </hint>
-
-        <answer>
-          <p>
-            <m>\int e^t \cos(t) \, dt= \frac{1}{2}(e^t\cos(t)+e^t\sin(t)) +C</m>.
-          </p>
-        </answer>
-
-        <solution permid="XhA">
-          <p permid="Cjq">
-            We can choose to let <m>u</m> be either <m>e^t</m> or <m>\cos(t)</m>; we pick <m>u = \cos(t)</m>, and thus <m>dv = e^t \, dt</m>.
-            With <m>du = -\sin(t) \, dt</m> and <m>v = e^t</m>, integration by parts tells us that
-            <me permid="QWP">
-              \int e^t \cos(t) \, dt = e^t \cos(t) - \int e^t (-\sin(t))\, dt
-            </me>,
-            or equivalently that
-            <men xml:id="E_IBPtwice" permid="xdY">
-              \int e^t \cos(t) \, dt = e^t \cos(t) + \int e^t \sin(t) \, dt
-            </men>.
-          </p>
-
-          <p permid="iqz">
-            The new integral has the same algebraic structure as the original one.
-            While the overall situation isn't necessarily better than what we started with, it hasn't gotten worse.
-            Thus, we proceed to integrate by parts again.
-            This time we let <m>u = \sin(t)</m> and <m>dv = e^t \, dt</m>, so that <m>du = \cos(t) \, dt</m> and <m>v = e^t</m>, which implies
-            <men xml:id="E_IBPtwice2" permid="dlh">
-              \int e^t \cos(t) \, dt = e^t \cos(t) + \left( e^t \sin(t) - \int e^t \cos(t) \, dt \right)
-            </men>.
-          </p>
-
-          <p permid="OxI">
-            We seem to be back where we started, as two applications of integration by parts has led us back to the original problem, <m>\int e^t \cos(t) \, dt</m>.
-            But if we look closely at <xref ref="E_IBPtwice2">Equation</xref>, we see that we can use algebra to solve for the value of the desired integral.
-            Adding <m>\int e^t \cos(t) \, dt</m> to both sides of the equation, we have
-            <me permid="Jsq">
-              2 \int e^t \cos(t) \, dt = e^t \cos(t) +  e^t \sin(t)
-            </me>,
-            and therefore
-            <me permid="pzz">
-              \int e^t \cos(t) \, dt = \frac{1}{2} \left( e^t \cos(t) +  e^t \sin(t) \right) + C
-            </me>.
-          </p>
-
-          <p permid="uER">
-            Note that since we never actually encountered an integral we could evaluate directly, we didn't have the opportunity to add the integration constant <m>C</m> until the final step.
-          </p>
-        </solution>
-      </example>
-
-      <example xml:id="act-5-4-3" permid="uHa">
-        <statement>
-          <p permid="Rux">
-            Evaluate each of the following indefinite integrals.
-            <ol marker="a." permid="HqR">
-              <li permid="nya">
-                <p permid="Gly">
-                  <m>\int x^2 \sin(x) \, dx</m>
-                </p>
-              </li>
-
-              <li permid="TFj">
-                <p permid="msH">
-                  <m>\int t^3 \ln(t) \, dt</m>
-                </p>
-              </li>
-
-              <li permid="zMs">
-                <p permid="SzQ">
-                  <m>\int e^z \sin(z) \, dz</m>
-                </p>
-              </li>
-
-              <li permid="fTB">
-                <p permid="yGZ">
-                  <m>\int s^2 e^{3s} \, ds</m>
-                </p>
-              </li>
-
-              <li permid="MaK">
-                <p permid="eOi">
-                  <m>\int t \arctan(t) \,dt</m>
-                </p>
-              </li>
-            </ol>
-          </p>
-        </statement>
-
-        <hint permid="iOh">
-          <p permid="lno">
-            <ol marker="a." permid="bjI">
-              <li permid="shT">
-                <p permid="KVr">
-                  Start with <m>u=x^2</m>.
-                </p>
-              </li>
-
-              <li permid="Ypc">
-                <p permid="rcA">
-                  Begin with <m>u=t^3</m>.
-                </p>
-              </li>
-
-              <li permid="Ewl">
-                <p permid="XjJ">
-                  You'll have to integrate by parts twice.
-                </p>
-              </li>
-
-              <li permid="kDu">
-                <p permid="DqS">
-                  Start with <m>u=s^2</m>.
-                </p>
-              </li>
-
-              <li permid="QKD">
-                <p permid="jyb">
-                  Try <m>u=\arctan(x)</m>.
-                  At a certain point in this problem, it is very helpful to note that <m>\frac{t^2}{1+t^2} = 1 - \frac{1}{1+t^2}</m>.
-                  Just like while using partial fractions if the numerator and denominator of a rational function are the same, performing polynomial long division first can help.
-                </p>
-              </li>
-            </ol>
-          </p>
-        </hint>
-
-        <answer permid="CGY">
-          <p permid="Fgf">
-            <ol marker="a." permid="vcz">
-              <li permid="wRM">
-                <p permid="PFk">
-                  <md>
-                    <mrow> \int x^2 \sin(x) dx = -x^2 \cos(x) + 2x \sin(x) + 2 \cos(x) + C </mrow>
-                  </md>.
-                </p>
-              </li>
-
-              <li permid="cYV">
-                <p permid="vMt">
-                  <md>
-                    <mrow> \int t^3 \ln(t) dt = \frac{1}{4} t^4 \ln(t) - \frac{1}{16} t^4 + C </mrow>
-                  </md>.
-                </p>
-              </li>
-
-              <li permid="Jge">
-                <p permid="bTC">
-                  <md>
-                    <mrow> \int e^z \sin(z) dz = -\frac{1}{2}e^z \cos(z) + \frac{1}{2}e^z \sin(z) + C </mrow>
-                  </md>.
-                </p>
-              </li>
-
-              <li permid="pnn">
-                <p permid="IaL">
-                  <md>
-                    <mrow> \int s^2 e^{3s} ds = \frac{1}{3}s^2 e^{3s} - \frac{2}{9}s e^{3s} + \frac{2}{27} e^{3s} + C </mrow>
-                  </md>.
-                </p>
-              </li>
-
-              <li permid="Vuw">
-                <p permid="ohU">
-                  <md>
-                    <mrow> \int t \arctan(t) dt \amp= \frac{1}{2}t^2 \arctan(t) - \frac{1}{2}t - \frac{1}{2} \arctan(t) + C </mrow>
-                  </md>.
-                </p>
-              </li>
-            </ol>
-          </p>
-        </answer>
-
-        <solution permid="WzP">
-          <p permid="YYW">
-            <ol marker="a." permid="OVq">
-              <li permid="BBF">
-                <p permid="Upd">
-                  First, using <m>u = x^2</m> and <m>dv = \sin(x) dx</m>, we get <m>du = 2x dx</m> and <m>v = -\cos(x)</m>.
-                  So
-                  <me permid="xBG">
-                    \int x^2 \sin(x) dx = -x^2 \cos(x) + 2 \int x \cos(x) dx
-                  </me>.
-                  Now, for <m>\int x \cos(x) dx</m>, we use <m>u = x</m> and <m>dv = \cos(x)</m> and get <m>du = dx</m> and <m>v =\sin(x)</m>.
-                  So
-                  <md>
-                    <mrow>\int x^2 \sin(x) dx \amp = -x^2 \cos(x) + 2 \left( x \sin(x) - \int \sin(x) dx \right)</mrow>
-                    <mrow>\amp = -x^2 \cos(x) + 2x \sin(x) + 2 \cos(x) + C</mrow>
-                  </md>
-                </p>
-              </li>
-
-              <li permid="hIO">
-                <p permid="Awm">
-                  Using <m>u = \ln(t)</m> and <m>dv = t^3 dt</m>, we get <m>du = \dfrac{1}{t} dt</m> and <m>v = \dfrac{1}{4} t^4</m>.
-                  So
-                  <md>
-                    <mrow>\int t^3 \ln(t) dt \amp = \frac{1}{4} t^4 \ln(t) - \frac{1}{4} \int t^3 dt</mrow>
-                    <mrow>\amp = \frac{1}{4} t^4 \ln(t) - \frac{1}{4} \cdot \frac{1}{4} t^4 + C</mrow>
-                    <mrow>\amp = \frac{1}{4} t^4 \ln(t) - \frac{1}{16}  t^4 + C</mrow>
-                  </md>
-                </p>
-              </li>
-
-              <li permid="NPX">
-                <p permid="gDv">
-                  We use <m>u = e^z</m> and <m>dv = \sin(z) dz</m>.
-                  This gives <m>du = e^z dz</m> and <m>v = -\cos(z)</m>, and
-                  <me permid="pXh">
-                    \int e^z \sin(z) dz = -e^z \cos(z) + \int e^z \cos(z) dz
-                  </me>.
-                  For <m>\int e^z \cos(z) dz</m>, we use <m>u = e^z</m> and <m>dv = \cos(z) dz</m>.
-                  So <m>du = e^z dz</m> and <m>v = \sin(z)</m>, and
-                  <md>
-                    <mrow>\int e^z \sin(z) dz \amp = -e^z \cos(z)  + e^z \sin(z) dz - \int e^z \sin(z) dz</mrow>
-                    <mrow>2 \int e^z \sin(z) dz \amp = -e^z \cos(z) + e^z \sin(z) + C'</mrow>
-                    <mrow>\int e^z \sin(z) dz \amp = -\frac{1}{2}e^z \cos(z) + \frac{1}{2}e^z \sin(z) + C</mrow>
-                  </md>
-                </p>
-              </li>
-
-              <li permid="tXg">
-                <p permid="MKE">
-                  We use <m>u = s^2</m>, <m>dv = e^{3s} ds</m>, <m>du = 2s ds</m>, and <m>v = \frac{1}{3} e^{3s}</m>.
-                  This gives
-                  <me permid="Clz">
-                    \int s^2 e^{3s} ds = \frac{1}{3}s^2 e^{3s} - \frac{2}{3} \int s e^{3s} ds
-                  </me>.
-                  We now use <m>u = s</m>, <m>dv = e^{3s} ds</m>, <m>du = ds</m>, and <m>v = \dfrac{1}{3} e^{3s}</m> for <m>\int s e^{3s} ds</m>.
-                  <md>
-                    <mrow>\int s^2 e^{3s} ds \amp = \frac{1}{3}s^2 e^{3s} - \frac{2}{3} \left( \frac{1}{3}s e^{3s} - \frac{1}{3}\int e^{3s} ds \right)</mrow>
-                    <mrow>\amp = \frac{1}{3}s^2 e^{3s} - \frac{2}{3} \left( \frac{1}{3}s e^{3s} - \frac{1}{9} e^{3s} \right) + C</mrow>
-                    <mrow>\amp = \frac{1}{3}s^2 e^{3s} - \frac{2}{9}s e^{3s} + \frac{2}{27} e^{3s} + C</mrow>
-                  </md>
-                </p>
-              </li>
-
-              <li permid="aep">
-                <p permid="sRN">
-                  Using <m>u = \arctan(t)</m>, <m>dv = t dt</m>, <m>du = \dfrac{1}{1+t^2} dt</m>, and <m>v = \dfrac{1}{2} t^2</m>, we get
-                  <md>
-                    <mrow>\int t \arctan(t) dt \amp = \frac{1}{2}t^2 \arctan(t) - \frac{1}{2} \int \frac{t^2}{1 + t^2} dt</mrow>
-                    <mrow>\amp = \frac{1}{2}t^2 \arctan(t) - \frac{1}{2} \int \left( 1 - \frac{1}{1 + t^2} \right) dt</mrow>
-                    <mrow>\amp = \frac{1}{2}t^2 \arctan(t) - \frac{1}{2}t - \frac{1}{2} \arctan(t) + C</mrow>
-                  </md>
-                </p>
-              </li>
-            </ol>
-          </p>
-        </solution>
-      </example>
-    </subsection>
-
-
-    <subsection permid="Bzw">
-      <title>Evaluating Definite Integrals Using Integration by Parts</title>
-
-      <p permid="eqA">
-        We can use the technique of integration by parts to evaluate a definite integral by finding the indefinite integral and then plugging in the endpoints.
-      </p>
-
-      <example permid="SxH">
-        <statement>
-          <p permid="fvT">
-            Evaluate the following definite integrals using the technique of integration by parts:
-            <ol marker="a.">
-              <li>
-                <m> \displaystyle \int_0^{\pi/2} t\sin(t) \, dt </m>
-              </li>
-
-              <li>
-                <m> \displaystyle \int_1^{2} te^{2t} \, dt </m>
-              </li>
-            </ol>
-          </p>
-        </statement>
-
-        <hint>
-          <p>
-            <ol marker="a.">
-              <li>
-                Take <m>du=\sin(t)dt</m>.
-                What is <m>v</m>?
-              </li>
-
-              <li>
-                Take <m>v=e^{2t}</m>.
-                What is <m>u</m>?
-              </li>
-            </ol>
-          </p>
-        </hint>
-
-        <answer>
-          <p>
-            <ol marker="a.">
-              <li>
-                <m>1 </m>
-              </li>
-
-              <li>
-                <m>\sim 39.1</m>
-              </li>
-            </ol>
-          </p>
-        </answer>
-
-        <solution permid="DoJ">
-          <p>
-            <ol marker="a.">
-              <li>
-                <p permid="aMa">
-                  One option is to find an antiderivative (using indefinite integral notation) and then apply the Fundamental Theorem of Calculus to find that
-                  <md>
-                    <mrow>\int_0^{\pi/2} t\sin(t) \, dt =\mathstrut \amp  \left.\left( -t \cos(t) + \sin(t) \right) \right|_0^{\pi/2}</mrow>
-                    <mrow>=\mathstrut \amp  \left( -\frac{\pi}{2} \cos(\frac{\pi}{2}) + \sin(\frac{\pi}{2}) \right) - \left( -0 \cos(0) + \sin(0) \right)</mrow>
-                    <mrow>=\mathstrut \amp  1</mrow>
-                  </md>.
-                </p>
-
-                <p permid="GTj">
-                  Alternatively, we can apply integration by parts and work with definite integrals throughout.
-                  With this method, we must remember to evaluate the product <m>uv</m> over the given limits of integration.
-                  Using the substitution <m>u = t</m> and <m>dv = \sin(t) \, dt</m>, so that <m>du = dt</m> and <m>v = -\cos(t)</m>, we write
-                  <md>
-                    <mrow> \int_0^{\pi/2} t\sin(t) \, dt =\mathstrut\amp \left. -t \cos(t) \right |_{0}^{\pi/2} - \int_0^{\pi/2} (-\cos(t)) \, dt </mrow>
-                    <mrow> =\mathstrut \amp  \left. -t \cos(t) \right |_{0}^{\pi/2}  +  \left. \sin(t) \right |_{0}^{\pi/2} </mrow>
-                    <mrow> =\mathstrut \amp  \left( -\frac{\pi}{2} \cos(\frac{\pi}{2}) + \sin(\frac{\pi}{2}) \right) - \left( -0 \cos(0) + \sin(0) \right) </mrow>
-                    <mrow> =\mathstrut \amp  1 </mrow>
-                  </md>.
-                </p>
-              </li>
-
-              <li>
-                <p>
-                  We can take <m>u=\frac 1 2 t</m> and <m>v=e^{2t}</m>, so that <m> du =\frac 1 2 dt</m> and <m>dv=2e^{2t}dt</m>.
-                  Then
-                  <md>
-                    <mrow> \int_1^2 u\, dv =\mathstrut\amp \left. uv \right |_{t=1}^{t=2} - \int_1^2 v \, du </mrow>
-                    <mrow> \int_1^2 te^{2t} \, dt = \mathstrut \amp \left. (\frac 12 t)(e^{2t}) \right |_{t=1}^{t=2} - \int_1^2 (e^{2t}) (\frac 1 2 dt) </mrow>
-                    <mrow> = \mathstrut \amp \left. (\frac 12 t)(e^{2t}) \right |_{t=1}^{t=2}- \left. \frac 14 (e^{2t}) \right |_{t=1}^{t=2}</mrow>
-                    <mrow> = \mathstrut \amp ((\frac 12 (2)))(e^{2(2))})-(\frac 12 (1))(e^{2(1)}))- (\frac 14 (e^{2(2)})-\frac 14 (e^{2(1)}))</mrow>
-                    <mrow> = \mathstrut \amp \frac 34 e^4 - \frac 1 4 e^2 \approx 39.1</mrow>
-                  </md>.
-                </p>
-              </li>
-            </ol>
-          </p>
-        </solution>
-      </example>
-
-      <p permid="KxJ">
-        As with any substitution technique, it is important to use notation carefully and completely, and to ensure that the end result makes sense.
-      </p>
-    </subsection>
-
-
-    <subsection permid="hGF">
-      <title>When <m>u</m>-substitution and Integration by Parts Fail to Help</title>
-
-      <p permid="qES">
-        Both integration techniques we have discussed apply in relatively limited circumstances.
-        It is not hard to find examples of functions for which neither technique produces an antiderivative; indeed, there are many, many functions that appear elementary but that do not have an elementary algebraic antiderivative.
-        For instance, neither <m>u</m>-substitution nor integration by parts proves fruitful for the indefinite integrals
-        <me permid="Ocj">
-          \int e^{x^2} \, dx \ \ \text{and}  \ \ \int x \tan(x) \, dx
-        </me>.
-        While there are other integration techniques, some of which we will consider briefly, none of them enables us to find an algebraic antiderivative for <m>e^{x^2}</m> or <m>x \tan(x)</m>.
-        We do know from the Second Fundamental Theorem of Calculus that we can construct an integral antiderivative for each function; <m>F(x) = \int_0^x e^{t^2} \, dt</m> is an antiderivative of <m>f(x) = e^{x^2}</m>, and <m>G(x) = \int_0^{x} t \tan(t) \, dt</m> is an antiderivative of <m>g(x) = x \tan(x)</m>.
-        But finding an elementary algebraic formula that doesn't involve integrals for either <m>F</m> or <m>G</m> turns out not only to be impossible through <m>u</m>-substitution or integration by parts, but indeed impossible altogether.
-        Antidifferentiation is much harder in general than differentiation.
-      </p>
-    </subsection>
-
-
-    <subsection permid="NNO">
-      <title>Summary</title>
-
-      <p permid="WMb">
-        <ul permid="PDb">
-          <li permid="ofL">
-            <p permid="YWN">
-              Through the method of integration by parts, we can evaluate indefinite integrals, such as <m>\int x \sin(x) \, dx</m> and <m>\int x \ln(x) \, dx</m>,  that involve products of basic functions.
-              Using a substitution enables us to trade one of the functions in the product for its derivative, and the other for its antiderivative, in an effort to find a different product of functions that is easier to integrate.
-            </p>
-          </li>
-
-          <li permid="UmU">
-            <p permid="FdW">
-              If the algebraic structure of an integrand is a product of basic functions in the form <m>\int f(x) g'(x) \, dx</m>, we can use the substitution <m>u = f(x)</m> and <m>dv = g'(x) \,dx</m> and apply the rule
-              <me permid="ujs">
-                \int u \, dv = uv - \int v \, du
-              </me>
-              to evaluate the original integral <m>\int f(x) g'(x) \, dx</m> by instead evaluating
-              <me permid="aqB">
-                \int v \, du = \int f'(x) g(x) \, dx
-              </me>.
-            </p>
-          </li>
-
-          <li permid="Aud">
-            <p permid="llf">
-              When deciding to integrate by parts, we have to select both <m>u</m> and <m>dv</m>.
-              That selection is guided by the overall principle that the new integral <m>\int v \, du</m> not be more difficult than the original integral <m>\int u \, dv</m>.
-              In addition, it is often helpful to recognize if one of the functions present is much easier to differentiate than antidifferentiate (such as <m>\ln(x)</m>), in which case that function often is best assigned the variable <m>u</m>.
-              In addition, <m>dv</m> must be a function that we can antidifferentiate.
-            </p>
+            <p> Look for a product of basic functions that we can identify as <m>u</m> and <m>dv</m>.
+        We need to antidifferentiate <m> dv </m> to find <m> v</m>, so keep this in mind when
+        picking <m> u</m> and <m> dv </m>. </p>
           </li>
 
           <li>
-            <p>
-              Sometimes, integration by parts must be used more than once, or with another technique like <m>u</m>-substitution.
-            </p>
+            <p> Once <m> u, v, du, </m> and <m> dv </m> have been identified, apply the integration
+        by parts formula. </p>
+          </li>
+
+          <li>
+            <p> If evaluating <m>\int v \, du</m> is not more difficult than evaluating <m>\int u \,
+        dv</m>, then this substitution usually proves to be fruitful. </p>
           </li>
         </ul>
-      </p>
-    </subsection>
+        Note: there are some exceptions where <m> \int v\, du </m> is just as difficult as <m> \int
+        u \, dv </m> but integration by parts is still helpful. We cover those cases in <xref
+          ref="IBP-MT"> Using Integration by Parts Multiple Times </xref>. </p>
+    </assemblage>
 
-    <exercises xmlns:xi="http://www.w3.org/2001/XInclude">
+    <p>
+      To demonstrate this method, we consider the following example.
+    </p>
+
+    <example xml:id="Ex-5-4-IBP" permid="acg">
+      <statement>
+        <p permid="nas"> Evaluate the indefinite integral <me permid="nKm">
+            \int x\cos(x) \, dx
+          </me> using integration by parts. </p>
+      </statement>
+
+      <solution permid="KTi">
+        <p permid="Rso"> When we use integration by parts, we have a choice for <m>u</m> and <m>dv</m>.
+          In this problem, we can either let <m>u = x</m> and <m>dv = \cos(x) \, dx</m>, or let <m>u
+          = \cos(x)</m> and <m>dv = x \, dx</m>. While there is not a universal rule for how to
+          choose <m>u</m> and <m>dv</m>, a good guideline is this: do so in a way that <m>\int v \,
+          du</m> is at least as simple as the original problem <m>\int u \, dv</m>. </p>
+
+        <p permid="xzx"> This leads us to choose<fn> Observe that if we considered the alternate
+          choice, and let <m>u = \cos(x)</m> and <m>dv = x \, dx</m>, then <m>du = -\sin(x) \, dx</m>
+          and <m>v = \frac{1}{2}x^2</m>, from which we would write <m>\int x\cos(x) \, dx =
+          \frac{1}{2}x^2 \cos(x) - \int \frac{1}{2}x^2 (-\sin(x)) \, dx</m>. Thus we have replaced
+          the problem of integrating <m>x \cos(x)</m> with that of integrating <m>\frac{1}{2}x^2
+          \sin(x)</m>; the latter is clearly more complicated, which shows that this alternate
+          choice is not as helpful as the first choice. </fn><m>u = x</m> and <m>dv = \cos(x) \, dx</m>,
+          from which it follows that <m>du = 1 \, dx</m> and <m>v = \sin(x)</m>. With this
+          substitution, the rule for integration by parts tells us that <me permid="TRv">
+            \int x \cos(x) \, dx = x \sin(x) - \int \sin(x) \cdot 1 \, dx
+          </me>
+          .
+          </p>
+
+        <p permid="dGG"> All that remains to do is evaluate the (simpler) integral <m>\int \sin(x)
+          \cdot 1 \, dx</m>. Doing so, we find <me permid="zYE">
+            \int x \cos(x) \, dx = x \sin(x) - (-\cos(x)) + C = x\sin(x) + \cos(x) + C
+          </me>.
+          Observe that when we get to the final stage of evaluating the last remaining
+          antiderivative, it is at this step that we include the integration constant, <m>+C</m>. </p>
+      </solution>
+    </example>
+
+    <p permid="BdX"> The general technique of integration by parts involves trading one integral for
+      another since it converts the problem of evaluating <m>\int u \, dv</m> to that of evaluating <m>\int
+      v \, du</m>. It is therefore important that our choice of <m>u</m> and <m>v</m> make the
+      problem easier instead of harder! In <xref ref="Ex-5-4-IBP">Example</xref>, the original
+      integral to evaluate was <m>\int x \cos(x) \,dx</m>, and through the substitution provided by
+      integration by parts, we were instead able to evaluate <m>\int \sin(x) \cdot 1 \, dx</m>. Note
+      that the original function <m>x</m> was replaced by its derivative, while <m>\cos(x)</m> was
+      replaced by its antiderivative. </p>
+
+    <example xml:id="act-5-4-1" permid="vxY">
+      <statement>
+        <p permid="Slv"> Evaluate each of the following indefinite integrals. Check each
+          antiderivative that you find by differentiating. <ol marker="a." permid="Fnj">
+            <li permid="lus">
+              <p permid="fFg">
+                <m>\int te^{-t} \, dt</m>
+              </p>
+            </li>
+
+            <li permid="RBB">
+              <p permid="LMp">
+                <m>\int 4x \sin(3x) \, dx</m>
+              </p>
+            </li>
+
+            <li permid="xIK">
+              <p permid="rTy">
+                <m>\int z \sec^2(z) \,dz</m>
+              </p>
+            </li>
+
+            <li permid="dPT">
+              <p permid="YaH">
+                <m>\int x \ln(x) \, dx</m>
+              </p>
+            </li>
+          </ol>
+        </p>
+      </statement>
+
+      <hint permid="gKz">
+        <p permid="mem">
+          <ol marker="a." permid="Zga">
+            <li permid="JXc">
+              <p permid="EhQ"> Try <m>u=t</m>. </p>
+            </li>
+
+            <li permid="qel">
+              <p permid="koZ"> Let <m>dv=\sin(3x)dx</m>
+              </p>
+            </li>
+
+            <li permid="Wlu">
+              <p permid="Qwi"> Remember that <m>\int \sec^2(z) \,dz = \tan(z)</m>. </p>
+            </li>
+
+            <li permid="CsD">
+              <p permid="wDr"> Note that <m>\ln(x) \, dx</m> has a simple derivative to work with. </p>
+            </li>
+          </ol>
+        </p>
+      </hint>
+
+      <answer permid="ADq">
+        <p permid="FXd">
+          <ol marker="a." permid="sYR">
+            <li permid="izM">
+              <p permid="cKA">
+                <m>\int t e^{-t} dt = -te^{-t} - e^{-t} +C</m>. </p>
+            </li>
+
+            <li permid="OGV">
+              <p permid="IRJ">
+                <m> \int 4x \sin(3x) dx = -\dfrac{4}{3} x \cos(3x) + \frac{4}{9} \sin(3x) + C </m>. </p>
+            </li>
+
+            <li permid="uOe">
+              <p permid="oYS">
+                <m> \int z \sec^2(z) dz = z \tan(z) + \ln |\cos(z)| + C </m>. </p>
+            </li>
+
+            <li permid="aVn">
+              <p permid="Vgb">
+                <m> \int x\ln(x) dx = \frac{1}{2}x^2 \ln(x) - \frac{1}{4}x^2 + C </m>. </p>
+            </li>
+          </ol>
+        </p>
+      </answer>
+
+      <solution permid="Uwh">
+        <p permid="ZPU">
+          <ol marker="a." permid="MRI">
+            <li permid="Hcw">
+              <p permid="Bnk"> Using <m>u = t</m> and <m>dv = e^{-t} dt</m>, we obtain <m>du = dt</m>
+                and <m>v = -e^{-t}</m>. So <md>
+                  <mrow>\int t e^{-t} dt \amp = -te^{-t} + \int e^{-t} dt</mrow>
+                  <mrow>\amp = -te^{-t} - e^{-t} + C</mrow>
+                </md> We check using
+                differentiation as follows: <md>
+                  <mrow>\frac{d}{dt} \left( -te^{-t} - e^{-t} + C \right) \amp = \left( t e^{-t} -
+                e^{-t} \right) + e^{-t}</mrow>
+                  <mrow>\amp = te^{-t}</mrow>
+                </md>
+              </p>
+            </li>
+
+            <li permid="njF">
+              <p permid="hut"> Using <m>u = 4x</m> and <m>dv = \sin(3x) dx</m>, we obtain <m>du = 4
+                dx</m> and <m>v = -\dfrac{1}{3} \cos(3x)</m>. So <md>
+                  <mrow>\int 4x \sin(3x) dx \amp = -\dfrac{4}{3} x \cos(3x) + \dfrac{4}{3} \int
+                \cos(3x) dx</mrow>
+                  <mrow>\amp = -\dfrac{4}{3} x \cos(3x) + \frac{4}{9} \sin(3x) + C</mrow>
+                </md>
+                We check using differentiation as follows: <md>
+                  <mrow>\frac{d}{dx} \left( -\dfrac{4}{3} x \cos(3x) + \frac{4}{9} \sin(3x) + C
+                \right) \amp = 4x \sin(3x) - \frac{4}{3} \cos(3x) + \frac{4}{3} \cos(3x)</mrow>
+                  <mrow>\amp = 4x \sin(3x)</mrow>
+                </md>
+              </p>
+            </li>
+
+            <li permid="TqO">
+              <p permid="NBC"> Using <m>u = z</m> and <m>dv = \sec^2(z) dz</m>, we obtain <m>du = dz</m>
+                and <m>v = \tan(z)</m>. So <md>
+                  <mrow>\int z \sec^2(z) dz \amp = z \tan(z) - \int \tan(z) \,dz</mrow>
+                  <mrow>\int z \sec^2(z) dz \amp = z \tan(z) - \int \frac{\sin(z)}{\cos(z)} \,dz</mrow>
+                  <mrow>\amp = z \tan(z) + \ln |\cos(z)| + C</mrow>
+                </md> We check
+                using differentiation as follows: <md>
+                  <mrow>\frac{d}{dz} \left( z \tan(z) + \ln |\cos(z)| + C \right) \amp = z\sec^2(z)
+                + \tan(z) - \frac{\sin(z)}{\cos(z)}</mrow>
+                  <mrow>\amp = z\sec^2(z) + \tan(z) - \tan(z)</mrow>
+                  <mrow>\amp = z \sec^2(z)</mrow>
+                </md>
+              </p>
+            </li>
+
+            <li permid="zxX">
+              <p permid="tIL"> Using <m>u = \ln(x)</m> and <m>dv = x dx</m>, we obtain <m>du =
+                \dfrac{1}{x} dx</m> and <m>v = \dfrac{1}{2}x^2</m>. So <md>
+                  <mrow>\int x\ln(x) dx \amp = \frac{1}{2}x^2 \ln(x) - \frac{1}{2} \int x dx</mrow>
+                  <mrow>\amp = \frac{1}{2}x^2 \ln(x) - \frac{1}{4}x^2 + C</mrow>
+                </md>
+                We check using differentiation as follows: <md>
+                  <mrow>\frac{d}{dx} \left( \frac{1}{2}x^2 \ln(x) - \frac{1}{4}x^2 + C \right) \amp
+                = \frac{1}{2}x + x \ln(x) - \frac{1}{2} x</mrow>
+                  <mrow>\amp = x \ln(x)</mrow>
+                </md>
+              </p>
+            </li>
+          </ol>
+        </p>
+      </solution>
+    </example>
+  </subsection>
+
+
+  <subsection permid="ple">
+    <title>Some Subtleties with Integration by Parts</title>
+
+    <p permid="hlg"> Sometimes integration by parts is not an obvious choice, but the technique is
+      appropriate nonetheless. Integration by parts allows us to replace one function in a product
+      with its derivative while replacing the other with its antiderivative. For instance, consider
+      evaluating <me permid="gfN">
+        \int \arctan(x) \, dx
+      </me>. </p>
+
+    <p permid="Nsp"> Initially, this problem seems ill-suited to integration by parts, since there
+      does not appear to be a product of functions present. But if we note that <m>\arctan(x) =
+      \arctan(x) \cdot 1</m>, and realize that we know the derivative of <m>\arctan(x)</m> as well
+      as the antiderivative of <m>1</m>, we see the possibility for the substitution <m>u =
+      \arctan(x)</m> and <m>dv = 1 \, dx</m>. We explore this substitution further in <xref
+        ref="act-5-4-2">Example</xref>. </p>
+
+    <p permid="tzy"> In a related problem, consider <m>\int t^3 \sin(t^2) \, dt</m>. Observe that
+      there is a composite function present in <m>\sin(t^2)</m>, which normally suggests <m>u</m>-substitution,
+      but there is not an obvious function-derivative pair, as we have <m>t^3</m> (rather than
+      simply <m>t</m>) multiplying <m>\sin(t^2)</m>. In this problem we use both <m>u</m>-substitution
+      and integration by parts. First we write <m>t^3 = t \cdot t^2</m> and consider the indefinite
+      integral <me permid="MmW">
+        \int t \cdot t^2 \cdot \sin(t^2) \, dt
+      </me>. We let <m>z = t^2</m> so that <m>dz
+      = 2t \, dt</m>, and thus <m>t \, dt = \frac{1}{2} \, dz</m>. (We are using the variable <m>z</m>
+      to perform a <q><m>z</m>-substitution</q> first so that we may then apply integration by
+      parts.) Under this <m>z</m>-substitution, we now have <me permid="suf">
+        \int t \cdot t^2 \cdot \sin(t^2) \, dt = \int z \cdot \sin(z) \cdot \frac{1}{2} \, dz
+      </me>
+      .
+      </p>
+
+    <p permid="ZGH"> The resulting integral can be evaluated by parts. This, too, is explored
+      further in <xref ref="act-5-4-2">Example</xref>. </p>
+
+    <p permid="FNQ">
+      These problems show that we sometimes must think creatively in choosing the variables for
+      substitution in integration by parts, and that we may need to use substitution for an
+      additional change of variables.
+    </p>
+
+    <example xml:id="act-5-4-2" permid="qsG">
+      <statement>
+        <p permid="UKC"> Evaluate each of the following indefinite integrals, using the provided
+          hints. <ol marker="a." permid="AhR">
+            <li permid="gpa">
+              <p permid="usF"> Evaluate <m>\int \arctan(x) \, dx</m> by using Integration by Parts
+          with the substitution <m>u = \arctan(x)</m> and <m>dv = 1 \, dx</m>. </p>
+            </li>
+
+            <li permid="Mwj">
+              <p permid="azO"> Evaluate <m>\int \ln(z) \,dz</m>. Consider a similar substitution to
+          the one in (a). </p>
+            </li>
+
+            <li permid="sDs">
+              <p permid="GGX"> Use the substitution <m>z = t^2</m> to transform the integral <m>\int
+          t^3 \sin(t^2) \, dt</m> to a new integral in the variable <m>z</m>, and evaluate that new
+          integral by parts. </p>
+            </li>
+
+            <li permid="YKB">
+              <p permid="mOg"> Evaluate <m>\int s^5 e^{s^3} \, ds</m> using an approach similar to
+          that described in (c). </p>
+            </li>
+
+            <li permid="ERK">
+              <p permid="SVp"> Evaluate <m>\int e^{2t} \cos(e^t) \, dt</m>. You will find it helpful
+          to note that <m>e^{2t} = e^t \cdot e^t</m>. </p>
+            </li>
+          </ol>
+        </p>
+      </statement>
+
+      <answer permid="HMq">
+        <p permid="oDt">
+          <ol marker="a." permid="UaI">
+            <li permid="kYT">
+              <p permid="zcy">
+                <m>\int{\arctan(x) dx} = x\arctan(x) - \frac{1}{2} \ln \left( 1 + x^2 \right) + C </m>
+                .
+                </p>
+            </li>
+
+            <li permid="Rgc">
+              <p permid="fjH">
+                <m>\int \ln(z) dz = z \ln(z) - z + C </m>. </p>
+            </li>
+
+            <li permid="xnl">
+              <p permid="LqQ">
+                <m>\int t^3 \sin(t^2) dt = \frac{1}{2} \left( -t^2 \cos\left(t^2 \right) +
+                \sin\left(t^2\right) \right) +C</m>. </p>
+            </li>
+
+            <li permid="duu">
+              <p permid="rxZ">
+                <m>\int s^5 e^{s^3} ds = \frac{1}{3} \left( s^3 e^{s^3} - e^{s^3} \right) + C </m>. </p>
+            </li>
+
+            <li permid="JBD">
+              <p permid="XFi">
+                <m>\int e^{2t} \cos\left( e^t \right) dt = e^t \sin \left( e^t \right) + \cos \left(
+                e^t \right) + C </m>. </p>
+            </li>
+          </ol>
+        </p>
+      </answer>
+
+      <solution permid="bFh">
+        <p permid="Iwk">
+          <ol marker="a." permid="nTz">
+            <li permid="pIM">
+              <p permid="DMr"> We use integration by parts with <m>u = \arctan(x)</m> and <m>dv = dx</m>.
+                So <m>du = \dfrac{1}{1+x^2}dx</m> and <m>v = x</m>. <md>
+                  <mrow>\int{\arctan(x) dx} \amp = uv - \int{v du}</mrow>
+                  <mrow>\amp = x\arctan(x) - \int\frac{x}{1+x^2} dx</mrow>
+                </md> For
+                the integral in the last equation, use the substitution <m>z = 1+x^2</m> and <m>dz =
+                2x\, dx</m>. <md>
+                  <mrow>\int \arctan(x) dx \amp = x\arctan(x) -\int\frac{x}{1+x^2} dx</mrow>
+                  <mrow>\amp = x\arctan(x) - \frac{1}{2} \int \frac{1}{z} dz</mrow>
+                  <mrow>\amp = x\arctan(x) - \frac{1}{2} \ln(z) + C</mrow>
+                  <mrow>\amp = x\arctan(x) - \frac{1}{2} \ln \left( 1 + x^2 \right) + C</mrow>
+                </md>
+              </p>
+            </li>
+
+            <li permid="VPV">
+              <p permid="jTA"> Using <m>u = \ln(z)</m> and <m>dv = dz</m>, we obtain <m>du =
+                \dfrac{1}{z} dz</m> and <m>v = z</m>. So <md>
+                  <mrow>\int \ln(z) dz \amp = z \ln(z) - \int dz</mrow>
+                  <mrow>\amp = z \ln(z) - z + C</mrow>
+                </md>
+              </p>
+            </li>
+
+            <li permid="BXe">
+              <p permid="QaJ"> Using <m>z = t^2</m>, we obtain <m>dz = 2t dt</m> and <m>\dfrac{1}{2}
+                dz = t dt</m>. So <md>
+                  <mrow>\int t^3 \sin(t^2) dt \amp = \int t^2 \sin(t^2) \cdot t dt</mrow>
+                  <mrow>\amp = \int z \sin(z) \frac{1}{2} dz</mrow>
+                  <mrow>\amp = \frac{1}{2} \int z \sin(z) dz</mrow>
+                </md> Now using
+                integration by parts with <m>u = z</m> and <m>dv = \sin(z) dz</m>, we obtain <m>du =
+                dz</m> and <m>v = -\cos(z)</m>. So <md>
+                  <mrow>\int t^3 \sin(t^2) dt \amp = \frac{1}{2} \int z \sin(z) dz</mrow>
+                  <mrow>\amp = \frac{1}{2} \left( -z \cos(z) + \int \cos(z) dz \right)</mrow>
+                  <mrow>\amp = \frac{1}{2} \left( -z \cos(z) + \sin(z) \right) + C</mrow>
+                </md>
+                Finally, we use <m>z = t^2</m> and obtain <me permid="tnm">
+                  \int t^3 \sin(t^2) dt = \frac{1}{2} \left( -t^2 \cos\left(t^2 \right) +
+                \sin\left(t^2\right) \right) +C
+                </me>
+                .
+                </p>
+            </li>
+
+            <li permid="ien">
+              <p permid="whS"> Use a substitution with <m>z = s^3</m> and <m>dz = 3s^2 ds</m>. <md>
+                  <mrow>\int s^5 e^{s^3} ds \amp = \int s^2 s^3 e^{s^3} ds</mrow>
+                  <mrow>\amp = \frac{1}{3} \int z e^z dz</mrow>
+                </md> Now use
+                integration by parts with <m>u = z</m> and <m>dv = e^z dz</m>. So <m>du = dz</m> and <m>v
+                = e^z</m>. <md>
+                  <mrow>\int s^5 e^{s^3} ds \amp = \frac{1}{3} \int z e^z dz</mrow>
+                  <mrow>\amp = \frac{1}{3} \left( z e^z - \int e^z dz \right)</mrow>
+                  <mrow>\amp = \frac{1}{3} \left( z e^z - e^z \right) + C</mrow>
+                  <mrow>\amp = \frac{1}{3} \left( s^3 e^{s^3} - e^{s^3} \right) + C</mrow>
+                </md>
+              </p>
+            </li>
+
+            <li permid="Olw">
+              <p permid="cpb"> Using <m>z = e^t</m>, we see that <m>dz = e^t dt</m> and so <md>
+                  <mrow>\int e^{2t} \cos\left( e^t \right) dt \amp = \int e^t \cos\left( e^t \right)
+                \cdot e^t dt</mrow>
+                  <mrow>\amp = \int z \cos(z) dz</mrow>
+                </md> In <xref
+                  ref="Ex-5-4-IBP">Example</xref>, we saw that <me permid="xXf">
+                  \int z \cos(z) dz = z \sin(z) + \cos(z) + C
+                </me>.
+                Combining these two results, we obtain <md>
+                  <mrow>\int e^{2t} \cos\left( e^t \right) dt \amp = \int z \cos(z) dz</mrow>
+                  <mrow>\amp = z \sin(z) + \cos(z) + C</mrow>
+                  <mrow>\amp = e^t \sin \left( e^t \right) + \cos \left( e^t \right) + C</mrow>
+                </md>
+              </p>
+            </li>
+          </ol>
+        </p>
+      </solution>
+    </example>
+  </subsection>
+
+
+  <subsection xml:id="IBP-MT" permid="Vsn">
+    <title>Using Integration by Parts Multiple Times</title>
+
+    <p permid="lUZ"> Integration by parts is well suited to integrating the product of basic
+      functions, allowing us to trade a given integrand for a new one where one function in the
+      product is replaced by its derivative, and the other is replaced by its antiderivative. The
+      goal in this trade of <m>\int u \, dv</m> for <m>\int v \, du</m> is that the new integral be
+      simpler to evaluate than the original one. Sometimes it is necessary to apply integration by
+      parts more than once in order to evaluate a given integral. </p>
+
+    <example permid="Gjp">
+      <statement>
+        <p permid="ThB"> Evaluate <m>\int t^2 e^t \, dt</m>. </p>
+      </statement>
+
+      <solution permid="rar">
+        <p permid="JNP"> Let <m>u = t^2</m> and <m>dv = e^t \, dt</m>. Then <m>du = 2t \, dt</m> and <m>v
+          = e^t</m>, and thus <me permid="YBo">
+            \int t^2 e^t \, dt = t^2 e^t - \int 2t e^t \, dt
+          </me>. </p>
+
+        <p permid="pUY"> The integral on the right side is simpler to evaluate than the one on the
+          left, but it still requires integration by parts. Now letting <m>u = 2t</m> and <m>dv =
+          e^t \, dt</m>, we have <m>du = 2\, dt</m> and <m>v = e^t</m>, so that <me permid="EIx">
+          \int t^2 e^t \, dt = t^2 e^t - \left( 2t e^t - \int 2 e^t \, dt \right)
+          </me>
+          .
+          </p>
+
+        <p permid="Wch"> (Note the parentheses, which remind us to distribute the minus sign to the
+          entire value of the integral <m>\int 2t e^t \, dt</m>.) The final integral on the right is
+          a basic one; evaluating that integral and distributing the minus sign, we find <me
+            permid="kPG">
+            \int t^2 e^t \, dt = t^2 e^t - 2t e^t + 2 e^t + C
+          </me>. </p>
+      </solution>
+    </example>
+
+    <p permid="Sci"> Of course, even more than two applications of integration by parts may be
+      necessary. In the preceding example, if the integrand had been <m>t^3e^t</m>, we would have
+      had to use integration by parts three times. </p>
+
+    <p permid="yjr">
+      Next, we consider the slightly different scenario where multiple uses of integration by parts
+      are necessary.
+    </p>
+
+    <example permid="mqy">
+      <statement>
+        <p permid="zoK"> Evaluate <m>\int e^t \cos(t) \, dt</m>. </p>
+      </statement>
+
+      <hint>
+        <p> Apply integration by parts twice, then rearrange the equation to solve for <m>\int e^t
+          \cos(t) \, dt</m>. </p>
+      </hint>
+
+      <answer>
+        <p>
+          <m>\int e^t \cos(t) \, dt= \frac{1}{2}(e^t\cos(t)+e^t\sin(t)) +C</m>. </p>
+      </answer>
+
+      <solution permid="XhA">
+        <p permid="Cjq"> We can choose to let <m>u</m> be either <m>e^t</m> or <m>\cos(t)</m>; we
+          pick <m>u = \cos(t)</m>, and thus <m>dv = e^t \, dt</m>. With <m>du = -\sin(t) \, dt</m>
+          and <m>v = e^t</m>, integration by parts tells us that <me permid="QWP">
+            \int e^t \cos(t) \, dt = e^t \cos(t) - \int e^t (-\sin(t))\, dt
+          </me>,
+          or equivalently that <men xml:id="E_IBPtwice" permid="xdY">
+            \int e^t \cos(t) \, dt = e^t \cos(t) + \int e^t \sin(t) \, dt
+          </men>
+          .
+          </p>
+
+        <p permid="iqz"> The new integral has the same algebraic structure as the original one.
+          While the overall situation isn't necessarily better than what we started with, it hasn't
+          gotten worse. Thus, we proceed to integrate by parts again. This time we let <m>u =
+          \sin(t)</m> and <m>dv = e^t \, dt</m>, so that <m>du = \cos(t) \, dt</m> and <m>v = e^t</m>,
+          which implies <men xml:id="E_IBPtwice2" permid="dlh">
+            \int e^t \cos(t) \, dt = e^t \cos(t) + \left( e^t \sin(t) - \int e^t \cos(t) \, dt
+          \right)
+          </men>
+          .
+          </p>
+
+        <p permid="OxI"> We seem to be back where we started, as two applications of integration by
+          parts has led us back to the original problem, <m>\int e^t \cos(t) \, dt</m>. But if we
+          look closely at <xref ref="E_IBPtwice2">Equation</xref>, we see that we can use algebra to
+          solve for the value of the desired integral. Adding <m>\int e^t \cos(t) \, dt</m> to both
+          sides of the equation, we have <me permid="Jsq">
+            2 \int e^t \cos(t) \, dt = e^t \cos(t) + e^t \sin(t)
+          </me>,
+          and therefore <me permid="pzz">
+            \int e^t \cos(t) \, dt = \frac{1}{2} \left( e^t \cos(t) + e^t \sin(t) \right) + C
+          </me>
+          .
+          </p>
+
+        <p permid="uER"> Note that since we never actually encountered an integral we could evaluate
+          directly, we didn't have the opportunity to add the integration constant <m>C</m> until
+          the final step. </p>
+      </solution>
+    </example>
+
+    <example xml:id="act-5-4-3" permid="uHa">
+      <statement>
+        <p permid="Rux"> Evaluate each of the following indefinite integrals. <ol marker="a."
+            permid="HqR">
+            <li permid="nya">
+              <p permid="Gly">
+                <m>\int x^2 \sin(x) \, dx</m>
+              </p>
+            </li>
+
+            <li permid="TFj">
+              <p permid="msH">
+                <m>\int t^3 \ln(t) \, dt</m>
+              </p>
+            </li>
+
+            <li permid="zMs">
+              <p permid="SzQ">
+                <m>\int e^z \sin(z) \, dz</m>
+              </p>
+            </li>
+
+            <li permid="fTB">
+              <p permid="yGZ">
+                <m>\int s^2 e^{3s} \, ds</m>
+              </p>
+            </li>
+
+            <li permid="MaK">
+              <p permid="eOi">
+                <m>\int t \arctan(t) \,dt</m>
+              </p>
+            </li>
+          </ol>
+        </p>
+      </statement>
+
+      <hint permid="iOh">
+        <p permid="lno">
+          <ol marker="a." permid="bjI">
+            <li permid="shT">
+              <p permid="KVr"> Start with <m>u=x^2</m>. </p>
+            </li>
+
+            <li permid="Ypc">
+              <p permid="rcA"> Begin with <m>u=t^3</m>. </p>
+            </li>
+
+            <li permid="Ewl">
+              <p permid="XjJ">
+                You'll have to integrate by parts twice.
+              </p>
+            </li>
+
+            <li permid="kDu">
+              <p permid="DqS"> Start with <m>u=s^2</m>. </p>
+            </li>
+
+            <li permid="QKD">
+              <p permid="jyb"> Try <m>u=\arctan(x)</m>. At a certain point in this problem, it is
+                very helpful to note that <m>\frac{t^2}{1+t^2} = 1 - \frac{1}{1+t^2}</m>. Just like
+                while using partial fractions if the numerator and denominator of a rational
+                function are the same, performing polynomial long division first can help. </p>
+            </li>
+          </ol>
+        </p>
+      </hint>
+
+      <answer permid="CGY">
+        <p permid="Fgf">
+          <ol marker="a." permid="vcz">
+            <li permid="wRM">
+              <p permid="PFk">
+                <md>
+                  <mrow> \int x^2 \sin(x) dx = -x^2 \cos(x) + 2x \sin(x) + 2 \cos(x) + C </mrow>
+                </md>
+                .
+                </p>
+            </li>
+
+            <li permid="cYV">
+              <p permid="vMt">
+                <md>
+                  <mrow> \int t^3 \ln(t) dt = \frac{1}{4} t^4 \ln(t) - \frac{1}{16} t^4 + C </mrow>
+                </md>
+                .
+                </p>
+            </li>
+
+            <li permid="Jge">
+              <p permid="bTC">
+                <md>
+                  <mrow> \int e^z \sin(z) dz = -\frac{1}{2}e^z \cos(z) + \frac{1}{2}e^z \sin(z) + C </mrow>
+                </md>
+                .
+                </p>
+            </li>
+
+            <li permid="pnn">
+              <p permid="IaL">
+                <md>
+                  <mrow> \int s^2 e^{3s} ds = \frac{1}{3}s^2 e^{3s} - \frac{2}{9}s e^{3s} +
+                \frac{2}{27} e^{3s} + C </mrow>
+                </md>. </p>
+            </li>
+
+            <li permid="Vuw">
+              <p permid="ohU">
+                <md>
+                  <mrow> \int t \arctan(t) dt \amp= \frac{1}{2}t^2 \arctan(t) - \frac{1}{2}t -
+                \frac{1}{2} \arctan(t) + C </mrow>
+                </md>. </p>
+            </li>
+          </ol>
+        </p>
+      </answer>
+
+      <solution permid="WzP">
+        <p permid="YYW">
+          <ol marker="a." permid="OVq">
+            <li permid="BBF">
+              <p permid="Upd"> First, using <m>u = x^2</m> and <m>dv = \sin(x) dx</m>, we get <m>du
+                = 2x dx</m> and <m>v = -\cos(x)</m>. So <me permid="xBG">
+                  \int x^2 \sin(x) dx = -x^2 \cos(x) + 2 \int x \cos(x) dx
+                </me>.
+                Now, for <m>\int x \cos(x) dx</m>, we use <m>u = x</m> and <m>dv = \cos(x)</m> and
+                get <m>du = dx</m> and <m>v =\sin(x)</m>. So <md>
+                  <mrow>\int x^2 \sin(x) dx \amp = -x^2 \cos(x) + 2 \left( x \sin(x) - \int \sin(x)
+                dx \right)</mrow>
+                  <mrow>\amp = -x^2 \cos(x) + 2x \sin(x) + 2 \cos(x) + C</mrow>
+                </md>
+              </p>
+            </li>
+
+            <li permid="hIO">
+              <p permid="Awm"> Using <m>u = \ln(t)</m> and <m>dv = t^3 dt</m>, we get <m>du =
+                \dfrac{1}{t} dt</m> and <m>v = \dfrac{1}{4} t^4</m>. So <md>
+                  <mrow>\int t^3 \ln(t) dt \amp = \frac{1}{4} t^4 \ln(t) - \frac{1}{4} \int t^3 dt</mrow>
+                  <mrow>\amp = \frac{1}{4} t^4 \ln(t) - \frac{1}{4} \cdot \frac{1}{4} t^4 + C</mrow>
+                  <mrow>\amp = \frac{1}{4} t^4 \ln(t) - \frac{1}{16} t^4 + C</mrow>
+                </md>
+              </p>
+            </li>
+
+            <li permid="NPX">
+              <p permid="gDv"> We use <m>u = e^z</m> and <m>dv = \sin(z) dz</m>. This gives <m>du =
+                e^z dz</m> and <m>v = -\cos(z)</m>, and <me permid="pXh">
+                  \int e^z \sin(z) dz = -e^z \cos(z) + \int e^z \cos(z) dz
+                </me>.
+                For <m>\int e^z \cos(z) dz</m>, we use <m>u = e^z</m> and <m>dv = \cos(z) dz</m>. So <m>du
+                = e^z dz</m> and <m>v = \sin(z)</m>, and <md>
+                  <mrow>\int e^z \sin(z) dz \amp = -e^z \cos(z) + e^z \sin(z) dz - \int e^z \sin(z)
+                dz</mrow>
+                  <mrow>2 \int e^z \sin(z) dz \amp = -e^z \cos(z) + e^z \sin(z) + C'</mrow>
+                  <mrow>\int e^z \sin(z) dz \amp = -\frac{1}{2}e^z \cos(z) + \frac{1}{2}e^z \sin(z)
+                + C</mrow>
+                </md>
+              </p>
+            </li>
+
+            <li permid="tXg">
+              <p permid="MKE"> We use <m>u = s^2</m>, <m>dv = e^{3s} ds</m>, <m>du = 2s ds</m>, and <m>v
+                = \frac{1}{3} e^{3s}</m>. This gives <me permid="Clz">
+                  \int s^2 e^{3s} ds = \frac{1}{3}s^2 e^{3s} - \frac{2}{3} \int s e^{3s} ds
+                </me>.
+                We now use <m>u = s</m>, <m>dv = e^{3s} ds</m>, <m>du = ds</m>, and <m>v =
+                \dfrac{1}{3} e^{3s}</m> for <m>\int s e^{3s} ds</m>. <md>
+                  <mrow>\int s^2 e^{3s} ds \amp = \frac{1}{3}s^2 e^{3s} - \frac{2}{3} \left(
+                \frac{1}{3}s e^{3s} - \frac{1}{3}\int e^{3s} ds \right)</mrow>
+                  <mrow>\amp = \frac{1}{3}s^2 e^{3s} - \frac{2}{3} \left( \frac{1}{3}s e^{3s} -
+                \frac{1}{9} e^{3s} \right) + C</mrow>
+                  <mrow>\amp = \frac{1}{3}s^2 e^{3s} - \frac{2}{9}s e^{3s} + \frac{2}{27} e^{3s} + C</mrow>
+                </md>
+              </p>
+            </li>
+
+            <li permid="aep">
+              <p permid="sRN"> Using <m>u = \arctan(t)</m>, <m>dv = t dt</m>, <m>du =
+                \dfrac{1}{1+t^2} dt</m>, and <m>v = \dfrac{1}{2} t^2</m>, we get <md>
+                  <mrow>\int t \arctan(t) dt \amp = \frac{1}{2}t^2 \arctan(t) - \frac{1}{2} \int
+                \frac{t^2}{1 + t^2} dt</mrow>
+                  <mrow>\amp = \frac{1}{2}t^2 \arctan(t) - \frac{1}{2} \int \left( 1 - \frac{1}{1 +
+                t^2} \right) dt</mrow>
+                  <mrow>\amp = \frac{1}{2}t^2 \arctan(t) - \frac{1}{2}t - \frac{1}{2} \arctan(t) + C</mrow>
+                </md>
+              </p>
+            </li>
+          </ol>
+        </p>
+      </solution>
+    </example>
+  </subsection>
+
+
+  <subsection permid="Bzw">
+    <title>Evaluating Definite Integrals Using Integration by Parts</title>
+
+    <p permid="eqA">
+      We can use the technique of integration by parts to evaluate a definite integral by finding
+      the indefinite integral and then plugging in the endpoints.
+    </p>
+
+    <example permid="SxH">
+      <statement>
+        <p permid="fvT"> Evaluate the following definite integrals using the technique of
+          integration by parts: <ol marker="a.">
+            <li>
+              <m> \displaystyle \int_0^{\pi/2} t\sin(t) \, dt </m>
+            </li>
+
+            <li>
+              <m> \displaystyle \int_1^{2} te^{2t} \, dt </m>
+            </li>
+          </ol>
+        </p>
+      </statement>
+
+      <hint>
+        <p>
+          <ol marker="a.">
+            <li> Take <m>du=\sin(t)dt</m>. What is <m>v</m>? </li>
+
+            <li> Take <m>v=e^{2t}</m>. What is <m>u</m>? </li>
+          </ol>
+        </p>
+      </hint>
+
+      <answer>
+        <p>
+          <ol marker="a.">
+            <li>
+              <m>1 </m>
+            </li>
+
+            <li>
+              <m>\sim 39.1</m>
+            </li>
+          </ol>
+        </p>
+      </answer>
+
+      <solution permid="DoJ">
+        <p>
+          <ol marker="a.">
+            <li>
+              <p permid="aMa"> One option is to find an antiderivative (using indefinite integral
+                notation) and then apply the Fundamental Theorem of Calculus to find that <md>
+                  <mrow>\int_0^{\pi/2} t\sin(t) \, dt =\mathstrut \amp \left.\left( -t \cos(t) +
+                \sin(t) \right) \right|_0^{\pi/2}</mrow>
+                  <mrow>=\mathstrut \amp \left( -\frac{\pi}{2} \cos(\frac{\pi}{2}) +
+                \sin(\frac{\pi}{2}) \right) - \left( -0 \cos(0) + \sin(0) \right)</mrow>
+                  <mrow>=\mathstrut \amp 1</mrow>
+                </md>. </p>
+
+              <p permid="GTj"> Alternatively, we can apply integration by parts and work with
+                definite integrals throughout. With this method, we must remember to evaluate the
+                product <m>uv</m> over the given limits of integration. Using the substitution <m>u
+                = t</m> and <m>dv = \sin(t) \, dt</m>, so that <m>du = dt</m> and <m>v = -\cos(t)</m>,
+                we write <md>
+                  <mrow> \int_0^{\pi/2} t\sin(t) \, dt =\mathstrut\amp \left. -t \cos(t) \right
+                |_{0}^{\pi/2} - \int_0^{\pi/2} (-\cos(t)) \, dt </mrow>
+                  <mrow> =\mathstrut \amp \left. -t \cos(t) \right |_{0}^{\pi/2} + \left. \sin(t)
+                \right |_{0}^{\pi/2} </mrow>
+                  <mrow> =\mathstrut \amp \left( -\frac{\pi}{2} \cos(\frac{\pi}{2}) +
+                \sin(\frac{\pi}{2}) \right) - \left( -0 \cos(0) + \sin(0) \right) </mrow>
+                  <mrow> =\mathstrut \amp 1 </mrow>
+                </md>. </p>
+            </li>
+
+            <li>
+              <p> We can take <m>u=\frac 1 2 t</m> and <m>v=e^{2t}</m>, so that <m> du =\frac 1 2 dt</m>
+                and <m>dv=2e^{2t}dt</m>. Then <md>
+                  <mrow> \int_1^2 u\, dv =\mathstrut\amp \left. uv \right |_{t=1}^{t=2} - \int_1^2 v
+                \, du </mrow>
+                  <mrow> \int_1^2 te^{2t} \, dt = \mathstrut \amp \left. (\frac 12 t)(e^{2t}) \right
+                |_{t=1}^{t=2} - \int_1^2 (e^{2t}) (\frac 1 2 dt) </mrow>
+                  <mrow> = \mathstrut \amp \left. (\frac 12 t)(e^{2t}) \right |_{t=1}^{t=2}- \left.
+                \frac 14 (e^{2t}) \right |_{t=1}^{t=2}</mrow>
+                  <mrow> = \mathstrut \amp ((\frac 12 (2)))(e^{2(2))})-(\frac 12 (1))(e^{2(1)}))-
+                (\frac 14 (e^{2(2)})-\frac 14 (e^{2(1)}))</mrow>
+                  <mrow> = \mathstrut \amp \frac 34 e^4 - \frac 1 4 e^2 \approx 39.1</mrow>
+                </md>
+                .
+                </p>
+            </li>
+          </ol>
+        </p>
+      </solution>
+    </example>
+
+    <p permid="KxJ">
+      As with any substitution technique, it is important to use notation carefully and completely,
+      and to ensure that the end result makes sense.
+    </p>
+  </subsection>
+
+
+  <subsection permid="hGF">
+    <title>When <m>u</m>-substitution and Integration by Parts Fail to Help</title>
+
+    <p permid="qES"> Both integration techniques we have discussed apply in relatively limited
+      circumstances. It is not hard to find examples of functions for which neither technique
+      produces an antiderivative; indeed, there are many, many functions that appear elementary but
+      that do not have an elementary algebraic antiderivative. For instance, neither <m>u</m>-substitution
+      nor integration by parts proves fruitful for the indefinite integrals <me permid="Ocj">
+        \int e^{x^2} \, dx \ \ \text{and} \ \ \int x \tan(x) \, dx
+      </me>. While
+      there are other integration techniques, some of which we will consider briefly, none of them
+      enables us to find an algebraic antiderivative for <m>e^{x^2}</m> or <m>x \tan(x)</m>. We do
+      know from the Second Fundamental Theorem of Calculus that we can construct an integral
+      antiderivative for each function; <m>F(x) = \int_0^x e^{t^2} \, dt</m> is an antiderivative of <m>f(x)
+      = e^{x^2}</m>, and <m>G(x) = \int_0^{x} t \tan(t) \, dt</m> is an antiderivative of <m>g(x) =
+      x \tan(x)</m>. But finding an elementary algebraic formula that doesn't involve integrals for
+      either <m>F</m> or <m>G</m> turns out not only to be impossible through <m>u</m>-substitution
+      or integration by parts, but indeed impossible altogether. Antidifferentiation is much harder
+      in general than differentiation. </p>
+  </subsection>
+
+
+  <subsection permid="NNO">
+    <title>Summary</title>
+
+    <p permid="WMb">
+      <ul permid="PDb">
+        <li permid="ofL">
+          <p permid="YWN"> Through the method of integration by parts, we can evaluate indefinite
+            integrals, such as <m>\int x \sin(x) \, dx</m> and <m>\int x \ln(x) \, dx</m>, that
+            involve products of basic functions. Using a substitution enables us to trade one of the
+            functions in the product for its derivative, and the other for its antiderivative, in an
+            effort to find a different product of functions that is easier to integrate. </p>
+        </li>
+
+        <li permid="UmU">
+          <p permid="FdW"> If the algebraic structure of an integrand is a product of basic
+            functions in the form <m>\int f(x) g'(x) \, dx</m>, we can use the substitution <m>u =
+            f(x)</m> and <m>dv = g'(x) \,dx</m> and apply the rule <me permid="ujs">
+              \int u \, dv = uv - \int v \, du
+            </me> to evaluate the
+            original integral <m>\int f(x) g'(x) \, dx</m> by instead evaluating <me permid="aqB">
+            \int v \, du = \int f'(x) g(x) \, dx
+            </me>. </p>
+        </li>
+
+        <li permid="Aud">
+          <p permid="llf"> When deciding to integrate by parts, we have to select both <m>u</m> and <m>
+            dv</m>. That selection is guided by the overall principle that the new integral <m>\int
+            v \, du</m> not be more difficult than the original integral <m>\int u \, dv</m>. In
+            addition, it is often helpful to recognize if one of the functions present is much
+            easier to differentiate than antidifferentiate (such as <m>\ln(x)</m>), in which case
+            that function often is best assigned the variable <m>u</m>. In addition, <m>dv</m> must
+            be a function that we can antidifferentiate. </p>
+        </li>
+
+        <li>
+          <p> Sometimes, integration by parts must be used more than once, or with another technique
+            like <m>u</m>-substitution. </p>
+        </li>
+      </ul>
+    </p>
+  </subsection>
+
+  <exercises xmlns:xi="http://www.w3.org/2001/XInclude">
     <exercise xml:id="ez-5-4-WW1" permid="RKW">
       <title>Choose which method to use</title>
 
       <webwork source="Library/Michigan/Chap7Sec2/Q38.pg" />
-      </exercise>
+    </exercise>
 
-      <exercise xml:id="ez-5-4-WW2" permid="xSf">
-        <title>Product involving <m>\cos(5 x)</m></title>
+    <exercise xml:id="ez-5-4-WW2" permid="xSf">
+      <title>Product involving <m>\cos(5 x)</m></title>
 
-        <webwork source="Library/Rochester/setIntegrals15ByParts/sc5_6_3.pg" />
-        </exercise>
+      <webwork source="Library/Rochester/setIntegrals15ByParts/sc5_6_3.pg" />
+    </exercise>
 
-        <exercise xml:id="ez-5-4-WW3" permid="dZo">
-          <title>Product involving <m>e^{8 z}</m></title>
+    <exercise xml:id="ez-5-4-WW3" permid="dZo">
+      <title>Product involving <m>e^{8 z}</m></title>
 
-          <webwork source="Library/Michigan/Chap7Sec2/Q07.pg" />
-          </exercise>
+      <webwork source="Library/Michigan/Chap7Sec2/Q07.pg" />
+    </exercise>
 
-          <exercise xml:id="ez-5-4-WW4" permid="Kgx">
-            <title>Definite integral of <m>t e^{-t}</m></title>
+    <exercise xml:id="ez-5-4-WW4" permid="Kgx">
+      <title>Definite integral of <m>t e^{-t}</m></title>
 
-            <webwork source="Library/Rochester/setIntegrals15ByParts/sc5_6_15.pg" />
-            </exercise>
+      <webwork source="Library/Rochester/setIntegrals15ByParts/sc5_6_15.pg" />
+    </exercise>
 
-            <exercise permid="qnG">
-              <title> Evaluating using FTC </title>
+    <exercise permid="qnG">
+      <title> Evaluating using FTC </title>
 
-              <statement>
-                <p permid="rlV">
-                  Let <m>f(t) = te^{-2t}</m> and <m>F(x) = \int_0^x f(t) \, dt</m>.
-                  <ol marker="a." permid="QFD">
-                    <li permid="SuQ">
-                      <p permid="XOD">
-                        Determine <m>F'(x)</m>.
-                      </p>
-                    </li>
+      <statement>
+        <p permid="rlV"> Let <m>f(t) = te^{-2t}</m> and <m>F(x) = \int_0^x f(t) \, dt</m>. <ol
+            marker="a." permid="QFD">
+            <li permid="SuQ">
+              <p permid="XOD"> Determine <m>F'(x)</m>. </p>
+            </li>
 
-                    <li permid="yBZ">
-                      <p permid="DVM">
-                        Use the First FTC to find a formula for <m>F</m> that does not involve an integral.
-                      </p>
-                    </li>
+            <li permid="yBZ">
+              <p permid="DVM"> Use the First FTC to find a formula for <m>F</m> that does not
+          involve an integral. </p>
+            </li>
 
-                    <li permid="eJi">
-                      <p permid="kcV">
-                        Is <m>F</m> an increasing or decreasing function for <m>x \gt 0</m>? Why?
-                      </p>
-                    </li>
-                  </ol>
-                </p>
-              </statement>
+            <li permid="eJi">
+              <p permid="kcV"> Is <m>F</m> an increasing or decreasing function for <m>x \gt 0</m>?
+          Why? </p>
+            </li>
+          </ol>
+        </p>
+      </statement>
 
-              <answer permid="OQq">
-                <p permid="yQu">
-                  <ol marker="a." permid="scT">
-                    <li permid="KQr">
-                      <p permid="Qke">
-                        <m>F'(x) = xe^{-2x}</m>.
-                      </p>
-                    </li>
+      <answer permid="OQq">
+        <p permid="yQu">
+          <ol marker="a." permid="scT">
+            <li permid="KQr">
+              <p permid="Qke">
+                <m>F'(x) = xe^{-2x}</m>. </p>
+            </li>
 
-                    <li permid="qXA">
-                      <p permid="wrn">
-                        <m>F(x) = -\frac{1}{2}xe^{-2x} - \frac{1}{4}e^{-2x} + \frac{1}{4}</m>
-                      </p>
-                    </li>
+            <li permid="qXA">
+              <p permid="wrn">
+                <m>F(x) = -\frac{1}{2}xe^{-2x} - \frac{1}{4}e^{-2x} + \frac{1}{4}</m>
+              </p>
+            </li>
 
-                    <li permid="XeJ">
-                      <p permid="cyw">
-                        Increasing.
-                      </p>
-                    </li>
-                  </ol>
-                </p>
-              </answer>
+            <li permid="XeJ">
+              <p permid="cyw">
+                Increasing.
+              </p>
+            </li>
+          </ol>
+        </p>
+      </answer>
 
-              <solution permid="iJh">
-                <p permid="GuT">
-                  <ol marker="a." permid="TAj">
-                    <li permid="DlS">
-                      <p permid="IFF">
-                        By the Second Fundamental Theorem of Calculus, <m>F'(x) = f(x) = xe^{-2x}</m>.
-                      </p>
-                    </li>
+      <solution permid="iJh">
+        <p permid="GuT">
+          <ol marker="a." permid="TAj">
+            <li permid="DlS">
+              <p permid="IFF"> By the Second Fundamental Theorem of Calculus, <m>F'(x) = f(x) =
+                xe^{-2x}</m>. </p>
+            </li>
 
-                    <li permid="jtb">
-                      <p permid="oMO">
-                        To use the First Fundamental Theorem of Calculus to evaluate the integral in <m>F(x) = \int_0^x te^{-2t} \, dt</m>, we use integration by parts.
-                        Letting
-                        <md>
-                          <mrow>u &amp;= t, \ du = dt</mrow>
-                          <mrow>dv &amp;= e^{-2t} \, dt, \ v = -\frac{1}{2}e^{-2t}</mrow>
-                        </md>,
-                        it follows that
-                        <me permid="POF">
-                          \int te^{-2t} \, dt = -\frac{1}{2}te^{-2t} - \int \left( -\frac{1}{2}e^{-2t} \right) \, dt = -\frac{1}{2}te^{-2t} - \frac{1}{4}e^{-2t}
-                        </me>.
-                        Thus,
-                        <md>
-                          <mrow>F(x) &amp;= \int_0^x te^{-2t} \, dt</mrow>
-                          <mrow>&amp;= \left. -\frac{1}{2}te^{-2t} - \frac{1}{4}e^{-2t} \right|_{0}^{x}</mrow>
-                          <mrow>&amp;= -\frac{1}{2}xe^{-2x} - \frac{1}{4}e^{-2x} - \left( 0 - \frac{1}{4}e^{0} \right)</mrow>
-                          <mrow>&amp;= -\frac{1}{2}xe^{-2x} - \frac{1}{4}e^{-2x} + \frac{1}{4}</mrow>
-                        </md>
-                      </p>
-                    </li>
+            <li permid="jtb">
+              <p permid="oMO"> To use the First Fundamental Theorem of Calculus to evaluate the
+                integral in <m>F(x) = \int_0^x te^{-2t} \, dt</m>, we use integration by parts.
+                Letting <md>
+                  <mrow>u &amp;= t, \ du = dt</mrow>
+                  <mrow>dv &amp;= e^{-2t} \, dt, \ v = -\frac{1}{2}e^{-2t}</mrow>
+                </md>,
+                it follows that <me permid="POF">
+                  \int te^{-2t} \, dt = -\frac{1}{2}te^{-2t} - \int \left( -\frac{1}{2}e^{-2t}
+                \right) \, dt = -\frac{1}{2}te^{-2t} - \frac{1}{4}e^{-2t}
+                </me>.
+                Thus, <md>
+                  <mrow>F(x) &amp;= \int_0^x te^{-2t} \, dt</mrow>
+                  <mrow>&amp;= \left. -\frac{1}{2}te^{-2t} - \frac{1}{4}e^{-2t} \right|_{0}^{x}</mrow>
+                  <mrow>&amp;= -\frac{1}{2}xe^{-2x} - \frac{1}{4}e^{-2x} - \left( 0 -
+                \frac{1}{4}e^{0} \right)</mrow>
+                  <mrow>&amp;= -\frac{1}{2}xe^{-2x} - \frac{1}{4}e^{-2x} + \frac{1}{4}</mrow>
+                </md>
+              </p>
+            </li>
 
-                    <li permid="PAk">
-                      <p permid="UTX">
-                        For <m>x \gt 0</m>, we observe that <m>F'(x) = f(x) = xe^{-2x} \gt 0</m> since <m>e</m> to any power is positive.
-                        Thus, because <m>F'(x) \gt 0</m>, it follows that <m>F</m> is increasing for all <m>x \gt 0</m>.
-                      </p>
-                    </li>
-                  </ol>
-                </p>
-              </solution>
-            </exercise>
+            <li permid="PAk">
+              <p permid="UTX"> For <m>x \gt 0</m>, we observe that <m>F'(x) = f(x) = xe^{-2x} \gt 0</m>
+                since <m>e</m> to any power is positive. Thus, because <m>F'(x) \gt 0</m>, it
+                follows that <m>F</m> is increasing for all <m>x \gt 0</m>. </p>
+            </li>
+          </ol>
+        </p>
+      </solution>
+    </exercise>
 
-            <exercise permid="WuP">
-              <title> Evaluating an integral using substitution and IBP </title>
+    <exercise permid="WuP">
+      <title> Evaluating an integral using substitution and IBP </title>
 
-              <statement>
-                <p permid="Xte">
-                  Consider the indefinite integral given by <m>\int e^{2x} \cos(e^x) \, dx</m>.
+      <statement>
+        <p permid="Xte"> Consider the indefinite integral given by <m>\int e^{2x} \cos(e^x) \, dx</m>
+          .
                   <ol marker="a." permid="cTV">
-                    <li permid="vHt">
-                      <p permid="Bbg">
-                        Noting that <m>e^{2x} = e^x \cdot e^x</m>, use the substitution <m>z = e^{x}</m> to determine a new, equivalent integral in the variable <m>z</m>.
-                      </p>
-                    </li>
+            <li permid="vHt">
+              <p permid="Bbg"> Noting that <m>e^{2x} = e^x \cdot e^x</m>, use the substitution <m>z
+          = e^{x}</m> to determine a new, equivalent integral in the variable <m>z</m>. </p>
+            </li>
 
-                    <li permid="bOC">
-                      <p permid="hip">
-                        Evaluate the integral you found in (a) using an appropriate technique.
-                      </p>
-                    </li>
+            <li permid="bOC">
+              <p permid="hip">
+                Evaluate the integral you found in (a) using an appropriate technique.
+              </p>
+            </li>
 
-                    <li permid="HVL">
-                      <p permid="Npy">
-                        How is the problem of evaluating <m>\int e^{2x} \cos(e^{2x}) \, dx</m> different from evaluating the integral in (a)? Do so.
-                      </p>
-                    </li>
+            <li permid="HVL">
+              <p permid="Npy"> How is the problem of evaluating <m>\int e^{2x} \cos(e^{2x}) \, dx</m>
+          different from evaluating the integral in (a)? Do so. </p>
+            </li>
 
-                    <li permid="ocU">
-                      <p permid="twH">
-                        Evaluate each of the following integrals as well, keeping in mind the approach(es) used earlier in this problem:
-                        <ul permid="wMM">
-                          <li permid="pin">
-                            <p permid="NZs">
-                              <m>\int e^{2x} \sin(e^x) \, dx</m>
+            <li permid="ocU">
+              <p permid="twH"> Evaluate each of the following integrals as well, keeping in mind the
+          approach(es) used earlier in this problem: <ul permid="wMM">
+                  <li permid="pin">
+                    <p permid="NZs">
+                      <m>\int e^{2x} \sin(e^x) \, dx</m>
+                    </p>
+                  </li>
+
+                  <li permid="Vpw">
+                    <p permid="ZDQ">
+                      <m>\int e^{3x} \sin(e^{3x}) \, dx</m>
+                    </p>
+                  </li>
+
+                  <li permid="BwF">
+                    <p permid="FKZ">
+                      <m>\int xe^{x^2} \cos(e^{x^2}) \sin(e^{x^2}) \, dx</m>
+                    </p>
+                  </li>
+                </ul>
+              </p>
+            </li>
+          </ol>
+        </p>
+      </statement>
+
+      <answer permid="beI">
+        <p permid="eXD">
+          <ol marker="a." permid="Erl">
+            <li permid="Ukd">
+              <p permid="lSi">
+                <m> \int e^{2x} \cos(e^x) \, dx = \int z \cos(z) \, dz</m>. </p>
+            </li>
+
+            <li permid="Arm">
+              <p permid="RZr">
+                <m> \int e^{2x} \cos(e^x) \, dx = e^x \sin(e^x) + \cos(e^x) + C</m>. </p>
+            </li>
+
+            <li permid="gyv">
+              <p permid="ygA">
+                <m>\int e^{2x} \cos(e^{2x}) \, dx = \frac{1}{2} \sin(e^{2x} + C</m>
+              </p>
+            </li>
+
+            <li permid="MFE">
+              <p permid="enJ">
+                <ul permid="Ykc">
+                  <li permid="hDO">
+                    <p permid="ugB">
+                      <m> \int e^{2x} \sin(e^x) \, dx = sin(e^x) - z\cos(e^x) + C</m>. </p>
+                  </li>
+
+                  <li permid="NKX">
+                    <p permid="KuS">
+                      <m> \int e^{3x} \sin(e^{3x}) \, dx = -\frac{1}{3} \cos(e^{3x}) + C</m>. </p>
+                  </li>
+
+                  <li permid="tSg">
+                    <p permid="qCb">
+                      <m> \int xe^{x^2} \cos(e^{x^2}) \sin(e^{x^2}) \, dx = \frac{1}{4}
+                      \sin^2(e^{x^2}) + C</m>. </p>
+                  </li>
+                </ul>
+              </p>
+            </li>
+          </ol>
+        </p>
+      </answer>
+
+      <solution permid="uXz">
+        <p permid="mCc">
+          <ol marker="a." permid="fOB">
+            <li permid="sMN">
+              <p permid="WJk"> We first write <me permid="Ikg">
+                  \int e^{2x} \cos(e^x) \, dx = \int e^x \cdot e^x \cos(e^x) \, dx
+                </me>.
+                Letting <m>z = e^x</m>, we have <m>dz = e^x \, dx</m>, and thus <me permid="orp">
+                \int e^{2x} \cos(e^x) \, dx = \int z \cos(z) \, dz
+                </me>
+                .
+                      </p>
+            </li>
+
+            <li permid="YTW">
+              <p permid="CQt"> We can evaluate the integral <m>\int z \cos(z) \, dz</m> using
+                integration by parts in the standard way with <m>u = z</m> and <m>dv = \cos(z) \, dz</m>.
+                Doing so, <me permid="Uyy">
+                  \int z \cos(z) \, dz = z \sin(z) - \int \sin(z) \, dz = z \sin(z) + \cos(z) + C
+                </me>.
+                Returning to the original integral in <m>x</m> and using the substitution we first
+                used with <m>z</m>, we have shown that <me permid="AFH">
+                  \int e^{2x} \cos(e^x) \, dx = e^x \sin(e^x) + \cos(e^x) + C
+                </me>
+                .
+                      </p>
+            </li>
+
+            <li permid="Fbf">
+              <p permid="iXC"> For the integral <m>\int e^{2x} \cos(e^{2x}) \, dx</m>, we actually
+                have a function-derivative pair (up to a constant multiple) already present: letting <m>u
+                = e^{2x}</m>, <m>du = 2e^{2x} \, dx</m>, and thus we can evaluate the integral using
+                this substitution. In particular, <md>
+                  <mrow>\int e^{2x} \cos(e^{2x}) \, dx &amp;= \int \cos(u) \cdot \frac{1}{2} \, du</mrow>
+                  <mrow>&amp;= \frac{1}{2} \sin(u) + C</mrow>
+                  <mrow>&amp;= \frac{1}{2} \sin(e^{2x} + C</mrow>
+                </md>
+              </p>
+            </li>
+
+            <li permid="lio">
+              <p permid="PeL">
+                <ul permid="zHs">
+                  <li permid="ZZp">
+                    <p permid="anK"> For the first integral, <m>\int e^{2x} \sin(e^x) \, dx</m>,
+                      since <m>e^x</m> is the inside function in the composition, we let <m>z = e^x</m>,
+                      so <m>dz = e^x \, dx</m>, and write <m>e^{2x} = e^x \cdot e^x</m>. Hence, <me
+                        permid="MTZ">
+                        \int e^{2x} \sin(e^x) \, dx = \int e^x \cdot e^x \sin(e^x) \, dx = \int z
+                      \sin(z) \, dz
+                      </me>.
+                      Using the standard integration by parts with <m>u = z</m> and <m>dv = \sin(z)
+                      \, dz</m>, we find <me permid="tbi">
+                        \int z \sin(z) \, dz = sin(z) - z\cos(z) + C
+                      </me>.
+                      Re-substituting from <m>z</m> back to <m>x</m>, we've found that <me
+                        permid="Zir">
+                        \int e^{2x} \sin(e^x) \, dx = sin(e^x) - z\cos(e^x) + C
+                      </me>
+                      .
                             </p>
-                          </li>
+                  </li>
 
-                          <li permid="Vpw">
-                            <p permid="ZDQ">
-                              <m>\int e^{3x} \sin(e^{3x}) \, dx</m>
+                  <li permid="Ggy">
+                    <p permid="vlU"> The integral <m>\int e^{3x} \sin(e^{3x}) \, dx</m> can be
+                      evaluated using a <m>u</m>-substitution since <m>u = e^{3x}</m> is present to
+                      form a function-derivative pair with <m>du = 3e^{3x}</m>. It follows that <me
+                        permid="FpA">
+                        \int e^{3x} \sin(e^{3x}) \, dx = \int \sin(u) \cdot \frac{1}{3} \, du =
+                      -\frac{1}{3} \cos(u) + C = -\frac{1}{3} \cos(e^{3x}) + C
+                      </me>
+                      .
                             </p>
-                          </li>
+                  </li>
 
-                          <li permid="BwF">
-                            <p permid="FKZ">
-                              <m>\int xe^{x^2} \cos(e^{x^2}) \sin(e^{x^2}) \, dx</m>
+                  <li permid="mnH">
+                    <p permid="btd"> For the final integral, <m>\int xe^{x^2} \cos(e^{x^2})
+                      \sin(e^{x^2}) \, dx</m>, we first observe by the chain rule that <m>\frac{d}{dx}\left[e^{x^2}\right]
+                      = 2xe^{x^2}</m>, which shows that we have a function-derivative pair present.
+                      Using the substitution <m>z = e^{x^2}</m>, it follows <m>dz = 2xe^{x^2} \, dx</m>,
+                      and therefore <me permid="lwJ">
+                        \int xe^{x^2} \cos(e^{x^2}) \sin(e^{x^2}) \, dx = \int \cos(z) \sin(z) \cdot
+                      \frac{1}{2} \, dz
+                      </me>.
+                      The new integral in <m>z</m> can be evaluated using several different
+                      approaches, including <m>u</m>-substitution with <m>u = \sin(z)</m>, <m>du =
+                      \cos(z) \, dz</m>. Doing so, <me permid="RDS">
+                        \int \cos(z) \sin(z) \cdot \frac{1}{2} \, dz = \frac{1}{2} \int u \, du =
+                      \frac{1}{2} \cdot \frac{1}{2} u^2 + C = \frac{1}{4} \sin^2(z) + C
+                      </me>.
+                      Returning to the original integral in <m>x</m> and our earlier work,
+                      substituting backward we find that <me permid="xLb">
+                        \int xe^{x^2} \cos(e^{x^2}) \sin(e^{x^2}) \, dx = \frac{1}{4}
+                      \sin^2(e^{x^2}) + C
+                      </me>
+                      .
                             </p>
-                          </li>
-                        </ul>
+                  </li>
+                </ul>
+              </p>
+            </li>
+          </ol>
+        </p>
+      </solution>
+    </exercise>
+
+    <exercise permid="CBY">
+      <title> Identifying when substitution and/or IBP can be used to solve various integrals </title>
+
+      <statement>
+        <p permid="DAn"> For each of the following indefinite integrals, <ol marker="i.">
+            <li>
+              <p> Determine whether you would use <m>u</m>-substitution, integration by parts,
+          neither*, or both to evaluate the integral. </p>
+            </li>
+
+            <li>
+              <p> In each case, write one sentence to explain your reasoning, and include a
+          statement of any substitutions used. (That is, if you decide in a problem to let <m>u =
+          e^{3x}</m>, you should state that, as well as that <m>du = 3e^{3x} \, dx</m>.) </p>
+            </li>
+
+            <li>
+              <p> Use your chosen approach to evaluate each integral. (* one of the following
+          problems does not have an elementary antiderivative and you are not expected to actually
+          evaluate this integral; this will correspond with a choice of <q>neither</q> among those
+          given.) </p>
+            </li>
+          </ol>
+        </p>
+
+        <p permid="jHw">
+          <ol marker="a." permid="Jbe">
+            <li permid="Rpx">
+              <p permid="HAm">
+                <m>\int x^2 \cos(x^3) \, dx</m>
+              </p>
+            </li>
+
+            <li permid="xwG">
+              <p permid="nHv">
+                <m>\int x^5 \cos(x^3) \, dx</m> <nbsp />(Hint: <m>x^5 = x^2 \cdot x^3</m>) </p>
+            </li>
+
+            <li permid="dDP">
+              <p permid="TOE">
+                <m>\int x\ln(x^2) \, dx</m>
+              </p>
+            </li>
+
+            <li permid="JKY">
+              <p permid="zVN">
+                <m>\int \sin(x^4) \, dx</m>
+              </p>
+            </li>
+
+            <li permid="pSh">
+              <p permid="gcW">
+                <m>\int x^3 \sin(x^4) \, dx</m>
+              </p>
+            </li>
+
+            <li permid="VZq">
+              <p permid="Mkf">
+                <m>\int x^7 \sin(x^4) \, dx</m>
+              </p>
+            </li>
+          </ol>
+        </p>
+      </statement>
+
+      <answer permid="nta">
+        <p permid="LeM">
+          <ol marker="a." permid="kyu">
+            <li permid="Cgz">
+              <p permid="sro">
+                <m>u</m>-substitution; <m> \int x^2 \cos(x^3) \ dx = \frac{1}{3} \sin(x^3) + C</m>. </p>
+            </li>
+
+            <li permid="inI">
+              <p permid="Yyx"> Both are needed; <m> \int x^5 \cos(x^3) \ dx = \frac{1}{3}
+                \left(x^3\sin(x^3) + \cos(x^3) \right) + C</m>. </p>
+            </li>
+
+            <li permid="OuR">
+              <p permid="EFG"> Integration by parts; <m> \int x ln(x^2) \ dx = \frac{x^2}{2}
+                \ln(x^2) - \frac{x^2}{2} + C</m>. </p>
+            </li>
+
+            <li permid="uCa">
+              <p permid="kMP">
+                Neither.
+              </p>
+            </li>
+
+            <li permid="aJj">
+              <p permid="QTY">
+                <m>u</m>-substitution; <m> \int x^3 \sin(x^4) \ dx = -\frac{1}{4} \cos(x^4) + C</m>. </p>
+            </li>
+
+            <li permid="GQs">
+              <p permid="xbh"> Both are needed; <m>\int x^7 \sin(x^4) \ dx = -\frac{1}{4} x^4
+                \cos(x^4) + \frac{1}{4} \sin(x^4) + C</m>. </p>
+            </li>
+          </ol>
+        </p>
+      </answer>
+
+      <solution permid="HlR">
+        <p permid="SJl">
+          <ol marker="a." permid="LVK">
+            <li permid="mXB">
+              <p permid="diq"> We will use a <m>u</m>-substitution with <m>u = x^3</m> because the
+                integrand involves a composite function with <m>x^3</m> as the innermost function
+                and because <m>du = 3x^2 \, dx</m> involves the factor <m>x^2</m> which is also
+                present in the integrand. When we make this substitution we will have <m>x^2 \ dx =
+                \frac{1}{3} \ du</m> and the integral can be evaluated as follows: <md>
+                  <mrow>\int x^2 \cos(x^3) \ dx &amp;= \frac{1}{3} \int \cos(u) \ du</mrow>
+                  <mrow>&amp;= \frac{1}{3} \sin(u) + C</mrow>
+                  <mrow>&amp;= \frac{1}{3} \sin(x^3) + C</mrow>
+                </md>. </p>
+            </li>
+
+            <li permid="TeK">
+              <p permid="Jpz"> We might try substituting <m>z = x^3/</m>, since there is a composite
+                function in the integrand. In this case we have <m>dz = 3x^2 \, dx</m>. To make this
+                substitution we need to rewrite the integrand as <me permid="JZt">
+                  x^5 \cos(x^3) = x^3 \left[x^2 \cos(x^3) \right]
+                </me>
+                and notice that <m>x^3 = z</m>. Then <me permid="qgC">
+                  \int x^5 \cos(x^3) \ dx = \frac{1}{3} \int z \cos(z) \ dz
+                </me>.
+                We can then try integration by parts on this last integral with <md>
+                  <mrow>u &amp;= z, \ du = dz</mrow>
+                  <mrow>dv &amp; = \cos(z) \, dz, \ v = \sin(z)</mrow>
+                </md> We then
+                have <md>
+                  <mrow>\int x^5 \cos(x^3) \ dx &amp;= \frac{1}{3} \int z \cos(z) \ dz</mrow>
+                  <mrow>&amp;= \frac{1}{3} \left(z\sin(z) - \int \sin(z) \ dz \right)</mrow>
+                  <mrow>&amp;= \frac{1}{3} \left(z\sin(z) + \cos(z) \right) + C</mrow>
+                  <mrow>&amp;= \frac{1}{3} \left(x^3\sin(x^3) + \cos(x^3) \right) + C</mrow>
+                </md>
+                .
                       </p>
-                    </li>
-                  </ol>
-                </p>
-              </statement>
+            </li>
 
-              <answer permid="beI">
-                <p permid="eXD">
-                  <ol marker="a." permid="Erl">
-                    <li permid="Ukd">
-                      <p permid="lSi">
-                        <m> \int e^{2x} \cos(e^x) \, dx = \int z \cos(z) \, dz</m>.
+            <li permid="zlT">
+              <p permid="pwI"> Since the logarithm function changes to a rational function when we
+                differentiate it, using integration by parts with <m>u = \ln(x^2) = 2\ln(x)</m> will
+                make the resulting integral easier to evaluate. So we let <md>
+                  <mrow>u &amp;= \ln(x^2), \ du = \frac{2}{x} \ dx</mrow>
+                  <mrow>dv &amp; = x \ dx , \ v = \frac{x^2}{2}</mrow>
+                </md> and then
+                integration by parts yields <md>
+                  <mrow>\int x ln(x^2) \ dx &amp;= \frac{x^2}{2} \ln(x^2) - \int
+                \left(\frac{2}{x}\right) \left(\frac{x^2}{2}\right) \ dx</mrow>
+                  <mrow>&amp;= \frac{x^2}{2} \ln(x^2) - \int x \ dx</mrow>
+                  <mrow>&amp;= \frac{x^2}{2} \ln(x^2) - \frac{x^2}{2} + C</mrow>
+                </md>
+                .
                       </p>
-                    </li>
+            </li>
 
-                    <li permid="Arm">
-                      <p permid="RZr">
-                        <m> \int e^{2x} \cos(e^x) \, dx = e^x \sin(e^x) + \cos(e^x) + C</m>.
+            <li permid="ftc">
+              <p permid="VDR"> We might try a substitution with <m>u = x^4</m>, but then <m>du =
+                4x^3 \ dx</m> and there is no factor of <m>x^3</m> in the integrand to allow us to
+                complete this substitution. If we attempt to integrate by parts, then only option is
+                to let <m>u = sin(x^4)</m> which makes <m>du = 4x^3 \cos(x^4)</m> and we only make
+                the integral more complicated. This is one integral we cannot evaluate with the
+                tools we have. </p>
+            </li>
+
+            <li permid="LAl">
+              <p permid="BLa"> We will try a <m>u</m>-substitution with <m>u = x^4</m>, because the
+                integrand involves a composite function with <m>x^4</m> as the innermost function
+                and because <m>du = 4x^3 \, dx</m> involves the factor <m>x^3</m> which is also
+                present in the integrand. When we make this substitution we have <m>x^3 \ dx =
+                \frac{1}{4} \ du</m> and the integral can be evaluated as follows: <md>
+                  <mrow>\int x^3 \sin(x^4) \ dx &amp;= \frac{1}{4} \int \sin(u) \ du</mrow>
+                  <mrow>&amp;= -\frac{1}{4} \cos(u) + C</mrow>
+                  <mrow>&amp;= -\frac{1}{4} \cos(x^4) + C</mrow>
+                </md>. </p>
+            </li>
+
+            <li permid="rHu">
+              <p permid="hSj"> We will use integration by parts. Notice that <me permid="aXE">
+                  \int x^7 \sin(x^4) \ dx = \int x^4 \left[x^3 \sin(x^4)\right] \ dx
+                </me>
+                and we have a factor we can differentiate (<m>x^3</m>) and one we can integrate (<m>x^3
+                \sin(x^4)</m>) (as we did in part (e)). So we let <md>
+                  <mrow>u &amp;= x^3, \ du = 3x^2 \ dx</mrow>
+                  <mrow>dv &amp; = x^3 \sin(x^4) \ dx , \ v = -\frac{1}{4} \cos(x^4)</mrow>
+                </md>
+                Integration by parts formula now gives <me permid="HeN">
+                  \int x^7 \sin(x^4) \ dx = -\frac{1}{4} x^4 \cos(x^4) + \int x^3 \cos(x^4) \ dx
+                </me>.
+                This last integral is essentially the same as obtaining <m>v</m> from <m>dv</m>, so
+                we will make the substitution <m>z = x^4</m> with <m>dz = 4x^3 \ dx</m>. Changing
+                variables in the last integral gives us <md>
+                  <mrow>\int x^7 \sin(x^4) \ dx &amp;= -\frac{1}{4} x^4 \cos(x^4) + \int x^3
+                \cos(x^4) \ dx</mrow>
+                  <mrow>&amp;= -\frac{1}{4} x^4 \cos(x^4) + \frac{1}{4} \int \cos(z) \ dz</mrow>
+                  <mrow>&amp;= -\frac{1}{4} x^4 \cos(x^4) + \frac{1}{4} \sin(z) + C</mrow>
+                  <mrow>&amp;= -\frac{1}{4} x^4 \cos(x^4) + \frac{1}{4} \sin(x^4) + C</mrow>
+                </md>
+                .
                       </p>
-                    </li>
+            </li>
+          </ol>
+        </p>
+      </solution>
+    </exercise>
 
-                    <li permid="gyv">
-                      <p permid="ygA">
-                        <m>\int e^{2x} \cos(e^{2x}) \, dx = \frac{1}{2} \sin(e^{2x} + C</m>
-                      </p>
-                    </li>
+    <exercise>
+      <title> Trig Products</title>
 
-                    <li permid="MFE">
-                      <p permid="enJ">
-                        <ul permid="Ykc">
-                          <li permid="hDO">
-                            <p permid="ugB">
-                              <m> \int e^{2x} \sin(e^x) \, dx = sin(e^x) - z\cos(e^x) + C</m>.
-                            </p>
-                          </li>
+      <statement>
+        <p> Use integration by parts and the trigonometric identity <m>
+          \sin^2(\theta)+\cos^2(\theta)=1</m> to find the following integrals: <ol marker="a.">
+            <li>
+              <m>\int \sin^2(t)\, dt </m>
+            </li>
 
-                          <li permid="NKX">
-                            <p permid="KuS">
-                              <m> \int e^{3x} \sin(e^{3x}) \, dx = -\frac{1}{3} \cos(e^{3x}) + C</m>.
-                            </p>
-                          </li>
+            <li>
+              <m>\int \sin(t) \cos(t)\, dt </m>
+            </li>
+          </ol> (Note: these
+          integrals can also be solved by other methods, but for this problem try integration by
+          parts.) </p>
+      </statement>
+    </exercise>
 
-                          <li permid="tSg">
-                            <p permid="qCb">
-                              <m> \int xe^{x^2} \cos(e^{x^2}) \sin(e^{x^2}) \, dx = \frac{1}{4} \sin^2(e^{x^2}) + C</m>.
-                            </p>
-                          </li>
-                        </ul>
-                      </p>
-                    </li>
-                  </ol>
-                </p>
-              </answer>
+    <exercise>
+      <title> Finding <m>\int t^n e^t \, dt</m>
+      </title>
 
-              <solution permid="uXz">
-                <p permid="mCc">
-                  <ol marker="a." permid="fOB">
-                    <li permid="sMN">
-                      <p permid="WJk">
-                        We first write
-                        <me permid="Ikg">
-                          \int e^{2x} \cos(e^x) \, dx = \int e^x \cdot e^x \cos(e^x) \, dx
-                        </me>.
-                        Letting <m>z = e^x</m>, we have <m>dz = e^x \, dx</m>, and thus
-                        <me permid="orp">
-                          \int e^{2x} \cos(e^x) \, dx = \int z \cos(z) \, dz
-                        </me>.
-                      </p>
-                    </li>
+      <statement>
+        <p> Use integration by parts to find the following integrals: <ol marker="a.">
+            <li>
+              <m>\int t e^t\, dt </m>
+            </li>
 
-                    <li permid="YTW">
-                      <p permid="CQt">
-                        We can evaluate the integral <m>\int z \cos(z) \, dz</m> using integration by parts in the standard way with <m>u = z</m> and <m>dv = \cos(z) \, dz</m>.
-                        Doing so,
-                        <me permid="Uyy">
-                          \int z \cos(z) \, dz = z \sin(z) - \int \sin(z) \, dz = z \sin(z) + \cos(z) + C
-                        </me>.
-                        Returning to the original integral in <m>x</m> and using the substitution we first used with <m>z</m>, we have shown that
-                        <me permid="AFH">
-                          \int e^{2x} \cos(e^x) \, dx = e^x \sin(e^x) + \cos(e^x) + C
-                        </me>.
-                      </p>
-                    </li>
+            <li>
+              <m>\int t^2 e^t\, dt </m>
+            </li>
 
-                    <li permid="Fbf">
-                      <p permid="iXC">
-                        For the integral <m>\int e^{2x} \cos(e^{2x}) \, dx</m>, we actually have a function-derivative pair (up to a constant multiple) already present: letting <m>u = e^{2x}</m>, <m>du = 2e^{2x} \, dx</m>, and thus we can evaluate the integral using this substitution.
-                        In particular,
-                        <md>
-                          <mrow>\int e^{2x} \cos(e^{2x}) \, dx &amp;= \int \cos(u) \cdot \frac{1}{2} \, du</mrow>
-                          <mrow>&amp;= \frac{1}{2} \sin(u) + C</mrow>
-                          <mrow>&amp;= \frac{1}{2} \sin(e^{2x} + C</mrow>
-                        </md>
-                      </p>
-                    </li>
+            <li>
+              <m>\int t^3 e^t\, dt </m>
+            </li>
 
-                    <li permid="lio">
-                      <p permid="PeL">
-                        <ul permid="zHs">
-                          <li permid="ZZp">
-                            <p permid="anK">
-                              For the first integral, <m>\int e^{2x} \sin(e^x) \, dx</m>, since <m>e^x</m> is the inside function in the composition, we let <m>z = e^x</m>, so <m>dz = e^x \, dx</m>, and write <m>e^{2x} = e^x \cdot e^x</m>.
-                              Hence,
-                              <me permid="MTZ">
-                                \int e^{2x} \sin(e^x) \, dx = \int e^x \cdot e^x \sin(e^x) \, dx = \int z \sin(z) \, dz
-                              </me>.
-                              Using the standard integration by parts with <m>u = z</m> and <m>dv = \sin(z) \, dz</m>, we find
-                              <me permid="tbi">
-                                \int z \sin(z) \, dz = sin(z) - z\cos(z) + C
-                              </me>.
-                              Re-substituting from <m>z</m> back to <m>x</m>, we've found that
-                              <me permid="Zir">
-                                \int e^{2x} \sin(e^x) \, dx = sin(e^x) - z\cos(e^x) + C
-                              </me>.
-                            </p>
-                          </li>
+            <li>
+              <m>\int t^4 e^t\, dt </m>
+            </li>
 
-                          <li permid="Ggy">
-                            <p permid="vlU">
-                              The integral <m>\int e^{3x} \sin(e^{3x}) \, dx</m> can be evaluated using a <m>u</m>-substitution since <m>u = e^{3x}</m> is present to form a function-derivative pair with <m>du = 3e^{3x}</m>.
-                              It follows that
-                              <me permid="FpA">
-                                \int e^{3x} \sin(e^{3x}) \, dx = \int \sin(u) \cdot \frac{1}{3} \, du = -\frac{1}{3} \cos(u) + C = -\frac{1}{3} \cos(e^{3x}) + C
-                              </me>.
-                            </p>
-                          </li>
-
-                          <li permid="mnH">
-                            <p permid="btd">
-                              For the final integral, <m>\int xe^{x^2} \cos(e^{x^2}) \sin(e^{x^2}) \, dx</m>, we first observe by the chain rule that <m>\frac{d}{dx}\left[e^{x^2}\right] = 2xe^{x^2}</m>, which shows that we have a function-derivative pair present.
-                              Using the substitution <m>z = e^{x^2}</m>, it follows <m>dz = 2xe^{x^2} \, dx</m>, and therefore
-                              <me permid="lwJ">
-                                \int xe^{x^2} \cos(e^{x^2}) \sin(e^{x^2}) \, dx = \int \cos(z) \sin(z) \cdot \frac{1}{2} \, dz
-                              </me>.
-                              The new integral in <m>z</m> can be evaluated using several different approaches, including <m>u</m>-substitution with <m>u = \sin(z)</m>, <m>du = \cos(z) \, dz</m>.
-                              Doing so,
-                              <me permid="RDS">
-                                \int \cos(z) \sin(z) \cdot \frac{1}{2} \, dz = \frac{1}{2} \int u  \, du = \frac{1}{2} \cdot \frac{1}{2} u^2 + C = \frac{1}{4} \sin^2(z) + C
-                              </me>.
-                              Returning to the original integral in <m>x</m> and our earlier work, substituting backward we find that
-                              <me permid="xLb">
-                                \int xe^{x^2} \cos(e^{x^2}) \sin(e^{x^2}) \, dx = \frac{1}{4} \sin^2(e^{x^2}) + C
-                              </me>.
-                            </p>
-                          </li>
-                        </ul>
-                      </p>
-                    </li>
-                  </ol>
-                </p>
-              </solution>
-            </exercise>
-
-            <exercise permid="CBY">
-              <title> Identifying when substitution and/or IBP can be used to solve various integrals </title>
-
-              <statement>
-                <p permid="DAn">
-                  For each of the following indefinite integrals,
-                  <ol marker="i.">
-                    <li>
-                      <p>
-                        Determine whether you would use <m>u</m>-substitution, integration by parts, neither*, or both to evaluate the integral.
-                      </p>
-                    </li>
-
-                    <li>
-                      <p>
-                        In each case, write one sentence to explain your reasoning, and include a statement of any substitutions used.
-                        (That is, if you decide in a problem to let <m>u = e^{3x}</m>, you should state that, as well as that <m>du = 3e^{3x} \, dx</m>.)
-                      </p>
-                    </li>
-
-                    <li>
-                      <p>
-                        Use your chosen approach to evaluate each integral.
-                        (* one of the following problems does not have an elementary antiderivative and you are not expected to actually evaluate this integral; this will correspond with a choice of <q>neither</q> among those given.)
-                      </p>
-                    </li>
-                  </ol>
-                </p>
-
-                <p permid="jHw">
-                  <ol marker="a." permid="Jbe">
-                    <li permid="Rpx">
-                      <p permid="HAm">
-                        <m>\int x^2 \cos(x^3) \, dx</m>
-                      </p>
-                    </li>
-
-                    <li permid="xwG">
-                      <p permid="nHv">
-                        <m>\int x^5 \cos(x^3) \, dx</m> <nbsp />(Hint: <m>x^5 = x^2 \cdot x^3</m>)
-                      </p>
-                    </li>
-
-                    <li permid="dDP">
-                      <p permid="TOE">
-                        <m>\int x\ln(x^2) \, dx</m>
-                      </p>
-                    </li>
-
-                    <li permid="JKY">
-                      <p permid="zVN">
-                        <m>\int \sin(x^4) \, dx</m>
-                      </p>
-                    </li>
-
-                    <li permid="pSh">
-                      <p permid="gcW">
-                        <m>\int x^3 \sin(x^4) \, dx</m>
-                      </p>
-                    </li>
-
-                    <li permid="VZq">
-                      <p permid="Mkf">
-                        <m>\int x^7 \sin(x^4) \, dx</m>
-                      </p>
-                    </li>
-                  </ol>
-                </p>
-              </statement>
-
-              <answer permid="nta">
-                <p permid="LeM">
-                  <ol marker="a." permid="kyu">
-                    <li permid="Cgz">
-                      <p permid="sro">
-                        <m>u</m>-substitution; <m> \int x^2 \cos(x^3) \ dx = \frac{1}{3} \sin(x^3) + C</m>.
-                      </p>
-                    </li>
-
-                    <li permid="inI">
-                      <p permid="Yyx">
-                        Both are needed; <m> \int x^5 \cos(x^3) \ dx = \frac{1}{3} \left(x^3\sin(x^3) + \cos(x^3) \right) + C</m>.
-                      </p>
-                    </li>
-
-                    <li permid="OuR">
-                      <p permid="EFG">
-                        Integration by parts; <m> \int x ln(x^2) \ dx = \frac{x^2}{2} \ln(x^2) - \frac{x^2}{2} + C</m>.
-                      </p>
-                    </li>
-
-                    <li permid="uCa">
-                      <p permid="kMP">
-                        Neither.
-                      </p>
-                    </li>
-
-                    <li permid="aJj">
-                      <p permid="QTY">
-                        <m>u</m>-substitution; <m> \int x^3 \sin(x^4) \ dx = -\frac{1}{4} \cos(x^4) + C</m>.
-                      </p>
-                    </li>
-
-                    <li permid="GQs">
-                      <p permid="xbh">
-                        Both are needed; <m>\int x^7 \sin(x^4) \ dx = -\frac{1}{4} x^4 \cos(x^4) + \frac{1}{4} \sin(x^4) + C</m>.
-                      </p>
-                    </li>
-                  </ol>
-                </p>
-              </answer>
-
-              <solution permid="HlR">
-                <p permid="SJl">
-                  <ol marker="a." permid="LVK">
-                    <li permid="mXB">
-                      <p permid="diq">
-                        We will use a <m>u</m>-substitution with <m>u = x^3</m> because the integrand involves a composite function with <m>x^3</m> as the innermost function and because <m>du = 3x^2 \, dx</m> involves the factor <m>x^2</m> which is also present in the integrand.
-                        When we make this substitution we will have <m>x^2 \ dx = \frac{1}{3} \ du</m> and the integral can be evaluated as follows:
-                        <md>
-                          <mrow>\int x^2 \cos(x^3) \ dx &amp;= \frac{1}{3} \int \cos(u) \ du</mrow>
-                          <mrow>&amp;= \frac{1}{3} \sin(u) + C</mrow>
-                          <mrow>&amp;= \frac{1}{3} \sin(x^3) + C</mrow>
-                        </md>.
-                      </p>
-                    </li>
-
-                    <li permid="TeK">
-                      <p permid="Jpz">
-                        We might try substituting <m>z = x^3/</m>, since there is a composite function in the integrand.
-                        In this case we have <m>dz = 3x^2 \, dx</m>.
-                        To make this substitution we need to rewrite the integrand as
-                        <me permid="JZt">
-                          x^5 \cos(x^3) = x^3 \left[x^2 \cos(x^3) \right]
-                        </me>
-                        and notice that <m>x^3 = z</m>.
-                        Then
-                        <me permid="qgC">
-                          \int x^5 \cos(x^3) \ dx = \frac{1}{3} \int z \cos(z) \ dz
-                        </me>.
-                        We can then try integration by parts on this last integral with
-                        <md>
-                          <mrow>u &amp;= z, \ du = dz</mrow>
-                          <mrow>dv &amp; = \cos(z) \, dz, \ v = \sin(z)</mrow>
-                        </md>
-                        We then have
-                        <md>
-                          <mrow>\int x^5 \cos(x^3) \ dx &amp;= \frac{1}{3} \int z \cos(z) \ dz</mrow>
-                          <mrow>&amp;= \frac{1}{3} \left(z\sin(z) - \int \sin(z) \ dz \right)</mrow>
-                          <mrow>&amp;= \frac{1}{3} \left(z\sin(z) + \cos(z) \right) + C</mrow>
-                          <mrow>&amp;= \frac{1}{3} \left(x^3\sin(x^3) + \cos(x^3) \right) + C</mrow>
-                        </md>.
-                      </p>
-                    </li>
-
-                    <li permid="zlT">
-                      <p permid="pwI">
-                        Since the logarithm function changes to a rational function when we differentiate it, using integration by parts with <m>u = \ln(x^2) = 2\ln(x)</m> will make the resulting integral easier to evaluate.
-                        So we let
-                        <md>
-                          <mrow>u &amp;= \ln(x^2), \ du = \frac{2}{x} \ dx</mrow>
-                          <mrow>dv &amp; = x \ dx , \ v = \frac{x^2}{2}</mrow>
-                        </md>
-                        and then integration by parts yields
-                        <md>
-                          <mrow>\int x ln(x^2) \ dx &amp;= \frac{x^2}{2} \ln(x^2) - \int \left(\frac{2}{x}\right) \left(\frac{x^2}{2}\right) \ dx</mrow>
-                          <mrow>&amp;= \frac{x^2}{2} \ln(x^2) - \int x \ dx</mrow>
-                          <mrow>&amp;= \frac{x^2}{2} \ln(x^2) - \frac{x^2}{2} + C</mrow>
-                        </md>.
-                      </p>
-                    </li>
-
-                    <li permid="ftc">
-                      <p permid="VDR">
-                        We might try a substitution with <m>u = x^4</m>, but then <m>du = 4x^3 \ dx</m> and there is no factor of <m>x^3</m> in the integrand to allow us to complete this substitution.
-                        If we attempt to integrate by parts, then only option is to let <m>u = sin(x^4)</m> which makes <m>du = 4x^3 \cos(x^4)</m> and we only make the integral more complicated.
-                        This is one integral we cannot evaluate with the tools we have.
-                      </p>
-                    </li>
-
-                    <li permid="LAl">
-                      <p permid="BLa">
-                        We will try a <m>u</m>-substitution with <m>u = x^4</m>, because the integrand involves a composite function with <m>x^4</m> as the innermost function and because <m>du = 4x^3 \, dx</m> involves the factor <m>x^3</m> which is also present in the integrand.
-                        When we make this substitution we  have <m>x^3 \ dx = \frac{1}{4} \ du</m> and the integral can be evaluated as follows:
-                        <md>
-                          <mrow>\int x^3 \sin(x^4) \ dx &amp;= \frac{1}{4} \int \sin(u) \ du</mrow>
-                          <mrow>&amp;= -\frac{1}{4} \cos(u) + C</mrow>
-                          <mrow>&amp;= -\frac{1}{4} \cos(x^4) + C</mrow>
-                        </md>.
-                      </p>
-                    </li>
-
-                    <li permid="rHu">
-                      <p permid="hSj">
-                        We will use integration by parts.
-                        Notice that
-                        <me permid="aXE">
-                          \int x^7 \sin(x^4) \ dx = \int x^4 \left[x^3 \sin(x^4)\right] \ dx
-                        </me>
-                        and we have a factor we can differentiate (<m>x^3</m>) and one we can integrate (<m>x^3 \sin(x^4)</m>) (as we did in part (e)).
-                        So we let
-                        <md>
-                          <mrow>u &amp;= x^3, \ du = 3x^2 \ dx</mrow>
-                          <mrow>dv &amp; = x^3 \sin(x^4) \ dx , \ v = -\frac{1}{4} \cos(x^4)</mrow>
-                        </md>
-                        Integration by parts formula now gives
-                        <me permid="HeN">
-                          \int x^7 \sin(x^4) \ dx = -\frac{1}{4} x^4 \cos(x^4) + \int x^3 \cos(x^4) \ dx
-                        </me>.
-                        This last integral is essentially the same as obtaining <m>v</m> from <m>dv</m>, so we will make the substitution <m>z = x^4</m> with <m>dz = 4x^3 \ dx</m>.
-                        Changing variables in the last integral gives us
-                        <md>
-                          <mrow>\int x^7 \sin(x^4) \ dx &amp;= -\frac{1}{4} x^4 \cos(x^4) + \int x^3 \cos(x^4) \ dx</mrow>
-                          <mrow>&amp;= -\frac{1}{4} x^4 \cos(x^4) + \frac{1}{4} \int \cos(z) \ dz</mrow>
-                          <mrow>&amp;= -\frac{1}{4} x^4 \cos(x^4) + \frac{1}{4} \sin(z) + C</mrow>
-                          <mrow>&amp;= -\frac{1}{4} x^4 \cos(x^4) + \frac{1}{4} \sin(x^4) + C</mrow>
-                        </md>.
-                      </p>
-                    </li>
-                  </ol>
-                </p>
-              </solution>
-            </exercise>
-
-            <exercise>
-              <title> Trig Products</title>
-
-              <statement>
-                <p>
-                  Use integration by parts and the trigonometric identity <m>\sin^2(\theta)+\cos^2(\theta)=1</m> to find the following integrals:
-                  <ol marker="a.">
-                    <li>
-                      <m>\int \sin^2(t)\, dt </m>
-                    </li>
-
-                    <li>
-                      <m>\int \sin(t) \cos(t)\, dt </m>
-                    </li>
-                  </ol>
-                  (Note: these integrals can also be solved by other methods, but for this problem try integration by parts.)
-                </p>
-              </statement>
-            </exercise>
-
-            <exercise>
-              <title> Finding <m>\int t^n e^t \, dt</m> </title>
-
-              <statement>
-                <p>
-                  Use integration by parts to find the following integrals:
-                  <ol marker="a.">
-                    <li>
-                      <m>\int t e^t\, dt </m>
-                    </li>
-
-                    <li>
-                      <m>\int t^2 e^t\, dt </m>
-                    </li>
-
-                    <li>
-                      <m>\int t^3 e^t\, dt </m>
-                    </li>
-
-                    <li>
-                      <m>\int t^4 e^t\, dt </m>
-                    </li>
-
-                    <li>
-                      Do you notice a pattern in your answers? Without finding the integral, what do you think will be <m>\int t^5 e^t\, dt </m>? Then check your answer online or by performing another integration by parts.
-                    </li>
-                  </ol>
-                  (Note: these integrals can also be solved by other methods, but for this problem try integration by parts.)
-                </p>
-              </statement>
-            </exercise>
-            </exercises>
-          </section>
+            <li> Do you notice a pattern in your answers? Without finding the integral, what do you
+          think will be <m>\int t^5 e^t\, dt </m>? Then check your answer online or by performing
+          another integration by parts. </li>
+          </ol> (Note: these integrals can also be
+          solved by other methods, but for this problem try integration by parts.) </p>
+      </statement>
+    </exercise>
+  </exercises>
+</section>

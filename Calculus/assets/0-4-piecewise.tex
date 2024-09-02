@@ -1,0 +1,19 @@
+\documentclass[tikz]{standalone}
+\usepackage{amsmath,amssymb}
+\usepackage{pgfplots}
+
+\pgfplotsset{compat=1.13}
+\usepgfplotslibrary{fillbetween}
+
+\begin{document}
+
+ \begin{tikzpicture}[xscale=1,yscale=0.25]
+        \draw[<->,thick] (0,0) -- (4,0) node[right] {$x$};
+    \draw[<->,thick] (0,-5) -- (0,20) node[above] {$y$};
+	\foreach \x in {1,2,3,4} \draw (\x,0.1) -- (\x, -0.1) node[below] {\x};
+	%\foreach \y in {-5,5} \draw (0.1,\y) -- (-0.1, \y) node[left] {\y};
+	\draw[<-,smooth,domain=0:2,very thick,blue] plot(\x,{4*\x*\x-5});
+	\draw[->,smooth,domain=2:4,very thick,blue] plot(\x,{5*\x+1});
+\end{tikzpicture}
+	
+\end{document}
