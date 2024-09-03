@@ -1,6 +1,11 @@
-<?xml version="1.0" encoding="UTF-8" ?>
+<?xml version="1.0" encoding="UTF-8"?>
 
-<!-- **********************************************************************--> <!-- Copyright 2019                                                        --> <!-- UNL Department of Mathematics                                         --> <!-- Based upon the work of                                                --> <!-- Matthew Boelkins                                                      --> <!-- Copyright 2012-2018                                                   --> <!--                                                                       --> <!-- This file is part of Coordinated Calculus.                            --> <!-- This file is based on Active Calculus.                                --> <!--                                                                       --> <!-- Permission is granted to copy, distribute and/or modify this document --> <!-- under the terms of the Creative Commons BY-SA license.  The work      --> <!-- may be used for free by any party so long as attribution is given to  --> <!-- the author(s), the work and its derivatives are used in the spirit of --> <!-- "share and share alike".  All trademarks are the registered marks of  --> <!-- their respective owners.                                              --> <!-- **********************************************************************-->
+<!-- **********************************************************************--> <!-- Copyright 2019                                                        --> <!-- UNL Department of Mathematics                                         --> <!-- Based upon the work of                                                --> <!-- Matthew Boelkins                                                      --> <!-- Copyright 2012-2018                                                   --> <!--                                                                       --> <!-- This file is part of Coordinated Calculus.                            --> <!-- This file is based on Active Calculus.                                --> <!--                                                                       --> <!-- Permission is granted to copy, distribute and/or modify this
+document --> <!-- under the terms of the Creative Commons BY-SA license.  The work      --> <!-- may be used for free by any party so long as attribution is
+given to  --> <!-- the author(s), the work and its derivatives are used in the
+spirit of --> <!-- "share and share alike".  All trademarks are the registered marks
+of  --> <!-- their respective owners.                                              --> <!--
+**********************************************************************-->
 <section xmlns:xi="http://www.w3.org/2001/XInclude" xml:id="sec-7-9-taylor-series" permid="cnS">
   <title>Taylor Series</title>
 
@@ -21,1454 +26,1421 @@
   </objectives>
 
   <introduction permid="CFP">
-    <p>
-      In <xref ref="sec-7-8-taylor-poly"> Section </xref>, we began looking at Taylor polynomials as a means of approximating a function.
-      If we continue this approximation with polynomials of higher and higher orders, we can construct a power series, called the Taylor series, which yields an even more accurate representation of the function.
-      In this section, we examine the Taylor series, its connections to Taylor polynomials, the convergence of the Taylor series, and error approximations for Taylor polynomials.
-    </p>
+    <p> In <xref ref="sec-7-8-taylor-poly"> Section </xref>, we began looking at Taylor polynomials
+      as a means of approximating a function. If we continue this approximation with polynomials of
+      higher and higher orders, we can construct a power series, called the Taylor series, which
+      yields an even more accurate representation of the function. In this section, we examine the
+      Taylor series, its connections to Taylor polynomials, the convergence of the Taylor series,
+      and error approximations for Taylor polynomials. </p>
   </introduction>
 
 
   <subsection permid="oCk">
     <title>Taylor Series</title>
 
-    <idx><h>Taylor series</h></idx>
-    <p permid="TiB">
-      In <xref ref="act-8-5-1">Example</xref> we saw that the fourth order Taylor polynomial <m>P_4(x)</m> for <m>\sin(x)</m> centered at <m>0</m> is
-      <me permid="uks">
+    <idx>
+      <h>Taylor series</h>
+    </idx>
+    <p permid="TiB"> In <xref ref="act-8-5-1">Example</xref> we saw that the fourth order Taylor
+      polynomial <m>P_4(x)</m> for <m>\sin(x)</m> centered at <m>0</m> is <me permid="uks">
         P_4(x) = x - \frac{x^3}{3!}
-      </me>.
-    </p>
+      </me>. </p>
 
-    <p permid="zpK">
-      The pattern we found for the derivatives <m>f^{(k)}(0)</m> describe the higher-order Taylor polynomials, e.g.,
-      <md>
+    <p permid="zpK"> The pattern we found for the derivatives <m>f^{(k)}(0)</m> describe the
+      higher-order Taylor polynomials, e.g., <md>
         <mrow>P_5(x) \amp= x - \frac{x^3}{3!} + \frac{x^{(5)}}{5!}\text{,}</mrow>
         <mrow>P_7(x) \amp= x - \frac{x^3}{3!} + \frac{x^{(5)}}{5!} - \frac{x^{(7)}}{7!}\text{,}</mrow>
-        <mrow>P_9(x) \amp= x - \frac{x^3}{3!} + \frac{x^{(5)}}{5!} - \frac{x^{(7)}}{7!} + \frac{x^{(9)}}{9!}</mrow>
-      </md>,
-      and so on.
-      It is instructive to consider the graphical behavior of these functions; <xref ref="F-8-5-T1579">Figure</xref> shows the graphs of a few of the Taylor polynomials centered at <m>0</m> for the sine function.
-    </p>
+        <mrow>P_9(x) \amp= x - \frac{x^3}{3!} + \frac{x^{(5)}}{5!} - \frac{x^{(7)}}{7!} +
+      \frac{x^{(9)}}{9!}</mrow>
+      </md>, and so on. It is instructive to consider the graphical
+      behavior of these functions; <xref ref="F-8-5-T1579">Figure</xref> shows the graphs of a few
+      of the Taylor polynomials centered at <m>0</m> for the sine function. </p>
 
     <figure xml:id="F-8-5-T1579" permid="XSu">
-      <caption>The order 1, 5, 7, and 9 Taylor polynomials centered at <m>x = 0</m> for <m>f(x) = \sin(x)</m>.</caption>
+      <caption>The order 1, 5, 7, and 9 Taylor polynomials centered at <m>x = 0</m> for <m>f(x) =
+        \sin(x)</m>.</caption>
       <sbsgroup permid="lHE">
         <sidebyside widths="30% 30%" margins="auto" permid="RON">
-          <image source="8_5_Taylor1" /> <image source="8_5_Taylor5" />
-          </sidebyside>
+          <image source="8_5_Taylor1" />
+          <image source="8_5_Taylor5" />
+        </sidebyside>
 
-          <sidebyside widths="30% 30%" margins="auto" permid="xVW">
-            <image source="8_5_Taylor7" /> <image source="8_5_Taylor9" />
-            </sidebyside>
-          </sbsgroup>
-        </figure>
+        <sidebyside widths="30% 30%" margins="auto" permid="xVW">
+          <image source="8_5_Taylor7" />
+          <image source="8_5_Taylor9" />
+        </sidebyside>
+      </sbsgroup>
+    </figure>
 
-        <p permid="fwT">
-          Notice that <m>P_1(x)</m> is close to the sine function only for values of <m>x</m> that are close to <m>0</m>, but as we increase the degree of the Taylor polynomial the Taylor polynomials provide a better fit to the graph of the sine function over larger intervals.
-          This illustrates the general behavior of Taylor polynomials: for any sufficiently well-behaved function, the sequence <m>\{P_n(x)\}</m> of Taylor polynomials converges to the function <m>f</m> on larger and larger intervals (though those intervals may not necessarily increase without bound).
-          If the Taylor polynomials ultimately converge to <m>f</m> on its entire domain, we write
-          <me permid="GyK">
-            f(x) = \sum_{k=0}^{\infty} \frac{f^{(k)}(a)}{k!}(x-a)^k
-          </me>.
+    <p permid="fwT"> Notice that <m>P_1(x)</m> is close to the sine function only for values of <m>x</m>
+      that are close to <m>0</m>, but as we increase the degree of the Taylor polynomial the Taylor
+      polynomials provide a better fit to the graph of the sine function over larger intervals. This
+      illustrates the general behavior of Taylor polynomials: for any sufficiently well-behaved
+      function, the sequence <m>\{P_n(x)\}</m> of Taylor polynomials converges to the function <m>f</m>
+      on larger and larger intervals (though those intervals may not necessarily increase without
+      bound). If the Taylor polynomials ultimately converge to <m>f</m> on its entire domain, we
+      write <me permid="GyK">
+        f(x) = \sum_{k=0}^{\infty} \frac{f^{(k)}(a)}{k!}(x-a)^k
+      </me>. </p>
+
+    <assemblage>
+      <title>Taylor Series </title>
+
+      <p> Let <m>f</m> be a function all of whose derivatives exist at <m>x=a</m>. The <term>Taylor
+        series</term> for <m>f</m> centered at <m>x=a</m> is the series <m>T_f(x)</m> defined by <me
+          permid="mFT">
+          T_f(x) = \sum_{k=0}^{\infty} \frac{f^{(k)}(a)}{k!}(x-a)^k
+        </me>.
+        In the special case where <m>a=0</m>, the Taylor series is also called the <term>Maclaurin
+        series</term>
+            <idx>
+          <h>Maclaurin series</h>
+        </idx> for <m>f</m>. </p>
+    </assemblage>
+
+    <p permid="LEc"> From <xref ref="Ex-8-5-1">Example</xref> we know the <m>n</m>th order Taylor
+      polynomial centered at <m>0</m> for the exponential function <m>e^x</m>; thus, the Maclaurin
+      series for <m>e^x</m> is <me permid="SNc">
+        \sum_{k=0}^{\infty} \frac{x^k}{k!}
+      </me>. </p>
+
+    <example xml:id="act-8-5-2" permid="iJd">
+      <statement>
+        <p permid="xSb"> In <xref ref="act-8-5-1">Example</xref> we determined small order Taylor
+          polynomials for a few familiar functions, and also found general patterns in the
+          derivatives evaluated at <m>0</m>. Use that information to write the Taylor series
+          centered at <m>0</m> for the following functions. </p>
+
+        <p permid="dZk">
+          <ol marker="a." permid="VKR">
+            <li permid="BSa">
+              <p permid="DHn">
+                <m>f(x) = \frac{1}{1-x}</m>
+              </p>
+            </li>
+
+            <li permid="hZj">
+              <p permid="jOw">
+                <m>f(x) = \cos(x)</m> (You will need to carefully consider how to indicate that many
+                of the coefficients are 0. Think about a general way to represent an even integer.) </p>
+            </li>
+
+            <li permid="Ogs">
+              <p permid="PVF">
+                <m>f(x) = \sin(x)</m> (You will need to carefully consider how to indicate that many
+                of the coefficients are <m>0</m>. Think about a general way to represent an odd
+                integer.) </p>
+            </li>
+
+            <li permid="unB">
+              <p permid="wcO"> Determine the <m>n</m> order Taylor polynomial for <m>f(x) =
+                \frac{1}{1-x}</m> centered at <m>x=0</m>. </p>
+            </li>
+          </ol>
         </p>
+      </statement>
 
-        <assemblage>
-          <title>Taylor Series </title>
+      <answer permid="RaY">
+        <p permid="lDJ">
+          <ol marker="a." permid="Jwz">
+            <li permid="GBT">
+              <p permid="Irg">
+                <m> P(x) = 1 + x + x^2 + x^3 + \cdots + x^n + \cdots </m>
+              </p>
+            </li>
 
-          <p>
-            Let <m>f</m> be a function all of whose derivatives exist at <m>x=a</m>.
-            The <term>Taylor series</term> for <m>f</m> centered at <m>x=a</m> is the series <m>T_f(x)</m> defined by
-            <me permid="mFT">
-              T_f(x) = \sum_{k=0}^{\infty} \frac{f^{(k)}(a)}{k!}(x-a)^k
-            </me>.
-            In the special case where <m>a=0</m>, the Taylor series is also called the <term>Maclaurin series</term>
-            <idx><h>Maclaurin series</h></idx>
-            for <m>f</m>.
-          </p>
-        </assemblage>
+            <li permid="mJc">
+              <p permid="oyp">
+                <m> P(x) = 1 - \frac{1}{2!}x^2 + \frac{1}{4!}x^4 - \cdots +
+                (-1)^{n}\frac{1}{(2n)!}x^{2n} + \cdots </m>. </p>
+            </li>
 
-        <p permid="LEc">
-          From <xref ref="Ex-8-5-1">Example</xref> we know the <m>n</m>th order Taylor polynomial centered at <m>0</m> for the exponential function <m>e^x</m>; thus, the Maclaurin series for <m>e^x</m> is
-          <me permid="SNc">
-            \sum_{k=0}^{\infty} \frac{x^k}{k!}
-          </me>.
+            <li permid="SQl">
+              <p permid="UFy">
+                <m> P(x) = x - \frac{1}{3!}x^3 + \frac{1}{5!}x^5 - \cdots +
+                (-1)^{n}\frac{1}{(2n+1)!}x^{2n+1} + \cdots </m>. </p>
+            </li>
+
+            <li permid="yXu">
+              <p permid="AMH">
+                <m> P_n(x) = 1 + x + x^2 + x^3 + \cdots + x^n </m>
+              </p>
+            </li>
+          </ol>
         </p>
+      </answer>
 
-        <example xml:id="act-8-5-2" permid="iJd">
-          <statement>
-            <p permid="xSb">
-              In <xref ref="act-8-5-1">Example</xref> we determined small order Taylor polynomials for a few familiar functions, and also found general patterns in the derivatives evaluated at <m>0</m>.
-              Use that information to write the Taylor series centered at <m>0</m> for the following functions.
-            </p>
+      <solution permid="kTP">
+        <p permid="FwA">
+          <ol marker="a." permid="dpq">
+            <li permid="feD">
+              <p permid="gTQ"> For <m>f(x) = \frac{1}{1-x}</m>, its Taylor series is <me
+                  permid="Kgt">
+                  P(x) = 1 + x + x^2 + x^3 + \cdots + x^n + \cdots
+                </me>
+              </p>
+            </li>
 
-            <p permid="dZk">
-              <ol marker="a." permid="VKR">
-                <li permid="BSa">
-                  <p permid="DHn">
-                    <m>f(x) = \frac{1}{1-x}</m>
+            <li permid="LlM">
+              <p permid="NaZ"> For <m>f(x) = \cos(x)</m>, its Taylor series is <me permid="qnC">
+                  P(x) = 1 - \frac{1}{2!}x^2 + \frac{1}{4!}x^4 - \cdots +
+                (-1)^{n}\frac{1}{(2n)!}x^{2n} + \cdots
+                </me>
+                .
                   </p>
-                </li>
+            </li>
 
-                <li permid="hZj">
-                  <p permid="jOw">
-                    <m>f(x) = \cos(x)</m> (You will need to carefully consider how to indicate that many of the coefficients are 0. Think about a general way to represent an even integer.)
+            <li permid="rsV">
+              <p permid="tii"> For <m>f(x) = \sin(x)</m>, its Taylor series is <me permid="WuL">
+                  P(x) = x - \frac{1}{3!}x^3 + \frac{1}{5!}x^5 - \cdots +
+                (-1)^{n}\frac{1}{(2n+1)!}x^{2n+1} + \cdots
+                </me>
+                .
                   </p>
-                </li>
+            </li>
 
-                <li permid="Ogs">
-                  <p permid="PVF">
-                    <m>f(x) = \sin(x)</m> (You will need to carefully consider how to indicate that many of the coefficients are <m>0</m>. Think about a general way to represent an odd integer.)
-                  </p>
-                </li>
+            <li permid="XAe">
+              <p permid="Zpr"> For <m>f(x) = \frac{1}{1-x}</m>, <me permid="CBU">
+                  P_n(x) = 1 + x + x^2 + x^3 + \cdots + x^n
+                </me>
+              </p>
+            </li>
+          </ol>
+        </p>
+      </solution>
+    </example>
 
-                <li permid="unB">
-                  <p permid="wcO">
-                    Determine the <m>n</m> order Taylor polynomial for <m>f(x) = \frac{1}{1-x}</m> centered at <m>x=0</m>.
-                  </p>
-                </li>
-              </ol>
-            </p>
-          </statement>
+    <example>
+      <statement>
+        <p permid="uLe"> Many of the examples we consider in this section are for Taylor polynomials
+          and series centered at 0, but Taylor polynomials and series can be centered at any value
+          of <m>a</m>. Here, we look at more examples of such Taylor polynomials and series. </p>
 
-          <answer permid="RaY">
-            <p permid="lDJ">
-              <ol marker="a." permid="Jwz">
-                <li permid="GBT">
-                  <p permid="Irg">
-                    <m> P(x) = 1 + x + x^2 + x^3 + \cdots + x^n + \cdots </m>
-                  </p>
-                </li>
+        <p permid="aSn">
+          <ol marker="a." permid="AVP">
+            <li permid="WDT">
+              <p permid="yLd"> Let <m>f(x) = \sin(x)</m>. Find the Taylor polynomials up through
+                order four of <m>f</m> centered at <m>x = \frac{\pi}{2}</m>. Then find the Taylor
+                series for <m>f(x)</m> centered at <m>x = \frac{\pi}{2}</m>. Why should you have
+                expected the result? </p>
+            </li>
 
-                <li permid="mJc">
-                  <p permid="oyp">
-                    <m> P(x) = 1 - \frac{1}{2!}x^2 + \frac{1}{4!}x^4 - \cdots + (-1)^{n}\frac{1}{(2n)!}x^{2n} + \cdots </m>.
-                  </p>
-                </li>
+            <li permid="CLc">
+              <p permid="eSm"> Let <m>f(x) = \ln(x)</m>. Find the Taylor polynomials up through
+                order four of <m>f</m> centered at <m>x = 1</m>. Then find the Taylor series for <m>
+                f(x)</m> centered at <m>x = 1</m>. </p>
+            </li>
+          </ol>
+        </p>
+      </statement>
 
-                <li permid="SQl">
-                  <p permid="UFy">
-                    <m> P(x) = x - \frac{1}{3!}x^3 + \frac{1}{5!}x^5 - \cdots + (-1)^{n}\frac{1}{(2n+1)!}x^{2n+1} + \cdots </m>.
-                  </p>
-                </li>
+      <answer permid="rCd">
+        <p permid="CpD">
+          <ol marker="a." permid="IAo">
+            <li permid="OZu">
+              <p permid="rgE">
+                <md>
+                  <mrow>P_1(x) &amp;= 1 + 0\left(x - \frac{\pi}{2} \right) = 1</mrow>
+                  <mrow>P_2(x) &amp;= 1 + 0\left(x - \frac{\pi}{2} \right) - \frac{1}{2!}\left(x -
+                    \frac{\pi}{2} \right)^2 = 1-\frac{1}{2!}\left(x - \frac{\pi}{2} \right)^2</mrow>
+                  <mrow>P_3(x) &amp;= 1 + 0\left(x - \frac{\pi}{2} \right) - \frac{1}{2!}\left(x -
+                    \frac{\pi}{2} \right)^2 + \frac{0}{3!}\left(x - \frac{\pi}{2} \right)^3</mrow>
+                  <mrow>&amp;= 1-\frac{1}{2!}\left(x - \frac{\pi}{2} \right)^2 = P_2(x)</mrow>
+                  <mrow>P_4(x) &amp;= 1 + 0\left(x - \frac{\pi}{2} \right) - \frac{1}{2!}\left(x -
+                    \frac{\pi}{2} \right)^2 + \frac{0}{3!}\left(x - \frac{\pi}{2} \right)^3 +
+                    \frac{1}{4!}\left(x - \frac{\pi}{2} \right)^4</mrow>
+                  <mrow>&amp;= 1 - \frac{1}{2!}\left(x - \frac{\pi}{2} \right)^2 +
+                    \frac{1}{4!}\left(x - \frac{\pi}{2} \right)^4</mrow>
+                  <mrow>P(x) &amp;= 1 - \frac{1}{2!}\left(x - \frac{\pi}{2} \right)^2 +
+                    \frac{1}{4!}\left(x - \frac{\pi}{2} \right)^4 - \frac{1}{6!}\left(x -
+                    \frac{\pi}{2} \right)^6 + \cdots</mrow>
+                </md>
+              </p>
+            </li>
 
-                <li permid="yXu">
-                  <p permid="AMH">
-                    <m> P_n(x) = 1 + x + x^2 + x^3 + \cdots + x^n </m>
-                  </p>
-                </li>
-              </ol>
-            </p>
-          </answer>
-
-          <solution permid="kTP">
-            <p permid="FwA">
-              <ol marker="a." permid="dpq">
-                <li permid="feD">
-                  <p permid="gTQ">
-                    For <m>f(x) = \frac{1}{1-x}</m>, its Taylor series is
-                    <me permid="Kgt">
-                      P(x) = 1 + x + x^2 + x^3 + \cdots + x^n + \cdots
-                    </me>
-                  </p>
-                </li>
-
-                <li permid="LlM">
-                  <p permid="NaZ">
-                    For <m>f(x) = \cos(x)</m>, its Taylor series is
-                    <me permid="qnC">
-                      P(x) = 1 - \frac{1}{2!}x^2 + \frac{1}{4!}x^4 - \cdots + (-1)^{n}\frac{1}{(2n)!}x^{2n} + \cdots
-                    </me>.
-                  </p>
-                </li>
-
-                <li permid="rsV">
-                  <p permid="tii">
-                    For <m>f(x) = \sin(x)</m>, its Taylor series is
-                    <me permid="WuL">
-                      P(x) = x - \frac{1}{3!}x^3 + \frac{1}{5!}x^5 - \cdots + (-1)^{n}\frac{1}{(2n+1)!}x^{2n+1} + \cdots
-                    </me>.
-                  </p>
-                </li>
-
-                <li permid="XAe">
-                  <p permid="Zpr">
-                    For <m>f(x) = \frac{1}{1-x}</m>,
-                    <me permid="CBU">
-                      P_n(x) = 1 + x + x^2 + x^3 + \cdots + x^n
-                    </me>
-                  </p>
-                </li>
-              </ol>
-            </p>
-          </solution>
-        </example>
-
-        <example>
-          <statement>
-            <p permid="uLe">
-              Many of the examples we consider in this section are for Taylor polynomials and series centered at 0, but Taylor polynomials and series can be centered at any value of <m>a</m>.
-              Here, we look at more examples of such Taylor polynomials and series.
-            </p>
-
-            <p permid="aSn">
-              <ol marker="a." permid="AVP">
-                <li permid="WDT">
-                  <p permid="yLd">
-                    Let <m>f(x) = \sin(x)</m>.
-                    Find the Taylor polynomials up through order four of <m>f</m> centered at <m>x = \frac{\pi}{2}</m>.
-                    Then find the Taylor series for <m>f(x)</m> centered at <m>x = \frac{\pi}{2}</m>.
-                    Why should you have expected the result?
-                  </p>
-                </li>
-
-                <li permid="CLc">
-                  <p permid="eSm">
-                    Let <m>f(x) = \ln(x)</m>.
-                    Find the Taylor polynomials up through order four of <m>f</m> centered at <m>x = 1</m>.
-                    Then find the Taylor series for <m>f(x)</m> centered at <m>x = 1</m>.
-                  </p>
-                </li>
-              </ol>
-            </p>
-          </statement>
-
-          <answer permid="rCd">
-            <p permid="CpD">
-              <ol marker="a." permid="IAo">
-                <li permid="OZu">
-                  <p permid="rgE">
-                    <md>
-                      <mrow>P_1(x) &amp;= 1 + 0\left(x - \frac{\pi}{2} \right) = 1</mrow>
-                      <mrow>P_2(x) &amp;= 1 + 0\left(x - \frac{\pi}{2} \right) - \frac{1}{2!}\left(x - \frac{\pi}{2} \right)^2 = 1-\frac{1}{2!}\left(x - \frac{\pi}{2} \right)^2</mrow>
-                      <mrow>P_3(x) &amp;= 1 + 0\left(x - \frac{\pi}{2} \right) - \frac{1}{2!}\left(x - \frac{\pi}{2} \right)^2 + \frac{0}{3!}\left(x - \frac{\pi}{2} \right)^3</mrow>
-                      <mrow>&amp;= 1-\frac{1}{2!}\left(x - \frac{\pi}{2} \right)^2 = P_2(x)</mrow>
-                      <mrow>P_4(x) &amp;= 1 + 0\left(x - \frac{\pi}{2} \right) - \frac{1}{2!}\left(x - \frac{\pi}{2} \right)^2 + \frac{0}{3!}\left(x - \frac{\pi}{2} \right)^3 + \frac{1}{4!}\left(x - \frac{\pi}{2} \right)^4</mrow>
-                      <mrow>&amp;= 1 - \frac{1}{2!}\left(x - \frac{\pi}{2} \right)^2 + \frac{1}{4!}\left(x - \frac{\pi}{2} \right)^4</mrow>
-                      <mrow>P(x) &amp;= 1 - \frac{1}{2!}\left(x - \frac{\pi}{2} \right)^2 + \frac{1}{4!}\left(x - \frac{\pi}{2} \right)^4 - \frac{1}{6!}\left(x - \frac{\pi}{2} \right)^6 + \cdots</mrow>
-                    </md>
-                  </p>
-                </li>
-
-                <li permid="vgD">
-                  <p permid="XnN">
-                    <me permid="rQy">
-                      P_4(x) = 0 + 1(x-1) - \frac{1}{2!}(x-1)^2 + \frac{2}{3!}(x-1)^3 - \frac{6}{4!}(x-1)^4
-                    </me>.
+            <li permid="vgD">
+              <p permid="XnN">
+                <me permid="rQy">
+                  P_4(x) = 0 + 1(x-1) - \frac{1}{2!}(x-1)^2 + \frac{2}{3!}(x-1)^3 -
+                \frac{6}{4!}(x-1)^4
+                </me>
+                .
                     <me permid="XXH">
-                      P(x) = 1(x-1) - \frac{1}{2}(x-1)^2 + \frac{1}{3}(x-1)^3 - \frac{1}{4}(x-1)^4 + \frac{1}{5}(x-1)^5 - \cdots
-                    </me>
-                  </p>
-                </li>
-              </ol>
-            </p>
-          </answer>
-
-          <solution permid="LuU">
-            <p permid="JUc">
-              <ol marker="a." permid="QeN">
-                <li permid="HuV">
-                  <p permid="jCf">
-                    For <m>f(x) = \sin(x)</m>, <m>f'(x) = \cos(x)</m>, <m>f''(x) = -\sin(x)</m>, <m>f'''(x) = -\cos(x)</m>, and <m>f^{(4)}(x) = \sin(x)</m>.
-                    Thus, <m>f\left(\frac{\pi}{2} \right) = 1</m>, <m>f'\left(\frac{\pi}{2} \right) = 0</m>, <m>f''\left(\frac{\pi}{2} \right) = -1</m>, <m>f'''\left(\frac{\pi}{2} \right) = 0</m>, and <m>f^{(4)}\left(\frac{\pi}{2} \right) = 1</m>.
-                    It follows that the first four Taylor polynomials of <m>f</m> are
-                    <md>
-                      <mrow>P_1(x) &amp;= 1 + 0\left(x - \frac{\pi}{2} \right) = 1</mrow>
-                      <mrow>P_2(x) &amp;= 1 + 0\left(x - \frac{\pi}{2} \right) - \frac{1}{2!}\left(x - \frac{\pi}{2} \right)^2 = 1-\frac{1}{2!}\left(x - \frac{\pi}{2} \right)^2</mrow>
-                      <mrow>P_3(x) &amp;= 1 + 0\left(x - \frac{\pi}{2} \right) - \frac{1}{2!}\left(x - \frac{\pi}{2} \right)^2 + \frac{0}{3!}\left(x - \frac{\pi}{2} \right)^3</mrow>
-                      <mrow>&amp;= 1-\frac{1}{2!}\left(x - \frac{\pi}{2} \right)^2 = P_2(x)</mrow>
-                      <mrow>P_4(x) &amp;= 1 + 0\left(x - \frac{\pi}{2} \right) - \frac{1}{2!}\left(x - \frac{\pi}{2} \right)^2 + \frac{0}{3!}\left(x - \frac{\pi}{2} \right)^3 + \frac{1}{4!}\left(x - \frac{\pi}{2} \right)^4</mrow>
-                      <mrow>&amp;= 1 - \frac{1}{2!}\left(x - \frac{\pi}{2} \right)^2 + \frac{1}{4!}\left(x - \frac{\pi}{2} \right)^4</mrow>
-                    </md>
-                    From the pattern, the Taylor series for <m>f(x)</m> centered at <m>x = \frac{\pi}{2}</m> is
-                    <me permid="EeQ">
-                      P(x) = 1 - \frac{1}{2!}\left(x - \frac{\pi}{2} \right)^2 + \frac{1}{4!}\left(x - \frac{\pi}{2} \right)^4 - \frac{1}{6!}\left(x - \frac{\pi}{2} \right)^6 + \cdots
-                    </me>
-                    which is expected because of the repeating patterns in the derivatives of the sine function evaluated at <m>\frac{\pi}{2}</m>.
-                  </p>
-                </li>
-
-                <li permid="nCe">
-                  <p permid="PJo">
-                    For <m>f(x) = \ln(x)</m>, <m>f'(x) = x^{-1}</m>, <m>f''(x) = -x^{-2}</m>, <m>f'''(x) = 2x^{-3}</m>, and <m>f^{(4)}(x) = -6x^{-4}</m>.
-                    It follows that <m>f(1) = 0</m>, <m>f'(1) = 1</m>, <m>f''(1) = -1</m>, <m>f'''(1) = 2</m>, and <m>f^{(4)}(1) = -6</m>.
-                    Thus, the fourth Taylor polynomial (in which we can see the polynomials of lower degree) is
-                    <me permid="Qti">
-                      P_4(x) = 0 + 1(x-1) - \frac{1}{2!}(x-1)^2 + \frac{2}{3!}(x-1)^3 - \frac{6}{4!}(x-1)^4
-                    </me>.
-                    Simplifying the coefficients and seeing the pattern, it follows that the Taylor series for <m>f(x)</m> centered at <m>x = 1</m> is
-                    <me permid="wAr">
-                      P(x) = 1(x-1) - \frac{1}{2}(x-1)^2 + \frac{1}{3}(x-1)^3 - \frac{1}{4}(x-1)^4 + \frac{1}{5}(x-1)^5 - \cdots
-                    </me>
-                  </p>
-                </li>
-              </ol>
-            </p>
-          </solution>
-        </example>
-
-        <example xml:id="act-8-5-3" permid="Ari">
-          <statement>
-            <p permid="PAg">
-              <ol marker="a." permid="zHo">
-                <li permid="fOx">
-                  <p permid="pij">
-                    Plot the graphs of several of the Taylor polynomials centered at <m>0</m> (of order at least 5) for <m>e^x</m> and convince yourself that these Taylor polynomials converge to <m>e^x</m> for every value of <m>x</m>.
-                  </p>
-                </li>
-
-                <li permid="LVG">
-                  <p permid="Vps">
-                    Draw the graphs of several of the Taylor polynomials centered at <m>0</m> (of order at least 6) for <m>\cos(x)</m> and convince yourself that these Taylor polynomials converge to <m>\cos(x)</m> for every value of <m>x</m>.
-                    Write the Taylor series centered at <m>0</m> for <m>\cos(x)</m>.
-                  </p>
-                </li>
-
-                <li permid="scP">
-                  <p permid="BwB">
-                    Draw the graphs of several of the Taylor polynomials centered at <m>0</m> for <m>\frac{1}{1-x}</m>.
-                    Based on your graphs, for what values of <m>x</m> do these Taylor polynomials appear to converge to <m>\frac{1}{1-x}</m>? How is this situation different from what we observe with <m>e^x</m> and <m>\cos(x)</m>? In addition, write the Taylor series centered at <m>0</m> for <m>\frac{1}{1-x}</m>.
-                  </p>
-                </li>
-              </ol>
-            </p>
-          </statement>
-
-          <answer permid="uXv">
-            <p permid="DlO">
-              <ol marker="a." permid="nsW">
-                <li permid="Erh">
-                  <p permid="NKT">
-                    It appears that as we increase the order of the Taylor polynomials, they fit the graph of <m>f</m> better and better over larger intervals.
-                  </p>
-                </li>
-
-                <li permid="kyq">
-                  <p permid="tSc">
-                    It appears that as we increase the order of the Taylor polynomials, they fit the graph of <m>f</m> better and better over larger intervals.
-                  </p>
-                </li>
-
-                <li permid="QFz">
-                  <p permid="ZZl">
-                    The Taylor polynomials converge to <m>\frac{1}{1-x}</m> only on the interval <m>(-1,1)</m>.
-                  </p>
-                </li>
-              </ol>
-            </p>
-          </answer>
-
-          <solution permid="OQm">
-            <p permid="XeF">
-              <ol marker="a." permid="HlN">
-                <li permid="wMI">
-                  <p permid="Ggu">
-                    The graphs of the 10th (magenta), 20th (blue), and 30th (green) Taylor polynomials centered at <m>0</m> for <m>e^x</m> are shown below along with the graph of <m>f(x)</m> in red:
-                  </p>
-
-                  <sidebyside width="47%" permid="HVH">
-                    <image source="8_5_exp_graphs" />
-                    </sidebyside>
-
-                    <p permid="mnD">
-                      It appears that as we increase the order of the Taylor polynomials, they fit the graph of <m>f</m> better and better over larger intervals.
-                      So it looks like the Taylor polynomials converge to <m>e^x</m> for every value of <m>x</m>.
-                    </p>
-                  </li>
-
-                  <li permid="cTR">
-                    <p permid="SuM">
-                      The graphs of the 10th (magenta), 20th (blue), and 30th (green) Taylor polynomials centered at <m>0</m> for <m>\cos(x)</m> are shown below along with the graph of <m>f(x)</m> in red:
-                    </p>
-
-                    <sidebyside width="47%" permid="ocQ">
-                      <image source="8_5_cos_graphs" />
-                      </sidebyside>
-
-                      <p permid="yBV">
-                        It appears that as we increase the order of the Taylor polynomials, they fit the graph of <m>f</m> better and better over larger intervals.
-                        So it looks like the Taylor polynomials converge to <m>\cos(x)</m> for every value of <m>x</m>.
-                        Based on the <m>n</m>th order Taylor polynomials we found earlier for <m>\cos(x)</m>, the Taylor series for <m>f(x)</m> centered at <m>0</m> is
-                        <me permid="vHp">
-                          \sum_{k=0}^{\infty} \frac{x^{2k}}{(2k)!}
-                        </me>.
-                      </p>
-                    </li>
-
-                    <li permid="Jba">
-                      <p permid="eJe">
-                        The graphs of the 10th (magenta), 20th (blue), and 30th (green) Taylor polynomials centered at <m>0</m> for <m>\frac{1}{1-x}</m> are shown below along with the graph of <m>f(x)</m> in red:
-                      </p>
-
-                      <sidebyside width="47%" permid="UjZ">
-                        <image source="8_5_1over1minusx_graphs" />
-                        </sidebyside>
-
-                        <p permid="KQn">
-                          It appears that as we increase the order of the Taylor polynomials, they only fit the graph of <m>f</m> better and better over the interval <m>(-1,1)</m> and appear to diverge outside that interval.
-                          So it looks like the Taylor polynomials converge to <m>\frac{1}{1-x}</m> only on the interval <m>(-1,1)</m>.
-                        </p>
-
-                        <p permid="qXw">
-                          Based on the <m>n</m>th order Taylor polynomials we found earlier for <m>\frac{1}{1-x}</m>, the Taylor series for <m>f(x)</m> centered at <m>0</m> is
-                          <me permid="bOy">
-                            \sum_{k=0}^{\infty} x^k
-                          </me>.
-                        </p>
-                      </li>
-                    </ol>
-                  </p>
-                </solution>
-              </example>
-
-              <p permid="rLl">
-                The Maclaurin series for <m>e^x</m>, <m>\sin(x)</m>, <m>\cos(x)</m>, and <m>\frac{1}{1-x}</m> will be used frequently, so we should be certain to know and recognize them well.
+                  P(x) = 1(x-1) - \frac{1}{2}(x-1)^2 + \frac{1}{3}(x-1)^3 - \frac{1}{4}(x-1)^4 +
+                \frac{1}{5}(x-1)^5 - \cdots
+                </me>
               </p>
-            </subsection>
+            </li>
+          </ol>
+        </p>
+      </answer>
 
+      <solution permid="LuU">
+        <p permid="JUc">
+          <ol marker="a." permid="QeN">
+            <li permid="HuV">
+              <p permid="jCf"> For <m>f(x) = \sin(x)</m>, <m>f'(x) = \cos(x)</m>, <m>f''(x) =
+                -\sin(x)</m>, <m>f'''(x) = -\cos(x)</m>, and <m>f^{(4)}(x) = \sin(x)</m>. Thus, <m>f\left(\frac{\pi}{2}
+                \right) = 1</m>, <m>f'\left(\frac{\pi}{2} \right) = 0</m>, <m>f''\left(\frac{\pi}{2}
+                \right) = -1</m>, <m>f'''\left(\frac{\pi}{2} \right) = 0</m>, and <m>f^{(4)}\left(\frac{\pi}{2}
+                \right) = 1</m>. It follows that the first four Taylor polynomials of <m>f</m> are <md>
+                  <mrow>P_1(x) &amp;= 1 + 0\left(x - \frac{\pi}{2} \right) = 1</mrow>
+                  <mrow>P_2(x) &amp;= 1 + 0\left(x - \frac{\pi}{2} \right) - \frac{1}{2!}\left(x -
+                \frac{\pi}{2} \right)^2 = 1-\frac{1}{2!}\left(x - \frac{\pi}{2} \right)^2</mrow>
+                  <mrow>P_3(x) &amp;= 1 + 0\left(x - \frac{\pi}{2} \right) - \frac{1}{2!}\left(x -
+                \frac{\pi}{2} \right)^2 + \frac{0}{3!}\left(x - \frac{\pi}{2} \right)^3</mrow>
+                  <mrow>&amp;= 1-\frac{1}{2!}\left(x - \frac{\pi}{2} \right)^2 = P_2(x)</mrow>
+                  <mrow>P_4(x) &amp;= 1 + 0\left(x - \frac{\pi}{2} \right) - \frac{1}{2!}\left(x -
+                \frac{\pi}{2} \right)^2 + \frac{0}{3!}\left(x - \frac{\pi}{2} \right)^3 +
+                \frac{1}{4!}\left(x - \frac{\pi}{2} \right)^4</mrow>
+                  <mrow>&amp;= 1 - \frac{1}{2!}\left(x - \frac{\pi}{2} \right)^2 +
+                \frac{1}{4!}\left(x - \frac{\pi}{2} \right)^4</mrow>
+                </md> From the
+                pattern, the Taylor series for <m>f(x)</m> centered at <m>x = \frac{\pi}{2}</m> is <me
+                  permid="EeQ">
+                  P(x) = 1 - \frac{1}{2!}\left(x - \frac{\pi}{2} \right)^2 + \frac{1}{4!}\left(x -
+                \frac{\pi}{2} \right)^4 - \frac{1}{6!}\left(x - \frac{\pi}{2} \right)^6 + \cdots
+                </me>
+                which is expected because of the repeating patterns in the derivatives of the sine
+                function evaluated at <m>\frac{\pi}{2}</m>. </p>
+            </li>
 
-            <subsection>
-              <title> Relating Power Series and Taylor Series </title>
-
-              <p>
-                There is an important connection between power series and Taylor series.
-                This is illustrated in the following example.
-              </p>
-
-              <example xml:id="ex-8-5-2" permid="PnP">
-                <statement>
-                  <p permid="rJu">
-                    Suppose <m>f</m> is defined by a power series centered at 0 so that
-                    <me permid="Nry">
-                      f(x) = \sum_{k=0}^{\infty} a_kx^k
-                    </me>.
-                  </p>
-
-                  <p permid="XQD">
-                    <ol marker="a." permid="pFM">
-                      <li permid="DJr">
-                        <p permid="cVV">
-                          Determine the first 4 derivatives of <m>f</m> evaluated at 0 in terms of the coefficients <m>a_k</m>.
-                        </p>
-                      </li>
-
-                      <li permid="jQA">
-                        <p permid="Jde">
-                          Show that <m>f^{(n)}(0) = n!a_n</m> for each positive integer <m>n</m>.
-                        </p>
-                      </li>
-
-                      <li permid="PXJ">
-                        <p permid="pkn">
-                          Explain how the result of (b) tells us the following:
-                        </p>
-
-                        <blockquote permid="gma">
-                          <p permid="Vrw">
-                            On its interval of convergence, a power series is the Taylor series of its sum.
-                          </p>
-                        </blockquote>
-                      </li>
-                    </ol>
-                  </p>
-                </statement>
-
-                <answer permid="AeR">
-                  <p permid="znT">
-                    <ol marker="a." permid="dru">
-                      <li permid="weS">
-                        <p>
-                          <md>
-                            <mrow>f(0) \amp = a_0</mrow>
-                            <mrow>f'(0) \amp = a_1</mrow>
-                            <mrow>f''(0) \amp = 2!a_2</mrow>
-                            <mrow>f^{(3)}(0) \amp = 3!a_3</mrow>
-                            <mrow>f^{(4)}(0) \amp = 4!a_4</mrow>
-                          </md>
-                        </p>
-                      </li>
-
-                      <li permid="cmb">
-                        <p permid="ByF">
-                          <md>
-                            <mrow>f'(x) \amp = \sum_{k=1}^{\infty} ka_kx^{k-1}</mrow>
-                            <mrow>f''(x) \amp = \sum_{k=2}^{\infty} k(k-1)a_kx^{k-2}</mrow>
-                            <mrow>f^{(3)}(x) \amp = \sum_{k=3}^{\infty} k(k-1)(k-2)a_kx^{k-3}</mrow>
-                            <mrow>\vdots \amp  \ \qquad \vdots</mrow>
-                            <mrow>f^{(n)}(x) \amp = \sum_{k=n}^{\infty} k(k-1)(k-2) \cdots (k-n+1) a_kx^{k-n}</mrow>
-                            <mrow>\vdots \amp  \ \qquad \vdots</mrow>
-                          </md>
-                        </p>
-
-                        <p permid="hFO">
-                          So
-                          <md>
-                            <mrow>f(0) \amp = a_0</mrow>
-                            <mrow>f'(0) \amp = a_1</mrow>
-                            <mrow>f''(0) \amp = 2!a_2</mrow>
-                            <mrow>f^{(3)}(0) \amp = 3!a_3</mrow>
-                            <mrow>\vdots \amp  \ \qquad \vdots</mrow>
-                            <mrow>f^{(k)}(0) \amp = k!a_k</mrow>
-                            <mrow>\vdots \amp  \ \qquad \vdots</mrow>
-                          </md>
-                          and
-                          <me permid="ZFQ">
-                            a_k = \frac{f^{(k)}(0)}{k!}
-                          </me>
-                          for each <m>k \geq 0</m>.
-                          But these are just the coefficients of the Taylor series expansion of <m>f</m>, which leads us to the following observation.
-                        </p>
-                      </li>
-                    </ol>
-                  </p>
-                </answer>
-
-                <solution permid="TXI">
-                  <p permid="GSs">
-                    <ol marker="a." permid="EOK">
-                      <li permid="Itk">
-                        <p permid="NMX">
-                          Observe that
-                          <md>
-                            <mrow>f'(x) \amp = \sum_{k=1}^{\infty} ka_kx^{k-1}</mrow>
-                            <mrow>f''(x) \amp = \sum_{k=2}^{\infty} k(k-1)a_kx^{k-2}</mrow>
-                            <mrow>f^{(3)}(x) \amp = \sum_{k=3}^{\infty} k(k-1)(k-2)a_kx^{k-3}</mrow>
-                            <mrow>f^{(4)}(x) \amp = \sum_{k=4}^{\infty} k(k-1)(k-2)(k-3)a_kx^{k-4}</mrow>
-                          </md>
-                          and therefore
-                          <md>
-                            <mrow>f(0) \amp = a_0</mrow>
-                            <mrow>f'(0) \amp = a_1</mrow>
-                            <mrow>f''(0) \amp = 2!a_2</mrow>
-                            <mrow>f^{(3)}(0) \amp = 3!a_3</mrow>
-                            <mrow>f^{(4)}(0) \amp = 4!a_4</mrow>
-                          </md>.
-                        </p>
-                      </li>
-
-                      <li permid="oAt">
-                        <p permid="tUg">
-                          Since
-                          <me permid="yiA">
-                            f^{(n)}(x) = \sum_{k=n}^{\infty} k(k-1)(k-2) \cdots (k-n+1) a_kx^{k-n}
-                          </me>
-                          every term of this series vanishes at <m>x = 0</m> except the first.
-                          Thus it follows <m>f^{(n)}(0) = n(n-1)(n-2) \cdots (1) a_n</m>, so <m>f^{(n)}(0) = n! a_n</m>.
-                        </p>
-                      </li>
-
-                      <li permid="UHC">
-                        <p permid="abp">
-                          Since <m> a_k = \frac{f^{(k)}(0)}{k!} </m> for each <m>k \geq 0</m>, we see that these are just the coefficients of the Taylor series expansion of <m>f</m>, and thus we get the unsurprising result that the coefficients of a power series are identical to the Taylor series of the power series.
-                        </p>
-                      </li>
-                    </ol>
-                  </p>
-                </solution>
-              </example>
-
-              <p permid="LwY">
-                Thus, on its interval of convergence, every power series is in fact the Taylor series of the function it defines.
-              </p>
-            </subsection>
-
-
-            <subsection permid="UJt">
-              <title>The Interval of Convergence of a Taylor Series</title>
-
-              <idx><h>Taylor series</h><h>interval of convergence</h></idx>
-              <idx><h>interval of convergence</h></idx>
-              <p permid="DZD">
-                In the previous section (in <xref ref="F-8-5-T1579">Figure</xref> and <xref ref="act-8-5-3">Example</xref>) we observed that the Taylor polynomials centered at <m>0</m> for <m>e^x</m>, <m>\cos(x)</m>, and <m>\sin(x)</m> converged to these functions for all values of <m>x</m> in their domain, but that the Taylor polynomials centered at <m>0</m> for <m>\frac{1}{1-x}</m> converge to <m>\frac{1}{1-x}</m> on the interval <m>(-1,1)</m> and diverge for all other values of <m>x</m>.
-                So the Taylor series for a function <m>f(x)</m> does not need to converge for all values of <m>x</m> in the domain of <m>f</m>.
-              </p>
-
-              <p permid="kgM">
-                Our observations suggest two natural questions: can we determine the values of <m>x</m> for which a given Taylor series converges? And does the Taylor series for a function <m>f</m> actually converge to <m>f(x)</m>?
-              </p>
-
-              <example xml:id="Ex-8-5-2" permid="edf">
-                <statement>
-                  <p permid="HZC">
-                    Graphical evidence suggests that the Taylor series centered at <m>0</m> for <m>e^x</m> converges for all values of <m>x</m>.
-                    To verify this, use the Ratio Test to determine all values of <m>x</m> for which the Taylor series
-                    <men xml:id="eq-8-5-exponential" permid="yUl">
-                      \sum_{k=0}^{\infty} \frac{x^k}{k!}
-                    </men>
-                    converges absolutely.
-                  </p>
-                </statement>
-
-                <solution permid="OUh">
-                  <p permid="eMZ">
-                    Recall that the Ratio Test applies only to series of nonnegative terms.
-                    In this example, the variable <m>x</m> may have negative values.
-                    But we are interested in absolute convergence, so we apply the Ratio Test to the series
-                    <me permid="fbu">
-                      \sum_{k=0}^{\infty} \left| \frac{x^k}{k!} \right| = \sum_{k=0}^{\infty} \frac{| x |^k}{k!}
-                    </me>.
-                  </p>
-
-                  <p permid="KUi">
-                    Now, observe that
-                    <md>
-                      <mrow>\lim_{k \to \infty} \frac{a_{k+1}}{a_k}   \amp  = \lim_{k \to \infty} \frac{\frac{| x |^{k+1}}{(k+1)!} }{ \frac{| x |^k}{k} }</mrow>
-                      <mrow>\amp = \lim_{k \to \infty} \frac{| x |^{k+1}k!}{ | x |^{k}(k+1)! }</mrow>
-                      <mrow>\amp = \lim_{k \to \infty} \frac{| x |}{k+1}</mrow>
-                      <mrow>\amp = 0</mrow>
-                    </md>
-                    for any value of <m>x</m>.
-                    So the Taylor series <xref ref="eq-8-5-exponential" /> converges absolutely for every value of <m>x</m>, and thus converges for every value of <m>x</m>.
-                  </p>
-                </solution>
-              </example>
-
-              <p permid="QnV">
-                One question still remains: while the Taylor series for <m>e^x</m> converges for all <m>x</m>, what we have done does not tell us that this Taylor series actually converges to <m>e^x</m> for each <m>x</m>.
-                We'll return to this question when we consider the error in a Taylor approximation near the end of this section.
-              </p>
-
-              <p permid="rEh">
-                As we did for power series, we define the interval of convergence of a Taylor series  to be the set of values of <m>x</m> for which the series converges.
-                And as we did with power series, we typically use the Ratio Test to find the values of <m>x</m> for which the Taylor series converges absolutely, and then check the endpoints separately if the radius of convergence is finite.
-              </p>
-
-              <example xml:id="act-8-5-4" permid="ygw">
-                <statement>
-                  <p permid="ZDM">
-                    <ol marker="a." permid="xwC">
-                      <li permid="pSd">
-                        <p permid="zlP">
-                          Use the Ratio Test to explicitly determine the interval of convergence of the Taylor series for <m>f(x) = \frac{1}{1-x}</m> centered at <m>x=0</m>.
-                        </p>
-                      </li>
-
-                      <li permid="VZm">
-                        <p permid="fsY">
-                          Use the Ratio Test to explicitly determine the interval of convergence of the Taylor series for <m>f(x) = \cos(x)</m> centered at <m>x=0</m>.
-                        </p>
-                      </li>
-
-                      <li permid="Cgv">
-                        <p permid="LAh">
-                          Use the Ratio Test to explicitly determine the interval of convergence of the Taylor series for <m>f(x) = \sin(x)</m> centered at <m>x=0</m>.
-                        </p>
-                      </li>
-                    </ol>
-                  </p>
-                </statement>
-
-                <answer permid="MFA">
-                  <p permid="Npu">
-                    <ol marker="a." permid="lik">
-                      <li permid="OuN">
-                        <p permid="XOz">
-                          <m>(-\infty, \infty)</m>.
-                        </p>
-                      </li>
-
-                      <li permid="uBW">
-                        <p permid="DVI">
-                          <m>(-\infty, \infty)</m>.
-                        </p>
-                      </li>
-
-                      <li permid="aJf">
-                        <p permid="kcR">
-                          The interval <m>(-1,1)</m>.
-                        </p>
-                      </li>
-                    </ol>
-                  </p>
-                </answer>
-
-                <solution permid="gyr">
-                  <p permid="hil">
-                    <ol marker="a." permid="Fbb">
-                      <li permid="GQo">
-                        <p permid="Qka">
-                          Using the Ratio Test with the <m>k</m>th term <m>\frac{|x|^{2k}}{(2k)!}</m> we get
-                          <md>
-                            <mrow>\lim_{k \to \infty} \frac{ \frac{|x|^{2(k+1)}}{(2(k+1))!} }{ \frac{|x|^{2k}}{(2k)!} } \amp = \lim_{k \to \infty} \frac{|x|^{2(k+1)}(2k)!}{|x|^{2k}(2(k+1))!}</mrow>
-                            <mrow>\amp = \lim_{k \to \infty} \frac{|x|^{2}}{(2k+2)(2k+1)}</mrow>
-                            <mrow>\amp = 0</mrow>
-                          </md>.
-                          So the interval of convergence of the Taylor series for <m>f(x) = \cos(x)</m> centered at <m>x=0</m> is <m>(-\infty, \infty)</m>.
-                        </p>
-                      </li>
-
-                      <li permid="mXx">
-                        <p permid="wrj">
-                          Using the Ratio Test with the <m>k</m>th term <m>\frac{|x|^{2k+1}}{(2k+1)!}</m> we get
-                          <md>
-                            <mrow>\lim_{k \to \infty} \frac{ \frac{|x|^{2(k+1)+1}}{(2(k+1)+1)!} }{ \frac{|x|^{2k+1}}{(2k+1)!} } \amp = \lim_{k \to \infty} \frac{|x|^{2(k+1)+1}(2k+1)!}{|x|^{2k+1}(2(k+1)+1)!}</mrow>
-                            <mrow>\amp = \lim_{k \to \infty} \frac{|x|^{2}}{(2k+3)(2k+2)}</mrow>
-                            <mrow>\amp = 0</mrow>
-                          </md>.
-                          So the interval of convergence of the Taylor series for <m>f(x) = \sin(x)</m> centered at <m>x=0</m> is <m>(-\infty, \infty)</m>.
-                        </p>
-                      </li>
-
-                      <li permid="TeG">
-                        <p permid="cys">
-                          Using the Ratio Test with the <m>k</m>th term <m>|x|^{k}</m> we get
-                          <me permid="RZn">
-                            \lim_{k \to \infty} \frac{ |x|^{k+1} }{ |x|^{k} } = \lim_{k \to \infty} |x| = |x|
-                          </me>,
-                          So the series <m>\sum_{k=0}^{\infty} x^k</m> converges absolutely when <m>|x| \lt  1</m> or for <m>-1 \lt  x \lt  1</m> and diverges when <m>|x| \gt 1</m>.
-                          Since the Ratio Test doesn't tell us what happens when <m>x=1</m>, we need to check the endpoints separately.
-                        </p>
-
-                        <p permid="IFB">
-                          <ul permid="YTS">
-                            <li permid="dDL">
-                              <p permid="UTT">
-                                When <m>x=1</m> we have the series <m>\sum_{k=0}^{\infty} 1</m> which diverges since <m>\lim_{k \to \infty} 1 \neq 0</m>.
-                              </p>
-                            </li>
-
-                            <li permid="JKU">
-                              <p permid="oMK">
-                                When <m>x=-1</m> we have the series <m>\sum_{k=0}^{\infty} (-1)^k</m> which diverges since <m>\lim_{k \to \infty} (-1)^k</m> does not exist.
-                              </p>
-                            </li>
-                          </ul>
-                        </p>
-
-                        <p permid="Bbc">
-                          Therefore, the interval of convergence of the Taylor series for <m>f(x) = \frac{1}{1-x}</m> centered at <m>x=0</m> is <m>(-1,1)</m>.
-                        </p>
-                      </li>
-                    </ol>
-                  </p>
-                </solution>
-              </example>
-
-              <p permid="Ntp">
-                The Ratio Test allows us to determine the set of <m>x</m> values for which a Taylor series converges absolutely.
-                However, just because a Taylor series for a function <m>f</m> converges, we cannot be certain that the Taylor series actually converges to <m>f(x)</m>.
-                To show why and where a Taylor series does in fact converge to the function <m>f</m>, we next consider the error that is present in Taylor polynomials.
-              </p>
-            </subsection>
-
-
-            <subsection permid="AQC">
-              <title>Error Approximations for Taylor Polynomials</title>
-
-              <idx><h>Taylor polynomial</h><h>error</h></idx>
-              <p permid="tAy">
-                We now know how to find Taylor polynomials for functions such as <m>\sin(x)</m>, and how to determine the interval of convergence of the corresponding Taylor series.
-                We next develop an error bound that will tell us how well an <m>n</m>th order Taylor polynomial <m>P_n(x)</m> approximates its generating function <m>f(x)</m>.
-                This error bound will also allow us to determine whether a Taylor series on its interval of convergence actually equals the function <m>f</m> from which the Taylor series is derived.
-                Finally, we will be able to use the error bound to determine the order of the Taylor polynomial <m>P_n(x)</m> that we will ensure that <m>P_n(x)</m> approximates <m>f(x)</m> to the desired degree of accuracy.
-              </p>
-
-              <p permid="ZHH">
-                For this argument, we assume throughout that we center our approximations at <m>0</m> (but a similar argument holds for approximations centered at <m>a</m>).
-                We define the exact error, <m>E_n(x)</m>, that results from approximating <m>f(x)</m> with <m>P_n(x)</m> by
-                <me permid="ovg">
-                  E_n(x) = f(x) - P_n(x)
+            <li permid="nCe">
+              <p permid="PJo"> For <m>f(x) = \ln(x)</m>, <m>f'(x) = x^{-1}</m>, <m>f''(x) = -x^{-2}</m>
+                , <m>f'''(x) = 2x^{-3}</m>, and <m>f^{(4)}(x) = -6x^{-4}</m>. It follows that <m>f(1)
+                = 0</m>, <m>f'(1) = 1</m>, <m>f''(1) = -1</m>, <m>f'''(1) = 2</m>, and <m>f^{(4)}(1)
+                = -6</m>. Thus, the fourth Taylor polynomial (in which we can see the polynomials of
+                lower degree) is <me permid="Qti">
+                  P_4(x) = 0 + 1(x-1) - \frac{1}{2!}(x-1)^2 + \frac{2}{3!}(x-1)^3 -
+                \frac{6}{4!}(x-1)^4
                 </me>.
+                Simplifying the coefficients and seeing the pattern, it follows that the Taylor
+                series for <m>f(x)</m> centered at <m>x = 1</m> is <me permid="wAr">
+                  P(x) = 1(x-1) - \frac{1}{2}(x-1)^2 + \frac{1}{3}(x-1)^3 - \frac{1}{4}(x-1)^4 +
+                \frac{1}{5}(x-1)^5 - \cdots
+                </me>
+              </p>
+            </li>
+          </ol>
+        </p>
+      </solution>
+    </example>
+
+    <example xml:id="act-8-5-3" permid="Ari">
+      <statement>
+        <p permid="PAg">
+          <ol marker="a." permid="zHo">
+            <li permid="fOx">
+              <p permid="pij"> Plot the graphs of several of the Taylor polynomials centered at <m>0</m>
+                (of order at least 5) for <m>e^x</m> and convince yourself that these Taylor
+                polynomials converge to <m>e^x</m> for every value of <m>x</m>. </p>
+            </li>
+
+            <li permid="LVG">
+              <p permid="Vps"> Draw the graphs of several of the Taylor polynomials centered at <m>0</m>
+                (of order at least 6) for <m>\cos(x)</m> and convince yourself that these Taylor
+                polynomials converge to <m>\cos(x)</m> for every value of <m>x</m>. Write the Taylor
+                series centered at <m>0</m> for <m>\cos(x)</m>. </p>
+            </li>
+
+            <li permid="scP">
+              <p permid="BwB"> Draw the graphs of several of the Taylor polynomials centered at <m>0</m>
+                for <m>\frac{1}{1-x}</m>. Based on your graphs, for what values of <m>x</m> do these
+                Taylor polynomials appear to converge to <m>\frac{1}{1-x}</m>? How is this situation
+                different from what we observe with <m>e^x</m> and <m>\cos(x)</m>? In addition,
+                write the Taylor series centered at <m>0</m> for <m>\frac{1}{1-x}</m>. </p>
+            </li>
+          </ol>
+        </p>
+      </statement>
+
+      <answer permid="uXv">
+        <p permid="DlO">
+          <ol marker="a." permid="nsW">
+            <li permid="Erh">
+              <p permid="NKT"> It appears that as we increase the order of the Taylor polynomials,
+                they fit the graph of <m>f</m> better and better over larger intervals. </p>
+            </li>
+
+            <li permid="kyq">
+              <p permid="tSc"> It appears that as we increase the order of the Taylor polynomials,
+                they fit the graph of <m>f</m> better and better over larger intervals. </p>
+            </li>
+
+            <li permid="QFz">
+              <p permid="ZZl"> The Taylor polynomials converge to <m>\frac{1}{1-x}</m> only on the
+                interval <m>(-1,1)</m>. </p>
+            </li>
+          </ol>
+        </p>
+      </answer>
+
+      <solution permid="OQm">
+        <p permid="XeF">
+          <ol marker="a." permid="HlN">
+            <li permid="wMI">
+              <p permid="Ggu"> The graphs of the 10th (magenta), 20th (blue), and 30th (green)
+                Taylor polynomials centered at <m>0</m> for <m>e^x</m> are shown below along with
+                the graph of <m>f(x)</m> in red: </p>
+
+              <sidebyside width="47%" permid="HVH">
+                <image source="8_5_exp_graphs" />
+              </sidebyside>
+
+              <p permid="mnD"> It appears that as we increase the order of the Taylor polynomials,
+                they fit the graph of <m>f</m> better and better over larger intervals. So it looks
+                like the Taylor polynomials converge to <m>e^x</m> for every value of <m>x</m>. </p>
+            </li>
+
+            <li permid="cTR">
+              <p permid="SuM"> The graphs of the 10th (magenta), 20th (blue), and 30th (green)
+                Taylor polynomials centered at <m>0</m> for <m>\cos(x)</m> are shown below along
+                with the graph of <m>f(x)</m> in red: </p>
+
+              <sidebyside width="47%" permid="ocQ">
+                <image source="8_5_cos_graphs" />
+              </sidebyside>
+
+              <p permid="yBV"> It appears that as we increase the order of the Taylor polynomials,
+                they fit the graph of <m>f</m> better and better over larger intervals. So it looks
+                like the Taylor polynomials converge to <m>\cos(x)</m> for every value of <m>x</m>.
+                Based on the <m>n</m>th order Taylor polynomials we found earlier for <m>\cos(x)</m>,
+                the Taylor series for <m>f(x)</m> centered at <m>0</m> is <me permid="vHp">
+                \sum_{k=0}^{\infty} \frac{x^{2k}}{(2k)!}
+                </me>
+                .
+                      </p>
+            </li>
+
+            <li permid="Jba">
+              <p permid="eJe"> The graphs of the 10th (magenta), 20th (blue), and 30th (green)
+                Taylor polynomials centered at <m>0</m> for <m>\frac{1}{1-x}</m> are shown below
+                along with the graph of <m>f(x)</m> in red: </p>
+
+              <sidebyside width="47%" permid="UjZ">
+                <image source="8_5_1over1minusx_graphs" />
+              </sidebyside>
+
+              <p permid="KQn"> It appears that as we increase the order of the Taylor polynomials,
+                they only fit the graph of <m>f</m> better and better over the interval <m>(-1,1)</m>
+                and appear to diverge outside that interval. So it looks like the Taylor polynomials
+                converge to <m>\frac{1}{1-x}</m> only on the interval <m>(-1,1)</m>. </p>
+
+              <p permid="qXw"> Based on the <m>n</m>th order Taylor polynomials we found earlier for <m>
+                \frac{1}{1-x}</m>, the Taylor series for <m>f(x)</m> centered at <m>0</m> is <me
+                  permid="bOy">
+                  \sum_{k=0}^{\infty} x^k
+                </me>
+                .
+                        </p>
+            </li>
+          </ol>
+        </p>
+      </solution>
+    </example>
+
+    <p permid="rLl"> The Maclaurin series for <m>e^x</m>, <m>\sin(x)</m>, <m>\cos(x)</m>, and <m>
+      \frac{1}{1-x}</m> will be used frequently, so we should be certain to know and recognize them
+      well. </p>
+  </subsection>
+
+
+  <subsection>
+    <title> Relating Power Series and Taylor Series </title>
+
+    <p>
+      There is an important connection between power series and Taylor series.
+      This is illustrated in the following example.
+    </p>
+
+    <example xml:id="ex-8-5-2" permid="PnP">
+      <statement>
+        <p permid="rJu"> Suppose <m>f</m> is defined by a power series centered at 0 so that <me
+            permid="Nry">
+            f(x) = \sum_{k=0}^{\infty} a_kx^k
+          </me>. </p>
+
+        <p permid="XQD">
+          <ol marker="a." permid="pFM">
+            <li permid="DJr">
+              <p permid="cVV"> Determine the first 4 derivatives of <m>f</m> evaluated at 0 in terms
+                of the coefficients <m>a_k</m>. </p>
+            </li>
+
+            <li permid="jQA">
+              <p permid="Jde"> Show that <m>f^{(n)}(0) = n!a_n</m> for each positive integer <m>n</m>
+                .
+                        </p>
+            </li>
+
+            <li permid="PXJ">
+              <p permid="pkn">
+                Explain how the result of (b) tells us the following:
               </p>
 
-              <p permid="FOQ">
-                We are particularly interested in <m>|E_n(x)|</m>, the distance between <m>P_n</m> and <m>f</m>.
-                Because
-                <me permid="UCp">
-                  P^{(k)}_n(0) = f^{(k)}(0)
-                </me>
-                for <m>0 \leq k \leq n</m>, we know that
-                <me permid="AJy">
-                  E^{(k)}_n(0) = 0
-                </me>
-                for <m>0 \leq k \leq n</m>.
-                Furthermore, since <m>P_n(x)</m> is a polynomial of degree less than or equal to <m>n</m>, we know that
-                <me permid="gQH">
-                  P_n^{(n+1)}(x) = 0
-                </me>.
-              </p>
-
-              <p permid="lVZ">
-                Thus, since <m>E^{(n+1)}_n(x) = f^{(n+1)}(x) - P_n^{(n+1)}(x)</m>, it follows that
-                <me permid="MXQ">
-                  E^{(n+1)}_n(x) = f^{(n+1)}(x)
-                </me>
-                for all <m>x</m>.
-              </p>
-
-              <p permid="Sdi">
-                Suppose that we want to approximate <m>f(x)</m> at a number <m>c</m> close to <m>0</m> using <m>P_n(c)</m>.
-                If we assume <m>|f^{(n+1)}(t)|</m> is bounded by some number <m>M</m> on <m>[0, c]</m>, so that
-                <me permid="teZ">
-                  \left|f^{(n+1)}(t)\right| \leq M
-                </me>
-                for all <m>0 \leq t \leq c</m>, then we can say that
-                <me permid="Zmi">
-                  \left|E^{(n+1)}_n(t)\right| = \left|f^{(n+1)}(t)\right| \leq M
-                </me>
-                for all <m>t</m> between <m>0</m> and <m>c</m>.
-                Equivalently,
-                <men xml:id="E-ErrorIneq" permid="RHJ">
-                  -M \leq E^{(n+1)}_n(t) \leq M
-                </men>
-                on <m>[0, c]</m>.
-                Next, we integrate the three terms in <xref ref="E-ErrorIneq">Inequality</xref> from <m>t = 0</m> to <m>t = x</m>, and thus find that
-                <me permid="Ftr">
-                  \int_0^x -M \ dt \leq \int_0^x E^{(n+1)}_n(t) \ dt \leq \int_0^x M \ dt
-                </me>
-                for every value of <m>x</m> in <m>[0, c]</m>.
-                Since <m>E^{(n)}_n(0) = 0</m>, the First FTC tells us that
-                <me permid="lAA">
-                  -Mx \leq E^{(n)}_n(x) \leq Mx
-                </me>
-                for every <m>x</m> in <m>[0, c]</m>.
-              </p>
-
-              <p permid="ykr">
-                Integrating this last inequality, we obtain
-                <me permid="xOS">
-                  \int_0^x -Mt \ dt \leq \int_0^x E^{(n)}_n(t) \ dt \leq \int_0^x Mt \ dt
-                </me>
-                and thus
-                <me permid="dWb">
-                  -M\frac{x^2}{2} \leq E^{(n-1)}_n(x) \leq M\frac{x^2}{2}
-                </me>
-                for all <m>x</m> in <m>[0, c]</m>.
-              </p>
-
-              <p permid="erA">
-                Integrating <m>n</m> times, we arrive at
-                <me permid="Kdk">
-                  -M\frac{x^{n+1}}{(n+1)!} \leq E_n(x) \leq M\frac{x^{n+1}}{(n+1)!}
-                </me>
-                for all <m>x</m> in <m>[0, c]</m>.
-                This enables us to conclude that
-                <me permid="qkt">
-                  \left|E_n(x)\right| \leq M\frac{|x|^{n+1}}{(n+1)!}
-                </me>
-                for all <m>x</m> in <m>[0, c]</m>, and we have found a bound on the approximation's error, <m>E_n</m>.
-              </p>
-
-              <p permid="KyJ">
-                Our work above was based on the approximation centered at <m>a = 0</m>; the argument may be generalized to hold for any value of <m>a</m>, which results in the following theorem.
-              </p>
-
-              <assemblage permid="tmd">
-                <title>The Lagrange Error Bound for <m>P_n(x)</m></title>
-
-                <idx><h>Lagrange error bound</h></idx>
-                <p permid="qFS">
-                  Let <m>f</m> be a continuous function with <m>n+1</m> continuous derivatives.
-                  Suppose that <m>M</m> is a positive real number such that <m>\left|f^{(n+1)}(x)\right| \le M</m> on the interval <m>[a, c]</m>.
-                  If <m>P_n(x)</m> is the <m>n</m>th order Taylor polynomial for <m>f(x)</m> centered at <m>x=a</m>, then
-                  <me permid="WrC">
-                    \left|P_n(c) - f(c)\right| \leq M\frac{|c-a|^{n+1}}{(n+1)!}
-                  </me>.
+              <blockquote permid="gma">
+                <p permid="Vrw">
+                  On its interval of convergence, a power series is the Taylor series of its sum.
                 </p>
-              </assemblage>
+              </blockquote>
+            </li>
+          </ol>
+        </p>
+      </statement>
 
-              <p permid="WNb">
-                We can use this error bound to tell us important information about Taylor polynomials and Taylor series, as we see in the following examples and activities.
+      <answer permid="AeR">
+        <p permid="znT">
+          <ol marker="a." permid="dru">
+            <li permid="weS">
+              <p>
+                <md>
+                  <mrow>f(0) \amp = a_0</mrow>
+                  <mrow>f'(0) \amp = a_1</mrow>
+                  <mrow>f''(0) \amp = 2!a_2</mrow>
+                  <mrow>f^{(3)}(0) \amp = 3!a_3</mrow>
+                  <mrow>f^{(4)}(0) \amp = 4!a_4</mrow>
+                </md>
+              </p>
+            </li>
+
+            <li permid="cmb">
+              <p permid="ByF">
+                <md>
+                  <mrow>f'(x) \amp = \sum_{k=1}^{\infty} ka_kx^{k-1}</mrow>
+                  <mrow>f''(x) \amp = \sum_{k=2}^{\infty} k(k-1)a_kx^{k-2}</mrow>
+                  <mrow>f^{(3)}(x) \amp = \sum_{k=3}^{\infty} k(k-1)(k-2)a_kx^{k-3}</mrow>
+                  <mrow>\vdots \amp \ \qquad \vdots</mrow>
+                  <mrow>f^{(n)}(x) \amp = \sum_{k=n}^{\infty} k(k-1)(k-2) \cdots (k-n+1) a_kx^{k-n}</mrow>
+                  <mrow>\vdots \amp \ \qquad \vdots</mrow>
+                </md>
               </p>
 
-              <example xml:id="Ex-8-5-3" permid="Kko">
-                <statement>
-                  <p permid="ogL">
-                    Determine how well the 10th order Taylor polynomial <m>P_{10}(x)</m> for <m>\sin(x)</m>, centered at <m>0</m>, approximates <m>\sin(2)</m>.
-                  </p>
-                </statement>
+              <p permid="hFO"> So <md>
+                  <mrow>f(0) \amp = a_0</mrow>
+                  <mrow>f'(0) \amp = a_1</mrow>
+                  <mrow>f''(0) \amp = 2!a_2</mrow>
+                  <mrow>f^{(3)}(0) \amp = 3!a_3</mrow>
+                  <mrow>\vdots \amp \ \qquad \vdots</mrow>
+                  <mrow>f^{(k)}(0) \amp = k!a_k</mrow>
+                  <mrow>\vdots \amp \ \qquad \vdots</mrow>
+                </md> and <me permid="ZFQ">
+                a_k = \frac{f^{(k)}(0)}{k!}
+                </me>
+                for each <m>k \geq 0</m>. But these are just the coefficients of the Taylor series
+                expansion of <m>f</m>, which leads us to the following observation. </p>
+            </li>
+          </ol>
+        </p>
+      </answer>
 
-                <solution permid="vbq">
-                  <p permid="rbr">
-                    To answer this question we use <m>f(x) = \sin(x)</m>, <m>c = 2</m>, <m>a=0</m>, and <m>n = 10</m> in the Lagrange error bound formula.
-                    We also need to find an appropriate value for <m>M</m>.
-                    Note that the derivatives of <m>f(x) = \sin(x)</m> are all equal to <m>\pm \sin(x)</m> or <m>\pm \cos(x)</m>.
-                    Thus,
-                    <me permid="CyL">
-                      \left| f^{(n+1)}(x) \right| \leq 1
-                    </me>
-                    for any <m>n</m> and <m>x</m>.
-                    Therefore, we can choose <m>M</m> to be <m>1</m>.
-                    Then
-                    <me permid="iFU">
-                      \left|P_{10}(2) - f(2)\right| \leq (1)\frac{|2-0|^{11}}{(11)!} = \frac{2^{11}}{(11)!} \approx 0.00005130671797
-                    </me>.
-                  </p>
+      <solution permid="TXI">
+        <p permid="GSs">
+          <ol marker="a." permid="EOK">
+            <li permid="Itk">
+              <p permid="NMX"> Observe that <md>
+                  <mrow>f'(x) \amp = \sum_{k=1}^{\infty} ka_kx^{k-1}</mrow>
+                  <mrow>f''(x) \amp = \sum_{k=2}^{\infty} k(k-1)a_kx^{k-2}</mrow>
+                  <mrow>f^{(3)}(x) \amp = \sum_{k=3}^{\infty} k(k-1)(k-2)a_kx^{k-3}</mrow>
+                  <mrow>f^{(4)}(x) \amp = \sum_{k=4}^{\infty} k(k-1)(k-2)(k-3)a_kx^{k-4}</mrow>
+                </md>
+                and therefore <md>
+                  <mrow>f(0) \amp = a_0</mrow>
+                  <mrow>f'(0) \amp = a_1</mrow>
+                  <mrow>f''(0) \amp = 2!a_2</mrow>
+                  <mrow>f^{(3)}(0) \amp = 3!a_3</mrow>
+                  <mrow>f^{(4)}(0) \amp = 4!a_4</mrow>
+                </md>. </p>
+            </li>
 
-                  <p permid="XiA">
-                    So <m>P_{10}(2)</m> approximates <m>\sin(2)</m> to within at most <m>0.00005130671797</m>.
-                    A computer algebra system tells us that
-                    <me permid="ONd">
-                      P_{10}(2) \approx 0.9093474427 \ \ \text{ and }  \ \ \sin(2) \approx 0.9092974268
-                    </me>
-                    with an actual difference of about <m>0.0000500159</m>.
-                  </p>
-                </solution>
-              </example>
+            <li permid="oAt">
+              <p permid="tUg"> Since <me permid="yiA">
+                  f^{(n)}(x) = \sum_{k=n}^{\infty} k(k-1)(k-2) \cdots (k-n+1) a_kx^{k-n}
+                </me>
+                every term of this series vanishes at <m>x = 0</m> except the first. Thus it follows <m>f^{(n)}(0)
+                = n(n-1)(n-2) \cdots (1) a_n</m>, so <m>f^{(n)}(0) = n! a_n</m>. </p>
+            </li>
 
-              <example xml:id="act-8-5-5" permid="EFC">
-                <statement>
-                  <p permid="nHr">
-                    Let <m>P_n(x)</m> be the <m>n</m>th order Taylor polynomial for <m>\sin(x)</m> centered at <m>x=0</m>.
-                    Determine how large we need to choose <m>n</m> so that <m>P_n(2)</m> approximates <m>\sin(2)</m> to <m>20</m> decimal places.
-                  </p>
-                </statement>
+            <li permid="UHC">
+              <p permid="abp"> Since <m> a_k = \frac{f^{(k)}(0)}{k!} </m> for each <m>k \geq 0</m>,
+                we see that these are just the coefficients of the Taylor series expansion of <m>f</m>,
+                and thus we get the unsurprising result that the coefficients of a power series are
+                identical to the Taylor series of the power series. </p>
+            </li>
+          </ol>
+        </p>
+      </solution>
+    </example>
 
-                <answer permid="KuO">
-                  <p permid="bsZ">
-                    <m>n \ge 27</m>.
-                  </p>
-                </answer>
+    <p permid="LwY">
+      Thus, on its interval of convergence, every power series is in fact the Taylor series of the
+      function it defines.
+    </p>
+  </subsection>
 
-                <solution permid="enF">
-                  <p permid="WJg">
-                    In this example, if we can find a value of <m>n</m> so that
-                    <me permid="TOA">
-                      M\frac{|2-0|^{n+1}}{(n+1)!} \lt  10^{-20}
-                    </me>
-                    then we will have
-                    <me permid="zVJ">
-                      |P_n(2) - f(2)| \leq M\frac{|2-0|^{n+1}}{(n+1)!} \lt  10^{-20}
-                    </me>.
-                  </p>
 
-                  <p permid="CQp">
-                    Again we use <m>f(x) = \sin(x)</m>, <m>c = 2</m>, <m>a=0</m>, and <m>M = 1</m> from the previous example.
-                    So we need to find <m>n</m> to make
-                    <me permid="gcS">
-                      \frac{2^{n+1}}{(n+1)!} \leq 10^{-20}
-                    </me>.
-                  </p>
+  <subsection permid="UJt">
+    <title>The Interval of Convergence of a Taylor Series</title>
 
-                  <p permid="iXy">
-                    There is no good way to solve equations involving factorials, so we simply use trial and error, evaluating <m>\frac{2^{n+1}}{(n+1)!}</m> at different values of <m>n</m> until we get one we need.
-                  </p>
+    <idx>
+      <h>Taylor series</h>
+      <h>interval of convergence</h>
+    </idx>
+    <idx>
+      <h>interval of convergence</h>
+    </idx>
+    <p permid="DZD"> In the previous section (in <xref ref="F-8-5-T1579">Figure</xref> and <xref
+        ref="act-8-5-3">Example</xref>) we observed that the Taylor polynomials centered at <m>0</m>
+      for <m>e^x</m>, <m>\cos(x)</m>, and <m>\sin(x)</m> converged to these functions for all values
+      of <m>x</m> in their domain, but that the Taylor polynomials centered at <m>0</m> for <m>
+      \frac{1}{1-x}</m> converge to <m>\frac{1}{1-x}</m> on the interval <m>(-1,1)</m> and diverge
+      for all other values of <m>x</m>. So the Taylor series for a function <m>f(x)</m> does not
+      need to converge for all values of <m>x</m> in the domain of <m>f</m>. </p>
 
-                  <sidebyside permid="Yyt">
-                    <tabular top="minor" bottom="minor" permid="srk">
-                      <row>
-                        <cell><m>n</m></cell>
-                        <cell><m>\frac{2^{n+1}}{(n+1)!}</m></cell>
-                      </row>
+    <p permid="kgM"> Our observations suggest two natural questions: can we determine the values of <m>
+      x</m> for which a given Taylor series converges? And does the Taylor series for a function <m>
+      f</m> actually converge to <m>f(x)</m>? </p>
 
-                      <row>
-                        <cell><m>10</m></cell>
-                        <cell><m>5.130671797 \times 10^{-5}</m></cell>
-                      </row>
+    <example xml:id="Ex-8-5-2" permid="edf">
+      <statement>
+        <p permid="HZC"> Graphical evidence suggests that the Taylor series centered at <m>0</m> for <m>
+          e^x</m> converges for all values of <m>x</m>. To verify this, use the Ratio Test to
+          determine all values of <m>x</m> for which the Taylor series <men
+            xml:id="eq-8-5-exponential" permid="yUl">
+            \sum_{k=0}^{\infty} \frac{x^k}{k!}
+          </men>
+          converges absolutely. </p>
+      </statement>
 
-                      <row>
-                        <cell><m>20</m></cell>
-                        <cell><m>4.104743250 \times 10^{-14}</m></cell>
-                      </row>
-
-                      <row>
-                        <cell><m>25</m></cell>
-                        <cell><m>1.664028884 \times 10^{-19}</m></cell>
-                      </row>
-
-                      <row>
-                        <cell><m>26</m></cell>
-                        <cell><m>1.232613988 \times 10^{-20}</m></cell>
-                      </row>
-
-                      <row>
-                        <cell><m>27</m></cell>
-                        <cell><m>8.804385630 \times 10^{-22}</m></cell>
-                      </row>
-                    </tabular>
-                  </sidebyside>
-
-                  <p permid="PeH">
-                    So we need to use an <m>n</m> of at least 27 to ensure accuracy to 20 decimal places.
+      <solution permid="OUh">
+        <p permid="eMZ"> Recall that the Ratio Test applies only to series of nonnegative terms. In
+          this example, the variable <m>x</m> may have negative values. But we are interested in
+          absolute convergence, so we apply the Ratio Test to the series <me permid="fbu">
+          \sum_{k=0}^{\infty} \left| \frac{x^k}{k!} \right| = \sum_{k=0}^{\infty} \frac{| x |^k}{k!}
+          </me>
+          .
                   </p>
 
-                  <p permid="vlQ">
-                    A computer algebra system gives
-                    <md>
-                      <mrow>P_{27}(2)\amp \approx 0.9092974268256816953960</mrow>
-                      <mrow>\sin(2)\amp \approx 0.9092974268256816953960</mrow>
-                    </md>
-                    and we can see that these agree to 20 places.
-                  </p>
-                </solution>
-              </example>
+        <p permid="KUi"> Now, observe that <md>
+            <mrow>\lim_{k \to \infty} \frac{a_{k+1}}{a_k} \amp = \lim_{k \to \infty} \frac{\frac{| x
+          |^{k+1}}{(k+1)!} }{ \frac{| x |^k}{k} }</mrow>
+            <mrow>\amp = \lim_{k \to \infty} \frac{| x |^{k+1}k!}{ | x |^{k}(k+1)! }</mrow>
+            <mrow>\amp = \lim_{k \to \infty} \frac{| x |}{k+1}</mrow>
+            <mrow>\amp = 0</mrow>
+          </md> for any value of <m>x</m>. So the Taylor series <xref
+            ref="eq-8-5-exponential" /> converges absolutely for every value of <m>x</m>, and thus
+          converges for every value of <m>x</m>. </p>
+      </solution>
+    </example>
 
-              <example xml:id="Ex-8-5-4" permid="qrx">
-                <statement>
-                  <p permid="UnU">
-                    Show that the Taylor series for <m>\sin(x)</m> actually converges to <m>\sin(x)</m> for all <m>x</m>.
-                  </p>
-                </statement>
+    <p permid="QnV"> One question still remains: while the Taylor series for <m>e^x</m> converges
+      for all <m>x</m>, what we have done does not tell us that this Taylor series actually
+      converges to <m>e^x</m> for each <m>x</m>. We'll return to this question when we consider the
+      error in a Taylor approximation near the end of this section. </p>
 
-                <solution permid="biz">
-                  <p permid="DpJ">
-                    Recall from the previous example that since <m>f(x) = \sin(x)</m>, we know
-                    <me permid="uUm">
-                      \left| f^{(n+1)}(x) \right| \leq 1
-                    </me>
-                    for any <m>n</m> and <m>x</m>.
-                    This allows us to choose <m>M = 1</m> in the Lagrange error bound formula.
-                    Thus,
-                    <men xml:id="E-ErrorIneqSine" permid="bbv">
-                      |P_n(x) - \sin(x)| \leq \frac{|x|^{n+1}}{(n+1)!}
-                    </men>
-                    for every <m>x</m>.
-                  </p>
+    <p permid="rEh"> As we did for power series, we define the interval of convergence of a Taylor
+      series to be the set of values of <m>x</m> for which the series converges. And as we did with
+      power series, we typically use the Ratio Test to find the values of <m>x</m> for which the
+      Taylor series converges absolutely, and then check the endpoints separately if the radius of
+      convergence is finite. </p>
 
-                  <p permid="jwS">
-                    We showed in earlier work that the Taylor series <m>\sum_{k=0}^{\infty} \frac{x^k}{k!}</m> converges for every value of <m>x</m>.
-                    Because the terms of any convergent series must approach zero, it follows that
-                    <me permid="HiE">
-                      \lim_{n \to \infty} \frac{x^{n+1}}{(n+1)!} = 0
-                    </me>
-                    for every value of <m>x</m>.
-                    Thus, taking the limit as <m>n \to \infty</m> in the inequality<nbsp /><xref ref="E-ErrorIneqSine" />, it follows that
-                    <me permid="npN">
-                      \lim_{n \to \infty} |P_n(x) - \sin(x)| = 0
-                    </me>.
-                  </p>
-
-                  <p permid="PEb">
-                    As a result, we can now write
-                    <me permid="TwW">
-                      \sin(x) = \sum_{n=0}^{\infty} \frac{(-1)^nx^{2n+1}}{(2n+1)!}
-                    </me>
-                    for every real number <m>x</m>.
-                  </p>
-                </solution>
-              </example>
-
-              <example xml:id="act-8-5-6" permid="nlS">
-                <statement>
-                  <p permid="iBZ">
-                    <ol marker="a." permid="VDN">
-                      <li permid="BKW">
-                        <p permid="vVK">
-                          Show that the Taylor series centered at <m>0</m> for <m>\cos(x)</m> converges to <m>\cos(x)</m> for every real number <m>x</m>.
+    <example xml:id="act-8-5-4" permid="ygw">
+      <statement>
+        <p permid="ZDM">
+          <ol marker="a." permid="xwC">
+            <li permid="pSd">
+              <p permid="zlP"> Use the Ratio Test to explicitly determine the interval of
+                convergence of the Taylor series for <m>f(x) = \frac{1}{1-x}</m> centered at <m>x=0</m>
+                .
                         </p>
-                      </li>
+            </li>
 
-                      <li permid="hSf">
-                        <p permid="ccT">
-                          Next we consider the Taylor series for <m>e^x</m>.
-                          <ol marker="i." permid="Ekd">
-                            <li permid="LOC">
-                              <p permid="Ttb">
-                                Show that the Taylor series centered at <m>0</m> for <m>e^x</m> converges to <m>e^x</m> for every nonnegative value of <m>x</m>.
-                              </p>
-                            </li>
+            <li permid="VZm">
+              <p permid="fsY"> Use the Ratio Test to explicitly determine the interval of
+                convergence of the Taylor series for <m>f(x) = \cos(x)</m> centered at <m>x=0</m>. </p>
+            </li>
 
-                            <li permid="NZo">
-                              <p permid="Ikc">
-                                Show that the Taylor series centered at <m>0</m> for <m>e^x</m> converges to <m>e^x</m> for every negative value of <m>x</m>.
-                              </p>
-                            </li>
+            <li permid="Cgv">
+              <p permid="LAh"> Use the Ratio Test to explicitly determine the interval of
+                convergence of the Taylor series for <m>f(x) = \sin(x)</m> centered at <m>x=0</m>. </p>
+            </li>
+          </ol>
+        </p>
+      </statement>
 
-                            <li permid="ugx">
-                              <p permid="orl">
-                                Explain why the Taylor series centered at <m>0</m> for <m>e^x</m> converges to <m>e^x</m> for every real number <m>x</m>.
-                                Recall that we earlier showed that the Taylor series centered at <m>0</m> for <m>e^x</m> converges for all <m>x</m>, and we have now completed the argument that the Taylor series for <m>e^x</m> actually converges to <m>e^x</m> for all <m>x</m>.
-                              </p>
-                            </li>
-                          </ol>
-                        </p>
-                      </li>
+      <answer permid="MFA">
+        <p permid="Npu">
+          <ol marker="a." permid="lik">
+            <li permid="OuN">
+              <p permid="XOz">
+                <m>(-\infty, \infty)</m>. </p>
+            </li>
 
-                      <li permid="POB">
-                        <p permid="Uyu">
-                          Let <m>P_n(x)</m> be the <m>n</m>th order Taylor polynomial for <m>e^x</m> centered at <m>0</m>.
-                          Find a value of <m>n</m> so that <m>P_n(5)</m> approximates <m>e^5</m> correct to <m>8</m> decimal places.
-                        </p>
-                      </li>
-                    </ol>
-                  </p>
-                </statement>
+            <li permid="uBW">
+              <p permid="DVI">
+                <m>(-\infty, \infty)</m>. </p>
+            </li>
 
-                <answer permid="QTU">
-                  <p permid="WnH">
-                    <ol marker="a." permid="Jpv">
-                      <li permid="GuP">
-                        <p permid="gMM">
-                          Compare <xref ref="Ex-8-5-4">Example</xref>.
-                        </p>
-                      </li>
+            <li permid="aJf">
+              <p permid="kcR"> The interval <m>(-1,1)</m>. </p>
+            </li>
+          </ol>
+        </p>
+      </answer>
 
-                      <li permid="mBY">
-                        <p permid="MTV">
-                          <ol marker="i." permid="krm">
-                            <li permid="rVL">
-                              <p permid="zAk">
-                                Use the fact that that <m>|f^{(n)}(x)| \le e^c</m> on the interval <m>[0,c]</m> for any fixed positive value of <m>c</m>.
-                              </p>
-                            </li>
+      <solution permid="gyr">
+        <p permid="hil">
+          <ol marker="a." permid="Fbb">
+            <li permid="GQo">
+              <p permid="Qka"> Using the Ratio Test with the <m>k</m>th term <m>
+                \frac{|x|^{2k}}{(2k)!}</m> we get <md>
+                  <mrow>\lim_{k \to \infty} \frac{ \frac{|x|^{2(k+1)}}{(2(k+1))!} }{
+                \frac{|x|^{2k}}{(2k)!} } \amp = \lim_{k \to \infty}
+                \frac{|x|^{2(k+1)}(2k)!}{|x|^{2k}(2(k+1))!}</mrow>
+                  <mrow>\amp = \lim_{k \to \infty} \frac{|x|^{2}}{(2k+2)(2k+1)}</mrow>
+                  <mrow>\amp = 0</mrow>
+                </md>. So the interval of convergence of the
+                Taylor series for <m>f(x) = \cos(x)</m> centered at <m>x=0</m> is <m>(-\infty,
+                \infty)</m>. </p>
+            </li>
 
-                            <li permid="SJh">
-                              <p permid="tbe">
-                                Repeat the argument in (a) but replace <m>e^c</m> with <m>1</m>, and everything else holds in the same way.
-                              </p>
-                            </li>
+            <li permid="mXx">
+              <p permid="wrj"> Using the Ratio Test with the <m>k</m>th term <m>
+                \frac{|x|^{2k+1}}{(2k+1)!}</m> we get <md>
+                  <mrow>\lim_{k \to \infty} \frac{ \frac{|x|^{2(k+1)+1}}{(2(k+1)+1)!} }{
+                \frac{|x|^{2k+1}}{(2k+1)!} } \amp = \lim_{k \to \infty}
+                \frac{|x|^{2(k+1)+1}(2k+1)!}{|x|^{2k+1}(2(k+1)+1)!}</mrow>
+                  <mrow>\amp = \lim_{k \to \infty} \frac{|x|^{2}}{(2k+3)(2k+2)}</mrow>
+                  <mrow>\amp = 0</mrow>
+                </md>. So the interval of convergence of the
+                Taylor series for <m>f(x) = \sin(x)</m> centered at <m>x=0</m> is <m>(-\infty,
+                \infty)</m>. </p>
+            </li>
 
-                            <li permid="yQq">
-                              <p permid="Zin">
-                                Combine the results of (a) and (b)
-                              </p>
-                            </li>
-                          </ol>
-                        </p>
-                      </li>
+            <li permid="TeG">
+              <p permid="cys"> Using the Ratio Test with the <m>k</m>th term <m>|x|^{k}</m> we get <me
+                  permid="RZn">
+                  \lim_{k \to \infty} \frac{ |x|^{k+1} }{ |x|^{k} } = \lim_{k \to \infty} |x| = |x|
+                </me>,
+                So the series <m>\sum_{k=0}^{\infty} x^k</m> converges absolutely when <m>|x| \lt 1</m>
+                or for <m>-1 \lt x \lt 1</m> and diverges when <m>|x| \gt 1</m>. Since the Ratio
+                Test doesn't tell us what happens when <m>x=1</m>, we need to check the endpoints
+                separately. </p>
 
-                      <li permid="jHs">
-                        <p permid="Fpw">
-                          <m>n = 28</m>.
-                        </p>
-                      </li>
-                    </ol>
-                  </p>
-                </answer>
-
-                <solution permid="kML">
-                  <p permid="qgy">
-                    <ol marker="a." permid="dim">
-                      <li permid="eXz">
-                        <p permid="lwF">
-                          Compare <xref ref="Ex-8-5-4">Example</xref>.
-                        </p>
-                      </li>
-
-                      <li permid="LeI">
-                        <p permid="RDO">
-                          <ol marker="i." permid="Qyv">
-                            <li permid="YcU">
-                              <p permid="fHt">
-                                Let <m>x \ge 0</m>.
-                                Since <m>f(x) = e^x</m>, <m>f^{(n)}(x) = e^x</m> for every natural number <m>n</m>.
-                                Since <m>e^x</m> is an increasing function, we know that <m>|f^{(n)}(x)| \le e^c</m> on the interval <m>[0,c]</m> for any fixed positive value of <m>c</m>.
-                                Thus, by the Lagrange error formula, we can say that
-                                <me permid="OJi">
-                                  |P_n(x) - e^x| \le e^c \frac{x^{n+1}}{(n+1)!}
-                                </me>.
-                                Since the series <m>\sum \frac{x^{n}}{n!}</m> converges for every <m>x</m>, <m>\frac{x^{n}}{n!} \to 0</m> as <m>x \to \infty</m>, and thus <m>\frac{x^{n+1}}{(n+1)!} \to 0</m> as <m>n \to \infty</m> for every <m>x</m> in <m>[0,c]</m>.
-                                Further, since <m>e^c</m> is a constant independent of <m>n</m>, <m>e^c \frac{x^{n+1}}{(n+1)!} \to 0</m> as well.
-                                Thus,
-                                <me permid="uQr">
-                                  \lim_{n \to \infty} |P_n(x) - e^x| = 0
-                                </me>,
-                                as desired.
-                              </p>
-                            </li>
-
-                            <li permid="rlR">
-                              <p permid="xKX">
-                                When <m>x \lt 0</m>, we know <m>e^x \lt 1</m>.
-                                Thus, we can repeat our argument in (a) but replace <m>e^c</m> with <m>1</m>, and everything else holds in the same way.
-                              </p>
-                            </li>
-
-                            <li permid="Xta">
-                              <p permid="dSg">
-                                Because we have shown that the Taylor series for <m>e^x</m> converges to <m>e^x</m> for both every nonnegative <m>x</m>-value and for every negative <m>x</m>-value, it follows that we have convergence for every value of <m>x</m>.
-                              </p>
-                            </li>
-                          </ol>
-                        </p>
-                      </li>
-
-                      <li permid="DAj">
-                        <p permid="JZp">
-                          Since <m>e^x</m> is increasing on <m>[0,5]</m> we know that <m>e^x \lt e^5</m> on <m>[0,5]</m>.
-                          Now <m>e^5 \lt 243</m>, so
-                          <me permid="aXA">
-                            \left|P_n(5) - e^5\right| \leq 243\frac{|5|^{n+1}}{(n+1)!}
-                          </me>.
-                          We want a value of <m>n</m>that makes this error term less than <m>10^{-8}</m>.
-                          Testing various values of <m>n</m> gives
-                          <me permid="HeJ">
-                            243\frac{|5|^{28+1}}{(28+1)!} \approx 5.119146745 \times 10^{-9}
-                          </me>
-                          so we can choose <m>n = 28</m>.
-                          A computer algebra system shows that <m>P_{28}(5) \approx 148.413159102551</m> while <m>e^5 \approx 148.413159102577</m> and we can see that these two approximations agree to 8 decimal places.
-                        </p>
-                      </li>
-                    </ol>
-                  </p>
-                </solution>
-              </example>
-            </subsection>
-
-
-            <subsection permid="gXL">
-              <title>Summary</title>
-
-              <p permid="CUk">
-                <ul permid="TEa">
-                  <li permid="QJu">
-                    <p permid="tVX">
-                      The Taylor series centered at <m>x=a</m> for a function <m>f</m> is
-                      <me permid="fLo">
-                        \sum_{k=0}^{\infty} \frac{f^{(k)}(a)}{k!}(x-a)^k
-                      </me>.
-                      The <m>n</m>th order Taylor polynomial centered at <m>a</m> for <m>f</m> is the <m>n</m>th partial sum of its Taylor series centered at <m>a</m>.
-                      So the <m>n</m>th order Taylor polynomial for a function <m>f</m> is an approximation to <m>f</m> on the interval where the Taylor series converges; for the values of <m>x</m> for which the Taylor series converges to <m>f</m> we write
-                      <me permid="LSx">
-                        f(x) = \sum_{k=0}^{\infty} \frac{f^{(k)}(a)}{k!}(x-a)^k
-                      </me>.
-                    </p>
+              <p permid="IFB">
+                <ul permid="YTS">
+                  <li permid="dDL">
+                    <p permid="UTT"> When <m>x=1</m> we have the series <m>\sum_{k=0}^{\infty} 1</m>
+                      which diverges since <m>\lim_{k \to \infty} 1 \neq 0</m>. </p>
                   </li>
 
-                  <li permid="DiF">
-                    <p permid="nZH">
-                      The connection between power series and Taylor series is that they are essentially the same thing: on its interval of convergence a power series is the Taylor series of its sum.
-                    </p>
-                  </li>
-
-                  <li permid="Xbw">
-                    <p permid="HSy">
-                      We can often assume a solution to a given problem can be written as a power series, then use the information in the problem to determine the coefficients in the power series.
-                      This method allows us to approximate solutions to certain problems using partial sums of the power series; that is, we can find approximate solutions that are polynomials.
-                    </p>
-                  </li>
-
-                  <li permid="wQD">
-                    <p permid="adg">
-                      The Lagrange Error Bound shows us how to determine the accuracy in using a Taylor polynomial to approximate a function.
-                      More specifically, if <m>P_n(x)</m> is the <m>n</m>th order Taylor polynomial for <m>f</m> centered at <m>x=a</m> and if <m>M</m> is an upper bound for <m>\left|f^{(n+1)}(x)\right|</m> on the interval <m>[a, c]</m>, then
-                      <me permid="rZG">
-                        \left|P_n(c) - f(c)\right| \leq M\frac{|c-a|^{n+1}}{(n+1)!}
-                      </me>.
-                    </p>
+                  <li permid="JKU">
+                    <p permid="oMK"> When <m>x=-1</m> we have the series <m>\sum_{k=0}^{\infty}
+                      (-1)^k</m> which diverges since <m>\lim_{k \to \infty} (-1)^k</m> does not
+                      exist. </p>
                   </li>
                 </ul>
               </p>
-              <!-- Zach/Derek Changed formatting here.  Ensure it builds properly (although it didn't look good in the published version to begin with) -->
-              <assemblage>
-                <title> Important Taylor Series and their Intervals of Convergence</title>
 
-                <p>
-                  <md>
-                    <mrow> \sin (x) \amp= x - \frac{x^3}{3!} + \frac{x^5}{5!} - \frac{x^7}{7!} +  \cdots =\sum_{k=0}^{\infty} \frac{(-1)^k x^{2k+1}}{(2k+1)!}\amp\text{for}\amp-\infty \lt  x \lt  \infty </mrow>
-                    <mrow> \cos (x) \amp= 1 - \frac{x^2}{2!} + \frac{x^4}{4!} - \frac{x^6}{6!} +  \cdots =\sum_{k=0}^{\infty} \frac{(-1)^k x^{2k}}{(2k)!}\amp\text{for}\amp-\infty \lt  x \lt  \infty </mrow>
-                    <mrow> e^x \amp= 1 + x + \frac{x^2}{2!} + \frac{x^3}{3!} + \frac{x^4}{4!} + \cdots =\sum_{k=0}^{\infty} \frac{x^{k}}{k!}\amp\text{for}\amp-\infty \lt  x \lt  \infty  </mrow>
-                    <mrow> \frac{1}{1-x} \amp= 1 + x + x^2 + x^3 + x^4 + \cdots =\sum_{k=0}^{\infty} x^k\amp\text{for}\amp-1 \lt  x \lt  1  </mrow>
-                    <mrow> (1+x)^{a} \amp = 1+ ax + \frac{a(a-1)}{2!}x^{2} + \cdots = \sum_{k=0}^{\infty} \binom{a}{k}x^{k} \amp\text{for}\amp -1 \lt x \lt 1 </mrow>
-                    <mrow> \amp \amp\text{  and }\amp a \in \mathbb{R} </mrow>
-                  </md>
+              <p permid="Bbc"> Therefore, the interval of convergence of the Taylor series for <m>f(x)
+                = \frac{1}{1-x}</m> centered at <m>x=0</m> is <m>(-1,1)</m>. </p>
+            </li>
+          </ol>
+        </p>
+      </solution>
+    </example>
+
+    <p permid="Ntp"> The Ratio Test allows us to determine the set of <m>x</m> values for which a
+      Taylor series converges absolutely. However, just because a Taylor series for a function <m>f</m>
+      converges, we cannot be certain that the Taylor series actually converges to <m>f(x)</m>. To
+      show why and where a Taylor series does in fact converge to the function <m>f</m>, we next
+      consider the error that is present in Taylor polynomials. </p>
+  </subsection>
+
+
+  <subsection permid="AQC">
+    <title>Error Approximations for Taylor Polynomials</title>
+
+    <idx>
+      <h>Taylor polynomial</h>
+      <h>error</h>
+    </idx>
+    <p permid="tAy"> We now know how to find Taylor polynomials for functions such as <m>\sin(x)</m>,
+      and how to determine the interval of convergence of the corresponding Taylor series. We next
+      develop an error bound that will tell us how well an <m>n</m>th order Taylor polynomial <m>
+      P_n(x)</m> approximates its generating function <m>f(x)</m>. This error bound will also allow
+      us to determine whether a Taylor series on its interval of convergence actually equals the
+      function <m>f</m> from which the Taylor series is derived. Finally, we will be able to use the
+      error bound to determine the order of the Taylor polynomial <m>P_n(x)</m> that we will ensure
+      that <m>P_n(x)</m> approximates <m>f(x)</m> to the desired degree of accuracy. </p>
+
+    <p permid="ZHH"> For this argument, we assume throughout that we center our approximations at <m>
+      0</m> (but a similar argument holds for approximations centered at <m>a</m>). We define the
+      exact error, <m>E_n(x)</m>, that results from approximating <m>f(x)</m> with <m>P_n(x)</m> by <me
+        permid="ovg">
+        E_n(x) = f(x) - P_n(x)
+      </me>. </p>
+
+    <p permid="FOQ"> We are particularly interested in <m>|E_n(x)|</m>, the distance between <m>P_n</m>
+      and <m>f</m>. Because <me permid="UCp">
+        P^{(k)}_n(0) = f^{(k)}(0)
+      </me> for <m>0 \leq k \leq n</m>,
+      we know that <me permid="AJy">
+        E^{(k)}_n(0) = 0
+      </me> for <m>0 \leq k \leq n</m>.
+      Furthermore, since <m>P_n(x)</m> is a polynomial of degree less than or equal to <m>n</m>, we
+      know that <me permid="gQH">
+        P_n^{(n+1)}(x) = 0
+      </me>. </p>
+
+    <p permid="lVZ"> Thus, since <m>E^{(n+1)}_n(x) = f^{(n+1)}(x) - P_n^{(n+1)}(x)</m>, it follows
+      that <me permid="MXQ">
+        E^{(n+1)}_n(x) = f^{(n+1)}(x)
+      </me> for all <m>x</m>. </p>
+
+    <p permid="Sdi"> Suppose that we want to approximate <m>f(x)</m> at a number <m>c</m> close to <m>
+      0</m> using <m>P_n(c)</m>. If we assume <m>|f^{(n+1)}(t)|</m> is bounded by some number <m>M</m>
+      on <m>[0, c]</m>, so that <me permid="teZ">
+        \left|f^{(n+1)}(t)\right| \leq M
+      </me> for all <m>0 \leq t
+      \leq c</m>, then we can say that <me permid="Zmi">
+        \left|E^{(n+1)}_n(t)\right| = \left|f^{(n+1)}(t)\right| \leq M
+      </me>
+      for all <m>t</m> between <m>0</m> and <m>c</m>. Equivalently, <men xml:id="E-ErrorIneq"
+        permid="RHJ">
+        -M \leq E^{(n+1)}_n(t) \leq M
+      </men> on <m>[0, c]</m>.
+      Next, we integrate the three terms in <xref ref="E-ErrorIneq">Inequality</xref> from <m>t = 0</m>
+      to <m>t = x</m>, and thus find that <me permid="Ftr">
+        \int_0^x -M \ dt \leq \int_0^x E^{(n+1)}_n(t) \ dt \leq \int_0^x M \ dt
+      </me>
+      for every value of <m>x</m> in <m>[0, c]</m>. Since <m>E^{(n)}_n(0) = 0</m>, the First FTC
+      tells us that <me permid="lAA">
+        -Mx \leq E^{(n)}_n(x) \leq Mx
+      </me> for every <m>x</m> in <m>[0,
+      c]</m>. </p>
+
+    <p permid="ykr"> Integrating this last inequality, we obtain <me permid="xOS">
+        \int_0^x -Mt \ dt \leq \int_0^x E^{(n)}_n(t) \ dt \leq \int_0^x Mt \ dt
+      </me>
+      and thus <me permid="dWb">
+        -M\frac{x^2}{2} \leq E^{(n-1)}_n(x) \leq M\frac{x^2}{2}
+      </me>
+      for all <m>x</m> in <m>[0, c]</m>. </p>
+
+    <p permid="erA"> Integrating <m>n</m> times, we arrive at <me permid="Kdk">
+      -M\frac{x^{n+1}}{(n+1)!} \leq E_n(x) \leq M\frac{x^{n+1}}{(n+1)!}
+      </me>
+      for all <m>x</m> in <m>[0, c]</m>. This enables us to conclude that <me permid="qkt">
+      \left|E_n(x)\right| \leq M\frac{|x|^{n+1}}{(n+1)!}
+      </me>
+      for all <m>x</m> in <m>[0, c]</m>, and we have found a bound on the approximation's error, <m>
+      E_n</m>. </p>
+
+    <p permid="KyJ"> Our work above was based on the approximation centered at <m>a = 0</m>; the
+      argument may be generalized to hold for any value of <m>a</m>, which results in the following
+      theorem. </p>
+
+    <assemblage permid="tmd">
+      <title>The Lagrange Error Bound for <m>P_n(x)</m></title>
+
+      <idx>
+        <h>Lagrange error bound</h>
+      </idx>
+      <p permid="qFS"> Let <m>f</m> be a continuous function with <m>n+1</m> continuous derivatives.
+        Suppose that <m>M</m> is a positive real number such that <m>\left|f^{(n+1)}(x)\right| \le M</m>
+        on the interval <m>[a, c]</m>. If <m>P_n(x)</m> is the <m>n</m>th order Taylor polynomial
+        for <m>f(x)</m> centered at <m>x=a</m>, then <me permid="WrC">
+          \left|P_n(c) - f(c)\right| \leq M\frac{|c-a|^{n+1}}{(n+1)!}
+        </me>
+        .
                 </p>
-              </assemblage>
-            </subsection>
+    </assemblage>
 
-            <exercises xmlns:xi="http://www.w3.org/2001/XInclude">
-            <exercise xml:id="ez-8-5-WW3" permid="iir">
-              <title>Finding the Taylor series for a given rational function</title>
+    <p permid="WNb">
+      We can use this error bound to tell us important information about Taylor polynomials and
+      Taylor series, as we see in the following examples and activities.
+    </p>
 
-              <webwork source="Library/FortLewis/Calc2/10-2-Taylor-series/Taylor-series-01.pg" />
-              </exercise>
+    <example xml:id="Ex-8-5-3" permid="Kko">
+      <statement>
+        <p permid="ogL"> Determine how well the 10th order Taylor polynomial <m>P_{10}(x)</m> for <m>
+          \sin(x)</m>, centered at <m>0</m>, approximates <m>\sin(2)</m>. </p>
+      </statement>
 
-              <exercise xml:id="ez-8-5-WW4" permid="OpA">
-                <title>Finding the Taylor series for a given trigonometric function</title>
+      <solution permid="vbq">
+        <p permid="rbr"> To answer this question we use <m>f(x) = \sin(x)</m>, <m>c = 2</m>, <m>a=0</m>,
+          and <m>n = 10</m> in the Lagrange error bound formula. We also need to find an appropriate
+          value for <m>M</m>. Note that the derivatives of <m>f(x) = \sin(x)</m> are all equal to <m>\pm
+          \sin(x)</m> or <m>\pm \cos(x)</m>. Thus, <me permid="CyL">
+            \left| f^{(n+1)}(x) \right| \leq 1
+          </me> for
+          any <m>n</m> and <m>x</m>. Therefore, we can choose <m>M</m> to be <m>1</m>. Then <me
+            permid="iFU">
+            \left|P_{10}(2) - f(2)\right| \leq (1)\frac{|2-0|^{11}}{(11)!} = \frac{2^{11}}{(11)!}
+          \approx 0.00005130671797
+          </me>
+          .
+                  </p>
 
-                <webwork source="Library/FortLewis/Calc2/10-2-Taylor-series/Taylor-series-02.pg" />
-                </exercise>
+        <p permid="XiA"> So <m>P_{10}(2)</m> approximates <m>\sin(2)</m> to within at most <m>
+          0.00005130671797</m>. A computer algebra system tells us that <me permid="ONd">
+            P_{10}(2) \approx 0.9093474427 \ \ \text{ and } \ \ \sin(2) \approx 0.9092974268
+          </me>
+          with an actual difference of about <m>0.0000500159</m>. </p>
+      </solution>
+    </example>
 
-                <exercise xml:id="ez-8-5-WW5" permid="uwJ">
-                  <title>Finding the Taylor series for a given logarithmic function</title>
+    <example xml:id="act-8-5-5" permid="EFC">
+      <statement>
+        <p permid="nHr"> Let <m>P_n(x)</m> be the <m>n</m>th order Taylor polynomial for <m>\sin(x)</m>
+          centered at <m>x=0</m>. Determine how large we need to choose <m>n</m> so that <m>P_n(2)</m>
+          approximates <m>\sin(2)</m> to <m>20</m> decimal places. </p>
+      </statement>
 
-                  <webwork source="Library/FortLewis/Calc2/10-2-Taylor-series/Taylor-series-04.pg" />
-                  </exercise>
+      <answer permid="KuO">
+        <p permid="bsZ">
+          <m>n \ge 27</m>. </p>
+      </answer>
 
-                  <exercise>
-                    <title> Finding the Taylor series for a polynomial about <m>a=1</m> </title>
+      <solution permid="enF">
+        <p permid="WJg"> In this example, if we can find a value of <m>n</m> so that <me
+            permid="TOA">
+            M\frac{|2-0|^{n+1}}{(n+1)!} \lt 10^{-20}
+          </me>
+          then we will have <me permid="zVJ">
+            |P_n(2) - f(2)| \leq M\frac{|2-0|^{n+1}}{(n+1)!} \lt 10^{-20}
+          </me>
+          .
+                  </p>
 
-                    <webwork source="Library/Union/setSeriesTaylor/dp8_7_2.pg" />
-                    </exercise>
+        <p permid="CQp"> Again we use <m>f(x) = \sin(x)</m>, <m>c = 2</m>, <m>a=0</m>, and <m>M = 1</m>
+          from the previous example. So we need to find <m>n</m> to make <me permid="gcS">
+          \frac{2^{n+1}}{(n+1)!} \leq 10^{-20}
+          </me>. </p>
 
-                    <exercise>
-                      <title> Finding the Taylor series for a given exponential function</title>
+        <p permid="iXy"> There is no good way to solve equations involving factorials, so we simply
+          use trial and error, evaluating <m>\frac{2^{n+1}}{(n+1)!}</m> at different values of <m>n</m>
+          until we get one we need. </p>
 
-                      <webwork source="Library/Wiley/setAnton_Section_9.8/Anton9_8Q11.pg" />
-                      </exercise>
+        <sidebyside permid="Yyt">
+          <tabular top="minor" bottom="minor" permid="srk">
+            <row>
+              <cell>
+                <m>n</m>
+              </cell>
+              <cell>
+                <m>\frac{2^{n+1}}{(n+1)!}</m>
+              </cell>
+            </row>
 
-                      <exercise>
-                        <title> Using a Taylor series to find high-order derivatives</title>
+            <row>
+              <cell>
+                <m>10</m>
+              </cell>
+              <cell>
+                <m>5.130671797 \times 10^{-5}</m>
+              </cell>
+            </row>
 
-                        <webwork source="Library/Indiana/Indiana_setSeries9Taylor/benny_taylor1.pg" />
-                        </exercise>
+            <row>
+              <cell>
+                <m>20</m>
+              </cell>
+              <cell>
+                <m>4.104743250 \times 10^{-14}</m>
+              </cell>
+            </row>
 
-                        <exercise permid="aDS">
-                          <title> Taylor series of polynomials</title>
+            <row>
+              <cell>
+                <m>25</m>
+              </cell>
+              <cell>
+                <m>1.664028884 \times 10^{-19}</m>
+              </cell>
+            </row>
 
-                          <statement>
-                            <p permid="ODV">
-                              In this exercise we investigation the Taylor series of polynomial functions.
-                              <ol marker="a." permid="UOG">
-                                <li permid="trq">
-                                  <p permid="VyA">
-                                    Find the 3rd order Taylor polynomial centered at <m>a = 0</m> for <m>f(x) = x^3-2x^2+3x-1</m>.
-                                    Does your answer surprise you? Explain.
+            <row>
+              <cell>
+                <m>26</m>
+              </cell>
+              <cell>
+                <m>1.232613988 \times 10^{-20}</m>
+              </cell>
+            </row>
+
+            <row>
+              <cell>
+                <m>27</m>
+              </cell>
+              <cell>
+                <m>8.804385630 \times 10^{-22}</m>
+              </cell>
+            </row>
+          </tabular>
+        </sidebyside>
+
+        <p permid="PeH"> So we need to use an <m>n</m> of at least 27 to ensure accuracy to 20
+          decimal places. </p>
+
+        <p permid="vlQ"> A computer algebra system gives <md>
+            <mrow>P_{27}(2)\amp \approx 0.9092974268256816953960</mrow>
+            <mrow>\sin(2)\amp \approx 0.9092974268256816953960</mrow>
+          </md> and we can see
+          that these agree to 20 places. </p>
+      </solution>
+    </example>
+
+    <example xml:id="Ex-8-5-4" permid="qrx">
+      <statement>
+        <p permid="UnU"> Show that the Taylor series for <m>\sin(x)</m> actually converges to <m>
+          \sin(x)</m> for all <m>x</m>. </p>
+      </statement>
+
+      <solution permid="biz">
+        <p permid="DpJ"> Recall from the previous example that since <m>f(x) = \sin(x)</m>, we know <me
+            permid="uUm">
+            \left| f^{(n+1)}(x) \right| \leq 1
+          </me> for
+          any <m>n</m> and <m>x</m>. This allows us to choose <m>M = 1</m> in the Lagrange error
+          bound formula. Thus, <men xml:id="E-ErrorIneqSine" permid="bbv">
+            |P_n(x) - \sin(x)| \leq \frac{|x|^{n+1}}{(n+1)!}
+          </men>
+          for every <m>x</m>. </p>
+
+        <p permid="jwS"> We showed in earlier work that the Taylor series <m>\sum_{k=0}^{\infty}
+          \frac{x^k}{k!}</m> converges for every value of <m>x</m>. Because the terms of any
+          convergent series must approach zero, it follows that <me permid="HiE">
+            \lim_{n \to \infty} \frac{x^{n+1}}{(n+1)!} = 0
+          </me>
+          for every value of <m>x</m>. Thus, taking the limit as <m>n \to \infty</m> in the
+          inequality<nbsp /><xref ref="E-ErrorIneqSine" />, it follows that <me permid="npN">
+            \lim_{n \to \infty} |P_n(x) - \sin(x)| = 0
+          </me>
+          .
+                  </p>
+
+        <p permid="PEb"> As a result, we can now write <me permid="TwW">
+            \sin(x) = \sum_{n=0}^{\infty} \frac{(-1)^nx^{2n+1}}{(2n+1)!}
+          </me>
+          for every real number <m>x</m>. </p>
+      </solution>
+    </example>
+
+    <example xml:id="act-8-5-6" permid="nlS">
+      <statement>
+        <p permid="iBZ">
+          <ol marker="a." permid="VDN">
+            <li permid="BKW">
+              <p permid="vVK"> Show that the Taylor series centered at <m>0</m> for <m>\cos(x)</m>
+                converges to <m>\cos(x)</m> for every real number <m>x</m>. </p>
+            </li>
+
+            <li permid="hSf">
+              <p permid="ccT"> Next we consider the Taylor series for <m>e^x</m>. <ol marker="i."
+                  permid="Ekd">
+                  <li permid="LOC">
+                    <p permid="Ttb"> Show that the Taylor series centered at <m>0</m> for <m>e^x</m>
+                converges to <m>e^x</m> for every nonnegative value of <m>x</m>. </p>
+                  </li>
+
+                  <li permid="NZo">
+                    <p permid="Ikc"> Show that the Taylor series centered at <m>0</m> for <m>e^x</m>
+                converges to <m>e^x</m> for every negative value of <m>x</m>. </p>
+                  </li>
+
+                  <li permid="ugx">
+                    <p permid="orl"> Explain why the Taylor series centered at <m>0</m> for <m>e^x</m>
+                converges to <m>e^x</m> for every real number <m>x</m>. Recall that we earlier
+                showed that the Taylor series centered at <m>0</m> for <m>e^x</m> converges for all <m>
+                x</m>, and we have now completed the argument that the Taylor series for <m>e^x</m>
+                actually converges to <m>e^x</m> for all <m>x</m>. </p>
+                  </li>
+                </ol>
+              </p>
+            </li>
+
+            <li permid="POB">
+              <p permid="Uyu"> Let <m>P_n(x)</m> be the <m>n</m>th order Taylor polynomial for <m>
+                e^x</m> centered at <m>0</m>. Find a value of <m>n</m> so that <m>P_n(5)</m>
+                approximates <m>e^5</m> correct to <m>8</m> decimal places. </p>
+            </li>
+          </ol>
+        </p>
+      </statement>
+
+      <answer permid="QTU">
+        <p permid="WnH">
+          <ol marker="a." permid="Jpv">
+            <li permid="GuP">
+              <p permid="gMM"> Compare <xref ref="Ex-8-5-4">Example</xref>. </p>
+            </li>
+
+            <li permid="mBY">
+              <p permid="MTV">
+                <ol marker="i." permid="krm">
+                  <li permid="rVL">
+                    <p permid="zAk"> Use the fact that that <m>|f^{(n)}(x)| \le e^c</m> on the
+                      interval <m>[0,c]</m> for any fixed positive value of <m>c</m>. </p>
+                  </li>
+
+                  <li permid="SJh">
+                    <p permid="tbe"> Repeat the argument in (a) but replace <m>e^c</m> with <m>1</m>,
+                      and everything else holds in the same way. </p>
+                  </li>
+
+                  <li permid="yQq">
+                    <p permid="Zin">
+                      Combine the results of (a) and (b)
+                    </p>
+                  </li>
+                </ol>
+              </p>
+            </li>
+
+            <li permid="jHs">
+              <p permid="Fpw">
+                <m>n = 28</m>. </p>
+            </li>
+          </ol>
+        </p>
+      </answer>
+
+      <solution permid="kML">
+        <p permid="qgy">
+          <ol marker="a." permid="dim">
+            <li permid="eXz">
+              <p permid="lwF"> Compare <xref ref="Ex-8-5-4">Example</xref>. </p>
+            </li>
+
+            <li permid="LeI">
+              <p permid="RDO">
+                <ol marker="i." permid="Qyv">
+                  <li permid="YcU">
+                    <p permid="fHt"> Let <m>x \ge 0</m>. Since <m>f(x) = e^x</m>, <m>f^{(n)}(x) =
+                      e^x</m> for every natural number <m>n</m>. Since <m>e^x</m> is an increasing
+                      function, we know that <m>|f^{(n)}(x)| \le e^c</m> on the interval <m>[0,c]</m>
+                      for any fixed positive value of <m>c</m>. Thus, by the Lagrange error formula,
+                      we can say that <me permid="OJi">
+                        |P_n(x) - e^x| \le e^c \frac{x^{n+1}}{(n+1)!}
+                      </me>.
+                      Since the series <m>\sum \frac{x^{n}}{n!}</m> converges for every <m>x</m>, <m>\frac{x^{n}}{n!}
+                      \to 0</m> as <m>x \to \infty</m>, and thus <m>\frac{x^{n+1}}{(n+1)!} \to 0</m>
+                      as <m>n \to \infty</m> for every <m>x</m> in <m>[0,c]</m>. Further, since <m>
+                      e^c</m> is a constant independent of <m>n</m>, <m>e^c \frac{x^{n+1}}{(n+1)!}
+                      \to 0</m> as well. Thus, <me permid="uQr">
+                        \lim_{n \to \infty} |P_n(x) - e^x| = 0
+                      </me>,
+                      as desired. </p>
+                  </li>
+
+                  <li permid="rlR">
+                    <p permid="xKX"> When <m>x \lt 0</m>, we know <m>e^x \lt 1</m>. Thus, we can
+                      repeat our argument in (a) but replace <m>e^c</m> with <m>1</m>, and
+                      everything else holds in the same way. </p>
+                  </li>
+
+                  <li permid="Xta">
+                    <p permid="dSg"> Because we have shown that the Taylor series for <m>e^x</m>
+                      converges to <m>e^x</m> for both every nonnegative <m>x</m>-value and for
+                      every negative <m>x</m>-value, it follows that we have convergence for every
+                      value of <m>x</m>. </p>
+                  </li>
+                </ol>
+              </p>
+            </li>
+
+            <li permid="DAj">
+              <p permid="JZp"> Since <m>e^x</m> is increasing on <m>[0,5]</m> we know that <m>e^x
+                \lt e^5</m> on <m>[0,5]</m>. Now <m>e^5 \lt 243</m>, so <me permid="aXA">
+                \left|P_n(5) - e^5\right| \leq 243\frac{|5|^{n+1}}{(n+1)!}
+                </me>.
+                We want a value of <m>n</m>that makes this error term less than <m>10^{-8}</m>.
+                Testing various values of <m>n</m> gives <me permid="HeJ">
+                243\frac{|5|^{28+1}}{(28+1)!} \approx 5.119146745 \times 10^{-9}
+                </me>
+                so we can choose <m>n = 28</m>. A computer algebra system shows that <m>P_{28}(5)
+                \approx 148.413159102551</m> while <m>e^5 \approx 148.413159102577</m> and we can
+                see that these two approximations agree to 8 decimal places. </p>
+            </li>
+          </ol>
+        </p>
+      </solution>
+    </example>
+  </subsection>
+
+
+  <subsection permid="gXL">
+    <title>Summary</title>
+
+    <p permid="CUk">
+      <ul permid="TEa">
+        <li permid="QJu">
+          <p permid="tVX"> The Taylor series centered at <m>x=a</m> for a function <m>f</m> is <me
+              permid="fLo">
+              \sum_{k=0}^{\infty} \frac{f^{(k)}(a)}{k!}(x-a)^k
+            </me>.
+            The <m>n</m>th order Taylor polynomial centered at <m>a</m> for <m>f</m> is the <m>n</m>th
+            partial sum of its Taylor series centered at <m>a</m>. So the <m>n</m>th order Taylor
+            polynomial for a function <m>f</m> is an approximation to <m>f</m> on the interval where
+            the Taylor series converges; for the values of <m>x</m> for which the Taylor series
+            converges to <m>f</m> we write <me permid="LSx">
+              f(x) = \sum_{k=0}^{\infty} \frac{f^{(k)}(a)}{k!}(x-a)^k
+            </me>
+            .
+                    </p>
+        </li>
+
+        <li permid="DiF">
+          <p permid="nZH">
+            The connection between power series and Taylor series is that they are essentially the
+            same thing: on its interval of convergence a power series is the Taylor series of its
+            sum.
+          </p>
+        </li>
+
+        <li permid="Xbw">
+          <p permid="HSy">
+            We can often assume a solution to a given problem can be written as a power series, then
+            use the information in the problem to determine the coefficients in the power series.
+            This method allows us to approximate solutions to certain problems using partial sums of
+            the power series; that is, we can find approximate solutions that are polynomials.
+          </p>
+        </li>
+
+        <li permid="wQD">
+          <p permid="adg"> The Lagrange Error Bound shows us how to determine the accuracy in using
+            a Taylor polynomial to approximate a function. More specifically, if <m>P_n(x)</m> is
+            the <m>n</m>th order Taylor polynomial for <m>f</m> centered at <m>x=a</m> and if <m>M</m>
+            is an upper bound for <m>\left|f^{(n+1)}(x)\right|</m> on the interval <m>[a, c]</m>,
+            then <me permid="rZG">
+              \left|P_n(c) - f(c)\right| \leq M\frac{|c-a|^{n+1}}{(n+1)!}
+            </me>
+            .
+                    </p>
+        </li>
+      </ul>
+    </p>
+    <!-- Zach/Derek Changed formatting here.  Ensure it builds properly (although it didn't look good
+    in the published version to begin with) -->
+    <assemblage>
+      <title> Important Taylor Series and their Intervals of Convergence</title>
+
+      <p>
+        <md>
+          <mrow> \sin (x) \amp= x - \frac{x^3}{3!} + \frac{x^5}{5!} - \frac{x^7}{7!} + \cdots
+            =\sum_{k=0}^{\infty} \frac{(-1)^k x^{2k+1}}{(2k+1)!}\amp\text{for}\amp-\infty \lt x \lt
+            \infty </mrow>
+          <mrow> \cos (x) \amp= 1 - \frac{x^2}{2!} + \frac{x^4}{4!} - \frac{x^6}{6!} + \cdots
+            =\sum_{k=0}^{\infty} \frac{(-1)^k x^{2k}}{(2k)!}\amp\text{for}\amp-\infty \lt x \lt
+            \infty </mrow>
+          <mrow> e^x \amp= 1 + x + \frac{x^2}{2!} + \frac{x^3}{3!} + \frac{x^4}{4!} + \cdots
+            =\sum_{k=0}^{\infty} \frac{x^{k}}{k!}\amp\text{for}\amp-\infty \lt x \lt \infty </mrow>
+          <mrow> \frac{1}{1-x} \amp= 1 + x + x^2 + x^3 + x^4 + \cdots =\sum_{k=0}^{\infty}
+            x^k\amp\text{for}\amp-1 \lt x \lt 1 </mrow>
+          <mrow> (1+x)^{a} \amp = 1+ ax + \frac{a(a-1)}{2!}x^{2} + \cdots = \sum_{k=0}^{\infty}
+            \binom{a}{k}x^{k} \amp\text{for}\amp -1 \lt x \lt 1 </mrow>
+          <mrow> \amp \amp\text{ and }\amp a \in \mathbb{R} </mrow>
+        </md>
+      </p>
+    </assemblage>
+  </subsection>
+
+  <exercises xmlns:xi="http://www.w3.org/2001/XInclude">
+    <exercise xml:id="ez-8-5-WW3" permid="iir">
+      <title>Finding the Taylor series for a given rational function</title>
+
+      <webwork source="Library/FortLewis/Calc2/10-2-Taylor-series/Taylor-series-01.pg" />
+    </exercise>
+
+    <exercise xml:id="ez-8-5-WW4" permid="OpA">
+      <title>Finding the Taylor series for a given trigonometric function</title>
+
+      <webwork source="Library/FortLewis/Calc2/10-2-Taylor-series/Taylor-series-02.pg" />
+    </exercise>
+
+    <exercise xml:id="ez-8-5-WW5" permid="uwJ">
+      <title>Finding the Taylor series for a given logarithmic function</title>
+
+      <webwork source="Library/FortLewis/Calc2/10-2-Taylor-series/Taylor-series-04.pg" />
+    </exercise>
+
+    <exercise>
+      <title> Finding the Taylor series for a polynomial about <m>a=1</m>
+      </title>
+
+      <webwork source="Library/Union/setSeriesTaylor/dp8_7_2.pg" />
+    </exercise>
+
+    <exercise>
+      <title> Finding the Taylor series for a given exponential function</title>
+
+      <webwork source="Library/Wiley/setAnton_Section_9.8/Anton9_8Q11.pg" />
+    </exercise>
+
+    <exercise>
+      <title> Using a Taylor series to find high-order derivatives</title>
+
+      <webwork source="UNL-Problems/107-Problems/Series_TaylorSeries/OER-benny_taylor1.pg" />
+    </exercise>
+
+    <exercise permid="aDS">
+      <title> Taylor series of polynomials</title>
+
+      <statement>
+        <p permid="ODV"> In this exercise we investigation the Taylor series of polynomial
+          functions. <ol marker="a." permid="UOG">
+            <li permid="trq">
+              <p permid="VyA"> Find the 3rd order Taylor polynomial centered at <m>a = 0</m> for <m>f(x)
+          = x^3-2x^2+3x-1</m>. Does your answer surprise you? Explain. </p>
+            </li>
+
+            <li permid="Zyz">
+              <p permid="BFJ"> Without doing any additional computation, find the 4th, 12th, and
+          100th order Taylor polynomials (centered at <m>a = 0</m>) for <m>f(x) = x^3-2x^2+3x-1</m>.
+          Why should you expect this? </p>
+            </li>
+
+            <li permid="FFI">
+              <p permid="hMS"> Now suppose <m>f(x)</m> is a degree <m>m</m> polynomial. Completely
+          describe the <m>n</m>th order Taylor polynomial (centered at <m>a = 0</m>) for each <m>n</m>
+          .
                                   </p>
-                                </li>
+            </li>
+          </ol>
+        </p>
+      </statement>
 
-                                <li permid="Zyz">
-                                  <p permid="BFJ">
-                                    Without doing any additional computation, find the 4th, 12th, and 100th order Taylor polynomials (centered at <m>a = 0</m>) for <m>f(x) = x^3-2x^2+3x-1</m>.
-                                    Why should you expect this?
-                                  </p>
-                                </li>
+      <answer permid="fnL">
+        <p permid="Wiu">
+          <ol marker="a." permid="ctf">
+            <li permid="lMR">
+              <p permid="NUb">
+                <m> P_3(x) = -1 + 3x - \frac{4}{2!}x^2 + \frac{6}{3!}x^3 </m>, which is the same
+                polynomial as <m>f(x)</m>. </p>
+            </li>
 
-                                <li permid="FFI">
-                                  <p permid="hMS">
-                                    Now suppose <m>f(x)</m> is a degree <m>m</m> polynomial.
-                                    Completely describe the <m>n</m>th order Taylor polynomial (centered at <m>a = 0</m>) for each <m>n</m>.
-                                  </p>
-                                </li>
-                              </ol>
-                            </p>
-                          </statement>
+            <li permid="RUa">
+              <p permid="ubk"> For <m>n \ge 3</m>, <m>P_n(x) = f(x)</m>. </p>
+            </li>
 
-                          <answer permid="fnL">
-                            <p permid="Wiu">
-                              <ol marker="a." permid="ctf">
-                                <li permid="lMR">
-                                  <p permid="NUb">
-                                    <m> P_3(x) = -1 + 3x - \frac{4}{2!}x^2 + \frac{6}{3!}x^3 </m>, which is the same polynomial as <m>f(x)</m>.
-                                  </p>
-                                </li>
+            <li permid="ybj">
+              <p permid="ait"> For <m>n \ge m</m>, <m>P_n(x) = f(x)</m>. </p>
+            </li>
+          </ol>
+        </p>
+      </answer>
 
-                                <li permid="RUa">
-                                  <p permid="ubk">
-                                    For <m>n \ge 3</m>, <m>P_n(x) = f(x)</m>.
-                                  </p>
-                                </li>
+      <solution permid="zgC">
+        <p permid="dMT">
+          <ol marker="a." permid="jXE">
+            <li permid="eis">
+              <p permid="GpC"> Observe that <m>f'(x) = 3x^2 - 4x + 3</m>, <m>f''(x) = 6x - 4</m>,
+                and <m>f'''(x) = 6</m>, so <m>f'(0) = 3</m>, <m>f''(0) = -4</m>, and <m>f'''(0) = 6</m>.
+                In addition, <m>f(0) = -1</m> Thus, the 3rd order Taylor polynomial centered at <m>a
+                = 0</m> is <me permid="fCg">
+                  P_3(x) = -1 + 3x - \frac{4}{2!}x^2 + \frac{6}{3!}x^3
+                </me>.
+                Note that this is the same polynomial as <m>f(x)</m>, which is not surprising since
+                the degree 3 Taylor polynomial is the degree 3 polynomial that has the same value,
+                slope, concavity, and third derivative at <m>a = 0</m> as the original. </p>
+            </li>
 
-                                <li permid="ybj">
-                                  <p permid="ait">
-                                    For <m>n \ge m</m>, <m>P_n(x) = f(x)</m>.
-                                  </p>
-                                </li>
-                              </ol>
-                            </p>
-                          </answer>
+            <li permid="KpB">
+              <p permid="mwL"> Since <m>f^{(4)}(x) = 0</m> for all <m>x</m>, <m>f^{(4)}(0) = 0</m>,
+                and similarly every higher derivative of <m>f</m> will be zero. Thus, the the 4th,
+                12th, and 100th order Taylor polynomials (centered at <m>a = 0</m>) are all
+                identical to <m>P_3(x)</m> found in (a). for <m>f(x) = x^3-2x^2+3x-1</m>. We should
+                expect this because all of the higher derivatives (than the third) of the original
+                function are identically zero. </p>
+            </li>
 
-                          <solution permid="zgC">
-                            <p permid="dMT">
-                              <ol marker="a." permid="jXE">
-                                <li permid="eis">
-                                  <p permid="GpC">
-                                    Observe that <m>f'(x) = 3x^2 - 4x + 3</m>, <m>f''(x) = 6x - 4</m>, and <m>f'''(x) = 6</m>, so <m>f'(0) = 3</m>, <m>f''(0) = -4</m>, and <m>f'''(0) = 6</m>.
-                                    In addition, <m>f(0) = -1</m>  Thus, the 3rd order Taylor polynomial centered at <m>a = 0</m> is
-                                    <me permid="fCg">
-                                      P_3(x) = -1 + 3x - \frac{4}{2!}x^2 + \frac{6}{3!}x^3
-                                    </me>.
-                                    Note that this is the same polynomial as <m>f(x)</m>, which is not surprising since the degree 3 Taylor polynomial is the degree 3 polynomial that has the same value, slope, concavity, and third derivative at <m>a = 0</m> as the original.
-                                  </p>
-                                </li>
+            <li permid="qwK">
+              <p permid="SDU"> For <m>n = 1, 2, \ldots, m-1</m>, the degree <m>n</m> Taylor
+                polyomial of <m>f</m> will be given by the usual formula. But for every <m>n \ge m</m>
+                , <m>P_n(x) = f(x)</m>. That is, all of the Taylor polynomials of degree at least
+                that of the original function are simply the function itself. </p>
+            </li>
+          </ol>
+        </p>
+      </solution>
+    </exercise>
 
-                                <li permid="KpB">
-                                  <p permid="mwL">
-                                    Since <m>f^{(4)}(x) = 0</m> for all <m>x</m>, <m>f^{(4)}(0) = 0</m>, and similarly every higher derivative of <m>f</m> will be zero.
-                                    Thus, the the 4th, 12th, and 100th order Taylor polynomials (centered at <m>a = 0</m>) are all identical to <m>P_3(x)</m> found in (a).
-                                    for <m>f(x) = x^3-2x^2+3x-1</m>.
-                                    We should expect this because all of the higher derivatives (than the third) of the original function are identically zero.
-                                  </p>
-                                </li>
+    <exercise>
+      <title>Taylor series for binomial expansion</title>
 
-                                <li permid="qwK">
-                                  <p permid="SDU">
-                                    For <m>n = 1, 2, \ldots, m-1</m>, the degree <m>n</m> Taylor polyomial of <m>f</m> will be given by the usual formula.
-                                    But for every <m>n \ge m</m>, <m>P_n(x) = f(x)</m>.
-                                    That is, all of the Taylor polynomials of degree at least that of the original function are simply the function itself.
-                                  </p>
-                                </li>
-                              </ol>
-                            </p>
-                          </solution>
-                        </exercise>
+      <statement>
+        <p> In this exercise, we will build a Taylor series for expansion of a binomial function <m>
+          f(x)=(1+x)^p</m>, where <m>p</m> is any constant. <ol marker="a.">
+            <li>
+              <p> Find the first three derivatives of <m>f(x)</m>, <m>f'(x),f''(x),f'''(x)</m>. </p>
+            </li>
 
-                        <exercise>
-                          <title>Taylor series for binomial expansion</title>
+            <li>
+              <p> Build the third-degree Taylor polynomial for <m>f(x)</m>. </p>
+            </li>
 
-                          <statement>
-                            <p>
-                              In this exercise, we will build a Taylor series for expansion of a binomial function <m>f(x)=(1+x)^p</m>, where <m>p</m> is any constant.
-                              <ol marker="a.">
-                                <li>
-                                  <p>
-                                    Find the first three derivatives of <m>f(x)</m>, <m>f'(x),f''(x),f'''(x)</m>.
-                                  </p>
-                                </li>
+            <li>
+              <p> Using your Taylor polynomial, you should be able to see that the full Taylor
+          series looks like: <me>
+                  1 + px + \frac{p(p-1)}{2!} x^2 + \frac{p(p-1)(p-2)}{3!}x^3 +
+          \frac{p(p-1)(p-2)(p-3)}{4!}x^4 + \cdots
+                </me>
+          Compute the radius of convergence of this series. </p>
+            </li>
 
-                                <li>
-                                  <p>
-                                    Build the third-degree Taylor polynomial for <m>f(x)</m>.
-                                  </p>
-                                </li>
+            <li>
+              <p> Use this general rule to find the Taylor series about 0 for the function <m>
+          g(x)=\sqrt{1+x}</m>. </p>
+            </li>
+          </ol>
+        </p>
+      </statement>
+    </exercise>
 
-                                <li>
-                                  <p>
-                                    Using your Taylor polynomial, you should be able to see that the full Taylor series looks like:
-                                    <me>
-                                      1 + px + \frac{p(p-1)}{2!} x^2 + \frac{p(p-1)(p-2)}{3!}x^3 + \frac{p(p-1)(p-2)(p-3)}{4!}x^4 + \cdots
-                                    </me>
-                                    Compute the radius of convergence of this series.
-                                  </p>
-                                </li>
+    <exercise xml:id="ez-8-6-WW4" permid="WSo">
+      <title>Finding coefficients in a power series expansion of a rational function</title>
 
-                                <li>
-                                  <p>
-                                    Use this general rule to find the Taylor series about 0 for the function <m>g(x)=\sqrt{1+x}</m>.
-                                  </p>
-                                </li>
-                              </ol>
-                            </p>
-                          </statement>
-                        </exercise>
+      <webwork source="Library/Rochester/setSeries8Power/eva8_6b_a.pg" />
+    </exercise>
 
-                        <exercise xml:id="ez-8-6-WW4" permid="WSo">
-                          <title>Finding coefficients in a power series expansion of a rational function</title>
+    <exercise xml:id="ez-8-6-WW5" permid="CZx">
+      <title>Finding coefficients in a power series expansion of a function with <m>\arctan(x)</m>
+      </title>
 
-                          <webwork source="Library/Rochester/setSeries8Power/eva8_6b_a.pg" />
-                          </exercise>
+      <webwork source="Library/Rochester/setSeries8Power/eva8_6e.pg" />
+    </exercise>
 
-                          <exercise xml:id="ez-8-6-WW5" permid="CZx">
-                            <title>Finding coefficients in a power series expansion of a function with <m>\arctan(x)</m> </title>
+    <exercise permid="SZt">
+      <title> Interval of convergence of Taylor series </title>
 
-                            <webwork source="Library/Rochester/setSeries8Power/eva8_6e.pg" />
-                            </exercise>
+      <statement>
+        <p permid="TnO"> Based on the examples we have seen, we might expect that the Taylor series
+          for a function <m>f</m> always converges to the values <m>f(x)</m> on its interval of
+          convergence. We explore that idea in more detail in this exercise. Let <m>f(x) =
+          \begin{cases}e^{-1/x^2} \amp \text{ if } x \neq 0, \\ 0 \amp \text{ if } x = 0.
+            \end{cases}</m>
+        </p>
 
-                            <exercise permid="SZt">
-                              <title>  Interval of convergence of Taylor series </title>
+        <p permid="zuX">
+          <ol marker="a." permid="Nkh">
+            <li permid="dcZ">
+              <p permid="lrs"> Show, using the definition of the derivative, that <m>f'(0) = 0</m>. </p>
+            </li>
 
-                              <statement>
-                                <p permid="TnO">
-                                  Based on the examples we have seen, we might expect that the Taylor series for a function <m>f</m> always converges to the values <m>f(x)</m> on its interval of convergence.
-                                  We explore that idea in more detail in this exercise.
-                                  Let <m>f(x) = \begin{cases}e^{-1/x^2} \amp \text{ if } x \neq 0, \\ 0 \amp \text{ if } x = 0.
-                                  \end{cases}</m>
-                                </p>
+            <li permid="Jki">
+              <p permid="RyB"> It can be shown that <m>f^{(n)}(0) = 0</m> for all <m>n \geq 2</m>.
+                Assuming that this is true, find the Taylor series for <m>f</m> centered at 0. </p>
+            </li>
 
-                                <p permid="zuX">
-                                  <ol marker="a." permid="Nkh">
-                                    <li permid="dcZ">
-                                      <p permid="lrs">
-                                        Show, using the definition of the derivative, that <m>f'(0) = 0</m>.
-                                      </p>
-                                    </li>
-
-                                    <li permid="Jki">
-                                      <p permid="RyB">
-                                        It can be shown that <m>f^{(n)}(0) = 0</m> for all <m>n \geq 2</m>.
-                                        Assuming that this is true, find the Taylor series for <m>f</m> centered at 0.
-                                      </p>
-                                    </li>
-
-                                    <li permid="prr">
-                                      <p permid="xFK">
-                                        What is the interval of convergence of the Taylor series centered at 0 for <m>f</m>? Explain.
-                                        For which values of <m>x</m> the interval of convergence of the Taylor series does the Taylor series converge to <m>f(x)</m>?
-                                      </p>
-                                    </li>
-                                  </ol>
-                                </p>
-                              </statement>
-                            </exercise>
-                            </exercises>
-                          </section>
+            <li permid="prr">
+              <p permid="xFK"> What is the interval of convergence of the Taylor series centered at
+                0 for <m>f</m>? Explain. For which values of <m>x</m> the interval of convergence of
+                the Taylor series does the Taylor series converge to <m>f(x)</m>? </p>
+            </li>
+          </ol>
+        </p>
+      </statement>
+    </exercise>
+  </exercises>
+</section>
