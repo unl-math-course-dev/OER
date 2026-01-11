@@ -65,7 +65,7 @@
 		</p>
 
 		<p>
-			A suspicious reader may recall that that first-order differential equations were defined in <xref ref="firstlook05"/> and we have now defined them a second time.
+			A suspicious reader may recall that that first-order differential equations were defined in <xref ref="firstlook05"/> and that we have now defined them differently.
 			To see both definitions give the same differential equations, take <xref ref="secondorder01_revised-linear-de"/> with <m>n=1</m> and divide by the leading
 			coefficient, namely <m>a_1(t)</m>, which is not identically zero, to get a differential equation of the form in <xref ref="firstlook05-equation-first-order-linear-ode"/>
 		</p>
@@ -449,7 +449,8 @@
 		</p>
 
 		<p>
-			Does such a family encompass <em>all</em> solutions? To make this question more tractable, we first state an existence and uniqueness result for second-order linear equations which is analogous to <xref ref="firstlook06-theorem-existence-uniqueness"/>.
+			Does such a family encompass <em>all</em> solutions? To make this question more tractable, 
+			we first state an existence and uniqueness result for second-order linear equations which is analogous to <xref ref="firstlook06-theorem-existence-uniqueness"/>.
 		</p>
 
 		<theorem xml:id="secondorder01-theorem-existence-uniqueness">
@@ -468,12 +469,18 @@
 		</theorem>
 
 		<p>
-			In light of <xref ref="secondorder01-theorem-existence-uniqueness" />, to show that a two-parameter family of solutions <m>c_{1}x_{1}(t) + c_{2}x_{2}(t)</m> contains all solutions to the differential equation, it is enough to demonstrate that the constants <m>c_{1}</m> and <m>c_{2}</m> can be chosen to satisfy arbitrary initial conditions.
-			That is, for any <m>t_{0}</m>, <m>x_{0}</m>, and <m>v_{0}</m>, there exists an assignment of <m>c_{1}</m> and <m>c_{2}</m> satisfying the system of equations
+			<xref ref="secondorder01-theorem-existence-uniqueness" /> does not require that the differential equation be homogeneous, but of course it applies to that special case.
+			In light of the theorem, to show that a two-parameter family of solutions <m>c_{1}x_{1}(t) + c_{2}x_{2}(t)</m> contains all solutions 
+			to the differential equation <m>ax'' + bx' + cx = 0</m>,
+			it is enough to demonstrate that the constants <m>c_{1}</m> and <m>c_{2}</m> can be chosen to satisfy arbitrary initial conditions.
+			That is, for any real numbers <m>t_{0}</m>, <m>x_{0}</m>, and <m>v_{0}</m>, there exist values of <m>c_{1}</m> and <m>c_{2}</m> so that the resulting 
+			function <m>x(t)=c_{1}x_{1}(t) + c_{2}x_{2}(t)</m> satisfies <m>x(t_{0}) = x_{0}</m> and <m>x'(t_{0}) = v_{0}</m>.
+			Equivalently, for any choices of <m>t_{0}</m>, <m>x_{0}</m>, and <m>v_{0}</m>, we can solve
 			<men xml:id="secondorder01-IVP-equation1"> c_{1}x_{1}(t_{0}) + c_{2}x_{2}(t_{0}) = x_{0}
 			</men>
 			<men xml:id="secondorder01-IVP-equation2"> c_{1}x_{1}'(t_{0}) + c_{2}x_{2}'(t_{0}) = v_{0}.
 			</men>
+			for <m>c_{1}</m> and <m>c_{2}</m>. 
 			When this holds, we say that <m>x(t) = c_{1}x_{1}(t) + c_{2}x_{2}(t)</m> is a <term>general solution</term> to the differential equation.
 		</p>
 
@@ -492,7 +499,7 @@
 				<me>
 					c_{1}e^{-5t} + c_{2}e^{2t}.
 				</me>
-				(There is an easy way to verify that <m>x_{1}</m> and <m>x_{2}</m> are not constant multiples of one another: just confirm that their ratio <m>\frac{e^{-5t}}{e^{2t}} = e^{-7t}</m> is not constant!)
+				(There is an easy way to verify that <m>x_{1}</m> and <m>x_{2}</m> are not constant multiples of one another: just confirm that their ratio <m>e^{-5t}/e^{2t} = e^{-7t}</m> is not constant!)
 			</p>
 
 			<p>
@@ -537,13 +544,19 @@
 				<mrow>c_{2} =&amp; \frac{-x_{1}'(t_{0})x_{0} + x_{1}(t_{0})v_{0}}{x_{1}(t_{0})x_{2}'(t_{0})-x_{2}(t_{0})x_{1}'(t_{0})}.</mrow>
 			</md>
 			This represents a valid (and unique) solution to the system if and only if the denominator which appears in the expressions for both <m>c_{1}</m> and <m>c_{2}</m> is not equal to <m>0</m>.
-			We call this quantity the <term>Wronskian</term> of <m>x_{1}</m> and <m>x_{2}</m> and denote it by
+		</p>
+
+		<p>
+			Expressions like that in the denominators of <xref ref="secondorder01-IVP-equation1" />-<xref ref="secondorder01-IVP-equation2" /> 
+			occur so often that we define a function based on them.
+			The <term>Wronskian</term> of the two functions <m>x_{1}</m> and <m>x_{2}</m> is the function
 			<me>
 				W(x_{1},x_{2}) = x_{1}(t)x_{2}'(t)-x_{2}(t)x_{1}'(t).
 			</me>
-			Notice that <m>W(x_{1},x_{2})</m> is a function of <m>t</m>.
-			Provided that <m>W(x_{1},x_{2}) \neq 0</m> for all values of <m>t</m>, by our computations above we may solve the system <xref ref="secondorder01-IVP-equation1" />-<xref ref="secondorder01-IVP-equation2" /> for any values of <m>t_{0}</m>, <m>x_{0}</m>, and <m>v_{0}</m>.
-			Thus we have the following criterion.
+			We emphasize that <m>W(x_{1},x_{2})</m> is a function of <m>t</m>.
+			If <m>W(x_{1},x_{2}) \neq 0</m> for all values of <m>t</m>, our computations above show we may solve the system 
+			<xref ref="secondorder01-IVP-equation1" />-<xref ref="secondorder01-IVP-equation2" /> for any values of <m>t_{0}</m>, <m>x_{0}</m>, and <m>v_{0}</m>.
+			Thus we have the following result.
 		</p>
 
 		<theorem xml:id="secondorder01-theorem-wronskian-criterion">
@@ -585,18 +598,15 @@
 			<title>General Solution to the Homogeneous Second-Order Equation</title>
 			<statement>
 				<p>
-					Consider the equation <m>ax'' + bx' + cx = 0</m>.
+					Consider the equation <m>ax'' + bx' + cx = 0</m> with <m>a \ne 0</m> and its characteristic equation <m>a\lambda^{2} + b\lambda + c = 0</m>.
+					
 					<ul>
 						<li>
 							If <m>b^{2}-4ac \gt 0</m>, a general solution is given by
 							<me>
 								x(t) = c_{1}e^{\lambda_{1}t} + c_{2}e^{\lambda_{2}t}
 							</me>
-							where
-							<me>
-								\lambda_{1} = \frac{-b + \sqrt{b^{2}-4ac}}{2a} \quad \text{and} \quad \lambda_{2} = \frac{-b - \sqrt{b^{2}-4ac}}{2a}
-							</me>
-							are the distinct real roots of the characteristic equation <m>a\lambda^{2} + b\lambda + c = 0</m>.
+							where <m>\lambda_{1} </m> and <m>\lambda_{2}</m> are the distinct real roots of the characteristic equation.
 						</li>
 
 						<li>
@@ -604,11 +614,7 @@
 							<me>
 								x(t) = c_{1}e^{\lambda t} + c_{2}te^{\lambda t}
 							</me>
-							where
-							<me>
-								\lambda = -\frac{b}{2a}
-							</me>
-							is the repeated real root of the characteristic equation.
+							where <m>\lambda = -b/(2a)</m> is the repeated real root of the characteristic equation.
 						</li>
 
 						<li>
@@ -616,11 +622,7 @@
 							<me>
 								x(t) = c_{1}e^{\alpha t}\cos(\beta t) + c_{e}e^{\alpha t}\sin(\beta t)
 							</me>
-							where
-							<me>
-								\alpha \pm \beta i
-							</me>
-							are the complex conjugate roots of the characteristic equataion.
+							where <m>\alpha \pm \beta i </m> are the complex conjugate roots of the characteristic equataion.
 						</li>
 					</ul>
 					<idx>General Solution to the Homogeneous Second-Order Equation</idx>
@@ -636,13 +638,16 @@
 			</p>
 
 			<p>
-				Suppose that <m>b^{2} - 4ac \lt 0</m>, and let <m>\alpha</m> and <m>\beta</m> be defined as in the theorem statement.
+				Suppose that <m>b^{2} - 4ac \lt 0</m>, and that <m>\alpha \pm \beta i </m> are the complex conjugate roots of 
+				the characteristic equataion <m>a\lambda^{2} + b\lambda + c = 0</m>.
+				Notice that <m>\beta \neq 0</m>.
 				We know from <xref ref="secondorder01-subsection-second-order-linear-de"/> that
 				<me>
 					x_{1}(t) = e^{\alpha t}\cos(\beta t) \quad \text{ and } \quad x_{2}(t)=e^{\alpha t}\sin(\beta t)
 				</me>
 				are solutions to <m>ax'' + bx' + cx = 0</m>, so to show that <m>x(t) = c_{1}x_{1}(t) + c_{2}x_{2}(t)</m> is the general solution, by <xref ref="secondorder01-theorem-wronskian-criterion"/> it suffices to check that their Wronskian <m>W(x_{1},x_{2})</m> is non-zero for all <m>t</m>.
-				We first do some preliminary computations: using the product rule,
+				First, we compute the Wronskian in steps.
+				Using the product rule,
 				<me>
 					x_{1}'(t) = \alpha e^{\alpha t}\cos(\beta t) - \beta e^{\alpha t}\sin(\beta t)
 				</me>
@@ -662,12 +667,13 @@
 				<me>
 					x_{1}(t)x_{2}'(t) - x_{2}(t)x_{1}'(t) = \beta e^{2\alpha t}[\sin^{2}(\beta t) + \cos^{2}(\beta t)].
 				</me>
-				Using the Pythagorean Identity <m>\sin^{2}(\theta) + \cos^{2}(\theta) = 1</m>, we concluce
+				Using the Pythagorean Identity <m>\sin^{2}(\theta) + \cos^{2}(\theta) = 1</m>, we conclude
 				<me>
 					W(x_{1}, x_{2}) = \beta e^{2\alpha t}
 				</me>.
-				Since <m> e^{2\alpha t} </m> is non-zero for all values of <m>t</m> and <m>\beta \neq 0</m>, we conclude that <m>W(x_{1},x_{2})</m> is non-zero for all values of <m>t</m>.
-				Thus <m>x(t) = c_{1}x_{1}(t) + c_{2}x_{2}(t)</m> is the general solution.
+				Since <m> e^{2\alpha t} </m> is non-zero for all values of <m>t</m> and <m>\beta \neq 0</m>, 
+				 <m>W(x_{1},x_{2})</m> is non-zero for all values of <m>t</m>.
+				Thus, we can apply <xref ref="secondorder01-theorem-wronskian-criterion"/> to conclude that <m>c_1x_1(t)+c_2x_2(t)</m> is a general solution.
 			</p>
 		</proof>
 
@@ -812,13 +818,13 @@
 			<me>
 				m \lambda^2 + k = 0,
 			</me>
-			and we roots at <m>\lambda = \pm i \sqrt{k/m}</m>.
+			and its roots are <m>\lambda = \pm i \sqrt{k/m}</m>.
 			Writing <m>\omega = \sqrt{k/m}</m> for simplicity, <xref ref="secondorder01-theorem-general-solution"/> gives the general solution
 			<me>
 				x(t) = c_1 \cos \omega t + c_2 \sin \omega t,
 			</me>
 			which represents the position of the mass at time <m>t</m>.
-			Now, of course, it is easy to determine the velocity of the mass at time <m>t</m> to be
+			Differentiating as usual, the velocity of the mass at time <m>t</m> to be
 			<me>
 				v(t) = x'(t) = - c_1 \omega \sin \omega t + c_2 \omega \cos \omega t.
 			</me>
@@ -1161,12 +1167,12 @@
 
 				<li>
 					<p>
-						If <m>b^2 - 4ac \lt 0</m>, characteristic equation has complex conjugate roots
+						If <m>b^2 - 4ac \lt 0</m>, the characteristic equation has complex conjugate roots <m>\lambda = \alpha \pm \beta i</m>
+						where 							
 						<me>
-							\lambda = \alpha \pm \beta i
+						\alpha = -\frac{b}{2a} \quad \text{and} \quad \beta = \frac{\sqrt{4ac - b^{2}}}{2a}
 						</me>
-						where <m>\alpha = -\frac{b}{2a}</m> and <m>\beta = \frac{\sqrt{4ac - b^{2}}}{2a}</m>.
-						A general solution to <m>a x'' + bx' + cx = 0</m> is given by
+						and a general solution to <m>a x'' + bx' + cx = 0</m> is given by
 						<me>
 							x(t) = c_{1}e^{\alpha t}\cos(\beta t) + c_{2}e^{\alpha t}\sin(\beta t).
 						</me>
