@@ -169,7 +169,7 @@
 			<men xml:id="secondorder01-equation-constant-coef">a x'' + b x' + cx = 0.
 			</men>
 			The goal of this section is to be able to solve all such equations.
-			To build some intuition, we start by considering the homogeneous <em>first-order</em> linear differential equation
+			To build some intuition, we start by considering the homogeneous <em>first-order</em> linear differential equation with constant coefficients,
 			<men xml:id="secondorder01-fo-equation-constant-coef">ax' + bx = 0.
 			</men>
 			Our work in <xref ref="firstlook"/> suggests that this equation has a solution of the form <m>x(t) = e^{\lambda t}</m> for some constant <m>\lambda</m>.
@@ -182,36 +182,39 @@
 			<me>
 				a\lambda + b = 0,
 			</me>
-			which has solution <m>\lambda = -\frac{b}{a}</m>.
-			Thus <xref ref="secondorder01-fo-equation-constant-coef"/> has <m>x(t) = e^{-\frac{b}{a}t}</m> as a solution.
+			which has solution <m>\lambda = -b/a</m>.
+			Thus <xref ref="secondorder01-fo-equation-constant-coef"/> has <m>x(t) = e^{-\lambda t}</m> as a solution.
 		</p>
 
 		<p>
 			A similar strategy works for homogeneous second-order linear differential equations.
 			We <q>guess</q> that <xref ref="secondorder01-equation-constant-coef"/> has a solution of the form <m>x=e^{\lambda t}</m> and substitute our guess into the left-hand side of the equation.
 			In detail,
-			<md>
+			<md>		
 				<mrow>a\left(\frac{d^2}{dt^2} e^{\lambda t}\right) + b\left(\frac{d}{dt}e^{\lambda t}\right) + c e^{\lambda t} &amp; = a\lambda^{2} e^{\lambda t} + b \lambda e^{\lambda t} + c e^{\lambda t}</mrow>
 				<mrow>&amp; = (a\lambda^{2} + b\lambda + c) e^{\lambda t}</mrow>
 			</md>
 			Dividing out the non-zero term <m>e^{\lambda t}</m> as before, we see that <m>\lambda</m> must satisfy
 			<men xml:id="secondorder01-equation-characteristic-eq">a\lambda^{2} + b\lambda + c = 0.
 			</men>
-			We call <xref ref="secondorder01-equation-characteristic-eq"/> the <term>characteristic equation</term> for <m>ax'' + bx' + cx = 0</m>.
-			Its roots are
-			<me>
-				\lambda = \frac{-b \pm \sqrt{b^2 - 4ac}}{2a}.
-			</me>
-			If <m>b^2 - 4ac \gt 0</m>, we get distinct real roots
-			<me>
-				\lambda_1 = \frac{-b + \sqrt{b^2 - 4ac}}{2a} \quad \text{and} \quad \lambda_2 = \frac{-b - \sqrt{b^2 - 4ac}}{2a},
-			</me>
-			which correspond to a pair of solutions
+			We call <xref ref="secondorder01-equation-characteristic-eq"/> the <term>characteristic equation</term> for 
+			the differential equation <xref ref="secondorder01-equation-constant-coef"/>.
+			This is a quadratic equation and has two roots, call them <m>\lambda_1</m> and <m>\lambda_2</m>.
+			We can find these roots using algebra, by factoring or using the quadratic formula.
+			If the roots <m>\lambda_1</m> and <m>\lambda_2</m> are real numbers and <m>\lambda_1 \neq \lambda_2</m> (which happens when <m>b^{2} - 4ac \gt 0</m>), 
+			then we have two different solutions
 			<me>
 				x_{1}(t) = e^{\lambda_{1} t} \quad \text{and} \quad x_{2}(t)=e^{\lambda_{2} t}.
 			</me>
 			to <xref ref="secondorder01-equation-constant-coef"/>.
-			Each solution <m>x_{i}(t)</m> exhibits exponential growth or decay depending on the sign of <m>\lambda_{i}</m>.
+			Because the <m>\lambda_i</m> are different, neither solution is a multiple of the other.
+		</p>
+
+		<p>
+			Depending on the signs of the <m>\lambda_i</m>, these solutions will either grow or decay exponentially.
+			Well, unless one of the <m>\lambda_i</m> is zero, when the solution will be constant. 
+			There are also other solutions to <xref ref="secondorder01-equation-constant-coef"/>, 
+			such as <m>3e^{\lambda_{1} t}</m> or <m>x(t) = e^{\lambda_1 t}-2e^{\lambda_{2} t}</m>, as you can check.
 		</p>
 
 		<example xml:id="secondorder01-example-real-solutions">
@@ -220,8 +223,8 @@
 				<men xml:id="secondorder01-equation-guess">x'' + 3 x' - 10 x = 0
 				</men>
 				has characteristic equation <m>\lambda^{2} + 3\lambda - 10 = 0</m>.
-				Rather than using the quadratic formula, we can simply factor the left-hand side as <m>(\lambda + 5)(\lambda-2)</m> to deduce that the roots are <m>\lambda_{1} =-5</m> and <m>\lambda_{2} = 2</m>.
-				The roots correspond to a pair of solutions to <xref ref="secondorder01-equation-guess" />:
+				This factors as <m>(\lambda + 5)(\lambda-2)</m> and so the roots are <m>\lambda_{1} =-5</m> and <m>\lambda_{2} = 2</m>.
+				Each roots corresponds to a solution to <xref ref="secondorder01-equation-guess" />, namely
 				<me>
 					x_1(t) = e^{-5t} \mbox{ and } x_2(t) = e^{2t}.
 				</me>
@@ -229,40 +232,50 @@
 		</example>
 
 		<p>
-			The characteristic equation <xref ref="secondorder01-equation-characteristic-eq"/> also has distinct roots when <m>b^{2} - 4ac \lt 0</m>, although now the roots are <em>complex</em> numbers.
-			Even so, we can make sense of the corresponding solutions using tools from <xref ref="firstlook08"/>.
-			In this case, it is customary to write <m>\lambda = \alpha \pm i\beta</m>, where
-			<me>
-				\alpha = - \frac{b}{2a} \quad \text{and} \quad \beta = \frac{\sqrt{4ac - b^2}}{2a}.
-			</me>
-			We then have a pair of complex conjugate roots
+			The characteristic equation <xref ref="secondorder01-equation-characteristic-eq"/> also has distinct roots when <m>b^{2} - 4ac \lt 0</m>, 
+			but now the roots are <em>complex</em> numbers.
+			Because <xref ref="secondorder01-equation-characteristic-eq"/> is a quadratic equation with real coefficients, the two complex roots are a conjugate pair,
+			meaning the roots can be written as
 			<me>
 				\lambda_{1} = \alpha + \beta i \quad \text{and} \quad \lambda_{2} = \alpha - \beta i
 			</me>
-			corresponding, as in the real case, to a pair of solutions
+			where <m>\alpha = -b/2a</m> and <m>\beta = (\sqrt{4ac - b^{2}})/{2a}</m>, both real numbers.
+			As before, we have two solutions
 			<me>
-				x_{1}(t) = e^{(\alpha + \beta i)t} \quad \text{and} \quad x_{2}(t) = e^{(\alpha - \beta i)t}.
+				z_{1}(t) = e^{(\alpha + \beta i)t} \quad \text{and} \quad z_{2}(t) = e^{(\alpha - \beta i)t}.
 			</me>
-			We can rewrite <m>x_{1}(t)</m> as follows:
+			but these functions output complex numbers. 
+		</p>
+			
+		<p> 
+			To obtain functions that give real numbers, we use the ideas of <xref ref="firstlook08"/>.
+			We first rewrite <m>z_{1}(t)</m> as follows:
 			<md>
-				<mrow>x_{1}(t) &amp; = e^{(\alpha + \beta i)t}</mrow>
+				<mrow>z_{1}(t) &amp; = e^{(\alpha + \beta i)t}</mrow>
 				<mrow>&amp; = e^{\alpha t + \beta i t}</mrow>
 				<mrow>&amp; = e^{\alpha t}e^{\beta i t}</mrow>
 			</md>
-			From Euler's formula <xref ref="firstlook08_Euler_Formula"/>, we have <m>e^{i\beta t}=\cos(\beta t) + i\sin(\beta)</m>, and so
+			Second, from Euler's formula <xref ref="firstlook08_Euler_Formula"/>, we have <m>e^{i\beta t}=\cos(\beta t) + i\sin(\beta)</m>, and so
 			<me>
-				x_{1}(t) = e^{\alpha t}(\cos(\beta t) + i\sin(\beta t)).
+				z_{1}(t) = e^{\alpha t}(\cos(\beta t) + i\sin(\beta t)).
 			</me>
-			Using the facts that <m>\cos(-\beta t)=\cos(\beta t)</m> and <m>\sin(-\beta t) = -\sin(\beta t)</m>, a similar computation on <m>x_{2}(t)</m> results in the expression
+			For <m>z_2(t)</m>, we can repeat the above two steps and then use the identities <m>\cos(-\beta t)=\cos(\beta t)</m> and <m>\sin(-\beta t) = -\sin(\beta t)</m> to obtain
 			<me>
-				x_{2}(t) = e^{\alpha t}(\cos(\beta t) - i\sin(\beta t)).
+				z_{2}(t) = e^{\alpha t}(\cos(\beta t) - i\sin(\beta t)).
 			</me>
-			To get real solutions, we can take the real part of <m>x_{1}(t)</m> and (negative) the imaginary part of <m>x_{2}(t)</m>.
-			Going forward, we will use the resulting real functions as the canonical solutions to <xref ref="secondorder01-equation-constant-coef"/> when <m>b^{2} - 4ac \lt 0</m>, re-defining <m>x_{1}(t)</m> and <m>x_{2}(t)</m> as
+			The final step is use linear combinations of these solutions to eliminate the imaginary parts.
+			You should check that $z_1(t) + z_2(t)$ gives $2 e^{\alpha t}\cos(\beta t)$ and that $i(z_1(t) - z_2(t))$ gives $2 e^{\alpha t}\sin(\beta t)$.
+			Going forward, we will use these two real functions, divided by 2, as our preferred solutions to <xref ref="secondorder01-equation-constant-coef"/> when <m>b^{2} - 4ac \lt 0</m>, 
+			namely
 			<me>
 				x_{1}(t) = e^{\alpha t}\cos(\beta t) \quad \text{and} \quad x_{2}(t) = e^{\alpha t}\sin(\beta t).
 			</me>
-			Note that complex roots of the characteristic equation induce <em>oscillatory</em> behavior in the solutions of the differential equation due to the presence of the <m>\sin</m> and <m>\cos</m> terms.
+			Again, these two solutions are not multiples of each other.
+		</p>
+
+		<p>
+			In this case, the solutions have <em>oscillatory</em> behavior because of the <m>\sin</m> and <m>\cos</m> terms. 
+			The amplitude of these oscillations decays exponentially if <m>\alpha \lt 0</m> or grows exponentially if <m>\alpha \gt 0</m>.
 		</p>
 
 		<example>
@@ -276,21 +289,32 @@
 				<me>
 					\lambda = \frac{-4 \pm \sqrt{4^2-4(1)(13)}}{2} = -2 \pm 3i,
 				</me>
-				corresponding to <m>\lambda = \alpha \pm \beta i</m> with <m>\alpha=-2</m>, <m>\beta = 3.</m>
+				corresponding to <m>\lambda = \alpha \pm \beta i</m> with <m>\alpha=-2</m> and <m>\beta = 3.</m>
 				We get the complex solutions:
 				<me>
 					z_{1}(t) = e^{(-2+3i)t} \quad \text{and} \quad z_{2}(t) = e^{(-2-3i)t}.
 				</me>
-				From these complex solutions, using the techniques of <xref ref="firstlook08-subsection-complex-applications"/>, from these solutions, we can get the following equivalent set of real solutions:
+				From these complex solutions, using the steps above, we get the following real-valued solutions:
 				<me>
 					x_{1}(t) = e^{-2t}\cos(3t) \quad \text{and} \quad x_{2}(t) = e^{-2t}\sin(3t).
 				</me>
+				As <m>t \to \infty</m>, both solutions go to zero because of the <m>e^{-2t}</m> term.
 			</p>
 		</example>
 
 		<p>
-			There is one more case to consider: when <m>b^{2}-4ac=0</m>.
-			In this case, the charactersitic equation has a <em>repeated real root</em> at <m>\lambda = -\frac{b}{2a}</m>, which appears to give only one solution <m>x_{1}(t) = e^{-\frac{b}{2a}t}.</m> However, as demonstrated in the next example, it is possible to generate a second solution using <m>x_{1}(t)</m>.
+			There is one more case to consider, <m>b^{2}-4ac=0</m>.
+			In this case, the charactersitic equation has a <em>repeated real root</em> at <m>\lambda = -b/(2a)</m>, 
+			which gives only one solution <m>x_{1}(t) = e^{-\lambda t}.</m> 
+			However, we can find a second different solution using a method called <term>reduction of order</term>.
+			Rather than describe the method in general, we illustrate it with an example.
+		</p>
+
+		<p>
+			We should reiterate what we mean by a <em>different</em> solution.  
+			Because the differential equation is linear and homogeneous, any multiple of <m>x_1(t)</m> is also a solution, 
+			so <m>3e^{-\lambda t}</m> is also a solution, but what 
+			we want is a solution that is not a constant times <m>x_1(t)</m>.
 		</p>
 
 		<example xml:id="secondorder01-example-reduction-of-order">
@@ -303,7 +327,7 @@
 				<me>
 					\lambda^{2} + 2\lambda + 1 = (\lambda + 1)^{2} = 0.
 				</me>
-				Thus, there is a repeated real root <m>\lambda  = -1</m> and we have a solution <m>x_1(t) = e^{-t}</m>.
+				Thus, there is a repeated real root <m>\lambda  = -1</m> and we have only one solution, <m>x_1(t) = e^{-t}</m>.
 			</p>
 
 			<p>
@@ -325,30 +349,32 @@
 				Consequently,
 				<md>
 					<mrow>x'' + 2 x' + x &amp; = [v'' e^{-t} - 2 v' e^{-t} + v e^{-t}] + 2 [-v e^{-t} + v' e^{-t}]  + [v e^{-t}]</mrow>
-					<mrow>&amp; = e^{-t} v''</mrow>
-					<mrow>&amp; = 0,</mrow>
+					<mrow>&amp; = e^{-t} v''.</mrow>
 				</md>
-				and <m>v'' = 0</m>.
-				Therefore, <m>v = c_1 t + c_2</m>.
-				Letting <m>c_1 = 1</m> and <m>c_2 = 0</m> gives <m>v(t) = t</m>, and a second solution to our equation is given by
+				Since our original differential equation is <m>x'' + 2x' + x = 0</m>, we have <m>e^{-t} v'' = 0</m>.
+				Dividing by the non-zero function <m>e^{-t}</m>, we get a new differential equation <m>v'' = 0</m>.
+				We can solve it by repeated integration to get <m>v(t) = c_1 t + c_2</m> for constants <m>c_1</m> and <m>c_2</m>.
+				This gives a whole family of solutions, <me> x(t) = (c_1 t + c_2) e^{-t}</me>.
+			</p>
+			<p>
+				We can pick any solution out of this family by specifying values for <m>c_1</m> and <m>c_2</m>.
+				Since we don't want multiples of <m>x_1(t) = e^{-t}</m>, we must have <m>c_1 \ne 0</m>.
+				The simplest choice is to let <m>c_1 = 1</m> and <m>c_2 = 0</m>, which gives <m>v(t) = t</m>.
+				Thus, our second solution is given by
 				<me>
 					x(t) = t e^{-t}
 				</me>.
-				Note that we could just as well have chosen, say, <m>c_{1} = 0</m> and <m>c_{2}=1</m>, or <m>c_{1} = 1</m> and <m>c_{2}=1</m>.
-				The former, however, results in <m>x(t)=e^{-t}</m>, which is the solution we already knew.
-				The latter choice gives <m>x(t) = te^{-t} + e^{-t}</m>.
-				While this solution is distinct from the one we started with, it still contains information from the original solution in the second term.
-				The assignment <m>c_{1}=1</m>, <m>c_{2}=0</m> is the simplest choice of constants which gives another solution that is, in a sense, <em>independent</em> from the first.
 			</p>
 		</example>
 
 		<p>
-			The technique that we have used in <xref ref="secondorder01-example-reduction-of-order" /> is called <term>reduction of order</term>.
-			<idx>reduction of order</idx> In general, given a second-order linear differential equation
+			Reduction of order is the name given to this method of finding a different solution by assuming there is a solution that is
+			an unknown function times a known solution. 
+			Repeating the calculations in <xref ref="secondorder01-example-reduction-of-order" /> for a second-order linear differential equation
 			<me>
 				a x'' + bx' + cx = 0
 			</me>
-			such that <m>b^2 - 4ac = 0</m>, we have a pair of solutions
+			with <m>b^2 - 4ac = 0</m>, will give us two different solutions
 			<me>
 				x_{1}(t) = e^{\lambda t} \quad\text{and}\quad x_{2}(t)= t e^{\lambda t},
 			</me>
@@ -359,15 +385,18 @@
 	<subsection xml:id="secondorder01-subsection-general_solutions">
 		<title>General Solutions to Second-Order Linear Equations</title>
 		<p>
-			In <xref ref="secondorder01-subsection-second-order-linear-de"/> we learned how to construct some solutions to the differential equation <xref ref="secondorder01-equation-constant-coef"/> given by
+			In <xref ref="secondorder01-subsection-second-order-linear-de"/> we found two different solutions to
 			<me>
 				ax'' + bx' + cx = 0
 			</me>
-			using the roots of the characteristic equation <m>a\lambda^{2} + b \lambda + c = 0.</m> In this section, we will show that these solutions can in fact be used to describe <em>all</em> solutions to the differential equation.
+			for each of the three possible types of roots of the characteristic equation 
+			<m>a\lambda^{2} + b \lambda + c = 0</m>: distinct real roots, complex roots, or a repeated real root.
+			By different solutions, we mean that in each case neither solution is a constant multiple of the other.
+			In this section, we will show that each pair of solutions can be used to describe <em>all</em> solutions to the differential equation.
 		</p>
 
 		<p>
-			A key idea in this direction is the <term>principle of superposition</term>, which states that scalar multiples and sums of solutions to <xref ref="secondorder01-equation-constant-coef"/> are again solutions to the same equation.
+			One key idea is the <term>principle of superposition</term>, which states that scalar multiples and sums of solutions to <xref ref="secondorder01-equation-constant-coef"/> are again solutions to the same equation.
 		</p>
 
 		<p>
@@ -407,13 +436,16 @@
 		</theorem>
 
 		<p>
-			Before continuing, it is worth noting that <xref ref="secondorder01-theorem-superposition" /> is still true if the constant coefficients <m>a</m>, <m>b</m>, and <m>c</m> are replaced with variable coefficients <m>a(t)</m>, <m>b(t)</m>, and <m>c(t)</m> which depend on <m>t</m>.
-			For our present purposes, however, we continue to focus solely on the constant coefficient case.
+			<xref ref="secondorder01-theorem-superposition" /> is true 
+			for every linear differential equation <xref ref="secondorder01_revised-linear-de"/>
+			of any order and whether or not it has constant coefficients <em>provided only that it is homogeneous</em>.
+			We will focus on the second-order constant coefficient case.
 		</p>
 
 		<p>
 			The expression <m>c_{1}x_{1}(t) + c_{2}x_{2}(t)</m> is called a <term>linear combination</term> of the functions <m>x_{1}</m> and <m>x_{2}</m>.
-			Provided that <m>x_{1}</m> and <m>x_{2}</m> solve <xref ref="secondorder01-equation-constant-coef"/> and <m>x_{2}</m> is not simply a constant multiple of <m>x_{1}</m>, we can think of the linear combination <m>c_{1}x_{1}(t) + c_{2}x_{2}(t)</m> as a <term>two-parameter family of solutions</term> to <xref ref="secondorder01-equation-constant-coef"/>.
+			Provided that <m>x_{1}</m> and <m>x_{2}</m> solve <xref ref="secondorder01-equation-constant-coef"/> and neither <m>x_i</m> is not simply a constant multiple of the other, 
+			the linear combination <m>c_{1}x_{1}(t) + c_{2}x_{2}(t)</m> is a <term>two-parameter family of solutions</term> to <xref ref="secondorder01-equation-constant-coef"/>.
 		</p>
 
 		<p>
