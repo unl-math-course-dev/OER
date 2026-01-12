@@ -14,7 +14,7 @@
 
             <li><p>To understand that the general solution to the equation
                 <me>x'' +p(t) x' + q(t) x = g(t)</me>
-            is <m>x = x_h + x_p</m>, where <m>x_p</m> is a particular solution <m>x_p</m> to <m>x'' +p(t) x' + q(t) x = g(t)</m> and <m>x_h</m> is the general solution of the corresponding homogeneous equation
+            is <m>x = x_h + x_r</m>, where <m>x_r</m> is a particular solution to <m>x'' +p(t) x' + q(t) x = g(t)</m> and <m>x_h</m> is the general solution of the corresponding homogeneous equation
                 <me>x'' +p(t) x' + q(t) x = 0.</me>
             </p></li>
 
@@ -37,53 +37,69 @@
 
         <p>A <term>nonhomogeneous second-order linear differential equation</term> is an equation of the form
             <me>x'' +p(t) x' + q(t) x = g(t).</me>
-        We have already seen how examples of such equations arise when examining models of harmonic oscillators with forcing terms. Our goal is to be able to solve such equations. In general, these equations can be difficult to solve for an arbitrary function <m>g(t)</m>. Before we attempt to find solutions for some of the more common functions that might occur for <m>g(t)</m>, let us derive some fundamental facts about second-order linear differential equations.</p>
+        with <m>g(t)</m> not identically zero.
+        We have already seen how examples of such equations arise when examining models of harmonic oscillators with forcing terms. 
+        Our goal is to be able to solve such equations. In general, these equations can be difficult to solve for an arbitrary function <m>g(t)</m>. 
+        Before we find solutions for some of the more common forcing functions, 
+        we need to derive some fundamental facts about second-order linear differential equations.</p>
 
         <theorem xml:id="secondorder02-theorem-nonhomogeneous-difference">
             <statement>
-                <p>Suppose that 
-                    <men xml:id="secondorder02-equation-nonhomogeneous-difference">x'' +p(t) x' + q(t) x = g(t)</men>
-                has solutions <m>x_1 = x_1(t)</m> and <m>x_2 = x_2(t)</m>.  Then <m>x_1(t) - x_2(t)</m> is a solution of the homogeneous linear differential equation
-                    <me>x'' +p(t) x' + q(t) x = 0.</me></p>
+                <p> If <m>x_g(t)</m> is a solution to the equation
+                    <me>x'' +p(t) x' + q(t) x = g(t)</me>
+                    and <m>x_h(t)</m> is a solution to the equation
+                    <me>x'' +p(t) x' + q(t) x = h(t),</me>
+                    then <m>x=x_g+x_h</m> is a solution to the equation
+                    <me>x'' +p(t) x' + q(t) x = g(t)+h(t).</me>
+                </p>
+                <p>
+                    In particular,  <m>x_1 = x_1(t)</m> and <m>x_2 = x_2(t)</m> are both solutions to
+                    <m>x'' +p(t) x' + q(t) x = g(t)</m>, then <m>x_1(t) - x_2(t)</m> is a solution of 
+                    the <em>homogeneous</em> linear differential equation
+                    <me>x'' +p(t) x' + q(t) x = 0.</me>
+                </p>
             </statement>
         </theorem> 
         
         <proof>
-            <p>Since <m>x_1</m> and <m>x_2</m> are solutions of <xref ref="secondorder02-equation-nonhomogeneous-difference" />, we know that 
+            <p>Since <m>x_g</m> and <m>x_h</m> are solutions of their respective differential equations, we know that 
                 <md>
                     <mrow>x_1'' +p(t) x_1' + q(t) x_1 &amp; = g(t)</mrow>
-                    <mrow>x_2'' +p(t) x_2' + q(t) x_2 &amp; = g(t).</mrow>
+                    <mrow>x_2'' +p(t) x_2' + q(t) x_2 &amp; = h(t).</mrow>
                 </md>
             Thus,
                 <md>
-                    <mrow>\frac{d^2}{dt^2} (x_1 - x_2) + p(t) \frac{d}{dt} (x_1 - x_2) + q(t) (x_1 - x_2)</mrow>
-                    <mrow>= \left( \frac{d^2 x_1}{dt^2}  + p(t) \frac{dx_1}{dt} + q(t) x_1 \right) - \left( \frac{d^2 x_2}{dt^2}  + p(t) \frac{dx_2}{dt} + q(t) x_2 \right)</mrow>
-                    <mrow>= g(t) - g(t) = 0.</mrow>
-                </md></p>       
+                    <mrow>\frac{d^2}{dt^2} (x_1 + x_2) + p(t) \frac{d}{dt} (x_1 + x_2) + q(t) (x_1 + x_2)</mrow>
+                    <mrow>= \left( \frac{d^2 x_1}{dt^2}  + p(t) \frac{dx_1}{dt} + q(t) x_1 \right) + \left( \frac{d^2 x_2}{dt^2}  + p(t) \frac{dx_2}{dt} + q(t) x_2 \right)</mrow>
+                    <mrow>= g(t) + h(t).</mrow>
+                </md></p>
+            <p>The second part follows by setting <m>g(t)=x_1(t)</m> and <m>h(t) = -x_2(t)</m> in the first part.</p>       
         </proof>
         
     
         <p>We can use <xref ref="secondorder02-theorem-nonhomogeneous-difference" /> to derive the fact that the general solution to
             <men xml:id="secondorder02-equation-nonhomogeneous">x'' +p(t) x' + q(t) x = g(t).</men>
         can be written in the form
-            <me>x = x_h + x_p,</me>
+            <me>x = x_h + x_r,</me>
         where <m>x_h</m> is the general solution of the homogeneous equation
             <me>x'' +p(t) x' + q(t) x = 0,</me>
-        and <m>x_p</m> is any solution of <xref ref="secondorder02-equation-nonhomogeneous" />. Indeed, suppose that <m>x_q</m> is another solution to <xref ref="secondorder02-equation-nonhomogeneous" />. Then <m>x_q - x_p</m> is a solution to the homogeneous equation
+        and <m>x_r</m> is any solution of <xref ref="secondorder02-equation-nonhomogeneous" />. 
+        Indeed, suppose that <m>x_s</m> is another solution to <xref ref="secondorder02-equation-nonhomogeneous" />. 
+        Then <m>x_s - x_r</m> is a solution to the homogeneous equation
             <me>x'' +p(t) x' + q(t) x = 0.</me>
         Therefore,
-            <me>x_q - x_p =x_h</me>
+            <me>x_s - x_r =x_h</me>
         or
-            <me>x_q =x_h + x_p.</me>
+            <me>x_s =x_h + x_r.</me>
         We state this fact in the following theorem.</p>
 
         <theorem xml:id="secondorder02-theorem-nonhomogeneous-general-solution">
             <statement>
-                <p>Let <m>x_p</m> be a particular solution of the equation
+                <p>Let <m>x_r</m> be a particular solution of the equation
                     <me>x'' +p(t) x' + q(t) x = g(t),</me>
                 and <m>x_h</m> be the general solution of the corresponding homogeneous equation
                     <me>x'' +p(t) x' + q(t) x = 0.</me>
-                Then the general solution to <m>x'' +p(t) x' + q(t) x = g(t)</m> is <m>x = x_h + x_p</m>.</p>
+                Then the general solution to <m>x'' +p(t) x' + q(t) x = g(t)</m> is <m>x = x_h + x_r</m>.</p>
             </statement>
         </theorem> 
 
@@ -92,48 +108,77 @@
     <subsection xml:id="secondorder02-subsection-forcing">
         <title>Forcing Terms</title>
         
-        <p>The equation 
-            <me>m x'' + bx' + kx = g(t)</me>
-        can be used to model a harmonic oscillator where forcing occurs. In general, we will not be able to solve this equation explicitly for a given <m>g(t)</m>; however, certain forcing functions often occur in practice. Some of the more important forcing functions are <m>g(t) = e^{-at}</m>, where the external force decreases exponentially over time; <m>g(t) = k</m>, where a constant force is applied; and <m>g(t) = \cos \omega t</m> or <m>g(t) = \sin \omega t</m>, where a force is applied periodically.</p>
+        <p>
+        The equation 
+        <me>m x'' + bx' + kx = g(t)</me>
+        can be used to model a harmonic oscillator where forcing occurs. 
+        We are not be able to solve this equation explicitly for all possible functions <m>g(t)</m>; 
+        however, certain forcing functions often occur in practice, such as <m>g(t) = e^{-at}</m>, where the external force decreases exponentially over time; <m>g(t) = k</m>, where a constant force is applied; 
+        and <m>g(t) = \cos \omega t</m> or <m>g(t) = \sin \omega t</m>, where a force is applied periodically.
+        We will show how to solve equations with forcing functions like these in this section. 
+        </p>
 
         <p>In the case of the unforced damped harmonic oscillator, 
             <me>m x'' + b x' + kx =0,</me>
         we know that <m>m \gt 0</m>, <m>b \gt 0</m>, and <m>k \gt 0</m>. Thus, we can rewrite this equation as
             <me>x'' + px' + q x = 0,</me>
-        where <m>p = b/m</m> and <m>q = k/m</m> are both positive. The characteristic equation is <m>\lambda^{2} + p\lambda + q = 0</m>, and the roots are
-            <me>\lambda_{1} = \frac{-p + \sqrt{p^{2}-4q}}{2} \quad \text{and} \quad \lambda_{2} = \frac{-p - \sqrt{p^{2}-4q}}{2}.</me>
-        As we know from <xref ref="secondorder01-theorem-general-solution" />, there are three distinct possibilities for the general solution, corresponding to whether <m>p^{2}-4q</m> is positive, zero, or negative. Explicitly, general solutions for the undamped harmonic oscillator are given by
-
-            <me>x(t)= \begin{cases} 
-                    c_{1}e^{\lambda_{1} t} + c_{2}e^{\lambda_{2} t} \quad &amp; p^{2}-4q \gt 0 \\
-                    c_{1}e^{\alpha t} + c_{2}te^{\alpha t} \quad &amp; p^{2}-4q =0 \\
-                    c_{1}e^{\alpha t}\cos(\beta t) + c_{2}e^{\alpha t}\sin(\beta t) \quad &amp; p^{2} - 4q \lt 0
-                \end{cases}
-            </me>
-        where <m>\alpha = -\frac{p}{2}</m> and <m>\beta = \frac{\sqrt{4q - p^{2}}}{2}</m>. Since <m>p \gt 0</m>, <m>\alpha \lt 0</m>, and thus for any constants <m>c_{1}</m> and <m>c_{2}</m> we have
-            <me> \lim_{t \to \infty}(c_{1}e^{\alpha t} + c_{2}te^{\alpha t}) = \lim_{t \to \infty}(c_{1}e^{\alpha t}\cos(\beta t) + c_{2}e^{\alpha t}\sin(\beta t)) = 0.</me>
-        Moreover, both <m>\lambda_{1}</m> and <m>\lambda_{2}</m> are strictly negative when <m>p^{2}-4q \gt 0</m>. (To see that this holds for <m>\lambda_{1}</m>, we must also note that <m>q \gt 0</m> in this setting.) So
-            <me>\lim_{t \to \infty}(c_{1}e^{\lambda_{1} t} + c_{2}e^{\lambda_{2} t}) = 0</me>
-        as well, for any constants <m>c_{1}</m> and <m>c_{2}</m>.
+        where <m>p = b/m</m> and <m>q = k/m</m> are both positive. 
         </p>
 
-        <p>It follows that if <m>x_{h}</m> is the general solution to the homogeneous equation <m>x'' + px' + qx = 0</m>, then <m>x_{h} \to 0</m> as <m>t \to \infty</m>. Therefore, we have the following result.
+        <p>
+        The following theorem shows how we can derive important information about the long-term behavior of solutions using
+        our knowledge of differential equations.
         </p>
 
         <theorem xml:id="secondorder02-theorem-steady-state">
             <statement>
-                <p>Suppose
+                <p>Consider the differential equation
                         <me>x'' + px' + q x = g(t)</me>
-                has solution <m>x = x_h + x_p</m>, where <m>p \gt 0</m> and <m>q \gt 0</m>.  If 
-                    <me>x = x_h + x_p</me>
-                is the general solution to the equation, then
-                    <me>x = x_h + x_p \to x_p</me>
-                as <m>t \to \infty</m>.</p>
+                with <m>p \gt 0</m> and <m>q \gt 0</m>.  
+                If <m>x_r</m> is a particular solution to this equation and <m>x_h</m> is the general solution to the corresponding homogeneous equation
+                <m>x'' + px' + q x = 0</m>, then the general solution of the nonhomogeneous equation, <m>x=x_h+x_r</m>, satisfies
+                    <me>x \to x_r.</me>
+                as <m>t \to \infty</m>.
+                </p>
             </statement>
         </theorem> 
         
-        <p>In other words, all solutions of a damped harmonic oscillator with nonzero damping are essentially the same for large values of <m>t</m>.</p>
+    <p>
+        To see the value of this, notice that changing initial conditions changes the parameters in <m>x_h</m>, but nothing in <m>x_r</m> changes.
+        So this theorem implies that all solutions of a damped harmonic oscillator are essentially the same for large values of <m>t</m>,
+        for <em>all initial conditions</em>.
+    </p>
 
+    <proof>
+        <p>
+        It suffices to show that <m>x_h(t)\to 0</m> as <m>t \to \infty</m>.
+        The characteristic equation is <m>\lambda^{2} + p\lambda + q = 0</m>.
+        We consider the three possible cases for its roots: distinct real roots, a repeated real root, or complex roots.
+        </p>
+        <p>
+        If the roots are distinct real numbers, then <m>p^2-4q \gt 0</m>.  Since <m>p</m> and <m>q</m> are positive, 
+        we have <m>0 \lt p^2 - 4q \lt p^2</m>, and thus <m>\sqrt{p^2 - 4q} \lt p</m>. 
+        This shows <m>-p \pm \sqrt{p^{2}-4q}</m> are both negative, and so the roots,
+            <me>\lambda_{1} = \frac{-p + \sqrt{p^{2}-4q}}{2} \quad \text{and} \quad \lambda_{2} = \frac{-p - \sqrt{p^{2}-4q}}{2},</me>
+        are also negative. This shows the general solution, 
+            <me>x_h(t) = c_{1}e^{\lambda_{1} t} + c_{2}e^{\lambda_{2} t},</me>
+        satisfies <m>x_h \to 0</m> as <m>t \to \infty</m>, as both exponential functions decay to zero.
+        </p> 
+        <p>
+        If the root is a repeated real root, then it is <m>\lambda = -p/2</m>, which is negative.
+        Thus, the general solution,
+            <me>x_h(t) = c_{1}e^{\lambda t} + c_{2}te^{\lambda t},</me>
+        also satisfies <m>x_h \to 0</m> as <m>t \to \infty</m>, similarly to the first case. 
+        </p>    
+        <p>
+        If the roots are complex, then they are of the form <m>\lambda = \alpha \pm i \beta,</m>
+        where <m>\alpha = -p/2</m>.  Since <m>p \gt 0</m>, we have <m>\alpha \lt 0</m> and so again,
+        the general solution, 
+            <me>x_h(t) = e^{\alpha t}(c_{1} \cos \beta t + c_{2} \sin \beta t),</me>
+        satisfies <m>x_h \to 0</m> as <m>t \to \infty</m>.
+        </p>
+    </proof>
+        
     </subsection>
 
     <subsection xml:id="secondorder02-subsection-undetermined-coefficients">
