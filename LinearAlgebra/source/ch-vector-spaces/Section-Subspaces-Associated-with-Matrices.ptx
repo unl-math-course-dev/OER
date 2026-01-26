@@ -1,0 +1,2164 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<section xml:id="Section-Subspaces-Associated-with-Matrices" xmlns:xi="http://www.w3.org/2001/XInclude">
+    <title>Subspaces Associated with Matrices</title>
+
+<introduction>
+<p>
+In this section, we look at three subspaces connected to an <m>m</m> by <m>n</m> matrix, call it <m>A</m>.  
+They are:
+<ol>
+    <li>the row space of <m>A</m>, that is, the span of the rows of <m>A</m> in <m>\R^n</m>, called <m>\mbox{row}(A)</m>,</li>
+    <li>the column space of <m>A</m>, that is, the span of the columns of <m>A</m> in <m>\R^m</m>, called <m>\mbox{col}(A)</m>,</li>
+    <li>the null space <m>A</m>, that is, the set of all <m>\mathbf{x}</m> in <m>\R^n</m> so that <m>A\mathbf{x}=0</m>,
+    called <m>\mbox{null}(A)</m>.</li>
+</ol>
+After we look at each of them separately, we will show that the dimensions of these three subspaces are connected.
+These dimensions give information about the matrix <m>A</m>
+and about the matrix transformation that sends <m>\mathbf{x}</m> in <m>\R^n</m> to <m>A\mathbf{x}</m> in <m>\R^m</m>.
+</p>
+</introduction>
+
+<subsection xml:id="Subsection-Row-Space-of-a-Matrix">
+    <title>Row Space of a Matrix</title>
+
+<p>
+Recall when learning Gaussian elimination, we observed that every row-echelon form of a given matrix has the same number of nonzero rows.  This result suggests that there are certain characteristics associated with the rows of a matrix that are not affected by elementary row operations.  We are now in the position to examine this question and to supply the proof we omitted earlier.
+</p>
+
+
+<definition xml:id="def-rowspace">
+    <statement>
+        <p>
+            Let <m>A</m> be an <m>m\times n</m> matrix.  The <term>row space</term> of <m>A</m>, denoted by <m>\mbox{row}(A)</m>, 
+            is the subspace of <m>\R^n</m> spanned by the rows of <m>A</m>.
+        </p>
+    </statement>
+</definition>
+
+<exploration xml:id="init-rowspace">
+    <p>
+        Consider the matrix
+
+<me>
+    A=\begin{bmatrix}-2\amp 2\amp 1\\4\amp -2\amp 1\end{bmatrix}.
+</me>
+
+Let <m>\mathbf{r}_1</m> and <m>\mathbf{r}_2</m> be the rows of <m>A</m>: 
+
+<me>
+    \mathbf{r}_1=\begin{bmatrix}-2\amp 2\amp 1\end{bmatrix},\quad \mathbf{r}_2=\begin{bmatrix}4\amp -2\amp 1\end{bmatrix}.
+</me>
+
+
+Then 
+<m>\mbox{row}(A)=\mbox{span}(\mathbf{r}_1, \mathbf{r}_2)</m>
+is a plane through <m>(0,0)</m> containing <m>\mathbf{r}_1</m> and  <m>\mathbf{r}_2</m>.  
+</p>
+
+
+<image width="80%">
+   <shortdescription>Row space plotted</shortdescription>
+    <latex-image>
+    \tdplotsetmaincoords{70}{130}
+      \begin{tikzpicture}[rotate around x=0]
+	\draw[-\gt ](-2,0,0)--(3,0,0) node[below left]{\(y\)};
+    \draw[-\gt ](0,-1,0)--(0,3,0) node[below left]{\(z\)};
+    \draw[-\gt ](0,0,-2)--(0,0,5) node[below left]{\(x\)};
+    \filldraw[blue, opacity=0.3] (0,0,0)--(2,1,-2)--(0,2,2)--(-2,1,4)--cycle;
+    
+    \draw[-\gt , line width=2pt,blue, -stealth](0,0,0)--(2,1,-2)node[below right]{\(\mathbf{r}_1\)};
+      
+    \draw[-\gt , line width=2pt,blue, -stealth](0,0,0)--(-2,1,4)node[below left]{\(\mathbf{r}_2\)};
+        \end{tikzpicture}
+    </latex-image>
+</image>
+
+<p>
+We will use elementary row operations to reduce <m>A</m> to <m>\mbox{rref}(A)</m>,namely
+
+<me>
+    \begin{bmatrix}-2\amp 2\amp 1\\4\amp -2\amp 1\end{bmatrix}\rightsquigarrow\begin{bmatrix}1\amp 0\amp 1\\0\amp 1\amp 3/2\end{bmatrix}.
+</me>
+
+Let <m>\mathbf{\rho}_1</m> and <m>\mathbf{\rho}_2</m> be the rows of <m>\mbox{rref}(A)</m>:
+
+<me>
+    \mathbf{\rho}_1=\begin{bmatrix}1\amp 0\amp 1\end{bmatrix},\quad \mathbf{\rho}_2=\begin{bmatrix}0\amp 1\amp 3/2\end{bmatrix}.
+</me>
+
+What do you think <m>\mbox{span}(\mathbf{\rho}_1, \mathbf{\rho}_2)</m> looks like?  
+
+The following video will help us visualize <m>\mbox{span}(\mathbf{\rho}_1, \mathbf{\rho}_2)</m> and compare it to <m>\mbox{span}(\mathbf{r}_1, \mathbf{r}_2)</m>.
+</p>
+
+
+<video youtube="6wz-5G14jo8" play-at="select"/>
+
+
+<p>
+Based on what we observed in the video, we may conjecture that 
+
+<me>
+    \mbox{span}(\mathbf{\rho}_1, \mathbf{\rho}_2)=\mbox{span}(\mathbf{r}_1, \mathbf{r}_2)
+</me>
+</p>
+
+
+
+<image width="80%">
+   <shortdescription>New vectors for span added in above</shortdescription>
+    <latex-image>
+    \tdplotsetmaincoords{70}{130}
+      \begin{tikzpicture}[rotate around x=0]
+	\draw[-\gt ](-2,0,0)--(3,0,0) node[below left]{\(y\)};
+    \draw[-\gt ](0,-1,0)--(0,3,0) node[below left]{\(z\)};
+    \draw[-\gt ](0,0,-2)--(0,0,5) node[below left]{\(x\)};
+    \filldraw[blue, opacity=0.3] (0,0,0)--(2,1,-2)--(0,2,2)--(-2,1,4)--cycle;
+    
+    \draw[-\gt , line width=2pt,blue, -stealth](0,0,0)--(2,1,-2)node[below right]{\(\mathbf{r}_1\)};
+      
+    \draw[-\gt , line width=2pt,blue, -stealth](0,0,0)--(-2,1,4)node[below left]{\(\mathbf{r}_2\)};
+    
+    \draw[-\gt , line width=2pt,red, -stealth](0,0,0)--(0,1,1)node[above left]{\(\mathbf{\rho}_1\)};
+      
+    \draw[-\gt , line width=2pt,red, -stealth](0,0,0)--(1,3/2,0)node[above right]{\(\mathbf{\rho}_2\)};
+    
+        \end{tikzpicture}
+    </latex-image>
+</image>
+
+    <p>
+        But why does this make sense?  Vectors <m>\mathbf{\rho}_1</m> and <m>\mathbf{\rho}_2</m> were obtained from <m>\mathbf{r}_1</m> and <m>\mathbf{r}_2</m> by repeated applications of elementary row operations.  At every stage of the row reduction process, the rows of the matrix are linear combinations of <m>\mathbf{r}_1</m> and <m>\mathbf{r}_2</m>.  Thus, at every stage of the row reduction process, the rows of the matrix lie in the span of <m>\mathbf{r}_1</m> and <m>\mathbf{r}_2</m>.  Our next video shows a step-by-step row reduction process accompanied by sketches of vectors.
+    </p>
+    <video youtube="KpoeWUQ3wkY" play-at="select"/>
+</exploration>
+
+
+
+<p>
+The observations made in <xref ref="init-rowspace"/> makes a convincing case for the following theorem.
+</p>
+
+
+
+<theorem xml:id="th-rowBrowA">
+
+    <statement>
+        <p>
+            If matrix <m>B</m> was obtained from matrix <m>A</m> by applying an elementary row operation to <m>A</m> then
+
+<me>
+    \mbox{row}(B)=\mbox{row}(A).
+</me>
+        </p>
+    </statement>
+
+<proof>
+    <p>
+Let <m>\mathbf{r}_1,\ldots ,\mathbf{r}_m</m> be the rows of <m>A</m>. 
+
+There are three elementary row operations.  Clearly, switching the order of vectors in <m>\mbox{span}(\mathbf{r}_1,\ldots  ,\mathbf{r}_m)</m> will not affect the span.  
+
+Suppose that <m>B</m> was obtained from <m>A</m> by multiplying the <m>i^{th}</m> row of <m>A</m> by a non-zero constant <m>k</m>.  We need to show that 
+
+<me>
+    \mbox{span}(\mathbf{r}_1,\ldots ,k\mathbf{r}_i,\ldots ,\mathbf{r}_m)=\mbox{span}(\mathbf{r}_1,\ldots ,\mathbf{r}_i,\ldots ,\mathbf{r}_m)
+</me>
+</p>
+
+<p>
+To do this we will assume that some vector <m>\mathbf{v}</m> is in 
+<me>
+\mbox{span}(\mathbf{r}_1,\ldots ,k\mathbf{r}_i,\ldots ,\mathbf{r}_m)
+</me>
+
+and show that <m>\mathbf{v}</m> is in <m>\mbox{span}(\mathbf{r}_1,\ldots ,\mathbf{r}_i,\ldots ,\mathbf{r}_m)</m>.  
+We will then assume that some vector <m>\mathbf{w}</m> is in
+<me>
+\mbox{span}(\mathbf{r}_1,\ldots ,\mathbf{r}_i,\ldots ,\mathbf{r}_m)
+</me> 
+
+and show that <m>\mathbf{w}</m> must be in <m>\mbox{span}(\mathbf{r}_1,\ldots ,k\mathbf{r}_i,\ldots ,\mathbf{r}_m)</m>.
+</p> 
+
+
+<p> 
+Suppose that <m>\mathbf{v}</m> is in <m>\mbox{span}(\mathbf{r}_1,\ldots ,k\mathbf{r}_i,\ldots ,\mathbf{r}_m)</m>.  Then 
+
+<me>
+    \mathbf{v}=a_1\mathbf{r}_1+\ldots +a_i(k\mathbf{r}_i)+\ldots +a_m\mathbf{r}_m
+</me>
+
+But this implies
+
+<me>
+    \mathbf{v}=a_1\mathbf{r}_1+\ldots +(a_ik)\mathbf{r}_i+\ldots +a_m\mathbf{r}_m.
+</me>
+
+So <m>\mathbf{v}</m> is in <m>\mbox{span}(\mathbf{r}_1,\ldots ,\mathbf{r}_i,\ldots ,\mathbf{r}_m)</m>.
+</p> 
+
+<p> 
+Now suppose <m>\mathbf{w}</m> is in <m>\mbox{span}(\mathbf{r}_1,\ldots ,\mathbf{r}_i,\ldots ,\mathbf{r}_m)</m>, then
+
+<me>
+    \mathbf{w}=b_1\mathbf{r}_1+\ldots +b_i\mathbf{r}_i+\ldots +b_m\mathbf{r}_m.
+</me>
+
+But because <m>k\neq 0</m>, we can do the following:
+
+<me>
+    \mathbf{w}=b_1\mathbf{r}_1+\ldots +\frac{b_i}{k}(k\mathbf{r}_i)+\ldots +b_m\mathbf{r}_m.
+</me>
+
+Therefore, <m>\mathbf{w}</m> is in <m>\mbox{span}(\mathbf{r}_1,\ldots ,k\mathbf{r}_i,\ldots ,\mathbf{r}_m)</m>.
+</p> 
+
+<p> 
+We leave it to the reader to verify that adding a multiple of one row of <m>A</m> to another does not change the row space.  
+See also <xref ref="prob-proofofrowBrowA"/>.)
+</p>
+</proof>
+</theorem>
+
+
+
+
+
+
+
+<corollary xml:id="cor-rowequiv">
+
+    <statement>
+        <p>
+            If matrix <m>B</m> was obtained from matrix <m>A</m> by applying a sequence of elementary row operations to <m>A</m> then
+
+<me>
+    \mbox{row}(B)=\mbox{row}(A).
+</me>
+        </p>
+    </statement>
+
+<proof>
+    <p>
+This follows from repeated applications of <xref ref="th-rowBrowA"/>.
+    </p>
+</proof>
+</corollary>
+
+
+
+<corollary xml:id="cor-rowArowrrefA">
+
+    <statement>
+        <p>
+            <me>
+    \mbox{row}(A)=\mbox{row}(\mbox{rref}(A)).
+</me>
+        </p>
+    </statement>
+</corollary>
+
+<example xml:id="ex-basisrowspace">
+    <statement>
+        <p>
+            Let
+
+<me>
+    A=\begin{bmatrix}2\amp -1\amp 1\amp -4\amp 1\\1\amp 0\amp 3\amp 3\amp 0\\-2\amp 1\amp -1\amp 5\amp 2\\4\amp -1\amp 7\amp 2\amp 1\end{bmatrix}.
+</me>
+
+Find two distinct bases for <m>\mbox{row}(A)</m>.
+       </p>
+    </statement>
+
+    <answer>
+        <p>
+            By <xref ref="cor-rowArowrrefA"/> a basis for <m>\mbox{row}(\mbox{rref}(A))</m> will also be a basis for <m>\mbox{row}(A)</m>. Row reduction gives us:
+
+<me>
+    \begin{bmatrix}2\amp -1\amp 1\amp -4\amp 1\\1\amp 0\amp 3\amp 3\amp 0\\-2\amp 1\amp -1\amp 5\amp 2\\4\amp -1\amp 7\amp 2\amp 1\end{bmatrix}\rightsquigarrow\begin{bmatrix}1\amp 0\amp 3\amp 0\amp -9\\0\amp 1\amp 5\amp 0\amp -31\\0\amp 0\amp 0\amp 1\amp 3\\0\amp 0\amp 0\amp 0\amp 0\end{bmatrix}=\mbox{rref}(A).
+</me>
+
+
+Since the zero row contributes nothing to the span, we conclude that the nonzero rows of <m>\mbox{rref}(A)</m> span <m>\mbox{row}(\mbox{rref}(A))</m>.  
+Therefore, a basis for the row space consists of the vectors
+
+<me>
+[1, 0, 3, 0, -9], \ 
+[0, 1, 5, 0, -3], \ 
+[0, 0, 0, 1, 3].
+</me>
+
+It follows that the nonzero rows of <m>\mbox{rref}(A)</m> are linearly independent.
+</p>
+
+<p>
+To find a second basis for <m>\mbox{row}(A)</m>, observe that by <xref ref="cor-rowequiv"/> the row space of <em>any</em> row-echelon form of <m>A</m> will be equal to <m>\mbox{row}(A)</m>.  
+Matrix <m>A</m> has many row-echelon forms.  Here is one of them:
+
+<me>
+    B=\begin{bmatrix}1\amp 0\amp 3\amp 3\amp 0\\0\amp -1\amp -5\amp -10\amp 1\\0\amp 0\amp 0\amp 1\amp 3\\0\amp 0\amp 0\amp 0\amp 0 \end{bmatrix}.
+</me>
+
+The nonzero rows of <m>B</m> span <m>\mbox{row}(A)</m>.  Once again the nonzero rows of <m>B</m> are linearly independent.  
+Thus the nonzero rows of <m>B</m> form a basis for <m>\mbox{row}(A)</m>.
+       </p>
+    </answer>
+</example>
+
+
+
+
+<p>
+Our observations in <xref ref="ex-basisrowspace"/> can be generalized to all matrices.  Given any matrix <m>A</m>,
+<ol>
+    <li>
+      <p> The nonzero rows of <m>\mbox{rref}(A)</m> are linearly independent (Why?) and span <m>\mbox{row}(A)</m> (<xref ref="cor-rowArowrrefA"/>). </p>
+</li>
+    <li>
+      <p> The nonzero rows of any row-echelon form of <m>A</m> are linearly independent (Why?) and span <m>\mbox{row}(A)</m> (<xref ref="cor-rowequiv"/>). </p>
+</li>
+</ol>
+Therefore nonzero rows of <m>\mbox{rref}(A)</m> or the nonzero rows of any row-echelon form of <m>A</m> constitute a basis of <m>\mbox{row}(A)</m>.  
+Since all bases for <m>\mbox{row}(A)</m> must have the same number of elements ( <xref ref="th-dimwelldefined"/>), we have just proved the following theorem.
+</p>
+
+
+<theorem xml:id="th-samenumberofnonzerorows">
+
+    <statement>
+        <p>
+            All row-echelon forms of a given matrix have the same number of nonzero rows.
+        </p>
+    </statement>
+</theorem>
+
+<p>
+This result was first introduced without proof when learning of Guassian elimination, 
+where we used it to define the <term>rank</term> of a matrix as the number of nonzero rows in its row-echelon forms.  
+We can now update the definition of rank as follows.
+</p>
+
+
+
+<definition xml:id="th-dimofrowA">
+
+    <statement>
+        <p>
+            For any matrix <m>A</m>,  
+<me> 
+    \mbox{rank}(A)=\mbox{dim}\Big(\mbox{row}(A)\Big).
+</me>
+</p>
+    </statement>
+</definition>
+</subsection>
+
+
+
+
+
+
+
+
+
+
+<subsection xml:id="Subsection-Column-Space-of-a-Matrix">
+    <title>Column Space of a Matrix</title>
+
+<definition xml:id="def-colspace">
+
+    <statement>
+        <p>
+            Let <m>A</m> be an <m>m\times n</m> matrix.  The <term>column space</term> of <m>A</m>, denoted by <m>\mbox{col}(A)</m>, 
+            is the subspace of <m>\R^m</m> spanned by the columns of <m>A</m>.
+        </p>
+    </statement>
+</definition>
+
+<exploration xml:id="init-colspace">
+    <p>
+        Let
+
+<me>
+    B=\begin{bmatrix}2\amp -1\amp 3\amp 1\\1\amp -1\amp 2\amp 2\\1\amp 3\amp -2\amp -3\end{bmatrix}.
+</me>
+
+Our goal is to find a basis for <m>\mbox{col}(B)</m>.  To do this we need to find a linearly independent subset of the columns of <m>B</m> that spans <m>\mbox{col}(B)</m>.
+</p>
+
+<p>
+Consider the linear relation:
+<men xml:id="init-colspaceB">
+ a_1\begin{bmatrix}2\\1\\1\end{bmatrix}+a_2\begin{bmatrix}-1\\-1\\3\end{bmatrix}+a_3\begin{bmatrix}3\\2\\-2\end{bmatrix}+a_4\begin{bmatrix}1\\2\\-3\end{bmatrix}=\mathbf{0}.
+</men>
+
+Solving this homogeneous equation amounts to finding <m>\mbox{rref}(B)</m>. So,
+
+<me>
+    \begin{bmatrix}2\amp -1\amp 3\amp 1\\1\amp -1\amp 2\amp 2\\1\amp 3\amp -2\amp -3\end{bmatrix}\rightsquigarrow\begin{bmatrix}1\amp 0\amp 1\amp 0\\0\amp 1\amp -1\amp 0\\0\amp 0\amp 0\amp 1\end{bmatrix}=\mbox{rref}(B).
+</me>
+
+We now see that <xref ref="init-colspaceB"/> has infinitely many solutions.  
+</p>
+
+<p>
+Observe that the homogeneous equation
+<men xml:id="init-colspaceR">
+a_1\begin{bmatrix}1\\0\\0\end{bmatrix}+a_2\begin{bmatrix}0\\1\\0\end{bmatrix}+a_3\begin{bmatrix}1\\-1\\0\end{bmatrix}+a_4\begin{bmatrix}0\\0\\1\end{bmatrix}=\mathbf{0}.
+</men>
+
+has the same solution set as <xref ref="init-colspaceB"/>.  
+In particular, <m>a_1=1</m>, <m>a_2=-1</m>, <m>a_3=-1</m>, <m>a_4=0</m> is a non-trivial solution of <xref ref="init-colspaceB"/> and <xref ref="init-colspaceR"/>. 
+ This means that the third column of <m>B</m> and the third column of <m>\mbox{rref}(B)</m> can be expressed as the first column minus 
+ the second column of their respective matrices. 
+</p> 
+
+<p> 
+We conclude that the third column of <m>B</m> can be eliminated from the spanning set for <m>\mbox{col}(B)</m> and 
+<md>
+    <mrow> \mbox{col}(B) \amp =\mbox{span}\left(\begin{bmatrix}2\\1\\1\end{bmatrix},\begin{bmatrix}-1\\-1\\3\end{bmatrix}, \begin{bmatrix}3\\2\\-2\end{bmatrix}, \begin{bmatrix}1\\2\\-3\end{bmatrix}\right) </mrow> 
+    <mrow> \amp =\mbox{span}\left(\begin{bmatrix}2\\1\\1\end{bmatrix},\begin{bmatrix}-1\\-1\\3\end{bmatrix}, \begin{bmatrix}1\\2\\-3\end{bmatrix}\right). </mrow>
+</md>
+
+Having gotten rid of one of the vectors, we need to determine whether the remaining three vectors are linearly independent.  To do this we need to find all solutions of 
+
+<men xml:id="init-colspaceB2">
+b_1\begin{bmatrix}2\\1\\1\end{bmatrix}+b_2\begin{bmatrix}-1\\-1\\3\end{bmatrix}+b_3\begin{bmatrix}1\\2\\-3\end{bmatrix}=\mathbf{0}.
+</men>
+
+Fortunately, we do not have to start from scratch.  Observe that crossing out the third column in the previous row reduction process yields the desired reduced row-echelon form.
+</p>
+
+
+
+<image width="80%">
+   <shortdescription>Matrix with column cut out</shortdescription>
+    <latex-image>
+        \begin{tikzpicture}
+  \matrix (m)[
+    matrix of math nodes,
+    nodes in empty cells,
+    left delimiter={[},right delimiter={]}] {
+    2    \amp  -1  \amp  3 \amp  1 \\
+    1 \amp  -1   \amp  2  \amp  2  \\
+    1   \amp  3    \amp  -2 \amp  -3     \\
+  } ;
+  
+  \matrix (s)[
+    matrix of math nodes,
+    nodes in empty cells,
+    ] at ($(m.east)+(0.5,0)$)
+    {
+     \\
+    \rightsquigarrow \\
+    \\
+  } ;
+  
+  \matrix (r)[
+    matrix of math nodes,
+    nodes in empty cells,
+    left delimiter={[},right delimiter={]}] at ($(m.east)+(2.2,0)$)
+    {
+     1\amp 0\amp 1\amp 0\\
+    0\amp 1\amp -1\amp 0 \\
+    0\amp 0\amp 0\amp 1\\
+  } ;
+  
+  \draw[blue](m-1-3.north) -- (m-3-3.south);
+   \draw[blue](r-1-3.north) -- (r-3-3.south);
+ \end{tikzpicture}
+    </latex-image>
+</image>
+ 
+<p>
+ This time the reduced row-echelon form tells us that (<xref ref="init-colspaceB2"/> has only the trivial solution.  We conclude that the three vectors are linearly independent and 
+ 
+<me>
+    \left\{\begin{bmatrix}2\\1\\1\end{bmatrix},\begin{bmatrix}-1\\-1\\3\end{bmatrix}, \begin{bmatrix}1\\2\\-3\end{bmatrix}\right\}
+</me>
+
+ is a basis for <m>\mbox{col}(B)</m>.
+    </p>
+</exploration>
+
+
+
+
+
+<p>
+The approach we took to find a basis for <m>\mbox{col}(B)</m> in <xref ref="init-colspace"/> uses the reduced row-echelon form of <m>B</m>. It is true, however, that <em>any</em> row-echelon form of <m>B</m> could have been used in place of <m>\mbox{rref}(B)</m>.  (Why?). We generalize the steps as follows:
+</p>
+
+<algorithm xml:id="colspace">
+<statement>
+<p>
+Given a matrix <m>B</m>, a basis for <m>\mbox{col}(B)</m> can be found as follows:
+<ol>
+<li>
+      <p> Find <m>\mbox{rref}(B)</m> (or any row-echelon form <m>B'</m> of <m>B</m>.) </p>
+</li>
+<li>
+      <p> Identify the pivot columns of <m>\mbox{rref}(B)</m> (or <m>B'</m>). </p>
+</li>
+<li>
+      <p> The columns of <m>B</m> corresponding to the pivot columns of <m>\mbox{rref}(B)</m> (or <m>B'</m>) form a basis for <m>\mbox{col}(B)</m>. </p>
+</li>
+</ol>
+</p>
+</statement>
+<proof>
+    <p>  Let <m>\mathbf{b}_1,\ldots ,\mathbf{b}_n</m> be the columns of <m>B</m>, and let <m>\mathbf{b}'_1,\ldots ,\mathbf{b}'_n</m> be the columns of <m>\mbox{rref}(B)</m> (or <m>B'</m>).
+Observe that the equations
+<men>a_1\mathbf{b}_1+\ldots +a_n\mathbf{b}_n=\mathbf{0}</men>
+<men>a_1\mathbf{b}'_1+\ldots +a_n\mathbf{b}'_n=\mathbf{0}</men>
+have the same solution set.  This means that any non-trivial relation among the columns of <m>\mbox{rref}(B)</m> (or <m>B'</m>) translates into a non-trivial relation among the columns of <m>B</m>.  
+Likewise, any collection of linearly independent columns of <m>\mbox{rref}(B)</m> (or <m>B'</m>) corresponds to linearly independent columns of <m>B</m>.
+    </p> 
+  
+    <p> 
+ Now, the pivot columns of <m>\mbox{rref}(B)</m> (or <m>B'</m>) are linearly independent.  Therefore the corresponding columns of <m>B</m> are linearly independent whereas non-pivot columns can be expressed as linear combinations of the pivot columns, therefore they contribute nothing to the span and can be removed from the spanning set. 
+    </p>
+</proof>
+</algorithm>
+
+
+<p>
+The proof of <xref ref="colspace"/> shows that the number of basis elements for the column space of a matrix is equal to the number of pivot columns.  But the number of pivot columns is the same as the number of pivots in a row-echelon form, which is equal to the number of nonzero rows and the rank of the matrix.  This gives us the following important result.
+</p>
+
+
+
+<theorem xml:id="th-dimroweqdimcoleqrank">
+
+    <statement>
+        <p>
+            Let <m>A</m> be a matrix.
+
+<me>
+    \mbox{dim}\Big(\mbox{row}(A)\Big)=\mbox{rank}(A)=\mbox{dim}\Big(\mbox{col}(A)\Big).
+</me>
+        </p>
+    </statement>
+</theorem>
+
+<example xml:id="ex-basiscolspace">
+    <statement>
+        <p>
+            We will return to matrix <m>A</m> of <xref ref="ex-basisrowspace"/> and find a basis for <m>\mbox{col}(A)</m>.
+       </p>
+    </statement>
+    <explanation>
+        <p>
+            We begin by finding <m>\mbox{rref}(A)</m>.
+
+<me>
+    \begin{bmatrix}2\amp -1\amp 1\amp -4\amp 1\\1\amp 0\amp 3\amp 3\amp 0\\-2\amp 1\amp -1\amp 5\amp 2\\4\amp -1\amp 7\amp 2\amp 1\end{bmatrix}\rightsquigarrow\begin{bmatrix}1\amp 0\amp 3\amp 0\amp -9\\0\amp 1\amp 5\amp 0\amp -31\\0\amp 0\amp 0\amp 1\amp 3\\0\amp 0\amp 0\amp 0\amp 0\end{bmatrix}=\mbox{rref}(A)
+</me>
+
+Columns <m>1</m>, <m>2</m> and <m>4</m> of <m>\mbox{rref}(A)</m> contain leading <m>1's</m>.  Therefore columns <m>1</m>, <m>2</m> and <m>4</m> of <m>A</m> form a basis for <m>\mbox{col}(A)</m>.
+       </p>
+    </explanation>
+</example>
+
+
+</subsection>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<subsection xml:id="Subsection-The-Null-Space">
+    <title>The Null Space</title>
+
+<definition xml:id="def-nullspace">
+
+    <statement>
+        <p>
+            Let <m>A</m> be an <m>m\times n</m> matrix.  The <term>null space</term> of <m>A</m>, denoted by <m>\mbox{null}(A)</m>, is the set of all vectors <m>\mathbf{x}</m> in <m>\R^n</m> such that <m>A\mathbf{x}=\mathbf{0}</m>.
+        </p>
+    </statement>
+</definition>
+
+
+<p> 
+Before digging further, let us examine the notion through an example.
+</p> 
+
+<example xml:id="ex-nullintro">
+    <statement>
+        <p>
+            Find <m>\mbox{null}(A)</m> if
+
+<me>
+    A=\begin{bmatrix}3\amp -1\\-6\amp 2\end{bmatrix}.
+</me>
+       </p>
+    </statement>
+    <answer>
+        <p>
+            We need to solve the equation <m>A\mathbf{x}=\mathbf{0}</m>.  Row reduction gives us
+
+<me>
+    \begin{bmatrix}3\amp -1\\-6\amp 2\end{bmatrix}\rightsquigarrow\begin{bmatrix}1\amp -1/3\\0\amp 0\end{bmatrix}=\mbox{rref}(A).
+</me>
+
+We conclude that <m>\mathbf{x}=\begin{bmatrix}1/3\\1\end{bmatrix}t</m>.  
+Thus <m>\mbox{null}(A)</m> consists of all vectors of the form 
+<me>
+t \begin{bmatrix}1/3\\1\end{bmatrix}.
+</me>
+
+We might write
+
+<me>
+    \mbox{null}(A)=\left\{\begin{bmatrix}1/3\\1\end{bmatrix}t\right\}
+</me>
+ or
+
+<me>
+    \mbox{null}(A)=\mbox{span}\left(\begin{bmatrix}1/3\\1\end{bmatrix}\right).
+</me>
+       </p>
+    </answer>
+</example>
+
+<p>
+The approach in <xref ref="ex-nullintro"/> allows us to make an important observation. 
+Note that every scalar multiple of <m>[1/3,1]</m> is contained in <m>\mbox{null}(A)</m>.  
+This means that <m>\mbox{null}(A)</m> is closed under vector addition and scalar multiplication.  
+</p> 
+
+<p> 
+Recall that this property makes <m>\mbox{null}(A)</m> a <term>subspace</term> of <m>\R^n</m>.  
+This result was first presented as <xref ref="prob-null-A-is-subspace"/>. We now formalize it as a theorem.
+</p>
+
+
+
+
+<theorem xml:id="th-nullsubspacern">
+
+    <statement>
+        <p>
+            Let <m>A</m> be an <m>m\times n</m> matrix.  Then <m>\mbox{null}(A)</m> is a subspace of <m>\R^n</m>.
+        </p>
+    </statement>
+
+<proof>
+    <p>
+        To see that <m>\mbox{null}(A)</m> is not empty, we notice that <m>A\mathbf{0}=\mathbf{0}</m> and so <m>\mathbf{0}</m> is in <m>\mbox{null}(A)</m>. 
+        To deduce that <m>\mbox{null}(A)</m> is closed under vector addition and scalar multiplication
+         we will show that a linear combination of any two elements of <m>\mbox{null}(A)</m> is contained in <m>\mbox{null}(A)</m>.
+    </p> 
+
+    <p> 
+Suppose <m>\mathbf{x}_1</m> and <m>\mathbf{x}_2</m> are in <m>\mbox{null}(A)</m>.  Then <m>A\mathbf{x}_1=\mathbf{0}</m> and <m>A\mathbf{x}_2=\mathbf{0}</m>.  But then
+
+<me>
+    A(a_1\mathbf{x}_1+a_2\mathbf{x}_2)=a_1A\mathbf{x}_1+a_2A\mathbf{x}_2=\mathbf{0}
+</me>
+
+We conclude that <m>a_1\mathbf{x}_1+a_2\mathbf{x}_2</m> is also in <m>\mbox{null}(A)</m>.
+    </p>
+</proof>
+</theorem>
+
+
+
+<example xml:id="ex-dimnull">
+    <statement>
+        <p>
+            Find a basis for <m>\mbox{null}(A)</m>, where <m>A</m> is the matrix in <xref ref="ex-basisrowspace"/>.
+       </p>
+    </statement>
+    <solution>
+        <p>
+            Elements in the null space of <m>A</m> are solutions to the equation
+
+<me>
+    \begin{bmatrix}2\amp -1\amp 1\amp -4\amp 1\\1\amp 0\amp 3\amp 3\amp 0\\-2\amp 1\amp -1\amp 5\amp 2\\4\amp -1\amp 7\amp 2\amp 1\end{bmatrix}\mathbf{x}=\mathbf{0}
+</me>
+
+Row reduction yields <m>\mbox{rref}(A)</m>
+
+<me>
+    \begin{bmatrix}2\amp -1\amp 1\amp -4\amp 1\\1\amp 0\amp 3\amp 3\amp 0\\-2\amp 1\amp -1\amp 5\amp 2\\4\amp -1\amp 7\amp 2\amp 1\end{bmatrix}\rightsquigarrow\begin{bmatrix}1\amp 0\amp 3\amp 0\amp -9\\0\amp 1\amp 5\amp 0\amp -31\\0\amp 0\amp 0\amp 1\amp 3\\0\amp 0\amp 0\amp 0\amp 0\end{bmatrix}
+</me>
+
+Therefore, elements of <m>\mbox{null}(A)</m> are of the form
+
+<me>
+    \mathbf{x}=\begin{bmatrix}9t-3s\\31t-5s\\s\\-3t\\t\end{bmatrix}=\begin{bmatrix}-3\\-5\\1\\0\\0\end{bmatrix}s+\begin{bmatrix}9\\31\\0\\-3\\1\end{bmatrix}t
+</me>
+
+Thus
+
+<me>
+    \mbox{null}(A)=\mbox{span}\left( \begin{bmatrix}-3\\-5\\1\\0\\0\end{bmatrix}, \begin{bmatrix}9\\31\\0\\-3\\1\end{bmatrix}\right)
+</me>
+
+
+Now we need to find a basis for <m>\mbox{null}(A)</m> we need to find linearly independent vectors that span <m>\mbox{null}(A)</m>.  Take a closer look at the vectors
+
+<me>
+    \begin{bmatrix}-3\\-5\\{\color{red}\fbox{<m>1</m>}}\\0\\{\color{blue}\fbox{<m>0</m>}}\end{bmatrix}, \begin{bmatrix}9\\31\\{\color{red}\fbox{<m>0</m>}}\\-3\\{\color{blue}\fbox{<m>1</m>}}\end{bmatrix}
+</me>
+
+Because of the locations of <m>1's</m> and <m>0's</m>, it is clear that one vector is not a scalar multiple of the other.  Therefore the two vectors are linearly independent.  We conclude that 
+
+<me>
+    \left\{\begin{bmatrix}-3\\-5\\1\\0\\0\end{bmatrix}, \begin{bmatrix}9\\31\\0\\-3\\1\end{bmatrix}\right\}
+</me>
+
+is a basis of <m>\mbox{null}(A)</m>, and <m>\mbox{dim}\Big(\mbox{null}(A)\Big)=2</m>.
+       </p>
+    </solution>
+</example>
+
+
+<p>
+It is not a coincidence that the steps we used in <xref ref="ex-dimnull"/> produced linearly independent vectors, and it is worth while to try to understand why this procedure will always produce linearly independent vectors.
+Take a closer look at the elements of the null space:
+
+<me>
+    \mathbf{x}=\begin{bmatrix}9t-3s\\31t-5s\\{\color{red}\fbox{<m>s</m>}}\\-3t\\{\color{blue}\fbox{<m>t</m>}}\end{bmatrix}=\begin{bmatrix}-3\\-5\\{\color{red}\fbox{<m>1</m>}}\\0\\{\color{blue}\fbox{<m>0</m>}}\end{bmatrix}s+\begin{bmatrix}9\\31\\{\color{red}\fbox{<m>0</m>}}\\-3\\{\color{blue}\fbox{<m>1</m>}}\end{bmatrix}t
+</me>
+
+The parameter <m>s</m> in the third component of <m>\mathbf{x}</m> produces a <m>1</m> in the third component of the first vector and a <m>0</m> in the third component of the second vector, while parameter <m>t</m> in the fifth component of <m>\mathbf{x}</m> produces a <m>1</m> in the fifth component of the second vector and a <m>0</m> in the fifth component of the first vector. This makes it clear that the two vectors are linearly independent.  
+</p>
+
+<p>
+This pattern will hold for any number of parameters, each parameter producing a <m>1</m> in exactly one vector and <m>0's</m> in the corresponding components of the other vectors.
+
+
+<me>
+    \begin{bmatrix}\vdots \\t_1\\\vdots\\t_2\\\vdots\\t_3\\\vdots\\t_n\\\vdots \end{bmatrix}=\begin{bmatrix}\vdots \\1\\\vdots\\0\\\vdots\\0\\\vdots\\0\\\vdots \end{bmatrix}t_1+\ldots +\begin{bmatrix}\vdots \\0\\\vdots\\1\\\vdots\\0\\\vdots\\0\\\vdots \end{bmatrix}t_2+\ldots+\begin{bmatrix}\vdots \\0\\\vdots\\0\\\vdots\\1\\\vdots\\0\\\vdots \end{bmatrix}t_3+\ldots+\begin{bmatrix}\vdots \\0\\\vdots\\0\\\vdots\\0\\\vdots\\1\\\vdots \end{bmatrix}t_n
+</me>
+
+Therefore, vectors obtained in this way will always be linearly independent.
+</p>
+
+
+</subsection>
+
+
+
+
+
+
+
+<subsection xml:id="Subsection-Rank-and-Nullity-Theorem">
+    <title>Rank and Nullity Theorem</title>
+
+<definition xml:id="def-matrixnullity">
+
+    <statement>
+        <p>
+            Let <m>A</m> be a matrix.  The dimension of the null space of <m>A</m> is called the <term>nullity</term> of <m>A</m>.
+
+<me>
+    \mbox{dim}\Big(\mbox{null}(A)\Big)=\mbox{nullity}(A).
+</me>
+        </p>
+    </statement>
+</definition>
+
+<p>
+We know that the dimension of the row space and the dimension of the column space of a matrix are the same and are equal to the rank of the matrix (or the number of nonzero rows in any row-echelon form of the matrix).
+</p>
+
+<p>
+As we observed in <xref ref="ex-dimnull"/>, the dimension of the null space of a matrix is equal to the number of free variables in the solution vector of the homogeneous system associated with the matrix.  Since the number of pivots and the number of free variables add up to the number of columns in a matrix we have the following significant result.
+</p>
+
+
+<theorem xml:id="th-matrixranknullity">
+
+    <statement>
+        <p>
+            Let <m>A</m> be an <m>m\times n</m> matrix.  Then 
+
+<me>
+    \mbox{rank}(A)+\mbox{nullity}(A)=n
+</me>
+        </p>
+    </statement>
+</theorem>
+
+<p>
+We will see the geometric implications of this theorem when we study linear transformations.
+</p>
+</subsection>
+
+
+
+
+<subsection xml:id="Subsection-Subspaces-Associated-with-Matrix-Transformations">
+    <title>Subspaces Associated with Matrix Transformations</title>
+
+    <introduction>
+    <p>
+        Recall that an <m>m \times n</m> matrix <m>A</m> defines a linear transformation <m>T:\R^n\to\R^m</m> by the rule <m>T(\mathbf{x})=A\mathbf{x}</m>.  
+        The subspaces associated with the matrix <m>A</m> have interesting interpretations in terms of the linear transformation <m>T</m>.
+    </p>
+    </introduction>
+
+<subsubsection xml:id="Subsubsection-The-Image-of-a-Matrix-Transformation">
+    <title>The Image of a Matrix Transformation</title>
+
+    <p>
+        In this section we use <m>U</m>, <m>V</m> and <m>W</m> to denote finite-dimensional vector spaces, 
+        such as subspaces of <m>\R^n</m>. 
+        </p>
+
+<definition xml:id="def-imageofT">
+
+    <statement>
+        <p>
+            Let <m>T:V\rightarrow W</m> be a linear transformation.  The <term>image</term> of <m>T</m>, denoted by <m>\mbox{im}(T)</m>, is the set
+
+<me>
+    \mbox{im}(T)=\{T(\mathbf{v}):\mathbf{v}\in V\}.
+</me>
+
+In other words, the image of <m>T</m> consists of individual images of all vectors of <m>V</m>.
+        </p>
+    </statement>
+</definition>
+
+<example xml:id="ex-image1">
+    <statement>
+        <p>
+            Consider the linear transformation <m>T:\R^3\rightarrow \R^2</m> with standard matrix
+
+<me>
+    A=\begin{bmatrix}1\amp 2\amp 3\\2\amp 4\amp 6\end{bmatrix}.
+</me>
+
+
+<ol>
+<li xml:id="item-impart1">
+  <p> 
+Find <m>\mbox{im}(T)</m>. </p>
+</li>
+<li xml:id="item-impart2">
+  <p> 
+Illustrate the action of <m>T</m> with a sketch. </p>
+</li>
+</ol>
+
+       </p>
+    </statement>
+    <answer>
+        <p>
+            <xref ref="item-impart1"/>: Let <m>\mathbf{v}=\begin{bmatrix}a\\b\\c\end{bmatrix}</m> then
+
+
+<me>
+    T(\mathbf{v})=A\mathbf{v}=\begin{bmatrix}1\amp 2\amp 3\\2\amp 4\amp 6\end{bmatrix}\begin{bmatrix}a\\b\\c\end{bmatrix}=a\begin{bmatrix}1\\2\end{bmatrix}+b\begin{bmatrix}2\\4\end{bmatrix}+c\begin{bmatrix}3\\6\end{bmatrix}.
+</me>
+
+
+Thus, every element of the image can be written as a linear combination of the columns of <m>A</m>.  We conclude that 
+
+<me>
+    \mbox{im}(T)=\mbox{span}\left(\begin{bmatrix}1\\2\end{bmatrix}, \begin{bmatrix}2\\4\end{bmatrix}, \begin{bmatrix}3\\6\end{bmatrix}\right)=\mbox{col}(A).
+</me>
+
+
+Every column of <m>A</m> is a scalar multiple of <m>[1,2]</m>.  Thus,
+
+
+<me>
+    \mbox{im}(T)=\mbox{span}\left(\begin{bmatrix}1\\2\end{bmatrix}, \begin{bmatrix}2\\4\end{bmatrix}, \begin{bmatrix}3\\6\end{bmatrix}\right)=\mbox{span}\left(\begin{bmatrix}1\\2\end{bmatrix}\right).
+</me>
+
+
+The image of <m>T</m> is a line in <m>\R^2</m> determined by the vector <m>[1,2]</m>.
+</p>
+
+<p>
+<xref ref="item-impart2"/>: The action of <m>T</m> can be illustrated with a sketch.
+</p>
+
+<image width="65%">
+   <shortdescription>Image of T graphed</shortdescription>
+    <latex-image>
+      \begin{tikzpicture}[scale=.7]
+
+  \draw[-\gt ] (0,0)--(3,0);
+  \draw[-\gt ] (0,0)--(0,3);
+  \draw[-\gt ] (0,0)--(-1.5,-1);
+
+  
+  \draw[\lt -\gt ] (4,0)--(8,0);
+  \draw[\lt -\gt ] (5,-1)--(5,3);
+  \draw[line width=2pt,blue](4.5,-1)--(6.5,3);
+  \node[] at (3.25, 2)   (b) {\(T\)};
+  \draw [-\gt ,line width=1pt,-stealth]  (2,1) to[out=45] (4.5, 1);
+ \node[blue] at (7, 2.3)   (b) {\(\mbox{im}(T)\)};
+
+    \end{tikzpicture}
+    </latex-image>
+</image>
+
+    </answer>
+</example>
+
+<p>
+In <xref ref="ex-image1"/> we observed that the image of the linear transformation was equal to the column space of its standard matrix.  In general, it is easy to see that if <m>T:\R^n\rightarrow \R^m</m> is a linear transformation with standard matrix <m>A</m> then the following relationship holds:
+
+<me>
+    \mbox{im}(T)=\mbox{col}(A).
+</me>
+
+In addition, by <xref ref="th-dimroweqdimcoleqrank"/>, we know that
+
+<me>
+    \mbox{dim}(\mbox{im}(T))=\mbox{dim}(\mbox{col}(A))=\mbox{rank}(A).
+</me>
+</p>
+
+
+
+<example xml:id="ex-image2">
+    <statement>
+        <p>
+            Let <m>T:\R^5\rightarrow \R^4</m> be a linear transformation with standard matrix 
+<me>
+    A=\begin{bmatrix}1 \amp  2 \amp  2 \amp -1 \amp  0\\-1 \amp  3 \amp  1 \amp  0 \amp  -1\\3 \amp  0 \amp  0 \amp  3 \amp  6\\ 1 \amp  -1 \amp  1 \amp  -2 \amp  -1\end{bmatrix}.
+</me>
+
+Find <m>\mbox{im}(T)</m> and <m>\mbox{dim}(\mbox{im}(T))</m>.
+       </p>
+    </statement>
+    <answer>
+        <p>
+            As in <xref ref="ex-image1"/>, the image of <m>T</m> is given by
+
+<me>
+    \mbox{im}(T)=\mbox{span}\left(\begin{bmatrix}1\\-1\\3\\1\end{bmatrix}, \begin{bmatrix}2\\3\\0\\-1\end{bmatrix}, \begin{bmatrix}2\\1\\0\\1\end{bmatrix}, \begin{bmatrix}-1\\0\\3\\-2\end{bmatrix}, \begin{bmatrix}0\\-1\\6\\-1\end{bmatrix}\right)=\mbox{col}(A).
+</me>
+
+This time it is harder to detect the vectors that can be eliminated from the spanning set without affecting the span.  We have to rely on the reduced row-echelon form of <m>A</m>.
+
+
+<me>
+    \begin{bmatrix}1 \amp  2 \amp  2 \amp -1 \amp  0\\-1 \amp  3 \amp  1 \amp  0 \amp  -1\\3 \amp  0 \amp  0 \amp  3 \amp  6\\ 1 \amp  -1 \amp  1 \amp  -2 \amp  -1\end{bmatrix}  \rightsquigarrow \begin{bmatrix} 1 \amp  0 \amp  0 \amp  1 \amp  2\\0 \amp  1 \amp  0 \amp  1 \amp  1\\0 \amp  0 \amp  1 \amp  -2 \amp  -2\\ 0 \amp  0 \amp  0 \amp  0 \amp  0 \end{bmatrix}.
+</me>
+
+
+We can see that <m>\mbox{rank}(A)=3</m>, so <m>\mbox{dim}(\mbox{im}(T))=3</m>.  
+
+To identify vectors that span <m>\mbox{im}(T)</m>, we turn to <xref ref="colspace"/>.  We identify the first three columns as pivot columns.  These columns are linearly independent and span <m>\mbox{col}(A)</m>.  Therefore,
+
+<me>
+    \mbox{im}(T)=\mbox{col}(A)=\mbox{span}\left(\begin{bmatrix}1\\-1\\3\\1\end{bmatrix}, \begin{bmatrix}2\\3\\0\\-1\end{bmatrix}, \begin{bmatrix}2\\1\\0\\1\end{bmatrix}\right)
+</me>
+       </p>
+    </answer>
+</example>
+
+<p>
+By <xref ref="th-span-is-subspace"/> and <xref ref="def-colspace"/>, we know that for an <m>m\times n</m> matrix <m>A</m>, <m>\mbox{col}(A)</m> is a subspace of <m>\R^m</m>.  However, when vector spaces other than <m>\R^m</m> are involved, it is not yet clear that <m>\mbox{im}(T)</m> is a subspace of the codomain. The following theorem resolves this issue.
+</p>
+
+
+<theorem xml:id="th-imagesubspace">
+
+    <statement>
+        <p>
+            Let <m>T:V\rightarrow W</m> be a linear transformation.  Then <m>\mbox{im}(T)</m> is a subspace of <m>W</m>.
+        </p>
+    </statement>
+
+<proof>
+    <p>
+To show that <m>\mbox{im}(T)</m> is a subspace, we need to show that <m>\mbox{im}(T)</m> is non-empty and is closed under addition and scalar multiplication.
+
+First, <m>\mathbf{0}=T\mathbf{0}</m> is in <m>\mbox{im}(T)</m>.
+
+Suppose <m>\mathbf{w}_1</m> and <m>\mathbf{w}_2</m> are in <m>\mbox{im}(T)</m>.  Then there are vectors <m>\mathbf{v}_1</m> and <m>\mathbf{v}_2</m> in <m>V</m> such that <m>T(\mathbf{v}_1)=\mathbf{w}_1</m> and <m>T(\mathbf{v}_2)=\mathbf{w}_2</m>.  Then
+
+<me>
+    \mathbf{w}_1+\mathbf{w}_2=T(\mathbf{v}_1)+T(\mathbf{v}_2)=T(\mathbf{v}_1+\mathbf{v}_2).
+</me>
+
+This shows that <m>\mathbf{w}_1+\mathbf{w}_2</m> is in <m>\mbox{im}(T)</m>.
+
+For any scalar <m>a</m>, we have:
+
+<me>
+    a\mathbf{w}_1=aT(\mathbf{v}_1)=T(a\mathbf{v}_1).
+</me>
+
+This shows that <m>a\mathbf{w}_1</m> is in <m>\mbox{im}(T)</m>.
+
+    </p>
+</proof>
+</theorem>
+
+<p>
+We can now define the rank of a linear transformation.
+</p>
+
+
+<definition xml:id="def-rankofT">
+
+    <statement>
+        <p>
+            The <term>rank</term> of a linear transformation <m>T:V\rightarrow W</m>, is the dimension of the image of <m>T</m>.
+
+<me>
+    \mbox{rank}(T)=\mbox{dim}(\mbox{im}(T)).
+</me>
+        </p>
+    </statement>
+</definition>
+
+<p>
+This definition gives us the following relationship between the rank of a linear transformation <m>T:\R^n\rightarrow\R^m</m> and the rank of the standard matrix <m>A</m> associated with it.
+</p>
+
+<identity xml:id="form-rankTrankA">
+
+    <statement>
+        <p>
+            <me>
+    \mbox{rank}(A) = \mbox{dim}(\mbox{col}(A))=\mbox{dim}(\mbox{im}(T))=\mbox{rank}(T).
+</me>
+        </p>
+    </statement>
+</identity>
+</subsubsection>
+
+
+
+<subsubsection xml:id="Subsubsection-The-Kernel-of-a-Matrix-Transformation">
+    <title>The Kernel of a Linear Transformation</title>
+
+    <p>
+    Exactly as in the preceding section, we use <m>U</m>, <m>V</m> and <m>W</m> to denote finite-dimensional vector spaces, such as subspaces of <m>\R^n</m>. 
+    </p>
+
+
+<definition xml:id="def-kernel">
+
+    <statement>
+        <p>
+            Let <m>T:V\rightarrow W</m> be a linear transformation.  The <term>kernel</term> of <m>T</m>, denoted by <m>\mbox{ker}(T)</m>, is the set
+
+<me>
+    \mbox{ker}(T)=\{\mathbf{v}:T(\mathbf{v})=\mathbf{0}\}.
+</me>
+
+In other words, the kernel of <m>T</m> consists of all vectors of <m>V</m> that map to <m>\mathbf{0}</m> in <m>W</m>.
+        </p>
+    </statement>
+</definition>
+
+<p>
+It is important to pay attention to the locations of the kernel and the image.  We already proved that <m>\mbox{im}(T)</m> is a subspace of the codomain.  In contrast, <m>\mbox{ker}(T)</m> is located in the domain.  (We will prove shortly that it is a subspace of the domain.)
+</p>
+
+
+
+<image width="65%">
+   <shortdescription>Kernel diagram shown</shortdescription>
+    <latex-image>
+      \begin{tikzpicture}
+\fill[gray!40] (0,0) ellipse (1.5cm and 2.5cm);
+\fill[blue!40!white] (0,0) ellipse (1cm and 1cm)node[black]{\(\mbox{ker}(T)\)};
+
+\draw[blue] (3.5,2) rectangle (6.5,-2);
+\node[] at (6.1, 1.8)   (b) {\(W\)};
+\fill[gray!40] (5,0) ellipse (0.8cm and 1.2cm);
+\fill[blue!40!white] (5,0) circle (0.1cm);
+
+\draw[gray!40,line width=1pt](0.3,2.4)--(5,1.1);
+\node[] at (-0.2, 2)   (b) {\(V\)};
+\node[] at (5, 0.5)   (b) {\(\mbox{im}(T)\)};
+\draw[gray!40, line width=1pt](0.3,-2.4)--(5,-1.1);
+
+\draw[blue!40!white, line width=1pt](0.2,.9)--(5,0);
+\draw[blue!40!white, line width=1pt](0.2,-0.9)--(5,0)node[below, right][black]{\(\mathbf{0}\)};
+
+    \end{tikzpicture}
+    </latex-image>
+</image>
+
+
+
+<example xml:id="ex-kernel">
+    <statement>
+        <p>
+            Let <m>T:\R^5\rightarrow \R^4</m> be a linear transformation with standard matrix 
+<me>
+    A=\begin{bmatrix}1 \amp  2 \amp  2 \amp -1 \amp  0\\-1 \amp  3 \amp  1 \amp  0 \amp  -1\\3 \amp  0 \amp  0 \amp  3 \amp  6\\ 1 \amp  -1 \amp  1 \amp  -2 \amp  -1\end{bmatrix}. 
+</me>
+
+<ol>
+<li xml:id="item-kernelT">
+  <p> 
+Find <m>\mbox{ker}(T)</m>. </p>
+</li>
+<li xml:id="item-dimkernelT">
+  <p>
+Is <m>\mbox{ker}(T)</m> a subspace of <m>\R^5</m>?  If so, find <m>\mbox{dim}(\mbox{ker}(T))</m>. </p>
+</li>
+</ol>
+       </p>
+    </statement>
+
+    <answer>
+        <p>
+            <xref ref="item-kernelT"/> To find the kernel of <m>T</m>, we need to find all vectors of <m>\R^5</m> that map to <m>\mathbf{0}</m> in <m>\R^4</m>.  This amounts to solving the equation <m>A\mathbf{x}=\mathbf{0}</m>.
+
+Gauss-Jordan elimination yields:
+
+
+<me>
+    \begin{bmatrix}1 \amp  2 \amp  2 \amp -1 \amp  0\\-1 \amp  3 \amp  1 \amp  0 \amp  -1\\3 \amp  0 \amp  0 \amp  3 \amp  6\\ 1 \amp  -1 \amp  1 \amp  -2 \amp  -1\end{bmatrix}  \rightsquigarrow \begin{bmatrix} 1 \amp  0 \amp  0 \amp  1 \amp  2\\0 \amp  1 \amp  0 \amp  1 \amp  1\\0 \amp  0 \amp  1 \amp  -2 \amp  -2\\ 0 \amp  0 \amp  0 \amp  0 \amp  0 \end{bmatrix}.
+</me>
+
+
+Thus, the kernel of <m>T</m> consists of all elements of the form:
+
+<me>
+    \begin{bmatrix}-1\\-1\\2\\1\\0\end{bmatrix}s+\begin{bmatrix}-2\\-1\\2\\0\\1\end{bmatrix}t.
+</me>
+
+
+We conclude that 
+
+<me>
+    \mbox{ker}(T)=\mbox{span}\left(\begin{bmatrix}-1\\-1\\2\\1\\0\end{bmatrix}, \begin{bmatrix}-2\\-1\\2\\0\\1\end{bmatrix}\right).
+</me>
+
+
+<xref ref="item-dimkernelT"/>:  Since <m>\mbox{ker}(T)</m> is the span of two vectors of <m>\R^5</m>, we know that <m>\mbox{ker}(T)</m> is a subspace of <m>\R^5</m>. (See <xref ref="th-span-is-subspace"/>.)  Observe that the two vectors in the spanning set are linearly independent. 
+(How can we see this without performing computations?)  Therefore <m>\mbox{dim}(\mbox{ker}(T))=2</m>.
+       </p>
+    </answer>
+</example>
+
+<p>
+Recall that the <term>null space</term> of an <m>m \times n</m> matrix <m>A</m> is defined to be set of all solutions to the homogeneous equation <m>A\mathbf{x}=\mathbf{0}</m>. This means that  if <m>T:\R^n\rightarrow \R^m</m> is a linear transformation with standard matrix <m>A</m> then
+
+<me>
+    \mbox{ker}(T)=\mbox{null}(A).
+</me>
+
+
+We know that <m>\mbox{null}(A)</m> of an <m>m\times n</m> matrix is a subspace of <m>\R^n</m>. (See <xref ref="th-nullsubspacern"/>.)  We conclude this section by showing that even when vector spaces other than <m>\R^n</m> are involved, the kernel of a linear transformation is a subspace of the domain of the transformation.
+</p>
+
+<theorem xml:id="th-kersubspace">
+
+    <statement>
+        <p>
+            Let <m>T:V\rightarrow W</m> be a linear transformation, then <m>\mbox{ker}(T)</m> is a subspace of <m>V</m>.
+        </p>
+    </statement>
+
+<proof>
+    <p>
+To show that <m>\mbox{ker}(T)</m> is a subspace, we need to show that <m>\mbox{ker}(T)</m> is non-empty and is closed under addition and scalar multiplication.
+
+Since <m>T(\mathbf{0})=\mathbf{0}</m>, we have that <m>\mathbf{0}</m> is in <m>\mbox{ker}(T)</m>. 
+
+Suppose that <m>\mathbf{v}_1</m> and <m>\mathbf{v}_2</m> are in <m>\mbox{ker}(T)</m>.  Then,
+
+<me>
+    T(\mathbf{v}_1+\mathbf{v}_2)=T(\mathbf{v}_1)+T(\mathbf{v}_2)=\mathbf{0}+\mathbf{0}=\mathbf{0}.
+</me>
+
+This shows that <m>\mathbf{v}_1+\mathbf{v}_2</m> is in <m>\mbox{ker}(T)</m>.
+
+For any scalar <m>a</m> we have:
+
+<me>
+    T(a\mathbf{v}_1)=aT(\mathbf{v}_1)=a\mathbf{0}=\mathbf{0}.
+</me>
+
+This shows that <m>a\mathbf{v}_1</m> is in <m>\mbox{ker}(T)</m>.
+
+    </p>
+</proof>
+</theorem>
+
+
+<definition xml:id="def-nullityT">
+
+    <statement>
+        <p>
+            The <term>nullity</term> of a linear transformation <m>T:V\rightarrow W</m>, is the dimension of the kernel of <m>T</m>.
+
+<me>
+    \mbox{nullity}(T)=\mbox{dim}(\mbox{ker}(T)).
+</me>
+        </p>
+    </statement>
+</definition>
+
+<p>
+This definition gives us the following relationship between nullity of a linear transformation <m>T:\R^n\rightarrow\R^m</m> and the nullity of the standard matrix <m>A</m> associated with it.
+</p>
+
+
+<identity xml:id="form-nullTnullA">
+
+    <statement>
+        <p>
+            <me>
+    \mbox{nullity}(A) = \mbox{dim}(\mbox{null}(A))=\mbox{dim}(\mbox{ker}(T))=\mbox{nullity}(T).
+</me>
+        </p>
+    </statement>
+</identity>
+</subsubsection>
+
+
+
+
+<subsubsection xml:id="Subsubsection-Rank-Nullity-Theorem-for-Linear-Transformations">
+    <title>Rank-Nullity Theorem for Linear Transformations</title>
+
+<p>
+In <xref ref="ex-image2"/> and <xref ref="ex-kernel"/>, we found the image and the kernel of the linear transformation <m>T:\R^5\rightarrow \R^4</m> with standard matrix
+
+
+<me>
+    A=\begin{bmatrix}1 \amp  2 \amp  2 \amp -1 \amp  0\\-1 \amp  3 \amp  1 \amp  0 \amp  -1\\3 \amp  0 \amp  0 \amp  3 \amp  6\\ 1 \amp  -1 \amp  1 \amp  -2 \amp  -1\end{bmatrix}.
+</me>
+
+
+We also found that
+
+<me>
+    \mbox{rank}(T)=\mbox{dim}(\mbox{im}(T))=\mbox{dim}(\mbox{col}(A))=\mbox{rank}(A)=3
+</me>
+
+and
+
+<me>
+    \mbox{nullity}(T)=\mbox{dim}(\mbox{ker}(T))=\mbox{dim}(\mbox{null}(A))=\mbox{nullity}(A)=2.
+</me>
+
+
+Because of the Rank-Nullity Theorem for matrices (<xref ref="th-matrixranknullity"/>), it is not surprising that 
+
+<me>
+    \mbox{rank}(T)+\mbox{nullity}(T)=3+2=5=\mbox{dim}(\R^5).
+</me>
+
+The following theorem is a generalization of this result.
+</p>
+
+<theorem xml:id="th-ranknullityforT">
+
+    <statement>
+        <p>
+            Let <m>T:V\rightarrow W</m> be a linear transformation.  Then
+
+<me>
+    \mbox{rank}(T)+\mbox{nullity}(T)=\mbox{dim}(V).
+</me>
+        </p>
+    </statement>
+
+
+<proof>
+    <p>
+By <xref ref="th-imagesubspace"/>, <m>\mbox{im}(T)</m> is a subspace of <m>W</m>.  There exists a basis for <m>\mbox{im}(T)</m> of the form <m>\{T(\mathbf{v}_1), \ldots,T(\mathbf{v}_r)\}</m>.  By <xref ref="th-kersubspace"/>, <m>\mbox{ker}(T)</m> is a subspace of <m>V</m>.  Let <m>\{\mathbf{u}_1,\ldots,\mathbf{u}_s\}</m> be a basis for <m>\mbox{ker}(T)</m>. 
+
+We will show that <m>\{\mathbf{u}_1,\ldots ,\mathbf{u}_s, \mathbf{v}_1,\ldots ,\mathbf{v}_r\}</m> is a basis for <m>V</m>.
+
+For any vector <m>\mathbf{v}</m> in <m>V</m>, we have:
+
+<me>
+    T(\mathbf{v})=c_1T(\mathbf{v}_1)+\ldots +c_rT(\mathbf{v}_r)
+</me>
+
+for some scalars <m>c_i</m> <m>(1\leq i\leq r)</m>.
+Thus, 
+
+<me>
+    T(\mathbf{v})-\big(c_1T(\mathbf{v}_1)+\ldots +c_rT(\mathbf{v}_r)\big)=\mathbf{0}.
+</me>
+
+By linearity,
+
+<me>
+    T((\mathbf{v}-(c_1\mathbf{v}_1+\ldots +c_r\mathbf{v}_r))=\mathbf{0}.
+</me>
+
+Therefore <m>\mathbf{v}-(c_1\mathbf{v}_1+\ldots +c_r\mathbf{v}_r)</m> is in <m>\mbox{ker}(T)</m>.
+
+Hence there are scalars <m>a_i</m> <m>(1\leq i\leq s)</m> such that
+
+<me>
+    \mathbf{v}-(c_1\mathbf{v}_1+\ldots +c_r\mathbf{v}_r)=a_1\mathbf{u}_1+\ldots +a_s\mathbf{u}_s.
+</me>
+
+Thus,
+
+<me>
+    \mathbf{v}=(c_1\mathbf{v}_1+\ldots +c_r\mathbf{v}_r)+(a_1\mathbf{u}_1+\ldots +a_s\mathbf{u}_s).
+</me>
+
+
+We conclude that 
+
+<me>
+    V=\mbox{span}(\mathbf{u}_1,\ldots ,\mathbf{u}_s, \mathbf{v}_1,\ldots ,\mathbf{v}_r).
+</me>
+</p>
+
+<p>
+Now we need to show that <m>\{\mathbf{u}_1,\ldots ,\mathbf{u}_s, \mathbf{v}_1,\ldots ,\mathbf{v}_r\}</m> is linearly independent.
+
+Suppose 
+<men xml:id="kerplusimproof">
+ c_1\mathbf{v}_1+\ldots +c_r\mathbf{v}_r+a_1\mathbf{u}_1+\ldots +a_s\mathbf{u}_s=\mathbf{0}.
+</men>
+
+Applying <m>T</m> to both sides, we get
+
+<me>
+    T(c_1\mathbf{v}_1+\ldots +c_r\mathbf{v}_r+a_1\mathbf{u}_1+\ldots +a_s\mathbf{u}_s)=T(\mathbf{0}),
+</me>
+
+
+<me>
+    c_1T(\mathbf{v}_1)+\ldots +c_rT(\mathbf{v}_r)+a_1T(\mathbf{u}_1)+\ldots +a_sT(\mathbf{u}_s)=\mathbf{0}.
+</me>
+
+
+But <m>T(\mathbf{u}_i)=\mathbf{0}</m> for <m>1\leq i\leq s</m>, thus
+
+<me>
+    c_1T(\mathbf{v}_1)+\ldots +c_rT(\mathbf{v}_r)=\mathbf{0}.
+</me>
+
+Since <m>\{T(\mathbf{v}_1),\ldots ,T(\mathbf{v}_r)\}</m> is linearly independent, it follows that each <m>c_i=0</m>.  
+
+But then <xref ref="kerplusimproof"/> implies that <m>a_1\mathbf{u}_1+\ldots +a_s\mathbf{u}_s=\mathbf{0}</m>.  Because <m>\{\mathbf{u}_1, \ldots ,\mathbf{u}_s\}</m> is linearly independent, it follows that each <m>a_i=0</m>.  
+
+We conclude that <m>\{\mathbf{u}_1,\ldots ,\mathbf{u}_s,\mathbf{v}_1,\ldots ,\mathbf{v}_r\}</m> is a basis for <m>V</m>.  Thus,
+
+
+<me>
+    \mbox{dim}(V)=r+s=\mbox{dim}(\mbox{im}(T))+\mbox{dim}(\mbox{ker}(T))=\mbox{rank}(T)+\mbox{nullity}(T).
+</me>
+    </p>
+</proof>
+</theorem>
+</subsubsection>
+
+</subsection>
+
+
+<exercises>
+
+<exercisegroup>
+<introduction>
+    <p>
+In the following four problems, the matrix <m>A</m> given below is studied.
+<men xml:id="MatA">
+    A=\begin{bmatrix}2\amp 0\amp 2\amp 4\\1\amp 3\amp -2\amp -1\\-1\amp -2\amp 1\amp 0\end{bmatrix}.
+</men>
+    </p>
+</introduction>
+
+
+
+<exercise xml:id="colrowmatrixA1">
+    <statement>
+        <p>
+            Let
+Find <m>\mbox{rref}(A)</m>.
+        </p>
+    </statement>
+
+<answer>
+    <p>
+        <me>
+            \mbox{rref}(A)=\begin{bmatrix}1\amp 0\amp 1\amp 2\\0\amp 1\amp -1\amp -1\\0\amp 0\amp 0\amp 0\end{bmatrix}.
+        </me>
+    </p>
+</answer>
+</exercise>
+
+
+<exercise xml:id="prob-colrowmatrixA2">
+    <statement>
+        <p>
+Compute <m>\text{rank}(A)</m>, <m>\text{dim}(\text{row}(A))</m> and <m> \text{dim}(\text{col}(A)) </m>
+        </p>
+    </statement>
+
+<answer>
+    <p>
+        <me>
+            \mbox{rank}(A)=\mbox{dim}(\mbox{row}(A))=\mbox{dim}(\mbox{col}(A))=2.
+        </me>
+    </p>
+</answer>
+</exercise>
+
+<exercise xml:id="prob-colrowmatrixA3">
+    <statement>
+        <p>
+            Use <m>\mbox{rref}(A)</m> and the procedure outlined in <xref ref="ex-basisrowspace"/> to find a basis for <m>\mbox{row}(A)</m>.
+        </p>
+    </statement>
+
+<answer>
+    <p>
+A basis for <m>\mbox{row}(A)</m> is 
+<me>
+\left\{\begin{bmatrix}1\amp  0\amp  1 \amp  2\end{bmatrix},\begin{bmatrix}0 \amp  1\amp  -1 \amp -1\end{bmatrix} \right\}.
+</me>
+</p>
+</answer>
+</exercise>
+
+
+
+<exercise xml:id="prob-colrowmatrixA4">
+    <statement>
+        <p>
+            Use <xref ref="colspace"/> to find a basis for <m>\mbox{col}(A)</m>.
+        </p>
+    </statement>
+
+<answer>
+<p>
+A basis for <m>\mbox{col}(A) </m> is 
+<me>
+\left\{ \begin{bmatrix}2\\1\\-1\end{bmatrix}, \begin{bmatrix}0\\3\\-2\end{bmatrix}\right\}.
+</me>
+</p>
+</answer>
+</exercise>
+</exercisegroup>
+
+
+<exercisegroup>
+<introduction>
+    <p>
+In the following four problems, we matrix in question is
+<men xml:id="MatB">
+ B=\begin{bmatrix}1\amp 2\amp 3\\-1\amp 1\amp 3\\2\amp 0\amp -2\\1\amp -2\amp -5\\0\amp 1\amp 2\end{bmatrix}.
+</men>
+    </p>
+</introduction>
+
+<exercise xml:id="colrowmatrixB1">
+<statement>
+    <p>
+Find <m>\mbox{rref}(B)</m>.
+    </p>
+</statement>
+
+<answer> 
+<p>
+<me>
+    \mbox{rref}(B)=\begin{bmatrix}1\amp 0\amp -1\\0\amp 1\amp 2\\0\amp 0\amp 0\\0\amp 0\amp 0\\0\amp 0\amp 0\end{bmatrix}.
+</me>
+</p>
+</answer>
+</exercise>
+
+
+
+<exercise xml:id="prob-colrowmatrixB2">
+    <statement>
+        <p>
+        Find
+            <m>
+                \mbox{rank}(B)=\mbox{dim}(\mbox{row}(B))=\mbox{dim}(\mbox{col}(B)).
+</m>
+        </p>
+    </statement>
+
+<answer>
+    <p>
+The answer is <m>  \mbox{rank}(B)=\mbox{dim}(\mbox{row}(B))=\mbox{dim}(\mbox{col}(B)) = 2 </m>.
+    </p>
+</answer>
+</exercise>
+
+
+
+
+<exercise xml:id="prob-colrowmatrixB3">
+    <statement>
+        <p>
+            Use <m>\mbox{rref}(B)</m> and the procedure outlined in <xref ref="ex-basisrowspace"/> to find a basis for <m>\mbox{row}(B)</m>.
+        </p>
+    </statement>
+
+<answer>
+<p>
+A basis for <m>\mbox{row}(B)</m> is 
+<me>
+\left\{\begin{bmatrix}1\amp  0\amp  -1\end{bmatrix},\begin{bmatrix}0 \amp  1\amp  2\end{bmatrix} \right\}.
+</me>
+        </p>
+    </answer>
+</exercise>
+
+
+
+<exercise xml:id="prob-colrowmatrixB4">
+    <statement>
+        <p>
+            Use <xref ref="colspace"/> to find a basis for <m>\mbox{col}(B)</m>.
+        </p>
+    </statement>
+
+<answer> 
+<p>
+A basis for <m>\mbox{col}(B)</m> is
+<me>
+\left\{ \begin{bmatrix}1\\-1\\2\\1\\0\end{bmatrix}, \begin{bmatrix}2\\1\\0\\-2\\1\end{bmatrix}\right\}.
+</me>
+</p>
+</answer>
+</exercise>
+
+
+
+
+
+<exercise xml:id="prob-rankoftranspose">
+    <statement>
+        <p>
+            Prove that <m>\mbox{rank}(A)=\mbox{rank}(A^T)</m>
+        </p>
+    </statement>
+</exercise>
+
+<exercise xml:id="prob-basisforV">
+    <statement>
+        <p>
+            Find a basis for <m>V</m>, where
+
+<me>
+    V=\mbox{span}\left( \begin{bmatrix}1\\0\\2\end{bmatrix}, \begin{bmatrix}-1\\2\\-1\end{bmatrix}, \begin{bmatrix}1\\2\\3\end{bmatrix}, \begin{bmatrix}3\\-1\\0\end{bmatrix}, \begin{bmatrix}3\\1\\1\end{bmatrix}\right).
+</me>
+</p>
+</statement>
+
+<hint>
+<p>
+Find a basis for the column space of a matrix whose columns are the given vectors.
+</p>
+</hint>
+</exercise>
+</exercisegroup>
+
+
+<exercisegroup>
+
+    <introduction>
+        <p>
+In the next two problems,  <m>A</m> and <m>B</m> refer to matrices of <xref ref="MatA"/> and <xref ref="MatB"/>.
+        </p>
+    </introduction>
+
+
+<exercise xml:id="nullABC1">
+    <statement>
+        <p>
+Find a basis for <m>\mbox{null}(A)</m>, demonstrate that the Rank-Nullity Theorem (see <xref ref="th-matrixranknullity"/>) holds for <m>A</m> 
+and explain how you can quickly tell that the vectors you selected for your basis are linearly independent.
+        </p>
+    </statement>
+
+<answer>
+    <p>
+Basis for <m> \mbox{null}(A) </m>
+<me>
+\left\{ \begin{bmatrix}-1\\1\\1\\0\end{bmatrix}, \begin{bmatrix}-2\\1\\0\\1\end{bmatrix}\right\}.
+</me>
+        </p>
+    </answer>
+</exercise>
+
+
+
+<exercise xml:id="prob-nullABC2">
+    <statement>
+        <p>
+            Find a basis for <m>\mbox{null}(B)</m> and demonstrate that the Rank-Nullity Theorem (see <xref ref="th-matrixranknullity"/>) holds for <m>B</m>.
+        </p>
+    </statement>
+
+    <answer>
+        <p>
+ Basis for <m>\mbox{null}(B) </m>:
+ <me>
+\left\{ \begin{bmatrix}1\\-2\\1\end{bmatrix}\right\}
+</me>
+        </p>
+    </answer>
+
+        
+</exercise>
+</exercisegroup>
+
+
+
+
+
+<exercisegroup>
+<introduction>
+    <p>
+Suppose matrix <m>M</m> is such that 
+<me>
+    \mbox{rref}(M)=\begin{bmatrix}1\amp 0\amp 2\amp 0\amp 3\amp 1\\0\amp 1\amp -1\amp 0\amp 1\amp -2\\0\amp 0\amp 0\amp 1\amp -2\amp 1\\0\amp 0\amp 0\amp 0\amp 0\amp 0\end{bmatrix}
+</me>   
+    </p>
+</introduction>
+
+<exercise xml:id="nulM1">
+<statement>
+<p>
+Follow the process used in  <xref ref="ex-dimnull"/> to find a basis for <m>\mbox{null}(M)</m>.  Explain why the basis elements obtained in this way are linearly independent.
+</p>
+</statement>
+
+<answer>
+    <p>
+        Basis of <m>\mbox{null}(M):\quad\left\{\begin{bmatrix}-2\\1\\1\\0\\0\\0\end{bmatrix}, \begin{bmatrix}-3\\-1\\0\\2\\1\\0\end{bmatrix}, \begin{bmatrix}-1\\2\\0\\-1\\0\\1\end{bmatrix} \right\}</m>
+    </p>
+</answer>
+</exercise>
+
+
+
+<exercise xml:id="prob-nullM2">
+    <statement>
+        <p>
+            Let <m>\mathbf{v}_1,\ldots,\mathbf{v}_6</m> denote the columns of <m>M</m>.  Express <m>\mathbf{v}_3</m> as a linear combination of <m>\mathbf{v}_1</m> and <m>\mathbf{v}_2</m>.
+        </p>
+    </statement>
+    <answer>
+        <p>
+            <me>
+    \mathbf{v}_3=2\mathbf{v}_1+-1\mathbf{v}_2
+</me>
+        </p>
+    </answer>
+</exercise>
+</exercisegroup>
+
+
+
+<exercise xml:id="prob-truefalse3by5">
+    <statement>
+        <p>
+            Suppose <m>A</m> is a <m>3\times 5</m> matrix.  Which of the following statements could be true?
+        </p>
+    </statement>
+
+
+<choices>
+  <choice>
+      <statement>
+        <p> 
+        <m>\mbox{dim}(\mbox{col}(A))=5</m> 
+        </p>
+      </statement>
+  </choice>
+
+   <choice correct="yes">
+      <statement>
+    <p> 
+        <m>\mbox{dim}(\mbox{row}(A))=3</m>
+    </p>
+      </statement>
+  </choice>
+
+
+   <choice>
+      <statement>
+    <p> 
+        <m>
+        \mbox{dim}(\mbox{null}(A))=1
+        </m>
+    </p>
+      </statement>
+
+  </choice>
+   <choice correct="yes">
+      <statement>
+        <p> 
+        <m>\mbox{dim}(\mbox{null}(A))=2</m>
+        </p>
+      </statement>
+
+  </choice>
+   <choice correct="yes">
+      <statement>
+    <p>
+        <m>\mbox{dim}(\mbox{null}(A))=3</m>
+    </p>
+      </statement>
+  </choice>
+</choices>
+</exercise>
+
+
+<exercise xml:id="prob-truefalse7by3">
+    <statement>
+        <p>
+            Suppose <m>A</m> is a <m>7\times 3</m> matrix.  Which of the following statements could be true?
+        </p>
+    </statement>
+
+<choices>
+  <choice correct="yes">
+      <statement>
+          <p> <m>\mbox{dim}(\mbox{col}(A))=3</m> </p>
+      </statement>
+  </choice>
+   <choice correct="yes">
+      <statement>
+          <p> <m>\mbox{dim}(\mbox{row}(A))=3</m> </p>
+      </statement>
+  </choice>
+   <choice>
+      <statement>
+          <p> <m>\mbox{dim} (\mbox{row}(A))=7</m> </p>
+      </statement>
+  </choice>
+   <choice correct="yes">
+      <statement>
+          <p> <m>\mbox{dim}(\mbox{null}(A))=0 </m> </p>
+      </statement>
+  </choice>
+   <choice>
+      <statement>
+          <p> <m>\mbox{dim}(\mbox{null}(A))=4</m> </p>
+      </statement>
+  </choice>
+</choices>
+</exercise>
+
+<exercise xml:id="prob-proofofrowBrowA">
+    <statement>
+        <p>
+            Complete the proof of <xref ref="th-rowBrowA"/> by showing that adding a scalar multiple of one row of a matrix to another row does not change the row space.
+        </p>
+    </statement>
+</exercise>
+
+
+<!--Image and kernel exercises-->
+
+    <exercisegroup> 
+    <introduction>
+        <p>
+    For each matrix <m>A</m> below, find the domain together with codomain of the linear transformation <m>T:\R^n\rightarrow\R^m</m> induced by <m>A</m>; 
+    then find and draw the image of <m>T</m> (Hint: See <xref ref="ex-lineartrans3"/>.)
+        </p>
+    </introduction>
+
+    <exercise xml:id="domaincodomain1">
+        <statement>
+            <p>
+    <me>
+        A=\begin{bmatrix}0\amp 0\\1\amp 1\\2\amp 0\end{bmatrix}.
+    </me>
+        </p>
+        </statement>
+
+    <answer>
+    <p>
+    Domain: <m>\R^n</m>, where <m>n=2</m>.
+    </p>
+    <p>
+    Codomain: <m>\R^m</m>, where <m>m=3</m>.
+    </p>
+    </answer>
+    </exercise>    
+
+
+
+    <exercise xml:id="prob-domaincodomain2">
+        <statement>
+            <p>
+                <me>
+        A=\begin{bmatrix}3\amp -1\\-3\amp 1\end{bmatrix}.
+    </me>
+            </p>
+        </statement>
+    </exercise>
+    </exercisegroup>
+
+
+
+
+    <exercisegroup>
+    <introduction>
+        <p>
+    Describe the image and find the rank for each linear transformation <m>T:\R^n\rightarrow \R^m</m> with standard matrix <m>A</m> given below.
+        </p>
+    </introduction>
+    
+    
+    <exercise xml:id="imagerankoflintrans1">
+    <statement>
+    <p>
+      <m>T:\R^5\rightarrow \R^2</m>,
+    <me>
+    A=\begin{bmatrix}3\amp 2\amp 4\amp 7\amp 1\\-1\amp -9\amp 7\amp 6\amp 8\end{bmatrix}.
+    </me>
+    </p>
+    </statement> 
+    
+      <choices>
+      <choice correct="yes">
+          <statement>
+            <p>
+            <m>
+            \mbox{im}(T)=\R^2.
+            </m>
+            </p>
+          </statement>
+      </choice>
+        <choice>
+          <statement>
+            <p> 
+            <m>\mbox{im}</m> is a line in <m>\R^2</m>.
+            </p>
+          </statement>
+      </choice>(T)
+        <choice>
+          <statement>
+            <p>
+            <m>\mbox{im} (T)=\{\mathbf{0}\}</m>.
+            </p>
+          </statement>
+      </choice> 
+        <choice>
+          <statement>
+              <p> 
+            <m>\mbox{im}(T)=\R^5</m>.
+              </p>
+          </statement>
+      </choice>
+        <choice>
+          <statement>
+              <p>
+                <m>\mbox{im} (T)</m> is a plane in <m>\R^5</m>.
+              </p>
+          </statement>
+      </choice>
+    </choices>
+    
+    <answer>
+    <p>
+      <m>\mbox{rank}(T)=2</m>
+    </p>
+    </answer>
+    </exercise>
+      
+    
+    
+      <exercise xml:id="prob-imagerankoflintrans2">
+        <statement>
+            <p>
+                <m>T:\R^2\rightarrow\R^3</m>,
+                <me>
+                A=\begin{bmatrix}1\amp 1\\1\amp 1\\1\amp 1\end{bmatrix}
+                </me>
+            </p>
+        </statement>
+      <choices>
+      <choice>
+          <statement>
+              <p> <m>\mbox{im}(T)=\R^3</m>. </p>
+          </statement>
+      </choice>
+        <choice>
+          <statement>
+              <p> <m>\mbox{im} </m> is a line in <m>\R^2</m>. </p>
+          </statement>
+      </choice>(T)
+        <choice correct="yes">
+          <statement>
+              <p> <m>\mbox{im} (T)</m> is a line in <m>\R^3</m>. </p>
+          </statement>
+      </choice>
+        <choice>
+          <statement>
+              <p> <m>\mbox{im}(T)=\{\mathbf{0}\}</m>.  </p>
+          </statement>
+      </choice>
+        <choice>
+          <statement>
+              <p> <m>\mbox{im} </m> is a plane in <m>\R^3</m>. </p>
+          </statement>
+      </choice>(T)
+    </choices>
+    
+    <answer>
+    <p>
+      <m>\mbox{rank}(T)=1</m>.
+    </p> 
+    </answer>
+    </exercise>
+    </exercisegroup>
+    
+    
+    <exercise xml:id="prob-sametrans">
+        <statement>
+            <p>
+                Suppose linear transformations <m>T:\R^2\rightarrow \R^2</m> and <m>S:\R^2\rightarrow \R^2</m> are such that
+                <me>
+                    \mbox{im}(T)=\mbox{im}(S)=\mbox{span}\left(\begin{bmatrix}1\\-3\end{bmatrix}\right).
+                </me>
+                 Does this mean that <m>T</m> and <m>S</m> are the same transformation?  Justify your claim.
+            </p>
+        </statement>
+    </exercise>
+    
+    
+    
+    <exercisegroup>
+    <introduction>
+        <p>
+    Describe the kernel and find the nullity for each linear transformation <m>T:\R^n\rightarrow \R^m</m> with standard matrix <m>A</m> given below.
+        </p>
+    </introduction>
+    
+    
+                
+    <exercise xml:id="kerandnullityT1">
+    <statement>
+    <p>
+    <m>T:\R^3\rightarrow \R^2</m>,
+    <me>
+    A=\begin{bmatrix}2\amp 1\amp 0\\-1\amp 1\amp -3\end{bmatrix}.
+    </me>
+    </p> 
+    </statement>
+    
+    <choices>
+      <choice>
+          <statement>
+              <p> <m>\mbox{ker}(T)=\R^3</m>. </p>
+          </statement>
+      </choice>
+        <choice>
+          <statement>
+              <p> <m>\mbox{ker}(T)=\{\mathbf{0}\}</m>.  </p>
+          </statement>
+      </choice>
+        <choice>
+          <statement>
+              <p> <m>\mbox{ker}(T)=\R^2</m>. </p>
+          </statement>
+      </choice>
+        <choice>
+          <statement>
+              <p> <m>\mbox{ker}(T)</m> is a plane in <m>\R^3</m>. </p>
+          </statement>
+      </choice>
+         <choice correct="yes">
+          <statement>
+              <p> <m>\mbox{ker}(T)</m> is a line in <m>\R^3</m>. </p>
+          </statement>
+      </choice>
+    </choices>
+    
+    <answer>
+    <p> 
+    <m>\mbox{nullity}(T)=1</m>
+    </p>
+    </answer>
+    </exercise>
+    
+    <exercise xml:id="prob-kerandnullityT2">
+        <statement>
+            <p>
+                <m>T:\R^2\rightarrow \R^2</m>,
+            <me>
+            A=\begin{bmatrix}2\amp -1\\3\amp 0\end{bmatrix}.
+            </me>
+            </p>
+        </statement>
+    
+    <choices>
+      <choice>
+          <statement>
+              <p> <m>\mbox{ker}(T)=\R^2</m>. </p>
+          </statement>
+      </choice>
+        <choice correct="yes">
+          <statement>
+              <p> <m>\mbox{ker}(T)=\{\mathbf{0}\}</m>. </p>
+          </statement>
+      </choice> 
+         <choice>
+          <statement>
+              <p> <m>\mbox{ker}(T)</m> is a line in <m>\R^2</m>. </p>
+          </statement>
+      </choice>
+    </choices>
+    
+    <answer>
+    <p>
+    <m>\mbox{nullity}(T)=0</m>
+     </p>
+    </answer>
+    </exercise>
+    
+    <exercise xml:id="prob-kerandnullityT3">
+        <statement>
+            <p>
+                <m>T:\R^3\rightarrow \R^5</m>,
+            <me>
+            A=\begin{bmatrix}1\amp 2\amp -1\\1\amp 2\amp -1\\1\amp 2\amp -1\\1\amp 2\amp -1\\1\amp 2\amp -1\end{bmatrix}.
+            </me> 
+            </p>
+        </statement>
+    
+    <choices>
+      <choice correct="yes">
+          <statement>
+              <p> <m>\mbox{ker}(T)</m> is a plane in <m>\R^3</m>. </p>
+          </statement>
+      </choice>
+       <choice>
+          <statement>
+              <p> <m>\mbox{ker}(T)</m> is a line in <m>\R^3</m>. </p>
+          </statement>
+      </choice>
+           <choice>
+          <statement>
+              <p> <m>\mbox{ker} (T)</m> is a line in <m>\R^5</m>. </p>
+          </statement>
+      </choice>
+       <choice>
+          <statement>
+              <p> <m>\mbox{ker}(T)=\R^3</m>. </p>
+          </statement>
+      </choice>
+        <choice>
+          <statement>
+              <p> <m>\mbox{ker}(T)=\{\mathbf{0}\}</m>. </p>
+          </statement>
+      </choice>
+    </choices>
+    
+    <answer>
+    <p>
+    <m>\mbox{nullity}(T)=2</m>.
+    </p>
+    </answer>
+    </exercise>
+    </exercisegroup>
+    
+    
+    
+    <exercise xml:id="prob-ranknullityT4">
+        <statement>
+            <p>
+                Suppose a linear transformation <m>T:\R^3\rightarrow \R^3</m> is such that <m>\mbox{im}(T)</m> is a plane in <m>\R^3</m>.  What is the rank and nulity of <m>T</m>?
+            </p>
+         </statement>
+    
+    <answer>
+            <p>
+    <me>
+        \mbox{rank}(T)=2
+    </me>
+     
+    <me>
+        \mbox{nullity}(T)=1
+    </me>
+            </p>
+        </answer>
+    </exercise>
+    
+    <exercise xml:id="prob-ranknullityT5">
+        <statement>
+            <p>
+                Suppose a linear transformation <m>T:\R^5\rightarrow \R^5</m> is such that <m>T(\mathbf{v})=\mathbf{0}</m> for all <m>\mathbf{v}</m> in <m>\R^5</m>. What is the rank and nulity of <m>T</m>?
+            </p>
+        </statement>
+    
+    <answer>
+    <p>
+    <me>
+        \mbox{rank}(T)=0
+    </me>
+     
+    <me>
+        \mbox{nullity}(T)=5
+    </me>
+    </p>
+    </answer>
+    </exercise>
+    
+    <exercise xml:id="prob-findimkergivenrref">
+        <statement>
+            <p>
+                Let <m>T:\R^6\rightarrow \R^4</m> be a linear transformation with standard matrix
+    
+    <me>
+        A=\begin{bmatrix}2\amp -1\amp 1\amp -2\amp 1\amp 1\\1\amp 2\amp 3\amp 6\amp -4\amp 1\\0\amp 2\amp 2\amp 4\amp -2\amp -1\\1\amp 3\amp 2\amp 6\amp -3\amp 2\end{bmatrix}
+    </me>
+    
+    Find <m>\mbox{im}(T)</m> and <m>\mbox{ker}(T)</m> if the reduced row-echelon form of <m>A</m> is 
+    
+    <me>
+        \text{rref}(A)=\begin{bmatrix}1\amp 0\amp 0\amp 1\amp -1\amp 0\\0\amp 1\amp 0\amp 1\amp 0\amp 0\\0\amp 0\amp 1\amp 1\amp -1\amp 0\\0\amp 0\amp 0\amp 0\amp 0\amp 1\end{bmatrix}
+    </me>
+            </p>
+        </statement>
+    </exercise>
+    
+    
+    <exercise xml:id="prob-findimageandkernellintrans">
+        <statement>
+            <p>
+                Let
+            <me>
+            V=\mbox{span}\left(\begin{bmatrix}1\\1\end{bmatrix}\right)
+            </me>
+        
+            and let <m>T:V\rightarrow \R^2</m> be a linear transformation defined by 
+    <m>T(\mathbf{v})=2\mathbf{v}</m>.  Find <m>\mbox{im}(T)</m> and <m>\mbox{ker}(T)</m>.
+            </p>
+        </statement>
+    </exercise>
+   
+    
+    <exercise xml:id="prob-ranknullitytrans">
+        <statement>
+            <p>
+                Suppose a linear transformation <m>T</m> is induced by a <m>4\times 6</m> matrix <m>A</m>.  Let <m>S</m> be a linear transformation induced by <m>A^T</m>.  Find <m>\mbox{nullity}(S)</m>, if <m>\mbox{nullity}(T)=3</m>.  Prove your claim.
+            </p>
+        </statement>
+    </exercise>
+
+</exercises>
+</section>

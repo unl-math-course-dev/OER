@@ -1,0 +1,635 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<section xml:id="Section-Application-to-Computer-Graphics" xmlns:xi="http://www.w3.org/2001/XInclude">
+    <title>Extra Topic: Application to Computer Graphics</title>
+
+
+
+ 
+
+
+
+
+
+<p>
+Computer graphics deals with images
+displayed on a computer screen, and so arises in a variety of
+applications, ranging from word processors, to <em>Star Wars</em>
+animations, to video games, to wire-frame images of an airplane.  These
+images consist of a number of points on the screen, together with
+instructions on how to fill in areas bounded by lines and curves. Often
+curves are approximated by a set of short straight-line segments, so
+that the curve is specified by a series of points on the screen at the
+end of these segments. 
+</p>
+
+
+<p> Matrix transformations are important here because
+ matrix images of straight line segments are again line segments.
+
+ 
+ Note that a color image requires that three images are sent, one to
+each of the red, green, and blue phosphorus dots on the screen, in
+varying intensities.
+</p> 
+
+<p> 
+Consider displaying the letter <m>A</m>. In reality, it is depicted on the screen, as in the figure below, by specifying the coordinates of the 11 corners and filling in the interior.
+</p> 
+  
+<image width="65%">
+   <shortdescription></shortdescription>
+    <latex-image>
+      \begin{tikzpicture}[scale=0.4]
+\draw[thin,gray!40] (0,0) grid (9,13);
+  \filldraw[white, opacity=1](1,1)--(2.36,6)--(6.64,6)--(8,1)--(7,1)--(5.91,5)--(3.09,5)--(2,1)--cycle;
+  \filldraw[white, opacity=1](2.36,6)--(4,12)--(5,12)--(6.64,6)--(5.64,6)--(4.5,10.17)--(3.36,6)--cycle;
+  \draw[line width=2pt,blue](1,1)--(4,12);
+  \draw[line width=2pt,blue](5,12)--(4,12);
+  \draw[line width=2pt,blue](5,12)--(8,1);
+  \draw[line width=2pt,blue](8,1)--(7,1);
+  \draw[line width=2pt,blue](7,1)--(5.91,5);
+  \draw[line width=2pt,blue](5.91,5)--(3.09,5);
+  \draw[line width=2pt,blue](3.09,5)--(2,1);
+  \draw[line width=2pt,blue](1,1)--(2,1);
+  \draw[line width=2pt,blue](4.5,10.17)--(3.36,6);
+  \draw[line width=2pt,blue](4.5,10.17)--(5.64,6);
+  \draw[line width=2pt,blue](3.36,6)--(5.64,6);
+  \fill[] (1,1) circle (0.2cm);
+  \fill[] (4,12) circle (0.2cm);
+  \fill[] (5,12) circle (0.2cm);
+  \fill[] (8,1) circle (0.2cm);
+  \fill[] (7,1) circle (0.2cm);
+  \fill[] (5.91,5) circle (0.2cm);
+  \fill[] (3.09,5) circle (0.2cm);
+  \fill[] (2,1) circle (0.2cm);
+  \fill[] (4.5,10.17) circle (0.2cm);
+  \fill[] (3.36,6) circle (0.2cm);
+  \fill[] (5.64,6) circle (0.2cm);
+     \end{tikzpicture}
+    </latex-image>
+</image>
+
+<p> 
+ For simplicity, we will disregard the thickness of the letter,
+ so we require only five coordinates as in the figure below.
+</p> 
+
+   
+<image width="65%">
+   <shortdescription></shortdescription>
+    <latex-image>
+      \begin{tikzpicture}[scale=0.4]
+\draw[thin,gray!40] (-1,-1) grid (7,10);
+  \draw[line width=2pt,red](0,0)--(3,9);
+  \draw[line width=2pt,red](6,0)--(3,9);
+  \draw[line width=2pt,red](5,3)--(1,3);
+  \fill[] (0,0)node[above=2mm, left=1mm]{\((0,0)\)} circle (0.2cm);
+  \fill[] (6,0)node[above=2mm, right=1mm]{\((6,0)\)} circle (0.2cm);
+  \fill[] (5,3)node[above=2mm, right=1mm]{\((5,3)\)} circle (0.2cm);
+  \fill[] (1,3)node[above=2mm, left=1mm]{\((1,3)\)} circle (0.2cm);
+  \fill[] (3,9)node[above=2mm, right=1mm]{\((3,9)\)} circle (0.2cm);
+     \end{tikzpicture}
+    </latex-image>
+</image>
+
+<p> 
+This simplified letter can then be stored as a data matrix
+
+
+<me>
+    D =\begin{bmatrix}
+0 \amp  6 \amp  5 \amp  1 \amp  3\\
+0 \amp  0 \amp  3 \amp  3 \amp  9
+\end{bmatrix},
+</me>
+
+
+where the columns are the coordinates of the vertices. Then if we want to transform the letter by a <m>2 \times 2</m> matrix <m>A</m>, we left-multiply this data matrix by <m>A</m> (the effect is to multiply each column by <m>A</m> and so transform each vertex).
+</p> 
+
+<p> 
+For example, we can slant the letter to the right by multiplying by a horizontal shear matrix 
+<me>A = \left[
+\begin{array}{ll}
+1 \amp  0.2\\
+0 \amp  1\\
+\end{array}
+\right].</me>
+ See <xref ref="form-shears"/>. The result is the letter with data matrix
+<me>
+A = \left[
+\begin{array}{ll}
+1 \amp  0.2\\
+0 \amp  1
+\end{array}
+\right] \left[
+\begin{array}{rrrrr}
+0 \amp  6 \amp  5 \amp  1 \amp  3\\
+0 \amp  0 \amp  3 \amp  3 \amp  9
+\end{array}
+\right] =
+ \left[
+\begin{array}{lllll}
+0 \amp  6 \amp  5.6 \amp  1.6 \amp  4.8\\
+0 \amp  0 \amp  3 \amp  3 \amp  9
+\end{array}
+\right],
+</me>
+which is shown in the figure below.
+</p> 
+
+
+
+<image width="65%">
+   <shortdescription></shortdescription>
+    <latex-image>
+      \begin{tikzpicture}[scale=0.4]
+\draw[thin,gray!40] (-1,-1) grid (7,10);
+  \draw[line width=2pt,red](0,0)--(4.8,9);
+  \draw[line width=2pt,red](6,0)--(4.8,9);
+  \draw[line width=2pt,red](5.6,3)--(1.6,3);
+  \fill[] (0,0)node[above=2mm, left=1mm]{\((0,0)\)} circle (0.2cm);
+  \fill[] (6,0)node[above=2mm, right=1mm]{\((6,0)\)} circle (0.2cm);
+  \fill[] (5.6,3)node[above=2mm, right=1mm]{\((5.6,3)\)} circle (0.2cm);
+  \fill[] (1.6,3)node[above=2mm, left=1mm]{\((1.6,3)\)} circle (0.2cm);
+  \fill[] (4.8,9)node[above=2mm, right=1mm]{\((4.8,9)\)} circle (0.2cm);
+     \end{tikzpicture}
+    </latex-image>
+</image>
+ 
+
+<p> 
+ If we want to make this slanted matrix narrower, we can now apply a scaling matrix 
+ <me>B = \left[
+\begin{array}{ll}
+	0.8 \amp  0\\
+	0 \amp  1
+\end{array}
+\right]</me> 
+
+that shrinks the <m>x</m>-coordinate by <m>0.8</m>. See also <xref ref="form-horvertscaling"/>. The result is the composite transformation
+<md>
+<mrow> BAD \amp = \left[
+\begin{array}{ll}
+0.8 \amp  0\\
+0 \amp  1
+\end{array}
+\right] \left[
+\begin{array}{ll}
+1 \amp  0.2\\
+0 \amp  1
+\end{array}
+\right] \left[
+\begin{array}{rrrrr}
+0 \amp  6 \amp  5 \amp  1 \amp  3\\
+0 \amp  0 \amp  3 \amp  3 \amp  9
+\end{array}
+\right] </mrow>
+<mrow> \amp =
+\left[
+\begin{array}{lllll}
+0 \amp  4.8 \amp  4.48 \amp  1.28 \amp  3.84\\
+0 \amp  0 \amp  3 \amp  3 \amp  9
+\end{array}
+\right], </mrow>
+</md>
+which is drawn in the figure below.
+</p> 
+ 
+<image width="65%">
+   <shortdescription></shortdescription>
+    <latex-image>
+      \begin{tikzpicture}[scale=0.4]
+\draw[thin,gray!40] (-1,-1) grid (7,10);
+  \draw[line width=2pt,red](0,0)--(3.84,9);
+  \draw[line width=2pt,red](4.8,0)--(3.84,9);
+  \draw[line width=2pt,red](4.48,3)--(1.28,3);
+  \fill[] (0,0)node[above=2mm, left=1mm]{\((0,0)\)} circle (0.2cm);
+  \fill[] (4.8,0)node[above=2mm, right=1mm]{\((4.8,0)\)} circle (0.2cm);
+  \fill[] (4.48,3)node[above=2mm, right=1mm]{\((4.48,3)\)} circle (0.2cm);
+  \fill[] (1.28,3)node[above=2mm, left=1mm]{\((1.28,3)\)} circle (0.2cm);
+  \fill[] (3.84,9)node[above=2mm, right=1mm]{\((3.84,9)\)} circle (0.2cm);
+     \end{tikzpicture}
+    </latex-image>
+</image>
+
+<p> 
+On the other hand, we can rotate the letter about the origin through <m>\frac{\pi}{6}</m> (or <m>30^\circ</m>) by multiplying by the rotation matrix  
+<me>
+    R_{\frac{\pi}{2}} = \left[
+\def\arraystretch{1.5}\begin{array}{rr}
+\cos(\frac{\pi}{6}) \amp  -\sin(\frac{\pi}{6})\\
+\sin(\frac{\pi}{6}) \amp  \cos(\frac{\pi}{6})
+\end{array}
+\right] = \left[
+\begin{array}{ll}
+0.866 \amp  -0.5\\
+0.5 \amp  0.866
+\end{array}
+\right]
+</me>
+
+See <xref ref="form-rotation"/> for details.  This gives
+<md>
+<mrow> R_{\frac{\pi}{2}} \amp = \left[
+\begin{array}{ll}
+0.866 \amp  -0.5\\
+0.5 \amp  0.866
+\end{array}
+\right] \left[
+\begin{array}{rrrrr}
+0 \amp  6 \amp  5 \amp  1 \amp  3\\
+0 \amp  0 \amp  3 \amp  3 \amp  9
+\end{array}
+\right] </mrow>
+<mrow> \amp =
+\left[
+\begin{array}{lllrr}
+0 \amp  5.196 \amp  2.83 \amp  -0.634 \amp  -1.902\\
+0 \amp  3 \amp  5.098 \amp  3.098 \amp  9.294
+\end{array}
+\right] </mrow>
+</md>
+and is plotted in the figure below.
+</p> 
+
+
+ 
+<image width="65%">
+   <shortdescription></shortdescription>
+    <latex-image>
+      \begin{tikzpicture}[scale=0.4]
+\draw[thin,gray!40] (-1,-1) grid (7,10);
+  \draw[line width=2pt,red](0,0)--(-1.902,9.294);
+  \draw[line width=2pt,red](-0.634,3.098)--(2.83,5.098);
+  \draw[line width=2pt,red](5.196,3)--(-1.902,9.294);
+  \fill[] (0,0)node[above=2mm, left=1mm]{\((0,0)\)} circle (0.2cm);
+  \fill[] (2.83,5.098)node[above=2mm, right=1mm]{\((2.83,5.098)\)} circle (0.2cm);
+  \fill[] (5.196,3)node[above=2mm, right=1mm]{\((5.196,3)\)} circle (0.2cm);
+  \fill[] (-0.634,3.098)node[above=2mm, left=1mm]{\((-0.634,3.098)\)} circle (0.2cm);
+  \fill[] (-1.902,9.294)node[above=2mm, right=1mm]{\((-1.902,9.294)\)} circle (0.2cm);
+     \end{tikzpicture}
+    </latex-image>
+</image>
+
+<p> 
+This poses a problem: How do we rotate
+about a point other than the origin? It turns out that we can do this when
+we have solved another more basic problem.
+</p> 
+
+<p> 
+It is clearly important to be
+ able to translate a screen image by a fixed vector <m>\mathbf{w}</m>, that is apply the transformation <m>T_{w} : \R^2 \to \R^2</m> given by <m>T_{w}(\mathbf{v}) = \mathbf{v} + \mathbf{w}</m> for all <m>\mathbf{v}</m> in <m>\R^2</m>. 
+ The problem is that these translations are not matrix transformations <m>\R^2 \to \R^2</m> because they do not carry <m>\mathbf{0}</m> to <m>\mathbf{0}</m> 
+ (unless <m>\mathbf{w} = \mathbf{0}</m>) (see for instance <xref ref="prob-translation-does-not-work"/>). However, there is a clever way around this.
+</p> 
+
+<p> 
+The idea is to represent a point 
+<me>\mathbf{v} = \left[
+\begin{array}{r}
+x\\
+y
+\end{array}
+\right]</me>
+ as a <m>3 \times 1</m> column 
+ <me>\left[
+ \begin{array}{r}
+ x\\
+ y\\
+ 1
+ \end{array}
+ \right],</me>
+ 
+ called the <term>homogeneous coordinates</term>of <m>\mathbf{v}</m>. Then translation by 
+ <me>\mathbf{w} = \left[
+ \begin{array}{r}
+ p\\
+ q
+ \end{array}
+ \right]</me> 
+ 
+ can be achieved by multiplying by a <m>3 \times 3</m> matrix:
+<me>
+\left[
+\begin{array}{rrr}
+1 \amp  0 \amp  p\\
+0 \amp  1 \amp  q\\
+0 \amp  0 \amp  1
+\end{array}
+\right] \left[
+\begin{array}{r}
+x\\
+y\\
+1
+\end{array}
+\right]
+=
+\left[
+\begin{array}{c}
+x + p\\
+y + q\\
+1
+\end{array}
+\right]
+=
+\left[
+\begin{array}{c}
+T_{\mathbf{w}}(\mathbf{v})\\
+1
+\end{array}
+\right].
+</me>
+
+
+Thus, by using homogeneous coordinates we can implement the translation <m>T_{w}</m> in the top two coordinates. 
+At the same time, matrix transformations we performed earlier can still be accomplished using homogeneous coordinates.  
+For instance, the matrix transformation induced by 
+<me>A = \left[
+\begin{array}{rr}
+a \amp  b\\
+c \amp  d
+\end{array}
+\right]</me>
+ is given by a <m>3 \times 3</m> matrix:
+<me>
+\left[
+\begin{array}{rrr}
+a \amp  b \amp  0\\
+c \amp  d \amp  0\\
+0 \amp  0 \amp  1
+\end{array}
+\right] \left[
+\begin{array}{r}
+x\\
+y\\
+1
+\end{array}
+\right]
+=
+\left[
+\begin{array}{c}
+ax + by\\
+cx + dy\\
+1
+\end{array}
+\right]
+=
+\left[
+\begin{array}{c}
+A\mathbf{v}\\
+1
+\end{array}
+\right].
+</me>
+So everything can be accomplished at the expense of using <m>3 \times 3</m> matrices and homogeneous coordinates.
+</p> 
+
+<p> 
+It is interesting to examine the geometric implications of homogeneous coordinates.  All points of the form <m>[x,y]</m>, 
+originally located in the <m>xy</m>-plane in <m>\R^2</m>, now have the form <m>[x,y,1]</m> 
+and are located in a horizontal plane <m>z=1</m> in <m>\R^3</m>.  
+What we perceive as a translation in the horizontal plane <m>z=1</m>, is actually a shear in <m>\R^3</m>.  
+This is similar to how horizontal shears in <m>\R^2</m> affect points along the line <m>y=1</m>: all such points move a fixed distance to the left or to the right. 
+</p> 
+
+<example xml:id="exa-013322">
+    <statement>
+        <p>
+            Rotate the letter <m>A</m> through <m>\frac{\pi}{6}</m> about the point <m>[4,5]</m>.
+        </p>
+
+<image width="65%">
+   <shortdescription></shortdescription>
+    <latex-image>
+      \begin{tikzpicture}[scale=0.4]
+\draw[thin,gray!40] (-1,-1) grid (7,10);
+  \draw[line width=2pt,red](0,0)--(3,9);
+  \draw[line width=2pt,red](6,0)--(3,9);
+  \draw[line width=2pt,red](5,3)--(1,3);
+  \fill[] (0,0)node[above=2mm, left=1mm]{\((0,0)\)} circle (0.2cm);
+  \fill[] (6,0)node[above=2mm, right=1mm]{\((6,0)\)} circle (0.2cm);
+  \fill[] (5,3)node[above=2mm, right=1mm]{\((5,3)\)} circle (0.2cm);
+  \fill[] (1,3)node[above=2mm, left=1mm]{\((1,3)\)} circle (0.2cm);
+  \fill[] (3,9)node[above=2mm, right=1mm]{\((3,9)\)} circle (0.2cm);
+     \end{tikzpicture}
+    </latex-image>
+</image>
+       
+    </statement>
+
+
+    <answer>
+        <p>
+            Using homogeneous coordinates for the vertices of the letter results in a data matrix with three rows:
+<me>
+K_{d} =  \left[
+\begin{array}{rrrrr}
+0 \amp  6 \amp  5 \amp  1 \amp  3\\
+0 \amp  0 \amp  3 \amp  3 \amp  9 \\
+1 \amp  1 \amp  1 \amp  1 \amp  1
+\end{array}
+\right].
+</me>
+
+If we write <m>\mathbf{w} = [4,5]</m>, the idea is to use a composite of transformations: First translate the 
+letter by <m>-\mathbf{w}</m> so that the point <m>\mathbf{w}</m> moves to the origin, 
+then rotate this translated letter, and then translate it by <m>\mathbf{w}</m> back to its original position. 
+The following GeoGebra interactive illustrates this sequence.
+</p>
+
+<figure>
+  <caption>
+  </caption>
+  <interactive xml:id="geogebra-A-moves" platform="geogebra" width="150%" aspect="950:650">
+    <slate xml:id="A-moves" surface="geogebra" material="yd5agbdg" aspect="950:650" />
+  </interactive>
+</figure>
+
+<p>
+The matrix arithmetic is as follows (remember the order of composition!):
+<md>
+<mrow> \amp  \left[
+\begin{array}{rrr}
+1 \amp  0 \amp  4\\
+0 \amp  1 \amp  5\\
+0 \amp  0 \amp  1
+\end{array}
+\right]
+\left[
+\begin{array}{lrr}
+0.866 \amp  -0.5 \amp  0\\
+0.5 \amp  0.866 \amp  0\\
+0 \amp  0 \amp  1
+\end{array}
+\right]
+\left[
+\begin{array}{rrr}
+1 \amp  0 \amp  -4\\
+0 \amp  1 \amp  -5\\
+0 \amp  0 \amp  1
+\end{array}
+\right]
+\left[
+\begin{array}{rrrrr}
+0 \amp  6 \amp  5 \amp  1 \amp  3\\
+0 \amp  0 \amp  3 \amp  3 \amp  9 \\
+1 \amp  1 \amp  1 \amp  1 \amp  1
+\end{array}
+\right] </mrow>
+<mrow> \amp = \left[
+\begin{array}{lllll}
+3.036 \amp  8.232 \amp  5.866 \amp  2.402 \amp  1.134\\
+-1.33 \amp  1.67 \amp  3.768 \amp  1.768 \amp  7.964 \\
+1 \amp  1 \amp  1 \amp  1 \amp  1
+\end{array}
+\right]. </mrow>
+</md>
+       </p>
+    </answer>
+</example>
+
+<p> 
+This discussion merely touches the
+surface of computer graphics, and the reader is referred to specialized
+books on the subject. Realistic graphic rendering requires an enormous
+number of matrix calculations. In fact, matrix multiplication algorithms
+ are now embedded in microchip circuits, and can perform over 100
+million matrix multiplications per second. This is particularly
+important in the field of three-dimensional graphics where the
+homogeneous coordinates have four components and <m>4 \times 4</m> matrices are
+required.
+</p> 
+
+
+
+
+
+
+
+
+
+
+
+<exercises>
+
+<exercise xml:id="prob-app0040-1">
+    <statement>
+        <p>
+            Consider the letter <m>A</m> below. 
+        </p> 
+
+<image width="65%">
+   <shortdescription></shortdescription>
+    <latex-image>
+      \begin{tikzpicture}[scale=0.4]
+\draw[thin,gray!40] (-1,-1) grid (7,10);
+  \draw[line width=2pt,red](0,0)--(3,9);
+  \draw[line width=2pt,red](6,0)--(3,9);
+  \draw[line width=2pt,red](5,3)--(1,3);
+  \fill[] (0,0)node[above=2mm, left=1mm]{\((0,0)\)} circle (0.2cm);
+  \fill[] (6,0)node[above=2mm, right=1mm]{\((6,0)\)} circle (0.2cm);
+  \fill[] (5,3)node[above=2mm, right=1mm]{\((5,3)\)} circle (0.2cm);
+  \fill[] (1,3)node[above=2mm, left=1mm]{\((1,3)\)} circle (0.2cm);
+  \fill[] (3,9)node[above=2mm, right=1mm]{\((3,9)\)} circle (0.2cm);
+     \end{tikzpicture}
+    </latex-image>
+</image>
+
+<p> 
+Find the data matrix for the letter obtained by:
+</p>    
+
+<ol> 
+<li>
+      <p> Rotating the letter through <m>\frac{\pi}{4}</m> about the origin. </p>
+</li>
+
+<li>
+      <p> Rotating the letter through <m>\frac{\pi}{4}</m>
+ about the point <m>[1,2]</m>.
+</p>
+</li>
+</ol>
+
+</statement>
+
+<answer>
+    <p>
+        <me>
+            {\frac{1}{2}\left[
+            \begin{array}{ccccc}
+            \sqrt{2} + 2 \amp  7\sqrt{2} + 2 \amp  3\sqrt{2} + 2 \amp  -\sqrt{2} + 2 \amp  -5\sqrt{2} + 2\\
+            -3\sqrt{2} + 4 \amp  3\sqrt{2} + 4 \amp  5\sqrt{2} + 4 \amp  \sqrt{2} + 4 \amp  9\sqrt{2} + 4 \\
+            2 \amp  2 \amp  2 \amp  2 \amp  2
+            \end{array}
+            \right]}.
+        </me>  
+    </p>
+</answer> 
+</exercise>
+
+
+
+<exercise xml:id="prob-app0040-3">
+    <statement>
+        <p>
+            Find the <m>3 \times 3</m> matrix for reflecting in the line <m>y = mx + b</m>. Use <m>[1,m]</m> as direction vector for the line.
+        </p>
+    </statement>
+</exercise>
+
+<exercise xml:id="prob-app0040-4">
+    <statement>
+        <p>
+            Find the <m>3 \times 3</m> matrix for rotating through the angle <m>\theta</m> about the point <m>P(a, b)</m>.
+        </p>
+    </statement>
+</exercise>
+
+<exercise xml:id="prob-app0040-5">
+    <statement>
+        <p>
+            Find the reflection of the point <m>P</m> in the line <m>y = 1 + 2x</m> in <m>\R^2</m> if:
+
+
+<ol> 
+<li>
+      <p> 
+        <m>P = P(1, 1)</m> 
+    </p>
+</li>
+
+<li>
+      <p> 
+        <m>P = P(1, 4)</m>
+      </p>
+    </li>
+
+
+    <li>
+        <p> What about <m>P = P(1, 3)</m>? Explain. </p>
+  </li>
+
+
+</ol>
+</p>
+</statement>
+
+<hint>
+    <p>
+        Look at <xref ref="exa-013322"/>.
+    </p>
+</hint>
+
+<answer>
+    <p>
+        <m>P(\frac{9}{5}, \frac{18}{5})</m>.
+    </p>
+</answer>
+</exercise>
+
+</exercises>
+</section>

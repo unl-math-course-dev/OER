@@ -1,0 +1,914 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<section xml:id="Section-The-Inverse-of-a-Matrix" xmlns:xi="http://www.w3.org/2001/XInclude">
+    <title>The Inverse of a Matrix</title>
+
+<introduction>
+<p>
+Consider the equation <m>2x=6</m>.  It takes only a little time to recognize that the solution to this equation is <m>x=3</m>.  In fact, the solution is so obvious that we do not think about the algebraic steps necessary to find it.  Let's take a look at these steps in detail.
+
+<me>
+    2x=6
+</me>
+
+
+<me>
+    \frac{1}{2}\times (2x)=\frac{1}{2}\times 6
+</me>
+
+
+<me>
+    (\frac{1}{2}\times 2)x=3
+</me>
+
+
+<me>
+    1x=3
+</me>
+
+
+<me>
+    x=3
+</me>
+
+This process utilizes many properties of real-number multiplication.  In particular, we make use of existence of <term>multiplicative inverses</term>.  Every non-zero real number <m>a</m>  has a multiplicative inverse <m>a^{-1}=\frac{1}{a}</m> with the property that <m>\frac{1}{a}\times a=a\times \frac{1}{a}=1</m>.  We say that <m>1</m> is the <term>multiplicative identity</term> because <m>a\times 1=1\times a=a</m>.
+</p>
+
+<p>
+Given a matrix equation <m>A\mathbf{x}=\mathbf{b}</m>, we would like to follow a process similar to the one above to solve this matrix equation for <m>\mathbf{x}</m>.  
+</p>
+</introduction>
+
+<subsection xmlid="Subsection-InverseDefnProp">
+    <title>Definition and Properties of the Inverse</title>
+
+<p>
+Observe that the role of the multiplicative identity for <m>n\times n</m> square matrices is filled by <m>I_n</m> because <m>AI_n=I_nA=A</m>. Given an <m>n\times n</m> matrix <m>A</m>, a multiplicative inverse of <m>A</m> would have to be some <m>n\times n</m> matrix <m>B</m> such that
+
+<me>
+    BA=AB=I_n
+</me>
+
+Assuming that such an inverse <m>B</m> exists, this is what the process of solving the equation <m>A\mathbf{x}=\mathbf{b}</m> would look like:
+
+<me>
+    A\mathbf{x}=\mathbf{b}
+</me>
+
+
+<me>
+    B(A\mathbf{x})=B\mathbf{b}
+</me>
+
+
+<me>
+    (BA)\mathbf{x}=B\mathbf{b}
+</me>
+
+
+<me>
+    I\mathbf{x}=B\mathbf{b}
+</me>
+
+
+<me>
+    \mathbf{x}=B\mathbf{b}
+</me>
+</p>
+
+
+
+
+
+
+
+
+<definition xml:id="def-matinverse">
+
+    <statement>
+        <p>
+            Let <m>A</m> be an <m>n\times n</m> matrix.  An <m>n\times n</m> matrix <m>B</m> is called an <term>inverse</term> of <m>A</m> if 
+
+<me>
+    AB=BA=I
+</me>
+
+where <m>I</m> is an <m>n\times n</m> identity matrix.  If such an inverse matrix exists, we say that <m>A</m> is <term>invertible</term>.  If an inverse does not exist, we say that <m>A</m> is not invertible.
+        </p>
+    </statement>
+</definition>
+
+
+
+<p>
+It follows directly from the symmetry of the definition that if <m>B</m> is an inverse of <m>A</m>, then <m>A</m> is an inverse of <m>B</m>. We say that <m>A</m> and <m>B</m> are inverses of each other.
+The following theorem shows that there is only matrix inverse, so we can talk of <em>the</em> inverse of a matrix <m>A</m>.
+</p>
+
+
+
+
+
+
+<theorem xml:id="th-matinverseunique">
+    <statement>
+        <p>
+            Suppose <m>A</m> is an invertible matrix, and <m>B</m> is an inverse of <m>A</m>.  Then <m>B</m> is unique.
+        </p>
+    </statement>
+
+<proof>
+    <p>
+Because <m>B</m> is an inverse of <m>A</m>, we have:
+
+<me>
+    AB=BA=I.
+</me>
+
+Suppose there exists another <m>n\times n</m> matrix <m>C</m> such that 
+
+<me>
+    AC=CA=I.
+</me>
+
+Then
+
+<me>
+    C(AB)=CI
+</me>
+
+
+<me>
+    (CA)B=C
+</me>
+
+
+<me>
+    IB=C
+</me>
+
+
+<me>
+    B=C.
+</me>
+
+    </p>
+</proof>
+</theorem>
+
+
+
+<p>
+Now that we know that a matrix <m>A</m> cannot have more than one inverse, we can safely refer to the inverse of <m>A</m> as <m>A^{-1}</m>.
+</p>
+
+
+
+<example xml:id="ex-inverse1">
+    <statement>
+        <p>
+            Let 
+<me>
+    A=\begin{bmatrix}1 \amp  -1\\-5 \amp  2\end{bmatrix}\quad\text{and}\quad B=\begin{bmatrix}-2/3 \amp  -1/3\\-5/3 \amp  -1/3\end{bmatrix}.
+</me>
+ Verify that <m>A</m> and <m>B</m> are inverses of each other.
+       </p>
+    </statement>
+
+
+    <answer>
+        <p>
+            We will show that <m>AB=BA=I</m>.
+
+
+<md>
+<mrow> AB \amp =\begin{bmatrix}1 \amp  -1\\-5 \amp  2\end{bmatrix}\begin{bmatrix}-2/3 \amp  -1/3\\-5/3 \amp  -1/3\end{bmatrix} </mrow>
+<mrow> \amp =\begin{bmatrix}-2/3+5/3 \amp  -1/3+1/3\\10/3-10/3 \amp  5/3-2/3\end{bmatrix} </mrow>
+<mrow> \amp =\begin{bmatrix}1 \amp  0\\0 \amp  1\end{bmatrix}, </mrow>
+</md>
+
+
+<md>
+<mrow> BA \amp =\begin{bmatrix}-2/3 \amp  -1/3\\-5/3 \amp  -1/3\end{bmatrix}\begin{bmatrix}1 \amp  -1\\-5 \amp  2\end{bmatrix} </mrow>
+<mrow> \amp =\begin{bmatrix}-2/3+5/3 \amp  2/3-2/3\\-5/3+5/3 \amp  5/3-2/3\end{bmatrix} </mrow> 
+<mrow> \amp =\begin{bmatrix}1 \amp  0\\0 \amp  1\end{bmatrix}. </mrow>
+</md>
+       </p>
+    </answer>
+</example>
+
+
+
+
+<example xml:id="ex-inverse2">
+    <statement>
+        <p>
+            Use what we found in <xref ref="ex-inverse1"/> to solve the matrix equation:
+
+<me>
+    \begin{bmatrix}1 \amp  -1\\-5 \amp  2\end{bmatrix}\mathbf{x}=\begin{bmatrix}-3\\1\end{bmatrix}.
+</me>
+       </p>
+    </statement>
+    <answer>
+        <p>
+            We multiply both sides of the equation by the inverse of <m>\begin{bmatrix}1 \amp  -1\\-5 \amp  2\end{bmatrix}</m>.
+
+<me>
+    \begin{bmatrix}-2/3 \amp  -1/3\\-5/3 \amp  -1/3\end{bmatrix}\begin{bmatrix}1 \amp  -1\\-5 \amp  2\end{bmatrix}\mathbf{x}=\begin{bmatrix}-2/3 \amp  -1/3\\-5/3 \amp  -1/3\end{bmatrix}\begin{bmatrix}-3\\1\end{bmatrix}
+</me>
+
+
+<me>
+    \mathbf{x}=\begin{bmatrix}5/3\\14/3\end{bmatrix}.
+</me>
+       </p>
+    </answer>
+</example>
+
+
+
+<p>
+We now prove several useful properties of matrix inverses.
+</p>
+
+
+
+<theorem xml:id="th-invprop">
+
+    <statement>
+        <p>
+            The following properties are stated for square matrices of appropriate sizes.
+<ol>
+<li xml:id="item-inverseofid">
+  <p> <m>I^{-1}=I</m> </p>
+</li>
+<li xml:id="item-inverseofinverse">
+  <p> For an invertible matrix <m>A</m>, <m>(A^{-1})^{-1}=A</m>. </p>
+</li>
+<li xml:id="item-inverseofproduct">
+  <p> If <m>A</m> and <m>B</m> are invertible matrices, then <m>(AB)</m> is invertible and <m>(AB)^{-1}=B^{-1}A^{-1}</m> (Shoes and socks rule). </p>
+</li>
+<li xml:id="item-inversekA">
+  <p>  If <m>A</m> is an invertible matrix and <m>k</m> is a non-zero number, then <m>(kA)^{-1}=\frac{1}{k}A^{-1}</m>. </p>
+</li>
+<li xml:id="item-inversetranspose">
+  <p> If <m>A</m> is an invertible matrix, then <m>A^T</m> is also invertible, and <m>(A^T)^{-1}=(A^{-1})^T</m>. </p>
+</li>
+</ol>
+        </p>
+    </statement>
+
+
+<proof>
+    <p> We will prove <xref ref="item-inverseofproduct"/>.  The remaining properties are left as exercises. 
+    </p>
+    
+    <p> [Proof of <xref ref="item-inverseofproduct"/>:]:
+We will check to see if <m>B^{-1}A^{-1}</m> is the inverse of <m>AB</m>.
+
+<me>
+    (B^{-1}A^{-1})(AB)=B^{-1}(A^{-1}A)B=B^{-1}IB=B^{-1}B=I
+</me>
+
+
+<me>
+    (AB)(B^{-1}A^{-1})=A(BB^{-1})A^{-1}=AIA^{-1}=AA^{-1}=I
+</me>
+
+Thus <m>(AB)</m> is invertible and <m>(AB)^{-1}=B^{-1}A^{-1}</m>.
+    </p>
+</proof>
+</theorem>
+</subsection>
+
+
+
+<subsection xml:id="Subsection-Computing-the-Inverse">
+    <title>Computing the Inverse</title>
+
+<p>
+We now turn to the question of how to find the inverse of a square matrix, or determine that the inverse does not exist. Given a square matrix <m>A</m>, we are looking for a square matrix <m>B</m> such that 
+<me>
+    AB=I\quad\text{and}\quad BA=I
+</me>
+
+We will start by attempting to satisfy <m>AB=I</m>.
+Let <m>\mathbf{v}_1,\ldots,\mathbf{v}_n</m> be the columns of <m>B</m>, then
+
+<me>
+    A\begin{bmatrix}
+           | \amp  |\amp  \amp |\\
+		\mathbf{v}_1 \amp  \mathbf{v}_2 \amp \dots \amp \mathbf{v}_n\\
+		|\amp | \amp  \amp |
+         \end{bmatrix}=\begin{bmatrix}
+           | \amp  |\amp  \amp |\\
+		\mathbf{e}_1 \amp  \mathbf{e}_2 \amp \dots \amp \mathbf{e}_n\\
+		|\amp | \amp  \amp |
+         \end{bmatrix}
+</me>
+
+where each <m>\mathbf{e}_i</m> is a standard unit vector of <m>\R^n</m>.   This gives us a system of equations <m>A\mathbf{v}_i=\mathbf{e}_i</m> for each <m>1\leq i\leq n</m>.  If each <m>A\mathbf{v}_i=\mathbf{e}_i</m> has a unique solution, then finding these solutions will give us the columns of the desired matrix <m>B</m>.  
+</p>
+
+
+<p>
+First, suppose that <m>\mbox{rref}(A)=I</m>, then we can use elementary row operations to carry each <m>[A|\mathbf{e}_i]</m> to its reduced row-echelon form.
+
+<me>
+    [A|\mathbf{e}_i]\rightsquigarrow [I|\mathbf{v}_i]
+</me>
+
+Observe that the row operations that carry <m>A</m> to <m>I</m> will be the same for each <m>A\mathbf{v}_i=\mathbf{e}_i</m>.  We can, therefore, combine the process of solving <m>n</m> systems of equations into a single process
+
+<me>
+    [A|I]\rightsquigarrow [I|B]
+</me>
+
+Each <m>\mathbf{v}_i</m> is a unique solution of <m>A\mathbf{v}_i=\mathbf{e}_i</m>, and we conclude that 
+<me>
+    B=\begin{bmatrix}
+           | \amp  |\amp  \amp |\\
+		\mathbf{v}_1 \amp  \mathbf{v}_2 \amp \dots \amp \mathbf{v}_n\\
+		|\amp | \amp  \amp |
+         \end{bmatrix}
+</me>
+ is a solution to <m>AB=I</m>. By <xref ref="prob-elemrowopsreverse"/>, we can reverse the elementary row operations to obtain
+
+<me>
+    [I|B]\rightsquigarrow [A|I]
+</me>
+
+But the same row operations would also give us
+
+<me>
+    [B|I]\rightsquigarrow [I|A]
+</me>
+
+We conclude that <m>BA=I</m>, and <m>B=A^{-1}</m>.
+</p>
+
+
+
+
+
+<p>
+Next, suppose that <m>\mbox{rref}(A)\neq I</m>.  Then <m>\mbox{rref}(A)</m> must contain a row of zeros.  Because one of the rows of <m>A</m> was completely wiped out by elementary row operations, one of the rows of <m>A</m> must be a linear combination of the other rows.  Suppose row <m>p</m> is a linear combination of the other rows.  Then row <m>p</m> can be carried to a row of zeros. But then the system <m>A\mathbf{v}_p=\mathbf{e}_p</m> is inconsistent.  This is because <m>\mathbf{e}_p</m> has a <m>1</m> as the <m>p^{th}</m> entry and zeros everywhere else.  The <m>1</m> in the <m>p^{th}</m> spot will not be affected by elementary row operations, and the <m>p^{th}</m> row will eventually look like this
+
+<me>
+    [0\ldots 0|1]
+</me>
+
+This shows that a matrix <m>B</m> such that <m>AB=I</m> does not exist, and <m>A</m> does not have an inverse. We have just proved the following theorem.
+</p>
+
+
+
+
+
+
+
+
+<theorem xml:id="th-matrixinverse">
+    <title>Row-reduction Method for Computing the Inverse of a Matrix</title>
+    <statement>
+        <p>
+            Let <m>A</m> be a square matrix.  If it is possible to use elementary row operations to carry the augmented matrix <m>[A|I]</m> to <m>[I|B]</m>, then <m>B=A^{-1}</m>.  If such a reduction is not possible, then <m>A</m> does not have an inverse.
+        </p>
+    </statement>
+</theorem>
+
+
+
+
+<corollary xml:id="cor-rrefI">
+
+    <statement>
+        <p>
+            A square matrix <m>A</m> has an inverse if and only if <m>\mbox{rref}(A)=I</m>.
+        </p>
+    </statement>
+</corollary>
+
+
+<p> 
+Finding inverses is important. We exhibit two examples of this.
+</p> 
+
+<example xml:id="ex-inverse3">
+    <statement>
+        <p>
+            Find <m>A^{-1}</m> or demonstrate that <m>A^{-1}</m> does not exist.
+
+<me>
+    A=\begin{bmatrix}1\amp -1\amp 2\\1\amp 1\amp 1\\1\amp 3\amp -1\end{bmatrix}
+</me>
+       </p>
+    </statement>
+    <answer>
+        <p>
+            We start with the augmented matrix
+
+<me>
+    \left[\begin{array}{ccc|ccc}  
+ 1\amp -1\amp 2\amp 1\amp 0\amp 0\\1\amp 1\amp 1\amp 0\amp 1\amp 0\\1\amp 3\amp -1\amp 0\amp 0\amp 1
+ \end{array}\right]
+  \begin{array}{c}
+ \\
+ \xrightarrow{R_2-R_1}\\
+ \xrightarrow{R_3-R_1}
+ \end{array}
+</me>
+
+ 
+  
+<me>
+    \left[\begin{array}{ccc|ccc}  
+ 1\amp -1\amp 2\amp 1\amp 0\amp 0\\0\amp 2\amp -1\amp -1\amp 1\amp 0\\0\amp 4\amp -3\amp -1\amp 0\amp 1
+ \end{array}\right]
+  \begin{array}{c}
+ \\
+ \\
+ \xrightarrow{R_3-2R_2}
+ \end{array}
+</me>
+
+ 
+ 
+<me>
+    \left[\begin{array}{ccc|ccc}  
+ 1\amp -1\amp 2\amp 1\amp 0\amp 0\\0\amp 2\amp -1\amp -1\amp 1\amp 0\\0\amp 0\amp -1\amp 1\amp -2\amp 1
+ \end{array}\right]
+ \begin{array}{c}
+ \\
+ \\
+ \xrightarrow{(-1)R_3}
+ \end{array}
+</me>
+
+ 
+ 
+<me>
+    \left[\begin{array}{ccc|ccc}  
+ 1\amp -1\amp 2\amp 1\amp 0\amp 0\\0\amp 2\amp -1\amp -1\amp 1\amp 0\\0\amp 0\amp 1\amp -1\amp 2\amp -1
+ \end{array}\right]
+ \begin{array}{c}
+ \xrightarrow{R_1-2R_3}\\
+ \xrightarrow{R_2+R_3}\\
+\\
+ \end{array}
+</me>
+
+ 
+ 
+<me>
+    \left[\begin{array}{ccc|ccc}  
+ 1\amp -1\amp 0\amp 3\amp -4\amp 2\\0\amp 2\amp 0\amp -2\amp 3\amp -1\\0\amp 0\amp 1\amp -1\amp 2\amp -1
+ \end{array}\right]
+  \begin{array}{c}
+ \\
+ \xrightarrow{\frac{1}{2}R_2}\\
+\\
+ \end{array}
+</me>
+
+ 
+ 
+<me>
+    \left[\begin{array}{ccc|ccc}  
+ 1\amp -1\amp 0\amp 3\amp -4\amp 2\\0\amp 1\amp 0\amp -1\amp 3/2\amp -1/2\\0\amp 0\amp 1\amp -1\amp 2\amp -1
+ \end{array}\right]
+ \begin{array}{c}
+ \xrightarrow{R_1+R_2}\\
+ \\
+\\
+ \end{array}
+</me>
+
+ 
+ 
+<me>
+    \left[\begin{array}{ccc|ccc}  
+ 1\amp 0\amp 0\amp 2\amp -5/2\amp 3/2\\0\amp 1\amp 0\amp -1\amp 3/2\amp -1/2\\0\amp 0\amp 1\amp -1\amp 2\amp -1
+ \end{array}\right].
+</me>
+
+ 
+ We conclude that
+ 
+
+<me>
+    A^{-1}=\begin{bmatrix}2\amp -5/2\amp 3/2\\-1\amp 3/2\amp -1/2\\-1\amp 2\amp -1\end{bmatrix}.
+</me>
+       </p>
+    </answer>
+</example>
+
+
+
+
+
+
+
+
+<example xml:id="ex-findinverse2">
+    <statement>
+        <p>
+            Find <m>A^{-1}</m> or demonstrate that <m>A</m> is not invertible.
+
+<me>
+    A=\begin{bmatrix}2\amp 3\amp -1\\0\amp 2\amp 1\\4\amp 4\amp -3\end{bmatrix}
+</me>
+       </p>
+    </statement>
+    <answer>
+        <p>
+            We start with the augmented matrix
+
+<me>
+    \left[\begin{array}{ccc|ccc}  
+ 2\amp 3\amp -1\amp 1\amp 0\amp 0\\0\amp 2\amp 1\amp 0\amp 1\amp 0\\4\amp 4\amp -3\amp 0\amp 0\amp 1
+ \end{array}\right]
+ \begin{array}{c}
+ \xrightarrow{\frac{1}{2}R_1}\\
+ \xrightarrow{\frac{1}{2}R_2}\\
+\\
+ \end{array}
+</me>
+
+
+ 
+<me>
+    \left[\begin{array}{ccc|ccc}  
+ 1\amp 3/2\amp -1/2\amp 1/2\amp 0\amp 0\\0\amp 1\amp 1/2\amp 0\amp 1/2\amp 0\\4\amp 4\amp -3\amp 0\amp 0\amp 1
+ \end{array}\right]
+ \begin{array}{c}
+ \\
+ \\
+\xrightarrow{R_3-4R_1}
+ \end{array}
+</me>
+
+
+ 
+<me>
+    \left[\begin{array}{ccc|ccc}  
+ 1\amp 3/2\amp -1/2\amp 1/2\amp 0\amp 0\\0\amp 1\amp 1/2\amp 0\amp 1/2\amp 0\\0\amp -2\amp -1\amp -2\amp 0\amp 1
+ \end{array}\right]
+ \begin{array}{c}
+ \\
+ \\
+\xrightarrow{R_3+2R_2}
+ \end{array}
+</me>
+
+ 
+ 
+<me>
+    \left[\begin{array}{ccc|ccc}  
+ 1\amp 3/2\amp -1/2\amp 1/2\amp 0\amp 0\\0\amp 1\amp 1/2\amp 0\amp 1/2\amp 0\\0\amp 0\amp 0\amp -2\amp 1\amp 1
+ \end{array}\right].
+</me>
+
+ At this point we see that the left-hand side cannot be turned into <m>I</m> through elementary row operations. We conclude that <m>A^{-1}</m> does not exist.
+       </p>
+    </answer>
+</example>
+
+
+
+<remark>
+<statement>
+<p>
+Recall that a square matrix whose reduced row-echelon form is the identity matrix is called <term>nonsingular</term>. ( <xref ref="def-nonsingularmatrix"/>)
+According to <xref ref="cor-rrefI"/>, a matrix is invertible if and only if it is nonsingular.  For this reason many linear algebra texts use the terms <term>invertible</term> and <term>nonsingular</term> as synonyms.
+</p>
+</statement>
+</remark>
+</subsection>
+
+
+
+
+
+
+
+<subsection xml:id="Subsection-Inverse-of-a-2d-matrix">
+    <title>Inverse of a <m>2\times 2</m> Matrix</title>
+
+    <p>
+We will conclude this section by discussing the inverse of a nonsingular <m>2\times 2</m> matrix.   
+Let <m>A=\begin{bmatrix}a\amp b\\c\amp d\end{bmatrix}</m> be a nonsingular matrix.  We can find <m>A^{-1}</m> by using the row reduction method described above, that is, by computing the reduced row-echelon form of <m>[A|I]</m>.  Row reduction yields the following:
+
+
+<me>
+    \left[\begin{array}{cc|cc}  
+ a\amp b\amp 1\amp 0\\c\amp d\amp 0\amp 1
+ \end{array}\right]\rightsquigarrow\left[\begin{array}{cc|cc}  
+ 1\amp 0\amp d/(ad-bc)\amp -b/(ad-bc)\\0\amp 1\amp -c/(ad-bc)\amp a/(ad-bc)
+ \end{array}\right]
+</me>
+
+ Note that the denominator of each term in the inverse matrix is the same.  Factoring it out, gives us the following formula for <m>A^{-1}</m>.
+</p>
+
+
+<identity xml:id="form-detinverse">
+    <statement>
+        <p>
+            <me>
+    A^{-1}=\frac{1}{ad-bc}\begin{bmatrix}d\amp -b\\-c\amp a\end{bmatrix}.
+</me>
+        </p>
+    </statement>
+</identity>
+
+<p>
+Clearly, the expression for <m>A^{-1}</m> is defined, if and only if <m>ad-bc\neq 0</m>.  So, what happens when <m>ad-bc=0</m>?  In <xref ref="prob-inverseformula"/> you will be asked to fill in the steps of the row reduction procedure that produces this formula, and show that if <m>ad-bc=0</m> then <m>A</m> does not have an inverse. 
+</p>
+</subsection>
+
+
+
+
+
+
+
+
+
+
+
+
+<exercises>
+
+<exercise xml:id="prob-owninverse">
+    <statement>
+        <p>
+            Verify that the matrix <m>\begin{bmatrix} 2 \amp  -1\\3 \amp  -2\end{bmatrix}</m> is its own inverse.
+        </p>
+    </statement>
+</exercise>
+
+<exercise xml:id="prob-inverseofsingularmatrix">
+    <statement>
+        <p>
+            Use the row-reduction method for computing matrix inverses to explain why the given matrix does not have an inverse.
+
+<me>
+    \begin{bmatrix}1\amp 1\amp 1\\2\amp 2\amp 2\\3\amp 3\amp 3\end{bmatrix}
+</me>
+        </p>
+    </statement>
+</exercise>
+
+<exercise xml:id="prob-inversesofeachother">
+    <statement>
+        <p>
+            Let 
+<me>
+    A=\begin{bmatrix}1\amp -1\amp 2\\2\amp 1\amp 1\\-3\amp 1\amp 0\end{bmatrix}\quad\text{and}\quad B=\begin{bmatrix}-1/12\amp 1/6\amp -1/4\\-1/4\amp 1/2\amp 1/4\\5/12\amp 1/6\amp 1/4\end{bmatrix}
+</me>
+ Are <m>A</m> and <m>B</m> inverses of each other?
+</p>
+</statement>
+
+<answer>
+<p>
+    Yes, <m>A</m> and <m>B</m> are inverses.
+</p>
+</answer>
+</exercise>
+
+
+
+<exercise xml:id="prob-oroveinverseofid">
+    <statement>
+        <p>
+            Prove <xref ref="item-inverseofid"/> and <xref ref="item-inverseofinverse"/> of <xref ref="th-invprop"/>.
+        </p>
+    </statement>
+</exercise>
+
+<exercise xml:id="prob-proveinverseka">
+    <statement>
+        <p>
+            Prove <xref ref="item-inversekA"/> and <xref ref="item-inversetranspose"/> of <xref ref="th-invprop"/>.
+        </p>
+    </statement>
+</exercise>
+
+<exercise xml:id="prob-illustratematinverse">
+    <statement>
+        <p>
+            Use the following invertible matrices to illustrate <xref ref="item-inverseofinverse"/>, <xref ref="item-inverseofproduct"/>, <xref ref="item-inversekA"/> and <xref ref="item-inversetranspose"/> of <xref ref="th-invprop"/>.
+
+<me>
+    A=\begin{bmatrix}2\amp 0\\4\amp -3\end{bmatrix}\quad\text{and}\quad B=\begin{bmatrix}2\amp -1\\1\amp 5\end{bmatrix}
+</me>
+        </p>
+    </statement>
+</exercise>
+
+<exercise xml:id="prob-solvesysbyinverses">
+    <statement>
+        <p>
+            In <xref ref="ex-inverse3"/> we found the inverse of 
+<me>
+    A=\begin{bmatrix}1\amp -1\amp 2\\1\amp 1\amp 1\\1\amp 3\amp -1\end{bmatrix}
+</me>
+
+
+Use <m>A^{-1}</m> to solve the equation
+
+<me>
+    A\mathbf{x}=\begin{bmatrix}3\\-2\\4\end{bmatrix}
+</me>
+        </p>
+    </statement>
+
+    <answer>
+        <p>
+            <me>
+    \mathbf{x}=\begin{bmatrix}17\\-8\\-11\end{bmatrix}
+</me>
+        </p>
+    </answer>
+</exercise>
+
+
+
+
+<exercise xml:id="prob-findinverse1">
+    <statement>
+        <p>
+            Find the inverse of the following matrix by using the row-reduction procedure.  
+
+  
+<me>
+    A=\begin{bmatrix}1\amp -1\amp 2\\-1\amp 0\amp 0\\1\amp -2\amp 3\end{bmatrix}
+</me>
+        </p>
+    </statement>
+    <answer>
+        <p>
+            <me>
+                A^{-1}=\begin{bmatrix}0 \amp  -1 \amp  0 \\ 3 \amp  1 \amp  -2\\ 2 \amp  1 \amp  -1\end{bmatrix}
+            </me>
+        </p>
+    </answer>
+</exercise>
+
+
+<exercise xml:id="prob-inverseformula">
+    <statement>
+        <p>
+            Use the row-reduction method to prove Formula <xref ref="form-detinverse"/> for a nonsingular matrix.  Show that if <m>ad-bc=0</m> then <m>A</m> does not have an inverse.
+        </p>
+    </statement>
+
+<hint>
+    <p> 
+        After going through the row reduction, try it again, considering the possibility that <m>a=0</m>.
+    </p>
+</hint>
+   
+</exercise>
+
+
+
+
+<exercise xml:id="prob-useformforinv">
+    <statement>
+        <p>
+            Use <xref ref="form-detinverse"/> to find the inverse of 
+<me>
+    A=\begin{bmatrix}2\amp -3\\1\amp 5\end{bmatrix}
+</me>
+
+Use <m>A^{-1}</m> to solve the equation
+
+<me>
+    A\mathbf{x}=\begin{bmatrix}-3\\2\end{bmatrix}
+</me>
+        </p>
+    </statement>
+
+
+    <answer>
+        <p>
+            <me>
+    \mathbf{x}=\begin{bmatrix}-9/13\\7/13\end{bmatrix}
+</me>
+        </p>
+    </answer>
+</exercise>
+
+<exercisegroup xml:id="notinv1">
+
+<introduction>
+    <p>
+For each matrix below refer to <xref ref="form-detinverse"/> to find the value of <m>x</m> for which the matrix is not invertible.       
+    </p>
+</introduction>
+
+
+
+<exercise>
+    <statement>
+        <p>
+<me>
+    \begin{bmatrix}1\amp 2\\4\amp x\end{bmatrix}
+</me>
+        </p>
+    </statement>
+    <answer>
+        <p>
+            <m>x=8</m>
+        </p>
+    </answer>
+
+
+</exercise>
+<exercise xml:id="prob-notinv2">
+    <statement>
+        <p>
+            <me>
+    \begin{bmatrix}3\amp 2\\3\amp x\end{bmatrix}
+</me>
+        </p>
+    </statement>
+    <answer>
+        <p>
+            <m>x=2</m>
+        </p>
+    </answer>
+</exercise>
+
+
+<exercise xml:id="prob-notinv3">
+    <statement>
+        <p>
+            <me>
+    \begin{bmatrix}5\amp 4\\-5\amp x\end{bmatrix}
+</me>
+        </p>
+    </statement>
+    <answer>
+        <p>
+            <m>x=-4</m>
+        </p>
+    </answer>
+</exercise>
+</exercisegroup>
+
+
+
+
+
+
+<exercise xml:id="prob-cancelprop">
+    <statement>
+        <p>
+            Suppose <m>AB=AC</m> and <m>A</m> is an invertible <m>n\times n</m> matrix. Does it
+follow that <m>B=C?</m> Explain why or why not.
+        </p>
+    </statement>
+</exercise>
+
+<exercise xml:id="prob-cancelpropsingular">
+    <statement>
+        <p>
+            Suppose <m>AB=AC</m> and <m>A</m> is a non-invertible <m>n\times n</m> matrix. Does it
+follow that <m>B=C?</m> Explain why or why not.
+        </p>
+    </statement>
+</exercise>
+
+
+<exercise xml:id="prob-Asquaredid">
+    <statement>
+        <p>
+            Give an example of a matrix <m>A</m> such that <m>A^{2}=I</m> and yet <m>A\neq I</m>
+and <m>A\neq -I.</m>
+        </p>
+    </statement>
+</exercise>
+
+<exercise xml:id="prob-invofsymm">
+    <statement>
+        <p>
+            Suppose <m>A</m> is a symmetric, invertible matrix.  Does it follow that <m>A^{-1}</m> is symmetric?  What if we change ``symmetric" to ``skew symmetric"?  (See <xref ref="def-symmetricandskewsymmetric"/>.)
+        </p>
+    </statement>
+</exercise>
+
+<exercise xml:id="prob-sumofinvertible">
+    <statement>
+        <p>
+            Suppose <m>A</m> and <m>B</m> are invertible <m>n\times n</m> matrices.  Does it follow that <m>(A+B)</m> is invertible?
+        </p>
+    </statement>
+</exercise>
+</exercises>
+
+</section>

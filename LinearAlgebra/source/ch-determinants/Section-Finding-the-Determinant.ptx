@@ -1,0 +1,832 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<section xml:id="Section-Finding-the-Determinant" xmlns:xi="http://www.w3.org/2001/XInclude">
+    <title>Finding the Determinant</title>
+
+<introduction>
+<p>
+In this section we will define a function that assigns to each square matrix <m>A</m> a scalar output called the <term>determinant of <m>A</m></term>.  
+We will denote the determinant of <m>A</m> by <m>\det{A}</m>.  
+For a matrix with real number entries, the output of the determinant function will always be a real number.
+</p>
+
+<p>
+One important property of the determinant is its connection to matrix inverses.  We will find that a matrix <m>A</m> is singular if and only if <m>\det{A}=0</m>. 
+ For nonsingular matrices, we will establish a formula that gives the inverse of a matrix exclusively in terms of determinants.  
+ This property will be addressed in detail during the final sections of the chapter.
+</p>
+</introduction>
+
+<!--<p>
+Geometrically speaking, the determinant of a matrix of a linear transformation is the factor by which the area (or volume or hypervolume) is scaled by the transformation.  This will be discussed in <url href="https://ximera.osu.edu/oerlinalg/LinearAlgebra/DET-0070/main">Determinants as Areas and Volumes</url>. 
+</p>-->
+
+<subsection xml:id="Subsection-Cofactor-Expansion-Along-the-Top-Row">
+    <title>Cofactor Expansion Along the Top Row</title>
+
+<p>
+To start from the beginning, let us define the determinant of a <m>1\times 1</m> matrix.
+</p>
+
+<definition xml:id="def-onebyonedet">
+    <statement>
+        <p>
+            Let
+<m>A=\begin{bmatrix}a\end{bmatrix}</m>.  Define the <term>determinant</term> of <m>A</m> by <m>\det{A}=a</m>.
+        </p>
+    </statement>
+</definition>
+
+<p>
+It is important to note that this definition is consistent with our goal of making a connection between determinants and invertibility.  Observe that <m>A^{-1}=\begin{bmatrix}a^{-1}\end{bmatrix}</m> exists if and only if <m>a\neq 0</m>.
+
+Now we proceed to <m>2\times 2</m> matrices.  According to <xref ref="form-detinverse"/>, the inverse of a nonsingular matrix 
+<me>
+A=\begin{bmatrix}a\amp b\\c\amp d\end{bmatrix}
+</me>
+
+is given by
+
+<me>
+    A^{-1}=\frac{1}{ad-bc}\begin{bmatrix}d\amp -b\\-c\amp a\end{bmatrix}.
+</me>
+
+Observe that <m>A^{-1}</m> exists if and only if <m>ad-bc\neq 0</m>.  We will call the number <m>ad-bc</m> the determinant of <m>A</m>.
+</p>
+
+
+
+<definition xml:id="def-twobytwodet">
+
+    <statement>
+        <p>
+            Let <m>A=\begin{bmatrix}a\amp b\\c\amp d\end{bmatrix}</m>.  The determinant of <m>A</m> is defined by 
+<men xml:id="eq-twobytwodet">
+\det{A}=\det{\begin{bmatrix}a\amp b\\c\amp d\end{bmatrix}}=\begin{vmatrix}a\amp b\\c\amp d\end{vmatrix}=ad-bc.
+</men>
+        </p>
+    </statement>
+</definition>
+
+<p>
+Note the distinction between the square bracket notation associated with the matrix
+<me>
+\begin{bmatrix}a\amp b\\c\amp d\end{bmatrix}
+</me>
+
+and the vertical bar notation 
+<me>
+\begin{vmatrix}a\amp b\\c\amp d\end{vmatrix}
+</me> 
+
+used to denote  the determinant in expression <xref ref="eq-twobytwodet"/>.
+</p>
+
+
+<p> 
+For the sake of practice, here are two small examples using these formulas.
+</p> 
+
+
+<example xml:id="ex-2x2det">
+    <p>
+        <me>
+    \det{\begin{bmatrix}1\amp 2\\3\amp 4\end{bmatrix}}=\begin{vmatrix}1\amp 2\\3\amp 4\end{vmatrix}=(1)(4)-(2)(3)=-2.
+</me>
+    </p>
+</example>
+
+<p>
+The easiest way to understand the definition of the determinant for a <m>3\times 3</m> matrix is to start with an example.
+</p>
+
+
+<example xml:id="ex-threebythreedet1">
+    <statement>
+        <p>
+            Find <m>\det{A}</m> if 
+
+<me>
+    A=\begin{bmatrix}3\amp -2\amp 1\\5\amp -1\amp 2\\1\amp 4\amp 1\end{bmatrix}.
+</me>
+       </p>
+    </statement>
+    <answer>
+        <p>
+<md>
+<mrow> \det{A}\amp =(3)\begin{vmatrix}-1\amp 2\\4\amp 1\end{vmatrix}-(-2)\begin{vmatrix}5\amp 2\\1\amp 1\end{vmatrix}+(1)\begin{vmatrix}5\amp -1\\1\amp 4\end{vmatrix} </mrow>
+<mrow> \amp =(3)(-1-8)-(-2)(5-2)+(1)(20+1) </mrow>
+<mrow> \amp =-27+6+21 </mrow>
+<mrow> \amp =0. </mrow>
+</md>
+</p>
+
+<video youtube="aR2w-viFcvI" play-at="select"/>
+    </answer>
+</example>
+
+<p>
+We now formalize what we learned in <xref ref="ex-threebythreedet1"/>.
+</p>
+
+<definition xml:id="def-threebythreedet">
+
+    <statement>
+        <p>
+            Let
+
+<me>
+    A=\begin{bmatrix}a\amp b\amp c\\d\amp e\amp f\\g\amp h\amp i\end{bmatrix}.
+</me>
+
+The <term>determinant</term> of <m>A</m> is given by
+<men xml:id="eq-det3by3">
+\det{A}=|A|=a\begin{vmatrix}e\amp f\\h\amp i\end{vmatrix}-b\begin{vmatrix}d\amp f\\g\amp i\end{vmatrix}+c\begin{vmatrix}d\amp e\\g\amp h\end{vmatrix}.
+</men>
+        </p>
+    </statement>
+</definition>
+
+<p>
+We will now reiterate several important features of this definition and introduce some vocabulary:
+<ul>
+<li>
+      <p> The coefficients <m>a</m>, <m>b</m> and <m>c</m> are the entries of the first row of matrix <m>A</m>.  Coefficients in the formula follow an alternating sign pattern: <m>+a</m>, <m>-b</m>, <m>+c</m>.  This pattern will persist in the determinant formulas for determinants of larger matrices. </p>
+</li>
+<li>
+      <p> When using <xref ref="eq-det3by3"/>, we compute determinants of three matrices:
+
+<me> 
+    \begin{bmatrix}e\amp f\\h\amp i\end{bmatrix},\quad \begin{bmatrix}d\amp f\\g\amp i\end{bmatrix},\quad \begin{bmatrix}d\amp e\\g\amp h\end{bmatrix}.
+</me>
+
+
+These matrices are called <term>minor</term> matrices.  To form each minor matrix,
+cross out the row and column that the corresponding coefficient is in.  For example, the minor matrix corresponding to coefficient <m>b</m> is found by crossing out the row and column that <m>b</m> is in.
+</p>
+
+
+
+<image width="50%">
+   <shortdescription>Row column deletion drawn</shortdescription>
+    <latex-image>
+      \begin{tikzpicture}
+  \matrix (m)[
+    matrix of math nodes,
+    nodes in empty cells,
+    left delimiter={[},right delimiter={]},minimum width=width("a"),minimum height=height("b")] {
+    a    \amp  {\color{red}b}  \amp  c  \\
+    d \amp  e   \amp  f   \\
+    g   \amp  h    \amp  i     \\
+  } ;
+
+  %\draw (m-3-2.south west) rectangle (m-2-3.north east);
+  \draw[blue](m-1-1.west) -- (m-1-1.east);
+   \draw[blue](m-1-3.west) -- (m-1-3.east);
+  \draw[blue](m-2-2.north) -- (m-3-2.south);
+     \end{tikzpicture}
+    </latex-image>
+</image>
+</li>
+
+ <li>
+    <p>
+    The process for finding the determinant described in <xref ref="def-threebythreedet"/> is referred to as a <term>cofactor expansion along the top row</term>.
+    </p>
+</li>
+</ul>
+</p>
+
+
+
+
+<p> 
+A few more elaborate examples will be helpful for this newfound technique.
+</p> 
+
+
+
+<example xml:id="ex-3x3det2">
+    <statement>
+        <p>
+            Find <m>\det{A}</m> if 
+
+<me>
+    A=\begin{bmatrix}4\amp 3\amp -2\\1\amp -5\amp 3\\-4\amp 1\amp 1\end{bmatrix}.
+</me>
+       </p>
+    </statement>
+    <answer>
+        <p>
+            <me>
+    
+\det{A}=(4)\begin{vmatrix}-5\amp 3\\1\amp 1\end{vmatrix}-(3)\begin{vmatrix}1\amp 3\\-4\amp 1\end{vmatrix}+(-2)\begin{vmatrix}1\amp -5\\-4\amp 1\end{vmatrix}.
+=-33
+
+</me>
+       </p>
+    </answer>
+</example>
+
+<p>
+We are starting to observe a certain pattern in the process of computing the determinant.  This pattern will persist for larger matrices.  Let's take a look at a <m>4\times 4</m> matrix.
+</p>
+
+
+<example xml:id="ex-4by4withVideo">
+    <statement>
+        <p>
+            Find <m>\det{A}</m> if 
+    
+<me>
+    A=\begin{bmatrix} 2 \amp  3 \amp  -2 \amp  -5\\0 \amp  1\amp  -2\amp  0\\1\amp  3 \amp  0 \amp -1\\2\amp 0\amp  1\amp 1\end{bmatrix}.
+</me>
+       </p>
+    </statement>
+    <answer>
+        <p>
+            As you watch the video below, pay particular attention to the same patterns as you saw in the case of <m>3\times 3</m> matrices: the alternating sign pattern and the process of forming minor matrices.
+
+<md>
+<mrow> \det{A}
+\amp =2\begin{vmatrix}1\amp  -2\amp  0\\3 \amp  0 \amp -1\\0\amp  1\amp 1\end{vmatrix}-3\begin{vmatrix}0 \amp  -2\amp  0\\1 \amp  0 \amp -1\\2\amp  1\amp 1\end{vmatrix}-2\begin{vmatrix}0 \amp  1\amp  0\\1\amp  3 \amp -1\\2\amp 0\amp 1\end{vmatrix}-(-5)\begin{vmatrix}0 \amp  1\amp  -2\\1\amp  3 \amp  0 \\2\amp 0\amp  1\end{vmatrix} </mrow>
+<mrow> \amp =2(7)-3(6)-2(-3)+5(11) </mrow>
+<mrow> \amp =57 </mrow>
+</md>
+</p> 
+
+<video youtube="YIJq7TqncyU" play-at="select"/>
+    
+    </answer>
+</example>
+
+<example xml:id="ex-expansiontoprow">
+    <statement>
+        <p>
+            Find <m>\det{A}</m> if 
+
+<me>
+    A=\begin{bmatrix}4\amp -1\amp 2\amp 1\\3\amp 0\amp 1\amp -2\\
+2\amp 1\amp 5\amp 1\\-2\amp 1\amp 3\amp -1\end{bmatrix}.
+</me>
+       </p>
+    </statement>
+
+    <answer>
+        <p>
+            We will use the entries in the top row as coefficients in front of <m>3\times 3</m> determinants.  As before, we will use the alternating sign pattern for the coefficients:
+
+<me>
+    +(4), -(-1), +(2), -(1).
+</me>
+
+Just like in the case of a <m>3 \times 3</m> matrix in  <xref ref="ex-threebythreedet1"/>, each of the smaller determinants is obtained by crossing out the row and the column where the coefficient is located.
+<md>
+<mrow> \det{A}
+\amp =4\begin{vmatrix}0\amp 1\amp -2\\1\amp 5\amp 1\\1\amp 3\amp -1\end{vmatrix}+\begin{vmatrix}3\amp 1\amp -2\\2\amp 5\amp 1\\-2\amp 3\amp -1\end{vmatrix}+2\begin{vmatrix}3\amp 0\amp -2\\2\amp 1\amp 1\\-2\amp 1\amp -1\end{vmatrix}-\begin{vmatrix}3\amp 0\amp 1\\2\amp 1\amp 5\\-2\amp 1\amp 3\end{vmatrix}</mrow>
+<mrow> \amp =4(6)+(-56)+2(-14)-(-2) </mrow>
+<mrow> \amp =-58 </mrow>
+</md>
+       </p>
+    </answer>
+</example>
+</subsection> 
+
+
+
+
+
+
+
+
+
+<subsection xml:id="Subsection-Cofactor-Expansion-Along-the-First-Column">
+    <title>Cofactor Expansion Along the First Column</title>
+<p> 
+We defined the determinant of a matrix in terms of cofactor expansion along the top row. 
+ We will now see what happens when we expand along the first <em>column</em> instead.  
+ We will refer to this process as <term>cofactor expansion along the first column</term>.  
+ Surprisingly, both expansions yield the same result.  
+</p> 
+
+<p> 
+To illustrate this, let us revisit <xref ref="ex-threebythreedet1"/> and <xref ref="ex-expansiontoprow"/>. 
+</p> 
+
+<example xml:id="init-expansionfirstcol1">
+    <p>
+        Let 
+
+<me>
+    A=\begin{bmatrix}3\amp -2\amp 1\\5\amp -1\amp 2\\1\amp 4\amp 1\end{bmatrix}.
+</me>
+
+In <xref ref="ex-threebythreedet1"/> we found that <m>\det{A}=0</m>.  Let's try to mimic what we did earlier, but instead of expanding along the first row, we will expand along the fist column.  
+<md>
+<mrow> \amp (3)\begin{vmatrix}-1\amp 2\\4\amp 1\end{vmatrix}-(5)\begin{vmatrix}-2\amp 1\\4\amp 1\end{vmatrix}+(1)\begin{vmatrix}-2\amp 1\\-1\amp 2\end{vmatrix} </mrow>
+<mrow> \amp =(3)(-1-8)-(5)(-2-4)+(1)(-4+1) </mrow>
+    <mrow> \amp =-27+30-3 </mrow>
+        <mrow> \amp =0 </mrow>
+            <mrow> \amp =\det{A}. </mrow>
+</md>
+    </p>
+</example>
+
+
+<p>
+Let's go through this process again for a larger matrix.
+</p>
+
+
+<exploration xml:id="init-expansionfirstcol2">
+    <p>
+        Let
+
+<me>
+    A=\begin{bmatrix}4\amp -1\amp 2\amp 1\\3\amp 0\amp 1\amp -2\\
+2\amp 1\amp 5\amp 1\\-2\amp 1\amp 3\amp -1\end{bmatrix}.
+</me>
+
+In <xref ref="ex-expansiontoprow"/> we found that <m>\det{A}=-58</m>.  We will now try to expand along the fist column.  
+
+When computing determinants of the four <m>3\times 3</m> matrices below, try different approaches.  You might want to expand along the first row for some of them, and along the first column for others.  Looking for where zeros are located will help you decide what to try.
+<md>
+    <mrow> \amp 4\begin{vmatrix}0\amp 1\amp -2\\1\amp 5\amp 1\\1\amp 3\amp -1\end{vmatrix}-3\begin{vmatrix}-1\amp 2\amp 1\\1\amp 5\amp 1\\1\amp 3\amp -1\end{vmatrix}+2\begin{vmatrix}-1\amp 2\amp 1\\0\amp 1\amp -2\\1\amp 3\amp -1\end{vmatrix}-(-2)\begin{vmatrix}-1\amp 2\amp 1\\0\amp 1\amp -2\\1\amp 5\amp 1\end{vmatrix} </mrow>
+        <mrow> \amp =4(6)-3(10)+2(-10)+2(-16) </mrow>
+            <mrow> \amp =-58 </mrow>
+                <mrow> \amp =\det{A}. </mrow>
+</md>
+    </p>
+</exploration>
+<p>
+In <xref ref="init-expansionfirstcol1"/> and <xref ref="init-expansionfirstcol2"/> we were careful not to claim at the outset 
+that we were finding the determinant of the matrix by cofactor expansion along the first column; 
+we merely observed that the resulting value was equal to the determinant.  
+Therefore the determinant of a matrix can be defined in terms of cofactor expansion along the first row or column.  
+</p>
+</subsection>
+
+
+
+
+
+
+
+
+
+
+<subsection xml:id="Subsection-Cofactor-Expansion-Along-Any-Row-or-Column">
+    <title>Cofactor Expansion Along Any Row or Column</title>
+
+<p>
+We originally defined the determinant of a matrix via expansion along the top row of the matrix.  We later observed that expansion along the first column produces the same result.  It turns out that the value of the determinant can be computed by expanding along any row or column.  This result is known as the <term>Laplace Expansion Theorem</term>.
+</p> 
+
+<p> 
+When expanding along an arbitrary row or column, we will continue to follow the two patterns we observed earlier.
+<ul>
+    <li>
+      <p> The alternating sign pattern for coefficients will follow the checkerboard pattern below.
+ 
+<me>
+    \begin{bmatrix}+\amp -\amp +\amp -\amp +\amp \ldots\\-\amp +\amp -\amp +\amp -\amp \ldots\\
+ +\amp -\amp +\amp -\amp +\amp \ldots\\-\amp +\amp -\amp +\amp -\amp \ldots\\\vdots \amp \vdots  \amp  \vdots \amp  \vdots \amp \vdots \amp \ddots \end{bmatrix}
+</me>
+</p>
+</li>
+
+ <li>
+      <p> Minor matrices will be formed by eliminating the row and column that the corresponding coefficient is in. </p>
+</li>
+</ul>
+
+To illustrate this, let's take another look at matrix <m>A</m> from <xref ref="ex-expansiontoprow"/>. 
+</p>
+
+
+
+ <example xml:id="ex-laplace1">
+    <statement>
+        <p>
+            Let  
+
+<me>
+    A=\begin{bmatrix}4\amp -1\amp 2\amp 1\\3\amp 0\amp 1\amp -2\\
+2\amp 1\amp 5\amp 1\\-2\amp 1\amp 3\amp -1\end{bmatrix}.
+</me>
+
+Follow the rules described above to expand along the second row.  Compare your result with the determinant you found in  <xref ref="ex-expansiontoprow"/>.
+       </p>
+    </statement>
+    <answer>
+        <p>
+            The second row has the advantage over other rows in that it contains a zero.  This will simplify our calculations.  Following the checkerboard sign pattern along the second row we get
+
+<md>
+<mrow> \det{A}
+\amp =-3\begin{vmatrix}-1\amp 2\amp 1\\1\amp 5\amp 1\\1\amp 3\amp -1\end{vmatrix}-\begin{vmatrix}4\amp -1\amp 1\\2\amp 1\amp 1\\-2\amp 1\amp -1\end{vmatrix}+(-2)\begin{vmatrix}4\amp -1\amp 2\\2\amp 1\amp 5\\-2\amp 1\amp 3\end{vmatrix} </mrow>
+<mrow> \amp =-3(10)-(-4)-2(16) </mrow>
+        <mrow> \amp =-58. </mrow>
+</md>
+This answer is the same as the answer we got using expansion along the first row in  <xref ref="ex-expansiontoprow"/>.
+       </p>
+    </answer>
+</example>
+ 
+<p> 
+It is clear that having zeros as entries in the matrix reduces the number of computations necessary to find the determinant.  The following example demonstrates how to use zeros to our advantage.
+</p>
+
+
+<example xml:id="ex-laplace2">
+    <statement>
+        <p>
+            Find <m>\det{A}</m> if
+
+<me>
+    A=\begin{bmatrix}4\amp 0\amp 0\amp 0\amp 2\\0\amp -1\amp 1\amp 0\amp 0\\2\amp 0\amp 0\amp -5\amp 3\\0\amp 1\amp 4\amp 0\amp -1\\1\amp 1\amp 5\amp 0\amp 0\end{bmatrix}.
+</me>
+       </p>
+    </statement>
+    <answer>
+        <p>
+            The fourth column contains the most zeros, so we will expand along that column.  The  <m>(3, 4)</m>-entry is the only non-zero entry in the fourth column.  Following the checkerboard pattern, we see that the sign in front of <m>-5</m> is a minus.  
+
+<me>
+    \det{A}=-(-5)\begin{vmatrix}4\amp 0\amp 0\amp 2\\0\amp -1\amp 1\amp 0\\0\amp 1\amp 4\amp -1\\1\amp 1\amp 5\amp 0\end{vmatrix}.
+
+</me>
+
+Next we will expand the minor matrix along the top row.
+
+<me>
+    \det{A}=5\left(4\begin{vmatrix}-1\amp 1\amp 0\\1\amp 4\amp -1\\1\amp 5\amp 0\end{vmatrix}-2\begin{vmatrix}0\amp -1\amp 1\\0\amp 1\amp 4\amp \\1\amp 1\amp 5\end{vmatrix}\right).
+</me>
+
+Try the next step on your own.  We suggest that you expand the first matrix along the last column and expand the second matrix along the first column.
+
+<me>
+    \det(A)=5\big(4(-6)-2(-5)\big)=-70.
+</me>
+       </p>
+    </answer>
+</example>
+</subsection>
+
+
+
+
+
+
+
+
+
+
+
+<subsection xml:id="Subsection-A-Note-on-Equivalency">
+    <title>A Note on Equivalency</title>
+<p> 
+We initially introduced the determinant of a matrix via cofactor expansion along the top row.  We later observed that cofactor expansion along any row or column produces the same result.  We have to be careful, however, not to use a few examples as ``proof" that all cofactor expansions are equivalent.  Such claims need to be carefully supported with general proofs.  Unfortunately, in this case, the proofs are tedious and conceptually unenlightening.  An interested reader can find them in later sections.
+</p>
+</subsection>
+
+
+
+
+
+<subsection xml:id="Subsection-Determinants-of-Some-Special-Matrices">
+    <title>Determinants of Some Special Matrices</title>
+<p>
+We know that we can find the determinant of a matrix by cofactor expansion along the top row or the first column.  This property gives rise to a useful result.
+</p>
+
+<theorem xml:id="th-detoftrans">
+
+    <statement>
+        <p>
+            Let <m>A</m> be a square matrix, then
+
+<me>
+    \det{A^T}=\det{A}.
+</me>
+        </p>
+    </statement>
+
+<proof>
+    <p>
+    See  <xref ref="prob-detOfTrans"/>.
+    </p>
+</proof>
+</theorem>
+
+<p>
+As we observed earlier, having zeros in a matrix makes it easier for us to compute its determinant. 
+ Recall that that a square matrix is <term>upper-triangular</term> if all of the entries below the main diagonal are zero.  
+ Similarly, a square matrix is called <term>lower-triangular</term> if all of the entries above the main diagonal are zero.  
+ Together, upper and lower triangular matrices are categorized as <term>triangular</term> matrices.
+</p> 
+
+
+<theorem xml:id="lemma-triangulardet">
+
+    <statement>
+        <p>
+            If <m>A</m> is a triangular matrix, then <m>\det{A}</m> is equal to the product of its diagonal entries.
+        </p>
+    </statement>
+
+<proof>
+    <p>
+We proceed by induction on <m>n</m>, where <m>A</m> is an <m>n\times n</m> matrix.  It is easy to see that this result holds for <m>n=1, 2</m>.  Suppose that the result holds for <m>(n-1)\times (n-1)</m> triangular matrices.  We need to show that it holds for <m>n\times n</m> triangular matrices.  
+    </p> 
+
+<p> 
+Suppose <m>A=[a_{ij}]</m> is a triangular matrix. Then, with the exception of <m>a_{11}</m>, the entries in the first row (or column) of <m>A</m> are guaranteed to be zeros.
+  We will take advantage of these zeros and expand along the first row (or column) of <m>A</m>.  As we do so, we obtain a single product of <m>a_{11}</m> and the determinant of a minor matrix obtained by crossing out the first row and column of <m>A</m>.  But this minor <m>(n-1)\times (n-1)</m> matrix is also a triangular matrix with diagonal etries <m>a_{22}, a_{33},\ldots, a_{nn}</m>.  By induction hypothesis, its determinant is equal to the product of its diagonal entries, <m>a_{22}\cdot a_{33}\cdot\ldots\cdot a_{nn}</m>.  Therefore 
+<me>
+    \det{A}=a_{11}(a_{22}\cdot a_{33}\cdot\ldots\cdot a_{nn}).
+</me>
+
+ This completes the proof.
+    </p>
+</proof>
+</theorem>
+
+<p> 
+As an immediate consequence of this theorem, we have the following result.
+</p>
+
+
+<corollary xml:id="lemma-detofid">
+
+    <statement>
+        <p>
+            Let <m>I</m> be the identity matrix, then
+ 
+<me>
+    \det{I}=1.
+</me>
+        </p>
+    </statement>
+</corollary>
+
+<p> 
+ Matrices of the form 
+ <me>
+\begin{bmatrix}A \amp  C\\O\amp  B\end{bmatrix} \quad \text{and} \quad \begin{bmatrix}A \amp  O\\D\amp  B\end{bmatrix},
+</me>,
+
+where <m>A</m>, <m>B</m> are square matrices and <m>O</m> is the zero matrix, are said to be <term>block triangular</term>.  
+The following theorem makes it easy to compute determinants of such matrices.
+</p>
+
+
+ <theorem xml:id="th-blockTriDet">
+
+    <statement>
+        <p>
+            Consider block triangular matrices
+        <me>
+        \begin{bmatrix}A \amp  C\\O\amp  B\end{bmatrix} \quad \text{and} \quad \begin{bmatrix}A \amp  O\\D\amp  B\end{bmatrix},
+        </me>
+        
+        where <m>A</m> and <m>B</m> are square matrices.  Then
+     
+<me>
+    \det{\begin{bmatrix}A \amp  C\\O\amp  B\end{bmatrix}}=\det{A}\det{B}\quad\mbox{and}\quad\det{\begin{bmatrix}A \amp  O\\D\amp  B\end{bmatrix}}=\det{A}\det{B}
+</me>
+        </p>
+    </statement>
+
+<proof>
+    <p>
+    Write
+<me>
+T=\begin{bmatrix}A \amp  C\\O\amp  B\end{bmatrix}
+</me>
+
+and proceed by induction on <m>k</m>, where <m>A</m> is <m>k\times k</m>.  If <m>k=1</m>, then the result follows from cofactor expansion along the first column.  In general, let <m>S_i(T)</m> denote the matrix obtained from <m>T</m> by deleting row <m>i</m> and column 1. Then the cofactor expansion along the first column is
+    
+<me>
+    \det{T}=a_{11}\det{S_1(T)}-a_{21}\det{S_2(T)}+\dots + (-1)^{k+1}\det{S_k(T)}
+</me>
+
+    where <m>a_{11}, a_{21},\dots , a_{k1}</m> are the entries in the first column of <m>A</m>.  Observe that 
+    
+<me>
+    S_i(T)=\begin{bmatrix}S_i(A) \amp  C_i\\O\amp  B\end{bmatrix}
+</me>
+
+    where <m>i=1,2,\dots , k</m>, <m>S_i(A)</m> denotes matrix <m>A</m> with column 1 and row <m>i</m> deleted, and <m>C_i</m> denotes matrix <m>C</m> with with row <m>i</m> deleted.
+    
+    Since <m>S_i(A)</m> is a <m>(k-1)\times (k-1)</m> matrix, by the induction hypothesis,
+    
+<me>
+    \det{S_i(T)}=\det{S_i(A)}\cdot \det{B}
+</me>
+
+    This gives us
+    <md>
+    <mrow>    \det{T}=\amp a_{11}\det{S_1(T)}-a_{21}\det{S_2(T)}+\dots + (-1)^{k+1}a_{k1}\det{S_k(T)} </mrow>
+        <mrow>    =\amp a_{11}\det{S_1(A)}\cdot\det{B}-a_{21}\det{S_2(A)}\cdot\det{B}+\dots </mrow>
+            <mrow>  \amp \dots+ (-1)^{k+1}a_{k1}\det{S_k(A)}\cdot\det{B} </mrow>
+                <mrow>  =\amp \Big(a_{11}\det{S_1(A)}-a_{21}\det{S_2(A)}+\dots + (-1)^{k+1}a_{k1}\det{S_k(A)}\Big)\det{B} </mrow>
+                    <mrow>  =\amp \det{A}\det{B}. </mrow>
+    </md>
+    The lower triangular case is similar.
+    </p>
+</proof>
+</theorem>
+
+<p> 
+Here is a final example prior to giving exercises.
+</p> 
+
+
+<example xml:id="ex-blockTriDet">
+    <statement>
+        <p>
+            Find <m>\det{A}</m> if 
+    
+<me>
+    A=\begin{bmatrix}2\amp 1\amp 3\amp 3\\1\amp -1\amp -2\amp 1\\0\amp 0\amp 1\amp 1\\0\amp 0\amp 4\amp 1\end{bmatrix}.
+</me>
+       </p>
+    </statement>
+    <answer>
+        <p>
+            <me>
+    \begin{vmatrix}2\amp 1\amp 3\amp 3\\1\amp -1\amp -2\amp 1\\0\amp 0\amp 1\amp 1\\0\amp 0\amp 4\amp 1\end{vmatrix}=\begin{vmatrix}2\amp 1\\1\amp -1\end{vmatrix}\begin{vmatrix}1\amp 1\\4\amp 1\end{vmatrix}=9.
+</me>
+       </p>
+    </answer>
+</example>
+</subsection>
+
+
+
+
+
+
+
+
+
+<exercises>
+
+<exercisegroup>
+<introduction>
+    <p>
+        Find the determinant of each matrix.
+    </p>
+</introduction>
+
+  <exercise xml:id="det12x2">
+    <statement>
+        <p>
+            <me>
+    A=\begin{bmatrix}4\amp -2\\3\amp 7\end{bmatrix}.
+</me>
+        </p>
+    </statement>
+    <answer>
+        <p>
+            <me>
+    \det{A}=34.
+</me>
+        </p>
+    </answer>
+</exercise>
+  
+  <exercise  xml:id="det22x2">
+    <statement>
+        <p>
+            <me>
+    B=\begin{bmatrix}5\amp -1\amp 0\\0\amp 3\amp -2\\1\amp -1\amp 2\end{bmatrix}.
+</me>
+        </p>
+    </statement>
+    <answer>
+        <p>
+            <me>
+    \text{det}(B)=22.
+</me>
+        </p>
+    </answer>
+</exercise>
+
+
+
+  <exercise xml:id="laplace">
+    <statement>
+        <p>
+            <me>
+    C=\begin{bmatrix}1\amp -2\amp 0\amp 0\amp 0\\0\amp -4\amp 1\amp 1\amp 0\\3\amp 0\amp -1\amp 0\amp 1\\0\amp 0\amp 4\amp 1\amp 0\\-1\amp -2\amp 0\amp 0\amp 0\end{bmatrix}.
+</me>
+        </p>
+    </statement>
+    <answer>
+        <p>
+            <me>
+    \det(C)=12.
+</me>
+        </p>
+    </answer>
+</exercise>
+</exercisegroup> 
+
+
+
+<!--
+<exercise xml:id="prob-toprowexp2x2">
+    <statement>
+        <p>
+            Show that <xref ref="def-toprowexpansion"/> is consistent with  <xref ref="def-twobytwodet"/> by verifying that both produce the same result when applied to a <m>2\times 2</m> matrix.
+        </p>
+    </statement>
+</exercise>
+-->
+
+<exercise xml:id="prob-detOfTrans">
+    <statement>
+        <p>
+            Prove <xref ref="th-detoftrans"/>.
+        </p>
+    </statement>
+</exercise>
+
+<exercise xml:id="prob-detrowswitch">
+    <statement>
+        <p>
+            Let <m>B'</m> be a matrix obtained from <m>B</m> of <xref ref="det22x2"/> by switching the first and the second row of <m>B</m>.  Compute the determinant of <m>B'</m>.  What do you observe?
+        </p>
+    </statement>
+</exercise>
+
+<exercise xml:id="prob-2x2rowswitchproof">
+    <statement>
+        <p>
+            Make a conjecture about what happens to the determinant of a matrix if two rows of a matrix are switched.  Prove your conjecture for a <m>2\times 2</m> matrix.
+        </p>
+    </statement>
+</exercise>
+
+<exercise xml:id="prob-scalarmultrowdet">
+    <statement>
+        <p>
+            Let <m>B'</m> be a matrix obtained from <m>B</m> of <xref ref="det22x2"/> by multiplying the middle row by <m>-3</m>.  Compute the determinant of <m>B'</m>.  What do you observe?
+        </p>
+    </statement>
+</exercise>
+
+<exercise xml:id="prob-rowtimesconstant2x2proof">
+    <statement>
+        <p>
+            Make a conjecture about what happens to the determinant of a matrix if one of the rows is multiplied by a constant.  Prove your conjecture for a <m>2\times 2</m> matrix.
+        </p>
+    </statement>
+</exercise>
+
+<exercise xml:id="prob-matrixtimesconst">
+    <statement>
+        <p>
+            Let <m>B'</m> be a matrix obtained from <m>B</m> of <xref ref="det22x2"/> by multiplying <m>B</m> by <m>2</m>.  Compute the determinant of <m>B'</m>.  What do you observe?
+        </p>
+    </statement>
+</exercise>
+
+<exercise xml:id="prob-matrixtimesconstant2x2proof">
+    <statement>
+        <p>
+            Make a conjecture about what happens to the determinant of a matrix if the matrix is multiplied by a constant.  Prove your conjecture for a <m>2\times 2</m> matrix.
+        </p>
+    </statement>
+</exercise>
+
+<exercise xml:id="prob-scalarmultofrow">
+    <statement>
+        <p>
+            Let <m>B'</m> be a matrix obtained from <m>B</m> of <xref ref="det22x2"/> by adding twice the third row to the first.  Compute the determinant of <m>B'</m>.  What do you observe?
+        </p>
+    </statement>
+</exercise>
+
+<exercise xml:id="prob-scalarmultofrow2x2">
+    <statement>
+        <p>
+            Make a conjecture about what happens to the determinant of a matrix if a multiple of one row is added to another row.  Prove your conjecture for a <m>2\times 2</m> matrix.
+        </p>
+    </statement>
+</exercise>
+
+<exercise xml:id="prob-detsumsumdetquestion">
+    <statement>
+        <p>
+            Is it true that 
+<m>\det{(A+B)}=\det{A}+\det{B}</m>?
+        </p>
+    </statement>
+</exercise>
+
+
+</exercises>
+</section>

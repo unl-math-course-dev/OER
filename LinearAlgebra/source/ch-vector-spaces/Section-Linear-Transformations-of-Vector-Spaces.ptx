@@ -1,0 +1,1037 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<section xml:id="Section-Linear-Transformations-of-Vector-Spaces" xmlns:xi="http://www.w3.org/2001/XInclude">
+    <title>Linear Transformations of Vector Spaces</title>
+
+<introduction>
+<p>
+Recall that a transformation <m>T:\mathbb{R}^n\rightarrow \mathbb{R}^m</m> is called a <term>linear transformation</term> if the following are true for all vectors <m>\mathbf{u}</m> and <m>\mathbf{v}</m> in <m>\mathbb{R}^n</m>, and scalars <m>k</m>.
+<me>
+T(k\mathbf{u})= kT(\mathbf{u}),
+</me>
+<me>
+T(\mathbf{u}+\mathbf{v})= T(\mathbf{u})+T(\mathbf{v}).
+</me>
+
+In <xref ref="Section-Matrix-Transformations"/> and <xref ref="Section-Linear-Transformations"/> we looked the properties of these transformations in detail.  
+The main result was that every such linear transformation was a matrix transformation, meaning that there was a <m>n \times m</m> matrix <m>A</m> so that <m>T(\mathbf{x})=A\mathbf{x}</m> for all <m>\mathbf{x}</m> in <m>\R^n</m>.
+The matrix <m>A</m> is called the standard matrix of <m>T</m>; see <xref ref="def-standardmatoflintrans"/>. 
+Moreover, <xref ref="th-matlin"/> showed exactly how to find the standard matrix of <m>T</m>:
+
+<me> 
+ A=\begin{bmatrix}
+           | \amp  |\amp  \amp |\\
+		T(\mathbf{e}_1) \amp  T(\mathbf{e}_2)\amp \dots \amp T(\mathbf{e}_n)\\
+		|\amp | \amp  \amp |
+         \end{bmatrix}
+</me>
+where <m>\mathbf{e}_1, \mathbf{e}_2, \ldots, \mathbf{e}_n</m> is the standard basis of <m>\R^n</m>.
+</p>
+</introduction>
+
+<subsection xml:id="Subsection-DefnLinTransVS">
+    <title>Defining Linear Transformations Again</title>
+
+<p>
+In this section we extend these ideas to linear transformations between general vector spaces.  
+To start, the definition of linear transformation extends essentially without change. 
+</p>
+
+
+
+
+<definition xml:id="def-lintransgeneral">
+
+    <statement>
+    <p>
+        Let <m>V</m> and <m>W</m> be vector spaces. A transformation <m>T:V\rightarrow W</m> is called a <term>linear transformation</term> if the following are true for all vectors <m>u</m> and <m>v</m> in <m>V</m>, and scalars <m>k</m>.
+    <me>
+     T(k u)  = kT(u),
+    </me>
+    <me>
+     T(u+v) = T(u)+T(v).
+    </me>
+    </p>
+    </statement>
+</definition>
+
+<p> 
+This generalization allows for more interesting examples to be studied, such as transformations on polynomials.  Here are a few examples:
+</p> 
+
+<example xml:id="ex-abstvectsplintransM22">
+    <statement>
+        <p>
+            Recall that <m>\mathbb{M}_{n,n}</m> is the set of all <m>n\times n</m> matrices.  In <xref ref="ex-setofmatricesvectorspace"/>, we demonstrated that <m>\mathbb{M}_{n,n}</m> together with operations of matrix addition and scalar multiplication is a vector space.
+
+Fix an <m>n\times n</m> matrix, <m>Q</m>.  We can then define a transformation <m>T_Q:\mathbb{M}_{n,n}\rightarrow \mathbb{M}_{n,n}</m> by 
+<me>
+T_Q(A)=QA,
+</me>
+Show that <m>T_Q</m> is a linear transformation.
+       </p>
+    </statement>
+    <answer>
+        <p>
+            We verify the linearity properties using properties of matrix-matrix and matrix-scalar multiplication (see <xref ref="th-propertiesofmatrixmultiplication"/>).  For <m>A</m> and <m>B</m> in <m>\mathbb{M}_{n,n}</m> and a scalar <m>k</m> we have:
+
+<me>
+    T_Q(kA)=Q(kA)=k(QA)=kT_Q(A)
+</me>
+
+together with
+
+<me>
+    T_Q(A+B)=Q(A+B)=QA+QB=T_Q(A)+T_Q(B).
+</me>
+       </p>
+    </answer>
+</example>
+
+<example xml:id="ex-abstvecsplintrans2">
+    <statement>
+        <p>
+            Recall that <m>\mathbb{P}^3</m> is the set of polynomials of degree <m>3</m> or less than <m>3</m>.  In <xref ref="ex-pnisavectorspace"/>, we showed that <m>\mathbb{P}^3</m> together with operations of polynomial addition and scalar multiplication is a vector space. 
+
+Suppose <m>T:\R^3\rightarrow\mathbb{P}^3</m> is a linear transformation such that 
+
+<me>
+    T(\mathbf{i})=1+x-2x^2+x^3,
+</me>
+
+
+<me>
+    T(\mathbf{j})=x+2x^3,
+</me>
+
+
+<me>
+    T(\mathbf{k})=3+x^3.
+</me>
+
+Find the image of <m>\begin{bmatrix}1\\-2\\1\end{bmatrix}</m> under <m>T</m>.
+       </p>
+    </statement>
+    <answer>
+        <p>
+            <md>
+    <mrow> T\left(\begin{bmatrix}1\\-2\\1\end{bmatrix}\right)\amp =T(\mathbf{i}-2\mathbf{j}+\mathbf{k})=T(\mathbf{i})-2T(\mathbf{j})+T(\mathbf{k}) </mrow> 
+    <mrow> \amp =(1+x-2x^2+x^3)-2(x+2x^3)+(3+x^3) </mrow>
+    <mrow> \amp =4-x-2x^2-2x^3. </mrow>
+</md>
+    The key step, the one that depends on <m>T</m> being linear, is the second equality, where we write the image of <m>\mathbf{i}-2\mathbf{j}+\mathbf{k}</m> under <m>T</m> in terms of <m>T(\mathbf{i})</m>, <m>T(\mathbf{j})</m>, and <m>T(\mathbf{k})</m>.
+       </p>
+    </answer>
+</example>
+
+<example xml:id="ex-nonlinabstvectsp">
+    <statement>
+        <p>
+            Let <m>R:\mathbb{M}_{3,3}\rightarrow \R</m> be a transformation such that <m>R(A)=\mbox{rank}(A)</m>.  Show that <m>R</m> is not linear.
+       </p>
+    </statement>
+    <answer>
+        <p>
+        The linearity definition requires that for any two inputs <m>u</m> and <m>v</m>, <m>T(u+v)=T(u)+T(v)</m>.  
+        To show this is not true, it is enough to show there is <em>one</em> choice of <m>u</m> and <m>v</m> where the equality fails.
+        All we need is one!
+        So, to show that this transformation <m>R</m> is not linear, it suffices to find two matrices <m>A</m> and <m>B</m> such that <m>R(A+B)\neq R(A)+R(B)</m>.
+        </p>
+        
+        <p>
+        Observe that if we pick <m>A</m> and <m>B</m> so that each has rank <m>3</m> we would have <m>R(A)+R(B)=\mbox{rank}(A)+\mbox{rank}(B)=6</m> while <m>R(A+B)=\mbox{rank}(A+B)\leq 3</m>.  Clearly  <m>R(A+B)\neq R(A)+R(B)</m>. 
+        </p> 
+
+        <p>
+        This argument is sufficient, as it shows there must be a choice that works, but if we want a specific choice, we can find one.
+        </p>
+<p>
+Let 
+<me>
+    A=\begin{bmatrix}1\amp 0\amp 0\\0\amp 1\amp 0\\0\amp 0\amp 1\end{bmatrix} \quad\text{and}\quad B=\begin{bmatrix}-1\amp 0\amp 0\\0\amp 1\amp 0\\0\amp 0\amp -1\end{bmatrix}.
+</me>
+
+Then
+
+<me>
+    T(A)=3\quad\text{and}\quad T(B)=3
+</me>
+
+and
+
+<me>
+    T(A+B)=T\left(\begin{bmatrix}0\amp 0\amp 0\\0\amp 2\amp 0\\0\amp 0\amp 0\end{bmatrix}\right)=1.
+</me>
+
+Thus, <m>1=T(A+B)\neq T(A)+T(B)=6</m>.
+       </p>
+</answer>
+</example>
+
+
+<p>
+    For any vector space <m>V</m>, we have the following two simple, but very important, linear transformations.  
+</p>
+
+
+<definition xml:id="def-idtransonrn">
+
+    <statement>
+        <p>
+            The <term>identity transformation</term> on <m>V</m>, denoted by <m>\id_V</m>, is a transformation that maps each element of <m>V</m> to itself.
+
+In other words,
+
+<me>
+    \id_V:V\rightarrow V
+</me>
+ is a transformation such that 
+<me>
+    \id_V(\mathbf{v})=\mathbf{v}\quad\text{for all}\quad \mathbf{v} \in V
+</me>
+        </p>
+    </statement>
+</definition>
+
+
+
+<definition xml:id="def-zerotransonrn">
+
+    <statement>
+        <p>
+            The <term>zero transformation</term>, <m>Z</m>, maps every element of the domain to the zero vector.
+
+In other words,
+
+<me>
+    Z:V\rightarrow W
+</me>
+ is a transformation such that 
+<me>
+    Z(\mathbf{v})=\mathbf{0}\quad\text{for all}\quad \mathbf{v} \in V
+</me>
+        </p>
+    </statement>
+</definition>
+
+
+
+
+<theorem xml:id="th-idlintrans">
+
+    <statement>
+        <p>
+            The identity transformation is linear.
+        </p>
+    </statement>
+
+<proof>
+    <p>
+Left to the reader. (See<xref ref="prob-idtrans"/>)
+    </p>
+</proof>
+</theorem>
+
+
+<theorem xml:id="th-zerolintrans">
+
+    <statement>
+        <p>
+            The zero transformation is linear.
+        </p>
+    </statement>
+
+<proof>
+    <p>
+Left to the reader.  (See <xref ref="prob-zerotrans"/>)
+    </p>
+</proof>
+</theorem>
+</subsection>
+
+<subsection xml:id="Subsection-Linear-Transformations-and-Bases">
+    <title>Linear Transformations and Bases</title>
+
+
+<exploration xml:id="init-tij">
+    <p>
+        Suppose we want to define a linear transformation <m>T:\R^2\rightarrow \R^2</m> by 
+<me>
+    T(\mathbf{i})=\begin{bmatrix}3\\-2\end{bmatrix}\quad\text{and}\quad T(\mathbf{j})=\begin{bmatrix}-1\\2\end{bmatrix}.
+</me>
+  
+Is this information sufficient to define <m>T</m>?  
+To answer this question we will try to determine what <m>T</m> does to an arbitrary vector of <m>\R^2</m>.  
+
+If <m>\mathbf{v}</m> is a vector in <m>\R^2</m>, then <m>\mathbf{v}</m> can be uniquely expressed as a linear combination of <m>\mathbf{i}</m> and <m>\mathbf{j}</m>
+
+<me>
+    \mathbf{v}=a\mathbf{i}+b\mathbf{j}.
+</me>
+  By linearity of <m>T</m> we have 
+<me>
+    T(\mathbf{v})=T(a\mathbf{i}+b\mathbf{j})=aT(\mathbf{i})+bT(\mathbf{j})=a\begin{bmatrix}3\\-2\end{bmatrix}+b\begin{bmatrix}-1\\2\end{bmatrix}.
+</me>
+
+This shows that the image of every vector of <m>\R^2</m> under <m>T</m> is completely determined by the action of <m>T</m> on the standard unit vectors <m>\mathbf{i}</m> and <m>\mathbf{j}</m>.  
+</p>
+
+<p>
+Vectors <m>\mathbf{i}</m> and <m>\mathbf{j}</m> form the standard basis of <m>\R^2</m>.  What if we want to use a different basis?  
+
+Let 
+<me>
+\mathcal{B}=\left \lbrace \begin{bmatrix}1\\1\end{bmatrix},\begin{bmatrix}2\\-1\end{bmatrix}\right \rbrace
+</me>
+
+be our basis of choice for <m>\R^2</m>. (How would you verify that <m>\mathcal{B}</m> is a basis of <m>\R^2</m>?) And suppose we want to define a linear transformation <m>S:\R^2\rightarrow \R^2</m> by 
+<me>
+    S\left(\begin{bmatrix}1\\1\end{bmatrix}\right)=\begin{bmatrix}0\\-1\end{bmatrix}\quad\text{and}\quad S\left(\begin{bmatrix}2\\-1\end{bmatrix}\right)=\begin{bmatrix}2\\0\end{bmatrix}.
+</me>
+
+Is this enough information to define <m>S</m>?
+
+Because <m>[1,1],[2,-1]</m> form a basis of <m>\R^2</m>, every element <m>\mathbf{v}</m> of <m>\R^2</m> can be written as a unique linear combination 
+<me>
+    \mathbf{v}=a\begin{bmatrix}1\\1\end{bmatrix}+b\begin{bmatrix}2\\-1\end{bmatrix}.
+</me>
+
+We can find <m>S(\mathbf{v})</m> as follows:
+
+<me>
+    S(\mathbf{v})=S\left(a\begin{bmatrix}1\\1\end{bmatrix}+b\begin{bmatrix}2\\-1\end{bmatrix}\right)=a\begin{bmatrix}0\\-1\end{bmatrix}+b\begin{bmatrix}2\\0\end{bmatrix}.
+</me>
+
+
+Again, we see how a <em>linear</em> transformation is completely determined by its action on a basis.
+</p>
+
+<p>
+These examples only work because <xref ref="th-uniquerep"/> tells us that given a basis, every vector has a unique representation as a linear combination of the basis vectors.  
+<!-- Imagine what would happen if this were not the case. 
+In the first part of this exploration, for instance, we might have been able to represent <m>\mathbf{v}</m> as <m>a\mathbf{i}+b\mathbf{j}</m> and <m>c\mathbf{i}+d\mathbf{j}</m> (<m>a\neq c</m> or <m>b\neq d</m>).  This would have resulted in <m>\mathbf{v}</m> mapping to two different elements: <m>aT(\mathbf{i})+bT(\mathbf{j})</m> and <m>cT(\mathbf{i})+dT(\mathbf{j})</m>, implying that <m>T</m> is not even a function.
+-->
+</p>
+</exploration>
+
+
+<p>
+Let <m>\mathcal{B}=\{\mathbf{v}_1,\ldots,\mathbf{v}_p\}</m> be a basis of a vector space <m>V</m>.  To define a linear transformation <m>T:V\rightarrow W</m>, it is sufficient to state the image of each basis vector under <m>T</m>,
+that is, we specify <m>T(\mathbf{v}_1), T(\mathbf{v}_2), \ldots, T(\mathbf{v}_p)</m>.    
+Once the images of the basis vectors are established, we can determine the images of all vectors of <m>V</m> as follows:
+given any vector <m>\mathbf{v}</m> of <m>V</m>, write <m>\mathbf{v}</m> as a linear combination of the elements of <m>\mathcal{B}</m>
+
+<me>
+    \mathbf{v}=a_1\mathbf{v}_1+\ldots+a_p\mathbf{v}_p.
+</me>
+ 
+Then
+
+<me>
+    T(\mathbf{v})=T(a_1\mathbf{v}_1+\ldots+a_p\mathbf{v}_p)=a_1T(\mathbf{v}_1)+\ldots+a_pT(\mathbf{v}_p).
+</me>
+</p>
+</subsection>
+
+
+
+
+
+
+
+<subsection xml:id="Subsection-Coordinate-Vectors">
+    <title>Coordinate Vectors</title>
+
+    <p>
+Transformations that map vectors to their coordinate vectors will prove to be of great importance.  In this section we will prove that such transformations are linear and give several examples.
+
+If <m>V</m> is a vector space, and  <m>\mathcal{B}=\{\mathbf{v}_1, \ldots ,\mathbf{v}_n\}</m> is an ordered basis for <m>V</m> then any vector <m>\mathbf{v}</m> of <m>V</m> can be uniquely expressed as <m>\mathbf{v}=a_1\mathbf{v}_1+\ldots +a_n\mathbf{v}_n</m> for some scalars <m>a_1, \ldots ,a_n</m>.  
+
+The vector in <m>\R^n</m> given by 
+
+<me>
+    [\mathbf{v}]_{\mathcal{B}}=\begin{bmatrix}a_1\\a_2\\\vdots\\a_n\end{bmatrix}
+</me>
+
+is said to be the <term>coordinate vector</term> for <m>\mathbf{v}</m> with respect to the ordered basis <m>\mathcal{B}</m> (see <xref ref="def-coordvector"/>).  
+As before, we denote the coordinate vector of <m>\mathbf{v}</m> by <m>[\mathbf{v}]_{\mathcal{B}}</m>.  
+While <m>\mathbf{v}</m> is in the abstract vector space <m>V</m>, the coordinate vector <m>[\mathbf{v}]_{\mathcal{B}}</m> is in <m>\R^n</m>, not <m>V</m>.
+
+Because the coordinates are unique for each vector <m>\mathbf{v}</m> in <m>V</m>, we can define a transformation <m>T:V\rightarrow \R^n</m> by 
+<me>
+T(\mathbf{v})=[\mathbf{v}]_{\mathcal{B}}.
+</me>
+It turns out that <m>T</m> is linear.  Before we prove this, consider some examples.
+</p>
+
+
+<example xml:id="ex-abstvectsplintranscoordvect1">
+    <statement>
+        <p>
+            Consider <m>\mathbb{M}_{2,2}</m>.  Notice that  
+            <me>
+            \mathcal{B}=\left\{\begin{bmatrix}1\amp 0\\0\amp 0\end{bmatrix}, \begin{bmatrix}0\amp 1\\0\amp 0\end{bmatrix}, \begin{bmatrix}0\amp 0\\1\amp 0\end{bmatrix}, \begin{bmatrix}0\amp 0\\0\amp 1\end{bmatrix}\right\}
+            </me>
+            
+            is an ordered basis for <m>\mathbb{M}_{2,2}</m>  (You should do a quick mental check that <m>\mathcal{B}</m> is a legitimate basis).  Define <m>T:\mathbb{M}_{2,2}\rightarrow \R^4</m> by <m>T(A)=[A]_{\mathcal{B}}</m>.  Find 
+            <me>
+            T\left(\begin{bmatrix}-2\amp 3\\1\amp -5\end{bmatrix}\right).
+            </me>
+       </p>
+    </statement>
+    <answer>
+        <p>
+            We need to find the coordinate vector for <m>\begin{bmatrix}-2\amp 3\\1\amp -5\end{bmatrix}</m> with respect to <m>\mathcal{B}</m>. Firstly,
+
+<me>
+    \begin{bmatrix}-2\amp 3\\1\amp -5\end{bmatrix}=-2\begin{bmatrix}1\amp 0\\0\amp 0\end{bmatrix}+ 3\begin{bmatrix}0\amp 1\\0\amp 0\end{bmatrix}+ \begin{bmatrix}0\amp 0\\1\amp 0\end{bmatrix}+ (-5)\begin{bmatrix}0\amp 0\\0\amp 1\end{bmatrix}.
+</me>
+
+This gives us:
+
+<me>
+    T\left(\begin{bmatrix}-2\amp 3\\1\amp -5\end{bmatrix}\right)=\left[\begin{bmatrix}-2\amp 3\\1\amp -5\end{bmatrix}\right]_{\mathcal{B}}=\begin{bmatrix}-2\\3\\1\\-5\end{bmatrix}.
+</me>
+       </p>
+    </answer>
+</example>
+
+<example xml:id="ex-abstvectsplintranspoly">
+    <statement>
+        <p>
+            Recall that <m>\mathbb{P}^2</m> is the set of polynomials of degree <m>2</m> or less than <m>2</m>.  In <xref ref="ex-deg-le-2vectorspace"/>, we showed that <m>\mathbb{P}^2</m> is a vector space. 
+<ol>
+    <li xml:id="item-lintranspolycoordvect1">
+  <p>  Notice that <m>\mathcal{B}_1=\{1, x, x^{2}\}</m> is an ordered basis for <m>\mathbb{P}^2</m>.  (It is easy to verify that <m>\mathcal{B}_1</m> is a basis.) If <m>T:\mathbb{P}^2\rightarrow \R^3</m> is given by <m>T(p)=[p]_{\mathcal{B}_1}</m>, find 
+    <me>
+    T(2x^2-3x).
+    </me> </p>
+</li>
+    <li xml:id="item-lintranspolycoordvect2">
+  <p> 
+Notice that <m>\mathcal{B}_2=\{1 + x, 1 - x, x + x^{2}\}</m> is an ordered basis for <m>\mathbb{P}^2</m>- <xref ref="prob-linindabstractvsp1"/> demonstrates that <m>\mathcal{B}_2</m> is a basis.  If <m>T:\mathbb{P}^2\rightarrow \R^3</m> is given by <m>T(p)=[p]_{\mathcal{B}_2}</m>, find
+ <me>
+T(2x^2-3x).
+</me> </p>
+</li>
+</ol>
+       </p>
+    </statement>
+    <answer>
+        <p>
+            <xref ref="item-lintranspolycoordvect1"/>  We express <m>2x^2-3x</m> as a linear combination of elements of <m>\mathcal{B}_1</m>.
+
+<me>
+    2x^2-3x=0\cdot 1+ (-3)x+2x^2.
+</me>
+
+Therefore 
+<me>
+    [2x^2-3x]_{\mathcal{B}_1}=\begin{bmatrix}0\\-3\\2\end{bmatrix}.
+</me>
+
+Note that it is important to keep the basis elements in the same order in which they are listed, as the order of components of the coordinate vector depends on the order of the basis elements.  We conclude that
+
+<me>
+    T(2x^2-3x)=\begin{bmatrix}0\\-3\\2\end{bmatrix}.
+</me>
+
+
+For <xref ref="item-lintranspolycoordvect2"/>: Our goal is to express <m>2x^2-3x</m> as a linear combination of the elements of <m>\mathcal{B}_2</m>.  Thus, we need to find coefficients <m>a</m>, <m>b</m> and <m>c</m> such that
+
+<md>
+<mrow>    2x^2-3x \amp =a(1+x)+b(1-x)+c(x+x^2) </mrow>
+<mrow>    \amp =(a+b)+(a-b+c)x+cx^2. </mrow>
+</md>
+
+This gives us a system of linear equations:
+
+<me>
+    \begin{array}{ccccccc}
+      a \amp  +\amp b\amp \amp \amp = \amp 0 \\
+	 a\amp  -\amp b\amp +\amp c\amp =\amp -3\\
+     \amp  \amp \amp \amp c\amp =\amp 2
+    \end{array}
+</me>
+
+    Solving the system yields <m>a=-\frac{5}{2}</m>, <m>b=\frac{5}{2}</m> and <m>c=2</m>.  Thus
+    
+<me>
+    T(2x^2-3x)=[2x^2-3x]_{\mathcal{B}_2}=\begin{bmatrix}-5/2\\5/2\\2\end{bmatrix}.
+</me>
+       </p>
+    </answer>
+</example>
+
+<theorem xml:id="th-coordvectmappinglinear">
+
+    <statement>
+        <p>
+            Let <m>V</m> be an <m>n</m>-dimensional vector space, and let <m>\mathcal{B}</m> be an ordered basis for <m>V</m>.  Then  <m>T:V\rightarrow \R^n</m> given by <m>T(\mathbf{v})=[\mathbf{v}]_{\mathcal{B}}</m> is a linear transformation.
+        </p>
+    </statement>
+</theorem>
+<proof>
+    <p>
+    <xref ref="th-uniquerep"/> shows that there is only one way to represent each element of <m>V</m> as a linear combination of elements of <m>\mathcal{B}</m>.  
+    Thus each element of <m>V</m> maps to exactly one element of <m>\R^n</m>.  
+    This proves that <m>T</m> is a function, or a transformation.  
+    </p>
+
+    <p>
+We will now prove that <m>T</m> is linear.
+
+Let <m>\mathbf{v}</m> be an element of <m>V</m>.  We will first show that <m>T(k\mathbf{v})=kT(\mathbf{v})</m>.  Suppose <m>\mathcal{B}=\{\mathbf{v}_1, \ldots ,\mathbf{v}_n\}</m>, then <m>\mathbf{v}</m> can be written as a unique linear combination:
+
+<me>
+    \mathbf{v}=a_1\mathbf{v}_1+ \ldots +a_n\mathbf{v}_n
+</me>
+
+We have:
+<md>
+<mrow>    T(k\mathbf{v})\amp =T(k(a_1\mathbf{v}_1+ \ldots +a_n\mathbf{v}_n)) </mrow>
+<mrow>    \amp =T((ka_1)\mathbf{v}_1+ \ldots +(ka_n)\mathbf{v}_n)  </mrow>
+<mrow>    \amp =\begin{bmatrix}ka_1\\\vdots\\ka_n\end{bmatrix}=k\begin{bmatrix}a_1\\\vdots\\a_n\end{bmatrix}=kT(\mathbf{v}). </mrow>
+</md>
+We leave it to the reader to verify that <m>T(\mathbf{v}+\mathbf{w})=T(\mathbf{v})+T(\mathbf{w})</m> (see <xref ref="prob-completeproofoflin"/>).
+    </p>
+</proof>
+
+<p>
+In our final example, we will consider <m>T</m> in the context of a basis of the codomain, as well as a basis of the domain.  
+This will later help us tackle the question of the matrix of <m>T</m> associated with bases other than the standard one.
+</p> 
+
+
+<example xml:id="ex-subtosub1">
+    <statement>
+        <p>
+            Let
+
+<me>
+    \mathbf{v}_1=\begin{bmatrix}1\\2\\0\end{bmatrix}\quad\text{and}\quad\mathbf{v}_2=\begin{bmatrix}0\\1\\1\end{bmatrix},
+</me>
+
+
+<me>
+    \mathbf{w}_1=\begin{bmatrix}1\\0\\1\end{bmatrix}\quad\text{and}\quad\mathbf{w}_2=\begin{bmatrix}1\\0\\0\end{bmatrix},
+</me>
+
+and
+<me>
+    V=\text{span}(\mathbf{v}_1, \mathbf{v}_2)\quad\text{and}\quad W=\text{span}(\mathbf{w}_1, \mathbf{w}_2).
+</me>
+
+
+Because each of <m>\{\mathbf{v}_1, \mathbf{v}_2\}</m> and <m>\{\mathbf{w}_1, \mathbf{w}_2\}</m> is linearly independent, let 
+
+<me>
+    \mathcal{B}=\{\mathbf{v}_1, \mathbf{v}_2\}\quad\text{and}\quad\mathcal{C}=\{\mathbf{w}_1, \mathbf{w}_2\}
+</me>
+
+be ordered bases of <m>V</m> and <m>W</m>, respectively.
+
+
+Define a linear transformation <m>T:V\rightarrow W</m> by 
+
+<me>
+    T(\mathbf{v}_1)=2\mathbf{w}_1-3\mathbf{w}_2\quad\text{and} \quad T(\mathbf{v}_2)=-\mathbf{w}_1+4\mathbf{w}_2.
+</me>
+
+
+<ol>
+<li xml:id="item-subtosub1a">
+  <p> 
+Verify that <m>\mathbf{v}=[2,5,1]</m> is in <m>V</m> and find the coordinate vector <m>[\mathbf{v}]_{\mathcal{B}}</m>. </p>
+</li>
+<li xml:id="item-subtosub1b">
+  <p> 
+Find <m>T(\mathbf{v})</m> and the coordinate vector <m>[T(\mathbf{v})]_{\mathcal{C}}</m>. </p>
+</li>
+</ol>
+       </p>
+    </statement>
+    <answer>
+        <p>
+            For <xref ref="item-subtosub1a"/>, we need to express <m>\mathbf{v}</m> as a linear combination of <m>\mathbf{v}_1</m> and <m>\mathbf{v}_2</m>.  This can be done by observation or by solving the equation
+
+<me>
+    \begin{bmatrix}1\amp 0\\2\amp 1\\0\amp 1\end{bmatrix}\begin{bmatrix}a\\b\end{bmatrix}=\begin{bmatrix}2\\5\\1\end{bmatrix}.
+</me>
+
+We find that <m>a=2</m> and <m>b=1</m>, so <m>\mathbf{v}=2\mathbf{v}_1+\mathbf{v}_2</m>.  Thus <m>\mathbf{v}</m> is in <m>V</m>.  The coordinate vector for <m>\mathbf{v}</m> with respect to the ordered basis <m>\mathcal{B}</m> is 
+
+<me>
+    [\mathbf{v}]_{\mathcal{B}}=\begin{bmatrix}2\\1\end{bmatrix}.
+</me>
+
+
+For <xref ref="item-subtosub1b"/>, by linearity of <m>T</m> we have 
+<md>
+<mrow> T(\mathbf{v})=T(2\mathbf{v}_1+\mathbf{v}_2)\amp =2T(\mathbf{v}_1)+T(\mathbf{v}_2) </mrow>
+<mrow> \amp =2(2\mathbf{w}_1-3\mathbf{w}_2)+(-\mathbf{w}_1+4\mathbf{w}_2) </mrow>
+<mrow> \amp =3\mathbf{w}_1-2\mathbf{w}_2=\begin{bmatrix}1\\0\\3\end{bmatrix}. </mrow>
+</md>
+
+The coordinate vector for <m>T(\mathbf{v})</m> with respect to the ordered basis <m>\mathcal{C}</m> is 
+
+<me>
+    [T(\mathbf{v})]_{\mathcal{C}}=\begin{bmatrix}3\\-2\end{bmatrix}.
+</me>
+       </p>
+    </answer>
+</example>
+</subsection>
+
+
+
+
+<subsection xml:id="The-Matrix-of-a-Linear-Transformation">
+    <title>Matrix Representation of a Linear Transformation</title>
+
+    <p>
+    In this section we will define and learn how to compute the matrix representation of a linear transformation between vector spaces.
+    For a linear transformations <m>T:\R^n\to\R^m</m> we know that <m>T(\mathbf{x})=A\mathbf{x}</m>, where
+     <me>
+        A = \begin{bmatrix}T(\mathbf{e}_1) \amp T(\mathbf{e}_2) \amp \cdots \amp T(\mathbf{e}_n)\end{bmatrix}.
+    </me>
+    We call <m>A</m> the standard matrix of the transformation <m>T:\R^n\to\R^m</m>.
+    As usual, <m>\mathbf{e}_1, \ldots, \mathbf{e}_n</m> are the standard basis vectors of <m>\R^n</m>.
+    </p>
+    
+    <p>
+    To create a matrix representation for a linear transformation <m>T : V \to W</m> between vector spaces <m>V</m> and <m>W</m>,
+    we have to pick bases for each of <m>V</m> and <m>W</m>.     
+    </p>
+
+    <definition xml:id="def-matrixrepresentation">
+        <statement>
+            <p>
+            Let <m>V</m> and <m>W</m> be vector spaces with ordered bases <m>\mathcal{B}=\{\mathbf{b}_1, \ldots, \mathbf{b}_n\}</m> and <m>\mathcal{C}=\{\mathbf{c}_1, \ldots, \mathbf{c}_m\}</m>, respectively.
+            </p>
+            
+            <p>
+                The <term>matrix representation of a linear transformation <m>T:V\to W</m> with respect to the bases <m>\mathcal{B}</m> and <m>\mathcal{C}</m></term> is defined as the matrix whose columns are the coordinate vectors of the images of the basis vectors of <m>V</m> under <m>T</m>.
+                In other words, the matrix representation of <m>T</m> is given by
+                <me>
+                    A_{\mathcal{C}\leftarrow\mathcal{B}} = \begin{bmatrix} [T(\mathbf{b}_1)]_{\mathcal{C}} \amp [T(\mathbf{b}_2)]_{\mathcal{C}} \amp \cdots \amp [T(\mathbf{b}_n)]_{\mathcal{C}} \end{bmatrix}.
+                </me>
+                Here, <m>[T(\mathbf{b}_i)]_{\mathcal{C}}</m> is the coordinate vector of <m>T(\mathbf{b}_i)</m> with respect to the basis <m>\mathcal{C}=\{\mathbf{c}_1, \ldots, \mathbf{c}_m\}</m>.
+            </p>
+        </statement>
+    </definition>
+
+    <p>
+    There is a lot to unpack in this definition and we will look at a few examples in a moment.  
+    First, the matrix representation really is a matrix, just as coordinate vectors are in <m>\R^n</m>. 
+    </p>
+
+    <p>
+    Second, the matrix representation is an generalization of the standard matrix from <xref ref="Section-Linear-Transformations"/>.
+    To see the connection, let <m>\mathcal{E}_n=\{\mathbf{e}_1, \ldots, \mathbf{e}_n\}</m>, the standard basis of <m>\R^n</m>.
+    Then, for <m>T : \R^n \to \R^m</m>, <m>T(\mathbf{e_i})</m> is its own coordinate vector with respect to <m>\mathcal{E}_m</m>.
+    So our new definition of matrix representation is the same as the standard matrix of <m>T</m>, that is,
+    <me>
+    \begin{bmatrix} [T(\mathbf{e}_1)]_{\mathcal{E}_m} \amp [T(\mathbf{e}_2)]_{\mathcal{E}+m} \amp \cdots \amp [T(\mathbf{e}_n)]_{\mathcal{E}_m} \end{bmatrix}
+    =\begin{bmatrix}T(\mathbf{e}_1) \amp T(\mathbf{e}_2) \amp \cdots \amp T(\mathbf{e}_n)\end{bmatrix}.
+    </me>
+    </p>
+
+    <p>
+        The matrix representation of a linear transformation with respect to bases lets turn linear transformations of general vector spaces into matrices.
+        Using this, we can show that vector spaces with the same (finite) dimension are essentially the same.  
+        So it provides a bridge between the abstract concept of linear transformations and the concrete computations involving matrices.
+        Let's practice finding matrix representations to get comfortable with this new tool.
+    </p>
+
+    <example>
+        <statement>
+        Consider the derivative map <m>D : \mathbb{P}^3 \to \mathbb{P}^2</m> that sends a polynomial of degree at most 3 to its derivative.
+        Letting <m>\mathcal{B}=\{1,x,x^2,x^3\}</m> and <m>\mathcal{C}=\{1,x,x^2\}</m>, what is the matrix of <m>D</m> with
+        respect to these bases?
+        </statement>
+        <answer>
+            <p>
+            From the formula in <xref ref="def-matrixrepresentation"/>, we first need to find the image of each element of <m>\mathcal{B}</m> under <m>D</m> and then find the coordinate vector of each image in terms of the basis <m>\mathcal{C}</m>.
+            These coordinate vectors will be the columns of the matrix representation. 
+            </p>
+            
+            <p>
+            For <m>1</m>, we know <m>D(1)=0</m> and the coordinate vector of the zero vector is <m>[0,0,0]</m>.
+            For <m>x</m>, we know <m>D(x)=1</m> and <m>[1]_\mathcal{C}</m> is <m>[1,0,0]</m>.
+            Similarly, <m>D(x^2)=2x</m> and <m>[2x]_\mathcal{C} = [0,2,0]</m> while <m>[ D(x^3) ]_\mathcal{C} = [ 3x^2 ]_\mathcal{C}= [0,0,3]</m>.
+            Putting this together, we have
+            <me>
+            D_{\mathcal{C}\leftarrow\mathcal{B}} = \begin{bmatrix} 0 \amp 1 \amp 0 \amp 0 \\ 0 \amp 0 \amp 2 \amp 0 \\ 0 \amp 0 \amp 0 \amp 3 \end{bmatrix}.
+            </me>   
+            </p>
+        </answer>
+    </example>
+
+    <example>
+        <statement>
+            <p>
+                Consider the transformation <m>T:\mathbb{P}^2\to\mathbb{M}_{2,2}</m> defined by
+                <me>
+                    T(1) = \begin{bmatrix}1 \amp 0 \\ 0 \amp 2\end{bmatrix}, \quad T(x) = \begin{bmatrix}1 \amp -1 \\ 5 \amp 0\end{bmatrix}, \quad T(x^2) = \begin{bmatrix}1 \amp 1 \\ 1 \amp 1\end{bmatrix}.
+                </me>
+                Find the matrix representation of <m>T</m> with respect to the bases <m>\mathcal{B} = \{1, x, x^2\}</m> and <m>\mathcal{C} = \left\{\begin{bmatrix}1 \amp 0 \\ 0 \amp 0\end{bmatrix}, \begin{bmatrix}0 \amp 1 \\ 0 \amp 0\end{bmatrix}, \begin{bmatrix}0 \amp 0 \\ 1 \amp 0\end{bmatrix}, \begin{bmatrix}0 \amp 0 \\ 0 \amp 1\end{bmatrix}\right\}</m>.
+            </p>
+        </statement>
+        <answer>
+            <p>
+                The matrix representation of <m>T</m> with respect to the bases <m>\mathcal{B}</m> and <m>\mathcal{C}</m> is given by
+                <me>
+                    A_{\mathcal{C}\leftarrow\mathcal{B}} = \begin{bmatrix} [T(1)]_{\mathcal{C}} \amp [T(x)]_{\mathcal{C}} \amp [T(x^2)]_{\mathcal{C}} \end{bmatrix}.
+                </me>
+                Note that we need to compute the coordinate vectors of <m>T(1)</m>, <m>T(x)</m>, and <m>T(x^2)</m> with respect to the basis <m>\mathcal{C}</m>.
+                Observe:
+                <md>
+                    <mrow> T(1) \amp = 1\begin{bmatrix}1\amp 0\\ 0\amp 0\end{bmatrix} + 0\begin{bmatrix}0\amp 1\\ 0\amp 0\end{bmatrix} + 0\begin{bmatrix}0\amp 0\\ 1\amp 0\end{bmatrix} + 2\begin{bmatrix}0\amp 0\\ 0\amp 1\end{bmatrix} </mrow>
+                    <mrow> T(x) \amp = 1\begin{bmatrix}1\amp 0\\ 0\amp 0\end{bmatrix} + -1\begin{bmatrix}0\amp 1\\ 0\amp 0\end{bmatrix} + 5\begin{bmatrix}0\amp 0\\ 1\amp 0\end{bmatrix} + 0\begin{bmatrix}0\amp 0\\ 0\amp 1\end{bmatrix} </mrow>
+                    <mrow> T(x^2) \amp = 1\begin{bmatrix}1\amp 0\\ 0\amp 0\end{bmatrix} + 1\begin{bmatrix}0\amp 1\\ 0\amp 0\end{bmatrix} + 1\begin{bmatrix}0\amp 0\\ 1\amp 0\end{bmatrix} + 1\begin{bmatrix}0\amp 0\\ 0\amp 1\end{bmatrix} </mrow>
+                </md>
+                So each coordinate vector is
+                <md>
+                    <mrow>[T(1)]_{\mathcal{C}} \amp = \begin{bmatrix}1 \\ 0 \\ 0 \\ 2\end{bmatrix}</mrow>
+                    <mrow>[T(x)]_{\mathcal{C}} \amp = \begin{bmatrix}1 \\ -1 \\ 5 \\ 0\end{bmatrix}</mrow>
+                    <mrow>[T(x^2)]_{\mathcal{C}} \amp = \begin{bmatrix}1 \\ 1 \\ 1 \\ 1\end{bmatrix}</mrow>
+                </md>
+                Therefore, the matrix representation is
+                <me>
+                    A_{\mathcal{C}\leftarrow\mathcal{B}} = 
+                    \begin{bmatrix}
+                        1 \amp 1 \amp 1 \\ 
+                        0 \amp -1 \amp 1 \\ 
+                        0 \amp 5 \amp 1 \\ 
+                        2 \amp 0 \amp 1
+                    \end{bmatrix}.
+                </me>
+            </p>
+        </answer>
+    </example>
+
+</subsection>
+
+
+
+<exercises>
+<exercise xml:id="prob-lintransP2toM22">
+    <statement>
+        <p>
+            Suppose <m>T:\mathbb{P}^2\rightarrow\mathbb{M}_{2,2}</m> is a linear transformation such that 
+
+<me>
+    T(1)=\begin{bmatrix}1\amp 0\\0\amp 1\end{bmatrix},\quad T(x)=\begin{bmatrix}1\amp 1\\0\amp 1\end{bmatrix},\quad T(x^2)=\begin{bmatrix}1\amp 1\\1\amp 1\end{bmatrix}
+</me>
+
+Find <me>T(4-x+3x^2)</me>.
+        </p>
+    </statement>
+
+    <answer>
+        <p>
+            <me>
+    T(4-x+3x^2)=\begin{bmatrix}6\amp 2\\3\amp 6\end{bmatrix}.
+</me>
+        </p>
+    </answer>
+</exercise>
+
+<exercise xml:id="prob-tracelintrans1">
+    <statement>
+        <p>
+            Define <m>T:\mathbb{M}_{3,3}\rightarrow \R</m> by <m>T(A)=\mbox{tr}(A)</m>.  (Recall that <m>\mbox{tr}(A)</m> denotes the <term>trace</term> of <m>A</m>, which is the sum of the main diagonal entries of <m>A</m>.)
+
+Find <me>T\left(\begin{bmatrix}1\amp 2\amp 3\\4\amp 5\amp 6\\7\amp 8\amp 9\end{bmatrix}\right).</me>
+        </p>
+    </statement>
+    <answer>
+        <p>
+            <me>
+    T\left(\begin{bmatrix}1\amp 2\amp 3\\4\amp 5\amp 6\\7\amp 8\amp 9\end{bmatrix}\right)=15.
+</me>
+        </p>
+    </answer>
+</exercise>
+
+<exercise xml:id="prob-tracelintrans2">
+    <statement>
+        <p>
+            Is <m>T</m> a linear transformation?  If so, prove it.  If not, give a counterexample.
+        </p>
+    </statement>
+</exercise>
+
+
+<exercise xml:id="prob-lintransr2toM22part1">
+    <statement>
+        <p>
+            Define <m>T:\R^2\rightarrow\mathbb{M}_{2,2}</m> by 
+            <me>
+            T\left(\begin{bmatrix}a\\b\end{bmatrix}\right)=\begin{bmatrix}a\amp 1\\1\amp b\end{bmatrix}.
+           </me>
+
+Find <me>
+    T\left(\begin{bmatrix}2\\-1\end{bmatrix}\right).
+    </me>
+        </p>
+    </statement>
+    <answer>
+        <p>
+            <me>
+    T\left(\begin{bmatrix}2\\-1\end{bmatrix}\right)=\begin{bmatrix}2\amp 1\\1\amp -1\end{bmatrix}.
+</me>
+        </p>
+    </answer>
+
+</exercise>
+<exercise xml:id="prob-lintransr2toM22part2">
+    <statement>
+        <p>
+            Is <m>T</m> a linear transformation?  If so, prove it.  If not, give a counterexample.
+        </p>
+    </statement>
+</exercise>
+
+
+<exercise xml:id="prob-detlintrans1">
+    <statement>
+        <p>
+            This problem requires the knowledge of how to compute a <m>3\times 3</m> determinant (for a quick reminder, chapter <m>1</m>).
+Define <m>T:\mathbb{M}_{3,3}\rightarrow \R</m> by <m>T(A)=\det(A)</m>.  
+
+
+Find <me>
+     T\left(\begin{bmatrix}1\amp 2\amp 3\\4\amp 5\amp 6\\7\amp 8\amp 9\end{bmatrix}\right).
+    </me>
+        </p>
+    </statement>
+    <answer>
+        <p>
+            <me>
+    T\left(\begin{bmatrix}1\amp 2\amp 3\\4\amp 5\amp 6\\7\amp 8\amp 9\end{bmatrix}\right)=0.
+</me>
+        </p>
+    </answer>
+</exercise>
+
+<exercise xml:id="prob-detlintrans2">
+    <statement>
+        <p>
+            Is <m>T</m> a linear transformation?  If so, prove it.  If not, give a counterexample.
+        </p>
+    </statement>
+</exercise>
+
+
+<exercise xml:id="prob-lintransderivative1">
+    <statement>
+        <p>
+            Define <m>T:\mathbb{P}^3\rightarrow\mathbb{P}^2</m> by <m>T(p(x))=p'(x)</m> (in other words, <m>T</m> maps a polynomial to its derivative).
+Find <me>T(4x^3-2x^2+x+6).</me>
+        </p>
+    </statement>
+    <answer>
+        <p>
+            <me>
+    T(4x^3-2x^2+x+6)=12x^2-4x+1.
+</me>
+        </p>
+    </answer>
+</exercise>
+
+<exercise xml:id="prob-lintransderivative2">
+    <statement>
+        <p>
+            Is <m>T</m> a linear transformation?  If so, prove it.  If not, give a counterexample.
+        </p>
+    </statement>
+</exercise>
+
+<exercise xml:id="prob-symmMatLinTrans">
+    <statement>
+        <p>
+            Recall that the set <m>V</m> of all symmetric <m>2\times 2</m> matrices is a subspace of <m>\mathbb{M}_{2,2}</m>.  In <xref ref="ex-symmetricmatsubspace"/>, we demonstrated that 
+<me>\mathcal{B} = \left\{
+\begin{bmatrix}
+1 \amp  0 \\
+0 \amp  0
+\end{bmatrix}, \begin{bmatrix}
+0 \amp  0 \\
+0 \amp  1
+\end{bmatrix}, \begin{bmatrix}
+0 \amp  1 \\
+1 \amp  0
+\end{bmatrix}
+\right\}</me>
+
+is a basis for <m>V</m>.  Define <m>T:V\rightarrow \R^3</m> by <m>T(A)=[A]_{\mathcal{B}}</m>.  Find 
+<me>
+T(I_2) \quad \text{and} \quad T\left(\begin{bmatrix}2\amp -3\\-3\amp 1\end{bmatrix}\right).
+</me>
+        </p>
+    </statement>
+    <answer>
+        <p>
+            <me>
+    T(I_2)=\begin{bmatrix}1\\1\\0\end{bmatrix},
+</me>
+
+
+<me>
+    T\left(\begin{bmatrix}2\amp -3\\-3\amp 1\end{bmatrix}\right)=\begin{bmatrix}2\\1\\-3\end{bmatrix}.
+</me>
+        </p>
+    </answer>
+</exercise>
+
+<exercise xml:id="prob-coordvector">
+    <statement>
+        <p>
+            Let <m>V</m> be a subspace of <m>\R^3</m> with a basis <m>\mathcal{B}=\left\{\begin{bmatrix}2\\1\\-1\end{bmatrix}, \begin{bmatrix}0\\3\\2\end{bmatrix}\right\}</m>.  Find the coordinate vector, <m>[\mathbf{v}]_{\mathcal{B}}</m>, for <m>\mathbf{v}=[4,-1,-4]</m>.
+        </p>
+    </statement>
+            <answer>
+            <p>
+<me>
+    [\mathbf{v}]_{\mathcal{B}}=\begin{bmatrix}2\\-1\end{bmatrix}.
+</me>
+            </p>
+            </answer>
+     
+</exercise>
+
+<exercise xml:id="prob-switchbasisorder">
+    <statement>
+        <p>
+            If the order of the basis elements in <xref ref="prob-coordvector"/> was switched to form a new basis
+
+<me>
+    \mathcal{B}'=\left\{\begin{bmatrix}0\\3\\2\end{bmatrix}, \begin{bmatrix}2\\1\\-1\end{bmatrix} \right\}.
+</me>
+
+How would this affect the coordinate vector?
+</p>
+</statement>
+    <answer>
+        <p>
+<me>
+    [\mathbf{v}]_{\mathcal{B}'}=\begin{bmatrix}-1\\2\end{bmatrix}
+</me>
+        </p>
+    </answer>
+</exercise>
+
+
+
+<exercise xml:id="prob-polylintranscoordvect">
+    <statement>
+        <p>
+            In <xref ref="prob-linindabstractvsp123"/>, you demonstrated that
+<me>
+\mathcal{B}=\{x^{2}, x + 1, 1 - x - x^{2}\}
+</me>
+ is a basis for <m>\mathbb{P}^2</m>.  Define <m>T:\mathbb{P}^2\rightarrow \R^3</m> by <m>T(p(x))=[p(x)]_{\mathcal{B}}</m>.  Find 
+ <me>
+T(0), \quad T(x+1) \quad \text{and} \quad T(x^2-3x+1).
+</me>
+        </p>
+    </statement>
+    <answer>
+        <p>
+            <me>
+    T(0)=\begin{bmatrix}0\\0\\0\end{bmatrix},
+</me>
+
+
+<me>
+    T(x+1)=\begin{bmatrix}0\\1\\0\end{bmatrix},
+</me>
+
+
+<me>
+    T(x^2-3x+1)=\begin{bmatrix}3\\-1\\2\end{bmatrix}.
+</me>
+        </p>
+    </answer>
+</exercise>
+
+
+
+
+
+<exercise xml:id="prob-lintransandbasis4">
+    <statement>
+        <p>
+            Let <m>V</m> and <m>W</m> be vector spaces, and let <m>\mathcal{B}_V=\{\mathbf{v}_1, \mathbf{v}_2, \mathbf{v}_3, \mathbf{v}_4\}</m> and <m>\mathcal{B}_W=\{\mathbf{w}_1,\mathbf{w}_2, \mathbf{w}_3\}</m> be ordered bases of <m>V</m> and <m>W</m>, respectively.  Suppose <m>T:V\rightarrow W</m> is a linear transformation such that: 
+<me>
+    T(\mathbf{v}_1)=\mathbf{w}_2,
+</me>
+ 
+<me>
+    T(\mathbf{v}_2)=2\mathbf{w}_1-3\mathbf{w}_2,
+</me>
+
+
+<me>
+    T(\mathbf{v}_3)=\mathbf{w}_2+\mathbf{w}_3,
+</me>
+
+
+<me>
+    T(\mathbf{v}_4)=-\mathbf{w}_1.
+</me>
+
+If <m>\mathbf{v}=-2\mathbf{v}_1+3\mathbf{v}_2-\mathbf{v}_4</m>, express <m>T(\mathbf{v})</m> as a linear combination of vectors of <m>\mathcal{B}_W</m>. Now,
+
+<me>
+    T(\mathbf{v})=7\mathbf{w}_1-11\mathbf{w}_2+0\mathbf{w}_3.
+</me>
+
+Find <m>[\mathbf{v}]_{\mathcal{B}_V}</m> and <m>[T(\mathbf{v})]_{\mathcal{B}_{W}}</m>. 
+</p>
+</statement>
+
+<answer>
+<p>
+<me>
+    [\mathbf{v}]_{\mathcal{B}_V}=\begin{bmatrix}-2\\3\\0\\-1\end{bmatrix},\quad [T(\mathbf{v})]_{\mathcal{B}_{W}}=\begin{bmatrix}7\\-11\\0\end{bmatrix}.
+</me>
+</p>
+</answer>
+</exercise>
+
+
+<exercise xml:id="prob-idtrans">
+    <statement>
+        <p>
+            Prove <xref ref="th-idlintrans"/>
+        </p>
+    </statement>
+</exercise>
+
+
+<exercise xml:id="prob-zerotrans">
+    <statement>
+        <p>
+            Prove <xref ref="th-zerolintrans"/>
+        </p>
+    </statement>
+</exercise>
+
+
+<exercise xml:id="prob-completeproofoflin">
+    <statement>
+        <p>
+            Complete the proof of <xref ref="th-coordvectmappinglinear"/>.
+        </p>
+    </statement>
+</exercise>
+
+
+ 
+
+
+</exercises>
+</section>

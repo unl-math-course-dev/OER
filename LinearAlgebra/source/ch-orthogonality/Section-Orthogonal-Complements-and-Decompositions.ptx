@@ -1,0 +1,653 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<section xml:id="Section-Orthogonal-Complements-and-Decompositions" xmlns:xi="http://www.w3.org/2001/XInclude">
+    <title>Orthogonal Complements and Decompositions</title>
+
+
+  
+
+
+
+
+<subsection xml:id="Subsection-Orthogonal-Complements">
+    <title>Orthogonal Complements</title>
+
+<p>
+We will now consider the set of vectors that are orthogonal to every vector in a given subspace.  As a quick example, consider the <m>xy</m>-plane in <m>\R^3</m>. 
+ Clearly, every scalar multiple of the standard unit vector <m>\mathbf{k}</m> in <m>\R^3</m> is orthogonal to every vector in the <m>xy</m>-plane.  
+ We say that the set <m>\{c\mathbf{k} \mid c \in\R\}</m> is an <term>orthogonal complement</term> of <m>\{ a\mathbf{i}+b\mathbf{j} \mid a, b \in\R \}</m>.
+</p>
+
+  <definition xml:id="def-023776">
+    <title>Orthogonal Complement of a Subspace of <m>\R^n</m></title>
+    <statement>
+        <p>
+            If <m>W</m> is a subspace of <m>\R^n</m>, define the <term>orthogonal complement</term> <m>W^\perp</m> of <m>W</m> (pronounced ``<m>W</m>-perp'') by
+<me>
+W^\perp = \{\mathbf{x} \in\R^n \mid \mathbf{x} \cdot \mathbf{y} = 0 \mbox{ for all } \mathbf{y} \in W\} .
+</me>
+        </p>
+    </statement>
+</definition>
+
+
+
+	<image width="65%">
+   <shortdescription>Complement of a line</shortdescription>
+    <latex-image>
+        \tdplotsetmaincoords{70}{130}
+      \begin{tikzpicture}[scale=1]
+\filldraw[blue, opacity=0.3] (2,0,2)--(2,0,-2)--(-2,0,-2)--(-2,0,2)--cycle;
+    \draw[-\gt ,line width=0.4mm, -stealth, blue](0,-2,0)--(0,3,0) ;%normal to grey
+ \node[label={below right:\(W\)}] at (0.8,0.1,-2) {};
+    \node[label={below right:\(W^\perp\)}] at (0,3,0) {};   
+   \node[fill,circle,inner sep=1.5pt] at (0,0,0) {};
+         \end{tikzpicture}
+    </latex-image>
+</image>
+
+<p>
+The following theorem collects some
+useful properties of the orthogonal complement; the proof of <xref ref="th-023783a"/> and <xref ref="th-023783b"/>
+ is left as <xref ref="prob-816"/>.
+</p>
+
+<theorem xml:id="th-023783">
+
+    <statement>
+        <p>
+            Let <m>W</m> be a subspace of <m>\R^n</m>.
+<ol>
+<li xml:id="th-023783a">
+  <p> <m>W^\perp</m> is a subspace of <m>\R^n</m>. </p>
+</li>
+
+<li xml:id="th-023783b">
+  <p> <m>\{\mathbf{0}\}^\perp = \R^n</m> and <m>(\R^n)^\perp = \{\mathbf{0}\}</m>. </p>
+</li>
+
+<li xml:id="th-023783c">
+  <p> If <m>W = \mbox{span}\left(\mathbf{x}_{1}, \mathbf{x}_{2}, \dots, \mathbf{x}_{k}\right)</m> then 
+    <me>W^\perp = \{\mathbf{x} \mbox{ in } \R^n \mid \mathbf{x} \cdot \mathbf{x}_{i} = 0 \mbox{ for } i = 1, 2, \dots, k\}</me>. </p>
+</li>
+
+</ol>
+        </p>
+    </statement>
+
+
+<proof>
+    <p>[<xref ref="th-023783c"/>:]
+We must show that <m>W^\perp = \{\mathbf{x} \mid \mathbf{x} \cdot \mathbf{x}_{i} = 0 \mbox{ for each } i\}</m>.  To show that two sets are equal, we must show that all elements of one set are included in the other set, and then we must show the reverse inclusion.
+ </p> 
+<p> 
+If <m>\mathbf{x}</m> is in <m>W^\perp</m> then <m>\mathbf{x} \cdot \mathbf{x}_{i} = 0</m> for all <m>i</m> because each <m>\mathbf{x}_{i}</m> is in <m>W</m>. This shows <m>W^\perp \subseteq \{\mathbf{x} \mid \mathbf{x} \cdot \mathbf{x}_{i} = 0 \mbox{ for each } i\}</m>. For the reverse inclusion, suppose that <m>\mathbf{x} \cdot \mathbf{x}_{i} = 0</m> for all <m>i</m>; we need to show that <m>\mathbf{x}</m> is in <m>W^\perp</m>.  We need to show <m>\mathbf{x} \cdot \mathbf{y} = 0</m> for each <m>\mathbf{y}</m> in <m>W</m>. We can write 
+<md>
+\mathbf{y} = c_{1}\mathbf{x}_{1} + c_{2}\mathbf{x}_{2} + \dots  + c_{k}\mathbf{x}_{k},
+</md>
+
+where each <m>c_{i}</m> is in <m>\R</m>. Then
+<md>
+<mrow> \mathbf{x} \cdot \mathbf{y} \amp = c_{1}(\mathbf{x} \cdot \mathbf{x}_{1}) + c_{2}(\mathbf{x} \cdot \mathbf{x}_{2})+ \dots +c_{k}(\mathbf{x} \cdot \mathbf{x}_{k}) </mrow>
+<mrow> \amp = c_{1}0 + c_{2}0 + \dots + c_{k}0 = 0 </mrow>
+</md>
+ as required, and the proof of equality is complete.
+    </p>
+</proof>
+</theorem>
+
+
+
+
+<p>
+Let us put these new concepts into a concrete setting.
+</p> 
+
+
+
+
+<example xml:id="ex-023829">
+    <statement>
+        <p>
+            Find a basis for <m>W^\perp</m> if 
+            <me>W = \mbox{span}\left(\begin{bmatrix}
+  1 \\ -1 \\ 2 \\ 0
+  \end{bmatrix},
+  \begin{bmatrix}
+  1 \\ 0 \\ -2 \\ 3
+  \end{bmatrix}\right)</me> in <m>\R^4</m>.
+       </p>
+    </statement>
+    <answer>
+        <p>
+            By <xref ref="th-023783"/>, <m>\mathbf{x} = [x,y,z,w]</m>
+  is in <m>W^\perp</m> if and only if <m>\mathbf{x}</m> is orthogonal to both 
+  <m>[1,-1,2,0]</m> and
+  <m>[1,0,-2,3]</m>; that is,
+  <m>\mathbf{x} \cdot \mathbf{v}_1 = 0</m> and <m>\mathbf{x} \cdot \mathbf{v}_2 = 0</m>, or
+<me>
+\begin{array}{rrrrrrrr}
+x \amp  - \amp  y \amp  + \amp  2z \amp  \amp  \amp  =0\\
+x \amp  \amp  \amp  - \amp  2z \amp  +\amp  3w \amp  =0
+\end{array}
+</me>
+Using Gaussian elimination on this system gives 
+<me>W^\perp = \mbox{span}\left(\begin{bmatrix}
+  2 \\ 4 \\ 1 \\ 0
+  \end{bmatrix},
+  \begin{bmatrix}
+  3 \\ 3 \\ 0 \\ -1
+  \end{bmatrix}\right).</me>  You are asked to confirm this in <xref ref="prob-Uperp"/> (which serves as a wonderful review of concepts we covered earlier in the course!).
+       </p>
+    </answer>
+</example>
+
+<p>
+Some of the important subspaces we studied earlier are orthogonal complements of each other.  Recall the following definitions associated with an <m>m \times n</m> matrix <m>A</m>.
+<ol>
+    <li>
+      <p> The <term>null space</term> of <m>A</m>, <m>\mbox{null}(A) = \{\mathbf{x}\in \R^n \mid A\mathbf{x} = \mathbf{0}\}</m>, is a subspace of <m>\R^n</m>. </p>
+</li>
+    <li>
+      <p> The <term>row space</term> of <m>A</m>, <m>\mbox{row}(A) = \mbox{span} ( \mbox{the rows of } A)</m>, is a subspace of <m>\R^n</m>. </p>
+</li>
+    <li>
+      <p> The <term>column space</term> of <m>A</m>, <m>\mbox{col}(A) = \mbox{span} ( \mbox{the columns of } A)</m>, is a subspace of <m>\R^m</m>. </p>
+</li>
+</ol>
+</p>
+
+
+<exploration xml:id="exp-discoverortho">
+    <p>
+        In the following GeoGebra interactive, you can change the coordinates of the vectors <m>\mathbf{v}</m> and <m>\mathbf{w}</m> using the sliders (at this stage make sure that <m>\mathbf{v}</m> and <m>\mathbf{w}</m> are not collinear). Let 
+        <me>
+        A=\begin{bmatrix}-\amp \mathbf{v}\amp -\\-\amp \mathbf{w}\amp -\end{bmatrix}
+        .</me>  Then <m>\mbox{row}(A) = \mbox{span}(\mathbf{v},\mathbf{w})</m>.  RIGHT-CLICK and DRAG to rotate the coordinate system for a better view.
+    </p>
+
+<figure>
+  <caption>
+  </caption>
+  <interactive xml:id="geogebra-Coordinate-Try" platform="geogebra" width="160%" aspect="1000:800">
+    <slate xml:id="Coordinate-Try" surface="geogebra" material="f6eavqxs" aspect="950:800" />
+  </interactive>
+</figure>
+
+<p>
+<ol>
+        <li>
+      <p> Follow the prompts in the interactive to visualize <m>\mbox{row}(A)</m> and <m>\mbox{null}(A)</m>.  What relationships do you observe between <m>\mbox{row}(A)</m> and <m>\mbox{null}(A)</m>?  </p>
+</li>
+       <li>
+      <p> It is possible to ``break" this interactive (for certain choices of <m>\mathbf{v}</m> and <m>\mathbf{w}</m>). If <m>\mathbf{v}</m> and <m>\mathbf{w}</m> are scalar multiples of each other, then <m>\mbox{row}(A)</m> is a line, and the dimension of <m>\mbox{null}(A)=2</m>.  The interactive does not accommodate this situation.  To see what happens when <m>\mathbf{v}</m> and <m>\mathbf{w}</m> are scalar multiples of each other, see <xref ref="prob-brokenInteractive"/>. </p>
+</li>
+        </ol>
+    </p>
+</exploration>
+
+
+
+
+
+
+
+<theorem xml:id="th-4subspaces">
+
+    <statement>
+        <p>
+            Let <m>A</m> be an <m>m \times n</m> matrix.  Then we have:
+<ol>
+<li xml:id="th-4subspacesa">
+  <p>  <m>(\mbox{row}(A))^\perp = \mbox{null}(A)</m>; </p>
+</li>
+<li xml:id="th-4subspacesb">
+  <p>  <m>(\mbox{col}(A))^\perp = \mbox{null}(A^T)</m>. </p>
+</li>
+</ol>
+        </p>
+    </statement>
+
+    <proof>
+        <p>
+    Let <m>\mathbf{x}\in\R^n</m>.  Notice that <m>\mathbf{x}\in\left(\mbox{row}(A)\right)^\perp</m> if and only if x is orthogonal to every row of <m>A</m>.  Using <xref ref="obs-dotmatproduct"/>, the latter is true if and only if <m>A\mathbf{x}=\mathbf{0}</m>, that is, <m>\mathbf{x}\in\mbox{null}(A)</m>, which proves <xref ref="th-4subspacesa"/>.  
+        </p>
+        <p>
+    To prove <xref ref="th-4subspacesb"/>, we simply replace <m>A</m> with <m>A^T</m>, and we may apply <xref ref="th-4subspacesa"/> since <m>\mbox{col}(A) = \mbox{row}(A^T)</m>.
+        </p>
+    </proof>
+</theorem>
+
+<p>
+Let's examine what it says about a couple of our examples.  In <xref ref="ex-023829"/>, we solved for the unknown vectors <m>\mathbf{x} = [x,y,z,w]
+ </m>. Notice that this is equivalent to creating a <m>2 \times 4</m> matrix <m>A</m> whose rows are <m>\mathbf{v}_1</m> and <m>\mathbf{v}_2</m>, and then finding the null space of that matrix <m>A</m>.  You can check that a basis for <me>\mbox{null}\left(\begin{bmatrix}
+  1 \amp  -1 \amp  2 \amp  0 \\
+  1 \amp  0 \amp  -2 \amp  3
+  \end{bmatrix}\right)</me>
+is given by <me>\left\{\begin{bmatrix}
+  2 \\ 4 \\ 1 \\ 0
+  \end{bmatrix},
+  \begin{bmatrix}
+  3 \\ 3 \\ 0 \\ -1
+  \end{bmatrix}\right\}</me>.
+</p> 
+
+
+<p> 
+It is often useful to verify abstract statements in the concrete first. Let us give this a try:
+</p> 
+
+<example xml:id="ex-4subspaces">
+    <statement>
+        <p>
+            Let
+
+<me>
+    A=\begin{bmatrix}2\amp -1\amp 1\amp -4\amp 1\\1\amp 0\amp 3\amp 3\amp 0\\-2\amp 1\amp -1\amp 5\amp 2\\4\amp -1\amp 7\amp 2\amp 1\end{bmatrix}.
+</me>
+
+Verify each of the statements in <xref ref="th-4subspaces"/>.
+       </p>
+    </statement>
+    <answer>
+        <p>
+            We compute <m>\mbox{rref}(A)</m> to find a basis for   <m>\mbox{null}(A)</m>, <m>\mbox{row}(A)</m>, and <m>\mbox{col}(A)</m>.  After some work we arrive at:
+ <me>\mbox{null}(A) = \mbox{span}\left(\begin{bmatrix}-3\\-5\\1\\0\\0\end{bmatrix}, \begin{bmatrix}9\\31\\0\\-3\\1\end{bmatrix}\right)</me> 
+ and the row space is spanned by
+ 
+<me>
+    \begin{bmatrix}1\amp 0\amp 3\amp 0\amp -9\end{bmatrix},
+\begin{bmatrix}0\amp 1\amp 5\amp 0\amp -31\end{bmatrix},
+\begin{bmatrix}0\amp 0\amp 0\amp 1\amp 3\end{bmatrix}.
+</me>
+
+It is easy to check that each of the basis vectors of <m>\mbox{null}(A)</m> is orthogonal to each of the basis vectors of <m>\mbox{row}(A)</m>, demonstrating the first part of <xref ref="th-4subspaces"/>.  You will be asked to demonstrate the second part of <xref ref="th-4subspaces"/> for this example in <xref ref="prob-finishex4subspaces"/>.
+       </p>
+    </answer>
+</example>
+</subsection>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<subsection xml:id="Subsection-Orthogonal-Decomposition-Theorem">
+    <title>Orthogonal Decomposition Theorem</title>
+
+<p>
+Now that we have defined the orthogonal complement of a subspace, we are ready to state the main theorem of this section.  If you have studied physics or multi-variable calculus, you are familiar with the idea of expressing a vector in as the sum of its tangential and normal components. (If you haven't yet taken those courses, this section will help to prepare you for them!)  The following theorem is a generalization of this idea.
+</p> 
+
+<theorem xml:id="th-OrthoDecomp">
+    <title>Orthogonal Decomposition Theorem</title>
+    <statement>
+        <p>
+            Let <m>W</m> be a subspace of <m>\R^n</m> and let <m>\mathbf{x} \in \R^n</m>.  Then there exist unique vectors <m>\mathbf{w} \in W</m> and <m>\mathbf{w}^\perp \in W^\perp</m> such that <m>\mathbf{x} = \mathbf{w} + \mathbf{w}^\perp</m>.
+        </p>
+    </statement>
+
+
+<proof>
+    <p>
+This is an example of an ``existence and uniqueness'' theorem, so there are two things to prove.  If we have an orthogonal basis <m>\{\mathbf{f}_{1}, \mathbf{f}_{2}, \dots, \mathbf{f}_{m}\}</m> for <m>W</m>, then it is easy to show that our orthogonal decomposition exists for <m>\mathbf{x}</m>. We let <m>\mathbf{w}=\mbox{proj}_W(\mathbf{x})</m>, which is clearly in <m>W</m> and  <m>\mathbf{w}^\perp = \mathbf{x} - \mathbf{w}</m>. We have
+<me>
+\mathbf{w} + \mathbf{w}^\perp = \mathbf{w} + (\mathbf{x} - \mathbf{w}) = \mathbf{x},
+</me> so we need to see that <m>\mathbf{w}^\perp \in W^\perp</m>.
+    </p> 
+
+    <p>
+By <xref ref="th-023783"/>~<xref ref="th-023783c"/>, it suffices to show that <m>\mathbf{w}^\perp</m> is orthogonal to each of the basis vectors <m>\mathbf{f}_i, i=1,\ldots,m</m>.  We compute for <m>i=1,\ldots,m</m>
+<md>
+ <mrow>   \mathbf{f}_i \cdot \mathbf{w}^\perp 
+    \amp = \mathbf{f}_i \cdot (\mathbf{x} - \mathbf{w}) </mrow>
+ <mrow>   \amp = \mathbf{f}_i \cdot \mathbf{x} -  \mathbf{f}_i \cdot  \left(\frac{\mathbf{x} \cdot \mathbf{f}_{1}}{\norm{\mathbf{f}_{1}}^2}\mathbf{f}_{1} + \frac{\mathbf{x} \cdot \mathbf{f}_{2}}{\norm{\mathbf{f}_{2}}^2}\mathbf{f}_{2}+ \dots +\frac{\mathbf{x} \cdot \mathbf{f}_{m}}{\norm{\mathbf{f}_{m}}^2}\mathbf{f}_{m}\right) </mrow>
+ <mrow>   \amp = \mathbf{f}_i \cdot \mathbf{x} - \left(\frac{\mathbf{x} \cdot \mathbf{f}_{1}}{\norm{\mathbf{f}_{1}}^2}\mathbf{f}_i \cdot\mathbf{f}_{i} \right) = \mathbf{f}_i \cdot \mathbf{x} - (\mathbf{x} \cdot \mathbf{f}_i) = 0. </mrow>
+</md>   
+This proves that <m>\mathbf{w}^\perp \in W^\perp</m>.
+    </p>
+
+    <p>
+The reason we need to prove this decomposition is unique is because we started with the orthogonal basis <m>\{\mathbf{f}_{1}, \mathbf{f}_{2}, \dots, \mathbf{f}_{m}\}</m> for <m>W</m>, but what would happen if we chose a different orthogonal basis?  
+
+Suppose that <m>\{\mathbf{f}_1^\prime, \mathbf{f}_2^\prime, \dots, \mathbf{f}_m^\prime \}</m>  is another orthogonal basis of <m>W</m>, and let
+<me>
+\mathbf{w}^{\prime} = \left(\frac{\mathbf{x} \cdot \mathbf{f}^{\prime}_{1}}{\norm{\mathbf{f}^{\prime}_{1}}^2}\right)\mathbf{f}^{\prime}_{1} + \left(\frac{\mathbf{x} \cdot \mathbf{f}^{\prime}_{2}}{\norm{\mathbf{f}^{\prime}_{2}}^2}\right)\mathbf{f}^{\prime}_{2} + \dots +\left(\frac{\mathbf{x} \cdot \mathbf{f}^{\prime}_{m}}{\norm{\mathbf{f}^{\prime}_{m}}^2}\right)\mathbf{f}^{\prime}_{m}.
+</me>
+As before, <m>\mathbf{w}^{\prime} \in W</m> and <m>\mathbf{x} - \mathbf{w}^{\prime} \in W^\perp</m>, and we must show that <m>\mathbf{w}^{\prime} = \mathbf{w}</m>. To see this, write the vector <m>\mathbf{w} - \mathbf{w}^\prime</m> as follows:
+<me>
+\mathbf{w} - \mathbf{w}^{\prime} = (\mathbf{x} - \mathbf{w}^{\prime}) - (\mathbf{x} - \mathbf{w}).
+</me>
+This vector is in <m>W</m> (because <m>\mathbf{w}</m> and <m>\mathbf{w}^\prime</m> are in <m>W</m>) and it is in <m>W^\perp</m> (because <m>\mathbf{x} - \mathbf{w}^\prime</m> and <m>\mathbf{x} - \mathbf{w}</m> are in <m>W^\perp</m>), and so it must be the zero vector (it is orthogonal to itself!). This means <m>\mathbf{w}^\prime = \mathbf{w}</m> as desired.
+    </p>
+</proof>
+</theorem>
+
+
+
+
+
+<p> 
+The decomposition is extremely important. It splits a vector into two managable halves. Further, it is completely computable as the next example highlights.
+</p> 
+
+
+
+
+<example xml:id="ex-OrthogDecomp">
+    <statement>
+        <p>
+            Let <m>W</m> be a subspace given by <me>W = \mbox{span}\left(\begin{bmatrix}
+  1 \\ 0 \\ 1 \\ 0
+  \end{bmatrix},
+  \begin{bmatrix}
+  0 \\ 1 \\ 0 \\ 2
+\end{bmatrix}\right),</me>
+ and let <m>\mathbf{x}=[1,2,3,4]</m>.  Write <m>\mathbf{x}</m> as the sum of a vector in <m>W</m> and a vector in <m>W^\perp</m>.
+       </p>
+    </statement>
+    <answer>
+        <p>
+            Following the notation of <xref ref="th-OrthoDecomp"/>, we will write <m>\mathbf{x} = \mathbf{w} + \mathbf{w}^\perp</m>, where <m>\mathbf{w}=\mbox{proj}_W(\mathbf{x})</m> and <m>\mathbf{w}^\perp = \mathbf{x} - \mathbf{w}</m>.  Let 
+<me>\mathbf{f}_1=\begin{bmatrix}
+  1 \\ 0 \\ 1 \\ 0
+  \end{bmatrix} \quad \text{and}  \quad\mathbf{f}_2=\begin{bmatrix}
+  0 \\ 1 \\ 0 \\ 2
+  \end{bmatrix}.</me>  We observe that we have the good fortune that <m>\mathbf{f}_1,\mathbf{f}_2</m> is an orthogonal basis for <m>W</m> (otherwise, our first step would be to use the Gram-Schmidt procedure to create an orthogonal basis for <m>W</m>).  We compute:
+
+<md>
+<mrow>    \mathbf{w}  =\mbox{proj}_W(\mathbf{x})
+      \amp =\mathbf{x}-\mbox{proj}_{\mathbf{f}_1}(\mathbf{x})-\mbox{proj}_{\mathbf{f}_2}(\mathbf{x}) </mrow>
+<mrow>      \amp = \begin{bmatrix}
+  1 \\ 2 \\ 3 \\ 4
+  \end{bmatrix} - \frac{4}{2}\begin{bmatrix}
+  1 \\ 0 \\ 1 \\ 0
+  \end{bmatrix} - \frac{10}{5}\begin{bmatrix}
+  0 \\ 1 \\ 0 \\ 2
+  \end{bmatrix} = \begin{bmatrix}
+  2 \\ 2 \\ 2 \\ 4
+  \end{bmatrix}, </mrow>
+</md>
+
+  and then <me>\mathbf{w}^\perp=\begin{bmatrix}
+  1 \\ 2 \\ 3 \\ 4
+  \end{bmatrix} - \begin{bmatrix}
+  2 \\ 2 \\ 2 \\ 4
+  \end{bmatrix} = \begin{bmatrix}
+  -1 \\ 0 \\ 1 \\ 0
+  \end{bmatrix}.</me>
+
+  This gives us
+  
+<me>
+    \mathbf{x}=\mathbf{w}+\mathbf{w}^\perp=\begin{bmatrix}2\\2\\2\\4\end{bmatrix}+\begin{bmatrix}-1\\0\\1\\0\end{bmatrix}.
+</me>
+       </p>
+    </answer>
+</example>
+  
+<p>
+The final theorem of this section shows that the orthogonal projection onto a subspace of <m>\R^n</m> is actually a linear transformation from <m>\R^n</m> to <m>\R^n</m>.
+</p> 
+
+
+<theorem xml:id="th-ProjLinTran">
+
+    <statement>
+        <p>
+            Let <m>W</m> be a fixed subspace of <m>\R^n</m>. If we define <m>T : \R^n \to \R^n</m> by
+<me>
+T(\mathbf{x}) = \mbox{proj}_W(\mathbf{x}) \quad \mbox{ for all }\mathbf{x}\mbox{ in }\R^n.
+</me>
+<ol>
+<li xml:id="th-ProjLinTran_a">
+  <p> <m>T</m> is a linear transformation.  </p>
+</li>
+
+<li xml:id="th-ProjLinTran_b">
+  <p> <m>\mbox{im}(T)</m> is <m>W</m> and <m>\mbox{ker}(T)</m> is <m> W^\perp</m>.  </p>
+</li>
+
+<li xml:id="th-ProjLinTran_c">
+  <p> <m>\mbox{dim}(W) + \mbox{dim}(W^\perp) = n</m>. </p>
+</li>
+
+</ol>
+        </p>
+    </statement>
+
+
+<proof>
+    <p>
+If <m>W = \{\mathbf{0}\}</m>, then <m>W^\perp = \R^n</m>, and so <m>T(\mathbf{x}) = \mathbf{0}</m> for all <m>\mathbf{x}</m>. Thus <m>T = 0</m> is the zero (linear) operator, so <xref ref="th-ProjLinTran_a"/>, <xref ref="th-ProjLinTran_b"/>, and <xref ref="th-ProjLinTran_c"/> hold. Hence assume that <m>W \neq \{\mathbf{0}\}</m>.
+
+<ol>
+<li>
+  <p> If <m>\{\mathbf{q}_{1}, \mathbf{q}_{2}, \dots, \mathbf{q}_{m}\}</m> is an orthonormal basis of <m>W</m>, then
+<men xml:id="orthonormalUeq">
+T(\mathbf{x}) = (\mathbf{x} \cdot \mathbf{q}_{1})\mathbf{q}_{1} + (\mathbf{x} \cdot \mathbf{q}_{2})\mathbf{q}_{2} + \dots + (\mathbf{x} \cdot \mathbf{q}_{m})\mathbf{q}_{m}
+</men>
+in <m> \R^n </m> by the definition of the projection. Thus <m>T</m> is a linear transformation because
+<me>
+(\mathbf{x} + \mathbf{y}) \cdot \mathbf{q}_{i} = \mathbf{x} \cdot \mathbf{q}_{i} + \mathbf{y} \cdot \mathbf{q}_{i} \ \mbox{ and } \ (r\mathbf{x}) \cdot \mathbf{q}_{i} = r(\mathbf{x} \cdot \mathbf{q}_{i}) \quad \mbox{ for all } i.
+</me> </p>
+</li>
+
+<li>
+      <p> 
+We have <m>\mbox{im}(T)</m> is a subset of <m>W</m> by <xref ref="orthonormalUeq"/> because each <m>\mathbf{q}_{i}</m> is in <m>W</m>. But if <m>\mathbf{x}</m> is in <m>W</m>, then <m>\mathbf{x} = T(\mathbf{x})</m> by <xref ref="orthonormalUeq"/> and <xref ref="th-fourierexpansion"/> applied to the space <m>W</m>. This shows that <m>W</m> is a subset of <m>\mbox{im}(T)</m>, so <m>\mbox{im}(T)</m> is <m>W</m>.
+      </p> 
+
+      <p>
+Now suppose that <m>\mathbf{x}</m> is in <m>W^\perp</m>. Then <m>\mathbf{x} \cdot \mathbf{q}_{i} = 0</m> for each <m>i</m> (again because each <m>\mathbf{q}_{i}</m> is in <m>W</m>) so <m>\mathbf{x}</m> is in <m>\mbox{ker}(T)</m> by (<xref ref="th-023783"/>). Hence <m>W^\perp</m> is in <m>\mbox{ker}(T)</m>. On the other hand, <xref ref="th-023783"/> shows that <m>\mathbf{x} - T(\mathbf{x})</m> is in <m>W^\perp</m> for all <m>\mathbf{x}</m> in <m>\R^n</m>, and it follows that <m>\mbox{ker}(T)</m> is in <m>W^\perp</m>. Hence <m>\mbox{ker}(T)</m> is <m>W^\perp</m>, proving <xref ref="th-ProjLinTran_b"/>. 
+</p>
+</li>
+
+<li>
+      <p> This follows from <xref ref="th-ProjLinTran_a"/>, <xref ref="th-ProjLinTran_b"/>, and the Rank-Nullity theorem (see <xref ref="th-ranknullityforT"/>). </p>
+</li>
+</ol>
+    </p>
+</proof>
+</theorem>
+</subsection>
+
+
+
+
+
+<exercises>
+<exercise xml:id="prob-Uperp">
+    <statement>
+        <p>
+            Solve the linear system in Example <xref ref="ex-023829"/> and use your result to find a basis for <m>W^\perp</m> if 
+            <me>
+            W = \mbox{span}\left(\begin{bmatrix}1\\ -1\\ 2\\ 0\end{bmatrix}, \begin{bmatrix}1\\ 0\\ -2\\ 3\end{bmatrix}\right)
+           </me> 
+           in <m>\R^4</m>.
+        </p>
+    </statement>
+</exercise>
+
+<exercise xml:id="prob-brokenInteractive">
+    <statement>
+        <p>
+            In this problem we return to the GeoGebra interactive in <xref ref="exp-discoverortho"/>,
+             and we consider the case where the matrix <m>A</m> has rank 1 (which <xref ref="exp-discoverortho"/> could not handle).  
+             This time, the sliders define row 1 of matrix <m>A</m>, and row 2 will be 2 times row 1. 
+        </p> 
+
+        <p> 
+             Follow the prompts in the interactive to visualize <m>\mbox{row}(A)</m> and <m>\mbox{null}(A)</m>.  What relationships do you observe between <m>\mbox{row}(A)</m> and <m>\mbox{null}(A)</m>?
+        </p>
+<figure>
+  <caption>
+  </caption>
+  <interactive xml:id="geogebra-Coordinates-Try2" platform="geogebra" width="140%" aspect="950:800">
+    <slate xml:id="Coordinates-Try2" surface="geogebra" material="tyntjmdp" aspect="950:800" />
+  </interactive>
+</figure>
+    </statement>
+</exercise>
+
+<exercise xml:id="prob-finishex4subspaces">
+    <statement>
+        <p>
+            In this problem you are asked to finish <xref ref="ex-4subspaces"/>.  More specifically, for the matrix 
+<me>
+    A=\begin{bmatrix}2\amp -1\amp 1\amp -4\amp 1\\1\amp 0\amp 3\amp 3\amp 0\\-2\amp 1\amp -1\amp 5\amp 2\\4\amp -1\amp 7\amp 2\amp 1\end{bmatrix},
+</me>
+ show that <m>\mbox{null}(A^T) = (\mbox{col}(A))^\perp</m>.
+        </p>
+    </statement>
+</exercise>
+
+
+<exercisegroup>
+<introduction>
+    <p>
+        In each case, write <m>\mathbf{x}</m> as <m>\mathbf{x} = \mathbf{w} + \mathbf{w}^\perp</m>, where <m>\mathbf{w}=\mbox{proj}_W(\mathbf{x})</m> and <m>\mathbf{w}^\perp = \mathbf{x} - \mathbf{w}</m>.
+    </p>
+</introduction>
+
+<exercise xml:id="OrthoDecomp2">
+    <statement>
+        <p>
+            <me>\mathbf{x} = \begin{bmatrix}2\\ 1\\ 6\end{bmatrix}\quad \text{and} \quad W = \mbox{span}\left(\begin{bmatrix}3\\ -1\\ 2\end{bmatrix}, \begin{bmatrix}2\\ 0\\ -3\end{bmatrix}\right).</me>
+        </p>
+    </statement>
+</exercise>
+
+<exercise xml:id="OrthoDecomp4">
+    <statement>
+        <p>
+            <me>\mathbf{x} = \begin{bmatrix}2\\ 0\\ 1\\ 6\end{bmatrix}\quad \text{and} \quad W = \mbox{span}\left(\begin{bmatrix}1\\ 1\\ 1\\ 1\end{bmatrix}, \begin{bmatrix}1\\ 1\\ -1\\ -1\end{bmatrix}, \begin{bmatrix}1\\ -1\\ 1\\ -1\end{bmatrix}\right).</me>
+        </p>
+    </statement>
+</exercise>
+
+<exercise xml:id="OrthoDecomp6">
+    <statement>
+        <p>
+            <me>\mathbf{x} = \begin{bmatrix}a\\ b\\ c\\ d\end{bmatrix}\quad \text{and} \quad W = \mbox{span}\left(\begin{bmatrix}1\\ -1\\ 2\\ 0\end{bmatrix}, \begin{bmatrix}-1\\ 1\\ 1\\ 1\end{bmatrix}\right).</me>
+        </p>
+    </statement>
+</exercise>
+</exercisegroup>
+	
+
+<exercise xml:id="Uperp">
+    <statement>
+        <p>
+            Let <m>W = \mbox{span}\left(\mathbf{w}_{1}, \mathbf{w}_{2}, \dots, \mathbf{w}_{k}\right)</m>, <m>\mathbf{w}_{i}\in \R^n</m>, and let <m>A</m> be the <m>k \times n</m> matrix with the <m>\mathbf{w}_{i}</m> as rows.
+
+
+<ol>
+<li>
+      <p> Show that <m>W^\perp = \{\mathbf{x} \mid  \mathbf{x}\in \R^n, A\mathbf{x}^{T} = \mathbf{0}\}</m>. </p>
+</li>
+
+<li>
+      <p> Use part (a) to find <m>W^\perp</m> if 
+<me>
+    W = \mbox{span}\left(\begin{bmatrix}1\\ -1\\ 2\\ 1\end{bmatrix}, \begin{bmatrix}1\\ 0\\ -1\\ 1\end{bmatrix}\right).
+</me>
+</p>
+</li>
+</ol>
+        </p>
+    </statement>
+<answer>
+    <p>
+        <m>W^\perp = \mbox{span}\left((1, 3, 1, 0), (-1, 0, 0, 1)\right)</m>.
+    </p>
+</answer>
+</exercise>
+
+<exercise xml:id="prob-816">
+    <statement>
+        <p>
+            <ol>
+<li>
+      <p> Prove part <xref ref="th-023783a"/> of <xref ref="th-023783"/>. </p>
+</li>
+
+<li>
+      <p> Prove part <xref ref="th-023783b"/> of <xref ref="th-023783"/>. </p>
+</li>
+
+</ol>
+        </p>
+    </statement>
+</exercise>
+
+<exercise xml:id="prob-817">
+    <statement>
+        <p>
+Let <m>W</m> be a subspace of <m>\R^n</m>. If <m>\mathbf{x}</m> in <m>\R^n</m> can be written in any way at all as <m>\mathbf{x} = \mathbf{p} + \mathbf{q}</m> with <m>\mathbf{p}</m> in <m>W</m> and <m>\mathbf{q}</m> in <m>W^\perp</m>, show that necessarily <m>\mathbf{p} = \mbox{proj}_W(\mathbf{x})</m>.
+        </p>
+    </statement>
+</exercise>
+
+<exercise xml:id="prob-8-1-8">
+    <statement>
+        <p>
+            Let <m>W</m> be a subspace of <m>\R^n</m> and let <m>\mathbf{x}</m> be a vector in <m>\R^n</m>. Using Practice Problem <xref ref="prob-817"/>, or otherwise, show that <m>\mathbf{x}</m> is in <m>W</m> if and only if <m>\mathbf{x} = \mbox{proj}_W(\mathbf{x})</m>.
+        </p>
+    </statement>
+<hint>
+<p>
+Write <m>\mathbf{w} = \mbox{proj}_W(\mathbf{x})</m>. Then <m>\mathbf{w}</m> is in <m>W</m> by definition. If <m>\mathbf{x}</m> is <m>W</m>, then <m>\mathbf{x} - \mathbf{w}</m> is in <m>W</m>. But <m>\mathbf{x} - \mathbf{w}</m> is also in <m>W^\perp</m>, so <m>\mathbf{x} - \mathbf{w}</m> is in <m>W \cap U^\perp = \{\mathbf{0}\}</m>. Thus <m>\mathbf{x} = \mathbf{w}</m>.
+</p>
+</hint>
+       
+</exercise>
+
+
+<exercise xml:id="prob-8-1-10">
+    <statement>
+        <p>
+            If <m>W</m> is a subspace of <m>\R^n</m>, show that <m>\mbox{proj}_W(\mathbf{x}) = \mathbf{x}</m> for all <m>\mathbf{x}</m> in <m>W</m>.
+        </p>
+    </statement>
+
+<hint>
+<p>
+Let <m>\{\mathbf{q}_{1}, \mathbf{q}_{2}, \dots , \mathbf{q}_{m}\}</m> be an orthonormal basis of <m>W</m>. If <m>\mathbf{x}</m> is in <m>W</m> the expansion theorem gives 
+<me>
+\mathbf{x} = (\mathbf{x} \cdot \mathbf{q}_{1})\mathbf{q}_{1} + (\mathbf{x} \cdot \mathbf{q}_{2})\mathbf{q}_{2} + \dots  + (\mathbf{x} \cdot \mathbf{q}_{m})\mathbf{q}_{m} = \mbox{proj}_W(\mathbf{x}).
+</me>
+</p>
+</hint>
+     
+</exercise>
+
+<exercise xml:id="prob-8-1-11">
+    <statement>
+        <p>
+            If <m>W</m> is a subspace of <m>\R^n</m>, show that <m>\mathbf{x} = \mbox{proj}_W(\mathbf{x}) + \mbox{proj}_{W^\perp}(\mathbf{x})</m> for all <m>\mathbf{x}</m> in <m>\R^n</m>.
+        </p>
+    </statement>
+</exercise>
+
+<exercise xml:id="prob-8-1-12">
+    <statement>
+        <p>
+            If <m>\{\mathbf{v}_{1}, \dots, \mathbf{v}_{n}\}</m> is an orthogonal basis of <m>\R^n</m> and <m>W = \mbox{span}\left(\mathbf{v}_{1}, \dots, \mathbf{v}_{m}\right)</m>, <m>m\lt n</m>, show that <m>W^\perp = \mbox{span}\left(\mathbf{v}_{m + 1}, \dots, \mathbf{v}_{n}\right)</m>.
+        </p>
+    </statement>
+</exercise>
+
+
+
+</exercises>
+</section>

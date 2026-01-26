@@ -1,0 +1,709 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<section xml:id="Section-Existence-of-the-Inverse-of-a-Linear-Transformation" xmlns:xi="http://www.w3.org/2001/XInclude">
+    <title>Existence of the Inverse of a Linear Transformation</title>
+
+
+
+  
+
+
+
+ <p>
+In <xref ref="ep-inverse"/>, we examined a linear transformation <m>T:\R^2\rightarrow \R^2</m> that doubles all input vectors, 
+and its inverse <m>S:\R^2\rightarrow \R^2</m>, that halves all input vectors.  
+We observed that the composite functions <m>S\circ T</m> and <m>T\circ S</m> are both identity transformations.  
+Diagrammatically, we can represent <m>T</m> and <m>S</m> as follows:
+ </p> 
+
+ 
+<image width="65%">
+   <shortdescription>Idea of inverse diagram</shortdescription>
+    <latex-image>
+      \begin{tikzpicture}
+ \node[] at (0, -1.2)  (top)    {\(T\) doubles each input};
+ \node[] at (-3, -2.5)  (left1)    {\(\mathbf{v}\)};
+ \node[] at (3, -2.5)  (right1)    {\(2\mathbf{v}\)};
+ \node[] at (0, -3.7)  (bottom)    {\(S\) halves each input};
+  \draw [-\gt ,line width=0.5pt,-stealth]  (left1.north east)to[out=30, in=150](right1.north west);
+ \draw [-\gt ,line width=0.5pt,-stealth]  (right1.south west)to[out=210, in=330](left1.east);
+     \end{tikzpicture}
+    </latex-image>
+</image>
+ 
+<p>
+This gives us a way of thinking about an inverse of <m>T</m> as a transformation that ``undoes" the action of <m>T</m> by ``reversing" the mapping arrows.  We will now use these intuitive ideas to understand which linear transformations are invertible and which are not.
+</p> 
+
+<p> 
+Given an arbitrary linear transformation <m>T:V\rightarrow W</m>, ``reversing the arrows"
+ may not always result in a transformation. Recall that transformations are functions.  
+ The figures below show two ways in which our attempt to ``reverse" <m>T</m> may fail to produce a function.
+ 
+ First, if two distinct vectors <m>\mathbf{v}_1</m> and <m>\mathbf{v}_2</m> map to the same vector <m>\mathbf{w}</m> in <m>W</m>, 
+ then reversing the arrows gives us a mapping that is clearly not a function. 
+</p>
+
+
+<image width="75%">
+   <shortdescription></shortdescription>
+    <latex-image>
+      \begin{tikzpicture}
+ \node[] at (-5, 1.2)  (topleft)    {\(\mathbf{v}_1\)};
+ \node[] at (-5, -1.2)  (bottomleft)    {\(\mathbf{v}_2\)};
+ \node[] at (0, 0)  (cleft1)    {\(T(\mathbf{v}_1)=T(\mathbf{v}_2)=\mathbf{w}\)};
+ 
+ \node[gray] at (-5, 0)  (comment)    {(Two distinct elements map to \(\mathbf{w}\))};
+   \draw [-\gt ,line width=0.5pt,-stealth]  (topleft.east) to (cleft1.north west);
+  \draw [-\gt ,line width=0.5pt,-stealth]  (bottomleft.east) to (cleft1.south west);
+     \end{tikzpicture}
+    </latex-image>
+</image>
+
+<image width="75%">
+   <shortdescription></shortdescription>
+    <latex-image>
+      \begin{tikzpicture}
+ \node[] at (-5, 1.2)  (topleft)    {\(\mathbf{v}_1\)};
+ \node[] at (-5, -1.2)  (bottomleft)    {\(\mathbf{v}_2\)};
+ \node[] at (0, 0)  (cleft1)    {\(T(\mathbf{v}_1)=T(\mathbf{v}_2)=\mathbf{w}\)};
+ \node[gray] at (-6, 0)  (comment)    {(Reversing the arrows does not produce a function)};
+   \draw [-\gt ,line width=0.5pt,-stealth]  (cleft1.north west) to (topleft.east);
+  \draw [-\gt ,line width=0.5pt,-stealth]  (cleft1.south west) to (bottomleft.east);
+  \node[] at (-4, -2)  (caption)    {Figure 1.  Two distinct elements map to \(\mathbf{w}\).};
+     \end{tikzpicture}
+    </latex-image>
+</image>
+
+  
+<p>
+Second, observe that our definition of an inverse of <m>T:V\rightarrow W</m> requires that the domain of the inverse transformation be
+ <m>W</m> (remember the inverse is intuitively the opposite one!)).  If there is a vector <m>\mathbf{b}</m> in <m>W</m> that is not an image of any vector in <m>V</m>, 
+ then <m>\mathbf{b}</m> cannot be in the domain of an inverse transformation. 
+</p> 
+
+
+<image width="75%">
+   <shortdescription></shortdescription>
+    <latex-image>
+      \begin{tikzpicture}
+ \node[] at (0, 3)  (topleft)    {\(\mathbf{b}\)};
+ \node[] at (-2, 2)  (bottomleft)    {\(\mathbf{v}\)};
+ \node[] at (0, 2)  (cleft1)    {\(T(\mathbf{v})\)};
+  \node[gray] at (2, 3)  (comment)    {(Nothing maps to \(\mathbf{b}\))};
+  \draw [-\gt ,line width=0.5pt,-stealth]  (bottomleft.east) to (cleft1.west);
+  \node[] at (0, 1)  (topright)    {\(\mathbf{b}\)};
+ \node[] at (-2, 0)  (bottomleft)    {\(\mathbf{v}\)};
+ \node[] at (-2, 1)  (topleft)    {?};
+ \node[] at (0, 0)  (cleft1)    {\(T(\mathbf{v})\)};
+ \node[gray] at (3, 1)  (comment)    {(\(\mathbf{b}\) has nothing to map ``back" to)};
+  
+  \draw [-\gt ,line width=0.5pt,-stealth]  (cleft1.west) to (bottomleft.east);
+  \draw [-\gt ,line width=0.5pt,-stealth]  (topright.west) to (topleft.east);
+  \node[] at (0, -1)  (caption)    {Figure 2.  What happens when nothing maps to \(\mathbf{b}\).};
+     \end{tikzpicture}
+    </latex-image>
+</image>
+ 
+
+<p> 
+We now illustrate these potential issues with specific examples.
+</p> 
+
+
+
+<example xml:id="ex-notonetoone">
+    <statement>
+        <p>
+            Let <m>T:\R^2\rightarrow \R^2</m> be a linear transformation whose standard matrix is
+
+<me>
+    \begin{bmatrix}1\amp 1\\2\amp 2\end{bmatrix}.
+</me>
+
+Does <m>T</m> have an inverse? Show that multiple vectors of the domain map to <m>\mathbf{0}</m> in the codomain.
+       </p>
+    </statement>
+
+    <answer>
+        <p>
+            The matrix 
+        <me>
+        \begin{bmatrix}1\amp 1\\2\amp 2\end{bmatrix}
+        </me>
+        
+        is not invertible, so <m>T</m> does not have an inverse.
+
+We now dig a little deeper to get additional insights into why <m>T</m> does not have an inverse.  Observe that all vectors of the form <m>[k,-k]</m> map to <m>\mathbf{0}</m>.  To verify this, use matrix multiplication:
+
+<me>
+    \begin{bmatrix}1\amp 1\\2\amp 2\end{bmatrix}\begin{bmatrix}k\\-k\end{bmatrix}=\begin{bmatrix}0\\0\end{bmatrix}.
+</me>
+
+This shows that there are infinitely many vectors that map to <m>\mathbf{0}</m>.  So, ``reversing the arrows" would not result in a function. (See Figure 1)
+       </p>
+    </answer>
+</example>
+
+
+
+<example xml:id="ex-notonto">
+    <statement>
+        <p>
+            Let <m>T:\R^2\rightarrow \R^3</m> be a linear transformation whose standard matrix is
+
+<me>
+    \begin{bmatrix}1\amp 0\\0\amp 1\\2\amp 0\end{bmatrix}
+</me>
+
+Does <m>T</m> have an inverse? Show that there exists a vector <m>\mathbf{b}</m> in <m>\R^3</m> such that no vector of <m>\R^2</m> maps to <m>\mathbf{b}</m>.
+       </p>
+    </statement>
+    <answer>
+        <p>
+            The matrix 
+        <me>
+        \begin{bmatrix}1\amp 0\\0\amp 1\\2\amp 0\end{bmatrix}
+        </me>
+        
+        is not invertible (it's not even a square matrix!), so <m>T</m> does not have an inverse.
+
+We now get another insight into why <m>T</m> is not invertible.
+To find a vector <m>\mathbf{b}</m> such that no vector of <m>\R^2</m> maps to <m>\mathbf{b}</m>, we need to find <m>\mathbf{b}</m> for which the matrix equation
+<men xml:id="ex-matrix">
+\begin{bmatrix}1\amp 0\\0\amp 1\\2\amp 0\end{bmatrix}\mathbf{x}=\mathbf{b}.
+</men>
+
+has no solution.  
+</p> 
+
+<p> 
+Let <m>[b_1, b_2, b_3]</m>.  Gauss-Jordan elimination yields:
+
+
+<me>
+    \left[\begin{array}{cc|c}  
+ 1 \amp  0 \amp  b_1\\  
+ 0 \amp  1 \amp  b_2\\
+ 2 \amp  0 \amp  b_3
+\end{array}\right] \rightsquigarrow \left[\begin{array}{cc|c} 
+ 1 \amp  0 \amp  b_1\\  
+ 0 \amp  1 \amp  b_2\\
+ 0 \amp  0 \amp  b_3-2b_1
+\end{array}\right]
+</me>
+
+Now, <xref ref="ex-matrix"/> has a solution if and only if <m>b_3-2b_1=0</m>.  Since we do not want <xref ref="ex-matrix"/> to have a solution, all we need to do is pick values <m>b_1</m>, <m>b_2</m> and <m>b_3</m> such that <m>b_3-2b_1\neq 0</m>.  Let <m>\mathbf{b}=[1,1,1]</m>.  Then no element of <m>\R^2</m> maps to <m>\mathbf{b}</m>.  This shows that we cannot ``reverse the arrows" in an attempt to produce an inverse of <m>T</m>. (See Figure 2)
+       </p>
+    </answer>
+</example>
+
+<p>
+Our next goal is to develop vocabulary that would allow us to discuss issues illustrated in Figures <m>1</m> and <m>2</m>.
+</p> 
+
+
+
+
+<subsection xml:id="Subsection-One-to-one-Linear-Transformations">
+    <title>One-to-one and Onto Linear Transformations</title>
+
+    <p>
+Figure <m>1</m> gave us a diagrammatic representation of a transformation that maps two distinct elements, <m>\mathbf{v}_1</m> and <m>\mathbf{v}_2</m> to the same element <m>\mathbf{w}</m>, making it impossible for us to ``reverse the arrows" in an attempt to find the inverse transformation.  Based on this example, it is reasonable to conjecture that for a transformation to be invertible, the transformation must be such that each output is the image of exactly one input.  Such transformations are called <term>one-to-one</term>.  
+    </p>
+
+<definition xml:id="def-onetoone">
+    <title>One-to-One</title>
+    <statement>
+        <p>
+            A linear transformation <m>T:V\rightarrow W</m> is <term>one-to-one</term> if 
+
+<me>
+    T(\mathbf{v}_1)=T(\mathbf{v}_2)\quad \text{implies that}\quad \mathbf{v}_1=\mathbf{v}_2.
+</me>
+        </p>
+    </statement>
+</definition>
+
+<p>
+The transformation in figure <m>1</m> is not injective because <m>\mathbf{v}_1</m> and <m>\mathbf{v}_2</m> map to the same vector <m>\mathbf{w}</m>, (i.e. <m>T(\mathbf{v}_1)=T(\mathbf{v}_2)</m>), yet the diagram suggests that <m>\mathbf{v}_1\neq\mathbf{v}_2</m>.
+</p> 
+
+<p>
+Let us rexamine the previous examples with this new terminology.
+</p> 
+
+
+<example xml:id="ex-notonetoone2">
+    <statement>
+        <p>
+            Transformation <m>T</m> in <xref ref="ex-notonetoone"/> is not injective.
+       </p>
+    </statement>
+    <answer>
+        <p>
+            We can use any two vectors of the form <m>\begin{bmatrix}k\\-k\end{bmatrix}</m> to make our case.  
+
+<me>
+    T\left(\begin{bmatrix}1\\-1\end{bmatrix}\right)=\mathbf{0}=T\left(\begin{bmatrix}-2\\2\end{bmatrix}\right)\quad \text{but}\quad\begin{bmatrix}1\\-1\end{bmatrix}\neq \begin{bmatrix}-2\\2\end{bmatrix}.
+</me>
+
+In other words, we have more than one vector that maps to the zero vector.
+       </p>
+    </answer>
+</example>
+
+<example xml:id="ex-notontoisonetoone">
+    <p>
+        Prove that the transformation in <xref ref="ex-notonto"/> is one-to-one.
+<answer>
+    <p>
+Suppose
+
+<me>
+    T\left(\begin{bmatrix}x_1\\x_2\end{bmatrix}\right)=T\left(\begin{bmatrix}y_1\\y_2\end{bmatrix}\right)
+</me>
+
+Then
+
+<me>
+    \begin{bmatrix}1\amp 0\\0\amp 1\\2\amp 0\end{bmatrix}\begin{bmatrix}x_1\\x_2\end{bmatrix}=\begin{bmatrix}1\amp 0\\0\amp 1\\2\amp 0\end{bmatrix}\begin{bmatrix}y_1\\y_2\end{bmatrix}.
+</me>
+
+
+<me>
+    x_1\begin{bmatrix}1\\0\\2\end{bmatrix}+x_2\begin{bmatrix}0\\1\\0\end{bmatrix}=y_1\begin{bmatrix}1\\0\\2\end{bmatrix}+y_2\begin{bmatrix}0\\1\\0\end{bmatrix}.
+</me>
+
+
+<me>
+    (x_1-y_1)\begin{bmatrix}1\\0\\2\end{bmatrix}+(x_2-y_2)\begin{bmatrix}0\\1\\0\end{bmatrix}=\mathbf{0}.
+</me>
+
+It is clear that <m>\begin{bmatrix}1\\0\\2\end{bmatrix}</m> and <m>\begin{bmatrix}0\\1\\0\end{bmatrix}</m> are linearly independent.  Therefore, we must have <m>x_1-y_1=0</m> and <m>x_2-y_2=0</m>.  But then <m>x_1=y_1</m> and <m>x_2=y_2</m>, so 
+
+<me>
+    \begin{bmatrix}x_1\\x_2\end{bmatrix}=\begin{bmatrix}y_1\\y_2\end{bmatrix}.
+</me>
+
+    </p>
+</answer>
+    </p>
+</example>
+
+<p>
+Since transformation in <xref ref="ex-notonto"/> is one-to-one but not invertible we can conjecture that being one-to-one is a necessary, but not a sufficient condition for a linear transformation to have an inverse.  We will consider the other necessary condition next.
+</p> 
+
+
+<p>
+Figure <m>2</m> makes a convincing case that for a transformation to be invertible every element of the codomain must have something mapping to it. Transformations such that every element of the codomain is an image of some element of the domain are called <term>onto</term>.
+</p>
+
+<definition xml:id="def-onto">
+    <title>Onto</title>
+    <statement>
+        <p>
+            A linear transformation <m>T:V\rightarrow W</m> is <term>onto</term> if for every element <m>\mathbf{w}</m> of <m>W</m>, there exists an element <m>\mathbf{v}</m> of <m>V</m> such that <m>T(\mathbf{v})=\mathbf{w}</m>.
+        </p>
+    </statement>
+</definition>
+
+
+<p> 
+Once again, we place preceding examples in the light of "onto".
+</p> 
+
+<example xml:id="ex-notonto2">
+    <statement>
+        <p>
+            The transformation in <xref ref="ex-notonto"/> is not onto.
+       </p>
+    </statement>
+    <answer>
+        <p>
+            No element of <m>\R^2</m> maps to <m>\begin{bmatrix}1\\1\\1\end{bmatrix}</m>.
+       </p>
+    </answer>
+</example>
+
+<example xml:id="ex-onto1">
+    <statement>
+        <p>
+            Prove that the linear transformation <m>T:\R^2\rightarrow \R^2</m> whose standard matrix is 
+<me>
+    A=\begin{bmatrix}1\amp 0\\2\amp 1\end{bmatrix}
+</me>
+ is onto.
+       </p>
+    </statement>
+    <answer>
+        <p>
+            Let <m>\mathbf{b}</m> be an element of the codomain (<m>\R^2</m>).  We need to find <m>\mathbf{x}</m> in the domain (<m>\R^2</m>) such that <m>T(\mathbf{x})=\mathbf{b}</m>. 
+Observe that <m>A</m> is invertible, and 
+<me>
+    A^{-1}=\begin{bmatrix}1\amp 0\\-2\amp 1\end{bmatrix}.
+</me>
+
+ Let <m>\mathbf{x}=\begin{bmatrix}1\amp 0\\-2\amp 1\end{bmatrix}\mathbf{b}</m>, then 
+ 
+<me>
+    T(\mathbf{x})=\begin{bmatrix}1\amp 0\\2\amp 1\end{bmatrix}\left(\begin{bmatrix}1\amp 0\\-2\amp 1\end{bmatrix}\mathbf{b}\right)=I\mathbf{b}=\mathbf{b}.
+</me>
+       </p>
+    </answer>
+</example>
+
+<example xml:id="ex-onto2">
+    <statement>
+        <p>
+            Prove that the linear transformation <m>T:\R^3\rightarrow \R^2</m> induced by 
+<me>
+    A=\begin{bmatrix}1\amp 1\amp -1\\2\amp 3\amp -1\end{bmatrix}
+</me>
+ is onto.
+       </p>
+    </statement>
+    <answer>
+        <p>
+            Let <m>\mathbf{b}</m> be an element of <m>\R^2</m>.  We need to show that there exists <m>\mathbf{x}</m> in <m>\R^3</m> such that <m>T(\mathbf{x})=A\mathbf{x}=\mathbf{b}</m>. 
+Observe that
+ 
+<me>
+    \mbox{rref}(A)=\begin{bmatrix}1 \amp  0 \amp  -2\\0 \amp  1 \amp  1\end{bmatrix}.
+</me>
+
+ This means that <m>A\mathbf{x}=\mathbf{b}</m> has a solution (in fact, it has infinitely many solutions) for every <m>\mathbf{b}</m> in <m>\R^2</m>.  Therefore every <m>\mathbf{b}</m> in <m>\R^2</m> is an image of some <m>\mathbf{x}</m> in <m>\R^3</m>. We conclude that <m>T</m> is onto.
+       </p>
+    </answer>
+</example>
+
+<example xml:id="ex-subtosub">
+    <statement>
+        <p>
+            Let 
+<me>
+    V=\text{span}\left(\begin{bmatrix}1\\0\\0\end{bmatrix}, \begin{bmatrix}1\\1\\1\end{bmatrix}\right).
+</me>
+
+Define a linear transformation 
+<me>
+    T:V\rightarrow \R^2
+</me>
+
+by 
+<me>
+    T\left(\begin{bmatrix}1\\0\\0\end{bmatrix}\right)=\begin{bmatrix}1\\1\end{bmatrix}\quad \text{and} \quad T\left(\begin{bmatrix}1\\1\\1\end{bmatrix}\right)=\begin{bmatrix}0\\1\end{bmatrix}.
+</me>
+
+Show that <m>T</m> is one-to-one and onto.
+       </p>
+    </statement>
+    <answer>
+        <p>
+            We will now show that <m>T</m> is one-to-one.  
+Suppose 
+
+<me>
+    T(\mathbf{u})=T(\mathbf{v})
+</me>
+
+for some <m>\mathbf{u}</m> and <m>\mathbf{v}</m> in <m>V</m>. Vectors <m>\mathbf{u}</m> and <m>\mathbf{v}</m> are in the span of <m>\begin{bmatrix}1\\0\\0\end{bmatrix}</m> and <m>\begin{bmatrix}1\\1\\1\end{bmatrix}</m>, so
+
+
+<me>
+    \mathbf{u}=a\begin{bmatrix}1\\0\\0\end{bmatrix}+b\begin{bmatrix}1\\1\\1\end{bmatrix}\quad\text{and}\quad \mathbf{v}=c\begin{bmatrix}1\\0\\0\end{bmatrix}+d\begin{bmatrix}1\\1\\1\end{bmatrix}
+</me>
+
+for some scalars <m>a, b, c, d</m>.
+
+
+<md>
+<mrow>    T(\mathbf{u}) \amp =aT\left(\begin{bmatrix}1\\0\\0\end{bmatrix}\right)+bT\left(\begin{bmatrix}1\\1\\1\end{bmatrix}\right)  =a\begin{bmatrix}1\\1\end{bmatrix}+b\begin{bmatrix}0\\1\end{bmatrix}  =\begin{bmatrix}a\\a+b\end{bmatrix}, </mrow> 
+<mrow>    T(\mathbf{v}) \amp =cT\left(\begin{bmatrix}1\\0\\0\end{bmatrix}\right)+dT\left(\begin{bmatrix}1\\1\\1\end{bmatrix}\right)  =c\begin{bmatrix}1\\1\end{bmatrix}+d\begin{bmatrix}0\\1\end{bmatrix}  =\begin{bmatrix}c\\c+d\end{bmatrix}. </mrow>
+</md>
+
+Thus,
+
+<me>
+    \begin{bmatrix}a\\a+b\end{bmatrix}=\begin{bmatrix}c\\c+d\end{bmatrix}.
+</me>
+
+This implies that <m>a=c</m> which, in turn, implies <m>b=d</m>.  This gives us <m>\mathbf{u}=\mathbf{v}</m>, and we conclude that <m>T</m> is one-to-one.
+</p>
+
+<p> 
+Next we will show that <m>T</m> is onto.  
+The key observation is that vectors <m>[1,1]</m> and <m>[0,1]</m> span <m>\R^2</m>. This means that given a vector <m>\mathbf{v}</m> in <m>\R^2</m>, we can write <m>\mathbf{v}</m> as 
+<me>
+\mathbf{v}=a\begin{bmatrix}1\\1\end{bmatrix}+b\begin{bmatrix}0\\1\end{bmatrix}.
+</me> 
+
+But this means that 
+<m>
+\mathbf{v}=T\left(a\begin{bmatrix}1\\0\\0\end{bmatrix}+b\begin{bmatrix}1\\1\\1\end{bmatrix}\right).
+</m> 
+
+We conclude that <m>T</m> is onto.
+       </p>
+    </answer>
+</example>
+</subsection>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<subsection xml:id="Subsection-Existence-of-Inverses">
+    <title>Existence and Uniqueness of Inverses</title>
+
+<theorem xml:id="th-isomeansinvert">
+
+    <statement>
+        <p>
+            Let <m>V</m> and <m>W</m> be vector spaces, and let <m>T:V\rightarrow W</m> be a linear transformation.  Then <m>T</m> has an inverse if and only if <m>T</m> is one-to-one and onto.
+        </p>
+    </statement>
+
+<proof>
+    <p>
+We will first assume that <m>T</m> is one-to-one and onto, and show that there exists a transformation <m>S:W\rightarrow V</m> such that <m>S\circ T=\id_V</m> and <m>T\circ S=\id_W</m>. 
+    </p>
+    
+<p>
+Because <m>T</m> is onto, for every <m>\mathbf{w}</m> in <m>W</m>, there exists <m>\mathbf{v}</m> in <m>V</m> such that <m>T(\mathbf{v})=\mathbf{w}</m>.  Moreover, because <m>T</m> is one-to-one, vector <m>\mathbf{v}</m> is the only vector that maps to <m>\mathbf{w}</m>.  To stress this, we will say that for every <m>\mathbf{w}</m>, there exists <m>\mathbf{v}_{\mathbf{w}}</m> such that <m>T(\mathbf{v}_{\mathbf{w}})=\mathbf{w}</m>. (Since every <m>\mathbf{v}</m> maps to exactly one <m>\mathbf{w}</m>, this notation makes sense for elements of <m>V</m> as well.)  We can now define <m>S:W\rightarrow V</m> by <m>S(\mathbf{w})=\mathbf{v}_{\mathbf{w}}</m>.
+Then
+
+<md>
+<mrow>    (S\circ T)(\mathbf{v}_{\mathbf{w}})  \amp=  S(T(\mathbf{v}_{\mathbf{w}})) \amp =S (\mathbf{w}) = \mathbf{v}_{\mathbf{w}}, </mrow>
+<mrow>    (T\circ S)(\mathbf{w})               \amp=  T(S(\mathbf{w}))              \amp =T (\mathbf{v}_{\mathbf{w}}) = \mathbf{w}. </mrow>
+</md>
+
+We conclude that <m>S\circ T=\id_V</m> and <m>T\circ S=\id_W</m>.  Therefore <m>S</m> is an inverse of <m>T</m>.
+
+We will now assume that <m>T</m> has an inverse <m>S</m> and show that <m>T</m> must be one-to-one and onto.  
+Suppose 
+<me>
+    T(\mathbf{v}_1)=T(\mathbf{v}_2).
+</me>
+ then 
+<me>
+    S(T(\mathbf{v}_1))=S(T(\mathbf{v}_2)),
+</me>
+
+but then
+
+<me>
+    \mathbf{v}_1=\mathbf{v}_2.
+</me>
+
+We conclude that <m>T</m> is one-to-one.
+
+Now suppose that <m>\mathbf{w}</m> is in <m>W</m>.  We need to show that some element of <m>V</m> maps to <m>\mathbf{w}</m>.  Let <m>\mathbf{v}=S(\mathbf{w})</m>.  Then
+
+<me>
+    T(\mathbf{v})=T(S(\mathbf{w}))=(T\circ S)(\mathbf{w})=\id_W(\mathbf{w})=\mathbf{w}.
+</me>
+
+We conclude that <m>T</m> is onto.
+    </p>
+</proof>
+</theorem>
+
+
+<p> 
+The theorem together with its proof is all very formal. In practice, one can verify whether an inverse exists by verifying onto and one-to-one (often easier than pinpointing an inverse).
+Here is a case in point:
+</p> 
+
+
+
+
+<example xml:id="ex-subtosubinvert">
+    <statement>
+        <p>
+            Transformation <m>T</m> in <xref ref="ex-subtosub"/>  is invertible.
+       </p>
+    </statement>
+    <answer>
+        <p>
+            We demonstrated that <m>T</m> is one-to-one and onto.  By <xref ref="th-isomeansinvert"/>, <m>T</m> has an inverse.  
+
+Recall that <m>T</m> was introduced to demonstrate that <xref ref="th-existunique"/> is not always directly applicable.  We now have additional tools. <xref ref="th-isomeansinvert"/> assures us that <m>T</m> has an inverse, but does not help us find it. We will visit this problem again in later sections and find an inverse of <m>T</m>.
+       </p>
+    </answer>
+</example>
+
+
+
+
+
+
+
+
+
+<p>
+Having an inverse refers to <m>S</m> as <term>an</term> inverse of <m>T</m>, 
+implying that there may be more than one such transformation <m>S</m>.  
+We will now show that if such a transformation <m>S</m> exists, it is unique.  
+This will allow us to refer to it as <em>the</em> inverse of <m>T</m> and to start using <m>T^{-1}</m> to denote the unique inverse of <m>T</m>.
+</p> 
+
+<theorem xml:id="th-inverseisunique">
+
+    <statement>
+        <p>
+            If <m>T</m> is a linear transformation, and <m>S</m> is an inverse of <m>T</m>.  Then <m>S</m> is unique.
+        </p>
+    </statement>
+
+<proof>
+    <p>
+Let <m>T:V\rightarrow W</m> be a linear transformation.  If <m>S</m> is an inverse of <m>T</m>, then <m>S</m> satisfies
+
+<me>
+    S\circ T=\id_V\quad \text{and}\quad T\circ S=\id_W.
+</me>
+
+
+Suppose there is another transformation, <m>S'</m>, such that 
+
+<me>
+    S'\circ T=\id_V\quad \text{and}\quad T\circ S'=\id_W.
+</me>
+
+We now show that <m>S=S'</m>.
+
+<me>
+    S=S\circ \id_W=S\circ(T\circ S')=(S\circ T)\circ S'=\id_V\circ S'=S'.
+</me>
+
+    </p>
+</proof>
+</theorem>
+</subsection>
+
+
+
+
+
+
+
+
+<exercises>
+
+<exercise xml:id="prob-inverses1">
+    <statement>
+        <p>
+            Show that a linear transformation <m>T:\R^2\rightarrow \R^2</m> with standard matrix 
+            <me>
+            A=\begin{bmatrix}2\amp -4\\-3\amp 6\end{bmatrix}
+            </me>
+            
+            is not one-to-one.
+        </p>
+    </statement>
+
+   <hint>
+    <p>
+        Show that multiple vectors map to <m>\mathbf{0}</m>.
+    </p>
+   </hint>
+</exercise>
+ 
+ <exercise xml:id="prob-inverses2">
+    <statement>
+        <p>
+            Show that a linear transformation <m>T:\R^2\rightarrow \R^3</m> with standard matrix 
+        <me>
+        A=\begin{bmatrix}1\amp 2\\-1\amp 1\\0\amp 1\end{bmatrix}
+        </me>
+        
+        is not onto.
+        </p>
+    </statement>
+
+    <hint>
+    <p>
+    Find <m>\mathbf{b}</m> such that <m>A\mathbf{x}=\mathbf{b}</m> has no solutions.
+    </p>
+    </hint>
+</exercise>
+ 
+ <exercise xml:id="prob-inverses3">
+    <statement>
+        <p>
+            Suppose that a linear transformation <m>T:\R^3\rightarrow \R^3</m> has a standard matrix <m>A</m> such that <m>\text{rref}(A)=I</m>.
+ 
+ Prove that <m>T</m> is one-to-one and onto
+        </p>
+    </statement>
+
+    <hint>
+        <p>
+    For the one-to-one verification, does <m>A\mathbf{x}=\mathbf{b}</m> have a solution for every <m>\mathbf{b}</m>?  
+        </p>
+    </hint>
+
+    <hint>
+        <p>
+    For the onto verification, how many solutions does <m>A\mathbf{x}=\mathbf{b}</m> have?
+        </p>
+    </hint>
+
+</exercise>
+ 
+
+
+ <exercise xml:id="prob-inverses4">
+    <statement>
+        <p>
+            Define a transformation <m>T:\R^2\rightarrow \R^2</m> by 
+ 
+<me>
+    T\left(\begin{bmatrix}x\\y\end{bmatrix}\right)=\begin{bmatrix}x\\-2x+4y\end{bmatrix}.
+</me>
+
+ Show that <m>T</m> is a linear transformation that has an inverse.
+        </p>
+    </statement>
+
+    <hint>
+        <p>
+    You will need to demonstrate that <m>T</m> is one-to-one and onto.
+        </p>
+    </hint>
+</exercise>
+ 
+ <exercise xml:id="prob-inverses5">
+    <statement>
+        <p>
+            Let 
+        <me>
+        V=\text{span}\left(\begin{bmatrix}1\\0\\1\end{bmatrix}, \begin{bmatrix}0\\1\\0\end{bmatrix}\right).
+        </me>
+        
+        Define a linear transformation <m>T:V\rightarrow \R^2</m> by
+ 
+<me>
+    T\left(\begin{bmatrix}1\\0\\1\end{bmatrix}\right)=\begin{bmatrix}0\\1\end{bmatrix}\quad \text{and}\quad T\left(\begin{bmatrix}0\\1\\0\end{bmatrix}\right)=\begin{bmatrix}-1\\1\end{bmatrix}
+</me>
+
+ Prove that <m>T</m> has an inverse.
+        </p>
+    </statement>
+</exercise>
+
+</exercises>
+</section>

@@ -1,0 +1,668 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<section xml:id="Section-Dot-Product" xmlns:xi="http://www.w3.org/2001/XInclude">
+  <title>The Dot Product</title>
+
+
+  <subsection xml:id="Subsection-The-Dot-Product">
+    <title>The Dot Product</title>
+
+    <definition xml:id="def-dotproduct">
+      <statement>
+        <p>
+          Let <m>\mathbf{u}</m> and <m>\mathbf{v}</m> be vectors in <m>\R^n</m>.  
+          The <term>dot product</term> of <m>\mathbf{u}</m> and <m>\mathbf{v}</m>, denoted by <m>\mathbf{u}\cdot \mathbf{v}</m>, is given by
+          <me>
+            \mathbf{u}\cdot\mathbf{v}=\begin{bmatrix}u_1\\u_2\\\vdots\\u_n\end{bmatrix}\cdot\begin{bmatrix}v_1\\v_2\\\vdots\\v_n\end{bmatrix}=u_1v_1+u_2v_2+\ldots+u_nv_n.
+          </me>
+        </p>
+      </statement>
+    </definition>
+
+    <p> 
+    We will see the dot product reppear over and over again. As such, an example of a computation is reasonable to start with:
+    </p> 
+
+    <example xml:id="ex-dotex">
+      <p>
+        Find <m>\mathbf{u}\cdot \mathbf{v}</m> if <m>\mathbf{u}=\begin{bmatrix}-2\\0\\1\end{bmatrix}</m> and <m>\mathbf{v}=\begin{bmatrix}3\\2\\-4\end{bmatrix}</m>. 
+        <me>
+            \mathbf{u}\cdot\mathbf{v}=\begin{bmatrix}-2\\0\\1\end{bmatrix}\cdot\begin{bmatrix}3\\2\\-4\end{bmatrix}=(-2)(3)+(0)(2)+(1)(-4)=-6-4=-10
+        </me>
+      </p>
+    </example>
+
+    <p>
+      Note that the dot product of two vectors is a scalar.  For this reason, the dot product is sometimes called a <term>scalar product</term>.
+    </p>
+
+    <p>
+      A quick examination of <xref ref="ex-dotex"/> will convince you that the dot product is <term>commutative</term>. 
+      In other words, <m>\mathbf{u}\cdot\mathbf{v}=\mathbf{v}\cdot\mathbf{u}</m>.  
+      This and other properties of the dot product are stated below.
+    </p>
+
+    <theorem xml:id="th-dotproductproperties">
+      <statement>
+        <p>
+          The following properties hold for vectors <m>\mathbf{u}</m>, <m>\mathbf{v}</m> and <m>\mathbf{w}</m> in <m>\R^n</m> and scalar <m>k</m> in <m>\R</m>.
+          <ol>
+            <li xml:id="item-commutative">
+              <p> <m>\mathbf{u}\cdot\mathbf{v}=\mathbf{v}\cdot\mathbf{u}</m> </p>
+            </li>
+            <li xml:id="item-distributive">
+              <p> <m>(\mathbf{u}+\mathbf{v})\cdot \mathbf{w}=\mathbf{u}\cdot \mathbf{w}+\mathbf{v}\cdot \mathbf{w}</m> </p>
+            </li>
+            <li xml:id="item-distributive-again"> 
+              <p> <m>\mathbf{u}\cdot (\mathbf{v}+\mathbf{w})=\mathbf{u}\cdot\mathbf{v}+\mathbf{u}\cdot \mathbf{w}</m> </p>
+            </li>
+            <li xml:id="item-scalar">
+              <p> <m>(k\mathbf{u})\cdot \mathbf{v}=k(\mathbf{u}\cdot\mathbf{v})=\mathbf{u}\cdot (k\mathbf{v})</m> </p>
+            </li>
+            <li xml:id="item-positive">
+              <p> <m>\mathbf{u}\cdot\mathbf{u}\geq 0</m>, and <m>\mathbf{u}\cdot\mathbf{u}=0</m> if and only if <m>\mathbf{u}={\bf 0}</m>. </p>
+            </li>
+            <li xml:id="item-norm"> 
+              <p> <m>\norm{\mathbf{u}}^2=\mathbf{u}\cdot\mathbf{u}</m> </p>
+            </li>
+            <li xml:id="item-orthogonal">
+              <p> <m> \mathbf{u} \cdot \mathbf{v} = 0 </m> and <m> \mathbf{u} \neq \mathbf{v} </m> if and only if <m>\mathbf{u}</m> and <m>\mathbf{v}</m> are orthogonal. </p>
+            </li>
+          </ol>
+        </p>
+      </statement>
+      <proof>
+        <p>
+          We will prove <xref ref="item-distributive"/>.  The remaining properties are left as exercises.
+          <md>
+            <mrow> \left(\mathbf{u}+\mathbf{v}\right)\cdot \mathbf{w}\amp=\left(\begin{bmatrix} u_1\\ u_2\\ \vdots\\ u_n \end{bmatrix}+\begin{bmatrix} v_1\\ v_2\\ \vdots\\ v_n \end{bmatrix}\right)\cdot \begin{bmatrix}w_1\\w_2\\\vdots\\w_n\end{bmatrix}=\begin{bmatrix}
+              u_1+v_1\\
+              u_2+v_2\\
+              \vdots\\
+              u_n+v_n
+              \end{bmatrix}\cdot \begin{bmatrix}w_1\\w_2\\\vdots\\w_n\end{bmatrix} 
+            </mrow>
+            <mrow> \amp=(u_1+v_1)w_1 + (u_2+v_2)w_2 + \ldots + (u_n+v_n)w_n </mrow>
+            <mrow> \amp=u_1w_1 + v_1w_1 + u_2w_2+v_2w_2 + \ldots + u_nw_n+v_nw_n </mrow>
+            <mrow> \amp=(u_1w_1 + u_2w_2\ldots + u_nw_n) + (v_1w_1 + v_2w_2 + \ldots + v_nw_n) </mrow>
+            <mrow> \amp=\begin{bmatrix} u_1\\ u_2\\ \vdots\\ u_n \end{bmatrix}
+              \cdot\begin{bmatrix}w_1\\w_2\\\vdots\\w_n\end{bmatrix}
+              +\begin{bmatrix} v_1\\ v_2\\ \vdots\\ v_n \end{bmatrix}
+              \cdot \begin{bmatrix}w_1\\w_2\\\vdots\\w_n\end{bmatrix}
+              =\mathbf{u}\cdot\mathbf{w}+\mathbf{v}\cdot\mathbf{w} 
+            </mrow>
+          </md>
+        </p>
+      </proof>
+    </theorem>
+    
+    <p>
+      We will illustrate <xref ref="item-norm"/> with an example.
+    </p>
+    
+    <example xml:id="ex-exprop6">
+      <p>
+        Let <m>\mathbf{u}=\begin{bmatrix}-2\\3\end{bmatrix}</m>.  Use <m>\mathbf{u}</m> to illustrate <xref ref="item-norm"/> of <xref ref="th-dotproductproperties"/>.
+        <me>
+          \norm{\mathbf{u}}^2=(-2)^2+3^2=(-2)(-2)+(3)(3)=\begin{bmatrix}-2\\3\end{bmatrix}\cdot\begin{bmatrix}-2\\3\end{bmatrix}=\mathbf{u}\cdot\mathbf{u}
+        </me>
+      </p>
+    </example>
+    
+    <p>
+      If we take the square root of both sides of the equation in <xref ref="item-norm"/>, we get an alternative way to think of the length of a vector (<xref ref="Section-Length-of-a-Vector"/>).
+    </p>
+    
+    <corollary xml:id="cor-length_via_dotprod">
+      <title>Length of a Vector</title>
+      <statement>
+        <p>
+          Let <m>\mathbf{v}</m> be a vector in <m>\R^n</m>, then the <term>length</term>, or the <term>magnitude</term>, of <m>\mathbf{v}</m> is given by
+          <men xml:id="eq-norm_dotp">
+            \norm{\mathbf{v}}=\sqrt{\mathbf{v} \cdot \mathbf{v}}
+          </men>
+        </p>
+      </statement>
+    </corollary>
+
+    <p>
+      Let's also look at an example of <xref ref="item-orthogonal"/>.
+    </p>
+
+    <example>
+      <p>
+        Note that the standard unit vectors <m>\mathbf{i},\mathbf{j}</m> in <m>\mathbb{R}^2</m> are orthogonal--see <xref ref="figure-2d-standard-unit-vectors"/>.  Indeed, 
+          <me>\mathbf{i}\cdot\mathbf{j}=1(0)+0(1)=0.</me> 
+        In general, by <xref ref="item-orthogonal"/>, for standard unit vectors <m>\mathbf{e}_i,\mathbf{e}_j</m> in <m>\mathbb{R}^n</m> with <m>i\neq j</m>, 
+        the vectors <m>\mathbf{e}_i</m> and <m>\mathbf{e}_j</m> are orthogonal since <m>\mathbf{e}_i\cdot \mathbf{e}_j= 0</m>.
+      </p>
+    </example>
+
+    <p>
+    To conclude this subsection, we connect the dot product back to matrix multiplication.  
+    </p>
+
+    <observation xml:id="obs-dotmatproduct">
+    <statement>
+        <p>
+            Let <m>A</m> be an <m>m\times n</m> matrix whose rows are vectors <m>\mathbf{r}_1</m>, <m>\mathbf{r}_2,\ldots ,\mathbf{r}_n</m>.  Let <m>B</m> be an <m>n\times p</m> matrix with columns <m>\mathbf{b}_1, \mathbf{b}_2, \ldots, \mathbf{b}_p</m>.  
+            Observe that <m>(i,j)</m>-entry of <m>AB</m> is
+            <me>a_{i1}b_{1j}+a_{i2}b_{2j}+\dots +a_{in}b_{nj}=\sum_{k=1}^na_{ik}b_{kj} = \mathbf{r}_i \cdot \mathbf{b}_j</me>
+            and so 
+            <me>AB=\begin{bmatrix}\mathbf{r}_1\cdot \mathbf{b}_1\amp \mathbf{r}_1\cdot \mathbf{b}_2\amp \ldots\amp \mathbf{r}_1\cdot \mathbf{b}_p\\ 
+                                  \mathbf{r}_2\cdot \mathbf{b}_1\amp \mathbf{r}_2\cdot \mathbf{b}_2\amp \ldots\amp \mathbf{r}_2\cdot \mathbf{b}_p\\
+                                  \vdots\amp \vdots\amp \amp \vdots \\
+                                  \mathbf{r}_m\cdot \mathbf{b}_1\amp \mathbf{r}_m\cdot \mathbf{b}_2\amp \ldots\amp \mathbf{r}_m\cdot \mathbf{b}_p\end{bmatrix}
+            </me>
+            In particular, if <m>\mathbf{x}</m> is in <m>\R^n</m>, then each entry of <m>A\mathbf{x}</m> is the dot product of a row of <m>A</m> with <m>\mathbf{x}</m>. 
+        </p>
+    </statement>
+  </observation>
+
+
+  </subsection>
+
+  <subsection xml:id="Subsection-Orthogonal-Projections">
+    <title>Orthogonal Projections</title>
+    
+    <p>
+        Given a line <m>l</m> and a vector <m>\mathbf{v}</m> emanating from a point on <m>l</m>, it is sometimes convenient to express <m>\mathbf{v}</m> as the sum of a vector <m>\mathbf{v}_{\parallel}</m>, parallel to <m>l</m>, and a vector <m>\mathbf{v}_{\perp}</m>, perpendicular to <m>l</m>.  If you have taken a physics course, you may have seen a force vector decomposed into the sum of two components: one parallel and one perpendicular to the direction of motion.
+    </p>
+    
+    <image width="70%">
+        <shortdescription></shortdescription>
+        <latex-image>
+            \begin{tikzpicture}[scale=.8]
+                \draw[line width=2pt,red,-stealth](3.6, 0.8)--(2,4);
+                \node[red] at (3.5, 2.2)   (a) {\(\mathbf{v}_{\perp}\)};
+                \node[red] at (1.5, -0.95)   (b) {\(\mathbf{v}_{\parallel}\)};
+                \node[] at (5, 1)   (c) {\(l\)};
+                \node[blue] at (-0.8, 1.9)   (d) {\(\mathbf{v}=\mathbf{v}_{\perp}+\mathbf{v}_{\parallel}\)};
+                \draw [-,line width=1pt]  (-3,-2.5)--(5, 1.5);
+                \draw[line width=2pt,blue,-stealth](-2, -2)--(2,4);
+                \draw[line width=2pt,red,-stealth](-2, -2)--(3.6, 0.8);
+            \end{tikzpicture}
+        </latex-image>
+    </image>
+
+    <p>
+        Suppose <m>\mathbf{d}</m> is a direction vector for <m>l</m>.  
+        Then <m>\mathbf{v}_{\parallel}=k\mathbf{d}</m> for some scalar <m>k</m>.  Our goal is to find <m>k</m>.  
+        <md>
+            <mrow> \mathbf{v}\cdot\mathbf{d}\amp=(\mathbf{v}_{\parallel}+\mathbf{v}_{\perp})\cdot\mathbf{d} </mrow>
+            <mrow> \amp=(k\mathbf{d}+\mathbf{v}_{\perp})\cdot\mathbf{d} </mrow>
+            <mrow> \amp=k\mathbf{d}\cdot\mathbf{d}+\mathbf{v}_{\perp}\cdot\mathbf{d} </mrow>
+            <mrow> \amp=k\norm{\mathbf{d}}^2+0 </mrow>
+            <mrow> \amp=k\norm{\mathbf{d}}^2 </mrow>
+        </md>
+        We conclude that 
+        <me>
+            k=\frac{\mathbf{v}\cdot\mathbf{d}}{\norm{\mathbf{d}}^2}
+        </me>
+        and 
+        <me>
+            \mathbf{v}_{\parallel}=k\mathbf{d}=\left(\frac{\mathbf{v}\cdot\mathbf{d}}{\norm{\mathbf{d}}^2}\right)\mathbf{d}
+        </me>
+        The vector <m>\mathbf{v}_{\parallel}=\left(\frac{\mathbf{v}\cdot\mathbf{d}}{\norm{\mathbf{d}}^2}\right)\mathbf{d}</m> is called the <term>projection of <m>\mathbf{v}</m> onto <m>\mathbf{d}</m></term>. 
+        In our discussion, <m>\mathbf{d}</m> is a direction vector for line <m>l</m>.  
+        So, we can also say that <m>\mathbf{v}_{\parallel}</m> is the <term>projection of <m>\mathbf{v}</m> onto <m>l</m></term>.
+    </p>
+
+    <p>
+        To find <m>\mathbf{v}_{\perp}</m>, observe that <m>\mathbf{v}_{\perp}=\mathbf{v}-\mathbf{v}_{\parallel}</m>.
+    </p>
+
+
+    <definition xml:id="def-projection">
+        <statement>
+            <p>
+                Let <m>\mathbf{v}</m> be a vector, and let <m>\mathbf{d}</m> be a non-zero vector.  The <term>projection of <m>\mathbf{v}</m> onto <m>\mathbf{d}</m></term> is given by 
+                <me>
+                    \text{proj}_{\mathbf{d}}\mathbf{v}=\left(\frac{\mathbf{v}\cdot\mathbf{d}}{\norm{\mathbf{d}}^2}\right)\mathbf{d}
+                </me>
+            </p>
+        </statement>
+    </definition>
+
+    <p>
+    Although we will revisit the projection in greater detail much later, we illustrate it in an explicit case with a picture.
+    </p> 
+
+    <example xml:id="ex-projection1">
+        <p>
+            Find the projection of <m>\mathbf{v}</m>, shown below, onto the line given by <m>y=\frac{1}{2}x-1</m>.
+        </p>
+        <image width="70%">
+            <shortdescription></shortdescription>
+            <latex-image>
+                \begin{tikzpicture}[scale=.7]
+                    \draw[thin,gray!40] (-3,-3) grid (5,5);
+                    \draw[\lt-\gt] (-3,0)--(5,0);
+                    \draw[\lt-\gt] (0,-3)--(0,5);
+                    \draw[red, dashed] (2,4)--(3.6, 0.8); 
+                    \draw [-,line width=1pt]  (-3,-2.5)--(5, 1.5);
+                    \draw[line width=2pt,blue,-stealth](-2, -2)--(2,4);
+                    \draw[line width=2pt,red,-stealth](-2, -2)--(3.6, 0.8);
+                    \node[blue] at (-0.5, 1.5)   (a) {\(\mathbf{v}\)};
+                    \node[red] at (1.9, -0.9)   (b) {\(\mathbf{v}_{\parallel}\)};
+                \end{tikzpicture}
+            </latex-image>
+        </image>
+        <p>
+            We begin by finding vectors <m>\mathbf{v}</m> and <m>\mathbf{d}</m>. The tail of <m>\mathbf{v}</m> is located at <m>(-2, -2)</m>, and the head of <m>\mathbf{v}</m> is at <m>(2, 4)</m>.  Using the ``head-tail" formula we get 
+            <me>
+                \mathbf{v}=\begin{bmatrix}2-(-2)\\4-(-2)\end{bmatrix}=\begin{bmatrix}4\\6\end{bmatrix}
+            </me>
+            The direction vector for the line <m>y=\frac{1}{2}x-1</m> is 
+            <me>
+                \mathbf{d}=\begin{bmatrix}2\\1\end{bmatrix}
+            </me>
+            We find that <m>\mathbf{v}\cdot\mathbf{d}=14</m> and <m>\norm{\mathbf{d}}^2=5</m>.
+            Thus 
+            <me>
+                \text{proj}_{\mathbf{d}}\mathbf{v}=\left(\frac{\mathbf{v}\cdot\mathbf{d}}{\norm{\mathbf{d}}^2}\right)\mathbf{d}=\frac{14}{5}\begin{bmatrix}2\\1\end{bmatrix}=\begin{bmatrix}28/5\\14/5\end{bmatrix}
+            </me>
+        </p>
+    </example>
+</subsection>
+
+<subsection xml:id="Subsection-Distance-from-a-Point-to-a-Line">
+    <title>Distance from a Point to a Line</title>
+    
+    <p>
+        The shortest distance from a point to a line is the length of the perpendicular line segment dropped from the point to the line.  Vector projection formula will help us find the length of such a perpendicular.
+    </p>
+
+    <example xml:id="ex-distancefrompttoline">
+        <p>
+            Let <m>A(2, -1, 1)</m> be a point in <m>\R^3</m>.  Suppose line <m>l</m> is given by parametric equations 
+            <me>
+                x=t+3
+            </me>
+            <me>
+                y=-t+1
+            </me>
+            <me>
+                z=t-2
+            </me>
+        </p>
+        <image width="60%">
+            <shortdescription></shortdescription>
+            <latex-image>
+                \begin{tikzpicture}[scale=.6]
+                    \draw [-,line width=1pt]  (-3,-2.5)--(5, 1.5);
+                    \node[] at (5, 0.8)   (a) {\(l\)};
+                    \fill (2, 4)node[above, right]{\(A(2, -1, 1)\)} circle (1mm);
+                \end{tikzpicture}
+            </latex-image>
+        </image>
+        <p>
+            Find the distance from <m>A</m> to <m>l</m>.
+        </p>
+        <p>
+            We will first construct a vector <m>\mathbf{v}</m> by picking an arbitrary point <m>B</m> on <m>l</m> to be the tail of <m>\mathbf{v}</m> and using point <m>A</m> as the head of <m>\mathbf{v}</m>.  An easy point to choose on line <m>l</m> is the point <m>(3, 1, -2)</m> that corresponds to <m>t=0</m>.  Now we have 
+            <me>
+                \mathbf{v}=\overrightarrow{BA}=\begin{bmatrix}2-3\\-1-1\\1-(-2)\end{bmatrix}=\begin{bmatrix}-1\\-2\\3\end{bmatrix}
+            </me>
+        </p>
+        <image width="60%">
+            <shortdescription></shortdescription>
+            <latex-image>
+                \begin{tikzpicture}[scale=.6]
+                    \draw [-,line width=1pt]  (-3,-2.5)--(5, 1.5);
+                    \node[] at (5, 0.8)   (a) {\(l\)};
+                    \draw[line width=2pt,blue,-stealth](-2, -2)--(2,4);
+                    \fill (-2, -2) circle (1mm);
+                    \fill (2, 4)node[below, right]{\(A(2, -1, 1)\)} circle (1mm);
+                    \node[] at (-1, -2.5)   (b) {\(B(3, 1, -2)\)};
+                    \node[blue] at (0, 2)   (c) {\(\mathbf{v}\)};
+                \end{tikzpicture}
+            </latex-image>
+        </image>
+        <p>
+            The line has a direction vector 
+            <me>
+                \mathbf{d}=\begin{bmatrix}1\\-1\\1\end{bmatrix}
+            </me>
+            We will now find the projection of <m>\overrightarrow{BA}</m> onto <m>l</m>  
+            <me>
+                \text{proj}_{\mathbf{d}} \overrightarrow{BA}=\left(\frac{\mathbf{v}\cdot\mathbf{d}}{\norm{\mathbf{d}}^2}\right)\mathbf{d}=\frac{4}{3}\begin{bmatrix}1\\-1\\1\end{bmatrix}=\begin{bmatrix}4/3\\-4/3\\4/3\end{bmatrix}
+            </me>
+        </p>
+        <image width="60%">
+            <shortdescription></shortdescription>
+            <latex-image>
+                \begin{tikzpicture}[scale=.6]
+                    \draw [-,line width=1pt]  (-3,-2.5)--(5, 1.5);
+                    \node[] at (5, 0.8)   (a) {\(l\)};
+                    \node[] at (-1, -2.5)   (b) {\(B(3, 1, -2)\)};
+                    \node[blue] at (0, 2)   (c) {\(\mathbf{v}\)};
+                    \node[red] at (1.3, -1.3)   (d) {\(\text{proj}_{\mathbf{d}}\overrightarrow{BA}\)};
+                    \draw[line width=2pt,blue,-stealth](-2, -2)--(2,4);
+                    \draw[line width=2pt,red,-stealth](-2, -2)--(3.6, 0.8);
+                    \draw[red, dashed] (2,4)--(3.6, 0.8); 
+                    \fill (-2, -2)  circle (1mm);
+                    \fill (2, 4)node[above, right]{\(A(2, -1, 1)\)} circle (1mm);
+                \end{tikzpicture}
+            </latex-image>
+        </image>
+        <p>
+            Next, we find <m>\mathbf{v}_{\perp}</m>.
+            <me>
+                \mathbf{v}_{\perp}=\mathbf{v}-\mathbf{v}_{\parallel}=\begin{bmatrix}-1\\-2\\3\end{bmatrix}-\begin{bmatrix}4/3\\-4/3\\4/3\end{bmatrix}=\begin{bmatrix}-7/3\\-2/3\\5/3\end{bmatrix}
+            </me>
+        </p>
+        <image>
+            <shortdescription></shortdescription>
+            <latex-image>
+                \begin{tikzpicture}[scale=.6]
+                    \draw[line width=2pt,red,-stealth](3.6, 0.8)--(2,4);
+                    \draw [-,line width=1pt]  (-3,-2.5)--(5, 1.5);
+                    \node[] at (5, 0.8)   (a) {\(l\)};
+                    \node[] at (-1, -2.5)   (b) {\(B(3, 1, -2)\)};
+                    \node[blue] at (0, 2)   (c) {\(\mathbf{v}\)};
+                    \node[red] at (1.3, -1.3)   (d)
+                    {\(\text{proj}_{\mathbf{d}}\overrightarrow{BA}\)};
+                    \node[red] at (3.6, 2.3)   (e) {\(\mathbf{v}_{\perp}\)};
+                    \draw[line width=2pt,blue,-stealth](-2, -2)--(2,4);
+                    \draw[line width=2pt,red,-stealth](-2, -2)--(3.6, 0.8);
+                    \fill (-2, -2)  circle (1mm);
+                    \fill (2, 4)node[above, right]{\(A(2, -1, 1)\)} circle (1mm);
+                \end{tikzpicture}
+            </latex-image>
+        </image>
+        <p>
+            Finally, to find the distance between point <m>A</m> and line <m>l</m>, we find the magnitude of <m>\mathbf{v}_{\perp}</m>.
+            <me>
+                \norm{\mathbf{v}_{\perp}}=\frac{1}{3}\sqrt{49+4+25}=\frac{\sqrt{78}}{3}
+            </me>
+        </p>
+    </example>
+  </subsection>
+
+
+    <exercises xml:id="Exercises-Dot-Product">
+      
+      <exercise xml:id="prob-dotproduct1">
+        <statement>
+          <p>
+            Find the dot product of <m>\mathbf{u}</m> and <m>\mathbf{v}</m> if
+            <me>
+                \mathbf{u}=\begin{bmatrix}-1\\-2\\5\\4\end{bmatrix},\quad \mathbf{v}=\begin{bmatrix}2\\-2\\-3\\1\end{bmatrix}
+            </me>
+          </p>
+        </statement>
+        <answer>
+          <p>
+            <me> \mathbf{u} \cdot \mathbf{v} = -9 </me>
+          </p>
+        </answer>
+      </exercise>
+      
+      <exercise xml:id="prob-dotproduct2">
+        <statement>
+          <p>
+            Find the dot product of <m>\mathbf{u}</m> and <m>\mathbf{v}</m> if   
+            <me>
+                \mathbf{u}=\begin{bmatrix}1\\1/2\end{bmatrix},\quad \mathbf{v}=\begin{bmatrix}-2\\4\end{bmatrix}
+            </me>
+          </p>
+        </statement>
+        <answer>
+          <p>
+            <me> \mathbf{u} \cdot \mathbf{v} = 0 </me>
+          </p>
+        </answer>
+      </exercise>
+      
+      <exercise xml:id="prob-dotproductprop6">
+        <statement>
+          <p>
+            Use vector <m>\mathbf{u}=\begin{bmatrix}2\\5\\-7\end{bmatrix}</m> to illustrate <xref ref="item-norm"/> of <xref ref="th-dotproductproperties"/>.
+          </p>
+        </statement>
+      </exercise>
+      
+      <exercise xml:id="prob-th-dotprductproperties">
+          <statement>
+             <p>
+              Prove <xref ref="item-commutative"/>, <xref ref="item-distributive-again"/>, <xref ref="item-scalar"/>, <xref ref="item-positive"/>, and <xref ref="item-norm"/> of <xref ref="th-dotproductproperties"/>.
+             </p>
+        </statement>
+      </exercise>
+      
+      <exercise xml:id="prob-perpvectors1">
+        <statement>
+          <p>
+            From the given list of vector pairs, identify ALL pairs of vectors that lie on perpendicular lines.
+            <ul>
+              <li>
+                <p> <m>\mathbf{u}=\begin{bmatrix}1\\\frac{1}{2}\end{bmatrix}</m>, <m>\mathbf{v}=\begin{bmatrix}-2\\4\end{bmatrix}</m> </p>
+              </li>
+              <li>
+                <p> <m>\mathbf{u}=\begin{bmatrix}-1\\\frac{1}{2}\end{bmatrix}</m>, <m>\mathbf{v}=\begin{bmatrix}-2\\4\end{bmatrix}</m> </p>
+              </li>
+              <li>
+                <p> <m>\mathbf{u}=\begin{bmatrix}1\\\frac{1}{2}\end{bmatrix}</m>, <m>\mathbf{v}=\begin{bmatrix}1\\-2\end{bmatrix}</m> </p>
+              </li>
+              <li>
+                <p> <m>\mathbf{u}=\begin{bmatrix}-1\\-\frac{1}{2}\end{bmatrix}</m>, <m>\mathbf{v}=\begin{bmatrix}-2\\4\end{bmatrix}</m> </p>
+              </li>
+            </ul>
+            Also compute <m>\mathbf{u}\cdot\mathbf{v}</m> for each pair.  What do you observe?
+          </p>
+        </statement>
+        <hint>
+          <p>
+            You may want to draw a picture and think about what you know about slopes of perpendicular lines.
+          </p>
+        </hint>
+      </exercise>
+
+      <exercisegroup>
+        <introduction>
+          <p>
+            For each problem below
+            <ol>
+              <li>
+                <p> Find the value of <m>x</m> that will make vectors <m>\mathbf{u}</m> and <m>\mathbf{v}</m> perpendicular. </p>
+                <p> <em>Hint:</em> Think of the <m>x</m>-component as the ``run" and the <m>y</m>-component as the ``rise", then use what you know about slopes of perpendicular lines. </p>
+              </li> 
+              <li>
+                <p> Find <m>\mathbf{u}\cdot\mathbf{v}</m>. </p>
+              </li>
+            </ol>
+          </p>
+        </introduction>
+        
+      
+        <exercise xml:id="prob-perpvectors2a">
+          <statement>
+            <p>
+              <me> \mathbf{u} = \begin{bmatrix}1\\2\end{bmatrix},\quad \mathbf{v}=\begin{bmatrix}2\\x\end{bmatrix} </me>
+            </p>
+          </statement>
+          <answer>
+            <p>
+              <me> x = -1 </me>
+              <me> \mathbf{u}\cdot\mathbf{v}=0 </me>
+            </p>
+          </answer>
+        </exercise>
+        
+        <exercise xml:id="prob-perpvectors2b">
+          <statement>
+            <p>
+              <me> \mathbf{u} = \begin{bmatrix}5\\2\end{bmatrix},\quad \mathbf{v}=\begin{bmatrix}x\\-4\end{bmatrix} </me>
+            </p>
+          </statement>
+          <answer>
+            <p>
+              <me> x = 8/5 </me>
+              <me> \mathbf{u}\cdot\mathbf{v}=0 </me>
+            </p>
+          </answer>
+        </exercise>
+        
+        <exercise xml:id="prob-perpvectors2c">
+          <statement>
+            <p>
+              <me> \mathbf{u} = \begin{bmatrix} 4\\-3\end{bmatrix},\quad \mathbf{v} =\begin{bmatrix}6\\x\end{bmatrix} </me>
+            </p>
+          </statement> 
+          <answer>
+            <p>
+              <me> x = 8 </me>
+              <me> \mathbf{u}\cdot\mathbf{v}=0 </me>
+            </p>
+          </answer>
+        </exercise>
+      </exercisegroup>
+      
+      <exercise xml:id="prob-perpvectors3">
+        <statement>
+          <p>
+            <ol>
+              <li>
+                <p> Vector <m>\mathbf{u}</m> that lies on the line <m>y=mx</m>, has the form <m>\mathbf{u}=k\begin{bmatrix}1\\m\end{bmatrix}</m>.  Assuming that <m>m\neq 0</m>, find the general form for a vector <m>\mathbf{v}</m> that lies on a line perpendicular to <m>y=mx</m>. </p>
+              </li>
+              <li>
+                <p> Find <m>\mathbf{u}\cdot \mathbf{v}</m>. </p>
+              </li> 
+              <li>
+                <p> Formulate a conjecture about the dot product of perpendicular vectors. </p>
+              </li>
+            </ol>
+          </p>
+        </statement>
+        <hint>
+          <p> What do you know about the slopes of perpendicular lines? </p>
+        </hint>
+      </exercise>
+      
+      <exercisegroup>
+        <introduction>
+            <p>
+                Find <m>\text{proj}_{\mathbf{d}}\mathbf{v}</m>.
+            </p>
+        </introduction>
+    
+        <exercise xml:id="prob-proj1a">
+            <statement>
+               <p>
+                    Let <m>\mathbf{d}=\begin{bmatrix}-1\\3\end{bmatrix}</m> and <m>\mathbf{v}=\begin{bmatrix}1\\4\end{bmatrix}</m>. 
+                    Compute <m>\text{proj}_{\mathbf{d}}\mathbf{v}</m>.
+               </p>
+            </statement>
+            <answer>
+              <p>
+                <me>
+                  \text{proj}_{\mathbf{d}}\mathbf{v}=\begin{bmatrix} -1.1\\ 3.3\end{bmatrix}
+                </me>
+              </p>
+            </answer>
+        </exercise>
+            
+        <exercise xml:id="prob-proj1b">
+            <statement>
+                <p>
+                    Suppose <m>\mathbf{d}=\begin{bmatrix}0\\2\\1\end{bmatrix}</m> and <m>\mathbf{v}=\begin{bmatrix}-1\\-4\\2\end{bmatrix}</m>.
+                    Compute the projection of <m>\mathbf{v}</m> onto <m>\mathbf{d}</m>.
+               </p>
+          </statement>
+          <answer>
+            <p>
+              <me>
+                \text{proj}_{\mathbf{d}}\mathbf{v}=\begin{bmatrix} 0\\ -2.4\\ -1.2\end{bmatrix}
+              </me>
+            </p>
+          </answer>
+        </exercise>
+    </exercisegroup>
+    
+    <exercise xml:id="prob-proj2">
+        <statement>
+            <p>
+                Find the projection of vector <m>\mathbf{v}</m> onto line <m>l</m>. (If entering answers in decimal form, round to the nearest one hundredth.)
+           </p>
+           <image width="60%">
+                <shortdescription></shortdescription>
+                <latex-image>
+                    \begin{tikzpicture}[scale=.6]
+                        \draw[thin,gray!40] (-2,-2) grid (9,4);
+                        \draw[\lt-\gt] (-2,0)--(9,0);
+                        \draw[\lt-\gt] (0,-2)--(0,4);
+                        \node[blue] at (6, 1)   (a) {\(\mathbf{v}\)};
+                        \node[] at (-2.4, 1)   (b) {\(l\)};
+                        \draw [-,line width=1pt]  (-2,0.8)--(9, -1.4);
+                        \draw[line width=2pt,blue,-stealth](7, -1)--(4,3);
+                    \end{tikzpicture}
+                </latex-image>
+            </image>
+        </statement>
+        <answer>
+            <p>
+                <me>
+                    \begin{bmatrix}-95/26\\ 19/26\end{bmatrix}
+                </me>
+            </p>
+        </answer>
+    </exercise>
+    
+    <exercise xml:id="prob-distpttoline">
+        <statement>
+            <p> Find the distance between point <m>A</m> and line <m>l</m>. </p>
+            <image width="70%">
+                <shortdescription></shortdescription>
+                <latex-image>
+                    \begin{tikzpicture}[scale=.7]
+                        \draw[thin,gray!40] (0,-2) grid (9,4);
+                        \draw[-\gt] (0,0)--(9,0);
+                        \draw[\lt-\gt] (0,-2)--(0,4);
+                        \fill (7,2)node[above, right]{\(A\)} circle (1mm);
+                        \node[] at (2.6, -2)   (b) {\(l\)};
+                        \draw [-,line width=1pt]  (3,-2)--(6, 4);
+                    \end{tikzpicture}
+                </latex-image>
+            </image>
+        </statement>
+        <answer>
+            <p> <m>\sqrt{3.2}</m> </p>
+        </answer>
+    </exercise>
+    
+    <exercise xml:id="prob-proj3">
+        <statement>
+            <p>
+                Show that <m>\text{proj}_{\mathbf{d}}\mathbf{v}</m> does not depend on the length of <m>\mathbf{d}</m> by proving that <m>\text{proj}_{\mathbf{d}}\mathbf{v}=\text{proj}_{k\mathbf{d}}\mathbf{v}</m> for <m>k\neq 0</m>.  What does this result mean geometrically?  Illustrate your response with a diagram.
+            </p>
+        </statement>
+    </exercise>
+    
+    <exercise xml:id="prob-circletangenttoline">
+        <statement>
+            <p>
+                Find the radius of a circle centered at <m>(4, 2)</m> if the line <m>y=\frac{3}{2}x+3</m> is tangent to the circle.  Enter your response as a fraction.
+            </p>
+        </statement>
+        <answer>
+            <p>
+                <me>
+                    r=\sqrt{196/13}
+                </me>
+                The graph below shows the line <m>y=\frac{3}{2}x+3</m> together with a circle of radius <m>1</m>.  
+                Change the value of <m>r</m> to the radius you have found to visualize the correct answer.
+            </p>
+            <figure>
+                <caption>
+                    A larger version of this activity is available  
+                    <url href="https://www.geogebra.org/calculator/bngnjxee" visual="https://www.geogebra.org/calculator/bngnjxee">here</url>.
+                </caption>
+                <interactive xml:id="geogebra-circletangenttoline" platform="geogebra" width="100%" aspect="4:3">
+                    <slate xml:id="circletangenttoline" surface="geogebra" material="bngnjxee" aspect="4:3" />
+                </interactive>
+            </figure>
+        </answer>
+    </exercise>
+    </exercises>
+</section>

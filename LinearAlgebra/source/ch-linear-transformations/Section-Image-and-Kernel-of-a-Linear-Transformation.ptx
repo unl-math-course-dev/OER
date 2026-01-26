@@ -1,0 +1,916 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<section xml:id="Section-Image-and-Kernel-of-a-Linear-Transformation" xmlns:xi="http://www.w3.org/2001/XInclude">
+    <title>Image and Kernel of a Linear Transformation</title>
+
+
+ 
+
+<p>
+In this section we will often use <m>U</m>, <m>V</m> and <m>W</m> to denote subspaces of <m>\R^n</m>, or any other finite-dimensional vector space, such as those we study in a later chaper. 
+</p>
+
+<subsection xml:id="Subsection-The-Image-of-a-Linear-Transformation">
+    <title>The Image of a Linear Transformation</title>
+
+<definition xml:id="def-imageofT">
+
+    <statement>
+        <p>
+            Let <m>V</m> and <m>W</m> be vector spaces, and let <m>T:V\rightarrow W</m> be a linear transformation.  The <term>image</term> of <m>T</m>, denoted by <m>\mbox{im}(T)</m>, is the set
+
+<me>
+    \mbox{im}(T)=\{T(\mathbf{v}):\mathbf{v}\in V\}.
+</me>
+
+In other words, the image of <m>T</m> consists of individual images of all vectors of <m>V</m>.
+        </p>
+    </statement>
+</definition>
+
+<example xml:id="ex-image1">
+    <statement>
+        <p>
+            Consider the linear transformation <m>T:\R^3\rightarrow \R^2</m> with standard matrix
+
+<me>
+    A=\begin{bmatrix}1\amp 2\amp 3\\2\amp 4\amp 6\end{bmatrix}.
+</me>
+
+
+<ol>
+<li xml:id="item-impart1">
+  <p> 
+Find <m>\mbox{im}(T)</m>. </p>
+</li>
+<li xml:id="item-impart2">
+  <p> 
+Illustrate the action of <m>T</m> with a sketch. </p>
+</li>
+</ol>
+
+       </p>
+    </statement>
+    <answer>
+        <p>
+            <xref ref="item-impart1"/>: Let <m>\mathbf{v}=\begin{bmatrix}a\\b\\c\end{bmatrix}</m> then
+
+
+<me>
+    T(\mathbf{v})=A\mathbf{v}=\begin{bmatrix}1\amp 2\amp 3\\2\amp 4\amp 6\end{bmatrix}\begin{bmatrix}a\\b\\c\end{bmatrix}=a\begin{bmatrix}1\\2\end{bmatrix}+b\begin{bmatrix}2\\4\end{bmatrix}+c\begin{bmatrix}3\\6\end{bmatrix}.
+</me>
+
+
+Thus, every element of the image can be written as a linear combination of the columns of <m>A</m>.  We conclude that 
+
+<me>
+    \mbox{im}(T)=\mbox{span}\left(\begin{bmatrix}1\\2\end{bmatrix}, \begin{bmatrix}2\\4\end{bmatrix}, \begin{bmatrix}3\\6\end{bmatrix}\right)=\mbox{col}(A).
+</me>
+
+
+Every column of <m>A</m> is a scalar multiple of <m>[1,2]</m>.  Thus,
+
+
+<me>
+    \mbox{im}(T)=\mbox{span}\left(\begin{bmatrix}1\\2\end{bmatrix}, \begin{bmatrix}2\\4\end{bmatrix}, \begin{bmatrix}3\\6\end{bmatrix}\right)=\mbox{span}\left(\begin{bmatrix}1\\2\end{bmatrix}\right).
+</me>
+
+
+The image of <m>T</m> is a line in <m>\R^2</m> determined by the vector <m>[1,2]</m>.
+</p>
+
+<p>
+<xref ref="item-impart2"/>: The action of <m>T</m> can be illustrated with a sketch.
+</p>
+
+<image width="65%">
+   <shortdescription>Image of T graphed</shortdescription>
+    <latex-image>
+      \begin{tikzpicture}[scale=.7]
+
+  \draw[-\gt ] (0,0)--(3,0);
+  \draw[-\gt ] (0,0)--(0,3);
+  \draw[-\gt ] (0,0)--(-1.5,-1);
+
+  
+  \draw[\lt -\gt ] (4,0)--(8,0);
+  \draw[\lt -\gt ] (5,-1)--(5,3);
+  \draw[line width=2pt,blue](4.5,-1)--(6.5,3);
+  \node[] at (3.25, 2)   (b) {\(T\)};
+  \draw [-\gt ,line width=1pt,-stealth]  (2,1) to[out=45] (4.5, 1);
+ \node[blue] at (7, 2.3)   (b) {\(\mbox{im}(T)\)};
+
+    \end{tikzpicture}
+    </latex-image>
+</image>
+
+    </answer>
+</example>
+
+<p>
+In <xref ref="ex-image1"/> we observed that the image of the linear transformation was equal to the column space of its standard matrix.  In general, it is easy to see that if <m>T:\R^n\rightarrow \R^m</m> is a linear transformation with standard matrix <m>A</m> then the following relationship holds:
+
+<me>
+    \mbox{im}(T)=\mbox{col}(A).
+</me>
+
+In addition, by <xref ref="th-dimroweqdimcoleqrank"/>, we know that
+
+<me>
+    \mbox{dim}(\mbox{im}(T))=\mbox{dim}(\mbox{col}(A))=\mbox{rank}(A).
+</me>
+</p>
+
+
+
+<example xml:id="ex-image2">
+    <statement>
+        <p>
+            Let <m>T:\R^5\rightarrow \R^4</m> be a linear transformation with standard matrix 
+<me>
+    A=\begin{bmatrix}1 \amp  2 \amp  2 \amp -1 \amp  0\\-1 \amp  3 \amp  1 \amp  0 \amp  -1\\3 \amp  0 \amp  0 \amp  3 \amp  6\\ 1 \amp  -1 \amp  1 \amp  -2 \amp  -1\end{bmatrix}.
+</me>
+
+Find <m>\mbox{im}(T)</m> and <m>\mbox{dim}(\mbox{im}(T))</m>.
+       </p>
+    </statement>
+    <answer>
+        <p>
+            As in <xref ref="ex-image1"/>, the image of <m>T</m> is given by
+
+<me>
+    \mbox{im}(T)=\mbox{span}\left(\begin{bmatrix}1\\-1\\3\\1\end{bmatrix}, \begin{bmatrix}2\\3\\0\\-1\end{bmatrix}, \begin{bmatrix}2\\1\\0\\1\end{bmatrix}, \begin{bmatrix}-1\\0\\3\\-2\end{bmatrix}, \begin{bmatrix}0\\-1\\6\\-1\end{bmatrix}\right)=\mbox{col}(A).
+</me>
+
+This time it is harder to detect the vectors that can be eliminated from the spanning set without affecting the span.  We have to rely on the reduced row-echelon form of <m>A</m>.
+
+
+<me>
+    \begin{bmatrix}1 \amp  2 \amp  2 \amp -1 \amp  0\\-1 \amp  3 \amp  1 \amp  0 \amp  -1\\3 \amp  0 \amp  0 \amp  3 \amp  6\\ 1 \amp  -1 \amp  1 \amp  -2 \amp  -1\end{bmatrix}  \rightsquigarrow \begin{bmatrix} 1 \amp  0 \amp  0 \amp  1 \amp  2\\0 \amp  1 \amp  0 \amp  1 \amp  1\\0 \amp  0 \amp  1 \amp  -2 \amp  -2\\ 0 \amp  0 \amp  0 \amp  0 \amp  0 \end{bmatrix}.
+</me>
+
+
+We can see that <m>\mbox{rank}(A)=3</m>, so <m>\mbox{dim}(\mbox{im}(T))=3</m>.  
+
+To identify vectors that span <m>\mbox{im}(T)</m>, we turn to <xref ref="colspace"/>.  We identify the first three columns as pivot columns.  These columns are linearly independent and span <m>\mbox{col}(A)</m>.  Therefore,
+
+<me>
+    \mbox{im}(T)=\mbox{col}(A)=\mbox{span}\left(\begin{bmatrix}1\\-1\\3\\1\end{bmatrix}, \begin{bmatrix}2\\3\\0\\-1\end{bmatrix}, \begin{bmatrix}2\\1\\0\\1\end{bmatrix}\right)
+</me>
+       </p>
+    </answer>
+</example>
+
+<p>
+By <xref ref="th-span-is-subspace"/> and <xref ref="def-colspace"/>, we know that for an <m>m\times n</m> matrix <m>A</m>, <m>\mbox{col}(A)</m> is a subspace of <m>\R^m</m>.  However, when vector spaces other than <m>\R^m</m> are involved, it is not yet clear that <m>\mbox{im}(T)</m> is a subspace of the codomain. The following theorem resolves this issue.
+</p>
+
+
+<theorem xml:id="th-imagesubspace">
+
+    <statement>
+        <p>
+            Let <m>T:V\rightarrow W</m> be a linear transformation.  Then <m>\mbox{im}(T)</m> is a subspace of <m>W</m>.
+        </p>
+    </statement>
+
+<proof>
+    <p>
+To show that <m>\mbox{im}(T)</m> is a subspace, we need to show that <m>\mbox{im}(T)</m> is closed under addition and scalar multiplication.
+
+Suppose <m>\mathbf{w}_1</m> and <m>\mathbf{w}_2</m> are in <m>\mbox{im}(T)</m>.  Then there are vectors <m>\mathbf{v}_1</m> and <m>\mathbf{v}_2</m> in <m>V</m> such that <m>T(\mathbf{v}_1)=\mathbf{w}_1</m> and <m>T(\mathbf{v}_2)=\mathbf{w}_2</m>.  Then
+
+<me>
+    \mathbf{w}_1+\mathbf{w}_2=T(\mathbf{v}_1)+T(\mathbf{v}_2)=T(\mathbf{v}_1+\mathbf{v}_2).
+</me>
+
+This shows that <m>\mathbf{w}_1+\mathbf{w}_2</m> is in <m>\mbox{im}(T)</m>.
+
+For any scalar <m>a</m>, we have:
+
+<me>
+    a\mathbf{w}_1=aT(\mathbf{v}_1)=T(a\mathbf{v}_1).
+</me>
+
+This shows that <m>a\mathbf{w}_1</m> is in <m>\mbox{im}(T)</m>.
+
+    </p>
+</proof>
+</theorem>
+
+<p>
+We can now define the rank of a linear transformation.
+</p>
+
+
+<definition xml:id="def-rankofT">
+
+    <statement>
+        <p>
+            The <term>rank</term> of a linear transformation <m>T:V\rightarrow W</m>, is the dimension of the image of <m>T</m>.
+
+<me>
+    \mbox{rank}(T)=\mbox{dim}(\mbox{im}(T)).
+</me>
+        </p>
+    </statement>
+</definition>
+
+<p>
+This definition gives us the following relationship between the rank of a linear transformation <m>T:\R^n\rightarrow\R^m</m> and the rank of the standard matrix <m>A</m> associated with it.
+</p>
+
+<identity xml:id="form-rankTrankA">
+
+    <statement>
+        <p>
+            <me>
+    \mbox{rank}(A) = \mbox{dim}(\mbox{col}(A))=\mbox{dim}(\mbox{im}(T))=\mbox{rank}(T).
+</me>
+        </p>
+    </statement>
+</identity>
+</subsection>
+
+
+
+
+
+
+
+
+
+<subsection xml:id="Subsection-The-Kernel-of-a-Linear-Transformation">
+    <title>The Kernel of a Linear Transformation</title>
+
+
+<definition xml:id="def-kernel">
+
+    <statement>
+        <p>
+            Let <m>V</m> and <m>W</m> be vector spaces, and let <m>T:V\rightarrow W</m> be a linear transformation.  The <term>kernel</term> of <m>T</m>, denoted by <m>\mbox{ker}(T)</m>, is the set
+
+<me>
+    \mbox{ker}(T)=\{\mathbf{v}:T(\mathbf{v})=\mathbf{0}\}.
+</me>
+
+In other words, the kernel of <m>T</m> consists of all vectors of <m>V</m> that map to <m>\mathbf{0}</m> in <m>W</m>.
+        </p>
+    </statement>
+</definition>
+
+<p>
+It is important to pay attention to the locations of the kernel and the image.  We already proved that <m>\mbox{im}(T)</m> is a subspace of the codomain.  In contrast, <m>\mbox{ker}(T)</m> is located in the domain.  (We will prove shortly that it is a subspace of the domain.)
+</p>
+
+
+
+<image width="65%">
+   <shortdescription>Kernel diagram shown</shortdescription>
+    <latex-image>
+      \begin{tikzpicture}
+\fill[gray!40] (0,0) ellipse (1.5cm and 2.5cm);
+\fill[blue!40!white] (0,0) ellipse (1cm and 1cm)node[black]{\(\mbox{ker}(T)\)};
+
+\draw[blue] (3.5,2) rectangle (6.5,-2);
+\node[] at (6.1, 1.8)   (b) {\(W\)};
+\fill[gray!40] (5,0) ellipse (0.8cm and 1.2cm);
+\fill[blue!40!white] (5,0) circle (0.1cm);
+
+\draw[gray!40,line width=1pt](0.3,2.4)--(5,1.1);
+\node[] at (-0.2, 2)   (b) {\(V\)};
+\node[] at (5, 0.5)   (b) {\(\mbox{im}(T)\)};
+\draw[gray!40, line width=1pt](0.3,-2.4)--(5,-1.1);
+
+\draw[blue!40!white, line width=1pt](0.2,.9)--(5,0);
+\draw[blue!40!white, line width=1pt](0.2,-0.9)--(5,0)node[below, right][black]{\(\mathbf{0}\)};
+
+    \end{tikzpicture}
+    </latex-image>
+</image>
+
+
+
+<example xml:id="ex-kernel">
+    <statement>
+        <p>
+            Let <m>T:\R^5\rightarrow \R^4</m> be a linear transformation with standard matrix 
+<me>
+    A=\begin{bmatrix}1 \amp  2 \amp  2 \amp -1 \amp  0\\-1 \amp  3 \amp  1 \amp  0 \amp  -1\\3 \amp  0 \amp  0 \amp  3 \amp  6\\ 1 \amp  -1 \amp  1 \amp  -2 \amp  -1\end{bmatrix}. 
+</me>
+
+<ol>
+<li xml:id="item-kernelT">
+  <p> 
+Find <m>\mbox{ker}(T)</m>. </p>
+</li>
+<li xml:id="item-dimkernelT">
+  <p>
+Is <m>\mbox{ker}(T)</m> a subspace of <m>\R^5</m>?  If so, find <m>\mbox{dim}(\mbox{ker}(T))</m>. </p>
+</li>
+</ol>
+       </p>
+    </statement>
+
+    <answer>
+        <p>
+            <xref ref="item-kernelT"/> To find the kernel of <m>T</m>, we need to find all vectors of <m>\R^5</m> that map to <m>\mathbf{0}</m> in <m>\R^4</m>.  This amounts to solving the equation <m>A\mathbf{x}=\mathbf{0}</m>.
+
+Gauss-Jordan elimination yields:
+
+
+<me>
+    \begin{bmatrix}1 \amp  2 \amp  2 \amp -1 \amp  0\\-1 \amp  3 \amp  1 \amp  0 \amp  -1\\3 \amp  0 \amp  0 \amp  3 \amp  6\\ 1 \amp  -1 \amp  1 \amp  -2 \amp  -1\end{bmatrix}  \rightsquigarrow \begin{bmatrix} 1 \amp  0 \amp  0 \amp  1 \amp  2\\0 \amp  1 \amp  0 \amp  1 \amp  1\\0 \amp  0 \amp  1 \amp  -2 \amp  -2\\ 0 \amp  0 \amp  0 \amp  0 \amp  0 \end{bmatrix}
+</me>
+
+
+Thus, the kernel of <m>T</m> consists of all elements of the form:
+
+<me>
+    \begin{bmatrix}-1\\-1\\2\\1\\0\end{bmatrix}s+\begin{bmatrix}-2\\-1\\2\\0\\1\end{bmatrix}t
+</me>
+
+
+We conclude that 
+
+<me>
+    \mbox{ker}(T)=\mbox{span}\left(\begin{bmatrix}-1\\-1\\2\\1\\0\end{bmatrix}, \begin{bmatrix}-2\\-1\\2\\0\\1\end{bmatrix}\right).
+</me>
+
+
+<xref ref="item-dimkernelT"/>:  Since <m>\mbox{ker}(T)</m> is the span of two vectors of <m>\R^5</m>, we know that <m>\mbox{ker}(T)</m> is a subspace of <m>\R^5</m>. (See <xref ref="th-span-is-subspace"/>.)  Observe that the two vectors in the spanning set are linearly independent. 
+(How can we see this without performing computations?)  Therefore <m>\mbox{dim}(\mbox{ker}(T))=2</m>.
+       </p>
+    </answer>
+</example>
+
+<p>
+Recall that the <term>null space</term> of a matrix <m>A</m> is defined to be set of all solutions to the homogeneous equation <m>A\mathbf{x}=\mathbf{0}</m>. This means that  if <m>T:\R^n\rightarrow \R^m</m> is a linear transformation with standard matrix <m>A</m> then
+
+<me>
+    \mbox{ker}(T)=\mbox{null}(A).
+</me>
+
+
+We know that <m>\mbox{null}(A)</m> of an <m>m\times n</m> matrix is a subspace of <m>\R^n</m>. (See <xref ref="th-nullsubspacern"/>.)  We conclude this section by showing that even when vector spaces other than <m>\R^n</m> are involved, the kernel of a linear transformation is a subspace of the domain of the transformation.
+</p>
+
+<theorem xml:id="th-kersubspace">
+
+    <statement>
+        <p>
+            Let <m>T:V\rightarrow W</m> be a linear transformation, then <m>\mbox{ker}(T)</m> is a subspace of <m>V</m>.
+        </p>
+    </statement>
+
+<proof>
+    <p>
+To show that <m>\mbox{ker}(T)</m> is a subspace, we need to show that <m>\mbox{ker}(T)</m> is closed under addition and scalar multiplication.
+
+Suppose that <m>\mathbf{v}_1</m> and <m>\mathbf{v}_2</m> are in <m>\mbox{ker}(T)</m>.  Then,
+
+<me>
+    T(\mathbf{v}_1+\mathbf{v}_2)=T(\mathbf{v}_1)+T(\mathbf{v}_2)=\mathbf{0}+\mathbf{0}=\mathbf{0}.
+</me>
+
+This shows that <m>\mathbf{v}_1+\mathbf{v}_2</m> is in <m>\mbox{ker}(T)</m>.
+
+For any scalar <m>a</m> we have:
+
+<me>
+    T(a\mathbf{v}_1)=aT(\mathbf{v}_1)=a\mathbf{0}=\mathbf{0}.
+</me>
+
+This shows that <m>a\mathbf{v}_1</m> is in <m>\mbox{ker}(T)</m>.
+
+    </p>
+</proof>
+</theorem>
+
+
+<definition xml:id="def-nullityT">
+
+    <statement>
+        <p>
+            The <term>nullity</term> of a linear transformation <m>T:V\rightarrow W</m>, is the dimension of the kernel of <m>T</m>.
+
+<me>
+    \mbox{nullity}(T)=\mbox{dim}(\mbox{ker}(T)).
+</me>
+        </p>
+    </statement>
+</definition>
+
+<p>
+This definition gives us the following relationship between nullity of a linear transformation <m>T:\R^n\rightarrow\R^m</m> and the nullity of the standard matrix <m>A</m> associated with it.
+</p>
+
+
+<identity xml:id="form-nullTnullA">
+
+    <statement>
+        <p>
+            <me>
+    \mbox{nullity}(A) = \mbox{dim}(\mbox{null}(A))=\mbox{dim}(\mbox{ker}(T))=\mbox{nullity}(T).
+</me>
+        </p>
+    </statement>
+</identity>
+</subsection>
+
+
+
+
+<subsection xml:id="Subsection-Rank-Nullity-Theorem-for-Linear-Transformations">
+    <title>Rank-Nullity Theorem for Linear Transformations</title>
+
+<p>
+In <xref ref="ex-image2"/> and <xref ref="ex-kernel"/>, we found the image and the kernel of the linear transformation <m>T:\R^5\rightarrow \R^4</m> with standard matrix
+
+
+<me>
+    A=\begin{bmatrix}1 \amp  2 \amp  2 \amp -1 \amp  0\\-1 \amp  3 \amp  1 \amp  0 \amp  -1\\3 \amp  0 \amp  0 \amp  3 \amp  6\\ 1 \amp  -1 \amp  1 \amp  -2 \amp  -1\end{bmatrix}.
+</me>
+
+
+We also found that
+
+<me>
+    \mbox{rank}(T)=\mbox{dim}(\mbox{im}(T))=\mbox{dim}(\mbox{col}(A))=\mbox{rank}(A)=3
+</me>
+
+and
+
+<me>
+    \mbox{nullity}(T)=\mbox{dim}(\mbox{ker}(T))=\mbox{dim}(\mbox{null}(A))=\mbox{nullity}(A)=2.
+</me>
+
+
+Because of Rank-Nullity Theorem for matrices (Theorem <xref ref="th-matrixranknullity"/>), it is not surprising that 
+
+<me>
+    \mbox{rank}(T)+\mbox{nullity}(T)=3+2=5=\mbox{dim}(\R^5).
+</me>
+
+The following theorem is a generalization of this result.
+</p>
+
+<theorem xml:id="th-ranknullityforT">
+
+    <statement>
+        <p>
+            Let <m>T:V\rightarrow W</m> be a linear transformation.  Suppose <m>\mbox{dim}(V)=n</m>, then
+
+<me>
+    \mbox{rank}(T)+\mbox{nullity}(T)=n
+</me>
+        </p>
+    </statement>
+
+
+<proof>
+    <p>
+By <xref ref="th-imagesubspace"/>, <m>\mbox{im}(T)</m> is a subspace of <m>W</m>.  There exists a basis for <m>\mbox{im}(T)</m> of the form <m>\{T(\mathbf{v}_1), \ldots,T(\mathbf{v}_r)\}</m>.  By <xref ref="th-kersubspace"/>, <m>\mbox{ker}(T)</m> is a subspace of <m>V</m>.  Let <m>\{\mathbf{u}_1,\ldots,\mathbf{u}_s\}</m> be a basis for <m>\mbox{ker}(T)</m>. 
+
+We will show that <m>\{\mathbf{u}_1,\ldots ,\mathbf{u}_s, \mathbf{v}_1,\ldots ,\mathbf{v}_r\}</m> is a basis for <m>V</m>.
+
+For any vector <m>\mathbf{v}</m> in <m>V</m>, we have:
+
+<me>
+    T(\mathbf{v})=c_1T(\mathbf{v}_1)+\ldots +c_rT(\mathbf{v}_r)
+</me>
+
+for some scalars <m>c_i</m> <m>(1\leq i\leq r)</m>.
+Thus, 
+
+<me>
+    T(\mathbf{v})-\big(c_1T(\mathbf{v}_1)+\ldots +c_rT(\mathbf{v}_r)\big)=\mathbf{0}
+</me>
+
+By linearity,
+
+<me>
+    T((\mathbf{v}-(c_1\mathbf{v}_1+\ldots +c_r\mathbf{v}_r))=\mathbf{0}
+</me>
+
+Therefore <m>\mathbf{v}-(c_1\mathbf{v}_1+\ldots +c_r\mathbf{v}_r)</m> is in <m>\mbox{ker}(T)</m>.
+
+Hence there are scalars <m>a_i</m> <m>(1\leq i\leq s)</m> such that
+
+<me>
+    \mathbf{v}-(c_1\mathbf{v}_1+\ldots +c_r\mathbf{v}_r)=a_1\mathbf{u}_1+\ldots +a_s\mathbf{u}_s
+</me>
+
+Thus,
+
+<me>
+    \mathbf{v}=(c_1\mathbf{v}_1+\ldots +c_r\mathbf{v}_r)+(a_1\mathbf{u}_1+\ldots +a_s\mathbf{u}_s)
+</me>
+
+
+We conclude that 
+
+<me>
+    V=\mbox{span}(\mathbf{u}_1,\ldots ,\mathbf{u}_s, \mathbf{v}_1,\ldots ,\mathbf{v}_r)
+</me>
+</p>
+
+<p>
+Now we need to show that <m>\{\mathbf{u}_1,\ldots ,\mathbf{u}_s, \mathbf{v}_1,\ldots ,\mathbf{v}_r\}</m> is linearly independent.
+
+Suppose 
+<men xml:id="kerplusimproof">
+ c_1\mathbf{v}_1+\ldots +c_r\mathbf{v}_r+a_1\mathbf{u}_1+\ldots +a_s\mathbf{u}_s=\mathbf{0}
+</men>
+
+Applying <m>T</m> to both sides, we get
+
+<me>
+    T(c_1\mathbf{v}_1+\ldots +c_r\mathbf{v}_r+a_1\mathbf{u}_1+\ldots +a_s\mathbf{u}_s)=T(\mathbf{0})
+</me>
+
+
+<me>
+    c_1T(\mathbf{v}_1)+\ldots +c_rT(\mathbf{v}_r)+a_1T(\mathbf{u}_1)+\ldots +a_sT(\mathbf{u}_s)=\mathbf{0}
+</me>
+
+
+But <m>T(\mathbf{u}_i)=\mathbf{0}</m> for <m>1\leq i\leq s</m>, thus
+
+<me>
+    c_1T(\mathbf{v}_1)+\ldots +c_rT(\mathbf{v}_r)=\mathbf{0}
+</me>
+
+Since <m>\{T(\mathbf{v}_1),\ldots ,T(\mathbf{v}_r)\}</m> is linearly independent, it follows that each <m>c_i=0</m>.  
+
+But then <xref ref="kerplusimproof"/> implies that <m>a_1\mathbf{u}_1+\ldots +a_s\mathbf{u}_s=\mathbf{0}</m>.  Because <m>\{\mathbf{u}_1, \ldots ,\mathbf{u}_s\}</m> is linearly independent, it follows that each <m>a_i=0</m>.  
+
+We conclude that <m>\{\mathbf{u}_1,\ldots ,\mathbf{u}_s,\mathbf{v}_1,\ldots ,\mathbf{v}_r\}</m> is a basis for <m>V</m>.  Thus,
+
+
+<me>
+    \mbox{dim}(\mbox{ker}(T))+\mbox{dim}(\mbox{im}(T))=s+r=n
+</me>
+    </p>
+</proof>
+</theorem>
+</subsection>
+
+
+
+
+
+<exercises>
+
+
+<exercisegroup>
+<introduction>
+    <p>
+Describe the image and find the rank for each linear transformation <m>T:\R^n\rightarrow \R^m</m> with standard matrix <m>A</m> given below.
+    </p>
+</introduction>
+
+
+<exercise xml:id="imagerankoflintrans1">
+<statement>
+<p>
+  <m>T:\R^5\rightarrow \R^2</m>,
+<me>
+A=\begin{bmatrix}3\amp 2\amp 4\amp 7\amp 1\\-1\amp -9\amp 7\amp 6\amp 8\end{bmatrix}.
+</me>
+</p>
+</statement> 
+
+  <choices>
+  <choice correct="yes">
+      <statement>
+        <p>
+        <m>
+        \mbox{im}(T)=\R^2.
+        </m>
+        </p>
+      </statement>
+  </choice>
+    <choice>
+      <statement>
+        <p> 
+        <m>\mbox{im}</m> is a line in <m>\R^2</m>.
+        </p>
+      </statement>
+  </choice>(T)
+    <choice>
+      <statement>
+        <p>
+        <m>\mbox{im} (T)=\{\mathbf{0}\}</m>.
+        </p>
+      </statement>
+  </choice> 
+    <choice>
+      <statement>
+          <p> 
+        <m>\mbox{im}(T)=\R^5</m>.
+          </p>
+      </statement>
+  </choice>
+    <choice>
+      <statement>
+          <p>
+            <m>\mbox{im} (T)</m> is a plane in <m>\R^5</m>.
+          </p>
+      </statement>
+  </choice>
+</choices>
+
+<answer>
+<p>
+  <m>\mbox{rank}(T)=2</m>
+</p>
+</answer>
+</exercise>
+  
+
+
+  <exercise xml:id="prob-imagerankoflintrans2">
+    <statement>
+        <p>
+            <m>T:\R^2\rightarrow\R^3</m>,
+            <me>
+            A=\begin{bmatrix}1\amp 1\\1\amp 1\\1\amp 1\end{bmatrix}
+            </me>
+        </p>
+    </statement>
+  <choices>
+  <choice>
+      <statement>
+          <p> <m>\mbox{im}(T)=\R^3</m>. </p>
+      </statement>
+  </choice>
+    <choice>
+      <statement>
+          <p> <m>\mbox{im} </m> is a line in <m>\R^2</m>. </p>
+      </statement>
+  </choice>(T)
+    <choice correct="yes">
+      <statement>
+          <p> <m>\mbox{im} (T)</m> is a line in <m>\R^3</m>. </p>
+      </statement>
+  </choice>
+    <choice>
+      <statement>
+          <p> <m>\mbox{im}(T)=\{\mathbf{0}\}</m>.  </p>
+      </statement>
+  </choice>
+    <choice>
+      <statement>
+          <p> <m>\mbox{im} </m> is a plane in <m>\R^3</m>. </p>
+      </statement>
+  </choice>(T)
+</choices>
+
+<answer>
+<p>
+  <m>\mbox{rank}(T)=1</m>.
+</p> 
+</answer>
+</exercise>
+</exercisegroup>
+
+
+<exercise xml:id="prob-sametrans">
+    <statement>
+        <p>
+            Suppose linear transformations <m>T:\R^2\rightarrow \R^2</m> and <m>S:\R^2\rightarrow \R^2</m> are such that
+            <me>
+                \mbox{im}(T)=\mbox{im}(S)=\mbox{span}\left(\begin{bmatrix}1\\-3\end{bmatrix}\right).
+            </me>
+             Does this mean that <m>T</m> and <m>S</m> are the same transformation?  Justify your claim.
+        </p>
+    </statement>
+</exercise>
+
+
+
+<exercisegroup>
+<introduction>
+    <p>
+Describe the kernel and find the nullity for each linear transformation <m>T:\R^n\rightarrow \R^m</m> with standard matrix <m>A</m> given below.
+    </p>
+</introduction>
+
+
+            
+<exercise xml:id="kerandnullityT1">
+<statement>
+<p>
+<m>T:\R^3\rightarrow \R^2</m>,
+<me>
+A=\begin{bmatrix}2\amp 1\amp 0\\-1\amp 1\amp -3\end{bmatrix}.
+</me>
+</p> 
+</statement>
+
+<choices>
+  <choice>
+      <statement>
+          <p> <m>\mbox{ker}(T)=\R^3</m>. </p>
+      </statement>
+  </choice>
+    <choice>
+      <statement>
+          <p> <m>\mbox{ker}(T)=\{\mathbf{0}\}</m>.  </p>
+      </statement>
+  </choice>
+    <choice>
+      <statement>
+          <p> <m>\mbox{ker}(T)=\R^2</m>. </p>
+      </statement>
+  </choice>
+    <choice>
+      <statement>
+          <p> <m>\mbox{ker}(T)</m> is a plane in <m>\R^3</m>. </p>
+      </statement>
+  </choice>
+     <choice correct="yes">
+      <statement>
+          <p> <m>\mbox{ker}(T)</m> is a line in <m>\R^3</m>. </p>
+      </statement>
+  </choice>
+</choices>
+
+<answer>
+<p> 
+<m>\mbox{nullity}(T)=1</m>
+</p>
+</answer>
+</exercise>
+
+<exercise xml:id="prob-kerandnullityT2">
+    <statement>
+        <p>
+            <m>T:\R^2\rightarrow \R^2</m>,
+        <me>
+        A=\begin{bmatrix}2\amp -1\\3\amp 0\end{bmatrix}.
+        </me>
+        </p>
+    </statement>
+
+<choices>
+  <choice>
+      <statement>
+          <p> <m>\mbox{ker}(T)=\R^2</m>. </p>
+      </statement>
+  </choice>
+    <choice correct="yes">
+      <statement>
+          <p> <m>\mbox{ker}(T)=\{\mathbf{0}\}</m>. </p>
+      </statement>
+  </choice> 
+     <choice>
+      <statement>
+          <p> <m>\mbox{ker}(T)</m> is a line in <m>\R^2</m>. </p>
+      </statement>
+  </choice>
+</choices>
+
+<answer>
+<p>
+<m>\mbox{nullity}(T)=0</m>
+ </p>
+</answer>
+</exercise>
+
+<exercise xml:id="prob-kerandnullityT3">
+    <statement>
+        <p>
+            <m>T:\R^3\rightarrow \R^5</m>,
+        <me>
+        A=\begin{bmatrix}1\amp 2\amp -1\\1\amp 2\amp -1\\1\amp 2\amp -1\\1\amp 2\amp -1\\1\amp 2\amp -1\end{bmatrix}.
+        </me> 
+        </p>
+    </statement>
+
+<choices>
+  <choice correct="yes">
+      <statement>
+          <p> <m>\mbox{ker}(T)</m> is a plane in <m>\R^3</m>. </p>
+      </statement>
+  </choice>
+   <choice>
+      <statement>
+          <p> <m>\mbox{ker}(T)</m> is a line in <m>\R^3</m>. </p>
+      </statement>
+  </choice>
+       <choice>
+      <statement>
+          <p> <m>\mbox{ker} (T)</m> is a line in <m>\R^5</m>. </p>
+      </statement>
+  </choice>
+   <choice>
+      <statement>
+          <p> <m>\mbox{ker}(T)=\R^3</m>. </p>
+      </statement>
+  </choice>
+    <choice>
+      <statement>
+          <p> <m>\mbox{ker}(T)=\{\mathbf{0}\}</m>. </p>
+      </statement>
+  </choice>
+</choices>
+
+<answer>
+<p>
+<m>\mbox{nullity}(T)=2</m>.
+</p>
+</answer>
+</exercise>
+</exercisegroup>
+
+
+
+<exercise xml:id="prob-ranknullityT4">
+    <statement>
+        <p>
+            Suppose a linear transformation <m>T:\R^3\rightarrow \R^3</m> is such that <m>\mbox{im}(T)</m> is a plane in <m>\R^3</m>.  What is the rank and nulity of <m>T</m>?
+        </p>
+     </statement>
+
+<answer>
+        <p>
+<me>
+    \mbox{rank}(T)=2
+</me>
+ 
+<me>
+    \mbox{nullity}(T)=1
+</me>
+        </p>
+    </answer>
+</exercise>
+
+<exercise xml:id="prob-ranknullityT5">
+    <statement>
+        <p>
+            Suppose a linear transformation <m>T:\R^5\rightarrow \R^5</m> is such that <m>T(\mathbf{v})=\mathbf{0}</m> for all <m>\mathbf{v}</m> in <m>\R^5</m>. What is the rank and nulity of <m>T</m>?
+        </p>
+    </statement>
+
+<answer>
+<p>
+<me>
+    \mbox{rank}(T)=0
+</me>
+ 
+<me>
+    \mbox{nullity}(T)=5
+</me>
+</p>
+</answer>
+</exercise>
+
+<exercise xml:id="prob-findimkergivenrref">
+    <statement>
+        <p>
+            Let <m>T:\R^6\rightarrow \R^4</m> be a linear transformation with standard matrix
+
+<me>
+    A=\begin{bmatrix}2\amp -1\amp 1\amp -2\amp 1\amp 1\\1\amp 2\amp 3\amp 6\amp -4\amp 1\\0\amp 2\amp 2\amp 4\amp -2\amp -1\\1\amp 3\amp 2\amp 6\amp -3\amp 2\end{bmatrix}
+</me>
+
+Find <m>\mbox{im}(T)</m> and <m>\mbox{ker}(T)</m> if the reduced row-echelon form of <m>A</m> is 
+
+<me>
+    \text{rref}(A)=\begin{bmatrix}1\amp 0\amp 0\amp 1\amp -1\amp 0\\0\amp 1\amp 0\amp 1\amp 0\amp 0\\0\amp 0\amp 1\amp 1\amp -1\amp 0\\0\amp 0\amp 0\amp 0\amp 0\amp 1\end{bmatrix}
+</me>
+        </p>
+    </statement>
+</exercise>
+
+
+<exercise xml:id="prob-findimageandkernellintrans">
+    <statement>
+        <p>
+            Let
+        <me>
+        V=\mbox{span}\left(\begin{bmatrix}1\\1\end{bmatrix}\right)
+        </me>
+    
+        and let <m>T:V\rightarrow \R^2</m> be a linear transformation defined by 
+<m>T(\mathbf{v})=2\mathbf{v}</m>.  Find <m>\mbox{im}(T)</m> and <m>\mbox{ker}(T)</m>.
+        </p>
+    </statement>
+</exercise>
+
+<exercise xml:id="prob-ranknullitytrans">
+    <statement>
+        <p>
+            Suppose a linear transformation <m>T</m> is induced by a <m>4\times 6</m> matrix <m>A</m>.  Let <m>S</m> be a linear transformation induced by <m>A^T</m>.  Find <m>\mbox{nullity}(S)</m>, if <m>\mbox{nullity}(T)=3</m>.  Prove your claim.
+        </p>
+    </statement>
+</exercise>
+
+</exercises>
+
+
+
+
+</section>

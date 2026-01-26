@@ -1,0 +1,502 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<section xml:id="Section-Iterative-Methods-for-Solving-Linear-Systems" xmlns:xi="http://www.w3.org/2001/XInclude">
+    <title>Iterative Methods for Solving Linear Systems</title> \license{CC BY-NC-SA 4.0}
+
+    <p>
+        The approaches to solving linear systems we have studied up to this point are often called <term>direct methods</term>, to set them apart from <term>iterative methods</term>, which we study in this section.  When we solve linear systems using <term>iterative methods</term>, we repeat the same procedure (called an <term>iteration</term> many times (usually using a computer), and we look for the outputs to ``converge to'' the actual solution.  Let's begin with an exploration to illustrate this idea.
+    </p>
+
+<exploration xml:id="exp-gauss-seidel2x2">
+    <p>
+In the following GeoGebra interactive, the red line is the graph of <m>ax+by=r</m>, and the blue line is the graph of <m>cx+dy=s</m>.  Point <m>A</m>, referred to as our ``initial guess,'' may be dragged anywhere on the plane before starting the iterative procedure.  Use the navigation bar on the bottom to proceed through several iterations.  One iteration will consist of sliding horizontally from the current point until we hit the red line, followed by sliding vertically until we hit the blue line.  These two steps are then repeated from the new point on the blue line.
+</p>
+<figure>
+  <caption>
+    A larger version of this activity is available 
+    <url href="https://www.geogebra.org/calculator/hndq9nmq" visual="geogebra.org">here</url>.
+  </caption>
+  <interactive xml:id="geogebra-iterative-solution-example" platform="geogebra" width="100%" aspect="800:650">
+    <slate xml:id="iterative-solution-example" surface="geogebra" material="hndq9nmq" aspect="800:650" />
+  </interactive>
+</figure>
+<p>
+    <ol>
+        <li>
+    <p>
+        Try solving the system of equations
+<men xml:id="eq-diagdom1">
+\begin{array}{ccccc}
+      5x\amp -\amp2y\amp=\amp10\\
+      x \amp +\amp3y\amp= \amp36 
+    \end{array}
+</men>
+from various starting points <m>A</m>.  Does the iterative method ``converge'' to the actual solution of this system?
+    </p>
+</li>
+        <li>
+    <p>
+        Now try solving the same system of equations, but changing which equation is the red line and which equation is the blue line.  In other words, try
+<men xml:id="eq-diagdom2">
+\begin{array}{ccccc}
+      x \amp +\amp3y\amp= \amp36  \\
+     5x\amp -\amp2y\amp=\amp10
+    \end{array}
+</men>
+from various starting points <m>A</m>.  Now what happens when we try the iterative method?
+    </p>
+</li>
+<li>
+    <p>
+        Try other <m>2 \times 2</m> systems of equations and see how the iterative method works.
+    </p>
+</li> 
+    </ol>
+    </p>
+</exploration>
+<p>
+Iterative methods have become more important as computers have become more ubiquitous.  When we execute an iterative method, we are implementing the same sequence of steps repeatedly, and this is something computers do very well.
+</p>
+
+<p>
+In this section we will explore two different iterative methods for solving a system of linear equations. <xref ref="exp-gauss-seidel2x2"/> was a geometric representation of the <term>Gauss-Seidel</term> method for a system of two equations with two unknowns.  We will show how this may be implemented numerically to approximate the solution to a system of equations.  However, we first  explore a related method known as <term>Jacobi's method</term>.
+</p>
+
+<subsection xml:id="Subsection-Jacobis-method">
+    <title>Jacobi's method</title>
+
+<p>
+As you saw in the Exploration above, iterative methods do not give an exact answer, but an approximate answer.  More iterations give a more accurate answer.
+</p>
+
+<p>
+To use <term>Jacobi's method</term> for solving a linear system of <m>n</m> equations in <m>n</m> variables, we isolate the first variable in the first equation, we isolate the second variable in the second equation, and in general, we isolate the <m>i</m>th variable in the <m>i</m>th equation.
+</p>
+
+<p>
+Let's return to the system of equations from <xref ref="exp-gauss-seidel2x2"/>.  To use Jacobi's method to approximate the solution to the system, we solve for a different variable in each of the two equations.  This gives us two formulas, one for each unknown.  We begin with our initial guess <m>\mathbf{v}_0</m>, and use these formulas to compute the next iteration <m>\mathbf{v}_1</m>.  Taking the vector <m>\mathbf{v}_1</m>, and we again apply these formulas to compute the next iteration to arrive at <m>\mathbf{v}_2</m>.
+<me>\begin{array}{ccccc}
+      5x\amp -\amp2y\amp=\amp10\\
+      x \amp +\amp3y\amp= \amp36 
+    \end{array}
+\rightsquigarrow\text{isolating one variable in each equation}\rightsquigarrow
+\begin{array}{ccc}
+      x\amp =\amp\dfrac{10+2y}{5}\\
+      y\amp =\amp\dfrac{36-x}{3}
+    \end{array}
+</me>
+
+Let's begin with the initial guess <m>\mathbf{v}_0 = \begin{bmatrix} 0\\0 \end{bmatrix}</m>.  Applying the pair of formulas gives
+
+<me>
+    \mathbf{v}_1 = \begin{bmatrix} x\\y \end{bmatrix} = \begin{bmatrix} \dfrac{10+2(0)}{5}\\\dfrac{36-0}{3} \end{bmatrix}
+= \begin{bmatrix} 2\\12 \end{bmatrix}.
+</me>
+
+For the next iteration, we apply these same formulas to the <m>x</m> and <m>y</m> values of <m>\mathbf{v}_1</m>.  We get
+
+<me>
+    \mathbf{v}_2 = \begin{bmatrix} x\\y \end{bmatrix} = \begin{bmatrix} \dfrac{10+2(12)}{5}\\\dfrac{36-2}{3} \end{bmatrix}
+= \begin{bmatrix} 34/5\\34/3 \end{bmatrix}\approx
+\begin{bmatrix} 6.80\\11.33 \end{bmatrix}.
+</me>
+
+We use this to perform another iteration, giving us 
+
+<me>
+    \mathbf{v}_3 = \begin{bmatrix} x\\y \end{bmatrix} = \begin{bmatrix} \dfrac{10+2(11.33)}{5}\\\dfrac{36-6.80}{3} \end{bmatrix}
+= \begin{bmatrix} 34/5\\38/3 \end{bmatrix}\approx
+\begin{bmatrix} 6.53\\9.93 \end{bmatrix}.
+</me>
+
+We observe that at each iteration our approximate solution gets closer to the actual solution to the system, <m>x=6, y=10</m>.
+</p>
+</subsection>
+
+<subsection xml:id="Subsection-The-Gauss-Seidel-method">
+    <title>The Gauss-Seidel method</title>
+
+<p>
+    To implement the <term>Gauss-Seidel method</term> for solving a linear system of <m>n</m> equations in <m>n</m> variables, we use the same set of <m>n</m> formulas as we use in Jacobi's method.  
+    The difference is that we implement the formulas <em>sequentially</em> rather than simultaneously.
+</p>
+
+<p>
+To demonstrate, we return to the same system of equations examined above.
+<me>\begin{array}{ccccc}
+      5x\amp -\amp2y\amp=\amp10\\
+      x \amp +\amp3y\amp= \amp36 
+    \end{array}
+\rightsquigarrow\text{isolating variables as before}\rightsquigarrow
+      x=\dfrac{10+2y}{5},
+      y=\dfrac{36-x}{3}
+</me>
+
+Once again we start with the initial guess <m>\mathbf{v}_0 = \begin{bmatrix} 0\\0 \end{bmatrix}</m>.  We apply the first formula and get
+
+<me>
+    x= \dfrac{10+2(0)}{5}=2.
+</me>
+
+However, we will compute <m>y</m> using this new value <m>x=2</m> rather than using <m>x=0</m>.  We get
+
+<me>
+    y=\dfrac{36-2}{3} 
+= 34/3 \approx 11.33.
+</me>
+  So after our first iteration we have <m>\mathbf{v}_1 = \begin{bmatrix} 2\\11.33 \end{bmatrix}</m>.
+We repeat this procedure to perform another iteration.  We get 
+
+<me>
+    x= \dfrac{10+2(11.33)}{5}\approx 6.53
+</me>
+
+followed by
+
+<me>
+    y=\dfrac{36-6.53}{3} \approx 9.82,
+</me>
+
+so we have <m>\mathbf{v}_2 \approx \begin{bmatrix} 6.53\\9.82 \end{bmatrix}</m>.
+
+We observe that in this example the second iteration of the Gauss-Seidel method is closer to the actual solution of <m>x=6, y=10</m> than the third iteration of Jacobi's method.  The Gauss-Seidel method is more efficient than Jacobi's method because it makes use of a better approximation of one coordinate to find another.
+</p>
+
+<exploration xml:id="exp-jacobi-ampgauss-seidel2x2spreadsheet">
+    <p>
+The Jacobi and Gauss-Seidel methods are easily implemented on a computer.  Below is a link to a spreadsheet which can be used to solve a linear system of 2 equations in 2 unknowns using each of these methods.
+</p>
+
+<p>
+To use the spreadsheet, SAVE A COPY of the sheet.  Then you will be able to change the yellow boxes to input a system of equations as well as the initial values.  The video below the link to the spreadsheet gives additional information.
+</p>
+
+<p>
+    <url href="https://docs.google.com/spreadsheets/d/1CyQ9jvOL9WMxcphNu4QlM8ZQAkU2oHDQEbK2ORw7k-o/edit?usp=sharing">LINK TO SPREADSHEET</url>
+</p>
+
+<video youtube="rb45dYb0fp0" play-at="select"/>
+
+</exploration>
+
+<p>
+Both techniques described above can be used to solve linear systems with more variables.
+</p>
+
+<example xml:id="ex-3x3iterative">
+    <statement>
+        <p>
+            Use direct methods to solve the linear system.  Then try using Jacobi's Method and the Gauss-Seidel method.
+
+<me>
+    \begin{array}{ccccccc}
+      5x \amp +\ampy\amp+\amp2z\amp= \amp1 \\
+	 2x\amp +\amp5y\amp+\ampz\amp=\amp1\\
+     2x\amp +\ampy\amp+\amp5z\amp=\amp1
+    \end{array}
+</me> 
+        </p>
+    </statement>
+    <answer>
+    <p>
+We perform Gauss-Jordan elimination by applying elementary row operations as described in <xref ref="Section-Gaussian-Elimination-and-Rank"/>.  
+<me>
+\left[\begin{array}{ccc|c}  5\amp1\amp2\amp1\\2\amp5\amp1\amp1\\2\amp1\amp5\amp1
+ \end{array}\right]
+ \rightsquigarrow\text{ becomes (after a number of steps) } \rightsquigarrow
+\left[\begin{array}{ccc|c}  1\amp0\amp0\amp1/8\\0\amp1\amp0\amp1/8\\0\amp0\amp1\amp1/8
+ \end{array}\right]
+</me>
+This shows that the three planes in <m>\R^3</m> share a common intersection point at <m>\left(\frac{1}{8},\frac{1}{8},\frac{1}{8} \right)</m>, which is easily verified by looking at the original equations, and can also be seen in the GeoGebra graph below (RIGHT-CLICK AND DRAG TO ROTATE).
+</p>
+
+
+<figure>
+  <caption>
+    A larger version of this activity is available 
+    <url href="https://www.geogebra.org/calculator/nuvt2rde" visual="geogebra.org">here</url>.
+  </caption>
+  <interactive xml:id="geogebra-intersection-of-3-planes" platform="geogebra" width="100%" aspect="800:650">
+    <slate xml:id="ADD-intersection-of-3-planes" surface="geogebra" material="nuvt2rde" aspect="800:650" />
+  </interactive>
+</figure>
+
+<p>
+Now we solve the same linear system using our iterative methods.  In order to use Jacobi's method or the Gauss-Seidel method, we solve for <m>x</m> in the first equation, we solve for <m>y</m> in the second equation, and we solve for <m>z</m> in the third equation.  We get three formulas.
+<me>\begin{array}{ccccccc}
+      5x \amp +\ampy\amp+\amp2z\amp= \amp1 \\ 
+	 2x\amp +\amp5y\amp+\ampz\amp=\amp1\\ 
+     2x\amp +\ampy\amp+\amp5z\amp=\amp1
+    \end{array}
+\rightsquigarrow\text{isolating these variables}\rightsquigarrow
+\begin{array}{c}
+      x=\frac{1-y-2z}{5},\\ \\
+      y=\frac{1-2x-z}{5},\\ \\
+      z=\frac{1-2x-y}{5}  
+    \end{array}
+</me>
+
+Below is a link to a spreadsheet which can be used to solve a linear system of 3 equations in 3 unknowns using the Jacobi method and the Gauss-Seidel method.
+</p>
+
+<p>
+    To use the spreadsheet, SAVE A COPY of the sheet.  Then you will be able to change the yellow boxes to input a system of equations as well as the initial values. 
+</p>
+
+<p>
+    <url href="https://docs.google.com/spreadsheets/d/1cjRChe6nwq1S-f-bGsnMFI632cuALhfUHnSvD_lC7oQ/edit?usp=sharing">LINK TO SPREADSHEET</url>
+</p>
+
+<p>
+Notice how much more efficient the Gauss-Seidel method is than Jacobi's method.  Both methods converge toward the exact solution we computed earlier using Gauss-Jordan elimination (<m>(0.125,0.125.0.125)</m> in decimal form).  Starting with an initial guess of <m>(1,2,3)</m>, when we use the Gauss-Seidel method, each coordinate gets to within 0.001 of the corresponding value of the exact solution.  Using Jacobi's method, 15 iterations are necessary to achieve the same level of accuracy with the same initial guess. This is not surprising, since the Gauss-Seidel Method uses new values as we find them, rather than waiting until the subsequent iteration, as is done with the Jacobi Method.
+
+    </p>
+    </answer>
+</example>
+</subsection>
+
+<subsection xml:id="Subsection-Convergence-of-Iterative-Methods">
+    <title>Convergence of Iterative Methods</title>
+<p>
+We observed in <xref ref="exp-gauss-seidel2x2"/> that the Gauss-Seidel method converged for the linear system <xref ref="eq-diagdom1"/>.  However, when we switched the order of the equations, writing the same linear system using <xref ref="eq-diagdom2"/>, the method failed to converge.  
+</p>
+
+<p>
+If you experiment with the spreadsheets and the GeoGebra interactive, you can find other systems of equations for which these iterative methods fail to converge to the solution.  At this point you may be wondering why we are studying iterative methods when we cannot be certain that they will converge to the solution!  
+</p>
+
+<p>
+There are many situations where iterative methods are, in fact, the best methods we have for performing computations.  We will see a nice example of this later when we study \href{https://ximera.osu.edu/oerlinalg/LinearAlgebra/EIG-0070/main}{The Power Method and the Dominant Eigenvalue}.
+</p>
+
+<p>
+Also, it turns out that sometimes we can be certain that an iterative method will converge to the solution.  To do so, we examine the <term>coefficient matrix</term> <m>A</m> of a linear system <m>A \mathbf{x}= \mathbf{b}</m>.  To be clear, when we write a linear system as a single augmented matrix, the coefficient matrix <m>A</m> is the part of an augmented matrix to the left of the vertical line.
+</p>
+
+<p>
+We need the following definition, which will also be useful when we study <xref ref="Section-Gershgorins-Theorem"/>.
+</p>
+
+<definition xml:id="def-strict_diag_dom">
+    <statement>
+        <p>
+Let <m>A=[a_{ij}]</m> be the <m>n\times n</m> matrix which is the coefficient matrix of the linear system <m>A \mathbf{x}= \mathbf{b}</m>.  Let
+
+<me>
+    
+r_i(A):= \sum_{j \ne i} |a_{ij}|
+
+</me>
+
+denote the sum of the absolute values of the non-diagonal entries in row <m>i</m>.  We say that <m>A</m> is <term>strictly diagonally dominant</term> if 
+
+<me>
+    |a_{ii}|\gtr_i(A)
+</me>
+
+for all values of <m>i</m> from <m>i=1</m> to <m>i=n</m>.
+        </p>
+    </statement>
+</definition>
+
+<example xml:id="ex-strict_diag_dom">
+    <p>
+For each of the linear systems examined above, determine whether or not the coefficient matrix is strictly diagonally dominant.
+
+<ol>
+    <li>
+    <p>
+        In <xref ref="ex-3x3iterative"/> we considered the linear system 
+    
+<me>
+    \begin{array}{ccccccc}
+      5x \amp +\ampy\amp+\amp2z\amp= \amp1 \\
+	 2x\amp +\amp5y\amp+\ampz\amp=\amp1\\
+     2x\amp +\ampy\amp+\amp5z\amp=\amp1
+    \end{array}.
+</me>
+
+    The associated coefficient matrix is 
+    
+<me>
+    A=\left[\begin{array}{ccc}  5\amp1\amp2\\2\amp5\amp1\\2\amp1\amp5
+ \end{array}\right].
+</me>
+
+    We see that <m>A</m> is strictly diagonally dominant, for proceeding row by row, we note that
+    <md>
+        <mrow> 5 \amp\gt 1 + 2 </mrow>
+        <mrow> 5 \amp\gt 2 + 1 </mrow>
+        <mrow> 5 \amp\gt 2 + 1 . </mrow>
+    </md>
+    </p>
+</li> 
+    <li>
+    <p>
+        In <xref ref="exp-gauss-seidel2x2"/> we considered the linear system 
+  
+<me>
+    \begin{array}{ccccc}
+      5x\amp -\amp2y\amp=\amp10\\
+      x \amp +\amp3y\amp= \amp36 
+    \end{array}.
+</me>
+
+    The associated coefficient matrix is 
+    
+<me>
+    A=\left[\begin{array}{cc}  5\amp-2\\1\amp3
+ \end{array}\right].
+</me>
+
+    We see that <m>A</m> is strictly diagonally dominant, for proceeding row by row, we note that
+    <md>
+        <mrow> 5 \amp\gt |-2| </mrow>
+        <mrow> 3 \amp\gt  1 . </mrow>
+    </md>
+    </p>
+</li>     
+    <li>
+    <p>
+        Later in the same <xref ref="exp-gauss-seidel2x2"/>, we switched the order of the equations, giving us the linear system 
+  
+<me>
+    \begin{array}{ccccc}
+      x \amp +\amp3y\amp= \amp36  \\
+      5x\amp -\amp2y\amp=\amp10
+    \end{array}.
+</me>
+
+    The associated coefficient matrix is 
+    
+<me>
+    A=\left[\begin{array}{cc}  1\amp3 \\ 5\amp-2
+ \end{array}\right].
+</me>
+
+    We see that <m>A</m> is \emph{NOT} strictly diagonally dominant, for proceeding row by row, we note that
+    <md>
+        <mrow> 1 \amp\lt 3 </mrow>
+        <mrow> 5 \amp\gt  |-2|  . </mrow>
+    </md>
+    </p>
+</li> 
+</ol>
+    </p>
+</example>
+
+<p>
+Now that we have explained the definition of <term>strict diagonal dominance</term>, we state (but do not prove) the following convergence theorem.
+</p>
+
+<theorem xml:id="th-strict_diag_dom">
+    <statement>
+        <p>
+Let <m>A=[a_{ij}]</m> be the <m>n\times n</m> matrix which is the coefficient matrix of the linear system <m>A \mathbf{x}= \mathbf{b}</m>, and suppose <m>A</m> is strictly diagonally dominant.  
+Then both the Jacobi method and the Gauss-Seidel method will converge to the solution to the linear system.
+        </p>
+    </statement>
+</theorem>
+
+<p>
+The proof of this theorem at this point in the course would take us too far astray.  Instead, we refer the interested reader to <url href="https://www.jstor.org/stable/2132758">this 1995 paper by Roberto Bagnara</url>.
+</p>
+
+<p>
+Note that the converse of this theorem is false.  Sometimes these iterative methods converge even though the coefficient matrices are not strictly diagonally dominant. <xref ref="prob-systems-iterative"/> gives two examples where both methods converge to the solution even though the coefficient matrices are not strictly diagonally dominant.  
+We say that strict diagonal dominance is <term>sufficient</term> to guarantee convergence, but it is not a <term>necessary</term> condition for convergence.
+</p>
+</subsection>
+
+    <exercises xml:id="Exercises-Iterative-Methods-for-Solving-Linear-Systems">
+        <exercisegroup>
+        
+            <introduction>
+                <p>
+                    For each of the following, use Jacobi's method and the Gauss-Seidel method with an initial guess of <m>x=0,y=0</m> to find an approximate solution where each coordinate is within 0.1 of the exact solution.  
+                    You can make a copy of the spreadsheets above and modify them to help.  Note that the order of the equations may affect convergence.
+                </p>
+            </introduction>
+        
+            <exercise xml:id="prob-systems-iterative-1">
+                <statement>
+                   <p>
+                    <me>\begin{array}{ccccc}
+                        -5x\amp +\ampy\amp=\amp17\\
+                        x \amp +\ampy\amp= \amp5 
+                      \end{array}
+                  </me>
+                   </p>
+              </statement>
+            </exercise>
+            
+            <exercise xml:id="prob-systems-iterative-2">
+                <statement>
+                   <p>
+                    <me>\begin{array}{ccccc}
+                        -3x\amp +\amp4y\amp=\amp5\\
+                        -x \amp +\amp2y\amp= \amp1 
+                      \end{array}
+                  </me>
+                   </p>
+              </statement>
+            </exercise>        
+        </exercisegroup>
+
+        <exercisegroup>
+        
+            <introduction>
+                <p>
+                    For each of the following, use Jacobi's method and the Gauss-Seidel method with an initial guess of <m>x=0,y=0, z=0</m> to find an approximate solution where each coordinate is within 0.1 of the exact solution.  
+                    You can make a copy of the spreadsheets above and modify them to help.  Note that the order of the equations may affect convergence.
+                </p>
+            </introduction>
+        
+            <exercise xml:id="prob-systems-iterative-3x3-1">
+                <statement>
+                   <p>
+                    <me>\begin{array}{ccccccc}
+                        3x\amp -\amp2y\amp+\ampz\amp=\amp-5\\
+                        x\amp +\amp3y\amp-\ampz\amp=\amp12\\
+                        x\amp +\ampy\amp+\amp2z\amp=\amp0
+                      \end{array}
+                  </me>
+                   </p>
+              </statement>
+            </exercise>
+            
+            <exercise xml:id="prob-systems-iterative-3x3-2">
+                <statement>
+                   <p>
+                    <me>\begin{array}{ccccccc}
+                        8x\amp +\amp3y\amp+\amp3z\amp=\amp7\\
+                        4x\amp +\amp9y\amp+\amp3z\amp=\amp7\\
+                        2x\amp +\amp6y\amp+\amp9z\amp=\amp9
+                      \end{array}
+                  </me>
+                   </p>
+              </statement>
+            </exercise>
+        </exercisegroup>
+
+        <exercise xml:id="prb-2.1">
+            <statement>
+                <p>
+                The lines, <m>x+3y=1</m> and <m>4x-y=3.</m> intersect at <m>x=\frac{10}{13},y=\frac{1}{13}</m>.  Use Jacobi's method and the Gauss-Seidel method with an initial guess of <m>x=0,y=0</m> to find an approximate solution where each coordinate is within 0.1 of the exact solution.  Write the coefficient matrix so it is strictly diagonally dominant in order to ensure convergence.
+            </p>
+            <p>
+                <xref ref="prb-2.1"/> comes from the end of Chapter 1 of Ken Kuttler's <url href="https://open.umn.edu/opentextbooks/textbooks/a-first-course-in-linear-algebra-2017"><em>A First Course in Linear Algebra</em></url>.
+            </p>
+        </statement>
+        </exercise>
+
+        <exercise xml:id="prob-special_slopes">
+            <statement>
+            <p>
+                What happens if the Gauss-Seidel method is to find the solution to a system of 2 equations in 2 unknowns when the slopes of the two lines are <m>m</m> and <m>-m</m>?
+            </p>
+        </statement>
+        </exercise>
+    </exercises>
+
+</section>

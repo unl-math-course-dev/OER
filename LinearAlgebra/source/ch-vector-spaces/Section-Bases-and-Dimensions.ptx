@@ -1,0 +1,1866 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<section xml:id="Bases-and-Dimension" xmlns:xi="http://www.w3.org/2001/XInclude">
+    <title>Bases and Dimension</title>
+
+
+
+  
+
+
+
+<subsection xml:id="Subsection-Coordinate-VectorsTwo">
+    <title>Coordinate Vectors for Vector Spaces</title>
+
+<p>
+When we first introduced vectors we learned to represent them using component notation.  
+If we consider <m>\mathbf{u}=\begin{bmatrix} 2 \\ 5 \end{bmatrix}</m>, then we know that the head of <m>\mathbf{u}</m> is located at the point <m>(2, 5)</m>.  
+</p> 
+
+<p> 
+But there is another way to look at the component form.  
+Observe that <m>\mathbf{u}</m> can be expressed as a linear combination of the standard unit vectors <m>\mathbf{i}</m> and <m>\mathbf{j}</m>:
+
+<me>
+    \mathbf{u}=2\begin{bmatrix}1\\0\end{bmatrix}+5\begin{bmatrix}0\\1\end{bmatrix}=2\mathbf{i}+5\mathbf{j}.
+</me>
+
+Further, for the fixed vector <m>\mathbf{u}</m>, the numbers 2 and 5 are unique choice of coefficients that gives <m>\mathbf{u}</m>. 
+Put another way, the only scalars <m>x</m> and <m>y</m> so that <m>\mathbf{u}=x\mathbf{i}+y\mathbf{j}</m> are <m>x=2</m> and <m>y=5</m>.
+</p>
+
+<p>
+In fact, any vector <m>\mathbf{v}=\begin{bmatrix} a \\ b \end{bmatrix}</m> of <m>\R^2</m> can be written as a linear combination of <m>\mathbf{i}</m> and <m>\mathbf{j}</m>:
+
+<me>
+    \mathbf{v}=\begin{bmatrix}a\\b\end{bmatrix}=a\mathbf{i}+b\mathbf{j}.
+</me>
+
+This gives us an alternative way of interpreting the component notation:
+
+<me>
+    \left[\begin{array}{c}  
+ a\\b
+ \end{array}\right]
+ \begin{array}{c}
+ \longleftarrow\\
+ \longleftarrow
+ \end{array}
+\begin{array}{c}  
+ \mbox{coefficient in front of }\mathbf{i}\\\mbox{coefficient in front of } \mathbf{j}
+ \end{array}
+</me>
+Again, to get vector <m>\mathbf{v}</m>, the only choice of coefficients that works are <m>a</m> and <m>b</m>.
+
+
+ We say that <m>a</m> and <m>b</m> are <term>coordinates</term> of <m>\mathbf{v}</m> with respect to <m>(\mathbf{i}, \mathbf{j})</m>, 
+ and <m>\begin{bmatrix} a \\ b \end{bmatrix}</m> is said to be the <term>coordinate vector</term> for <m>\mathbf{v}</m> with respect to <m>(\mathbf{i}, \mathbf{j})</m>.  
+ Every vector <m>\mathbf{v}</m> of <m>\R^2</m> can be thus represented using <m>\mathbf{i}</m> and <m>\mathbf{j}</m>. 
+ Moreover, such representation in terms of <m>\mathbf{i}</m> and <m>\mathbf{j}</m> is unique for each vector, 
+ meaning that we will never have two different coordinate vectors representing the same vector. 
+ We will refer to <m>(\mathbf{i}, \mathbf{j})</m> as a <term>basis</term> of <m>\R^2</m>.  
+</p>
+
+
+
+<p>
+ The order in which the basis elements are written matters.  
+ For example, <m>\mathbf{u}</m> is represented by the coordinate vectors <m>\begin{bmatrix} 2 \\ 5 \end{bmatrix}</m> with respect to <m>(\mathbf{i}, \mathbf{j})</m>, 
+ but changing the basis to <m>(\mathbf{j}, \mathbf{i})</m> would change the coordinate vectors to <m>\begin{bmatrix} 5 \\ 2 \end{bmatrix}</m>. In our notation:
+ 
+ 
+<me>
+    \left[\begin{array}{c}  
+ 5\\2
+ \end{array}\right]
+ \begin{array}{c}
+ \longleftarrow\\
+ \longleftarrow
+ \end{array}
+\begin{array}{c}  
+ \mbox{coefficient in front of the first basis element }\\\mbox{coefficient in front of the second basis element}
+ \end{array}
+</me>
+
+ 
+ Clearly, standard unit vectors <m>\mathbf{i}</m> and <m>\mathbf{j}</m> are very convenient, 
+ but other vectors can also be used in place of <m>\mathbf{i}</m> and <m>\mathbf{j}</m> to represent <m>\mathbf{u}</m>.
+</p>
+
+
+
+ <exploration xml:id="init-altbasis1">
+    <p>
+        The diagram below shows <m>\mathbf{u}</m> together with vectors <m>\mathbf{w}_1</m> and <m>\mathbf{w}_2</m>.
+    </p>
+ 
+<image width="65%">
+   <shortdescription>Three vectors in span of two</shortdescription>
+    <latex-image>
+      \begin{tikzpicture}[scale=0.6]
+\draw[thin,gray!40] (-6,-2) grid (6,6);
+  \draw[\lt -\gt ] (-6,0)--(6,0);
+  \draw[\lt -\gt ] (0,-2)--(0,6);
+  
+  \draw[line width=2pt,red,-stealth](0,0)--(2,5) node[above right]{\(\mathbf{u}\)};
+  \draw[line width=2pt,blue,-stealth](0,0)--(-1,2) node[below left]{\(\mathbf{w}_1\)};
+  \draw[line width=2pt,blue,-stealth](0,0)--(4,1) node[below right]{\(\mathbf{w}_2\)};
+
+     \end{tikzpicture}
+    </latex-image>
+</image>
+
+ <p>
+It is easy to see that 
+
+<me>
+    \mathbf{u}=2\mathbf{w}_1+\mathbf{w}_2
+</me>
+
+as shown below.
+</p>
+
+
+<image width="65%">
+   <shortdescription>Span of two of the above vectors graphed</shortdescription>
+    <latex-image>
+      \begin{tikzpicture}[scale=0.6]
+\draw[thin,gray!40] (-6,-2) grid (6,6);
+  \draw[\lt -\gt ] (-6,0)--(6,0);
+  \draw[\lt -\gt ] (0,-2)--(0,6);
+  
+  \filldraw[blue, opacity=0.3](0,0)--(4,1)--(2,5)--(-2,4)--cycle;
+  
+  \draw[line width=2pt,red,-stealth](0,0)--(2,5) node[above right]{\(\mathbf{u}\)};
+  \draw[line width=2pt,blue,-stealth](0,0)--(-1,2) node[below left]{\(\mathbf{w}_1\)};
+  \draw[line width=2pt,blue,-stealth](0,0)--(4,1) node[below right]{\(\mathbf{w}_2\)};
+  
+   \draw[line width=1pt,blue,dashed](0,0)--(-2,4);
+
+     \end{tikzpicture}
+    </latex-image>
+</image>
+
+<p>
+If we declare <m>(\mathbf{w}_1, \mathbf{w}_2)</m> to be a basis of <m>\R^2</m>, 
+then we can say that the coordinate vector for <m>\mathbf{u}</m> with respect to <m>(\mathbf{w}_1, \mathbf{w}_2)</m> is 
+<m>\begin{bmatrix} 2\\ 1 \end{bmatrix}</m> .
+
+
+<me>
+    \left[\begin{array}{c}  
+ 2\\1
+ \end{array}\right]
+ \begin{array}{c}
+ \longleftarrow\\
+ \longleftarrow
+ \end{array}
+\begin{array}{c}  
+ \mbox{coefficient in front of the first basis element }\\\mbox{coefficient in front of the second basis element}
+ \end{array}
+</me>
+    </p>
+</exploration>
+</subsection>
+
+
+
+
+
+
+
+
+
+
+
+
+<subsection xml:id="Subsection-What-Constitutes-a-Basis">
+    <title>What Constitutes a Basis?</title>
+
+<p>
+The goal of this section is to define basis in a way that works in general, motivated by the exploration of the previous section.
+To be a basis, we will need two conditions: there have to be enough basis vectors and there cannot be too many basis vectors.
+We focus on <m>\R^n</m> and subspaces of <m>\R^n</m>, but what we establish here will generalize to other vector spaces.  
+</p>
+
+<p>
+Based on our previous discussion, given any vector <m>\mathbf{v}</m> of <m>\R^n</m> (or a subspace <m>V</m> of <m>\R^n</m>), 
+we want to be able to write  <m>\mathbf{v}</m> as a linear combination of the given basis vectors.  
+In other words, we must have that basis vectors span <m>\R^n</m> (or <m>V</m>).
+For example, consider <m>\mathbf{w}_1</m> and <m>\mathbf{w}_2</m> shown below.  
+</p>
+
+
+<image width="80%">
+   <shortdescription>Planed formed by basis</shortdescription>
+    <latex-image>
+    \tdplotsetmaincoords{70}{130}
+      \begin{tikzpicture}
+	\draw[-\gt ](-2,0,0)--(5,0,0) node[below left]{\(y\)};
+    \draw[-\gt ](0,-2,0)--(0,5,0) node[below left]{\(z\)};
+    \draw[-\gt ](0,0,-2)--(0,0,6) node[below left]{\(x\)};
+    \filldraw[blue, opacity=0.3] (0,0,0)--(4, 2, 0)--(4,6,5)--(0, 4, 5)--cycle;
+    \draw[-\gt , line width=2pt,blue, -stealth](0,0,0)--(0,4,5)node[below left]{\(\mathbf{w}_2\)};
+    %\draw[line width=1pt,blue, dashed](0,4,0)--(0,4,5);
+    %\draw[line width=1pt,blue, dashed](0,0,5)--(0,4,5);
+    
+    \draw[-\gt , line width=2pt,red, -stealth](0,0,0)--(4,2,0)node[above right]{\(\mathbf{w}_1\)};
+    
+    %\draw[line width=1pt,red, dashed](0,2,0)--(4,2,0);
+    %\draw[line width=1pt,red, dashed](4,0,0)--(4,2,0);
+    %\draw[-\gt , line width=2pt, -stealth](0,0,0)--(4,6,5)node[above left]{\(\begin{bmatrix}5\\4\\6\end{bmatrix}\)};
+        \end{tikzpicture}
+    </latex-image>
+</image>
+
+<p>
+The set <m>\{\mathbf{w}_1, \mathbf{w}_2\}</m> cannot be a basis for <m>\R^3</m> because the vertical vector <m>\mathbf{k}</m> is not a linear combniation of <m>\mathbf{w}_1</m> and <m>\mathbf{w}_2</m>.
+More generally, <m>\mathbf{w}_1</m> and <m>\mathbf{w}_2</m> span a plane in <m>\R^3</m>, and any vector not in that plane cannot be written as a linear combination of <m>\mathbf{w}_1</m> and <m>\mathbf{w}_2</m>.
+On the other hand, the plane spanned by <m>\mathbf{w}_1</m> and <m>\mathbf{w}_2</m> is a subspace of <m>\R^3</m>.  Because every vector in that plane can be written as a linear combination of <m>\mathbf{w}_1</m> and <m>\mathbf{w}_2</m>, the set <m>\{\mathbf{w}_1, \mathbf{w}_2\}</m> could potentially be a basis for the plane, provided that the set satisfies our second requirement.
+</p>
+
+<p>
+Our second requirement is that for a basis, there is only one way write a fixed vector <m>\mathbf{v}</m> as a linear combination of the basis vectors.
+In other words, the coordinate vector for each <m>\mathbf{v}</m> in <m>\R^n</m> (or <m>V</m>) should be unique.  
+Uniqueness of representation in terms of the basis elements will play an important role in our future study of functions that map vector spaces to vector spaces.
+
+The following theorem shows that the uniqueness requirement is equivalent to the requirement that the basis vectors be linearly independent.  
+These equivalent ideas are ways of requiring that a basis does not contain redundant vectors.
+</p>
+
+
+
+<theorem xml:id="th-linindbasis">
+
+    <statement>
+        <p>
+            Suppose <m>\{\mathbf{w}_1, \mathbf{w}_2,\ldots,\mathbf{w}_p\}</m> is a spanning set for a subspace <m>V</m> of <m>\R^n</m>.  
+            Then every <m>\mathbf{v}</m> of <m>V</m> has a unique representation as a linear combination of  <m>\mathbf{w}_1, \mathbf{w}_2,\ldots,\mathbf{w}_p</m> if and only if the vectors <m>\mathbf{w}_1, \mathbf{w}_2,\ldots,\mathbf{w}_p</m> are linearly independent.
+        </p>
+    </statement>
+
+<proof>
+    <p>
+Suppose that every <m>\mathbf{v}</m> in <m>V</m> can be expressed as a unique linear combination of <m>\mathbf{w}_1, \mathbf{w}_2,\ldots,\mathbf{w}_p</m>.
+This means that <m>\mathbf{0}</m> has a unique representation as a linear combination of <m>\mathbf{w}_1, \mathbf{w}_2,\ldots,\mathbf{w}_p</m>.
+But 
+
+<me>
+    \mathbf{0}=0\mathbf{w}_1+0\mathbf{w}_2+\ldots+0\mathbf{w}_p
+</me>
+
+is a representation of <m>\mathbf{0}</m> in terms of <m>\mathbf{w}_1, \mathbf{w}_2,\ldots,\mathbf{w}_p</m>.  Since we are assuming that such a representation is unique, we conclude that there is no other.  This means that the vectors <m>\mathbf{w}_1, \mathbf{w}_2,\ldots,\mathbf{w}_p</m> are linearly independent.
+</p>
+
+<p>
+Conversely, suppose that vectors <m>\mathbf{w}_1, \mathbf{w}_2,\ldots,\mathbf{w}_p</m> are linearly independent.  An arbitrary element <m>\mathbf{v}</m> of <m>V</m> can be expressed as a linear combination of <m>\mathbf{w}_1, \mathbf{w}_2,\ldots,\mathbf{w}_p</m>:
+
+<me>
+    \mathbf{v}=a_1\mathbf{w}_1+a_2\mathbf{w}_2+\ldots+a_p\mathbf{w}_p.
+</me>
+
+Suppose this representation is not unique.  Then there may be another linear combination that is also equal to <m>\mathbf{v}</m>:
+
+<me>
+    \mathbf{v}=b_1\mathbf{w}_1+b_2\mathbf{w}_2+\ldots+b_p\mathbf{w}_p.
+</me>
+
+But then
+
+<me>
+    a_1\mathbf{w}_1+a_2\mathbf{w}_2+\ldots+a_p\mathbf{w}_p=b_1\mathbf{w}_1+b_2\mathbf{w}_2+\ldots+b_p\mathbf{w}_p.
+</me>
+
+This gives us
+
+<me>
+    (a_1-b_1)\mathbf{w}_1+(a_2-b_2)\mathbf{w}_2+\ldots+(a_p-b_p)\mathbf{w}_p=\mathbf{0}.
+</me>
+
+Because we assumed that <m>\mathbf{w}_1, \mathbf{w}_2,\ldots,\mathbf{w}_p</m> are linearly independent, we must have
+
+<me>
+    a_1-b_1=0,\, a_2-b_2=0,\,\ldots ,\,a_p-b_p=0,
+</me>
+
+so that
+
+<me>
+    a_1=b_1,\, a_2=b_2,\,\ldots ,\,a_p=b_p.
+</me>
+
+This proves the representation of <m>\mathbf{v}</m> in terms of <m>\mathbf{w}_1, \mathbf{w}_2,\ldots,\mathbf{w}_p</m> is unique.
+    </p>
+</proof>
+</theorem>
+
+
+
+<p> 
+Here is a concrete example of a basis and some practice.
+</p> 
+
+
+
+<example xml:id="ex-lindepandbasis">
+    <statement>
+        <p>
+            Use <m>V=\mbox{span}(\mathcal{S})</m>, where
+            <me>
+            \mathcal{S}=\left\{\begin{bmatrix}5\\2\\4\end{bmatrix},\begin{bmatrix}4\\1\\1\end{bmatrix},\begin{bmatrix}-3\\0\\2\end{bmatrix}\right\}
+            </me> 
+            
+        to illustrate why a set of linearly dependent vectors cannot be used as a basis for a subspace by showing that linearly dependent vectors fail to ensure uniqueness of coordinate vectors  for vectors in <m>V</m>.
+       </p>
+    </statement>
+    <answer>
+        <p>
+            We will first show that the elements of <m>\mathcal{S}</m> are linearly dependent.  Let <m>A</m> be a matrix whose columns are the vectors in <m>\mathcal{S}</m>.
+
+<me>
+    A=\begin{bmatrix}5\amp 4\amp -3\\2\amp 1\amp 0\\4\amp 1\amp 2\end{bmatrix}.
+</me>
+
+We find that 
+
+<me>
+    \mbox{rref}(A) = \begin{bmatrix}  
+ 1\amp 0\amp 1\\0\amp 1\amp -2\\0\amp 0\amp 0
+ \end{bmatrix}.
+</me>
+
+Therefore the matrix equation  <m>A\mathbf{x}=\mathbf{0}</m> has infinitely many solutions:
+
+<me>
+    \mathbf{x}=\begin{bmatrix}-1\\2\\1\end{bmatrix}t.
+</me>
+
+This tells us that there are infinitely many nontrivial linear relations among the elements of <m>\mathcal{S}</m>.  Letting <m>t=1</m> gives us one such nontrivial relation.
+
+<me>
+    -\begin{bmatrix}5\\2\\4\end{bmatrix}+2\begin{bmatrix}4\\1\\1\end{bmatrix}+\begin{bmatrix}-3\\0\\2\end{bmatrix}=\mathbf{0}
+</me>
+
+
+Now let's pick an arbitrary vector <m>\mathbf{v}</m> in <m>V</m>.  Any vector will do, so let 
+
+<me>
+    \mathbf{v}=\begin{bmatrix}5\\2\\4\end{bmatrix}+ (-1)\begin{bmatrix}4\\1\\1\end{bmatrix}+0\begin{bmatrix}-3\\0\\2\end{bmatrix}.
+</me>
+
+Based on this representation of <m>\mathbf{v}</m>, the coordinate vector for <m>\mathbf{v}</m> with respect to <m>\mathcal{S}</m> is 
+
+<me>
+    \begin{bmatrix}1\\-1\\0\end{bmatrix}.
+</me>
+
+But 
+
+<me>
+    \begin{bmatrix}5\\2\\4\end{bmatrix}=2\begin{bmatrix}4\\1\\1\end{bmatrix}+\begin{bmatrix}-3\\0\\2\end{bmatrix}.
+</me>
+
+So, by substitution, we have:
+
+<md>
+    <mrow> \mathbf{v} \amp =\left(2\begin{bmatrix}4\\1\\1\end{bmatrix}+\begin{bmatrix}-3\\0\\2\end{bmatrix}\right)+ (-1)\begin{bmatrix}4\\1\\1\end{bmatrix}+0\begin{bmatrix}-3\\0\\2\end{bmatrix} </mrow>
+    <mrow>        \amp =0\begin{bmatrix}5\\2\\4\end{bmatrix}+ 1\begin{bmatrix}4\\1\\1\end{bmatrix}+1\begin{bmatrix}-3\\0\\2\end{bmatrix}. </mrow>
+</md>
+</p>
+
+<problem>
+<statement>
+<p>
+Based on this representation, the coordinate vector for <m>\mathbf{v}</m> with respect to <m>\mathcal{S}</m> is what?
+</p>
+</statement>
+
+<answer>
+<p>
+    <me>
+        \begin{bmatrix}0\\1\\1\end{bmatrix}.
+    </me>
+ </p>
+</answer>
+</problem>
+
+<p>
+The set <m>\mathcal{S}</m> is linearly dependent.  
+As a result, coordinate vectors for elements of <m>V</m> are not unique and we do not want to use <m>\mathcal{S}</m> as a basis for <m>V</m>.
+       </p>
+    </answer>
+</example>
+</subsection>
+
+
+
+
+
+
+
+
+
+
+
+
+<subsection xml:id="Subsection-Definition-of-a-Basis">
+    <title>Definition of a Basis</title>
+
+    <p>
+        Before we can define a basis, we need to define linear independence in an abstract vector space.
+    </p>
+
+
+
+    <definition xml:id="def-linearindependenceabstract">
+        <title>Linear Independence</title>
+        <statement>
+            <p>
+                Let <m>V</m> be a vector space.  Let <m>\mathbf{v}_1, \mathbf{v}_2,\ldots ,\mathbf{v}_p</m> be vectors of <m>V</m>.  
+                We say that the set <m>\{\mathbf{v}_1, \mathbf{v}_2,\ldots ,\mathbf{v}_p\}</m> is <term>linearly independent</term> if the only solution to 
+
+    <me>
+        a_1\mathbf{v}_1+a_2\mathbf{v}_2+\ldots +a_p\mathbf{v}_p=\mathbf{0}
+    </me>
+
+    is the <term>trivial solution</term> <m>a_1=a_2=\ldots =a_p=0</m>.
+    </p> 
+
+            <p> 
+    If, in addition to the trivial solution, a <term>non-trivial solution</term> (not all <m>a_1, a_2,\ldots ,a_p</m> are zero) exists, 
+    then we say that the set <m>\{\mathbf{v}_1, \mathbf{v}_2,\ldots ,\mathbf{v}_p\}</m> is <term>linearly dependent</term>.
+            </p>
+        </statement>
+    </definition>
+
+
+    <p> 
+    Let us examine this abstract version of bases in the context of polynomials, to get a feeling for these concepts.
+    </p> 
+
+    <example xml:id="ex-polyindset">
+        <statement>
+            <p>
+                Show that <m>P=\{1 + x, 3x + x^{2}, 2 + x - x^{2}\}</m> is linearly independent in <m>\mathbb{P}^{2}</m>.
+        </p>
+        </statement>
+        <answer>
+            <p>
+                Consider the linear combination equation
+    <md>
+    <mrow> a(1 + x) + b(3x + x^2) + c(2 + x - x^2) \amp = 0 </mrow>
+    <mrow> a+ax+3bx+bx^2+2c+cx-cx^2\amp =0 </mrow> 
+    <mrow> (a+2c)+(a+3b+c)x+(b-c)x^2\amp =0 </mrow>
+    </md>
+
+    The constant term, as well as the coefficients in front of <m>x</m> and <m>x^2</m>, must be equal to <m>0</m>.  This gives us the following system of equations.
+    <me>
+    \begin{array}{rlrlrcr}
+        a \amp  + \amp       \amp  + \amp  2c \amp  = \amp  0 \\
+        a \amp  + \amp  3b \amp  + \amp   c \amp  = \amp  0 \\
+            \amp    \amp   b \amp  - \amp   c \amp  = \amp  0 \\
+    \end{array}
+    </me>
+    The only solution is <m>a = b = c = 0</m>.  We conclude that <m>P</m> is linearly independent in <m>\mathbb{P}^2</m>.
+        </p>
+        </answer>
+    </example>
+
+    <p>
+        Now we are ready to define a <em>basis</em> of an abstract vector space. 
+        We will see immediately in the theorem that follows the definition, that <em>bases</em> (the plurual of basis) provide us with a unique way to write vectors in a vector space.
+    </p>
+
+    <definition xml:id="def-basisabstract">
+
+        <statement>
+            <p>
+                Let <m>V</m> be a vector space.  A set <m>\mathcal{B}</m> of vectors of <m>V</m> is called a <term>basis</term> of <m>V</m> provided that 
+    <ol>
+    <li xml:id="item-defbasis1abstract">
+    <p> 
+    <m>\mbox{span}(\mathcal{B})=V</m>  </p>
+    </li>
+    <li xml:id="item-defbasis2abstract">
+    <p> 
+    <m>\mathcal{B}</m> is linearly independent. </p>
+    </li>
+    </ol>
+            </p>
+        </statement>
+    </definition>
+
+    <theorem xml:id="th-uniquerep">
+
+        <statement>
+            <p>
+                Let <m>V</m> be a vector space, and let <m>\mathcal{B}=\{\mathbf{v}_1, \mathbf{v}_2,\ldots,\mathbf{v}_n\}</m> be a basis for <m>V</m>.  Then every element of <m>V</m> has a unique representation as linear combination of the elements of <m>\mathcal{B}</m>.
+            </p>
+        </statement>
+
+    <proof>
+        <p>
+        This result is a special case of <xref ref="th-linindbasis"/>.  
+        By the definition of basis, we know the vectors in the basis are linearly independent and so by <xref ref="th-linindbasis"/>, every vector has a unique representation as a linear combination of basis vectors.
+       </p>
+    </proof>
+    </theorem>
+
+
+
+<p> 
+The prototypical example of a basis is the standard one, which we showcase in the next example. It is the one we implicitly worked with so far.
+</p> 
+
+<example xml:id="ex-standardbasis">
+    <p>
+        The standard unit vectors <m>\mathbf{e}_1, \ldots ,\mathbf{e}_n</m> are linearly independent and span <m>\R^n</m>.  
+        Thus <m>\{\mathbf{e}_1, \ldots ,\mathbf{e}_n\}</m> is a basis of <m>\R^n</m>.
+    </p>
+</example>
+
+<definition xml:id="def-standardbasis">
+
+    <statement>
+        <p>
+            The set <m>\{\mathbf{e}_1, \ldots ,\mathbf{e}_n\}</m> is called the <term>standard basis</term> of <m>\R^n</m>.
+        </p>
+    </statement>
+</definition>
+
+<p>
+Recall that <m>\mathbb{P}^n</m> is the set of all polynomials of degree <m>n</m> or less (see <xref ref="ex-pnisavectorspace"/>). 
+It too has a standard basis. 
+</p>
+
+<example xml:id="ex-stdbasisofP">
+    <statement>
+        <p>
+            Show that
+            <me>
+            \lbrace 1, x, x^{2}, \dots, x^{n} \rbrace
+            </me>
+            
+            is a basis of <m>\mathbb{P}^{n}</m>.
+       </p>
+    </statement>
+    <answer>
+        <p>
+            Each polynomial
+            <me>
+            p(x) = a_{0} + a_{1}x + \ldots + a_{n}x^{n}, \quad \text{in } \mathbb{P}^{n},
+            </me>
+            
+            is clearly a linear combination of <m>1, x, \dots, x^{n}</m>, so 
+            <me>
+            \mathbb{P}^{n} = \mbox{span} \lbrace 1, x, \dots, x^{n} \rbrace.
+            </me>. 
+
+            Suppose <m>a_{0}1 + a_{1}x + \dots + a_{n}x^{n} = 0</m>, then <m>a_{0} = a_{1} = \ldots = a_{n} = 0</m>. 
+            So <m>\{1, x, \dots, x^{n}\}</m> is linearly independent and is therefore a basis containing <m>n + 1</m> vectors. 
+       </p>
+    </answer>
+</example>
+
+<p>
+Bases are far from unique.  For example, we could take a basis and multiply any vector in it by a non-zero scalar and a have different basis; 
+so <m>5\mathbf{i}, -\mathbf{j}</m> is a basis of <m>\R^2</m> that differs from the standard basis of <m>\R^2</m>,
+which is <m>\mathbf{i}, \mathbf{j}</m>.
+For a more interesting example, as we discussed in Example <xref ref="ex-spanr2"/>, vectors 
+
+<me>
+    \begin{bmatrix}2\\2\end{bmatrix}, \begin{bmatrix}-1\\0\end{bmatrix}
+</me>
+
+are linearly independent vectors that span <m>\R^2</m>.  Therefore 
+<me>
+    \left\{\begin{bmatrix}2\\2\end{bmatrix}, \begin{bmatrix}-1\\0\end{bmatrix}\right\}
+</me>
+
+is also a basis for <m>\R^2</m>.
+</p>
+
+<p>
+    Any linearly independent spanning set of a vector space <m>V</m> is a basis of <m>V</m>.  
+    It is easy to see that <m>\R^n</m> and its subspaces each has infinitely many bases.
+</p>
+
+
+<example xml:id="coordvectorandbasis">
+<p>
+Let <m>V=\mbox{span} ( \begin{bmatrix} -2\\ 1\\ 3 \end{bmatrix}, \begin{bmatrix} 2\\ -4\\ 1 \end{bmatrix} )</m>.  The set 
+<me>
+    \mathcal{B}=\left\{\begin{bmatrix}-2\\1\\3\end{bmatrix},\begin{bmatrix}2\\-4\\1\end{bmatrix}\right\}
+</me>
+ is a basis for <m>V</m> because the two vectors in <m>\mathcal{B}</m> are linearly independent and span <m>V</m>.  
+ Find the coordinate vector for <m>\mathbf{v}=\begin{bmatrix} 2\\ -10\\ 9 \end{bmatrix}</m> with respect to <m>\mathcal{B}</m>.
+</p>
+
+<explanation>
+<p>
+We need to express <m>\begin{bmatrix} 2\\ -10\\ 9 \end{bmatrix}</m> as a linear combination of the elements of <m>\mathcal{B}</m>.  To this end, we need to solve the vector equation:
+ 
+<me>
+    a_1\begin{bmatrix}-2\\1\\3\end{bmatrix}+a_2\begin{bmatrix}2\\-4\\1\end{bmatrix}=\begin{bmatrix}2\\-10\\9\end{bmatrix}.
+</me>
+
+ The augmented matrix and the reduced row-echelon form are:
+ 
+<me>
+    \left[\begin{array}{cc|c}  
+ -2\amp 2\amp 2\\-1\amp -4\amp -10\\3\amp 1\amp 9
+ \end{array}\right]\rightsquigarrow\left[\begin{array}{cc|c}  
+ 1\amp 0\amp 2\\0\amp 1\amp 3\\0\amp 0\amp 0
+ \end{array}\right].
+</me>
+
+ We conclude that <m>a_1=2</m>, <m>a_2=3</m>.  This gives us
+ 
+<me>
+    2\begin{bmatrix}-2\\1\\3\end{bmatrix}+3\begin{bmatrix}2\\-4\\1\end{bmatrix}=\begin{bmatrix}2\\-10\\9\end{bmatrix}.
+</me>
+
+ 
+ The coefficient in front of the first basis vector is <m>2</m>, the coefficient in front of the second basis vector is <m>3</m>.  
+ This means that the coordinate vector for <m>\begin{bmatrix} 2\\ -10\\ 9 \end{bmatrix}</m> with respect to <m>\mathcal{B}</m> is <m>\begin{bmatrix} 2\\ 3\end{bmatrix}</m>.
+</p>
+</explanation>
+</example>
+
+
+ <remark>
+<statement>    
+<p>
+ It may seem strange to you that the coordinate vector for a vector in <m>\R^3</m> only has two components.  
+ But remember that subspace <m>V</m> is a plane and its basis has two elements.
+ As a vector in the plane, 
+  the coordinate vector for <m>\begin{bmatrix} 2\\ -10\\ 9 \end{bmatrix}</m> only requires two components, 
+  one for each basis element.  
+ This issue is related to the question of dimension, which will be addressed in the next sections. 
+</p> 
+</statement>
+</remark>
+
+
+<remark>
+<statement>
+<p>
+To construct the coordinate vector for <m>\begin{bmatrix} 2\\ -10\\ 9 \end{bmatrix}</m> with respect to <m>\mathcal{B}</m>, we had to be mindful of the order of the elements in <m>\mathcal{B}</m>.  
+Ordinarily, the order of elements in a set is irrelevant, and the basis 
+<me>
+        \left\{\begin{bmatrix}-2\\1\\3\end{bmatrix},\begin{bmatrix}2\\-4\\1\end{bmatrix}\right\}
+</me>
+is considered to be the same as 
+<me>
+        \left\{\begin{bmatrix}2\\-4\\1\end{bmatrix},\begin{bmatrix}-2\\1\\3\end{bmatrix}\right\}.
+</me>
+ When dealing with coordinate vectors, however, the order of the elements dictates the order of the components of the coordinate vector coefficients.  
+ If we switch the order of the elements in <m>\mathcal{B}</m>, the coordinate vector becomes <m>\begin{bmatrix} 3\\ 2\end{bmatrix}</m>.  
+ For this reason, when we come back to studying coordinate vectors in more detail, we will use the term <term>ordered basis</term> to avoid confusion.
+</p>
+</statement>
+</remark>
+ 
+</subsection>
+
+<subsection xml:id="Subsection-Exploring-Dimension">
+    <title>Exploring Dimension</title>
+
+<p>
+A  <term>basis</term> of a vector space <m>V</m> is a subset of <m>V</m> that is linearly independent and spans <m>V</m>.  
+By <xref ref="th-uniquerep"/>, a basis allows us to uniquely express every element of <m>V</m> as a linear combination of the elements of the basis.  
+Several questions may come to mind at this time.  Does every vector space have a basis?  We know that bases are not unique.  
+If there is more than one basis, what, if anything, do they have in common?
+</p>
+
+
+
+
+<exploration xml:id="init-dimensionintro">
+<p>
+        How would you describe 
+
+<me>
+    V=\mbox{span}\left(\begin{bmatrix}1\\-2\\3\end{bmatrix}, \begin{bmatrix}-2\\4\\-6\end{bmatrix}\right)?
+</me>
+
+If you answered that <m>V</m> is a line in <m>\R^3</m>, you are correct.  While the two vectors span the line, it is not necessary to have both of them in the spanning set to describe the line. 
+</p>
+
+<problem>
+<statement>
+    <p>
+What is the minimum number of vectors needed to span a line?   
+    </p>
+</statement>
+
+<answer>
+    <p>
+  <m>1</m>.  
+    </p>
+</answer>
+</problem>
+ 
+<p>
+Because the vectors in the given spanning set are not linearly independent, so they do not form a basis for <m>V</m>.  
+</p>
+
+
+<problem>
+    <statement>
+        <p>
+How many vectors would a basis for <m>V</m> have?
+        </p>
+    </statement>
+
+<answer>
+    <p>
+<m>1</m>.
+    </p>
+</answer>
+</problem>
+
+<p>
+Now consider another subspace of <m>\R^3</m>:
+
+<me>
+    W=\mbox{span}\left(\begin{bmatrix}1\\0\\2\end{bmatrix}, \begin{bmatrix}0\\-3\\0\end{bmatrix}\right)
+</me>
+
+Geometrically, <m>W</m> is a plane in <m>\R^3</m>.  Note that the vectors in the spanning set are linearly independent.  Can we remove one of the vectors and have the remaining vector span the plane?  
+</p>
+
+
+
+<problem>
+    <statement>
+        <p>
+What is the minimum number of vectors needed to span a plane? How many vectors are needed for a basis of a plane?
+        </p>
+    </statement>
+
+<answer>
+    <p>
+<m>2</m>
+    </p>
+</answer>
+</problem>
+</exploration>
+
+
+<p>
+Our observations in <xref ref="init-dimensionintro"/> hint at the idea of dimension.  We know that a line is a one-dimensional object, a plane is a two-dimensional object, and the space we reside in is three-dimensional.  
+</p>
+
+<p>
+Based on our observations in <xref ref="init-dimensionintro"/>, it makes sense for us to define dimension of a vector space (or a subspace) as the minimum number of vectors required to span the space (subspace).  We can accomplish this by defining dimension as the number of elements in a basis.
+We have to proceed carefully because we don't want the dimension to change if we look at another basis.  So, before we state our definition, we need to make sure that every basis for a given vector space (or subspace) has the same number of elements.
+</p>
+
+<theorem xml:id="th-dimwelldefined">
+
+    <statement>
+        <p>
+            Let <m>V</m> be a vector space.  Suppose <m>\mathcal{B}=\{\mathbf{v}_1, \mathbf{v}_2,\ldots ,\mathbf{v}_t\}</m> and <m>\mathcal{C}=\{\mathbf{w}_1, \mathbf{w}_2,\ldots ,\mathbf{w}_s\}</m> be two bases of <m>V</m>.  Then <m>s=t</m>.
+        </p>
+    </statement>
+    <proof>
+        <p>
+    Suppose <m>s\neq t</m>.  Without loss of generality, assume that <m>s\gt t</m>.  Because <m>\mathcal{B}</m> spans <m>V</m>, every <m>\mathbf{w}_i</m> of <m>\mathcal{C}</m> can be written as a linear combination of elements of <m>\mathcal{B}</m>:
+
+    <me>
+        \mathbf{w}_i=a_{1i}\mathbf{v}_1+a_{2i}\mathbf{v}_{2}+\ldots +a_{ti}\mathbf{v}_t.
+    </me>
+
+
+    Consider the vector equation
+    <men xml:id="sizeofbases">
+    b_1\mathbf{w}_1+b_2\mathbf{w}_2+\ldots +b_s\mathbf{w}_s=\mathbf{0}.
+    </men>
+
+    By substitution, we have:
+    <md>
+        <mrow> \amp b_1\mathbf{w}_1+b_2\mathbf{w}_2+\ldots +b_s\mathbf{w}_s= </mrow>
+        <mrow>  =\amp b_1(a_{11}\mathbf{v}_1+a_{21}\mathbf{v}_{2}+\ldots +a_{t1}\mathbf{v}_t)+b_2(a_{12}\mathbf{v}_1+a_{22}\mathbf{v}_{2}+\ldots +a_{t2}\mathbf{v}_t)+\ldots </mrow>
+        <mrow> \amp +b_s(a_{1s}\mathbf{v}_1+a_{2s}\mathbf{v}_{2}+\ldots +a_{ts}\mathbf{v}_t) </mrow>
+        <mrow> =\amp (b_1a_{11}+b_2a_{12}+\ldots +b_sa_{1s})\mathbf{v}_1
+    +(b_1a_{21}+b_2a_{22}+\ldots +b_sa_{2s})\mathbf{v}_2+
+    \ldots \\
+    \amp +(b_1a_{t1}+b_2a_{t2}+\ldots +b_sa_{ts})\mathbf{v}_t </mrow>
+    <mrow> =\amp \mathbf{0}. </mrow>
+    </md>
+
+    Because <m>\mathbf{v}_j</m>'s are linearly independent, we must have
+
+    <me>
+        b_1a_{j1}+b_2a_{j2}+\ldots +b_sa_{js}=0.
+    </me>
+
+    For all <m>1\leq j\leq t</m>.
+    This gives us a system of <m>t</m> equations and <m>s</m> unknowns.  We can write the system as a matrix equation.
+
+    <me>
+        \begin{bmatrix}a_{11}\amp a_{12}\amp \ldots \amp a_{1s}\\a_{21}\amp a_{22}\amp \ldots \amp a_{2s}\\\vdots\amp \vdots\amp \ddots\amp \vdots\\a_{t1}\amp a_{t2}\amp \ldots\amp a_{ts}\end{bmatrix}\begin{bmatrix}b_1\\b_2\\\vdots\\b_s\end{bmatrix}=\mathbf{0}.
+    </me>
+
+
+    Recall our assumption that <m>s\gt t</m>; this means the number of leading ones must be less thant the number of unknowns.  
+    By <xref ref="ob-existence-and-uniqueness"/>, we know that the system has infinitely many solutions.  
+    This shows that <xref ref="sizeofbases"/> has a nontrivial solution.  
+    But this shows that <m>\{\mathbf{w}_1, \mathbf{w}_2,\ldots ,\mathbf{w}_s\}</m> is linearly dependent
+    and contradicts our assumption that <m>\mathcal{C}</m> is a basis of <m>V</m>.  
+    So our assumption that <m>s \gt t</m> leads to a contradiction and so cannot be true.  We conclude that <m>s=t</m>.
+    </p>
+    </proof>
+</theorem>
+
+<p>
+As a very technical point, notice that in the theorem we assumed that the vector space <m>V</m> has a basis with some finite number <m>t</m> of elements.  
+So this theorem does not apply to the vector space <m>\mathbb{P}</m> of all polynomials, which does not have a basis with finitely many elements.
+We will come back to this issue in <xref ref="Subsection-Finite-Dimensional-Vector-Spaces"/>
+</p>
+
+<definition xml:id="def-dimension">
+
+    <statement>
+        <p>
+            Let <m>V</m> be a subspace of a vector space <m>W</m> so that <m>V</m> has a basis with finitely many elements.  The <term>dimension</term> of <m>V</m> is the number, <m>m</m>, of elements in any basis of <m>V</m>.  We write
+
+<me>
+    \mbox{dim}(V)=m.
+</me>
+        </p>
+    </statement>
+</definition>
+
+
+
+
+<example xml:id="ex-basisofrn">
+    <p>
+        We know that vectors <m>\mathbf{e}_1, \ldots ,\mathbf{e}_n</m> form a basis of <m>\R^n</m>.  Therefore <m>\mbox{dim}(\R^n)=n</m>.
+    </p>
+</example>
+
+
+<example xml:id="ex-dimofP">
+    <p>
+        In Example <xref ref="ex-stdbasisofP"/>, we showed know that the set <m>\{1, x, x^{2}, \ldots , x^{n}\}</m> is a basis of <m>\mathbb{P}^{n}</m>. 
+        Hence, <m>\mbox{dim}(\mathbb{P}^{n})=n+1</m>.
+    </p>
+</example>
+
+
+
+<p>
+In our discussions up to this point, we have always assumed that a basis is nonempty and hence that the dimension of the space is at least <m>1</m>. 
+However, the zero space <m>\{\mathbf{0}\}</m> has <em>no</em> basis.  To accommodate for this, we will say that the zero vector space <m>\{\mathbf{0}\}</m> is defined to have dimension <m>0</m>:
+<me>
+\mbox{dim }\{\mathbf{0}\} = 0.
+</me>
+
+Our insistence that <m>\mbox{dim}\{\mathbf{0}\} = 0</m> amounts to saying that the empty set of vectors is a basis of <m>\{\mathbf{0}\}</m>. Thus the statement that ``the dimension of a vector space is the number of vectors in any basis'' holds even for the zero space. 
+</p>
+
+
+<example xml:id="ex-dimofM">
+    <statement>
+        <p>
+            Recall that the vector space <m>\mathbb{M}_{m,n}</m> consists of all <m>m\times n</m> matrices (see <xref ref="ex-setofmatricesvectorspace"/>).  Find a basis and the dimension of <m>\mathbb{M}_{m,n}</m>.
+       </p>
+    </statement>
+    <answer>
+        <p>
+            Let <m>\mathcal{B}</m> consist of <m>m\times n</m> matrices 
+ with exactly one entry equal to <m>1</m> and all other entries equal to <m>0</m>. It is clear that every <m>m\times n</m> matrix can be written as a linear combination of elements of <m>\mathcal{B}</m>.  It is also easy to see that the elements of <m>\mathcal{B}</m> are linearly independent.  Thus <m>\mathcal{B}</m> is a basis for <m>\mathbb{M}_{m,n}</m>.  The set <m>\mathcal{B}</m> contains <m>mn</m> elements, so <m>\mbox{dim}(\mathbb{M}_{m,n})=mn</m>.
+       </p>
+    </answer>
+</example>
+
+
+
+<example xml:id="ex-CAbasis">
+    <statement>
+        <p>
+            Consider the subset
+<me>
+C_A = \lbrace X \in\mathbb{M}_{2,2} : AX = XA \rbrace.
+</me>
+of <m>\mathbb{M}_{2,2}</m>. 
+
+It was shown in <xref ref="ex-centralizerofA"/> of  that <m>C_A</m> is a subspace for any choice of the matrix <m>A</m>.
+
+Let <me>
+A = 
+\begin{bmatrix}
+1 \amp  1 \\
+0 \amp  0
+\end{bmatrix}.
+</me>
+
+Show that <m>\mbox{dim}(C_A) = 2</m> and find a basis of <m>C_A</m>.
+       </p>
+    </statement>
+    <answer>
+        <p>
+            Suppose 
+<me>X = 
+\begin{bmatrix}
+a \amp  b \\
+c \amp  d
+\end{bmatrix}
+</me>
+ 
+is in <m>C_A</m>. Then
+ 
+<me>
+    \begin{bmatrix}1\amp 1\\0\amp 0\end{bmatrix}\begin{bmatrix}a\amp b\\c\amp d\end{bmatrix}=\begin{bmatrix}a\amp b\\c\amp d\end{bmatrix}\begin{bmatrix}1\amp 1\\0\amp 0\end{bmatrix}.
+</me>
+
+ 
+<me>
+    \begin{bmatrix}a+c\amp b+d\\0\amp 0\end{bmatrix}=\begin{bmatrix}a\amp a\\c\amp c\end{bmatrix}.
+</me>
+
+ This gives us two relationships:  
+ 
+<me>
+    b+d=a\quad\text{and}\quad c=0.
+</me>
+
+ We can now express a generic element <m>X</m> of <m>C_A</m> as
+ 
+<md>
+<mrow>    X=\begin{bmatrix}a\amp b\\c\amp d\end{bmatrix} \amp = \begin{bmatrix}b+d\amp b\\0\amp d\end{bmatrix}  </mrow>
+<mrow>    \amp =\begin{bmatrix}b\amp b\\0\amp 0\end{bmatrix}+\begin{bmatrix}d\amp 0\\0\amp d\end{bmatrix}  </mrow>
+<mrow>    \amp =b\begin{bmatrix}1\amp 1\\0\amp 0\end{bmatrix}+d\begin{bmatrix}1\amp 0\\0\amp 1\end{bmatrix}. </mrow>
+</md>
+
+ 
+Let 
+
+<me>
+    \mathcal{B}=\left \lbrace \begin{bmatrix}1\amp 1\\0\amp 0\end{bmatrix},\begin{bmatrix}1\amp 0\\0\amp 1\end{bmatrix}\right \rbrace.
+</me>
+
+
+The set <m>\mathcal{B}</m> is linearly independent (see <xref ref="prob-CABlinind"/>) Every element <m>X</m> of <m>C_A</m> can be written as a linear combination of elements of <m>\mathcal{B}</m>.  Thus <m>C_A=\mbox{span}\mathcal{B}</m>.
+ Therefore <m>\mathcal{B}</m> is a basis of <m>C_A</m>, and <m>\mbox{dim}(C_A) = 2</m>.
+       </p>
+    </answer>
+</example>
+
+<example xml:id="ex-symmetricmatsubspace">
+    <statement>
+        <p>
+            In <xref ref="prob-symmetricsubspace"/> of you demonstrated that the set of all symmetric <m>n\times n</m> matrices is a subspace of <m>\mathbb{M}_{n,n}</m>.
+
+Let <m>V</m> be a subspace of <m>\mathbb{M}_{2,2}</m> consisting of all <m>2\times 2</m> symmetric matrices.  Find the dimension of <m>V</m>.
+       </p>
+    </statement>
+    <answer>
+        <p>
+            A matrix <m>A</m> is symmetric if <m>A^{T} = A</m>. In other words, a matrix <m>A</m> is symmetric when entries directly across the main diagonal are equal, so each <m>2 \times 2</m> symmetric matrix has the form
+
+<me>
+\begin{bmatrix}
+a \amp  c \\
+c \amp  b
+\end{bmatrix}
+= a\begin{bmatrix}
+1 \amp  0 \\
+0 \amp  0
+\end{bmatrix}
++ b\begin{bmatrix}
+0 \amp  0 \\
+0 \amp  1
+\end{bmatrix}
++ c\begin{bmatrix}
+0 \amp  1 \\
+1 \amp  0
+\end{bmatrix}.
+</me>
+
+Hence the set 
+<me>\mathcal{B} = \left \lbrace
+\begin{bmatrix}
+1 \amp  0 \\
+0 \amp  0
+\end{bmatrix}, \begin{bmatrix}
+0 \amp  0 \\
+0 \amp  1
+\end{bmatrix}, \begin{bmatrix}
+0 \amp  1 \\
+1 \amp  0
+\end{bmatrix}
+\right \rbrace </me>
+ spans <m>V</m>. The reader can verify that <m>\mathcal{B}</m> is linearly independent. Thus <m>\mathcal{B}</m> is a basis of <m>V</m>, so <m>\mbox{dim}(V) = 3</m>.
+       </p>
+    </answer>
+</example>
+
+
+</subsection>
+
+
+
+
+
+
+
+
+
+
+
+
+<subsection xml:id="Subsection-Finite-Dimensional-Vector-Spaces">
+    <title>Finite-Dimensional Vector Spaces</title>
+
+    <p>
+Our definition of dimension of a vector space depends on the vector space having a basis with finitely many elements.  
+In this section we will establish that any vector space spanned by finitely many vectors has such a basis.
+    </p>
+
+
+<definition xml:id="def-findimvectorspace">
+
+    <statement>
+        <p>
+            A vector space is said to be <term>finite-dimensional</term> if it is spanned by finitely many vectors.
+        </p>
+    </statement>
+</definition>
+
+<p>
+    As we have suggested above, the vector space of all polynomials with real coefficents, <m>\mathb{P}</m>, is not
+    finite dimensional. Most of the time, we only care about finite-dimensional vector spaces in this text.  
+</p>
+
+<p>
+    Given a finite-dimensional vector space <m>V</m> we can find a basis for <m>V</m> by starting with <em>any</em> linearly independent subset of <m>V</m> and expanding it to a basis.  
+    The following results justify this claim. 
+</p>
+
+<lemma xml:id="lemma-atmostnlinind">
+
+    <statement>
+        <p>
+            Let <m>V</m> be a vector space spanned by <m>n</m> vectors.  If a linearly independent subset <m>S</m> of <m>V</m> contains <m>m</m> vectors, then <m>m\leq n</m>.
+        </p>
+    </statement>
+    <proof>
+        <p>
+            See  <xref ref="prob-atmostnlinindinrnproof"/>.
+        </p>
+    </proof>
+</lemma>
+
+<lemma xml:id="lemma-expandinglinindset">
+
+    <statement>
+        <p>
+            Let <m>V</m> be a vector space.  Let <m>\{\mathbf{v}_1,\ldots ,\mathbf{v}_k\}</m> be a linearly independent subset of <m>V</m>.  If <m>\mathbf{u}</m> is not in <m>\mbox{span}(\mathbf{v}_1,\ldots ,\mathbf{v}_k)</m>, then <m>\{\mathbf{u},\mathbf{v}_1,\ldots ,\mathbf{v}_k\}</m> is linearly independent.
+        </p>
+    </statement>
+    <proof>
+    <p>
+    Consider the equation
+    <men xml:id="expandinglinindset"> 
+    a\mathbf{u}+a_1\mathbf{v}_1+\ldots +a_k\mathbf{v}_k=\mathbf{0}.
+    </men>
+
+    We need to show that <m>a=a_1=\ldots =a_k=0</m>.  Suppose <m>a\neq 0</m>, then 
+    <me>
+        \mathbf{u}=\frac{-a_1}{a}\mathbf{v}_1+\ldots +\frac{-a_k}{a}\mathbf{v}_k.
+    </me>.
+
+    But this contradicts the assumption that <m>\mathbf{u}</m> is not in the span of <m>\mathbf{v}_1,\ldots ,\mathbf{v}_k</m>.  So, <m>a=0</m>.  
+    But <m>a_1=\ldots =a_k=0</m> because <m>\mathbf{v}_1,\ldots ,\mathbf{v}_k</m> are linearly independent.
+
+    This means that <xref ref="expandinglinindset"/> has only the trivial solution and <m>\{\mathbf{u},\mathbf{v}_1,\ldots ,\mathbf{v}_k\}</m> is linearly independent.
+        </p>
+    </proof>
+</lemma>
+
+<theorem xml:id="th-expandtobasis">
+
+    <statement>
+        <p>
+            Let <m>V</m> be a finite-dimensional vector space.  Any linearly independent subset of <m>V</m> can be expanded to a basis of <m>V</m>.
+        </p>
+    </statement>
+    <proof>
+    <p>
+    Suppose that <m>X=\{\mathbf{v}_1,\ldots ,\mathbf{v}_k\}</m> is a linearly independent subset of <m>V</m>. 
+    If <m>\mbox{span}(X) = V</m> then <m>X</m> is already a basis of <m>V</m>. 
+        </p> 
+        
+        <p> 
+        If <m>\mbox{span}(X) \neq V</m>, choose <m>\mathbf{u}_1</m> in <m>V</m> such that <m>\mathbf{u}_1</m> is not in <m>\mbox{span}(X)</m>. 
+        The set <m>\{\mathbf{u}_1, \mathbf{v}_1,\ldots ,\mathbf{v}_k\}</m> is linearly independent by <xref ref="lemma-expandinglinindset"/>. 
+        </p> 
+
+        <p> 
+    If <m>\mbox{span}(\mathbf{u}_1, \mathbf{v}_1,\ldots ,\mathbf{v}_k) = V</m> we are done; 
+    otherwise choose <m>\mathbf{u}_{2} \in V</m> such that <m>\mathbf{u}_{2}</m> is not in <m>\mbox{span}(\mathbf{u}_1, \mathbf{v}_1,\ldots ,\mathbf{v}_k)</m>. 
+    Then <m>\{\mathbf{u}_1,\mathbf{u}_2, \mathbf{v}_1,\ldots ,\mathbf{v}_k\}</m> is linearly independent, and the process continues.
+        </p> 
+
+        <p> 
+    We claim that a basis of <m>V</m> will be reached eventually. If no basis of <m>V</m> is ever reached, 
+    the process creates arbitrarily large independent sets in <m>\R^n</m>. 
+    But this is impossible by <xref ref="lemma-atmostnlinind"/>.
+        </p>
+    </proof>
+</theorem>
+</subsection>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<subsection xml:id="Subsection-Coordinate-Vectors-Revisited">
+    <title>Coordinate Vectors Revisited</title>
+
+<p>
+Recall that, for any vector space <m>V</m>, we proved in <xref ref="th-uniquerep"/> that every element of the vector space has a <em>unique</em> representation in terms of the elements of the basis
+</p> 
+
+<p>
+Because of this uniqueness, we associate every element of <m>V</m> with a unique <term>coordinate vector</term> with respect to a given basis.  
+Although we have discussed coordinates in <m>\R^2</m> informally in <xref ref="Subsection-Coordinate-VectorsTwo"/>, We now give a formal definition.
+</p>
+
+<definition xml:id="def-coordvector">
+
+    <statement>
+        <p>
+            Let <m>V</m> be a vector space, and let <m>\mathcal{B}=\{\mathbf{v}_1, \ldots ,\mathbf{v}_n\}</m> be a basis for <m>V</m>.  
+            If <m>\mathbf{v}=a_1\mathbf{v}_1+\ldots +a_n\mathbf{v}_n</m>, then the vector in <m>\R^n</m> whose components are the coefficients <m>a_1, \ldots ,a_n</m>  is said to be the <term>coordinate vector</term> for <m>\mathbf{v}</m> with respect to <m>\mathcal{B}</m>.  
+            We denote the coordinate vector by <m>[\mathbf{v}]_{\mathcal{B}}</m> and write:
+
+<me>
+    [\mathbf{v}]_{\mathcal{B}}=\begin{bmatrix}a_1\\\vdots \\a_n\end{bmatrix}.
+</me>
+        </p>
+    </statement>
+</definition>
+
+<remark xml:id="coordVectorOrder">
+<statement>
+    <p>
+The order of in which vectors <m>\mathbf{v}_1, \ldots ,\mathbf{v}_n</m> appear in <m>\mathcal{B}</m> of <xref ref="def-coordvector"/> is important.  
+Switching the order of these vectors would switch the order of the coordinate vector components.  
+For this reason, we will often use the term <term>ordered basis</term> for <m>\mathcal{B}</m> to emphasize the ordering.
+    </p>
+</statement>
+</remark>
+
+
+
+<p> 
+Coordinate vectors may seem abstract as described above. 
+In examples, however, one can nearly always pinpoint exactly what the coordinates are.
+Try looking again at <xref ref="init-altbasis1"/> or the following examples:
+</p> 
+
+
+<example xml:id="ex-coordvectorinpolyvectspace">
+    <p>
+        The coordinate vector for <m>p(x)=4-3x^2+5x^3</m> in <m>\mathbb{P}^4</m> with respect to the ordered basis <m>\mathcal{B}_1=\{1, x, x^2, x^3, x^4\}</m> is 
+
+<me>
+    [p(x)]_{\mathcal{B}_1}=\begin{bmatrix}4\\0\\-3\\5\\0\end{bmatrix}.
+</me>
+
+Now let's change the order of the elements in <m>\mathcal{B}_1</m>.  The coordinate vector for <m>p(x)=4-3x^2+5x^3</m> with respect to the ordered basis <m>\mathcal{B}_2=\{x^4, x^3, x^2, x, 1\}</m> is 
+
+<me>
+    [p(x)]_{\mathcal{B}_2}=\begin{bmatrix}0\\5\\-3\\0\\4\end{bmatrix}.
+</me>
+    </p>
+</example>
+
+<example xml:id="ex-coordvectorinpolyvectspace2">
+    <statement>
+        <p>
+            Show that the set <m>\mathcal{B}=\{x, 1+x, x+x^2\}</m> is a basis for <m>\mathbb{P}^2</m>. Keep the order of elements in <m>\mathcal{B}</m> and find the coordinate vector for <m>p(x)=4-x+3x^2</m> with respect to the ordered basis <m>\mathcal{B}</m>.
+       </p>
+    </statement>
+    <answer>
+        <p>
+            We will begin by showing that the elements of <m>\mathcal{B}</m> are linearly independent.  Suppose 
+
+<me>
+    ax+b(1+x)+c(x+x^2)=0.
+</me>
+
+Then
+
+<me>
+    b+(a+b+c)x+cx^2=0.
+</me>
+
+This gives us the following system of equations:
+
+<me>
+    \begin{array}{ccccccc}
+     \amp  \amp b \amp = \amp 0, \amp \amp
+     a \amp + \amp b \amp +\amp c\amp = \amp 0, \amp  \amp 
+     c \amp = \amp 0.
+     \end{array}  
+</me>
+
+The solution <m>a=b=c=0</m> is unique.  We conclude that <m>\mathcal{B}</m> is linearly independent.
+</p>
+
+<p>
+Next, we need to show that <m>\mathcal{B}</m> spans <m>\mathbb{P}^2</m>.  To this end, we will consider a generic element <m>p(x)=\alpha+\beta x+\gamma x^2</m> of <m>\mathbb{P}^2</m> and attempt to express it as a linear combination of the elements of <m>\mathcal{B}</m>.
+
+<me>
+    ax+b(1+x)+c(x+x^2)=\alpha+\beta x+\gamma x^2.
+</me>
+
+then
+
+<me>
+    b+(a+b+c)x+cx^2=\alpha+\beta x+\gamma x^2. 
+</me>
+
+Setting the coefficients of like terms equal to each other gives us
+
+<me>
+    \begin{array}{ccccccc}
+     \amp  \amp b\amp \amp \amp =\amp \alpha\\
+     a \amp  +\amp b\amp +\amp c\amp = \amp \beta \\
+	 \amp  \amp \amp \amp c\amp =\amp \gamma
+     \end{array}
+</me>
+
+Solving this linear system of <m>a</m>, <m>b</m> and <m>c</m> gives us
+
+<me>
+    a=\beta-\alpha-\gamma,\quad b=\alpha,\quad c=\gamma .
+</me>
+
+(You should verify this.)  This shows that every element of <m>\mathbb{P}^2</m> can be written as a linear combination of elements of <m>\mathcal{B}</m>.  Therefore <m>\mathcal{B}</m> is a basis for <m>\mathbb{P}^2</m>.
+
+To find the coordinate vector for <m>p(x)=4-x+3x^2</m> with respect to <m>\mathcal{B}</m> we need to express <m>p(x)</m> as a linear combination of the elements of <m>\mathcal{B}</m>.  Fortunately, we have already done all the necessary work.  For <m>p(x)</m>, <m>\alpha=4</m>, <m>\beta=-1</m> and <m>\gamma=3</m>.  This gives us the coefficients of the linear combination: <m>a=\beta-\alpha-\gamma=-8</m>, <m>b=\alpha=4</m>, <m>c=\gamma=3</m>.  We now write <m>p(x)</m> as a linear combination
+
+<me>
+    p(x)=-8(x)+4(1+x)+3(x+x^2)
+</me>
+
+The coordinate vector for <m>p(x)</m> with respect to <m>\mathcal{B}</m> is
+
+<me>
+    [p(x)]_{\mathcal{B}}=\begin{bmatrix}-8\\4\\3\end{bmatrix}
+</me>
+       </p>
+    </answer>
+</example>
+
+<example xml:id="ex-symmmatsubspace">
+    <statement>
+        <p>
+            Recall that the set <m>V</m> of all symmetric <m>2\times 2</m> matrices is a subspace of <m>\mathbb{M}_{2,2}</m>.  In <xref ref="ex-symmetricmatsubspace"/>, we demonstrated that 
+<me>\mathcal{B} = \left \lbrace
+\begin{bmatrix}
+1 \amp  0 \\
+0 \amp  0
+\end{bmatrix}, \begin{bmatrix}
+0 \amp  0 \\
+0 \amp  1
+\end{bmatrix}, \begin{bmatrix}
+0 \amp  1 \\
+1 \amp  0
+\end{bmatrix}
+\right \rbrace</me> 
+
+is a basis for <m>V</m>.  
+Let <m>A=\begin{bmatrix}2\amp -3\\-3\amp 1\end{bmatrix}</m>.  Observe that <m>A</m> is an element of <m>V</m>.
+
+<ol>
+<li>
+      <p> Find the coordinate vector with respect to the ordered basis <m>\mathcal{B}</m> for <m>A</m>. </p>
+</li>
+
+<li>
+      <p> Let 
+<me>\mathcal{B}'=\left \lbrace 
+ \begin{bmatrix}
+0 \amp  0 \\
+0 \amp  1
+\end{bmatrix}, 
+\begin{bmatrix}
+1 \amp  0 \\
+0 \amp  0
+\end{bmatrix},
+\begin{bmatrix}
+0 \amp  1 \\
+1 \amp  0
+\end{bmatrix}
+\right \rbrace </me> 
+
+be another ordered basis for <m>V</m>.  Find the coordinate vector for <m>A</m> with respect to <m>\mathcal{B}'</m>.
+</p>
+</li>
+</ol>
+       </p>
+    </statement>
+    <answer>
+        <p>
+            We write <m>A</m> as a linear combination of the elements of <m>\mathcal{B}</m>.
+
+<me>
+    A=\begin{bmatrix}2\amp -3\\-3\amp 1\end{bmatrix}=2\begin{bmatrix}1\amp 0\\0\amp 0\end{bmatrix}+\begin{bmatrix}
+0 \amp  0 \\
+0 \amp  1
+\end{bmatrix}-3\begin{bmatrix}
+0 \amp  1 \\
+1 \amp  0
+\end{bmatrix}
+</me>
+
+Thus, the coordinate vector with respect to <m>\mathcal{B}</m> is
+
+<me>
+    [A]_{\mathcal{B}}=\begin{bmatrix}2\\1\\-3\end{bmatrix}
+</me>
+
+The coordinate vector with respect to <m>\mathcal{B}'</m> is
+
+<me>
+    [A]_{\mathcal{B}'}=\begin{bmatrix}1\\2\\-3\end{bmatrix}.
+</me>
+       </p>
+    </answer>
+</example>
+
+<p>
+Coordinate vectors will play a vital role in establishing one of the most fundamental results in linear algebra, that all <m>n</m>-dimensional vector spaces have the same structure as <m>\R^n</m>.  In <xref ref="ex-p2isor3"/>, for instance, we will show that <m>\mathbb{P}^2</m> is essentially the same as <m>\R^3</m>.  
+</p>
+</subsection>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<exercises>
+
+<exercisegroup>
+<introduction>
+    <p>
+Let <m>\mathcal{B}=\left\{\begin{bmatrix}1\\1\end{bmatrix},\begin{bmatrix}-1\\2\end{bmatrix}\right\}</m> be a basis for <m>\R^2</m>.  (Do a mental verification that <m>\mathcal{B}</m> is a basis.)  For each <m>\mathbf{v}</m> given below, find the coordinate vector for <m>\mathbf{v}</m> with respect to <m>\mathcal{B}</m>.
+    </p>
+</introduction>    
+
+<exercise xml:id="coordvect1">
+    <statement>
+        <p>
+ Vector <m>\mathbf{v}</m> as drawn blow.
+        </p>
+
+<image width="65%">
+   <shortdescription>First case drawn</shortdescription>
+    <latex-image>
+      \begin{tikzpicture}[scale=0.6]
+\draw[thin,gray!40] (-4,-2) grid (4,4);
+  \draw[\lt -\gt ] (-4,0)--(4,0);
+  \draw[\lt -\gt ] (0,-2)--(0,4);
+   \draw[line width=2pt,red,-stealth](0,0)--(-3,0) node[above left]{\(\mathbf{v}\)};
+       \end{tikzpicture}
+    </latex-image>
+</image>
+    </statement>
+
+    <answer>
+        <p>
+            <me>
+    \begin{bmatrix}-2\\1\end{bmatrix}
+</me>
+        </p>
+    </answer>
+</exercise>
+  
+
+
+  <exercise xml:id="prob-coordvect2">
+    <statement>
+        <p>
+            Vector <m>\mathbf{v}</m> as drawn below.
+        </p>
+
+<image width="50%">
+   <shortdescription>Second case drawn</shortdescription>
+    <latex-image>
+      \begin{tikzpicture}[scale=0.6]
+\draw[thin,gray!40] (-1,-1) grid (4,8);
+  \draw[\lt -\gt ] (-1,0)--(4,0);
+  \draw[\lt -\gt ] (0,-1)--(0,8);
+   \draw[line width=2pt,red,-stealth](0,0)--(1,7) node[above left]{\(\mathbf{v}\)};
+       \end{tikzpicture}
+    </latex-image>
+</image>
+    </statement>
+
+    <answer>
+        <p>
+            <me>
+    \begin{bmatrix}3\\2\end{bmatrix}
+</me>
+        </p>
+    </answer>
+</exercise>
+</exercisegroup>
+
+
+
+
+
+<exercise xml:id="prob-coordvect3">
+    <statement>
+        <p>
+            Let
+        <me>
+        \mathcal{B}=\left\{\begin{bmatrix}1\\-1\\3\end{bmatrix},\begin{bmatrix}2\\1\\-1\end{bmatrix}\right\} \quad \text{be a basis for} \quad \mbox{span}\left(\begin{bmatrix}1\\-1\\3\end{bmatrix},\begin{bmatrix}2\\1\\-1\end{bmatrix}\right)
+        </me>
+        
+        Find the coordinate vector for <m>[-4,-2,2]</m> with respect to <m>\mathcal{B}</m>.
+        </p>
+    </statement>
+    <answer>
+        <p>
+            <me>
+    \begin{bmatrix}0\\-2\end{bmatrix}
+</me>
+        </p>
+    </answer>
+</exercise>
+
+<exercise xml:id="prob-coordvect4">
+    <statement>
+        <p>
+            Suppose 
+            <me>
+            \mathcal{B}=\left\{\begin{bmatrix}1\\1\\1\end{bmatrix},\begin{bmatrix}1\\0\\1\end{bmatrix}, \mathbf{w}\right\}
+            </me>
+            
+        is a basis for <m>\R^3</m>.  Find <m>\mathbf{w}</m> if the coordinate vector for <m>[-2,-7,4]</m> is <m>[-1,2,-3]</m>.
+        </p>
+    </statement>
+
+    <answer>
+        <p>
+            <me>
+    \begin{bmatrix}1\\2\\-1\end{bmatrix}
+</me>
+        </p>
+    </answer>
+</exercise>
+
+<exercise xml:id="prob-basisr2">
+    <statement>
+        <p>
+            Which of the following is a basis for <m>\R^2</m>? 
+        </p>
+    </statement>
+
+<choices>
+  <choice>
+      <statement>
+          <p> 
+            <m>\left\{\begin{bmatrix}1\\1\end{bmatrix},\begin{bmatrix}-1\\-1\end{bmatrix}, \begin{bmatrix}1\\2\end{bmatrix}\right\} </m> 
+        </p>
+      </statement>
+  </choice>
+    <choice correct="yes">
+      <statement>
+          <p> 
+            <m>\left\{\begin{bmatrix}1\\1\end{bmatrix}, \begin{bmatrix}1\\2\end{bmatrix}\right\} </m>
+        </p>
+      </statement>
+  </choice>
+    <choice>
+      <statement>
+        <p>
+        <m>\left\{\begin{bmatrix} 3\\-1\end{bmatrix},\begin{bmatrix}1\\2\end{bmatrix}, \begin{bmatrix}-4\\3\end{bmatrix}\right\}</m> 
+        </p>
+      </statement>
+  </choice>
+     <choice>
+      <statement>
+          <p> 
+            <m>\left\{\begin{bmatrix}1\\-3\end{bmatrix}, \begin{bmatrix}-2\\6\end{bmatrix}\right\}</m>
+        </p>
+      </statement>
+  </choice>
+</choices>
+</exercise>
+
+<exercise xml:id="prob-basisarbitraryspace">
+    <statement>
+        <p>
+            Which of the following is a basis for <m>V</m> given below?
+            <me>
+            V=\mbox{span}\left(\begin{bmatrix}1\\1\\1\end{bmatrix}, \begin{bmatrix}1\\-2\\1\end{bmatrix}\right)
+           </me>
+        </p>
+    </statement>
+<choices>
+  <choice correct="yes">
+      <statement>
+          <p>
+            <m>
+            \left\{\begin{bmatrix} 2\\-1\\2\end{bmatrix},\begin{bmatrix}1\\-2\\1\end{bmatrix}\right\}
+           </m>
+        </p>
+      </statement>
+  </choice>
+    <choice correct="yes">
+      <statement>
+    <p> 
+        <m>
+            \left\{\begin{bmatrix}0\\3\\0\end{bmatrix}, \begin{bmatrix}3\\-3\\3\end{bmatrix}\right\}    
+        </m>
+    </p>
+      </statement>
+  </choice>
+    <choice>
+      <statement>
+        <p> 
+            <m>
+        \left\{\begin{bmatrix} 1\\0\\0\end{bmatrix},\begin{bmatrix}0\\0\\1\end{bmatrix}\right\}
+            </m>
+        </p>
+      </statement>
+  </choice>
+    <choice>
+      <statement>
+          <p>
+        <m>
+            \left\{\begin{bmatrix} 1\\1\\1\end{bmatrix},\begin{bmatrix}2\\-1\\2\end{bmatrix}, \begin{bmatrix}1\\-2\\1\end{bmatrix}\right\}
+        </m>
+         </p>
+      </statement>
+  </choice>
+</choices>
+</exercise>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- exercises of second section combined in here-->
+
+
+<exercisegroup>
+    <introduction>
+        <p>
+    For each given set <m>S</m> of vectors, find <m>\mbox{dim}(\mbox{span}(S))</m>.
+        </p>
+    </introduction>
+    
+    <hint>
+    <p>
+    Use <xref ref="th-linindandrank"/> of VEC-0110.
+    </p>
+    </hint>
+    
+    <exercise xml:id="prob-finddimension1">
+        <statement>
+            <p>
+                <me>
+        S=\left\{\begin{bmatrix}1\\1\\0\\1\end{bmatrix}, \begin{bmatrix}0\\1\\1\\1\end{bmatrix}, \begin{bmatrix}1\\0\\1\\1\end{bmatrix}, \begin{bmatrix}1\\1\\0\\1\end{bmatrix} \right\}
+    </me>
+            </p>
+        </statement>
+        <answer>
+            <p>
+                <m>\mbox{dim}(\mbox{span}(S))=3</m>
+            </p>
+        </answer>
+    </exercise>
+    
+    <exercise xml:id="prob-finddimension2">
+        <statement>
+            <p>
+                <me>
+        S=\left\{\begin{bmatrix}3\\-2\\1\\1\end{bmatrix}, \begin{bmatrix}2\\3\\3\\-2\end{bmatrix}, \begin{bmatrix}1\\-5\\-2\\3\end{bmatrix}\right\}
+    </me>
+            </p>
+        </statement>
+        <answer>
+            <p>
+                <m>\mbox{dim}(\mbox{span}(S))=2</m>
+            </p>
+        </answer>
+    </exercise>
+    
+    <exercise xml:id="prob-finddimension3">
+        <statement>
+            <p>
+                <me>
+        S=\left\{\begin{bmatrix}1\\1\\-3\end{bmatrix}, \begin{bmatrix}-3\\2\\1\end{bmatrix}, \begin{bmatrix}5\\-2\\4\end{bmatrix}\right\}
+    </me>
+            </p>
+        </statement>
+        <answer>
+            <p>
+                <m>\mbox{dim}(\mbox{span}(S))=3</m>
+            </p>
+        </answer>
+    </exercise>
+    </exercisegroup>
+    
+    <exercise xml:id="prob-atmostnlinindinrnproof">
+        <statement>
+            <p>
+                Prove <xref ref="lemma-atmostnlinind"/>.
+            </p>
+        </statement>
+    
+    <hint>
+    <p>
+    Look at the proof of <xref ref="th-dimwelldefined"/>.
+    </p>
+    </hint>
+    </exercise>
+    
+    
+    
+    <exercise xml:id="prob-matrixtimesbasisvectors">
+        <statement>
+            <p>
+                Let <m>\mathcal{B}=\{\mathbf{v}_1, \mathbf{v}_2, \mathbf{v}_3\}</m> be a basis of <m>\R^3</m>.  Suppose <m>A</m> is a nonsingular <m>3\times 3 </m> matrix.  Show that <m>\mathcal{C}=\{A\mathbf{v}_1, A\mathbf{v}_2, A\mathbf{v}_3\}</m> is also a basis of <m>\R^3</m>. 
+            </p>
+        </statement>
+    
+    <hint>
+    To show that <m>\mathcal{C}</m> spans <m>\R^3</m>, express <m>A^{-1}\mathbf{v}</m> as a linear combination of <m>\mathbf{v}_1</m>, <m>\mathbf{v}_2</m> and <m>\mathbf{v}_3</m>.
+    </hint>
+    </exercise>
+
+    <exercise xml:id="prob-CABlinind">
+        <statement>
+            <p>
+                Prove that set 
+        <me>
+        \mathcal{B}=\left\{\begin{bmatrix}1\amp 1\\0\amp 0\end{bmatrix},\begin{bmatrix}1\amp 0\\0\amp 1\end{bmatrix}\right\}
+        </me>
+        
+        of <xref ref="ex-CAbasis"/> is linearly independent.
+            </p>
+        </statement>
+    </exercise>
+
+
+
+    <exercisegroup>
+    <introduction>
+        <p>
+            Show that each of the following sets of vectors is linearly independent.
+        </p>
+    </introduction>
+
+    <exercise xml:id="prob-linindabstractvsp1">
+        <statement>
+            <p>
+                <me>
+        \lbrace 1 + x, 1 - x, x + x^{2} \rbrace \quad \text{in } \mathbb{P}^{2}.
+    </me>
+            </p>
+        </statement>
+    </exercise>
+
+    <exercise xml:id="prob-linindabstractvsp2">
+        <statement>
+            <p>
+                <me>
+        \lbrace x^{2}, x + 1, 1 - x - x^{2} \rbrace  \quad \text{in } \mathbb{P}^{2}.
+    </me>
+            </p>
+        </statement>
+    </exercise>
+
+    <exercise xml:id="prob-linindabstractvsp3">
+        <statement>
+            <p>
+                <me>
+    \left \lbrace
+    \begin{bmatrix}
+    1 \amp  1 \\
+    0 \amp  0
+    \end{bmatrix}
+    , 
+    \begin{bmatrix}
+    1 \amp  0 \\
+    1 \amp  0
+    \end{bmatrix}
+    , 
+    \begin{bmatrix}
+    0 \amp  0 \\
+    1 \amp  -1
+    \end{bmatrix}
+    ,\
+    \begin{bmatrix}
+    0 \amp  1 \\
+    0 \amp  1
+    \end{bmatrix}
+    \right \rbrace \quad \text{in } \mathbb{M}_{2,2}.
+    </me>
+    
+    </p>
+        </statement>
+    </exercise>
+    </exercisegroup>
+
+
+
+
+    <exercise xml:id="prob-linindabstractvsp123">
+        <statement>
+            <p>
+                Show that each set in <xref ref="prob-linindabstractvsp1"/>-<xref ref="prob-linindabstractvsp3"/> is a basis for its respective vector space.
+            </p>
+        </statement>
+    </exercise>
+
+
+
+    <exercisegroup>
+    <introduction>
+        <p>
+            Find the coordinate vector for <m>p(x)=6-2x+4x^2</m> with respect to the given ordered basis <m>\mathcal{B}</m> of <m>\mathbb{P}^2</m>.
+        </p>
+    </introduction>
+
+    <exercise xml:id="prob-coordvectors1">
+        <statement>
+            <p>
+                <me>
+        \mathcal{B}= \lbrace 1 + x, 1 - x, x + x^{2} \rbrace.
+    </me>
+            </p>
+        </statement>
+        <answer>
+            <p>
+                <me>
+        [p(x)]_{\mathcal{B}}=\begin{bmatrix}0\\6\\4\end{bmatrix}.
+    </me>
+            </p>
+        </answer>
+    </exercise>
+
+    <exercise xml:id="prob-coordvectors2">
+        <statement>
+            <p>
+                <me>
+        \mathcal{B}=\{x^{2}, x + 1, 1 - x - x^{2}\}.
+    </me>
+            </p>
+        </statement>
+        <answer>
+            <p>
+                <me>
+        [p(x)]_{\mathcal{B}}=\begin{bmatrix}8\\2\\4\end{bmatrix}.
+    </me>
+            </p>
+        </answer>
+    </exercise>
+    </exercisegroup>
+
+
+
+
+
+    <exercise xml:id="prob-coordvectors3">
+        <statement>
+            <p>
+                Find the coordinate vector for
+                <me>
+                A=\begin{bmatrix}4\amp -3\\1\amp 2\end{bmatrix}
+                </me>
+                
+                with respect to the ordered basis
+    <me>
+        \mathcal{B}=
+    \left \lbrace
+    \begin{bmatrix}
+    1 \amp  1 \\
+    0 \amp  0
+    \end{bmatrix}
+    , 
+    \begin{bmatrix}
+    1 \amp  0 \\
+    1 \amp  0
+    \end{bmatrix}
+    , 
+    \begin{bmatrix}
+    0 \amp  0 \\
+    1 \amp  -1
+    \end{bmatrix}
+    ,\
+    \begin{bmatrix}
+    0 \amp  1 \\
+    0 \amp  1
+    \end{bmatrix}
+    \right \rbrace.
+    </me>
+            </p>
+        </statement>
+        <answer>
+            <p>
+                <me>
+        [A]_{\mathcal{B}}=\begin{bmatrix}-1\\5\\-4\\-2\end{bmatrix}.
+    </me>
+            </p>
+        </answer>
+    </exercise>
+
+    <exercise xml:id="prob-basisforabstractvectspace">
+        <statement>
+            <p>
+                Let <m>V</m> be a vector space of dimension <m>3</m>.  Suppose <m>S=\{\mathbf{v}_1, \mathbf{v}_2, \mathbf{v}_3\}</m> is linearly independent in <m>V</m>.  Show that <m>S</m> is a basis for <m>V</m>.
+            </p>
+        </statement>
+    </exercise>
+    
+    
+    
+</exercises>
+</section>

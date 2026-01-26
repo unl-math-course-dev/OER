@@ -1,0 +1,878 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<section xml:id="Section-Least-Squares-Approximation" xmlns:xi="http://www.w3.org/2001/XInclude">
+    <title>Least-Squares Approximation</title>
+
+
+
+<p>
+Often an exact solution to a problem in applied mathematics is difficult or impossible to obtain. However, it is usually just as useful to find an approximation to a solution. In particular, finding ``linear approximations" is a powerful technique in applied mathematics. One basic case is the situation where a system
+of linear equations has no solution, and it is desirable to find a ``best approximation" to a solution to the
+system. 
+</p>
+
+<p>
+We begin by defining the ``best approximation'' in a natural way, and showing that computing the best approximation reduces to solving a related system of linear equations  called the <em>normal equations</em>.  Next, we demonstrate a common application where a collection of data points is approximated by a curve.
+</p>
+
+<p>
+We conclude this section by showing that <m>QR</m>-factorization provides us with a more efficient way to solve the normal equations and compute the best approximation. 
+</p>
+
+
+
+
+
+
+
+
+
+
+
+<subsection xml:id="Subsection-Best-Approximate-Solutions">
+    <title>Best Approximate Solutions</title>
+
+<exploration xml:id="exp-leastSq1">
+    <p>
+        Let
+    
+<me>
+    A=\begin{bmatrix}3 \amp  1\\1 \amp  2\\1 \amp  2\end{bmatrix}\quad\text{and}\quad \mathbf{b}=\begin{bmatrix}2\\1\\3\end{bmatrix}
+</me>
+
+    Consider the matrix equation <m>A\mathbf{x}=\mathbf{b}</m>.
+    A quick examination of the last two rows should convince you that this equation has no solutions.  In other words, <m>\mathbf{b}</m> is not in the span of the columns of <m>A</m>.
+
+    If <m>\mathbf{z}</m> were an exact solution to <m>A\mathbf{x}=\mathbf{b}</m>, then <m>\mathbf{b}-A\mathbf{z}</m> would be <m>\mathbf{0}</m>.  
+</p> 
+
+<p>
+    Since the equation does not have a solution, we will attempt to find the next best thing to a solution by finding <m>\mathbf{z}</m> such that <m>\norm{\mathbf{b}-A\mathbf{z}}</m> is as small as possible.  The quantity 
+    <me>
+    \norm{\mathbf{b}-A\mathbf{z}}
+    </me>
+    
+    is called the <em>error</em>. The following GeoGebra interactive will help you understand the geometry behind finding <m>\mathbf{z}</m>.  
+    RIGHT-CLICK and DRAG to rotate the image for a better view.
+</p>
+
+<figure>
+  <caption>
+  </caption>
+  <interactive xml:id="geogebra-LeastSquares" platform="geogebra" width="100%" aspect="950:650">
+    <slate xml:id="LeastSquares" surface="geogebra" material="mm7wauhw" aspect="950:650" />
+  </interactive>
+</figure>
+
+<p>
+ Record your best guess for <m>\mathbf{z}</m> -- you will have a chance to check your answer in <xref ref="ex-leastSquares1"/>. 
+ Now, here is a few questions to keep you on yor toes.
+</p>
+
+<problem>
+<statement>
+<p>
+What did you discover about the geometry of minimizing <m>\norm{\mathbf{b}-A\mathbf{z}}</m>? 
+Select all that apply.
+
+<ol>
+    <li>
+        <p>
+            <m>\mathbf{z}</m> is orthogonal to the plane spanned by the columns of <m>A</m>.
+        </p>
+    </li>
+
+    <li>
+        <p>
+            <m>\norm{\mathbf{b-A\mathbf{z}}}</m> is orthogonal to <m>\text{col}(A)</m>.
+        </p>
+    </li>
+
+
+    <li>
+        <p>
+            <m>\mathbf{b-A\mathbf{z}}</m> is orthogonal to <m>\text{col}(A)</m>.
+        </p>
+    </li>
+
+    <li>
+        <p>
+            <m>A\mathbf{z}</m> is orthogonal to <m>\text{col}(A)</m>.
+        </p>
+    </li>
+
+    <li>
+        <p>
+            <m>A\mathbf{z}</m> is an orthogonal projection of <m>\mathbf{b}</m> onto <m>\text{col}(A)</m>.
+        </p>
+    </li>
+</ol>
+</p>
+</statement>
+
+
+
+<answer>
+<p>
+    Option (c) and (d).
+</p>
+</answer>
+</problem>
+
+<p>
+Our geometric observations will help us develop a method for finding <m>\mathbf{z}</m> .
+</p>
+</exploration>
+
+<p>
+  Suppose <m>A</m> is an <m>m\times n</m> matrix, and <m>\mathbf{b}</m> is a column vector in <m>\R^m</m>.  
+  Consider the matrix equation <m>A\mathbf{x}=\mathbf{b}</m>. If this equation does not have a solution, we can attempt to find a best approximation by finding <m>\mathbf{z}</m> which minimizes the <em>error</em>, <m>\norm{\mathbf{b}-A\mathbf{z}}</m>.  
+  The expression <m>\norm{\mathbf{b}-A\mathbf{z}}</m> is also sometimes called the <em>residual</em>.  
+</p> 
+
+<p>
+  The error (or the residual) is given in terms of a vector norm. Recall that our definition of the norm involves the sum of squares of the vector components. 
+  When we minimize the norm, we minimize the sum of squares.  This is why the method we are describing is often referred to as <em>least squares</em>.
+  We will explore this idea further later in this section.
+</p>
+  
+<p>
+  In the case when <m>\text{col}(A)</m> is a subspace of <m>\R^3</m>, 
+  we can see geometrically that <m>\mathbf{z}</m> is the best approximation if and only if <m>A\mathbf{z}</m> is an orthogonal projection of <m>\mathbf{b}</m> onto <m>\text{col}(A)</m>, and the error is the magnitude of <m>\mathbf{b}-A\mathbf{z}</m>, as shown below.
+</p> 
+
+
+
+	<image width="65%">
+   <shortdescription>Error vector pictured</shortdescription>
+    <latex-image>
+        \tdplotsetmaincoords{70}{130}
+      \begin{tikzpicture}[scale=0.8]
+\filldraw[blue, opacity=0.2] (0,0,0)--(5,0,0)--(5,0,5)--(0,0,5)--cycle;
+\node[label={left:\(\mathbf{b}-A\mathbf{z}\)}] at (4.5,0.6,0) {};
+\node[label={above:\(\mathbf{b}\)}] at (2,1.5,2) {};
+\node[label={above:\(A\mathbf{z}\)}] at (2.2,0,3.5) {};
+\draw[-\gt ,line width=1.5mm, -stealth, blue,opacity=0.5](4,0,4)--(4,3,4) ;
+   \draw[-\gt ,line width=0.8mm, -stealth, black](0,0,0)--(1,0,5) ;
+    \draw[-\gt ,line width=0.8mm, -stealth, black](0,0,0)--(5,0,1) ;
+   \draw[-\gt ,line width=0.8mm, -stealth, red](0,0,0)--(4,3,4) ;
+    \draw[-\gt ,line width=1.5mm, -stealth, red,opacity=0.2](0,0,0)--(4,0,4) ;
+          \end{tikzpicture}
+    </latex-image>
+</image>
+
+<p>
+What we observed above, holds in general.  We will use this fact to find <m>\mathbf{z}</m>.
+
+Every vector in <m>\text{col}(A)</m> can be written in the form <m>A\mathbf{x}</m> for some <m>\mathbf{x}</m> in <m>\R^m</m>.  Our goal is to find <m>\mathbf{z}</m> such that <m>A\mathbf{z}</m> is the orthogonal projection of <m>\mathbf{b}</m> onto <m>\text{col}(A)</m>.
+</p>
+
+<p>
+By <xref ref="cor-orthProjOntoW"/>, every vector <m>A\mathbf{x}</m> in <m>\text{col}(A)</m> is orthogonal to <m>\mathbf{b}-A\mathbf{z}</m>.  This means <m>\mathbf{b}-A\mathbf{z}</m> is in the orthogonal complement of <m>\text{col}(A)</m>, which is <m>\text{null}(A^T)</m>.
+</p> 
+
+
+<p>
+Therefore, we have
+<md xml:id="eq-normalForZ">
+<mrow number="yes"> A^T(\mathbf{b}-A\mathbf{z})\amp = \mathbf{0} </mrow> 
+<mrow> A^T\mathbf{b}-A^TA\mathbf{z}\amp = \mathbf{0} </mrow> 
+<mrow> A^TA\mathbf{z}\amp = A^T\mathbf{b} </mrow>
+</md>
+
+Since <m>\mathbf{b}-A\mathbf{z}</m> is normal to the subspace <m>\text{col}(A)</m>, we call the system in (9.6.1) <!--<xref ref="eq-normalForZ"/>--> the <em>normal equations for</em> <m>\mathbf{z}</m>. 
+If <m>A^TA</m> is invertible, then we can write
+
+<men xml:id="eq-leastSquaresZ">
+    \mathbf{z}=(A^TA)^{-1}A^T\mathbf{b}.
+</men>
+
+We will return to the question of invertibility of <m>A^TA</m> in <xref ref="th-ATAinverse"/>.  
+For now, let's revisit the problem posed in <xref ref="exp-leastSq1"/>.
+</p> 
+
+
+
+<example xml:id="ex-leastSquares1">
+    <statement>
+        <p>
+            We now return to the matrix equation <m>A\mathbf{x}=\mathbf{b}</m> of <xref ref="exp-leastSq1"/> to find <m>\mathbf{z}</m> 
+            that best approximates a solution.
+       </p>
+    </statement>
+
+<answer>
+<p>
+            Recall that 
+<me>
+    A=\begin{bmatrix}3 \amp  1\\1 \amp  2\\1 \amp  2\end{bmatrix}\quad\text{and}\quad \mathbf{b}=\begin{bmatrix}2\\1\\3\end{bmatrix}.
+</me>
+
+In this case, <m>(A^TA)^{-1}</m> exists.  Applying <xref ref="eq-leastSquaresZ"/>, we compute
+<md>
+<mrow> \mathbf{z}\amp = \left(\begin{bmatrix}3 \amp  1 \amp  1\\1 \amp  2 \amp  2\end{bmatrix}\begin{bmatrix}3 \amp  1\\1 \amp  2\\1\amp  2\end{bmatrix}\right)^{-1}\begin{bmatrix}3 \amp  1 \amp  1\\1 \amp  2 \amp  2\end{bmatrix}\begin{bmatrix}2\\1\\3\end{bmatrix} </mrow> 
+<mrow> \amp = \begin{bmatrix}11 \amp  7\\7 \amp  9\end{bmatrix}^{-1}\begin{bmatrix}10\\10\end{bmatrix}=\begin{bmatrix}0.18 \amp  -0.14\\-0.14 \amp  0.22\end{bmatrix}\begin{bmatrix}10\\10\end{bmatrix} </mrow>
+<mrow> \amp = \begin{bmatrix}0.4\\0.8\end{bmatrix}.  </mrow> 
+</md>    
+
+
+Compare this answer to your guess in <xref ref="exp-leastSq1"/>.  If your guess was correct, nice job!  If your guess was different, try setting <m>\mathbf{z}</m> to the correct answer and use the GeoGebra interactive in <xref ref="exp-leastSq1"/> to examine the geometry of the problem.    
+</p>
+</answer>
+</example>
+
+<p> 
+We now come back to the question of when <m>A^TA</m> is invertible.
+</p> 
+
+
+<theorem xml:id="th-ATAinverse">
+
+    <statement>
+        <p>
+            If columns of matrix <m>A</m> are linearly independent, then <m>A^TA</m> is invertible.
+        </p>
+    </statement>
+
+
+<proof>
+    <p>
+    Let <m>A</m> be a matrix with linearly independent columns.  
+    We will show that <m>\left(A^TA\right)\mathbf{x}=\mathbf{0}</m> has only the trivial solution.  
+    For <m>\mathbf{x}</m>, a solution of <m>A^TA\mathbf{x}=\mathbf{0}</m>, we have
+    <md>
+    <mrow>    \norm{A\mathbf{x}}^2\amp = (A\mathbf{x})\cdot(A\mathbf{x}) </mrow> 
+    <mrow>    \amp = \left(A\mathbf{x}\right)^TA\mathbf{x} </mrow> 
+    <mrow>    \amp = \mathbf{x}^TA^TA\mathbf{x} </mrow> 
+    <mrow>     \amp = \mathbf{x}^T\cdot\mathbf{0}=0.  </mrow>
+    </md>
+    Therefore <m>A\mathbf{x}=\mathbf{0}</m>.  By linear independence of the columns of <m>A</m> we conclude that <m>\mathbf{x}=\mathbf{0}</m>.
+    </p>
+</proof>    
+</theorem>
+
+
+<p>
+    We summarize our findings in the following theorem.
+</p>
+
+
+    <theorem xml:id="th-bestApprox">
+
+    <statement>
+        <p>
+            Let <m>A</m> be an <m>m\times n</m> matrix, let <m>\mathbf{b}</m> be a column vector in <m>\R^m</m>.  Consider the matrix equation
+    
+<me>
+    A\mathbf{x}=\mathbf{b}.
+</me>
+
+    <ol>
+        <li>
+      <p> Any solution <m>\mathbf{z}</m> to the normal equations 
+        
+<me> 
+    \left(A^TA\right)\mathbf{z}=A^T\mathbf{b}
+</me>
+
+    is a best approximation to a solution to <m>A\mathbf{x}=\mathbf{b}</m> in the sense that <m>\norm{\mathbf{b}-A\mathbf{z}}</m> is minimized.
+    </p>
+       </li>
+
+ 
+        <li>
+      <p> If the columns of <m>A</m> are linearly independent, then <m>A^TA</m> is invertible and <m>\mathbf{z}</m> is given uniquely by 
+        
+<me> 
+    \mathbf{z}=\left(A^TA\right)^{-1}A^T\mathbf{b}.
+</me>
+    </p>
+       </li>
+    </ol>
+        </p>
+    </statement>
+</theorem>
+
+<example xml:id="ex-leastSq2">
+<p>
+    The sytem of linear equations
+        
+<me>
+    \begin{matrix}3x \amp  - \amp  y\amp =\amp 4\\x\amp +\amp 2y\amp =\amp 0\\2x\amp +\amp y\amp =\amp 1\end{matrix}
+</me>
+
+        has no solution.  Find the vector <m>\mathbf{z}</m> that best approximates a solution.
+</p> 
+
+
+<answer> 
+<p>         
+            We have 
+<me>
+    A=\begin{bmatrix}3\amp -1\\1\amp 2\\2\amp 1\end{bmatrix},\quad\begin{bmatrix}4\\0\\1\end{bmatrix}.
+</me>
+ 
+            The normal equations are <m>\left(A^TA\right)\mathbf{z}=A^T\mathbf{b}</m>.  We compute
+                       
+<me>
+    \begin{bmatrix}3\amp 1\amp 2\\-1\amp 2\amp 1\end{bmatrix}\begin{bmatrix}3\amp -1\\1\amp 2\\2\amp 1\end{bmatrix}\mathbf{z}=\begin{bmatrix}3\amp 1\amp 2\\-1\amp 2\amp 1\end{bmatrix}\begin{bmatrix}4\\0\\1\end{bmatrix},
+</me>
+
+                       
+<me>
+    \begin{bmatrix}14\amp 1\\1\amp 6\end{bmatrix}\mathbf{z}=\begin{bmatrix}14\\-3\end{bmatrix}.
+</me>
+ 
+            
+            
+            We observe that is <m>A^TA</m> is invertible. 
+ Multiplying on the left by <m>(A^TA)^{-1}</m> yields 
+<me>
+    \mathbf{z}=\frac{1}{83}\begin{bmatrix}87\\-56\end{bmatrix}.
+</me>
+
+            With this vector <m>\mathbf{z}</m>, the left sides of the equations become
+            
+<me>
+    \begin{matrix}3(87/83) \amp  - \amp  (-56/83)\amp \approx\amp 3.82\\(87/83)\amp +\amp 2(-56/83)\amp \approx\amp -0.30\\2(87/83)\amp +\amp (-56/83)\amp \approx\amp 1.42\end{matrix}.
+</me>
+
+            This is as close as possible to a solution.
+       </p>
+    </answer>
+</example>
+
+
+
+
+
+<example xml:id="ex-leastSquares3">
+    <statement>
+        <p>
+            The average number <m>g</m> of goals per game scored by a hockey player seems to be related linearly to
+two factors: the number <m>x_1</m> of years of experience and the number <m>x_2</m> of goals in the preceding 10
+games. 
+        </p>
+        
+<p>         
+The data on the following page were collected on four players. Find the linear function <m>g=a_0+a_1x_1+a_2x_2</m> that best fits the data.
+
+
+
+<me>
+\begin{array}{|c|c|c|} 
+ \hline g\amp x_1\amp x_2\\ \hline 0.8\amp 5\amp 3\\  0.8\amp 3\amp 4\\
+ 0.6 \amp 1\amp 5\\
+ 0.4 \amp 2\amp 1\\
+ \hline 
+ \end{array}
+</me>
+       </p>
+    </statement>
+    <answer>
+        <p>
+            If the relationship is given by <m>g=a_0+a_1x_1+a_2x_2</m>, then the data can be described as follows:
+    
+<me>
+    \begin{bmatrix}1\amp 5\amp 3\\1\amp 3\amp 4\\1\amp 1\amp 5\\1\amp 2\amp 1\end{bmatrix}\begin{bmatrix}a_0\\a_1\\a_2\end{bmatrix}=\begin{bmatrix}0.8\\0.8\\0.6\\0.4\end{bmatrix}.
+</me>
+
+    Using <xref ref="th-bestApprox"/>, we get
+    
+<me>
+    \mathbf{z}=\underbrace{\frac{1}{42}\begin{bmatrix}
+        119\amp -17\amp -19\\-17\amp 5\amp 1\\-19\amp 1\amp 5
+    \end{bmatrix}}_{\left(A^TA\right)^{-1}}\underbrace{\begin{bmatrix}
+        1\amp 1\amp 1\amp 1\\5\amp 3\amp 1\amp 2\\3\amp 4\amp 5\amp 1
+    \end{bmatrix}}_{A^T}\begin{bmatrix}
+        0.8\\0.8\\0.6\\0.4
+    \end{bmatrix}=\begin{bmatrix}
+        0.14\\0.09\\0.08
+    \end{bmatrix}.
+</me>
+
+    Hence the best-fitting function is <m>g=0.14+0.09x_1+0.08x_2</m>.
+       </p>
+    </answer>
+</example>
+</subsection>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<subsection xml:id="Subsection-Application-of-Least-Squares-to-Curve-Fitting">
+    <title>Application of Least Squares to Curve Fitting</title>
+<p> 
+In practice, one can fit a function to a set of data points, so that the graph of the function passes through each of the points as well as possible.  However, this is sometimes impossible and may not even be desirable (overfitting).  In this section, we will learn how to approximate a collection of data points with a line (or a curve) that fits the ``trend" of the points.  We will start with data that fit a linear pattern.  
+</p> 
+
+
+<exploration xml:id="exp-leastSq2">
+    <p>
+        Consider the points <m>(1,1)</m>, <m>(2, 3)</m> and <m>(4,4)</m>.  These points do not lie on a straight line, but they have a general upward linear trend.  (Typically there would be many more points to consider, but we will limit our exploration to what we can do by hand.)  Our goal is to find a line that fits these points as closely as possible.  
+    </p> 
+
+    <p>
+    We are looking for a function <m>f</m> of the form <m>f(x)=ax+b</m> such that the following infeasible system is satisfied as closely as possible
+    
+<md>
+    <mrow> a(1)\amp + b\amp = 1 </mrow> 
+    <mrow> a(2)\amp + b\amp = 3 </mrow> 
+    <mrow> a(4)\amp + b\amp = 4 </mrow>
+</md>
+
+
+    From the first part of this section we know how to find a best approximation.  By <xref ref="th-bestApprox"/>, we have
+<md>
+<mrow> \mathbf{z}=\begin{bmatrix}a\\b\end{bmatrix}\amp = \left(A^TA\right)^{-1}A^T\mathbf{b} </mrow>
+<mrow> \amp = \left(\begin{bmatrix}1\amp 2\amp 4\\1\amp 1\amp 1\end{bmatrix}\begin{bmatrix}
+1\amp 1\\2\amp 1\\4\amp 1\end{bmatrix}\right)^{-1}\begin{bmatrix}1\amp 2\amp 4\\1\amp 1\amp 1\end{bmatrix}\begin{bmatrix}
+    1\\3\\4
+\end{bmatrix} </mrow>
+<mrow> \amp = \begin{bmatrix}13/14\\1/2\end{bmatrix}. </mrow>
+</md>
+
+According to our computations, the line that best fits the data is given by 
+<me>
+    f(x)=\frac{13}{14}x+\frac{1}{2}.
+</me>
+
+Let's take a look.
+</p> 
+
+
+<image width="65%">
+   <shortdescription>Linear regression</shortdescription>
+    <latex-image>
+      \begin{tikzpicture}[scale=1]
+\draw[thin,gray!40] (-1,-1) grid (5,5);
+  \draw[\lt -\gt ] (-1,0)--(5,0);
+  \draw[\lt -\gt ] (0,-1)--(0,5);
+  \draw[line width=2pt](-1,-0.43)--(5,5.14) ;
+\fill[blue] (1,1)  circle (0.08cm);
+\fill[blue] (2,3) circle (0.08cm);
+\fill[blue] (4,4) circle (0.08cm);
+     \end{tikzpicture}
+    </latex-image>
+</image>
+ 
+<p>
+We found this fit by minimizing <m>\norm{\mathbf{b}-A\mathbf{z}}</m>.  We will now investigate the meaning of this expression in relation to the line and the data points.
+<men>
+    \mathbf{b}-A\mathbf{z}=\begin{bmatrix}1\\3\\4\end{bmatrix}-\begin{bmatrix}(13/14)(1)+1/2\\(13/14)(2)+1/2\\{(13/14)(4)+1/2}\end{bmatrix}\approx\begin{bmatrix}
+        -0.43\\0.64\\-0.21
+    \end{bmatrix}.
+</men>
+
+Observe that each entry of <m>\mathbf{b}-A\mathbf{z}</m> is the signed vertical distance between a particular point and the line.
+
+Instead of computing the error, <m>\norm{\mathbf{b}-A\mathbf{z}}</m>, we compute <m>\norm{\mathbf{b}-A\mathbf{z}}^2</m> to avoid the square root.
+
+<men>
+    \norm{\mathbf{b}-A\mathbf{z}}^2=(-0.43)^2+0.64^2+(-0.21)^2\approx 0.64.
+</men>
+
+Minimizing <m>\norm{\mathbf{b}-A\mathbf{z}}</m> also minimizes <m>\norm{\mathbf{b}-A\mathbf{z}}^2</m>. 
+Therefore, what we have minimized is the sum of squares of the vertical distances between the data points and the line.
+The following GeoGebra interactive will help you explore this idea.
+</p> 
+
+
+<figure>
+  <caption>
+  </caption>
+  <interactive xml:id="geogebra-Regression-interaction" platform="geogebra" width="130%" aspect="950:650">
+    <slate xml:id="Regression-interaction" surface="geogebra" material="crgw4usb" aspect="950:650" />
+  </interactive>
+</figure>
+</exploration>
+
+<p> 
+In <xref ref="exp-leastSq2"/> we discovered that <m>\norm{\mathbf{b}-A\mathbf{z}}^2</m> is the sum of squares of vertical distances between the given data points and the proposed line.  
+</p> 
+
+<p>
+By minimizing <m>\norm{\mathbf{b}-A\mathbf{z}}</m>, we minimize the sum of squares of vertical distances.  
+This observation holds in general.  Given a collection of points
+<me>
+(x_1, y_1),\ (x_2, y_2),\dots ,(x_n, y_n),
+</me>
+
+finding a linear function of the form <m>f(x)=ax+b</m> that best fits the points we would find a best solution to the system
+
+<me>
+    \begin{bmatrix}x_1\amp 1\\x_2\amp 1\\\vdots\amp \vdots\\x_n\amp 1\end{bmatrix}\begin{bmatrix}a\\b\end{bmatrix}=\begin{bmatrix}y_1\\y_2\\\vdots\\y_n\end{bmatrix}
+</me>
+
+by minimizing
+
+<me>
+    \norm{\begin{bmatrix}y_1-(ax_1+b)\\y_2-(ax_2+b)\\\vdots\\y_n-(ax_n+b)\end{bmatrix}}^2=(y_1-(ax_1+b))^2+(y_2-(ax_2+b))^2+\dots +(y_n-(ax_n+b))^2
+</me>
+
+A geometric interpretation of <m>y_i-(ax_i+b)</m> is shown below.
+</p> 
+
+
+
+<image width="65%">
+   <shortdescription>Geometric picture of error</shortdescription>
+    <latex-image>
+      \begin{tikzpicture}[scale=1.5]
+\draw[thin,gray!40] (-1,-1) grid (4,4);
+   \draw[line width=2pt](-1,-1)--(2.75,4) ;
+\fill[blue] (2,1) node[below right]{\((x_i, y_i)\)}  circle (0.08cm);
+\fill[red] (2,3) node[above left] {\((x_i, ax_i+b)\)}circle (0.08cm);
+\draw[line width=0.5pt, dashed](2,1)--(2,3);
+\node[] at (2.8, 2)   {\(y_i-(ax_i+b)\)};
+     \end{tikzpicture}
+    </latex-image>
+</image>
+ 
+
+<p>
+ The line we obtain in this fashion is called a <em>line of best fit</em> or a <em>trendline</em>, and the method we used is referred to as the  <em>method of least squares</em>.
+
+ We can apply the method of least squares to find best fitting non-linear functions.  
+</p> 
+
+
+
+ <example xml:id="ex-leastSquaresPoly">
+    <statement>
+        <p>
+            Find the least squares approximating quadratic polynomial of the form <m>f(x)=ax^2+bx+c</m> for the following points.
+
+<me>
+    (-3, 3), \ (-1, 1), \ (0, 1), \ (1, 2), \ (3, 4).
+</me>
+       </p>
+    </statement>
+
+<answer>
+        <p>
+            We are looking for an approximate solution to the system of equations
+    
+<md>
+<mrow> a(-3)^2\amp + b(-3) + c = 3 </mrow>
+<mrow> a(-1)^2\amp + b(-1) + c = 1 </mrow> 
+<mrow> a(0)^2\amp + b(0) + c = 1 </mrow> 
+<mrow> a(1)^2\amp + b(1) + c = 2 </mrow> 
+<mrow> a(3)^2\amp + b(3) + c = 4 </mrow>
+</md>
+
+    This corresponds to the matrix equation
+    
+<me>
+    \begin{bmatrix}9\amp -3\amp 1\\1\amp -1\amp 1\\0\amp 0\amp 1\\1\amp 1\amp 1\\9\amp 3\amp 1\end{bmatrix}\begin{bmatrix}a\\b\\c\end{bmatrix}=\begin{bmatrix}3\\1\\1\\2\\4\end{bmatrix}.
+</me>
+
+    Multiplying on the left by <m>A^T</m> gives us the normal equations.
+    
+<me>
+    A^TA\mathbf{z}=A^T\mathbf{b}
+</me>
+
+    
+<me>
+    \begin{bmatrix}164\amp 0\amp 20\\0\amp 20\amp 0\\20\amp 0\amp 5\end{bmatrix}\mathbf{z}=\begin{bmatrix}66\\11\\4\end{bmatrix}.
+</me>
+
+    It turns out that <m>A^TA</m> is invertible, so it is easy to solve for <m>\mathbf{z}</m>. 
+    You can use technology to accomplish this. Feel free to use any online tool or Mathlab for this for practice. You arrive at the solution
+    
+<me>
+    \mathbf{z}=\begin{bmatrix}0.26\\0.20\\1.15\end{bmatrix}.
+</me>
+
+
+    Therefore, the quadratic function of best fit is given by <m>f(x)=0.26x^2+0.2x+1.15</m>.  You can see the graph and the points shown below.
+
+<!--
+\begin{onlineOnly}
+\begin{center}
+\desmos{kxbnnn5cwr}{950}{650}
+\end{center}
+\end{onlineOnly}
+-->
+
+Before the end of this section we will return to this problem with a more computationally efficient approach.
+       </p>
+    </answer>
+</example>
+
+ <example xml:id="ex-leastSq3">
+    <statement>
+        <p>
+            Given the data points <m>(-1, 0)</m>, <m>(0,1)</m>, and <m>(1,4)</m>, find the least squares approximating function of the form <m>f(x)=ax+b2^x</m>.
+       </p>
+    </statement>
+    <answer>
+        <p>
+            We are looking for an approximate solution to the system of equations
+    
+<md>
+<mrow> a(-1)\amp + b(2^{-1})\amp = 0 </mrow> 
+<mrow> a(0)\amp + b(2^{0})\amp = 1 </mrow> 
+<mrow> a(1)\amp + b(2^{1})\amp = 4 </mrow> 
+</md>
+
+    This corresponds to the matrix equation
+    
+<me>
+    \begin{bmatrix}-1\amp 1/2\\0\amp 1\\1\amp 2\end{bmatrix}\begin{bmatrix}a\\b\end{bmatrix}=\begin{bmatrix}0\\1\\4\end{bmatrix}.
+</me>
+
+
+    Using the normal equations, we obtain
+    
+<me>
+    A^TA\mathbf{z}=A^T\mathbf{b},
+</me>
+
+    
+<me>
+    \frac{1}{4}\begin{bmatrix}8\amp 6\\6\amp 21\end{bmatrix}\mathbf{z}=\begin{bmatrix}4\\9\end{bmatrix}.
+</me>
+
+Solving for <m>\mathbf{z}</m> yields
+
+<me>
+    \mathbf{z}=\begin{bmatrix}10/11\\16/11\end{bmatrix}.
+</me>
+
+Therefore, the function of best fit (of the given form) is given by 
+<me>
+    f(x)=\frac{10}{11}x+\frac{16}{11}(2^x).
+</me>
+
+<!--
+\begin{onlineOnly}
+\begin{center}
+\desmos{y2fgw13hki}{950}{650}
+\end{center}
+\end{onlineOnly}
+-->
+       </p>
+    </answer>
+</example>
+</subsection>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<subsection xml:id="Subsection-QR-Factorization-A-Quicker-Way-to-do-Least-Squares">
+    <title><m>QR</m>-Factorization: A Quicker Way to do Least Squares</title>
+
+<p>
+When solving the normal equations in (9.2.1) <!--<xref ref="eq-normalForZ"/>-->, it is advantageous to have a <m>QR</m>-factorization of <m>A</m>.  For then we can write
+<md>
+<mrow> A^TA\mathbf{z}\amp = A^T\mathbf{b} </mrow>
+<mrow> (QR)^T(QR)\mathbf{z}\amp = (QR)^T\mathbf{b} </mrow>
+<mrow> R^TQ^TQR\mathbf{z}\amp = R^TQ^T\mathbf{b} </mrow>
+<mrow> R^TR\mathbf{z}\amp = R^TQ^T\mathbf{b}. </mrow>
+</md>
+
+Since <m>R</m> is invertible, then <m>R^T</m> also has an inverse, and multiplying on the left by it yields
+
+<me>
+    R\mathbf{z} = Q^T b.
+</me>
+
+
+This last equation is easily solved by back-substitution, since <m>R</m> is upper triangular.
+This greatly reduces the amount of computations we need to make, as we will observe by using Octave in our final example of the section.  
+</p> 
+</subsection>
+
+
+
+
+
+
+
+
+
+
+<exercises>
+
+<exercise xml:id="prob-leastSq1">
+    <statement>
+        <p>
+            Find the best approximation to a solution to the system of equations.
+
+<me>
+    \begin{matrix}3x\amp +\amp y\amp +\amp z\amp =\amp 6\\2x\amp +\amp 3y\amp -\amp z\amp =\amp 1\\2x\amp -\amp y\amp +\amp z\amp =\amp 0\\3x\amp -\amp 3y\amp +\amp 3z\amp =\amp 8\end{matrix}
+</me>
+
+Enter answers in fraction form below.
+        </p>
+    </statement>
+
+<answer>
+    <p>
+        <me>
+            x=\frac{-20}{12},\quad y=\frac{46}{12},\quad z=\frac{95}{12}.
+        </me>
+    </p>
+</answer>
+</exercise>
+
+
+<exercisegroup>
+<introduction>
+    <p>
+        Find a linear function of best fit for each of the following sets of data points. 
+        Examine how well your line fits the points by typing the equation of the line into the Desmos window.
+    </p>
+</introduction>
+
+<exercise xml:id="prob-leastSq2a">
+    <statement>
+        <p>
+
+<me>
+    (2,4), \ (4,3), \ (7,2), \ (8,1).
+</me>
+
+Enter your answers in fraction form.
+</p>
+</statement>
+
+
+<answer>
+<p>
+<me>
+    f(x)=\frac{-6}{13}x+\frac{64}{13}.
+</me>
+</p> 
+</answer>
+
+<!--
+\begin{onlineOnly}
+\begin{center}
+\desmos{tktztr0nvo}{950}{650}
+\end{center}
+\end{onlineOnly}
+-->
+</exercise>
+
+
+
+
+
+
+<exercise xml:id="prob-leastSq2b">
+    <statement>
+        <p>
+            <me>
+    (-2, 3), \ (-1,1), \ (0,0), \ (1, -2), \ (2, -4).
+</me>
+
+
+<!--
+\begin{onlineOnly}
+\begin{center}
+\desmos{oom9xumepk}{950}{650}
+\end{center}
+\end{onlineOnly}
+-->
+        </p>
+    </statement>
+
+<answer>
+    <p>
+<me>
+    f(x)=-1.7x+-0.4.
+</me>
+    </p>
+</answer>
+</exercise>
+</exercisegroup>
+
+
+<!--
+<exercise xml:id="prob-useOctave">
+    <statement>
+        <p>
+            Modify the Octave code in <xref ref="ex-leastSquaresPolyRevisited"/> to retry the problem in <xref ref="ex-leastSquares3"/>.  Is <m>QR</m> quicker?
+        </p>
+    </statement>
+</exercise>
+-->
+
+
+
+<exercise xml:id="prob-leastSq3">
+    <statement>
+        <p>
+            Use Mathlab or another program/tool to find the least squares approximating quadratic function for the following data points.
+
+<me>
+    (-2,1), \ (0,0), \ (3,2), \(4,3).
+</me>
+
+Round your answers to three decimal places.
+</p>
+</statement>
+
+<answer>
+<p>
+<me>
+    f(x)=0.194x^2+-0.024x+0.127.
+</me>
+</p>
+</answer> 
+</exercise>
+
+
+
+
+<exercise xml:id="ex-5-6-14">
+    <statement>
+        <p>
+            If <m>A</m> is an <m>m \times n</m> matrix, it can be proved that there exists a unique <m>n \times m</m> matrix <m>A^{\#}</m> satisfying the following four conditions:
+             <m>AA^{\#}A = A</m>; <m>A^{\#}AA^{\#} = A^{\#}</m>; <m>AA^{\#}</m> and <m>A^{\#}A</m> are symmetric. 
+            The matrix <m>A^{\#}</m> is called the <em>Moore-Penrose</em> inverse.
+
+<ol>
+<li>
+      <p> If <m>A</m> is square and invertible, show that <m>A^{\#} = A^{-1}</m>. </p>
+</li>
+
+<li>
+      <p> If <m>\text{rank} A = m</m>, show that <m>A^{\#} = A^{T}(AA^{T})^{-1}</m>. </p>
+</li>
+
+<li>
+      <p> If <m>\text{rank} A = n</m>, show that <m>A^{\#} = (A^{T}A)^{-1}A^{T}</m>.  (Notice the appearance of the Moore-Penrose inverse arrived when we solve the normal equations, arriving at Equation <xref ref="eq-leastSquaresZ"/>).  </p>
+</li>
+
+</ol>
+        </p>
+    </statement>
+</exercise>
+
+</exercises> 
+</section>

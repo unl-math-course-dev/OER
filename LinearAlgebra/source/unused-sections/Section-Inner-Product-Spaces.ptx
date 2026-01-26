@@ -1,0 +1,1584 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<section xml:id="Section-Inner-Product-Spaces" xmlns:xi="http://www.w3.org/2001/XInclude">
+    <title>Extra Topic: Inner Product Spaces</title>
+
+
+ 
+
+
+ 
+<p> 
+We have used the dot product in <m>\R^n</m> to compute the length of vectors (<xref ref="cor-length_via_dotprod"/>). In this section we define an <term>inner product</term> on an arbitrary vector space <m>V</m> over the real numbers. It generalizes the dot product.
+</p> 
+
+<definition xml:id="def-innerproductspace">
+
+    <statement>
+        <p>
+            An <term>inner product</term> on a real vector space <m>V</m> is a function that assigns a real number <m>\langle\mathbf{v}, \mathbf{w}\rangle</m> to every pair <m>\mathbf{v}</m>, <m>\mathbf{w}</m> of vectors in <m>V</m> in such a way that the following properties are satisfied.
+
+<ol>
+<li xml:id="prop-inner-prod-1">
+  <p>  <m>\langle\mathbf{v}, \mathbf{w}\rangle</m> is a real number for all <m>\mathbf{v}</m> and <m>\mathbf{w}</m> in <m>V</m>. </p>
+</li>
+
+<li xml:id="prop-inner-prod-2">
+  <p>   <m>\langle\mathbf{v}, \mathbf{w}\rangle = \langle\mathbf{w}, \mathbf{v}\rangle</m> for all <m>\mathbf{v}</m> and <m>\mathbf{w}</m> in <m>V</m>. </p>
+</li>
+
+<li xml:id="prop-inner-prod-3">
+  <p>   <m>\langle\mathbf{v} + \mathbf{w}, \mathbf{u}\rangle = \langle\mathbf{v}, \mathbf{u}\rangle + \langle\mathbf{w}, \mathbf{u}\rangle</m> for all <m>\mathbf{u}</m>, <m>\mathbf{v}</m>, and <m>\mathbf{w}</m> in <m>V</m>. </p>
+</li>
+
+<li xml:id="prop-inner-prod-4">
+  <p>  <m>\langle r\mathbf{v}, \mathbf{w}\rangle = r\langle\mathbf{v}, \mathbf{w}\rangle</m> for all <m>\mathbf{v}</m> and <m>\mathbf{w}</m> in <m>V</m> and all <m>r</m> in  <m>\R</m>. </p>
+</li>
+
+<li xml:id="prop-inner-prod-5">
+  <p>   <m>\langle\mathbf{v}, \mathbf{v}\rangle \gt  0</m> for all <m>\mathbf{v} \neq \mathbf{0}</m> in <m>V</m>. </p>
+</li>
+
+</ol>
+        </p>
+    </statement>
+</definition>
+
+<p>
+A real vector space <m>V</m> with an inner product <m>\langle , \rangle</m> will be called an <term>inner product space</term>.  
+Note that every subspace of an inner product space is again an inner product space using the same inner product.
+</p> 
+
+
+<p> 
+We present how <m> \R^n </m> is "the" examples and then proceed to a more fancy one.
+</p> 
+
+<example xml:id="exa-030303">
+    <p>
+        <m>\R^n</m> is an inner product space with the dot product as inner product:
+<me>
+\langle \mathbf{v}, \mathbf{w} \rangle = \mathbf{v} \cdot \mathbf{w} \quad \mbox{ for all } \mathbf{v},  \mathbf{w} \in \R^n
+</me>
+See <xref ref="th-dotproductproperties"/>. This is also called the
+<term>euclidean</term> inner product, and
+<m>\R^n</m>, equipped with the dot product, is called <term>euclidean</term>
+<m>n</m>-<term>space</term>.
+    </p>
+</example>
+
+<example xml:id="exa-030310">
+    <statement>
+        <p>
+            If <m>A</m> and <m>B</m> are <m>m \times n</m> matrices, define <m>\langle A, B\rangle = \mbox{tr}(AB^{T})</m>
+             where <m>\mbox{tr}(X)</m> is the trace of the square matrix <m>X</m>. 
+             Show that <m>\langle\ , \rangle</m> is an inner product in <m>\mathbb{M}_{mn}</m>.
+       </p>
+    </statement>
+    <answer>
+        <p>
+         <xref ref="prop-inner-prod-1"/> is clear. Since <m>\mbox{tr}(P) = \mbox{tr}(P^{T})</m> for every square matrix <m>P</m>, we have <xref ref="prop-inner-prod-2"/>:
+<me>
+\langle A, B \rangle = \mbox{tr}(AB^T) = \mbox{tr}[(AB^T)^T] = \mbox{tr}(BA^T) = \langle B, A \rangle
+</me>
+Next, Property <xref ref="prop-inner-prod-3"/> and Property <xref ref="prop-inner-prod-4"/> follow because trace is a linear transformation <m>\mathbb{M}_{mn} \to \R</m> (see <xref ref="ex-10-1-19"/>). Turning to <xref ref="prop-inner-prod-5"/>, 
+let <m>\mathbf{r}_{1}, \mathbf{r}_{2}, \dots, \mathbf{r}_{m}</m> denote the rows of the matrix <m>A</m>. Then the <m>(i, j)</m>-entry of <m>AA^{T}</m> is <m>\mathbf{r}_{i} \cdot \mathbf{r}_{j}</m>, so
+<me>
+\langle A, A \rangle = \mbox{tr}(AA^T) =
+\mathbf{r}_1 \cdot \mathbf{r}_1 +
+\mathbf{r}_2 \cdot \mathbf{r}_2 + \dots +
+\mathbf{r}_m \cdot \mathbf{r}_m.
+</me>
+But <m>\mathbf{r}_{j} \cdot \mathbf{r}_{j}</m> is the sum of the squares of
+the entries of <m>\mathbf{r}_{j}</m>, so this shows that <m>\langle A, A\rangle</m> is the sum of the squares of all <m>nm</m> entries of <m>A</m>.  
+Therefore, <xref ref="prop-inner-prod-5"/> follows.
+       </p>
+    </answer>
+</example>
+
+<p> 
+The next example is important in analysis.
+</p> 
+
+
+<example xml:id="exa-030334">
+    <statement>
+        <p>
+            Let <m>\mathcal{F}[a,b]</m> be the set of all functions <m>f:[a,b]\rightarrow\R</m>.  
+            Observe that <m>\mathcal{F}[a,b]</m> is a vector space.  
+            Let <m>\mathcal{C}[a,b]</m> be a subset of <m>\mathcal{F}[a,b]</m> consisting of all continuous functions. 
+             Why is <m>\mathcal{C}[a,b]</m> a subspace of <m>\mathcal{F}[a,b]</m>?
+Show that
+<me>
+\langle f, g \rangle = \int_{a}^{b} f(x)g(x)dx
+</me>
+defines an inner product on <m>\mathcal{C}[a, b]</m>.
+
+       </p>
+    </statement>
+
+    <answer>
+        <p>
+            Both <xref ref="prop-inner-prod-1"/> and  <xref ref="prop-inner-prod-2"/> are clear. As to <xref ref="prop-inner-prod-4"/>,
+<me>
+\langle rf, g \rangle = \int_{a}^{b} rf(x)g(x)dx = r\int_{a}^{b} f(x)g(x)dx =
+r\langle f, g \rangle.
+</me>
+ <xref ref="prop-inner-prod-3"/> is similar. 
+</p>
+
+       <p>
+Finally, theorems of calculus show that <m>\langle f, f \rangle = \int_{a}^{b} f(x)^2dx \geq 0</m> and, if <m>f</m> is continuous, that this is zero if and only if <m>f</m> is the zero function. This gives <xref ref="prop-inner-prod-5"/>.
+       </p>
+    </answer>
+</example>
+
+<p> 
+If <m>\mathbf{v}</m> is any vector, then, using <xref ref="prop-inner-prod-3"/> of <xref ref="def-innerproductspace"/>, we get
+<me>
+\langle \mathbf{0}, \mathbf{v} \rangle = \langle \mathbf{0} + \mathbf{0}, \mathbf{v} \rangle =
+\langle \mathbf{0}, \mathbf{v} \rangle + \langle \mathbf{0}, \mathbf{v} \rangle
+</me>
+and it follows that the number <m>\langle\mathbf{0}, \mathbf{v}\rangle</m> must be zero. 
+This observation is recorded for reference in the following theorem, along with several other properties of inner products. 
+The other proofs are left as <xref ref="ex-10-1-20"/>.
+</p> 
+
+<theorem xml:id="thm-030346">
+
+    <statement>
+        <p>
+            Let <m>\langle\ , \rangle</m> be an inner product on a space <m>V</m>; let <m>\mathbf{v}</m>, <m>\mathbf{u}</m>, and <m>\mathbf{w}</m> denote vectors in <m>V</m>; and let <m>r</m> denote a real number.
+
+<ol>
+<li xml:id="list-030346a">
+  <p> <m>\langle \mathbf{u}, \mathbf{v} + \mathbf{w}\rangle = 
+  \langle\mathbf{u}, \mathbf{v}\rangle + \langle\mathbf{u}, \mathbf{w}\rangle</m>
+</p>
+</li>
+
+<li xml:id="list-030346b">
+  <p> <m>\langle\mathbf{v}, r\mathbf{w}\rangle =  r\langle\mathbf{v}, \mathbf{w}\rangle = \langle r\mathbf{v}, \mathbf{w}\rangle</m> </p>
+</li>
+
+<li xml:id="list-030346c">
+  <p> <m>\langle\mathbf{v}, \mathbf{0}\rangle = 0 = \langle\mathbf{0}, \mathbf{v} \rangle </m> </p>
+</li>
+
+<li xml:id="list-030346d">
+  <p>  <m>\langle\mathbf{v}, \mathbf{v}\rangle = 0</m> if and only if <m>\mathbf{v} = \mathbf{0}</m> </p>
+</li>
+
+</ol>
+        </p>
+    </statement>
+</theorem>
+
+<!--
+<remark>
+<statement>
+<p> 
+    If <m>r</m> is a complex number, then <xref ref="list-030346b"/> must be modified.  See <xref ref="th-025575"/>.
+</p>
+</statement>
+</remark>
+-->
+
+<p> 
+If <m>\langle\ , \rangle</m> is an inner product on a space <m>V</m>, then, given <m>\mathbf{u}</m>, <m>\mathbf{v}</m>, and <m>\mathbf{w}</m> in <m>V</m>,
+<me>
+\langle r\mathbf{u} + s\mathbf{v}, \mathbf{w} \rangle = \langle r\mathbf{u}, \mathbf{w} \rangle + \langle s\mathbf{v}, \mathbf{w} \rangle = r\langle \mathbf{u}, \mathbf{w} \rangle + s\langle \mathbf{v}, \mathbf{w} \rangle
+</me>
+for all <m>r</m> and <m>s</m> in <m>\R</m> by <xref ref="prop-inner-prod-3"/> and <xref ref="prop-inner-prod-4"/> of <xref ref="def-innerproductspace"/>. 
+Moreover, there is nothing special about the fact that there are two terms in the linear combination or that it is in the first component:
+<me>
+\langle r_1\mathbf{v}_1 + r_2\mathbf{v}_2 + \dots + r_n\mathbf{v}_n, \mathbf{w} \rangle =
+r_1\langle \mathbf{v}_1, \mathbf{w} \rangle +
+r_2\langle \mathbf{v}_2, \mathbf{w} \rangle + \dots +
+r_n\langle \mathbf{v}_n, \mathbf{w} \rangle
+</me>
+and
+<me>
+\langle \mathbf{v}, s_1\mathbf{w}_1 + s_2\mathbf{w}_2 + \dots + s_m\mathbf{w}_m \rangle =
+s_1\langle \mathbf{v}, \mathbf{w}_1 \rangle +
+s_2\langle \mathbf{v}, \mathbf{w}_2 \rangle + \dots +
+s_m\langle \mathbf{v}, \mathbf{w}_m \rangle
+</me>
+hold for all <m>r_{i}</m> and <m>s_{i}</m> in <m>\R</m> and all <m>\mathbf{v}</m>, <m>\mathbf{w}</m>, <m>\mathbf{v}_{i}</m>, and <m>\mathbf{w}_{j}</m> in <m>V</m>. These results are described by saying that inner products ``preserve'' linear combinations. For example,
+<md>
+<mrow> \langle 2\mathbf{u} - \mathbf{v}, 3\mathbf{u} + 2\mathbf{v} \rangle \amp =
+\langle 2\mathbf{u}, 3\mathbf{u} \rangle + \langle 2\mathbf{u}, 2\mathbf{v} \rangle + \langle -\mathbf{v}, 3\mathbf{u} \rangle + \langle -\mathbf{v}, 2\mathbf{v} \rangle </mrow> 
+<mrow> \amp = 6 \langle \mathbf{u}, \mathbf{u} \rangle + 4 \langle \mathbf{u}, \mathbf{v} \rangle -3 \langle \mathbf{v}, \mathbf{u} \rangle - 2 \langle \mathbf{v}, \mathbf{v} \rangle </mrow>
+<mrow> \amp = 6 \langle \mathbf{u}, \mathbf{u} \rangle + \langle \mathbf{u}, \mathbf{v} \rangle - 2 \langle \mathbf{v}, \mathbf{v} \rangle </mrow>
+</md>
+
+If <m>A</m> is a symmetric <m>n \times n</m> matrix and <m>\mathbf{x}</m> and <m>\mathbf{y}</m> are columns in <m>\R^n</m>, we regard the <m>1 \times 1</m> matrix <m>\mathbf{x}^{T}A\mathbf{y}</m> as a number. If we write
+<me>
+\langle \mathbf{x}, \mathbf{y} \rangle = \mathbf{x}^TA\mathbf{y} \quad \mbox{ for all columns } \mathbf{x}, \mathbf{y} \mbox{ in } \R^n,
+</me>
+then <xref ref="prop-inner-prod-1"/> -<xref ref="prop-inner-prod-4"/> of Definition <xref ref="def-innerproductspace"/> follow from matrix arithmetic (only <xref ref="prop-inner-prod-2"/> of <xref ref="def-innerproductspace"/> requires that <m>A</m> is symmetric).  
+ <xref ref="prop-inner-prod-5"/> of  <xref ref="def-innerproductspace"/> reads
+<me>
+\mathbf{x}^TA \mathbf{x} \gt  0 \quad \mbox{ for all columns } \mathbf{x} \neq \mathbf{0} \mbox{ in } \R^n
+</me>
+and this condition characterizes the positive definite matrices  (see <xref ref="thm-024830"/>). This proves the first assertion in the next theorem.
+</p> 
+
+
+
+<theorem xml:id="thm-030372">
+
+    <statement>
+        <p>
+            If <m>A</m> is any <m>n \times n</m> positive definite matrix, then
+<me>
+\langle \mathbf{x}, \mathbf{y} \rangle = \mathbf{x}^TA\mathbf{y} \mbox{ for all columns } \mathbf{x}, \mathbf{y} \mbox{ in } \R^n
+</me>
+defines an inner product on <m>\R^n</m>, and every inner product on <m>\R^n</m> arises in this way.
+        </p>
+    </statement>
+
+
+<proof>
+    <p>
+Given an inner product <m>\langle\ , \rangle</m> on <m>\R^n</m>, let <m>\{\mathbf{e}_{1}, \mathbf{e}_{2}, \dots, \mathbf{e}_{n}\}</m> be the standard basis of <m>\R^n</m>. 
+If 
+
+<me>
+\mathbf{x} = \displaystyle \sum_{i = 1}^{n} x_i\mathbf{e}_i \text{ and } \mathbf{y} = \displaystyle \sum_{j = 1}^{n} y_j\mathbf{e}_j
+</me>
+
+are two vectors in <m>\R^n</m>, compute <m>\langle\mathbf{x}, \mathbf{y}\rangle</m> by adding the inner product of each term <m>x_{i}\mathbf{e}_{i}</m>
+ to each term <m>y_{j}\mathbf{e}_{j}</m>. The result is a double sum, namely
+<me>
+\langle \mathbf{x}, \mathbf{y} \rangle = \displaystyle \sum_{i = 1}^{n} \sum_{j = 1}^{n} \langle x_i \mathbf{e}_i, y_j\mathbf{e}_j \rangle =
+\displaystyle \sum_{i = 1}^{n} \sum_{j = 1}^{n} x_i \langle \mathbf{e}_i, \mathbf{e}_j \rangle y_j.
+</me>
+As the reader can verify, this is a matrix product:
+<me>
+\langle \mathbf{x}, \mathbf{y} \rangle =
+\left[ \begin{array}{cccc}
+x_1 \amp  x_2 \amp  \cdots \amp  x_n \\
+\end{array} \right]
+\left[ \begin{array}{cccc}
+\langle \mathbf{e}_1, \mathbf{e}_1 \rangle \amp  \langle \mathbf{e}_1, \mathbf{e}_2 \rangle \amp  \cdots \amp  \langle \mathbf{e}_1, \mathbf{e}_n \rangle \\
+\langle \mathbf{e}_2, \mathbf{e}_1 \rangle \amp  \langle \mathbf{e}_2, \mathbf{e}_2 \rangle \amp  \cdots \amp  \langle \mathbf{e}_2, \mathbf{e}_n \rangle \\
+\vdots \amp  \vdots \amp  \ddots \amp  \vdots \\
+\langle \mathbf{e}_n, \mathbf{e}_1 \rangle \amp  \langle \mathbf{e}_n, \mathbf{e}_2 \rangle \amp  \cdots \amp  \langle \mathbf{e}_n, \mathbf{e}_n \rangle \\
+\end{array} \right]
+\left[ \begin{array}{c}
+	y_1 \\
+	y_2 \\
+	\vdots \\
+	y_n
+\end{array} \right]
+</me>
+Hence <m>\langle\mathbf{x}, \mathbf{y}\rangle = \mathbf{x}^{T}A\mathbf{y}</m>, where <m>A</m> is the <m>n \times n</m> matrix whose <m>(i, j)</m>-entry is <m>\langle\mathbf{e}_{i}, \mathbf{e}_{j} \rangle</m>. The fact that
+<me>
+\langle\mathbf{e}_{i}, \mathbf{e}_{j}\rangle = \langle\mathbf{e}_{j}, \mathbf{e}_{i}\rangle</me>
+shows that <m>A</m> is symmetric. Finally, <m>A</m> is positive definite by <xref ref="thm-024830"/>.
+    </p>
+</proof>
+</theorem>
+
+
+<p> 
+Thus, just as every linear operator <m>\R^n \to \R^n</m> corresponds to an <m>n \times n</m> matrix, 
+every inner product on <m>\R^n</m> corresponds to a positive definite <m>n \times n</m> matrix. 
+In particular, the dot product corresponds to the identity matrix <m>I_{n}</m>.
+</p> 
+
+<remark>
+<statement>
+    <p>
+If we refer to the inner product space <m>\R^n</m> without specifying the inner product, we mean that the dot product is to be used.
+    </p>
+</statement>
+</remark>
+
+
+
+<p> 
+The theorem and its proof may signal that finding this form is difficult. To dispel this, we provide an example with details.
+</p>
+
+
+
+<example xml:id="exa-030413">
+    <statement>
+        <p>
+            Let the inner product <m>\langle\ , \rangle</m> be defined on <m>\R^2</m> by
+<me>
+\left \langle
+\left[ \begin{array}{c}
+v_1 \\
+v_2
+\end{array} \right], \left[ \begin{array}{c}
+w_1 \\
+w_2
+\end{array} \right]
+\right \rangle
+= 2v_1w_1 - v_1w_2 - v_2w_1 + v_2w_2
+</me>
+Find a symmetric <m>2 \times 2</m> matrix <m>A</m> such that <m>\langle\mathbf{x}, \mathbf{y}\rangle = \mathbf{x}^{T}A\mathbf{y}</m> for all <m>\mathbf{x}</m>,
+ <m>\mathbf{y}</m> in <m>\R^2</m>.
+       </p>
+    </statement>
+
+    <answer>
+        <p>
+            The <m>(i, j)</m>-entry of the matrix <m>A</m> is the coefficient of <m>v_{i}w_{j}</m> in the expression, so
+<me> A =
+\left[ \begin{array}{rr}
+2 \amp  -1 \\
+-1 \amp  1
+\end{array} \right].</me>
+
+Incidentally, if
+<m>\mathbf{x} =
+[x,y]]</m>, then
+<me>
+\langle \mathbf{x}, \mathbf{x} \rangle = 2x^2 - 2xy + y^2 = x^2 +(x - y)^2 \geq 0
+</me>
+
+for all <m>\mathbf{x}</m>, so <m>\langle\mathbf{x}, \mathbf{x}\rangle = 0</m> implies
+<m>\mathbf{x} = \mathbf{0}</m>. Hence <m>\langle\ , \rangle</m> is indeed an inner product, so <m>A</m> is positive definite.
+       </p>
+    </answer>
+</example>
+
+<p> 
+Let <m>\langle\ , \rangle</m> be an inner product on <m>\R^n</m> given as in <xref ref="thm-030372"/> by a positive definite matrix <m>A</m>. If
+ <m>\mathbf{x} =
+\left[ \begin{array}{cccc}
+x_1 \amp  x_2 \amp  \cdots \amp  x_n
+\end{array} \right]^T </m>,
+
+then <m>\langle\mathbf{x}, \mathbf{x}\rangle = \mathbf{x}^{T}A\mathbf{x}</m> is an expression in the variables
+<m>x_{1}, x_{2}, \dots, x_{n}</m> called a <term>quadratic form</term>. 
+ </p> 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<subsection xml:id="Subsection-Norm-and-Distance">
+    <title>Norm and Distance</title>
+
+
+<definition xml:id="def-030438">
+
+    <statement>
+        <p>
+            As in <m>\R^n</m>, if <m>\langle\ , \rangle</m> is an inner product on a space <m>V</m>, the <term>norm</term>
+ <m>\norm{\mathbf{v}}</m> of a vector <m>\mathbf{v}</m> in <m>V</m> is defined by
+<me>
+\norm{ \mathbf{v} } = \sqrt{\langle \mathbf{v}, \mathbf{v} \rangle}.
+</me>
+We define the <term>distance</term> between vectors <m>\mathbf{v}</m> and <m>\mathbf{w}</m> in an inner product space <m>V</m> to be
+<me>
+\mbox{d}(\mathbf{v}, \mathbf{w}) = \norm{ \mathbf{v} - \mathbf{w} }.
+</me>
+        </p>
+    </statement>
+</definition>
+
+<remark>
+<statement>
+    <p>
+    If the dot product is used in <m>\R^n</m>, 
+    the norm <m>\norm{\mathbf{x}}</m> of a vector <m>\mathbf{x}</m> is usually called the <term>length</term> of <m>\mathbf{x}</m>.
+    </p>
+</statement>
+</remark>
+
+
+
+<p> 
+Note that  Property <xref ref="prop-inner-prod-5"/> of Definition <xref ref="def-innerproductspace"/> guarantees that
+<m>\langle\mathbf{v}, \mathbf{v}\rangle \geq 0</m>, so <m>\norm{\mathbf{v}}</m> is a real number.
+</p> 
+
+<example xml:id="exa-030446">
+    <p>
+The norm of a continuous function <m>f = f(x)</m> in <m>\mathcal{C}[a, b]</m> (with the inner product from <xref ref="exa-030334"/>) is given by
+<me>
+\norm{ f } = \sqrt{\int_{a}^{b} f(x)^2dx}.
+</me>
+Hence <m>\norm{ f}^{2}</m> is the area beneath the graph of <m>y = f(x)^{2}</m> between <m>x = a</m> and <m>x = b</m>.
+    </p>
+</example>
+
+<example xml:id="ex-030454">
+    <statement>
+        <p>
+            Show that <m>\langle\mathbf{u} + \mathbf{v}, \mathbf{u} - \mathbf{v}\rangle = \norm{\mathbf{u}}^{2} - \norm{\mathbf{v}}^{2}</m> in any inner product space.
+       </p>
+    </statement>
+    <answer>
+        <p>
+            <md>
+<mrow> \langle \mathbf{u} + \mathbf{v}, \mathbf{u} - \mathbf{v} \rangle \amp = \langle \mathbf{u}, \mathbf{u} \rangle - \langle \mathbf{u}, \mathbf{v} \rangle + \langle \mathbf{v}, \mathbf{u} \rangle - \langle \mathbf{v}, \mathbf{v} \rangle </mrow>
+<mrow> \amp = \norm{ \mathbf{u} }^2 - \langle \mathbf{u}, \mathbf{v} \rangle + \langle \mathbf{u}, \mathbf{v} \rangle - \norm{ \mathbf{v} }^2 </mrow>
+<mrow> \amp = \norm{ \mathbf{u} }^2 - \norm{ \mathbf{v} }^2. </mrow>
+</md>
+       </p>
+    </answer>
+</example>
+
+<p>
+A vector <m>\mathbf{v}</m> in an inner product space <m>V</m> is called a <term>unit vector</term> if <m>\norm{\mathbf{v}} = 1</m>. The set of all unit vectors in <m>V</m> is called the <term>unit ball</term> in <m>V</m>. For example, if <m>V = \R^2</m> (with the dot product) and <m>\mathbf{v} = (x, y)</m>, then
+<me>
+\norm{ \mathbf{v} }^2 = 1 \quad \mbox{ if and only if } \quad x^2 + y^2 = 1
+</me>
+Hence the unit ball in <m>\R^2</m> is the <term>unit circle</term> <m>x^{2} + y^{2} = 1</m> with centre at the origin and radius <m>1</m>. However, the shape of the unit ball varies with the choice of inner product.
+</p> 
+
+
+<p> 
+Unit balls do not have to be "balls". Their shape depend on the norm in play and therefore the inner product. Let us see an example.
+</p> 
+
+
+<example xml:id="exa-030469">
+    <p>
+Let <m>a \gt  0</m> and <m>b \gt  0</m>. If <m>\mathbf{v} = (x, y)</m> and <m>\mathbf{w} = (x_{1}, y_{1})</m>, define an inner product on <m>\R^2</m> by
+<me>
+\langle \mathbf{v}, \mathbf{w} \rangle = \frac{xx_1}{a^2} + \frac{yy_1}{b^2}.
+</me>
+The reader can verify <xref ref="ex-10-1-5"/> that this is indeed an inner product. In this case
+<me>
+\norm{ \mathbf{v} }^2 = 1 \quad \mbox{ if and only if } \quad \frac{x^2}{a^2} + \frac{y^2}{b^2} = 1,
+</me>
+so the unit ball is the ellipse shown in the diagram.
+    </p>
+</example>
+
+
+
+
+
+<theorem xml:id="thm-030480">
+
+    <statement>
+        <p>
+            If <m>\mathbf{v} \neq \mathbf{0}</m> is any vector in an inner product space <m>V</m>, then <m>\frac{1}{\norm{ \mathbf{v} }} \mathbf{v}</m> 
+            is the unique unit vector that is a positive multiple of <m>\mathbf{v}</m>.
+        </p>
+    </statement>
+</theorem>
+
+<p> 
+The next theorem reveals an important and useful fact about the relationship between norms and inner products.
+</p> 
+
+
+<theorem xml:id="thm-030486">
+    <title>Cauchy-Schwarz Inequality</title>
+    <statement>
+        <p>
+            If <m>\mathbf{v}</m> and <m>\mathbf{w}</m> are two vectors in an inner product space <m>V</m>, then
+<me>
+\langle \mathbf{v}, \mathbf{w} \rangle^2 \leq \norm{ \mathbf{v} }^2 \norm{ \mathbf{w} }^2.
+</me>
+Moreover, equality occurs if and only if one of <m>\mathbf{v}</m> and <m>\mathbf{w}</m> is a scalar multiple of the other.
+        </p>
+    </statement>
+
+
+<proof>
+    <p>
+Write <m>\norm{\mathbf{v}} = a</m> and <m>\norm{\mathbf{w}} = b</m>. Using <xref ref="thm-030346"/> we compute:
+<mdn>
+<mrow>	\norm{ b\mathbf{v} - a \mathbf{w} }^2 \amp = b^2 \norm{ \mathbf{v} }^2 - 2ab \langle \mathbf{v}, \mathbf{w} \rangle + a^2\norm{ \mathbf{w} }^2 </mrow>
+<mrow>    \amp = 2ab(ab - \langle \mathbf{v}, \mathbf{w} \rangle), </mrow> 
+<mrow>	\norm{ b\mathbf{v} + a \mathbf{w} }^2 \amp = b^2 \norm{ \mathbf{v} }^2 + 2ab \langle \mathbf{v}, \mathbf{w} \rangle + a^2\norm{ \mathbf{w} }^2 </mrow>
+<mrow>    \amp = 2ab(ab + \langle \mathbf{v}, \mathbf{w} \rangle). </mrow>
+</mdn>
+It follows that <m>ab - \langle\mathbf{v}, \mathbf{w}\rangle \geq 0</m> and
+<m>ab + \langle\mathbf{v}, \mathbf{w}\rangle \geq 0</m>, and hence that <m>-ab \leq \langle\mathbf{v}, \mathbf{w}\rangle \leq ab</m>. But then <m>| \langle\mathbf{v}, \mathbf{w}\rangle | \leq ab = \norm{\mathbf{v}} \norm{ \mathbf{w}}</m>, as desired.
+
+Conversely, if 
+<me>
+|\langle \mathbf{v},  \mathbf{w}\rangle | =
+\norm{\mathbf{v}} \norm{ \mathbf{w} } = ab,
+</me>
+then <m>\langle\mathbf{v}, \mathbf{w}\rangle = \pm ab</m>. This shows that <m>b\mathbf{v} - a\mathbf{w} = \mathbf{0}</m> or <m>b\mathbf{v} + a\mathbf{w} = \mathbf{0}</m>. It follows that one of <m>\mathbf{v}</m> and <m>\mathbf{w}</m> is a scalar multiple of the other, even if <m>a = 0</m> or <m>b = 0</m>.
+    </p>
+</proof>
+</theorem>
+
+
+
+<p> 
+Perhaps the following special case may seem more familiar to students who had a keen eye on C   alculus.
+</p> 
+
+<example xml:id="ex-030499">
+    <p>
+        If <m>f</m> and <m>g</m> are continuous functions on the interval <m>[a, b]</m>, then (see <xref ref="exa-030334"/>)
+<me>
+\left(\int_{a}^{b} f(x)g(x)dx \right) ^2 \leq \int_{a}^{b} f(x)^2 dx \int_{a}^{b} g(x)^2 dx.
+</me>
+    </p>
+</example>
+
+<p> 
+Another famous inequality, the so-called <term>triangle inequality</term>. This also stems from the Cauchy-Schwarz inequality. 
+It is included in the following list of basic properties of the norm of a vector.
+</p> 
+
+
+<theorem xml:id="thm-030504">
+
+    <statement>
+        <p>
+            If <m>V</m> is an inner product space, the norm <m>\norm{ \cdot }</m> has the following properties.
+
+<ol>
+<li xml:id="thm-030504a">
+  <p> <m>\norm{\mathbf{v}} \geq 0</m> for every vector <m>\mathbf{v}</m> in <m>V</m>. </p>
+</li>
+
+<li xml:id="thm-030504b">
+  <p> <m>\norm{\mathbf{v}} = 0</m> if and only if <m>\mathbf{v} = \mathbf{0}</m>. </p>
+</li>
+
+<li xml:id="thm-030504c">
+  <p>  <m>\norm{ r \mathbf{v}} = |r|\norm{\mathbf{v}}</m> for every <m>\mathbf{v}</m> in <m>V</m> and every <m>r</m> in <m>\R</m>. </p>
+</li>
+
+<li xml:id="thm-030504d">
+  <p> <m>\norm{\mathbf{v} + \mathbf{w}} \leq \norm{\mathbf{v}} + \norm{\mathbf{w}}</m> for all <m>\mathbf{v}</m> and <m>\mathbf{w}</m> in <m>V</m> 
+    (<term>triangle inequality</term>). </p>
+</li>
+
+</ol>
+        </p>
+    </statement>
+
+
+<proof>
+    <p>
+Because <m>\norm{ \mathbf{v} } = \sqrt{\langle \mathbf{v}, \mathbf{v} \rangle}</m>, properties <xref ref="thm-030504a"/> and <xref ref="thm-030504b"/> follow immediately from <xref ref="list-030346c"/> and <xref ref="list-030346d"/> of <xref ref="thm-030346"/>. As to <xref ref="thm-030504c"/>, compute
+<me>
+\norm{ r\mathbf{v} } ^2 = \langle r\mathbf{v}, r\mathbf{v} \rangle = r^2\langle \mathbf{v}, \mathbf{v} \rangle = r^2\norm{ \mathbf{v} }^2
+</me>
+Hence <xref ref="thm-030504c"/> follows by taking positive square roots. Finally, the fact that <m>\langle\mathbf{v}, \mathbf{w}\rangle \leq \norm{\mathbf{v}}\norm{\mathbf{w}}</m> by the Cauchy-Schwarz inequality gives
+<md>
+<mrow> \norm{ \mathbf{v} + \mathbf{w} } ^2 =
+\langle \mathbf{v} + \mathbf{w}, \mathbf{v} + \mathbf{w} \rangle \amp =
+\norm{ \mathbf{v} } ^2 + 2 \langle \mathbf{v}, \mathbf{w} \rangle +
+\norm{ \mathbf{w} } ^2 </mrow>
+<mrow> \amp \leq \norm{ \mathbf{v} } ^2 +
+2 \norm{ \mathbf{v} } \norm{ \mathbf{w} } +
+\norm{ \mathbf{w} } ^2 </mrow> 
+<mrow> \amp = (\norm{ \mathbf{v} } + \norm{ \mathbf{w} })^2. </mrow>
+</md>
+Hence <xref ref="thm-030504d"/> follows by taking positive square roots.
+    </p>
+</proof>
+</theorem>
+
+
+
+<p> 
+It is worth noting that the usual triangle inequality for absolute values,
+<me>
+| r + s | \leq |r| + |s| \mbox{ for all real numbers } r \mbox{ and } s
+</me>
+is a special case of <xref ref="thm-030504d"/> where <m>V = \R = \R^1</m> and the dot product <m>\langle r, s \rangle = rs</m> is used.
+</p> 
+
+<p> 
+In many calculations in an inner product space, it is required to show that some vector <m>\mathbf{v}</m> is zero. 
+This is often accomplished most easily by showing that its norm <m>\norm{\mathbf{v}}</m> is zero. Here is an example.
+</p> 
+
+<example xml:id="ex-030528">
+    <statement>
+        <p>
+            Let <m>\{\mathbf{v}_{1}, \dots, \mathbf{v}_{n}\}</m> be a spanning set for an inner product space <m>V</m>. If <m>\mathbf{v}</m> in <m>V</m> satisfies <m>\langle\mathbf{v}, \mathbf{v}_{i}\rangle = 0</m> for each <m>i = 1, 2, \dots, n</m>, show that <m>\mathbf{v} = \mathbf{0}</m>.
+       </p>
+    </statement>
+    <answer>
+        <p>
+            Write <m>\mathbf{v} = r_{1}\mathbf{v}_{1} + \dots + r_{n}\mathbf{v}_{n}</m>, <m>r_{i}</m> in <m>\R</m>. To show that <m>\mathbf{v} = \mathbf{0}</m>, we show that <m>\norm{\mathbf{v}}^{2} = \langle\mathbf{v}, \mathbf{v}\rangle = 0</m>. Compute:
+<me>
+\langle \mathbf{v}, \mathbf{v} \rangle
+= \langle \mathbf{v}, r_1\mathbf{v}_1 + \dots + r_n\mathbf{v}_n \rangle
+= r_1\langle \mathbf{v}, \mathbf{v}_1 \rangle + \dots + r_n \langle \mathbf{v}, \mathbf{v}_n \rangle
+= 0
+</me>
+by hypothesis, and the result follows.
+       </p>
+    </answer>
+</example>
+
+<p> 
+The norm properties in <xref ref="thm-030504"/> translate to the following properties of distance familiar from geometry.
+</p> 
+
+<theorem xml:id="thm-030545">
+
+    <statement>
+        <p>
+            Let <m>V</m> be an inner product space.
+
+<ol>
+<li>
+      <p> <m>\mbox{d}(\mathbf{v}, \mathbf{w}) \geq 0</m> for all <m>\mathbf{v}</m>, <m>\mathbf{w}</m> in <m>V</m>. </p>
+</li>
+
+<li>
+      <p> <m>\mbox{d}(\mathbf{v}, \mathbf{w}) = 0</m> if and only if <m>\mathbf{v} = \mathbf{w}</m>. </p>
+</li>
+
+<li>
+      <p> <m>\mbox{d}(\mathbf{v}, \mathbf{w}) = \mbox{d}(\mathbf{w}, \mathbf{v})</m> for all <m>\mathbf{v}</m> and <m>\mathbf{w}</m> in <m>V</m>. </p>
+</li>
+
+<li>
+      <p> <m>\mbox{d}(\mathbf{v}, \mathbf{w}) \leq \mbox{d}(\mathbf{v}, \mathbf{u}) + \mbox{d}(\mathbf{u}, \mathbf{w})</m> for all <m>\mathbf{v}</m>, <m>\mathbf{u}</m>, and <m>\mathbf{w}</m> in <m>V</m>. </p>
+</li>
+
+</ol>
+        </p>
+    </statement>
+</theorem>
+</subsection>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<exercises>
+
+<exercise xml:id="prob-inner-prod-1">
+    <statement>
+        <p>
+            In each case, determine which of <xref ref="prop-inner-prod-1"/>-- <xref ref="prop-inner-prod-5"/> in <xref ref="def-innerproductspace"/> fail to hold.
+
+<ol> 
+<li>
+      <p> <m>V = \R^2</m>, <m>\left\langle \begin{bmatrix}x_1\\ y_1\end{bmatrix}, \begin{bmatrix}x_2\\ y_2\end{bmatrix} \right\rangle = x_1y_1x_2y_2</m>. </p>
+</li>
+
+<li>
+      <p> <m>V = \R^3</m>, \\<m>\left\langle \begin{bmatrix}x_1\\ x_2\\ x_3\end{bmatrix}, \begin{bmatrix}y_1\\ y_2\\ y_3\end{bmatrix} \right\rangle = x_1y_1 - x_2y_2 + x_3y_3</m>.
+
+</p>
+</li>
+
+<li>
+      <p> <m>V = \mathbb{C}</m>, <m>\langle z, w \rangle = z\overline{w}</m>, where <m>\overline{w}</m> is complex
+conjugation.
+ </p>
+</li>
+
+
+<li>
+      <p> <m>V = \mathbb{P}^3</m>, <m>\langle p(x), q(x) \rangle = p(1)q(1)</m>. </p>
+</li>
+
+
+<li>
+<p> 
+<m>V = \mathbb{M}_{22}</m>, <m>\langle A, B \rangle = \mbox{det}(AB)
+</m>
+</p>
+</li>
+
+<li>
+<p> 
+<m>V = \mathcal{F}[0, 1]</m>, <m>\langle f, g \rangle = f(1)g(0) + f(0)g(1).</m>
+ </p>
+</li>
+</ol>
+        </p>
+    </statement>
+
+<answer>
+    <p>
+    (b): Here <xref ref="prop-inner-prod-5"/> fails.
+    </p>
+
+    <p>
+    (c): Here <xref ref="prop-inner-prod-1"/> fails, as sometimes we get a complex number.
+    </p>
+
+    <p>
+    (e): Here <xref ref="prop-inner-prod-5"/> fails.   
+    </p>
+</answer>
+</exercise>
+
+
+
+
+
+<exercise xml:id="prob-inner-prod-2">
+    <statement>
+        <p>
+            Let <m>V</m> be an inner product space. If <m>U \subseteq V</m> is a subspace, show that <m>U</m> is an inner product space using the same inner product.
+        </p>
+    </statement>
+
+<hint>
+    <p>
+        <xref ref="prop-inner-prod-1"/>-- <xref ref="prop-inner-prod-5"/> hold in <m>U</m> because they hold in <m>V</m>. 
+    </p>
+</hint>
+</exercise>
+
+<exercise xml:id="prob-inner-prod-3">
+    <statement>
+        <p>
+            In each case, find a scalar multiple of <m>\mathbf{v}</m> that is a unit vector.
+
+<ol> 
+<li>
+<p>
+<m>\mathbf{v} = f</m> in <m>\mathcal{C}[0, 1]</m> where <m>f(x) = x^2</m> and
+<me>
+\langle f, g \rangle \int_{0}^{1} f(x)g(x)dx.
+</me>
+</p>
+</li>
+
+<li>
+      <p> <m>\mathbf{v} = f</m> in <m>\mathcal{C}[-\pi, \pi]</m> where
+<m>f(x) = \cos x</m> and
+<me>
+\langle f, g \rangle \int_{-\pi}^{\pi} f(x)g(x)dx.
+</me>
+ </p>
+</li>
+
+<li>
+<p>
+<m>\mathbf{v} = 
+     [1,3]. </m>
+in <m>\R^2</m>, where 
+<me>
+\langle \mathbf{v}, \mathbf{w} \rangle = \mathbf{v}^T
+      \left[ \begin{array}{rr}
+      1 \amp  1 \\
+      1 \amp  2
+      \end{array} \right]
+      \mathbf{w}.</me>
+</p>
+</li>
+
+
+<li>
+    <p>
+<m> \mathbf{v} = [3,-1]</m>
+in <m>\R^2</m>, where
+<me>\langle \mathbf{v}, \mathbf{w} \rangle = \mathbf{v}^T
+        \left[ \begin{array}{rr}
+        1 \amp  -1 \\
+        -1 \amp  2
+        \end{array} \right]
+        \mathbf{w}.</me>    
+    </p>
+</li>
+
+</ol>
+</p>
+</statement>
+
+<answer> 
+<p> 
+For (b): 
+<me>\frac{1}{\sqrt{\pi}}f.</me>
+</p> 
+
+<p>
+For (d):
+<me>\frac{1}{\sqrt{17}}
+    \left[ \begin{array}{r}
+    3 \\
+    -1
+    \end{array} \right].</me>
+</p> 
+</answer>
+</exercise>
+
+
+
+
+
+
+
+
+
+<exercise xml:id="prob-inner-prod-4">
+    <statement>
+        <p>
+            In each case, find the distance between <m>\mathbf{u}</m> and <m>\mathbf{v}</m>.
+
+<ol> 
+<li>
+      <p>
+<me>\mathbf{u} = \begin{bmatrix}3\\ -1\\ 2\\ 0\end{bmatrix}, \quad \mathbf{v} = \begin{bmatrix}1\\ 1\\ 1\\ 3\end{bmatrix}; 
+\langle \mathbf{u}, \mathbf{v} \rangle = \mathbf{u} \cdot \mathbf{v}.</me>
+</p>
+</li>
+
+<li>
+      <p> 
+<me>\mathbf{u} = \begin{bmatrix}1\\  2\\ -1\\ 2\end{bmatrix}, \quad \mathbf{v} = \begin{bmatrix}2\\ 1\\ -1\\ 3\end{bmatrix};
+\langle \mathbf{u}, \mathbf{v} \rangle = \mathbf{u} \cdot \mathbf{v}.</me>
+</p>
+</li>
+
+
+
+<li>
+      <p> 
+      <m>\mathbf{u} = f</m>, <m>\mathbf{v} = g </m> in <m>\mathcal{C}[0, 1]</m> where <m>f(x) = x^2 </m> and <m>g(x) = 1 - x</m>; 
+      <me>\langle f, g \rangle = \int_{0}^{1} f(x)g(x)dx</me>
+      </p>
+</li>
+
+<li>
+      <p> 
+     <m>\mathbf{u} = f</m>, <m>\mathbf{v} = g </m> in <m>\mathcal{C}[-\pi, \pi]</m> where <m>f(x) = 1</m> and <m>g(x) = \cos x</m>;
+     <me>\langle f, g \rangle = \int_{-\pi}^{\pi} f(x)g(x)dx.</me>
+    </p>
+</li>
+</ol>
+
+</p> 
+</statement>
+
+<answer>
+<p>
+For (c):
+    <me>\sqrt{3}</me>
+</p>
+
+<p>
+For (d):
+<me>\sqrt{3\pi}.</me>
+</p>
+
+</answer>
+</exercise>
+
+
+
+
+<exercise xml:id="ex-10-1-5">
+    <statement>
+        <p>
+            Let <m>a_{1}, a_{2}, \dots, a_{n}</m> be positive numbers. 
+            Given <m>\mathbf{v} = [v_1, v_2, \ldots , v_n]</m> 
+            and <m>\mathbf{w} = [w_1, w_2, \ldots , w_n]</m>, 
+            define <m>\langle\mathbf{v}, \mathbf{w}\rangle = a_{1}v_{1}w_{1} + \dots + a_{n}v_{n}w_{n}</m>. 
+            Show that this is an inner product on <m>\R^n</m>.
+        </p>
+    </statement>
+</exercise>
+
+<exercise xml:id="prob-inner-prod-6">
+    <statement>
+        <p>
+            If <m>\{\mathbf{b}_{1}, \dots, \mathbf{b}_{n}\}</m> is a basis of <m>V</m> and if
+<m>\mathbf{v} = v_1\mathbf{b}_1 + \dots + v_n\mathbf{b}_n</m> and
+<m>\mathbf{w} = w_1\mathbf{b}_1 + \dots + w_n\mathbf{b}_n</m> are vectors in <m>V</m>, define
+<me>
+\langle \mathbf{v}, \mathbf{w} \rangle = v_1w_1 + \dots + v_nw_n .
+</me>
+Show that this is an inner product on <m>V</m>.
+        </p>
+    </statement>
+</exercise>
+
+
+
+
+<exercise xml:id="prob-inner-prod-9">
+    <statement>
+        <p>
+            Let <m>\mbox{re}(z)</m> denote the real part of the complex number
+<m>z</m>. Show that <m>\langle\ , \rangle</m> is an inner product on <m>\mathbb{C}</m> if <m>\langle\mathbf{z}, \mathbf{w}\rangle = \mbox{re}(z\overline{w})</m>.
+        </p>
+    </statement>
+</exercise>
+
+
+
+
+<exercise xml:id="prob-inner-prod-10">
+    <statement>
+        <p>
+            If <m>T : V \to V</m> is an isomorphism of the inner product space <m>V</m>, show that
+<me>
+\langle \mathbf{v}, \mathbf{w} \rangle_1 = \langle T(\mathbf{v}), T(\mathbf{w}) \rangle
+</me>
+defines a new inner product <m>\langle\ , \rangle_{1}</m> on <m>V</m>.
+        </p>
+    </statement>
+</exercise>
+
+
+
+
+<exercise xml:id="prob-inner-prod-11">
+    <statement>
+        <p>
+            Show that every inner product <m>\langle\ , \rangle</m> on <m>\R^n</m> has the form 
+            <me>
+            \langle\mathbf{x}, \mathbf{y}\rangle = (U\mathbf{x}) \cdot (U\mathbf{y})
+            </me> 
+            for some upper triangular matrix <m>U</m> with positive diagonal entries. 
+        </p>
+    </statement>
+
+<hint>
+    <p>
+Use <xref ref="thm-024907"/>.  
+    </p>
+</hint>
+</exercise>
+
+
+
+
+
+
+<exercisegroup  xml:id="prob-inner-prod-12">
+<introduction>
+    <p>
+        In each case, show that <m>\langle\mathbf{v}, \mathbf{w}\rangle = \mathbf{v}^{T}A\mathbf{w}</m> defines an inner product on <m>\R^2</m> 
+        and hence show that <m>A</m> is positive definite.
+    </p>
+</introduction>
+
+<exercise>
+    <statement>
+        <p>
+            <me>A = 
+                \left[ \begin{array}{rr}
+                2 \amp  1 \\
+                1 \amp  1
+                \end{array} \right].</me>
+        </p>
+    </statement>
+</exercise>
+
+<exercise>
+    <statement>
+        <p>
+            <me>A =
+            \left[ \begin{array}{rr}
+            5 \amp  -3 \\
+            -3 \amp  2
+            \end{array} \right].</me>
+            
+        </p>
+    </statement>
+
+<answer>
+<p>
+    <me>  \langle \mathbf{v}, \mathbf{v} \rangle = 5v_1^2 - 6v_1v_2 + 2v_2^2 =
+        \frac{1}{5}[(5v_1 - 3v_2)^2 + v_2^2]. </me>
+</p>
+</answer>
+</exercise>
+
+
+<exercise>
+    <statement>
+        <p>
+                <me>A =
+                \left[ \begin{array}{rr}
+                3 \amp  2 \\
+                2 \amp  3
+                \end{array} \right].</me>
+        </p>
+    </statement>
+</exercise>
+
+
+<exercise>
+    <statement>
+        <p>
+            <me>A =
+            \left[ \begin{array}{rr}
+            3 \amp  4 \\
+            4 \amp  6
+            \end{array} \right].</me>
+        </p>
+    </statement>
+
+<answer>
+    <p>
+        <me> \langle \mathbf{v}, \mathbf{v} \rangle = 3v_1^2 + 8v_1v_2 + 6v_2^2 =
+            \frac{1}{3}[(3v_1 + 4v_2)^2 + 2v_2^2]. </me>
+    </p>
+</answer>
+</exercise>
+</exercisegroup>
+
+
+
+
+
+<exercisegroup xml:id="prob-inner-prod-13">
+
+    <introduction>
+        <p>
+            In each case, find a symmetric matrix <m>A</m> such that <m>\langle\mathbf{v}, \mathbf{w}\rangle = \mathbf{v}^{T}A\mathbf{w}</m>.
+        </p>
+    </introduction>
+
+    <exercise>
+        <statement>
+            <p>
+                <me>  \left\langle 
+                    \left[ \begin{array}{r}
+                    v_1 \\
+                    v_2
+                    \end{array} \right], \left[ \begin{array}{r}
+                    w_1 \\
+                    w_2
+                    \end{array} \right]
+                    \right\rangle
+                    = v_1w_1 + 2v_1w_2 + 2v_2w_1 + 5v_2w_2.</me>  
+            </p>
+        </statement>
+    </exercise>
+
+
+    <exercise>
+        <statement>
+            <p>
+                <me>\left\langle
+                \left[ \begin{array}{r}
+                v_1 \\
+                v_2
+                \end{array} \right], \left[ \begin{array}{r}
+                w_1 \\
+                w_2
+                \end{array} \right]
+                \right\rangle
+                = v_1w_1 - v_1w_2 - v_2w_1 + 2v_2w_2.
+                </me>     
+            </p>
+        </statement>
+
+    <answer>
+        <p>
+            <me>\left[ \begin{array}{rr}
+                1 \amp  -2 \\
+                -2 \amp  1
+                \end{array} \right].</me>
+        </p>
+    </answer>
+    </exercise>
+
+
+    <exercise>
+        <statement>
+            <p>
+                <me>\left\langle 
+                \left[ \begin{array}{r}
+                v_1 \\
+                v_2 \\
+                v_3
+                \end{array} \right], \left[ \begin{array}{r}
+                w_1 \\
+                w_2 \\
+                w_3
+                \end{array} \right]
+                \right\rangle
+                = 2v_1w_1 + v_2w_2 + v_3w_3 - v_1w_2 \\ -v_2w_1 + v_2w_3 + v_3w_2.
+                </me>
+            </p>
+        </statement>
+    </exercise>
+
+
+
+    <exercise>
+        <statement>
+            <p>
+                <me>\left\langle
+                \left[ \begin{array}{r}
+                v_1 \\
+                v_2 \\
+                v_3
+                \end{array} \right], \left[ \begin{array}{r}
+                w_1 \\
+                w_2 \\
+                w_3
+                \end{array} \right]
+                \right\rangle
+                = v_1w_1 + 2v_2w_2 + 5v_3w_3 \\ - 2v_1w_3 - 2v_3w_1.
+               </me> 
+            </p>
+        </statement>
+
+<answer>
+    <p>
+        <me>\left[ \begin{array}{rrr}
+            1 \amp  0 \amp  -2 \\
+            0 \amp  2 \amp  0 \\
+            -2 \amp  0 \amp  5
+            \end{array} \right].</me>
+    </p>
+</answer>
+    </exercise>
+</exercisegroup>
+
+
+
+
+
+<exercise xml:id="prob-inner-prod-14">
+    <statement>
+        <p>
+            If <m>A</m> is symmetric and <m>\mathbf{x}^{T}A\mathbf{x} = 0</m> for all columns <m>\mathbf{x}</m> in <m>\R^n</m>, show that <m>A = 0</m>. 
+        </p>
+    </statement>
+
+<hint> 
+<p> 
+Consider
+<m>\langle \mathbf{x} + \mathbf{y}, \mathbf{x} + \mathbf{y} \rangle</m> where <m>\langle \mathbf{x}, \mathbf{y} \rangle = \mathbf{x}^TA\mathbf{y}</m>.
+</p>
+</hint> 
+
+<answer>
+<p> 
+By the condition, <m>\langle \mathbf{x}, \mathbf{y} \rangle = \frac{1}{2} \langle \mathbf{x} + \mathbf{y}, \mathbf{x} + \mathbf{y} \rangle = 0</m> for all <m>\mathbf{x}</m>, <m>\mathbf{y}</m>. 
+Let <m>\mathbf{e}_{i}</m> denote column <m>i</m> of <m>I</m>. If <m>A = \left[ a_{ij} \right]</m>, 
+then <m>a_{ij} = \mathbf{e}_{i}^{T}A\mathbf{e}_{j} = \{\mathbf{e}_{i}, \mathbf{e}_{j}\} = 0</m> for all <m>i</m> and <m>j</m>.
+</p>
+</answer>
+</exercise>
+
+
+
+
+<exercise xml:id="prob-inner-prod-15">
+    <statement>
+        <p>
+            Show that the sum of two inner products on <m>V</m> is again an inner product.
+        </p>
+    </statement>
+</exercise>
+
+
+
+
+
+<exercise xml:id="ex-10-1-6">
+    <statement>
+        <p>
+Let <m> \norm{ \mathbf{u} } = 1</m>, <m>\norm{ \mathbf{v} } = 2</m>, <m>\norm{ \mathbf{w} } = \sqrt{3} </m>, <m>\langle \mathbf{u}, \mathbf{v} \rangle = -1</m>, <m>\langle\mathbf{u}, \mathbf{w}\rangle = 0</m> and <m>\langle\mathbf{v}, \mathbf{w}\rangle = 3</m>. Compute:
+<ol>
+<li>
+      <p> <m>\langle \mathbf{v} + \mathbf{w}, 2\mathbf{u} - \mathbf{v} \rangle</m> </p>
+</li>
+<li>
+      <p> <m>\langle \mathbf{u} - 2 \mathbf{v} - \mathbf{w}, 3\mathbf{w} - \mathbf{v} \rangle</m>
+
+<m>-15</m> </p>
+</li>
+</ol>
+        </p>
+    </statement>
+</exercise>
+
+<exercise xml:id="prob-inner-prod-17">
+    <statement>
+        <p>
+            Given the data in  <xref ref="ex-10-1-6"/>, show that <m>\mathbf{u} + \mathbf{v} = \mathbf{w}</m>.
+        </p>
+    </statement>
+</exercise>
+
+<exercise xml:id="prob-inner-prod-18">
+    <statement>
+        <p>
+            Show that no vectors exist such that <m>\norm{\mathbf{u}} = 1</m>, <m>\norm{\mathbf{v}} = 2</m>, and <m>\langle\mathbf{u}, \mathbf{v}\rangle = -3</m>.
+        </p>
+    </statement>
+</exercise>
+
+<exercise xml:id="ex-10-1-19">
+    <statement>
+        <p>
+Complete <xref ref="exa-030310"/>.
+        </p>
+    </statement>
+</exercise>
+
+<exercise xml:id="ex-10-1-20">
+    <statement>
+        <p>
+Prove <xref ref="thm-030346"/>.
+        </p> 
+    </statement> 
+
+<answer>
+        <p> Using <xref ref="prop-inner-prod-2"/>:
+            <me> 
+            \langle \mathbf{u}, \mathbf{v} + \mathbf{w} \rangle =
+            \langle \mathbf{v} + \mathbf{w}, \mathbf{u} \rangle =
+            \langle \mathbf{v}, \mathbf{u} \rangle + \langle \mathbf{w}, \mathbf{u} \rangle =
+            \langle \mathbf{u}, \mathbf{v} \rangle + \langle \mathbf{u}, \mathbf{w} \rangle.
+            </me>
+        </p>
+        
+        <p> 
+            Using <xref ref="prop-inner-prod-2"/> and <xref ref="prop-inner-prod-4"/>:
+            <me>
+            \langle \mathbf{v}, r\mathbf{w} \rangle =
+            \langle r\mathbf{w}, \mathbf{v} \rangle =
+            r \langle \mathbf{w}, \mathbf{v} \rangle =
+            r \langle \mathbf{v}, \mathbf{w} \rangle.
+            </me>
+        </p>
+
+        <p>
+            Using <xref ref="prop-inner-prod-3"/>:
+            <me>
+            \langle \mathbf{0}, \mathbf{v} \rangle =
+            \langle \mathbf{0} + \mathbf{0}, \mathbf{v} \rangle =
+            \langle \mathbf{0}, \mathbf{v} \rangle + \langle \mathbf{0}, \mathbf{v} \rangle,
+            </me>
+            
+            so <m> \langle \mathbf{0}, \mathbf{v} \rangle = 0.</m> The rest is <xref ref="prop-inner-prod-2"/>.            
+        </p>
+
+        <p> 
+         Assume that <m>\langle \mathbf{v}, \mathbf{v} \rangle = 0</m>. If <m>\mathbf{v} \neq \mathbf{0}</m> this contradicts <xref ref="prop-inner-prod-5"/>, 
+                so <m>\mathbf{v} = \mathbf{0}</m>. Conversely, if <m>\mathbf{v} = \mathbf{0}</m>, then <m>\langle \mathbf{v}, \mathbf{v} \rangle = 0</m> by Part 3 of this theorem. 
+        </p>  
+</answer>
+
+</exercise> 
+
+
+
+
+
+<exercise xml:id="prob-inner-prod-22">
+    <statement>
+        <p>
+            Let <m>\mathbf{u}</m> and <m>\mathbf{v}</m> be vectors in an inner product space <m>V</m>.
+
+<ol> 
+<li>
+      <p> Expand <m>\langle2\mathbf{u} - 7\mathbf{v}, 3\mathbf{u} + 5\mathbf{v} \rangle</m>. </p>
+</li>
+
+<li>
+      <p> Expand <m>\langle3\mathbf{u} - 4\mathbf{v}, 5\mathbf{u} + \mathbf{v} \rangle</m>.
+</p>
+</li>
+
+
+<li>
+    <p> Show that <m>\norm{ \mathbf{u} + \mathbf{v} } ^2 = \norm{ \mathbf{u} } ^2 + 2 \langle \mathbf{u}, \mathbf{v} \rangle + \norm{ \mathbf{v} } ^2 </m>. </p>
+</li>
+
+
+
+
+<li>
+    <p>
+  Show that <m>\norm{ \mathbf{u} - \mathbf{v} } ^2 = \norm{ \mathbf{u} } ^2 - 2 \langle \mathbf{u}, \mathbf{v} \rangle + \norm{ \mathbf{v} } ^2</m>
+   </p>
+</li>
+</ol> 
+
+</p>
+</statement>
+
+<answer>
+    <p>
+    For (b):
+    <me>15\norm{\mathbf{u}}^{2} - 17 \langle \mathbf{u}, \mathbf{v} \rangle - 4\norm{\mathbf{v}}^{2}.</me>
+    </p>
+
+    <p>
+    For (d):
+    <me>
+\norm{\mathbf{u} + \mathbf{v}}^{2} = \langle \mathbf{u} + \mathbf{v}, \mathbf{u} + \mathbf{v} \rangle = \norm{\mathbf{u}}^{2} + 2\langle \mathbf{u}, \mathbf{v}\rangle + \norm{\mathbf{v}}^{2}.
+    </me>
+    </p>
+</answer>        
+</exercise>
+
+
+
+
+
+
+
+<exercise xml:id="prob-inner-prod-23">
+    <statement>
+        <p>
+            Show that
+<me>
+\norm{ \mathbf{v} } ^2 +
+\norm{ \mathbf{w} } ^2 = \frac{1}{2} \{
+\norm{ \mathbf{v} + \mathbf{w} } ^2 +
+\norm{ \mathbf{v} - \mathbf{w} } ^2\}
+</me>
+for any <m>\mathbf{v}</m> and <m>\mathbf{w}</m> in an inner product space.
+        </p>
+    </statement>
+</exercise>
+
+<exercise xml:id="prob-inner-prod-24">
+    <statement>
+        <p>
+            Let <m>\langle\ , \rangle</m> be an inner product on a vector space <m>V</m>. Show that the corresponding distance function is translation invariant. 
+            That is, show that 
+            <me>
+            \mbox{d}(\mathbf{v}, \mathbf{w}) = \mbox{d}(\mathbf{v} + \mathbf{u}, \mathbf{w} + \mathbf{u})
+            </me>
+            
+            for all <m>\mathbf{v}</m>, <m>\mathbf{w}</m>, and <m>\mathbf{u}</m> in <m>V</m>.
+        </p>
+    </statement>
+</exercise>
+
+<exercise xml:id="prob-inner-prod-25">
+    <statement>
+        <p>
+            <ol> 
+<li>
+      <p> Show that <m>\langle \mathbf{u}, \mathbf{v} \rangle = \frac{1}{4}[\norm{ \mathbf{u} + \mathbf{v} } ^2 - \norm{ \mathbf{u} - \mathbf{v} } ^2]</m> for all <m>\mathbf{u}</m>, <m>\mathbf{v}</m> in an inner product space <m>V</m>. </p>
+</li>
+
+<li>
+      <p> If <m>\langle\ , \rangle</m> and <m>\langle\ , \rangle^\prime</m> are two inner products on <m>V</m> that have equal associated norm functions, show that <m>\langle\mathbf{u}, \mathbf{v}\rangle = \langle\mathbf{u}, \mathbf{v}\rangle^\prime</m> holds for all <m>\mathbf{u}</m> and <m>\mathbf{v}</m>. </p>
+</li>
+
+</ol>
+        </p>
+    </statement>
+</exercise>
+
+<exercise xml:id="prob-inner-prod-26">
+    <statement>
+        <p>
+            Let <m>\mathbf{v}</m> denote a vector in an inner product space <m>V</m>.
+
+<ol> 
+<li>
+      <p> Show that <m>W = \{\mathbf{w} \mid \mathbf{w} \mbox{ in } V, \langle\mathbf{v}, \mathbf{w} = 0\}</m> is a subspace of <m>V</m>. </p>
+</li>
+
+<li>
+      <p> Let <m>W</m> be as in (a). If <m>V = \R^3</m> with the dot product, and if <m>\mathbf{v} = \begin{bmatrix}1\\ -1\\ 2\end{bmatrix}</m>, find a basis for <m>W</m>.
+ </p>
+</li>
+</ol>
+        </p>
+    </statement>
+
+<answer>
+    <p>
+ The basis is
+  <me>\left\{\begin{bmatrix}1\\ 1\\ 0\end{bmatrix}, \begin{bmatrix}0\\ 2\\ 1\end{bmatrix}\right\}.</me>
+    </p>
+</answer>
+</exercise>
+
+
+
+<exercise xml:id="ex-10-1-27">
+    <statement>
+        <p>
+Given vectors <m>\mathbf{w}_{1}, \mathbf{w}_{2}, \dots, \mathbf{w}_{n}</m> and <m>\mathbf{v}</m>, 
+assume that <m>\langle\mathbf{v}, \mathbf{w}_{i}\rangle = 0</m> for each <m>i</m>. 
+Show that <m>\langle\mathbf{v}, \mathbf{w}\rangle = 0</m> for all <m>\mathbf{w}</m> in <m>\mbox{span}\{\mathbf{w}_{1}, \mathbf{w}_{2}, \dots, \mathbf{w}_{n}\}</m>.
+        </p>
+    </statement>
+</exercise>
+
+
+
+
+<exercise xml:id="prob-inner-prod-28">
+    <statement>
+        <p>
+            If <m>V = \mbox{span}\{\mathbf{v}_{1}, \mathbf{v}_{2}, \dots, \mathbf{v}_{n}\}</m> and <m>\langle\mathbf{v}, \mathbf{v}_{i}\rangle = \langle\mathbf{w}, \mathbf{v}_i\rangle</m> holds for each <m>i</m>. Show that <m>\mathbf{v} = \mathbf{w}</m>.
+        </p>
+    </statement>
+
+<hint>
+    <p>
+        <m>\langle \mathbf{v} - \mathbf{w}, \mathbf{v}_{i} \rangle = \langle \mathbf{v}, \mathbf{v}_{i} \rangle - \langle \mathbf{w}, \mathbf{v}_{i} \rangle = 0</m> for each <m>i</m>, so <m>\mathbf{v} = \mathbf{w}</m> by <xref ref="ex-10-1-27"/>.
+    </p>
+</hint>
+</exercise>
+
+
+
+
+
+
+<exercise xml:id="prob-inner-prod-29">
+    <statement>
+        <p>
+            Use the Cauchy-Schwarz inequality in an inner product space to show that:
+
+<ol> 
+<li>
+      <p> If <m>\norm{\mathbf{u}} \leq 1</m>, then <m>\langle\mathbf{u}, \mathbf{v}\rangle^{2} \leq \norm{\mathbf{v}}^{2}</m> for all <m>\mathbf{v}</m> in <m>V</m>. </p>
+</li>
+
+<li>
+      <p> <m>(x \cos \theta + y \sin \theta)^{2} \leq x^{2} + y^{2}</m> for all real <m>x</m>, <m>y</m>, and <m>\theta</m>. </p>
+</li>
+
+<li>
+      <p> <m>\norm{ r_1\mathbf{v}_1 + \dots + r_n\mathbf{v}_n } ^2 \leq [r_1 \norm{ \mathbf{v}_1 } + \dots + r_n \norm{ \mathbf{v}_n } ]^2</m>
+for all vectors <m>\mathbf{v}_{i}</m>, and all <m>r_{i} \gt  0</m> in <m>\R</m>. </p>
+</li>
+
+</ol>
+        </p>
+    </statement>
+
+<answer>
+    <p>
+        For (b): If <m>\mathbf{u} = (\cos \theta, \sin \theta)</m> in <m>\R^2</m> (with the dot product) then <m>\norm{\mathbf{u}} = 1</m>.
+         Use (a) with <m>\mathbf{v} = \begin{bmatrix}x\\ y\end{bmatrix}</m>.  
+    </p>
+</answer>
+</exercise>
+
+<exercise xml:id="prob-inner-prod-30">
+    <statement>
+        <p>
+            If <m>A</m> is a <m>2 \times n</m> matrix, let <m>\mathbf{u}</m> and <m>\mathbf{v}</m> denote the rows of <m>A</m>.
+
+<ol> 
+<li>
+      <p> Show that
+<me>AA^T = \left[ \begin{array}{rr} 
+\norm{ \mathbf{u} } ^2 \amp  \mathbf{u} \cdot \mathbf{v} \\
+\mathbf{u} \cdot \mathbf{v} \amp  \norm{ \mathbf{v} } ^2
+\end{array} \right].</me>
+</p>
+</li>
+
+
+<li>
+      <p> Show that <m>\mbox{det}(AA^{T}) \geq 0</m>. </p>
+</li>
+
+</ol>
+        </p>
+    </statement>
+</exercise>
+
+
+
+
+
+
+<exercise xml:id="ex-10-1-31">
+    <statement>
+        <p>
+
+<ol> 
+<li>
+      <p> If <m>\mathbf{v}</m> and <m>\mathbf{w}</m> are nonzero vectors in an inner product space <m>V</m>, show that
+<m>
+-1 \leq \frac{\langle \mathbf{v}, \mathbf{w} \rangle}{\norm{ \mathbf{v} } \norm{ \mathbf{w} }} \leq 1,
+</m>
+
+and hence that a unique angle <m>\theta</m> exists such that 
+<me>
+\frac{\langle \mathbf{v}, \mathbf{w} \rangle}{\norm{ \mathbf{v} } \norm{ \mathbf{w} }} = \cos \theta
+\text{ and } 0 \leq \theta \leq \pi.
+</me> 
+
+This angle <m>\theta</m> is called the <term>angle between</term> <m>\mathbf{v}</m> and <m>\mathbf{w}</m>. </p>
+</li>
+
+<li>
+      <p> Find the angle between <m>\mathbf{v} = [1,2,-1,1,3]</m> and <m>\mathbf{w} = [2,1,0,2,0]</m> in <m>\R^5</m> with the dot product. </p>
+</li>
+
+<li>
+      <p> If <m>\theta</m> is the angle between <m>\mathbf{v}</m> and <m>\mathbf{w}</m>, show that the <term>law of cosines</term> is valid:
+<me> 
+\norm{ \mathbf{v} - \mathbf{w} } = \norm{ \mathbf{v} } ^2 + \norm{ \mathbf{w} } ^2 - 2\norm{ \mathbf{v} } \norm{ \mathbf{w} } \cos \theta.
+</me>
+</p>
+</li>
+</ol>
+        </p>
+    </statement>
+</exercise>
+
+
+
+
+<exercise xml:id="prob-inner-prod-32">
+    <statement>
+        <p>
+            If <m>V = \R^2</m>, define <m>\norm{\begin{bmatrix}x\\ y\end{bmatrix}} = |x| + |y|</m>.
+
+<ol> 
+<li>
+      <p> Show that <m>\norm{\cdot}</m> satisfies the conditions in <xref ref="thm-030504"/>. </p>
+</li>
+
+<li>
+      <p> Show that <m>\norm{\cdot}</m> does not arise from an inner product on <m>\R^2</m> given by a matrix <m>A</m>.  </p>
+</li>
+</ol>
+        </p>
+    </statement>
+
+<hint>
+    <p>
+        If it did, use <xref ref="thm-030372"/> to find numbers <m>a</m>, <m>b</m>, and <m>c</m> such that 
+        <me>
+        \norm{\begin{bmatrix}x\\ y\end{bmatrix}}^{2} = ax^{2} + bxy + cy^{2}
+        </me>
+         for all <m>x</m> and <m>y</m>.  
+    </p>
+</hint>
+</exercise>
+
+
+
+</exercises>
+</section>

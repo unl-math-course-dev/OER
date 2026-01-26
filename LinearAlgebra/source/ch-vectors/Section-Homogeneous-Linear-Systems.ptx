@@ -1,0 +1,1366 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<section xml:id="Section-Homogeneous-Linear-Systems" xmlns:xi="http://www.w3.org/2001/XInclude">
+    <title>Homogeneous Linear Systems</title>
+
+<introduction>
+<definition xml:id="def-homogeneous">
+
+    <statement>
+        <p>
+            A system of linear equations is called <term>homogeneous</term> if the system can be written in the form
+
+<md>
+    \begin{array}{ccccccccc}
+    <mrow>  a_{11}x_1 \amp + \amp a_{12}x_2\amp +\amp \ldots\amp +\amp a_{1n}x_n\amp = \amp 0 </mrow>
+	<mrow> a_{21}x_1 \amp + \amp a_{22}x_2\amp +\amp \ldots\amp +\amp a_{2n}x_n\amp = \amp 0 </mrow>
+    <mrow> \amp \amp \amp \amp \vdots\amp \amp \amp \amp  </mrow>
+    <mrow> a_{m1}x_1 \amp + \amp a_{m2}x_2\amp +\amp \ldots\amp +\amp a_{mn}x_n\amp = \amp 0 </mrow>
+    \end{array}.
+</md>
+        </p>
+    </statement>
+</definition>
+
+<p>
+A homogeneous linear system is always consistent because <m>x_1=0, x_2=0, \ldots ,x_n=0</m> is a solution.  This solution is called the <term>trivial solution</term>.  Geometrically, a homogeneous system can be interpreted as a collection of lines or planes (or hyperplanes) passing through the origin.  Thus, they will always have the origin in common, but may have other points in common as well.
+</p>
+
+<p>
+If <m>A</m> is the coefficient matrix for a homogeneous system, then the system can be written as a matrix equation <m>A\mathbf{x}=\mathbf{0}</m>. The augmented matrix that represents the system looks like this
+
+<me>
+    \left[\begin{array}{c|c}  
+ A\amp 0
+\end{array}\right]
+</me>
+
+As we perform elementary row operations, the entries to the right of the vertical bar remain <m>0</m>.  It is customary to omit writing them down and apply elementary row operations to the coefficient matrix only.
+</p>
+
+
+<example xml:id="ex-homogeneoussys">
+    <statement>
+        <p>
+            Solve the given homogeneous system and interpret your solution geometrically.
+
+<md>
+    \begin{array}{ccccccc}
+    <mrow>  4x \amp + \amp 5y\amp -\amp z\amp = \amp 0 </mrow>
+	<mrow> x\amp - \amp 4y\amp -\amp 2z\amp = \amp 0 </mrow>
+    <mrow> 3x \amp - \amp 6y\amp -\amp 4z\amp = \amp 0 </mrow>
+    \end{array}
+</md>
+       </p>
+    </statement>
+    <answer>
+        <p>
+            We start by rewriting this system as a matrix equation
+
+<me>
+    \begin{bmatrix}4\amp 5\amp -1\\1\amp -4\amp -2\\3\amp -6\amp -4\end{bmatrix}\begin{bmatrix}x\\y\\z\end{bmatrix}=\mathbf{0}.
+</me>
+
+We will proceed to find the reduced row echelon form of the matrix as usual, but will omit writing the zeros to the right of the vertical bar.
+
+<me>
+    \begin{bmatrix}4\amp 5\amp -1\\1\amp -4\amp -2\\3\amp -6\amp -4\end{bmatrix}\rightsquigarrow \begin{bmatrix}1\amp 0\amp -2/3\\0\amp 1\amp 1/3\\0\amp 0\amp 0\end{bmatrix}.
+</me>
+
+<m>x</m> and <m>y</m> are leading variables, and <m>z</m> is a free variable.  We let <m>z=t</m> and solve for <m>x</m> and <m>y</m>.
+<me>
+x =\frac{2}{3}t, \quad \
+y =-\frac{1}{3}t, \quad \
+z =t.
+</me>
+
+Each of the equations in the original system represents a plane through the origin in <m>\R^3</m>.  The system has infinitely many solutions.  Geometrically, we can interpret these solutions as points lying on the line shared by the three planes.  The above solution is a parametric representation of this line.  Use the GeoGebra demo below to take a better look at the system. (RIGHT-CLICK and DRAG to rotate the image.)
+</p>
+
+<p>
+<!--<url href="https://ximera.osu.edu/oerlinalg">https://ximera.osu.edu/oerlinalg</url>-->
+<figure>
+  <caption>
+  </caption>
+  <interactive xml:id="geogebra-Parametric-Picture" platform="geogebra" width="100%" aspect="800:600">
+    <slate xml:id="Parametric-Picture" surface="geogebra" material="gxjnusja" aspect="800:600" />
+  </interactive>
+</figure>
+       </p>
+    </answer>
+</example>
+</introduction>
+
+<subsection xml:id="Subsection-General-and-Particular-Solutions">
+    <title>General and Particular Solutions</title>
+
+
+<definition xml:id="def-asshomsys">
+    <statement>
+        <p>
+            Given any linear system <m>A\mathbf{x}=\mathbf{b}</m>, the system <m>A\mathbf{x}=\mathbf{0}</m> is called the <term>associated homogeneous system</term>.
+        </p>
+    </statement>
+</definition>
+
+<p>
+It turns out that there is a relationship between solutions of <m>A\mathbf{x}=\mathbf{b}</m> and solutions of the associated homogeneous system.
+</p>
+
+
+<exploration xml:id="init-generalplusparticular">
+    <p>
+        Let 
+<me>
+    A=\begin{bmatrix}1\amp 2\amp 4\\3\amp -7\amp -1\\-1\amp 4\amp 2\end{bmatrix}\quad\text{and}\quad\mathbf{b}=\begin{bmatrix}-2\\7\\-4\end{bmatrix}
+</me>
+
+Consider the matrix equation <m>A\mathbf{x}=\mathbf{b}</m>.  Row reduction produces the following.
+
+<me>
+    \left[\begin{array}{ccc|c}  
+ 1\amp 2\amp 4\amp -2\\3\amp -7\amp -1\amp 7\\-1\amp 4\amp 2\amp -4
+ \end{array}\right]\begin{array}{c}
+ \\
+ \rightsquigarrow\\
+ \\
+ \end{array}\left[\begin{array}{ccc|c}  
+ 1\amp 0\amp 2\amp 0\\0\amp 1\amp 1\amp -1\\0\amp 0\amp 0\amp 0
+ \end{array}\right]
+</me>
+
+ We conclude that <m>\mathbf{x}=\begin{bmatrix}-2t\\-1-t\\t\end{bmatrix}</m>.  
+</p>
+
+ <problem>
+<statement>
+    <p>
+Let's take a more careful look at <m>\mathbf{x}</m>. Rewrite
+<me>
+    \mathbf{x}=\begin{bmatrix}-2t\\-1-t\\t\end{bmatrix}    
+</me>
+
+onto its parametric form.
+    </p>
+</statement>
+ 
+<answer>
+    <p>
+<me>
+    \mathbf{x}=\begin{bmatrix}-2t\\-1-t\\t\end{bmatrix}=\begin{bmatrix}0\\-1\\0\end{bmatrix}+\begin{bmatrix}-2\\-1\\1\end{bmatrix}t.
+    
+</me>
+</p>
+</answer>
+</problem>
+
+
+<p>
+ We now see that the solution vector <m>\mathbf{x}</m> is made up of two distinct parts: 
+ <ul>
+ <li>
+      <p> one specific vector <m>\begin{bmatrix}0\\-1\\0\end{bmatrix}</m> </p>
+</li>
+ <li>
+      <p> infinitely many scalar multiples of <m>\begin{bmatrix}-2\\-1\\1\end{bmatrix}</m>.   </p>
+</li>
+ </ul>
+</p>
+
+<p>
+ The vector <m>\begin{bmatrix}0\\-1\\0\end{bmatrix}</m> is an example of a <term>particular solution</term>.  
+ This particular ``particular solution" corresponds to <m>t=0</m>.  We can find any number of particular solutions by letting <m>t</m> assume different values.  
+ For example, the particular solution that corresponds to <m>t=1</m> is <m>\begin{bmatrix}-2\\-2\\1\end{bmatrix}</m>.  
+ Let <m>\mathbf{x}_p</m> be any particular solution of <m>A\mathbf{x}=\mathbf{b}</m>.  It turns out that all vectors of the form 
+<me>
+    \mathbf{x}=\mathbf{x}_p+\begin{bmatrix}-2\\-1\\1\end{bmatrix}t
+</me>
+ are solutions of <m>A\mathbf{x}=\mathbf{b}</m>.  We can verify this as follows
+ 
+<md>
+<mrow>   A\mathbf{x} \amp =A\left(\mathbf{x}_p+\begin{bmatrix}-2\\-1\\1\end{bmatrix}t\right) </mrow> 
+<mrow>   \amp =A\mathbf{x}_p+\begin{bmatrix}1\amp 2\amp 4\\3\amp -7\amp -1\\-1\amp 4\amp 2\end{bmatrix}\begin{bmatrix}-2\\-1\\1\end{bmatrix}t </mrow> 
+<mrow>   \amp =A\mathbf{x}_p+\mathbf{0}=\mathbf{b}. </mrow>
+</md>
+
+ This shows that the specific vector <m>\begin{bmatrix}0\\-1\\0\end{bmatrix}</m> is not very special, as any solution of <m>A\mathbf{x}=\mathbf{b}</m> can be used in its place.  
+ 
+ The vector <m>\begin{bmatrix}-2\\-1\\1\end{bmatrix}</m>, however, is special.  
+ Note that
+ 
+<me>
+    A\begin{bmatrix}-2\\-1\\1\end{bmatrix}=\begin{bmatrix}1\amp 2\amp 4\\3\amp -7\amp -1\\-1\amp 4\amp 2\end{bmatrix}\begin{bmatrix}-2\\-1\\1\end{bmatrix}=\mathbf{0}.
+</me>
+
+ So <m>\begin{bmatrix}-2\\-1\\1\end{bmatrix}</m> and all of its scalar multiples are solutions to the associated homogeneous system.
+    </p>
+</exploration>
+
+
+
+
+
+
+<observation>
+    <statement>
+    <p>
+In <xref ref="init-generalplusparticular"/> we found that the general solution of the equation <m>A\mathbf{x}=\mathbf{b}</m> has the form:
+
+<me>
+    \mathbf{x}=(\text{Any Particular Solution of}\,A\mathbf{x}=\mathbf{b}) + (\text{General Solution of}\,A\mathbf{x}=\mathbf{0}).
+</me>
+
+It turns out that the general solution of any linear system can be written in this format.  <xref ref="th-homogeneous"/> formalizes this result.
+</p>
+</statement>
+</observation>
+
+
+
+
+<theorem xml:id="th-homogeneous">
+
+    <statement>
+        <p>
+            Suppose <m>\mathbf{x}_p</m> is a particular solution of <m>A\mathbf{x}=\mathbf{b}</m>.
+  <ol>
+  <li xml:id="item-homogeneous1">
+  <p> If <m>\mathbf{x}_h</m> is a solution of the associated homogeneous system, then <m>\mathbf{x}_p+\mathbf{x}_h</m> is a solution of <m>A\mathbf{x}=\mathbf{b}</m>.  </p>
+</li>
+  <li xml:id="item-homogeneous2">
+  <p> If <m>\mathbf{x}_1</m> is a solution of <m>A\mathbf{x}=\mathbf{b}</m>, then there exists a solution of the associated homogeneous system, <m>\mathbf{x}_h</m>, such that  <m>\mathbf{x}_1=\mathbf{x}_p+\mathbf{x}_h</m>. </p>
+</li>
+  </ol>
+        </p>
+    </statement>
+
+
+<proof>
+<p>
+    We will prove part <xref ref="item-homogeneous2"/>. The proof of part <xref ref="item-homogeneous1"/> is left to the reader.
+</p>
+
+<p>[Proof of <xref ref="item-homogeneous2"/>]: Let <m>\mathbf{x}_h=\mathbf{x}_1-\mathbf{x}_p</m>, then 
+
+<me>
+    A\mathbf{x}_h=A(\mathbf{x}_1-\mathbf{x}_p)=A\mathbf{x}_1-A\mathbf{x}_p=\mathbf{b}-\mathbf{b}=\mathbf{0}
+</me>
+
+and
+
+<me>
+    \mathbf{x}_1=\mathbf{x}_p+\mathbf{x}_h
+</me>
+
+    </p>
+</proof>
+</theorem>
+
+
+
+
+
+
+
+<example xml:id="ex-sumofhomandpart">
+    <statement>
+        <p>
+            Let 
+<me>
+    A=\begin{bmatrix}2\amp -4\amp -2\\1\amp -2\amp -1\end{bmatrix}\quad\text{and}\quad \mathbf{b}=\begin{bmatrix}8\\4\end{bmatrix}.
+</me>
+
+If possible, find a solution of <m>A\mathbf{x}=\mathbf{b}</m> and express it as a sum of a particular solution and the general solution of the associated homogeneous system. (<m>\mathbf{x}=\mathbf{x}_p+\mathbf{x}_h</m>)
+       </p>
+    </statement>
+
+
+    <answer>
+        <p>
+            First, we obtain the reduced row echelon form
+
+<me>
+    \left[\begin{array}{ccc|c}  
+ 2\amp -4\amp -2\amp 8\\1\amp -2\amp -1\amp 4
+ \end{array}\right]\begin{array}{c}
+ \\
+ \rightsquigarrow\\
+ \\
+ \end{array}\left[\begin{array}{ccc|c}  
+ 1\amp -2\amp -1\amp 4\\0\amp 0\amp 0\amp 0
+ \end{array}\right].
+</me>
+
+ 
+ So 
+<me>
+    \mathbf{x}=\begin{bmatrix}4+2s+t\\s\\t\end{bmatrix}=\begin{bmatrix}4\\0\\0\end{bmatrix}+\begin{bmatrix}2\\1\\0\end{bmatrix}s+\begin{bmatrix}1\\0\\1\end{bmatrix}t
+</me>
+
+ In this case 
+<me>
+    \mathbf{x}_p=\begin{bmatrix}4\\0\\0\end{bmatrix} \quad \ \text{and} \ \quad  \mathbf{x}_h=\begin{bmatrix}2\\1\\0\end{bmatrix}s+\begin{bmatrix}1\\0\\1\end{bmatrix}t
+</me>
+       </p>
+    </answer>
+</example>
+</subsection>
+
+
+
+
+
+
+
+    <subsection xml:id="Subsection-Linear-Independence">
+        <title>Linear Independence</title>
+
+        <p>
+            Homogeneous linear systems allow us to define a very important concept: <term>linear independence</term>.
+        </p>
+
+        <definition xml:id="def-linearindependence">
+            <title>Linear Independence</title>
+
+            <statement>
+                <p>
+                    Let <m>\mathbf{v}_1, \mathbf{v}_2,\ldots ,\mathbf{v}_k</m> be vectors of <m>\R^n</m>.
+                    We say that the set <m>\{\mathbf{v}_1, \mathbf{v}_2,\ldots ,\mathbf{v}_k\}</m> is <term>linearly independent</term> 
+                    if the only solution to the homogeneous linear combination equation 
+                    <men xml:id="eq-defLinInd">
+                        c_1\mathbf{v}_1+c_2\mathbf{v}_2+\ldots +c_k\mathbf{v}_k=\mathbf{0}
+                    </men>
+                    is the <term>trivial solution</term> <m>c_1=c_2=\ldots =c_k=0</m>.
+                </p> 
+
+                <p> 
+                    If, in addition to the trivial solution, a <term>non-trivial solution</term> (not all <m>c_1, c_2,\ldots ,c_k</m> are zero) 
+                    exists, then the set <m>\{\mathbf{v}_1, \mathbf{v}_2,\ldots ,\mathbf{v}_k\}</m> is called <term>linearly dependent</term>.
+                </p>
+            </statement>
+        </definition>
+
+        <remark xml:id="LinIndEquiv">
+            <p>
+                Given a set of vectors <m>X=\{\mathbf{v}_1,\mathbf{v}_2,\dots,\mathbf{v}_k\}</m> we can now ask the following questions:
+                <ol>
+                    <li>
+                        <p>
+                            Are the vectors in <m>X</m> linearly dependent according to <xref ref="def-linearindependence"/>? 
+                        </p>
+                    </li>
+
+                    <li>
+                        <p>
+                             Can we write one element of <m>X</m> as a linear combination of the others? 
+                        </p>
+                    </li>
+                </ol>
+                It turns out that these questions are equivalent.  In other words, if the answer to one of them 
+                is ``YES", the answer to the other is also ``YES".  
+                Conversely, if the answer to one of them is ``NO", then the answer to the other is also ``NO".  
+                We will start by illustrating this idea with an example, then conclude this section by formally 
+                proving the equivalency.
+            </p>
+        </remark>
+
+        <example xml:id="ex-linind">
+            <statement>
+                <p>
+                    What can we say about the following sets of vectors in light of Remark <xref ref="LinIndEquiv"/>?
+                    <ol>
+                        <li xml:id="item-linindpart1">
+                            <p>
+                                <me>
+                                    \begin{bmatrix}2\\-3\end{bmatrix}, \begin{bmatrix}0\\3\end{bmatrix},\begin{bmatrix}1\\-1\end{bmatrix},\begin{bmatrix}1\\-2\end{bmatrix}.
+                                </me>
+                            </p>
+                        </li>
+
+
+                        <li xml:id="item-linindpart2">
+                            <p>
+                                <me>
+                                    \begin{bmatrix}2\\1\\4\end{bmatrix},\begin{bmatrix}-3\\1\\1\end{bmatrix}.
+                                </me>
+                            </p>
+                        </li>
+                    </ol>
+                </p>
+            </statement>
+            <answer>
+                <p>
+                    We will start by addressing linear independence for <xref ref="item-linindpart1"/>.  To do so, we will solve the linear combination equation
+                    <men xml:id="linrelationpart1">
+                        c_1 \begin{bmatrix} 2\\-3 \end{bmatrix} 
+                            + c_2 \begin{bmatrix}0\\3\end{bmatrix}
+                            + c_3\begin{bmatrix}1\\-1\end{bmatrix}
+                            + c_4\begin{bmatrix}1\\-2\end{bmatrix}
+                            = \mathbf{0}.
+                    </men>
+                    Clearly <m>c_1=c_2=c_3=c_4=0</m> is a solution to the equation.  The question is whether another solution exists.
+                    The linear combination equation translates into the following system:
+                    <me>
+                        \begin{array}{ccccccccc}
+                            2c_1 \amp  \amp \amp +\amp c_3\amp +\amp c_4\amp = \amp 0 \\
+                            -3c_1\amp  +\amp 3c_2\amp -\amp c_3\amp -\amp 2c_4\amp = \amp 0 \\
+                        \end{array}.
+                    </me>
+                        Writing the system in augmented matrix form and applying elementary row operations gives us the following reduced row echelon form:
+                    <me>
+                        \left[\begin{array}{cccc|c}  
+                            2\amp 0\amp 1\amp 1\amp 0\\-3\amp 3\amp -1\amp -2\amp 0
+                        \end{array}\right]
+                        \xrightarrow{\text{RREF}}
+                        \left[\begin{array}{cccc|c}  
+                            1\amp 0\amp 1/2\amp 1/2\amp 0\\0\amp 1\amp 1/6\amp -1/6\amp 0
+                        \end{array}\right].
+                    </me>
+                    This shows that <xref ref="linrelationpart1"/> has infinitely many solutions:  
+                    <me>
+                        c_1=-\frac{1}{2}s-\frac{1}{2}t,\quad c_2=-\frac{1}{6}s+\frac{1}{6}t,\quad c_3=s,\quad c_4=t.
+                    </me>
+                    Since there are infinitely many solutions, we conclude that the vectors are linearly dependent.
+                </p>
+
+                <p>
+                    Now to address part <xref ref="item-linindpart2"/> of the remark. 
+                    We can use the solution to the homogeneous linear combination equation <xref ref="linrelationpart1"/>
+                    to write one of the vectors as a linear combination of the others.
+                    Letting <m>t=s=6</m>, we obtain the following:
+                    <men xml:id="ex1">
+                        -6\begin{bmatrix}2\\-3\end{bmatrix}
+                            + 0 \begin{bmatrix}0\\3\end{bmatrix}
+                            + 6\begin{bmatrix}1\\-1\end{bmatrix}
+                            + 6\begin{bmatrix}1\\-2\end{bmatrix}
+                            = \mathbf{0}.
+                    </men>
+                    Now we solve <xref ref="ex1"/> for one of the vectors: 
+                    <men xml:id="ex1lincomb">
+                        \begin{bmatrix}2\\-3\end{bmatrix} 
+                            = 0\begin{bmatrix}0\\3\end{bmatrix}
+                            + \begin{bmatrix}1\\-1\end{bmatrix}
+                            + \begin{bmatrix}1\\-2\end{bmatrix}.
+                    </men>
+                    This would not be possible if a nontrivial solution to the equation
+                    <me>
+                        c_1\begin{bmatrix}2\\-3\end{bmatrix}
+                        + c_2 \begin{bmatrix}0\\3\end{bmatrix}
+                        + c_3\begin{bmatrix}1\\-1\end{bmatrix}
+                        + c_4\begin{bmatrix}1\\-2\end{bmatrix}
+                        = \mathbf{0}
+                    </me>
+                    did not exist. Therefore, we conclude the answer to both questions in <xref ref="LinIndEquiv"/> is ``YES".
+                </p>
+
+                <p>
+                    For part <xref ref="item-linindpart2"/> To address linear independence, we need to solve the equation
+                    <me>
+                        c_1\begin{bmatrix}2\\1\\4\end{bmatrix}+c_2\begin{bmatrix}-3\\1\\1\end{bmatrix}=\mathbf{0}.
+                    </me>
+                    Converting the equation to augmented matrix form and performing row reduction gives us
+                    <me>
+                        \left[\begin{array}{cc|c}  
+                            2\amp -3\amp 0\\1\amp 1\amp 0\\4\amp 1\amp 0
+                        \end{array}\right]
+                        \xrightarrow{\text{RREF}}
+                        \left[\begin{array}{cc|c}  
+                            1\amp 0\amp 0\\0\amp 1\amp 0\\0\amp 0\amp 0
+                        \end{array}\right].
+                    </me>
+
+                    This shows that <m>c_1=c_2=0</m> is the only solution. 
+                    Therefore the two vectors are linearly independent.
+                    Furthermore, we cannot write one of the vectors as a linear combination of the other.
+                    Do you see that the only way this would be possible with a set of two vectors is if they were scalar multiples of each other?
+                </p> 
+
+                <p>
+                    So the answer to both questions in <xref ref="LinIndEquiv"/> is ``NO".
+                </p>
+            </answer>
+        </example>
+
+
+        <theorem xml:id="th-lindeplincombofother">
+            <statement>
+                <p>
+                    Let <m>\left\{\mathbf{v}_1,\mathbf{v}_2,\dots ,\mathbf{v}_k\right\}</m> be a set of vectors in <m>\R^n</m> containing two or more vectors.  The following conditions are equivalent.
+                    <ol>
+                        <li xml:id="th-lindeplincombofother-a">
+                            <p>
+                                <m>\mathbf{v}_1,\mathbf{v}_2,\dots ,\mathbf{v}_k</m> are linearly dependent.
+                            </p>
+                        </li>
+                        <li xml:id="th-lindeplincombofother-b">
+                            <p>
+                                One of <m>\mathbf{v}_1,\mathbf{v}_2,\dots ,\mathbf{v}_k</m> can be expressed as a linear combination of the others. 
+                            </p>
+                        </li>
+                    </ol>
+                </p>
+            </statement>
+        </theorem>
+
+        <proof>
+            <p>
+               For <xref ref="th-lindeplincombofother-a"/> <m>\implies</m> <xref ref="th-lindeplincombofother-b"/>,  if <m>\mathbf{v}_1,\mathbf{v}_2,\dots ,\mathbf{v}_k</m> are linearly dependent, then
+                <me>
+                    c_1\mathbf{v}_1+c_2\mathbf{v}_2+\ldots +c_j\mathbf{v}_j+\ldots +c_k\mathbf{v}_k=\mathbf{0}
+                </me>
+                has a non-trivial solution.  In other words at least one of the constants, say <m>c_j</m>, does not equal zero.  This allows us to solve for <m>\mathbf{v}_j</m>:
+                <md>
+                    <mrow> 
+                        -c_j\mathbf{v}_j
+                            \amp = c_1\mathbf{v}_1
+                            + c_2\mathbf{v}_2
+                            + \ldots 
+                            + c_k\mathbf{v}_k 
+                    </mrow> 
+                    <mrow> 
+                        \mathbf{v}_j 
+                            \amp = -\frac{c_1}{c_j}\mathbf{v}_1
+                            - \frac{c_2}{c_j}\mathbf{v}_2
+                            - \ldots 
+                            - \frac{c_k}{c_j}\mathbf{v}_k. 
+                    </mrow>
+                </md>
+                Do you see why it was important to have one of the constants nonzero?
+                This shows that <m>\mathbf{v}_j</m> may be expressed as a linear combination of the other vectors.
+            </p> 
+
+            <p> 
+               For the implication <xref ref="th-lindeplincombofother-b"/> <m>\implies</m> <xref ref="th-lindeplincombofother-a"/>, 
+               suppose <m>\mathbf{v}_j</m> is a linear combination of <m>\mathbf{v}_1,\mathbf{v}_2,\dots,\mathbf{v}_k</m>. 
+               We will show that the vectors <m>\mathbf{v}_1,\mathbf{v}_2,\dots ,\mathbf{v}_k</m> are linearly dependent.
+               That is, there is a non-trivial solution to the homogeneous linear combination equation
+               <men xml:id="eq-homoglincomb">
+                    x_1\mathbf{v}_1+x_2\mathbf{v}_2+\cdots +x_j\mathbf{v}_j+\cdots +x_k\mathbf{v}_k=\mathbf{0}.
+               </men>
+               Since <m>\mathbf{v}_j</m> is a linear combination of <m>\mathbf{v}_1,\mathbf{v}_2,\dots,\mathbf{v}_k</m>,
+               we can write 
+               <me>
+                    \mathbf{v}_j = a_1\mathbf{v}_1+a_2\mathbf{v}_2+\ldots +a_{j-1}\mathbf{v}_{j-1}+a_{j+1}\mathbf{v}_{j+1}+\ldots +a_k\mathbf{v}_k
+               </me>
+               for some constants <m>a_1,a_2,\ldots ,a_{j-1},a_{j+1},\ldots ,a_k</m>.
+               We can now subtract <m>\mathbf{v}_{j}</m> from both sides of the equation to get:
+               <me>
+                    a_1\mathbf{v}_1+a_2\mathbf{v}_2+\cdots +a_{j-1}\mathbf{v}_{j-1}-\mathbf{v}_{j}+a_{j+1}\mathbf{v}_{j+1}+\cdots +a_k\mathbf{v}_k
+                        = \mathbf{0}
+               </me>
+               Hence, <m>x_1=a_1, x_2=a_2, \ldots, x_{j-1}=a_{j-1}, x_{j}=-1, x_{j+1}=a_{j+1},\ldots, x_k=a_k</m>
+               is a non-trivial solution to the homogeneous linear combination equation <xref ref="eq-homoglincomb"/>.
+               This shows that the vectors <m>\mathbf{v}_1,\mathbf{v}_2,\dots ,\mathbf{v}_k</m> are linearly dependent.
+            </p> 
+
+            <p>
+                These two parts of the proof show that if one of the conditions is true, both must be true.
+                It is a logical consequence that if one of the conditions is false, both must be false.
+            </p>
+        </proof>
+
+        Recall that the span of a set of vectors is the set of all linear combinations of those vectors.
+
+        <corollary xml:id="cor-span-of-lin-dependent-vectors">
+            <statement>
+                <p>
+                    Let <m>X=\left\{\mathbf{v}_1,\mathbf{v}_2,\dots ,\mathbf{v}_k\right\}</m> be a set of vectors in <m>\R^n</m>.
+                    <ul>
+                        <li>
+                            <p>
+                                If <m>X</m> is linearly dependent, then by <xref ref="th-lindeplincombofother"/> there is a vector 
+                                <m>\mathbf{v}_j</m> in <m>X</m> that can be written as a linear combination of the other vectors in <m>X</m>
+                                and therefore
+                                <me>
+                                    \text{span}(X)=\text{span}\left(\mathbf{v}_1,\mathbf{v}_2,\ldots ,\mathbf{v}_{j-1},\mathbf{v}_{j+1},\ldots ,\mathbf{v}_k\right).
+                                </me>
+                            </p>
+                        </li>
+                        <li>
+                            <p>
+                                If <m>X</m> is linearly independent, then no vector in <m>X</m> can be written as a linear combination of 
+                                the others and hence the span of <m>X</m> cannot be written as the span of a proper subset of <m>\left\{\mathbf{v}_1,\mathbf{v}_2,\dots ,\mathbf{v}_k\right\}</m>.
+                            </p>
+                        </li>
+                    </ul>
+                </p>
+            </statement>
+        </corollary>
+    </subsection>
+
+
+
+
+
+
+
+    <subsection xml:id="Subsection-Geometry-of-Linearly-Dependent-and-Linearly-Independent-Vectors">
+        <title>Geometry of Linearly Dependent and Linearly Independent Vectors</title>
+
+        <introduction>
+        <p>
+            <xref ref="th-lindeplincombofother"/> gives us a convenient way of looking at linear dependence/independence geometrically.  
+            When looking at two or more vectors, we ask, <q>Can one of the vectors be written as a linear combination of the others?</q>
+            If the answer is <q>YES</q>, then the vectors are linearly dependent.
+        </p>
+        </introduction>
+
+        <subsubsection xml:id="Subsubsection-A-Set-of-Two-Vectors">
+            <title>A Set of Two Vectors</title>
+
+            <p>
+                Two vectors are linearly dependent if and only if one is a scalar multiple of the other. 
+                Two nonzero linearly dependent vectors may look like this:
+            </p>
+
+            <image width="30%">
+                <shortdescription> Two vectors that lie on the same line and point in the same direction. </shortdescription>
+                <latex-image>
+                    \begin{tikzpicture}[scale=0.8]
+                        \draw[line width=1pt,blue,-stealth](0,0)--(2,2);
+                        \draw[line width=1pt,red,-stealth](0,0)--(1,1);
+                    \end{tikzpicture}
+                </latex-image>
+            </image>
+            
+            <p>
+                or like this:
+
+            <image width="20%">
+                <shortdescription> Two vectors that lie on the same line, but point in opposite directions. </shortdescription>
+                    <latex-image>
+                        \begin{tikzpicture}[scale=0.8]
+                            \draw[line width=1pt,blue,-stealth](0,0)--(1,2);
+                            \draw[line width=1pt,red,-stealth](0,0)--(-0.5,-1);
+                        \end{tikzpicture}
+                    </latex-image>
+            </image>
+            Either way, the span of the two vectors is a line.
+            </p>
+
+            <p>
+                Two linearly independent vectors will look like this:
+            
+            <image width="20%">
+                <shortdescription> Two vectors that do not lie on the same line. </shortdescription>
+                <latex-image>
+                    \begin{tikzpicture}[scale=0.8]
+                        \draw[line width=1pt,blue,-stealth](0,0)--(1,1);
+                        \draw[line width=1pt,red,-stealth](0,0)--(0.5,-1);
+                    \end{tikzpicture}
+                </latex-image>
+            </image>
+
+            and in this case, the span of the two vectors is a plane. 
+        </p>
+        </subsubsection>
+
+
+        <subsubsection xml:id="Subsubsection-A-Set-of-Three-Vectors">
+            <title>A Set of Three Vectors</title>
+
+            <p>
+                Given a set of three nonzero vectors, we have the following possibilities:
+            </p>
+            <ul>
+                <li>
+                    <p>
+                        (Linearly Dependent Vectors) The three vectors are scalar multiples of each other.
+                    <image width="40%">
+                        <shortdescription> Three vectors that lie on the same line. </shortdescription>
+                        <latex-image>
+                            \begin{tikzpicture}[scale=0.8]
+                                \draw[line width=1pt,blue,-stealth](0,0)--(2,2);
+                                \draw[line width=1pt,red,-stealth](0,0)--(1,1);
+                                \draw[line width=1pt,-stealth](0,0)--(0.5,0.5);
+                            \end{tikzpicture}
+                        </latex-image>
+                    </image> 
+                    or perhaps one or two of the vectors point in the opposite direction.  
+                    In all cases, the span of the three vectors is a line.  
+                </p>
+                </li>
+                   
+                <li>
+                    <p>
+                        (Linearly Dependent Vectors) Two of the vectors are scalar multiples of each other.
+                    <image width="40%">
+                        <shortdescription> Two vectors that lie on the same line and one that lies on a different line. </shortdescription>
+                        <latex-image>
+                            \begin{tikzpicture}[scale=0.8]
+                                \draw[line width=1pt,blue,-stealth](0,0)--(2,2);
+                                \draw[line width=1pt,red,-stealth](0,0)--(1,1);
+                                \draw[line width=1pt,-stealth](0,0)--(1,0);
+                            \end{tikzpicture}
+                        </latex-image>
+                    </image>
+                    and in this case the span of the three vectors is a plane.
+                </p>
+                </li>
+                   
+                <li>
+                    <p>
+                        (Linearly Dependent Vectors) One vector can be viewed as the diagonal of a parallelogram determined by scalar multiples of the other two vectors.
+                        All three vectors lie in the same plane.
+                    </p>
+                    <image width="65%">
+                        <shortdescription>
+                            Three vectors that lie in the same plane, with one vector being the diagonal of a parallelogram formed by the other two.
+                        </shortdescription>
+                        <latex-image>
+                            \begin{tikzpicture}[scale=0.8]
+                                \filldraw[blue, opacity=0.3](0,0)--(-2,2)--(2,4)--(4,2)--cycle;
+                                \draw[line width=1pt,red,-stealth](0,0)--(2,1);
+                                \draw[line width=1pt,red,-stealth, dashed](0,0)--(4,2);
+                                \draw[line width=1pt,blue,-stealth](0,0)--(-2,2);
+                                \draw[line width=1pt,-stealth](0,0)--(2,4); 
+                            \end{tikzpicture}
+                        </latex-image>
+                    </image>
+                </li>
+                   
+                <li>
+                    <p>
+                        (Linearly Independent Vectors) A set of three vectors is linearly independent if the vectors do not lie in the same plane.
+                        For example, the standard basis vectors <m>\mathbf{i}</m>, <m>\mathbf{j}</m> and <m>\mathbf{k}</m> are linearly independent.
+                    </p>
+                </li>
+            </ul>
+        </subsubsection>
+    </subsection>
+
+
+
+
+
+    <exercises>
+
+        <exercisegroup>
+            <introduction>
+                <p>
+                    For each matrix <m>A</m> and vector <m>\mathbf{b}</m> below, find a solution to <m>A\mathbf{x}=\mathbf{b}</m> and  express your solution as a sum of a particular solution and a general solution to the associated homogeneous system.
+                </p>
+            </introduction>
+
+            <exercise xml:id="prob-hompluspart1">
+                <statement>
+                    <p>
+                        <me>
+                            A=\begin{bmatrix}1\amp 1\amp 3\amp 1\\3\amp 4\amp 2\amp 1\end{bmatrix}\quad\text{and}\quad\mathbf{b}=\begin{bmatrix}6\\1\end{bmatrix}
+                        </me>
+                    </p>
+                </statement>
+            </exercise>
+
+            <exercise xml:id="prob-hompluspart2">
+                <statement>
+                    <p>
+                        <me>
+                            A=\begin{bmatrix}3\amp 2\amp 1\\1\amp -1\amp 1\\4\amp 1\amp 1\end{bmatrix}\quad\text{and}\quad\mathbf{b}=\begin{bmatrix}10\\2\\12\end{bmatrix}
+                        </me>
+                    </p>
+                </statement>
+            </exercise>
+
+            <exercise xml:id="prob-infmanysolutionshom">
+                <statement>
+                    <p>
+                        Prove that a consistent system has infinitely many solutions if and only if the associated homogeneous system has infinitely many solutions.
+                    </p>
+                </statement>
+            </exercise>
+        </exercisegroup>
+
+
+        <exercisegroup>
+            <introduction>
+                <p>
+                    If possible, construct an example of each of the following.  If not possible, explain why.
+                </p>
+            </introduction>
+
+            <exercise xml:id="prob-homexample1">
+                <statement>
+                    <p>
+                        An inconsistent system with an associated homogeneous system that has infinitely many solutions.
+                    </p>
+                </statement>
+            </exercise>
+  
+            <exercise xml:id="prob-homexample2">
+                <statement>
+                    <p>
+                        An inconsistent system with an associated homogeneous system that has a unique (trivial) solution.
+                    </p>
+                </statement>
+            </exercise>
+        </exercisegroup>
+
+
+        <exercise xml:id="prob-lincombsolutions">
+            <statement>
+                <p>
+                    Prove that a linear combination of any number of solutions of a homogeneous equation is a solution of the same equation.
+                </p>
+            </statement>
+        </exercise>
+
+
+        <exercise xml:id="prob-homogeneouspart1">
+            <statement>
+                <p>
+                    Prove <xref ref="item-homogeneous1"/> of <xref ref="th-homogeneous"/>.
+                </p>
+            </statement>
+        </exercise>
+
+
+        <!-- Exercises on Linear Independance -->
+        <exercise xml:id="prob-redundant1">
+            <statement>
+                <p>
+                    Consider the following set of vectors:
+                    <me>
+                        \left\{\begin{bmatrix}1\\2\\-1\end{bmatrix},\begin{bmatrix}2\\0\\1\end{bmatrix},\begin{bmatrix}4\\4\\-1\end{bmatrix}\right\}.
+                    </me>
+
+                    <ol>
+                        <li>
+                            <p>
+                                Express each of the vectors in the set as a linear combination of the remaining vectors.
+                            </p>
+                        </li>
+
+                        <li>
+                            <p>
+                                Which of the following is NOT true?
+                            </p>
+                        </li>
+                    </ol>
+                </p>
+            </statement>
+                
+            <choices>
+                <choice>
+                    <statement>
+                        <p>
+                            If <m>\mathbf{w} </m> is in
+                            <me>
+                                \mbox{span}\left(\begin{bmatrix}1\\2\\-1\end{bmatrix},\begin{bmatrix}2\\0\\1\end{bmatrix},\begin{bmatrix}4\\4\\-1\end{bmatrix}\right),
+                            </me>
+                            then <m>\mathbf{w}</m> is in 
+                            <me>
+                                \mbox{span}\left(\begin{bmatrix}2\\0\\1\end{bmatrix},\begin{bmatrix}4\\4\\-1\end{bmatrix}\right).
+                            </me>
+                        </p>
+                    </statement>
+                </choice> 
+        
+                <choice correct="yes">
+                    <statement>
+                        <p>
+                            We can remove <m>[1,2,-1]</m> and <m>[2,0,1]</m> from 
+                            <me>
+                                \left\{\begin{bmatrix}1\\2\\-1\end{bmatrix},\begin{bmatrix}2\\0\\1\end{bmatrix},\begin{bmatrix}4\\4\\-1\end{bmatrix}\right\}
+                            </me>                         
+                            at the same time without affecting the span.
+                        </p>
+                    </statement>
+                </choice>
+            </choices>
+
+            <answer>
+                <p> 
+                    <md>
+                        <mrow>   
+                            \begin{bmatrix}1\\2\\-1\end{bmatrix} 
+                                \amp = -\frac{1}{2}\begin{bmatrix}2\\0\\1\end{bmatrix}
+                                + \frac{1}{2}\begin{bmatrix}4\\4\\-1\end{bmatrix}
+                        </mrow>
+                        <mrow>
+                            \begin{bmatrix}2\\0\\1\end{bmatrix}
+                                \amp = -2\begin{bmatrix}1\\2\\-1\end{bmatrix}
+                                + 1\begin{bmatrix}4\\4\\-1\end{bmatrix}
+                        </mrow>
+                        <mrow>
+                            \begin{bmatrix}4\\4\\-1\end{bmatrix}
+                                \amp = 2\begin{bmatrix}1\\2\\-1\end{bmatrix}
+                                + 1\begin{bmatrix}2\\0\\1\end{bmatrix}
+                        </mrow>
+                    </md>
+                </p>
+            </answer>
+        </exercise>
+
+
+        <exercisegroup>
+            <introduction>
+                <p>
+                    Are the given vectors linearly independent?
+                </p>
+            </introduction>
+
+            <exercise>
+                <statement>
+                    <p> 
+                        <me>
+                            \begin{bmatrix}-1\\0\end{bmatrix}, \begin{bmatrix}2\\3\end{bmatrix},\begin{bmatrix}4\\-1\end{bmatrix}
+                        </me>
+                    </p>
+                </statement>
+            
+                <choices>
+                    <choice>
+                        <statement>
+                            <p>
+                                Yes
+                            </p>
+                        </statement>
+                    </choice>
+
+                    <choice correct="yes">
+                        <statement>
+                            <p>
+                                No
+                            </p>
+                        </statement>
+                    </choice>
+                </choices>
+
+                <hint> 
+                    <p> If we rewrite
+                        <me>
+                            c_1\begin{bmatrix}-1\\0\end{bmatrix}+c_2 \begin{bmatrix}2\\3\end{bmatrix}+c_3\begin{bmatrix}4\\-1\end{bmatrix}=\begin{bmatrix}0\\0\end{bmatrix}
+                        </me>
+                        as a system of linear equations, there will be more unknowns than equations.
+                    </p>
+                </hint>
+            </exercise>
+
+
+            <exercise xml:id="prob-linindmultchoice2">
+                <statement>
+                    <p>
+                        <me>
+                            \begin{bmatrix}1\\0\\5\end{bmatrix}, \begin{bmatrix}2\\2\\3\end{bmatrix},\begin{bmatrix}-1\\0\\1\end{bmatrix}
+                        </me>
+                    </p>
+                </statement>
+
+                <choices>
+                    <choice correct="yes">
+                        <statement>
+                            <p>
+                                Yes
+                            </p>
+                        </statement>
+                    </choice>
+
+                    <choice>
+                        <statement>
+                            <p>
+                                No
+                            </p>
+                        </statement>
+                    </choice>
+                </choices>
+            
+                <hint>
+                    <p>
+                        If we let <m>A</m> be the matrix whose columns are these vectors, then <m>\mbox{rref}(A)</m> should tell us what we want to know.
+                    </p>
+                </hint>
+            </exercise>
+
+
+            <exercise xml:id="prob-linindmultchoice3">
+                <statement>
+                    <p>
+                        <me>
+                            \begin{bmatrix}3\\0\\5\end{bmatrix}, \begin{bmatrix}2\\0\\2\end{bmatrix},\begin{bmatrix}-1\\0\\-5\end{bmatrix}
+                        </me>
+                    </p>
+                </statement>
+
+                <choices>
+                    <choice>
+                        <statement>
+                            <p>
+                                Yes
+                            </p>
+                        </statement>
+                    </choice>
+
+                    <choice correct="yes">
+                        <statement>
+                            <p>
+                                No
+                            </p>
+                        </statement>
+                    </choice>
+                </choices>
+                
+                <hint>
+                    <p>
+                        If we let <m>A</m> be the matrix whose columns are these vectors, then <m>\mbox{rref}(A)</m> should tell us what we want to know.
+                    </p>
+                </hint>
+            </exercise>
+
+
+            <exercise xml:id="prob-linindmultchoice4">
+                <statement>
+                    <p>
+                        <me>
+                            \begin{bmatrix}3\\1\\4\\1\end{bmatrix}, \begin{bmatrix}-2\\1\\1\\1\end{bmatrix}
+                        </me>
+                    </p>
+                </statement>
+
+                <choices>
+                    <choice correct="yes">
+                        <statement>
+                            <p>
+                                Yes
+                            </p>
+                        </statement>
+                    </choice>
+
+                    <choice>
+                        <statement>
+                            <p>
+                                No
+                            </p>
+                        </statement>
+                    </choice>
+                </choices>
+                
+                <hint>
+                    <p>
+                        In a set of two vectors, the only way it can be linearly dependent is if one of the vectors is a scalar multiple of the other.
+                    </p>
+                </hint>
+            </exercise>
+        </exercisegroup>
+
+       
+        <exercisegroup xml:id="prob-TFlinind1">
+            <introduction>
+                <p>
+                True or false?   
+                </p>
+            </introduction>
+
+            <exercise>
+                <statement>
+                    <p>
+                        Any set containing the zero vector is linearly dependent.
+                    </p>
+                </statement>
+
+                <choices>
+                    <choice correct="yes">
+                        <statement>
+                            <p>
+                                TRUE
+                            </p>
+                        </statement>
+                    </choice>
+
+                    <choice>
+                        <statement>
+                            <p>
+                                FALSE
+                            </p>
+                        </statement>
+                    </choice>
+                </choices>
+
+                <hint>
+                    <p>
+                        Can the zero vector be removed from the set without changing the span?
+                    </p>
+                </hint>
+            </exercise>
+
+
+            <exercise xml:id="prob-TFlinind2">
+                <statement>
+                    <p>
+                        A set containing five vectors in <m>\R^2</m> is linearly dependent.
+                    </p>
+                </statement>
+    
+                <choices>
+                    <choice correct="yes">
+                        <statement>
+                            <p>
+                                TRUE
+                            </p>
+                        </statement>
+                    </choice>
+
+                    <choice>
+                        <statement>
+                            <p>
+                                FALSE
+                            </p>
+                        </statement>
+                    </choice>
+                </choices>
+
+                <hint>
+                    <p>
+                        If we rewrite  <xref ref="eq-defLinInd"/> for five vectors in <m>\R^2</m> as a system of equations, how many equations and unknowns will it have?  What does this imply about the number of solutions?
+                    </p>
+                </hint>
+            </exercise>
+        </exercisegroup>
+
+
+        <exercisegroup xml:id="prob-linindmultchoice5">
+            <introduction>
+                <p>
+                    Each problem below provides information about vectors <m>\mathbf{v}_1, \mathbf{v}_2, \mathbf{v}_3</m>. If possible, determine whether the vectors are linearly dependent or independent.
+                </p>
+            </introduction>
+
+            <exercise>
+                <statement>
+                    <p>
+                        <me>
+                            0\mathbf{v}_1+ 0\mathbf{v}_2+ 0\mathbf{v}_3=\mathbf{0}
+                        </me>
+                    </p>
+                </statement>
+
+                <choices>
+                    <choice>
+                        <statement>
+                            <p>
+                                The vectors are linearly independent
+                            </p>
+                        </statement>
+                    </choice>
+
+                    <choice>
+                        <statement>
+                            <p>
+                                The vectors are linearly dependent
+                            </p>
+                        </statement>
+                    </choice>
+
+                    <choice correct="yes">
+                        <statement>
+                            <p>
+                                There is not enough information given to make a determination
+                            </p>
+                        </statement>
+                    </choice>
+                </choices>
+            </exercise>
+
+
+            <exercise xml:id="prob-linindmultchoice6">
+                <statement>
+                    <p>
+                        <me>
+                            3\mathbf{v}_1+ 4\mathbf{v}_2- \mathbf{v}_3=\mathbf{0}
+                        </me>
+                    </p>
+                </statement>
+
+                <choices>
+                    <choice>
+                        <statement>
+                            <p>
+                                The vectors are linearly independent
+                            </p>
+                        </statement>
+                    </choice>
+
+                    <choice correct="yes">
+                        <statement>
+                            <p>
+                                The vectors are linearly dependent
+                            </p>
+                        </statement>
+                    </choice>
+
+                    <choice>
+                        <statement>
+                            <p>
+                                There is not enough information given to make a determination
+                            </p>
+                        </statement>
+                    </choice>
+                </choices>
+            </exercise>
+
+
+            <exercise xml:id="prob-linindmultchoice7">
+                <statement>
+                    <p>
+                        <me>
+                            2\mathbf{v}_1+ 0\mathbf{v}_2+ 0\mathbf{v}_3=\mathbf{0}
+                        </me>
+                    </p>
+                </statement>
+
+                <choices>
+                    <choice>
+                        <statement>
+                            <p>
+                                The vectors are linearly independent
+                            </p>
+                        </statement>
+                    </choice>
+
+                    <choice correct="yes">
+                        <statement>
+                            <p>
+                                The vectors are linearly dependent
+                            </p>
+                        </statement>
+                    </choice>
+
+                    <choice>
+                        <statement>
+                            <p>
+                                There is not enough information given to make a determination
+                            </p>
+                        </statement>
+                    </choice>
+                </choices>
+            </exercise>
+        </exercisegroup>
+
+
+        <exercisegroup xml:id="prob-linindmultchoice9">
+            <introduction>
+                <p>
+                Each diagram below shows a collection of vectors.  Are the vectors linearly dependent or independent?    
+                </p>
+            </introduction>
+
+            <exercise>
+                <statement>
+                    <image width="50%">
+                        <shortdescription>
+                            Example with three vectors
+                        </shortdescription>
+                        <latex-image>
+                            \begin{tikzpicture}[scale=0.8]
+                                \draw[\lt -\gt ] (-2,0)--(2,0);
+                                \draw[\lt -\gt ] (0,-2)--(0,2);
+                                \draw[line width=2pt,blue,-stealth](0,0)--(1.5,1.5);
+                                \draw[line width=2pt,-stealth](0,0)--(1,-1);
+                                \draw[line width=2pt,red,-stealth](0,0)--(0,1.5);
+                            \end{tikzpicture}
+                        </latex-image>
+                    </image>
+                </statement>
+
+                <choices>
+                    <choice>
+                        <statement>
+                            <p>
+                                The vectors are linearly independent
+                            </p>
+                        </statement>
+                    </choice>
+
+                    <choice correct="yes">
+                        <statement>
+                            <p>
+                                The vectors are linearly dependent
+                            </p>
+                        </statement>
+                    </choice>
+
+                    <choice>
+                        <statement>
+                            <p>
+                                There is not enough information given to make a determination
+                            </p>
+                        </statement>
+                    </choice>
+                </choices>
+            </exercise>
+
+
+            <exercise xml:id="prob-linindmultchoice10">
+                <statement>
+                    <image width="60%">
+                        <shortdescription>
+                            Example with two vectors
+                        </shortdescription>
+                        <latex-image>
+                            \begin{tikzpicture}[scale=0.8]
+                                \draw[\lt -\gt ] (-2.5,0)--(2.5,0);
+                                \draw[\lt -\gt ] (0,-1)--(0,2.5);
+                                \draw[line width=2pt,blue,-stealth](0,0)--(2,2);
+                                \draw[line width=2pt,red,-stealth](0,0)--(-1,1);
+                            \end{tikzpicture}
+                        </latex-image>
+                    </image>
+                </statement>
+
+                <choices>
+                    <choice correct="yes">
+                        <statement>
+                            <p>
+                                The vectors are linearly independent
+                            </p>
+                        </statement>
+                    </choice>
+
+                    <choice>
+                        <statement>
+                            <p>
+                                The vectors are linearly dependent
+                            </p>
+                        </statement>
+                    </choice>
+
+                    <choice>
+                        <statement>
+                            <p>
+                                There is not enough information given to make a determination
+                            </p>
+                        </statement>
+                    </choice>
+                </choices>
+            </exercise>
+        </exercisegroup>
+
+
+        <exercise xml:id="prob-Adding1OK">
+            <statement>
+                <p>
+                    Suppose <m>\{\mathbf{v}_{1}, \dots , \mathbf{v}_{m}\}</m> is a linearly independent set in <m>\R^n</m>, and that <m>\mathbf{v}_{m+1}</m> is not in <m>\mbox{span}\left(\mathbf{v}_{1}, \dots , \mathbf{v}_{m}\right)</m>.
+                    Prove that <m>\{\mathbf{v}_{1}, \dots , \mathbf{v}_{m}, \mathbf{v}_{m+1}\}</m> is also linearly independent.
+                </p>
+            </statement>
+        </exercise>
+
+        <exercise xml:id="prob-OtherLinearComb">
+            <statement>
+                <p>
+                    Suppose <m>\{{\mathbf{u}},{\mathbf{v}}\}</m> is a linearly independent set of vectors.
+                    Prove that the set <m>\{\mathbf{u} -\mathbf{v}, \mathbf{u}+2\mathbf{v}\}</m> is also linearly independent.
+                </p>
+            </statement>
+        </exercise>
+
+        <exercise xml:id="prob-OtherLinearComb2">
+            <statement>
+                <p>
+                    Suppose <m>\{{\mathbf{u}},{\mathbf{v}}\}</m> is a linearly independent set of vectors in <m>\R^3</m>.
+                    Is the following set dependent or independent <m>\{\mathbf{u} -\mathbf{v}, \mathbf{u}+2\mathbf{v}, \mathbf{u}+\mathbf{v}\}</m>? Prove your claim.
+                </p>
+            </statement>
+        </exercise>
+    </exercises>
+</section>

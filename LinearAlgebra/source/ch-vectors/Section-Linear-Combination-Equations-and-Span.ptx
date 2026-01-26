@@ -1,0 +1,1279 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<section xml:id="Section-Linear-Combination-Equations-and-Span" xmlns:xi="http://www.w3.org/2001/XInclude">
+    <title>Linear Combination Equations and Span</title>
+
+    <introduction>
+    <p>
+        When studying vectors, the two main operations we have learned about are vector addition and scalar multiplication.  
+        Both are involved in the important concept of a <term>linear combination</term> of vectors.
+    </p>
+
+    <definition xml:id="def-lincomb">
+
+        <statement>
+            <p>
+                A vector <m>\mathbf{v}</m> is said to be a <term>linear combination</term> of vectors <m>\mathbf{v}_1, \mathbf{v}_2,\ldots, \mathbf{v}_n</m> if 
+                <me>
+                    a_1\mathbf{v}_1+ a_2\mathbf{v}_2+\ldots + a_n\mathbf{v}_n = \mathbf{v}
+                </me>
+                for some scalars <m>a_1, a_2, \ldots ,a_n</m>.
+            </p>
+        </statement>
+    </definition>
+
+
+
+    <p>
+        For example, <m>\begin{bmatrix} -4\\9\\-10\\-1\end{bmatrix}</m> is a linear combination of <m>\begin{bmatrix} -1\\3\\-3\\0\end{bmatrix}</m>,
+        <m>\begin{bmatrix} 2\\0\\1\\4\end{bmatrix}</m> and <m>\begin{bmatrix} 0\\1\\-1\\1\end{bmatrix}</m> because 
+
+        <me>
+            \begin{bmatrix} -4\\9\\-10\\-1\end{bmatrix}=2\begin{bmatrix} -1\\3\\-3\\0\end{bmatrix}+(-1)\begin{bmatrix} 2\\0\\1\\4\end{bmatrix}+3\begin{bmatrix} 0\\1\\-1\\1\end{bmatrix}
+        </me>
+    </p>
+
+
+    <remark>
+        <statement>
+            <p>
+                Moving forward, vectors will also be written in horizontal notation instead of vertical. This is mainly for notational reasons. For instance, the vector
+                <me>
+                    \begin{bmatrix} -4\\9\\-10\\-1\end{bmatrix}
+                </me>
+                would instead in midtext be denoted by <m>[-4,9,10,-1]</m>. This is justified, as any point in <m>(a,b,c,d)</m> in <m> \R^4 </m> can be thought of as the
+                vector starting from the orign <m> (0,0,0,0) </m> and with direction <m> [a,b,c,d] </m>.
+            </p>
+        </statement>
+    </remark> 
+    </introduction>
+
+
+    <subsection xml:id="Subsection-Visualizing-Linear-Combinations-in-2d-and-3d">
+        <title>Visualizing Linear Combinations in <m>\R^2</m> and <m>\R^3</m></title>
+
+
+
+        <exploration xml:id="exp-linCombR2">
+            <p>
+                Answer the questions below using the GeoGebra interactive.  To use the interactive, you can
+        <ol>
+            <li>
+            <p> change vectors <m>\mathbf{v}</m> and <m>\mathbf{w}</m> by dragging the tips of these vectors. </p>
+        </li>
+            <li>
+            <p> change the coefficients <m>k_1</m> and <m>k_2</m> of the linear combination by using sliders. </p>
+        </li>
+        </ol>
+
+
+
+        <figure>
+        <caption>
+        </caption>
+        <interactive xml:id="geogebra-vector-span-2d" platform="geogebra" width="130%" aspect="800:600">
+            <slate xml:id="vector-span-2d" surface="geogebra" material="md3srgdg" aspect="800:600" />
+        </interactive>
+        </figure>
+        </p>
+
+
+
+        <problem>
+        <statement>
+            <p>
+        Let <m>\mathbf{w}=[1,2]</m> and <m>\mathbf{v}=[1,-1]</m>.  Find <m>k_1</m> and <m>k_2</m> such that 
+        <me>
+        k_1\mathbf{w}+k_2\mathbf{v}=\begin{bmatrix}4\\-1\end{bmatrix}.
+        </me>
+            </p>
+        </statement>
+
+        <answer>
+            <p>
+                <m>k_1=1,\quad k_2=3.</m>
+            </p>
+        </answer>
+        </problem>
+
+
+        <problem>
+        <statement>
+            <p>
+            Let <m>\mathbf{w}=[1,2]</m> and <m>\mathbf{v}=[-2,0]</m>.  Find <m>k_1</m> and <m>k_2</m> such that 
+            <me>
+                k_1\mathbf{w}+k_2\mathbf{v}=[3,-2].
+            </me>
+            </p>
+        </statement>
+
+        <answer>
+            <p>
+            <m>   k_1=-1,\quad k_2=-2 </m>
+            </p>
+        </answer>
+        </problem>
+
+
+        <problem>
+        <statement>
+            <p>
+            Use the same vectors <m>\mathbf{w}</m> and <m>\mathbf{v}</m> as in the previous part.  
+            Do you think it is possible to express any vector in <m>\R^2</m> as a linear combination of <m>\mathbf{w}</m> and <m>\mathbf{v}</m>?    
+            </p>
+        </statement>
+
+        <answer>
+            <p>
+            <me> \text{Yes} </me>
+            </p>
+        </answer>
+        </problem>
+
+
+        <problem>
+            <statement>
+                <p>
+            Let <m>\mathbf{w}=[4, 2]</m> and <m>\mathbf{v}=[-2,-1]</m>.  
+            Do you think it is possible to express any vector in <m>\R^2</m> as a linear combination of <m>\mathbf{w}</m> and <m>\mathbf{v}</m>. Argue why/why not and write? 
+                </p>
+            </statement>
+
+        <answer>
+            <p>
+            <me> \text{No} </me>  
+            </p>
+        </answer>
+            </problem>
+
+        </exploration>
+
+
+
+
+
+    <p>
+        Visualizing linear combinations of vectors in <m>\R^3</m> is more difficult than doing so in <m>\R^2</m>.  
+        The following GeoGebra interactive will help you do this.
+    </p>
+
+    <exploration xml:id="exp-linCombR3">
+        <p>
+            To use the interactive, define vectors <m>\mathbf{u}</m>, <m>\mathbf{v}</m> and <m>\mathbf{w}</m>.  
+            Use sliders to change the coefficients <m>k_1, k_2</m> and <m>k_3</m> of the linear combination.  
+            The linear combination <m>k_1\mathbf{u}+k_2\mathbf{v}+k_3\mathbf{w}</m> is shown as the pink vector along the diagonal of the parallelepiped. 
+
+    RIGHT-CLICK and DRAG the left panel to rotate the image.
+        
+    <figure>
+    <caption>
+    </caption>
+    <interactive xml:id="geogebra-span-vector-3d" platform="geogebra" width="150%" aspect="900:800">
+        <slate xml:id="span-vector-3d" surface="geogebra" material="zvzxujp2" aspect="900:800" />
+    </interactive>
+    </figure>
+    </p>
+    </exploration>
+    </subsection>
+
+
+    <subsection xml:id="subsec-Solving-Linear-Combination-Equations">
+        <title>Solving Linear Combination Equations</title>
+        
+        <p>
+            A <term>linear combination equation</term> is an equation of the form
+            <me>
+                x_1\mathbf{v}_1+x_2\mathbf{v}_2+\ldots + x_n\mathbf{v}_n=\mathbf{b}
+            </me>
+            where <m>\mathbf{v}_1, \mathbf{v}_2, \ldots, \mathbf{v}_n</m> and <m>\mathbf{b}</m> are vectors in <m>\R^m</m>, 
+            and <m>x_1, x_2, \ldots, x_n</m> are unknowns.
+        </p>
+        
+        <exploration xml:id="init-solvinglincombeqn">
+            <statement>
+                <p>
+                    Express <m>\begin{bmatrix}3\\ -4\end{bmatrix}</m> as a linear combination of 
+                    <m>\begin{bmatrix}-1\\ 3\end{bmatrix}</m> and <m>\begin{bmatrix}-4\\ 2\end{bmatrix}</m>
+                    or determine if it is not possible.
+                </p>
+            </statement>
+            <answer>
+                <p>
+                    We need to solve for scalars <m>x_1</m> and <m>x_2</m> such that
+                    <me>
+                        x_1\begin{bmatrix}-1\\3\end{bmatrix}+x_2\begin{bmatrix}-4\\2\end{bmatrix}=\begin{bmatrix}3\\-4\end{bmatrix}.
+                    </me>
+                    Simplifying the left-hand side, we get the equation
+                    <me>
+                        \begin{bmatrix}-x_1-4x_2\\3x_1+2x_2\end{bmatrix}=\begin{bmatrix}3\\-4\end{bmatrix}.
+                    </me>
+                    This gives us the system of equations
+                    <me>
+                        \begin{array}{ccc}
+                        -x_1-4x_2 \amp = \amp 3 \\
+                        3x_1+2x_2 \amp = \amp -4
+                        \end{array}.
+                    </me>
+                    Now we solve the system by row reducing the corresponding augmented matrix:
+                    <md>
+                        <mrow>
+                            \left[\begin{array}{cc|c}
+                                -1 \amp -4 \amp 3 \\
+                                3 \amp 2 \amp -4
+                            \end{array}\right]
+                            \amp \xrightarrow{R_2+3R_1}
+                            \left[\begin{array}{cc|c}
+                                -1 \amp -4 \amp 3 \\
+                                0 \amp -10 \amp 5
+                            \end{array}\right]
+                        </mrow>
+                        <mrow>
+                            \amp \xrightarrow[-\frac{1}{10}R_2]{(-1)R_1}
+                            \left[\begin{array}{cc|c}
+                                1 \amp 4 \amp -3 \\
+                                0 \amp 1 \amp -\frac{1}{2}
+                            \end{array}\right]
+                        </mrow>
+                        <mrow>
+                            \amp \xrightarrow{R_1-4R_2}
+                            \left[\begin{array}{cc|c}
+                                1 \amp 0 \amp -1 \\
+                                0 \amp 1 \amp -\frac{1}{2}
+                            \end{array}\right]
+                        </mrow>
+                    </md>
+                    Hence, the solution to the system is <m>x_1 = -1</m> and <m>x_2 = -\frac{1}{2}</m>, and
+                    we can express <m>\begin{bmatrix}3\\-4\end{bmatrix}</m> as a linear combination of
+                    <m>\begin{bmatrix}-1\\3\end{bmatrix}</m> and <m>\begin{bmatrix}-4\\2\end{bmatrix}</m> as follows:
+                    <me>
+                        \begin{bmatrix}3\\-4\end{bmatrix} = -1\begin{bmatrix}-1\\3\end{bmatrix} + \left(-\frac{1}{2}\right)\begin{bmatrix}-4\\2\end{bmatrix}.
+                    </me>
+                </p>
+            </answer>
+        </exploration>
+
+        <p>
+            To solve the linear combination equation in <xref ref="init-solvinglincombeqn"/>, we reinterpreted it as a system of linear equations.
+            In general, the linear combination equation
+            <men xml:id="eqn-lincomb">
+                x_1 \begin{bmatrix}a_{11}\\a_{12}\\\vdots\\a_{1m}\end{bmatrix} 
+                + x_2 \begin{bmatrix}a_{21}\\a_{22}\\\vdots\\a_{2m}\end{bmatrix} 
+                + \cdots 
+                + x_n \begin{bmatrix}a_{n1}\\a_{n2}\\\vdots\\a_{nm}\end{bmatrix} 
+                = \begin{bmatrix}b_1\\b_2\\\vdots\\b_m\end{bmatrix}
+            </men>
+            corresponds to the system of equations
+            <me>
+                \begin{array}{ccccccccc}
+                a_{11}x_1 \amp + \amp a_{12}x_2 \amp + \cdots + \amp a_{1n}x_n\amp = \amp b_1 \\
+                a_{21}x_1 \amp + \amp a_{22}x_2 \amp + \cdots + \amp a_{2n}x_n\amp = \amp b_2 \\
+                \amp \amp \amp \vdots \amp \amp \amp \\
+                a_{m1}x_1 \amp + \amp a_{m2}x_2 \amp + \cdots + \amp a_{mn}x_n\amp = \amp b_m
+                \end{array}.
+            </me>
+            Hence, to solve the linear combination equation <xref ref="eqn-lincomb"/>, we can row reduce the augmented matrix
+            <me>
+                \left[\begin{array}{cccc|c}
+                a_{11} \amp a_{12} \amp \ldots \amp a_{1n} \amp b_1\\
+                a_{21} \amp a_{22} \amp \ldots \amp a_{2n} \amp b_2\\
+                \amp \amp \vdots \amp \amp \vdots\\
+                a_{m1} \amp a_{m2} \amp \ldots \amp a_{mn} \amp b_m
+                \end{array}\right].
+            </me>
+            The resulting row echelon form will give us the solution to the linear combination equation. 
+            If the system is consistent, then 
+            <me>
+                \mathbf{b} = \begin{bmatrix}b_1\\b_2\\\vdots\\b_m\end{bmatrix}
+            </me>
+            is a linear combination of the vectors 
+            <me>
+                \mathbf{v}_1 = \begin{bmatrix}a_{11}\\a_{12}\\\vdots\\a_{1m}\end{bmatrix}, 
+                \mathbf{v}_2 = \begin{bmatrix}a_{21}\\a_{22}\\\vdots\\a_{2m}\end{bmatrix}, 
+                \ldots, 
+                \mathbf{v}_n = \begin{bmatrix}a_{n1}\\a_{n2}\\\vdots\\a_{nm}\end{bmatrix}.
+            </me>
+            If the system is inconsistent, then <m>\mathbf{b}</m> is not a linear combination of the vectors <m>\mathbf{v}_1, \mathbf{v}_2, \ldots, \mathbf{v}_n</m>.
+        </p>
+
+        <example xml:id="ex-lincombgeometry2">
+            <statement>
+                <p>
+                    Can the vector <m>[3,2]</m> be written as a linear combination of vectors <m>[-3,1]</m> and <m>[6,-2]</m>?
+                </p>
+            </statement>
+            <answer>
+                <p>
+                    We will start with a geometric approach.
+                    <image width="80%">
+                        <shortdescription>Three vectors drawn</shortdescription>
+                        <latex-image>
+                            \begin{tikzpicture}[scale=0.8]
+                                \draw[thin,gray!40] (-4,-5) grid (7,4);
+                                \draw[\lt -\gt ] (-4,0)--(7,0);
+                                \draw[\lt -\gt ] (0,-5)--(0,4);
+                                \draw[line width=2pt,red,-stealth](0,0)--(-3,1) node[above right]{\(\begin{bmatrix}-3\\1\end{bmatrix}\)};
+
+                                \draw[line width=2pt,blue,-stealth](0,0)--(6,-2) node[below left]{\(\begin{bmatrix}6\\-2\end{bmatrix}\)};
+
+                                \draw[line width=2pt,-stealth](0,0)--(3,2)node[right]{\(\begin{bmatrix}3\\2\end{bmatrix}\)};     
+                            \end{tikzpicture}
+                        </latex-image>
+                    </image>
+
+                    Observe that <m>[-3,1]</m> and <m>[6,-2]</m> are scalar multiples of each other and lie on the same line.  
+
+                    A linear combination of <m>[-3,1]</m> and <m>[6,-2]</m> has the form:
+                    <me>
+                        a\begin{bmatrix}6\\-2\end{bmatrix}+b\begin{bmatrix}-3\\1\end{bmatrix}=a(-2)\begin{bmatrix}-3\\1\end{bmatrix}+b\begin{bmatrix}-3\\1\end{bmatrix}=(-2a+b)\begin{bmatrix}-3\\1\end{bmatrix}.
+                    </me>
+
+                    This shows that all linear combinations of <m>[-3,1]</m> and <m>[6,-2]</m> 
+                    will be scalar multiples of <m>[-3,1]</m>, and therefore lie on the same line as <m>[-3,1]</m>.
+                    Since <m>[3,2]</m> does not lie on the line determined by <m>[-3,1]</m> 
+                    it cannot be expressed as a linear combination of <m>[-3,1]</m> and <m>[6,-2]</m>.
+                </p>
+                <p>
+                    We can also address this question algebraically.  To express <m>[3,2]</m> as a linear combination of
+                    <m>[-3,1]</m> and <m>[6,-2]</m>, we need to solve the equation.
+                    <me>
+                        a\begin{bmatrix}-3\\1\end{bmatrix}+b\begin{bmatrix}6\\-2\end{bmatrix}=\begin{bmatrix}3\\2\end{bmatrix}
+                    </me>
+            
+                    This corresponds to the system of equations
+                    <md>
+                        <mrow> -3a + 6b \amp = 3 </mrow>
+                        <mrow> a - 2b \amp = 2 </mrow> 
+                    </md>
+                    and augmented matrix
+                    <me>
+                        \left[\begin{array}{cc|c}
+                            -3 \amp 6 \amp 3 \\
+                            1 \amp -2 \amp 2
+                        \end{array}\right].
+                    </me>
+                    Let's row reduce this matrix to see if the system is consistent:
+                    <md>
+                        <mrow>
+                            \left[\begin{array}{cc|c}
+                                -3 \amp  6 \amp 3 \\
+                                 1 \amp -2 \amp 2
+                            \end{array}\right]
+                            \amp \xrightarrow{R_1\leftrightarrow R_2}
+                            \left[\begin{array}{cc|c}
+                                1 \amp -2 \amp 2 \\
+                                -3 \amp  6 \amp 3 
+                            \end{array}\right]
+                        </mrow>
+                        <mrow>
+                            \amp \xrightarrow{R_2+3R_1}
+                            \left[\begin{array}{cc|c}
+                                1 \amp -2 \amp 2 \\
+                                0 \amp 0 \amp 9
+                            \end{array}\right]
+                        </mrow>
+                    </md>
+
+                    As we reduce the augmented matrix, notice that there is a pivot in the last column.
+                    This means the system is inconsistent, and therefore <m>[3,2]</m> cannot be written as a 
+                    linear combination of <m>[-3,1]</m> and <m>[6,-2]</m>.
+                </p>
+            </answer>
+        </example>
+
+
+
+        <example xml:id="ex-lincombgeometry1">
+            <statement>
+                <p>
+                    Express <m>[2,4]</m> as a linear combination of <m>[2,1]</m> and <m>[2,-2]</m>.  Interpret your results geometrically.
+                </p>
+            </statement>
+            <answer>
+                <p>
+                    We need to find scalars <m>x_1</m> and <m>x_2</m> such that 
+                    <me>
+                        x_1 \begin{bmatrix} 2\\ 1 \end{bmatrix} + x_2 \begin{bmatrix} 2\\ -2 \end{bmatrix}
+                        = \begin{bmatrix} 2\\ 4\end{bmatrix}.
+                    </me>
+
+                    Write down the augmented matrix for this equation and row reduce:
+                    <md>
+                        <mrow> 
+                            \begin{bmatrix}2 \amp 2 \amp 2\\ 1 \amp -2 \amp 4\end{bmatrix}
+                            \amp \xrightarrow{\frac{1}{2}R_1}
+                            \begin{bmatrix}1 \amp 1 \amp 1\\ 1 \amp -2 \amp 4\end{bmatrix}
+                            \xrightarrow{R_2 - R_1}
+                            \begin{bmatrix}1 \amp 1 \amp 1\\ 0 \amp -3 \amp 3\end{bmatrix}
+                        </mrow>
+                        <mrow> 
+                            \amp \xrightarrow{-\frac{1}{3}R_2}
+                            \begin{bmatrix}1 \amp 1 \amp 1\\ 0 \amp 1 \amp -1\end{bmatrix}
+                            \xrightarrow{R_1 - R_2}
+                            \begin{bmatrix}1 \amp 0 \amp 2\\ 0 \amp 1 \amp 1\end{bmatrix}
+                        </mrow>
+                    </md>
+                    Hence, <m>x_1=2</m> and <m>x_2=-1</m>.  
+                    
+                    Now we can write <m>[2,4]</m> as a linear combination of <m>[2,1]</m> and <m>[2,-2]</m> as follows:
+                    <me>
+                        \begin{bmatrix}2\\4\end{bmatrix}=2\begin{bmatrix}2\\1\end{bmatrix}+(-1)\begin{bmatrix}2\\-2\end{bmatrix}.
+                    </me>
+
+
+                    Geometrically, this means that the vector <m>[2,4]</m> is the diagonal of the parallelogram 
+                    determined by <m>2[2,1]</m> and <m>(-1) [2,-2]</m>.  
+                </p> 
+
+                <p> 
+                    The original vectors <m>[2,1]</m> and <m>[2,-2]</m> are shown below together with the parallelogram and its diagonal. 
+                </p>
+
+                <image width="90%">
+                    <shortdescription>Paralellogram with diagonal drawn</shortdescription>
+                    <latex-image>
+                        \begin{tikzpicture}[scale=1]
+                            \draw[thin,gray!40] (-4,-4) grid (4,4);
+                            \draw[\lt -\gt ] (-4,0)--(4,0);
+                            \draw[\lt -\gt ] (0,-4)--(0,4);
+                            
+                            \filldraw[blue, opacity=0.3](0,0)--(-2,2)--(2,4)--(4,2)--cycle;
+                            \draw[line width=2pt,red,-stealth](0,0)--(2,1) node[below right]{\(\begin{bmatrix}2\\1\end{bmatrix}\)};
+                            \draw[line width=2pt,red,-stealth, dashed](0,0)--(4,2) node[below right]{\(2\begin{bmatrix}2\\1\end{bmatrix}\)};
+
+                            \draw[line width=2pt,blue,-stealth](0,0)--(2,-2) node[right]{\(\begin{bmatrix}2\\-2\end{bmatrix}\)};
+                            \draw[line width=2pt,blue,-stealth, dashed](0,0)--(-2,2) node[above left]{\((-1)\begin{bmatrix}2\\-2\end{bmatrix}\)};
+                            \draw[line width=2pt,-stealth](0,0)--(2,4); 
+                        \end{tikzpicture}
+                    </latex-image>
+                </image>
+            </answer>
+        </example>
+
+
+
+        <example xml:id="ex-lincombalgebra1">
+            <statement>
+                <p>
+                    If possible, express <m>[7, 4, -5]</m> as a linear combination of <m>[1,-2,1]</m> and <m>[3, 0, -1]</m>.
+                </p>
+            </statement>
+            <answer>
+                <p>
+                    We are looking for coefficients <m>x_1</m> and <m>x_2</m> such that 
+                    <me>
+                        x_1\begin{bmatrix}1\\-2\\1\end{bmatrix} + x_2\begin{bmatrix}3\\0\\-1\end{bmatrix} = \begin{bmatrix}7\\4\\-5\end{bmatrix}.
+                    </me>
+                    This translates into the system of linear equations
+                    <md>
+                        <mrow> x_1+3x_2 \amp = 7 </mrow>
+                        <mrow> -2x_1 \amp = 4 </mrow>
+                        <mrow> x_1 - x_2 \amp = -5 </mrow>
+                    </md>
+                    Solving this system for <m>x_1</m> and <m>x_2</m> yields <m> x_1=-2</m> and <m>x_2=3</m>.
+                    We conclude that <m>[7,4,-5]</m> is a linear combination of <m>[1,-2,1]</m> and <m>[3,0,-1]</m>.
+                    Specifically, we have
+                    <me>
+                        -2\begin{bmatrix}1\\-2\\1\end{bmatrix}+3\begin{bmatrix}3\\0\\-1\end{bmatrix} = \begin{bmatrix}7\\4\\-5\end{bmatrix}.
+                    </me>
+                </p>
+            </answer>
+        </example>
+
+        <example xml:id="ex-lincombalgebra2">
+            <statement>
+                <p>
+                    Set up a system of equations that can be used to express <m>[2,-1,3,0]</m> as a linear combination of 
+                    <m>[1,0,4,-2]</m>, <m>[-2,-1,1,-1]</m>, 
+                    <m>[0,4,-3,1]</m> and <m>[1,1,-1,4]</m>, 
+                    or to determine that such a combination does not exist.  
+                </p>
+            
+                <p>
+                    <m> \textbf{Do not solve the system}. </m>
+                </p>
+            </statement>
+            <answer>
+                <p>
+                    We are looking for <m>x_1</m>, <m>x_2</m>, <m>x_3</m> and <m>x_4</m> such that 
+                    <me>
+                        x_1\begin{bmatrix}1\\0\\4\\-2\end{bmatrix}+x_2\begin{bmatrix}-2\\-1\\1\\-1\end{bmatrix}+x_3\begin{bmatrix}0\\4\\-3\\1\end{bmatrix}+x_4\begin{bmatrix}1\\1\\-1\\4\end{bmatrix}=\begin{bmatrix}2\\-1\\3\\0\end{bmatrix}.
+                    </me>
+                    This translates into the following system of equations:
+                    <me>
+                        \begin{array}{ccccccccc}
+                        x_1 \amp  -\amp 2x_2 \amp  \amp  \amp + \amp  x_4\amp = \amp 2 \\
+                            \amp  \amp -x_2  \amp + \amp 4x_3 \amp  +\amp  x_4\amp = \amp -1 \\
+                        4x_1 \amp + \amp x_2 \amp  -\amp 3x_3 \amp -\amp x_4\amp = \amp 3\\
+                        -2x_1\amp  -\amp x_2 \amp  +\amp x_3\amp +\amp 4x_4\amp =\amp 0
+                        \end{array}.
+                    </me>
+                </p>
+            </answer>
+        </example>
+
+
+
+    </subsection>
+
+
+
+
+
+    <subsection xml:id="Section-Span">
+        <title>The Linear Span</title>
+
+        <p>
+            Recall that a vector <m>\mathbf{v}</m> is said to be a linear combination of vectors <m>\mathbf{v}_1, \mathbf{v}_2,\ldots, \mathbf{v}_n</m> if one has
+            <me>
+                a_1\mathbf{v}_1+ a_2\mathbf{v}_2+\ldots + a_n\mathbf{v}_n = \mathbf{v}
+            </me>
+            for some scalars <m>a_1, a_2, \ldots ,a_n</m>. Let's look at an explicit example to demystify this notion.
+        </p> 
+
+        <example xml:id="ex-spanintro">
+            <statement>
+                <p>
+                    If possible, express the vectors  
+                    <me>
+                        \mathbf{u}=\begin{bmatrix}2\\3\\5\end{bmatrix} 
+                        \quad \text{and} \quad
+                        \mathbf{w}=\begin{bmatrix}5\\5\\1\end{bmatrix}
+                    </me>
+                    as a linear combination of 
+                    <me>
+                        \mathbf{v}_1=\begin{bmatrix}-2\\-3\\4\end{bmatrix},\quad\mathbf{v}_2=\begin{bmatrix}2\\3\\2\end{bmatrix}.
+                    </me>
+                    Interpret your results geometrically.
+                </p>
+            </statement>
+            <answer>
+                <p>
+                    For <m>\mathbf{u}</m>, we need to find coefficients <m>a_1</m> and <m>a_2</m> such that 
+                    <m>a_1\mathbf{v}_1+a_2\mathbf{v}_2=\mathbf{u}</m>. 
+                    To do this we need to solve the linear combination equation:
+                    <me>
+                        a_1\begin{bmatrix}-2\\-3\\4\end{bmatrix}+a_2\begin{bmatrix}2\\3\\2\end{bmatrix}=\begin{bmatrix}2\\3\\5\end{bmatrix}.
+                    </me>
+
+                    Now we write the corresponding augmented matrix and reduce it to reduced row echelon form.
+                    <me>
+                        \left[\begin{array}{cc|c}  
+                            -2\amp 2\amp 2\\-3\amp 3\amp 3\\4\amp 2\amp 5
+                        \end{array}\right]
+                        \xrightarrow{\text{RREF}}
+                        \left[\begin{array}{cc|c}  
+                            1\amp 0\amp 1/2\\0\amp 1\amp 3/2\\0\amp 0\amp 0
+                        \end{array}\right].
+                    </me>
+ 
+                    Hence, <m>a_1=\frac{1}{2}</m>, <m>a_2=\frac{3}{2}</m>, and we can express <m>\mathbf{u}</m> as a 
+                    linear combination of <m>\mathbf{v}_1</m> and <m>\mathbf{v}_2</m> as follows:
+                    <me>
+                        \frac{1}{2}\begin{bmatrix}-2\\-3\\4\end{bmatrix}+\frac{3}{2}\begin{bmatrix}2\\3\\2\end{bmatrix}=\begin{bmatrix}2\\3\\5\end{bmatrix}.
+                    </me>
+            
+                    Observe that because vector <m>\mathbf{u}</m> is a linear combination of <m>\mathbf{v}_1</m> and <m>\mathbf{v}_2</m>, 
+                    <m>\mathbf{u}</m> is the diagonal of a parallelogram whose sides are scalar multiples of <m>\mathbf{v}_1</m> 
+                    and <m>\mathbf{v}_2</m>. As such, <m>\mathbf{u}</m> lies in the same plane as <m>\mathbf{v}_1</m> and 
+                    <m>\mathbf{v}_2</m>, as illustrated below.
+                </p>
+
+                <image width="80%">
+                    <shortdescription>Span of two vectors graphed</shortdescription>
+                    <latex-image>
+                        \tdplotsetmaincoords{70}{130}
+                        \begin{tikzpicture}[scale=0.6]
+                            \draw[-\gt ](-6,0,0)--(6,0,0) node[below left]{\(y\)};
+                            \draw[-\gt ](0,-2,0)--(0,8,0) node[below left]{\(z\)};
+                            \draw[-\gt ](0,0,-2)--(0,0,6) node[below left]{\(x\)};
+                            
+                            \filldraw[blue, opacity=0.3](0,0,0)--(4.5,3,3)--(3,5,2)--(-1.5,2,-1)--cycle;
+                            \draw[-\gt , line width=2pt,blue, -stealth](0,0,0)--(-3,4,-2)node[above left]{\(\mathbf{v}_1=\begin{bmatrix}-2\\-3\\4\end{bmatrix}\)};
+                            \draw[-\gt , line width=2pt,red, -stealth](0,0,0)--(3,2,2)node[right]{\(\mathbf{v}_2=\begin{bmatrix}2\\3\\2\end{bmatrix}\)};
+                            \draw[-\gt , line width=2pt, -stealth](0,0,0)--(3,5,2)node[above]{\(\mathbf{u}=\begin{bmatrix}2\\3\\5\end{bmatrix}\)};        
+                        \end{tikzpicture}
+                    </latex-image>
+                </image>
+
+        
+                <p> 
+                    For <m>\mathbf{w}</m>, we need to solve the following vector equation:   
+                    <me>
+                        a_1\begin{bmatrix}-2\\-3\\4\end{bmatrix}+a_2\begin{bmatrix}2\\3\\2\end{bmatrix}=\begin{bmatrix}5\\5\\1\end{bmatrix}.
+                    </me>
+
+                    Writing the equation in augmented matrix form and applying elementary row operations gives us 
+                    the following reduced row echelon form:
+                    <me>
+                        \left[\begin{array}{cc|c}  
+                            -2\amp 2\amp 5\\-3\amp 3\amp 5\\4\amp 2\amp 1
+                        \end{array}\right]
+                        \xrightarrow{\text{RREF}}
+                        \left[\begin{array}{cc|c}  
+                            1\amp 0\amp 0\\0\amp 1\amp 0\\0\amp 0\amp 1
+                        \end{array}\right].
+                    </me>
+
+                    We conclude that there are no solutions, and <m>\mathbf{w}</m> is not a linear combination of <m>\mathbf{v}_1</m> and <m>\mathbf{v}_2</m>.
+                </p>
+                
+                <p>
+                    Geometrically, this means that <m>\mathbf{w}</m> is not the diagonal of any parallelogram whose sides 
+                    are scalar multiples of <m>\mathbf{v}_1</m> and <m>\mathbf{v}_2</m>.  
+                    Thus, <m>\mathbf{w}</m> does not lie in the plane determined by <m>\mathbf{v}_1</m> and <m>\mathbf{v}_2</m>.  
+                </p>
+        
+        
+                <image width="80%">
+                    <shortdescription>Three vectors graphed without span</shortdescription>
+                    <latex-image>
+                        \tdplotsetmaincoords{70}{130}
+                        \begin{tikzpicture}[scale=0.6]
+                            \draw[-\gt ](-6,0,0)--(6,0,0) node[below left]{\(y\)};
+                            \draw[-\gt ](0,-2,0)--(0,8,0) node[below left]{\(z\)};
+                            \draw[-\gt ](0,0,-2)--(0,0,6) node[below left]{\(x\)};
+                            
+                            \draw[-\gt , line width=2pt,blue, -stealth](0,0,0)--(-3,4,-2)node[above left]{\(\mathbf{v}_1=\begin{bmatrix}-2\\-3\\4\end{bmatrix}\)};
+                        
+                            \draw[-\gt , line width=2pt,red, -stealth](0,0,0)--(3,2,2)node[right]{\(\mathbf{v}_2=\begin{bmatrix}2\\3\\2\end{bmatrix}\)};
+                            
+                            \draw[-\gt , line width=2pt, -stealth](0,0,0)--(5,1,5)node[below]{\(\mathbf{w}=\begin{bmatrix}5\\5\\1\end{bmatrix}\)};
+                        \end{tikzpicture}
+                    </latex-image>
+                </image>
+            </answer>
+        </example>
+
+
+        <p>
+            In <xref ref="ex-spanintro"/> we expressed <m>\mathbf{u}</m> as a linear combination of <m>\mathbf{v}_1</m> and <m>\mathbf{v}_2</m>, 
+            and concluded that <m>\mathbf{u}</m> lies in the plane determined by <m>\mathbf{v}_1</m> and <m>\mathbf{v}_2</m>.  
+            We say that <m>\mathbf{u}</m> is <term>in the span</term> of <m>\mathbf{v}_1</m> and <m>\mathbf{v}_2</m>.  
+            In fact, every vector in the plane determined by <m>\mathbf{v}_1</m> and <m>\mathbf{v}_2</m> is in the span of <m>\mathbf{v}_1</m> and <m>\mathbf{v}_2</m>.  
+            We say that <m>\mathbf{v}_1</m> and <m>\mathbf{v}_2</m> <term>span the plane</term>.
+        </p>
+
+        <p>
+            In contrast, vector <m>\mathbf{w}</m> of <xref ref="ex-spanintro"/> is not a linear combination of <m>\mathbf{v}_1</m> and <m>\mathbf{v}_2</m>.  
+            So, we say <m>\mathbf{w}</m> is not in the span of <m>\mathbf{v}_1</m> and <m>\mathbf{v}_2</m>.
+        </p>
+
+        <p>
+            The following video takes another look at <xref ref="ex-spanintro"/> using our new vocabulary.
+        </p>
+
+        <video youtube="Sum3qoOEXhY" play-at="select"/>
+
+
+        <definition xml:id="def-span">
+            <statement>
+                <p>
+                    Let <m>\mathbf{v}_1, \mathbf{v}_2,\ldots ,\mathbf{v}_p</m> be vectors in <m>\R^n</m>.  
+                    The set <m>S</m> of all linear combinations of <m>\mathbf{v}_1, \mathbf{v}_2,\ldots ,\mathbf{v}_p</m> 
+                    is called the <term>span</term> of <m>\mathbf{v}_1, \mathbf{v}_2,\ldots ,\mathbf{v}_p</m>.  
+                    We write 
+                    <me>
+                        S=\text{span}(\mathbf{v}_1, \mathbf{v}_2,\ldots ,\mathbf{v}_p),
+                    </me>
+                    and we say that vectors <m>\mathbf{v}_1, \mathbf{v}_2,\ldots ,\mathbf{v}_p</m> <term>span</term> <m>S</m>.  
+                    Any vector in <m>S</m> is said to be <term>in the span</term> of <m>\mathbf{v}_1, \mathbf{v}_2,\ldots ,\mathbf{v}_p</m>.  
+                    The set <m>\{\mathbf{v}_1, \mathbf{v}_2,\ldots ,\mathbf{v}_p\}</m> is called a <term>spanning set</term> for the space <m>S</m>.
+                </p>
+            </statement>
+        </definition>
+
+        <p>
+            The definition is rather formal even with all the preceding examples and geometric intuition. 
+            We highly recommend Working through the examples below in detail.
+        </p> 
+
+
+        <example xml:id="ex-describespan">
+            <statement>
+                <p>
+                    Describe <me>
+                        \text{span}\left(\begin{bmatrix}-3\\1\end{bmatrix}\right).
+                    </me>
+            </p>
+            </statement>
+            <answer>
+                <p>
+                    The span of <m>[-3,1]</m> is the set of all linear combinations of <m>[-3,1]</m>.  
+                    Since we are looking for linear combinations of only one vector, we are really looking for all of its scalar multiples.  
+                    So, the span will be the set of all vectors of the form <m>\mathbf{v}=a[-3,1]</m>.  
+                    All such vectors lie on the line determined by <m>[-3,1]</m>.
+                </p>
+
+        <image width="80%">
+        <shortdescription>Vector and its span graphed</shortdescription>
+            <latex-image>
+            \begin{tikzpicture}[scale=0.8]
+        \draw[thin,gray!40] (-6,-4) grid (6,4);
+        \draw[\lt -\gt ] (-6,0)--(6,0);
+        \draw[\lt -\gt ] (0,-4)--(0,4);
+        
+        \draw[line width=1pt,-stealth](0,0)--(-6,2);
+        \draw[line width=1pt,-stealth](0,0)--(6,-2);
+        \draw[line width=1pt,-stealth](0,0)--(3,-1);
+        \draw[line width=1pt,-stealth](0,0)--(1.5,-0.5);
+        \draw[line width=1pt,-stealth](0,0)--(4.5,-1.5);
+        \draw[line width=1pt,-stealth](0,0)--(-4.5,1.5);
+
+        \draw[line width=2pt,red,-stealth](0,0)--(-3,1) node[above right]{\(\begin{bmatrix}-3\\1\end{bmatrix}\)};
+
+            \end{tikzpicture}
+            </latex-image>
+        </image>
+            </answer>
+        </example>
+
+
+        <example xml:id="ex-spanr2">
+            <statement>
+                <p>
+                    Describe 
+                    <me>
+                    \text{span}\left(\begin{bmatrix}2\\2\end{bmatrix}, \begin{bmatrix}-1\\0\end{bmatrix}\right).
+                </me>
+            </p>
+            </statement>
+            <answer>
+                <p>
+                    First, observe that <m>[2,2]</m> and <m>[-1,0]</m> are not scalar multiples of each other.  
+                </p>
+
+        <image width="80%">
+        <shortdescription>Two vectors graphed</shortdescription>
+            <latex-image>
+            \begin{tikzpicture}[scale=0.8]
+        \draw[thin,gray!40] (-4,-1) grid (4,4);
+        \draw[\lt -\gt ] (-4,0)--(4,0);
+        \draw[\lt -\gt ] (0,-1)--(0,4);
+        
+        \draw[line width=2pt,blue,-stealth](0,0)--(2,2) node[above right]{\(\begin{bmatrix}2\\2\end{bmatrix}\)};
+        \draw[line width=2pt,red,-stealth](0,0)--(-1,0) node[above left]{\(\begin{bmatrix}-1\\0\end{bmatrix}\)};
+
+            \end{tikzpicture}
+            </latex-image>
+        </image>
+
+
+        <p>  
+        Geometrically, we can use <xref ref="exp-linCombR2"/> to express any vector of <m>\R^2</m> as a linear combination of <m>[2,2]</m> 
+        and  <m>[-1,0]</m>, indicating that the two vectors span all of <m>\R^2</m>.
+        </p>
+
+        <p>
+        To verify this claim algebraically we will show that an arbitrary vector <m>[s,t]</m> of <m>\R^2</m> 
+        can be written as a linear combination of <m>[2,2]</m> and  <m>[-1,0]</m>.  
+        </p>
+
+        <p>
+        Consider the vector equation:
+
+
+        <me>
+            a_1\begin{bmatrix}2\\2\end{bmatrix}+a_2\begin{bmatrix}-1\\0\end{bmatrix}=\begin{bmatrix}s\\t\end{bmatrix}.
+        </me>
+
+        This corresponds to the system:
+        
+        
+        <me>
+            \begin{array}{ccccc}
+            2a_1 \amp  -\amp a_2\amp = \amp s \\
+                2a_1\amp  \amp \amp = \amp t \\
+            \end{array}.
+        </me>
+
+        Writing the system in augmented matrix form and applying elementary row operations gives us the following reduced row-echelon form:
+        
+        <me>
+            \left[\begin{array}{cc|c}  
+        2\amp -1\amp s\\2\amp 0\amp t
+        \end{array}\right]\rightsquigarrow\left[\begin{array}{cc|c}  
+        1\amp 0\amp t/2\\0\amp 1\amp t-s
+        \end{array}\right].
+        </me>
+
+        This shows that every vector of <m>\R^2</m> can be written as a linear combination of <m>[2,2]</m> 
+        and  <m>[-1,0]</m>: 
+
+
+        <me>
+            (t/2)\begin{bmatrix}2\\2\end{bmatrix}+(t-s)\begin{bmatrix}-1\\0\end{bmatrix}=\begin{bmatrix}s\\t\end{bmatrix}.
+        </me>
+
+
+        We conclude that 
+        <me>
+            \text{span}\left(\begin{bmatrix}2\\2\end{bmatrix}, \begin{bmatrix}-1\\0\end{bmatrix}\right)=\R^2.
+        </me>
+            </p>
+            </answer>
+        </example>
+
+
+        <example xml:id="ex-spanoftwovectors">
+            <statement>
+                <p>
+                    Describe 
+                    <me>
+                    \text{span}\left(\begin{bmatrix}5\\0\\4\end{bmatrix}, \begin{bmatrix}0\\4\\2\end{bmatrix}\right).
+                </me>
+            </p>
+            </statement>
+            <answer>
+                <p>
+                    First, observe that <m>[5,0,4], [0,4,2]</m> are not scalar multiples of each other.  
+                </p>
+
+        <image width="80%">
+        <shortdescription>Two relevant vectors drawn</shortdescription>
+            <latex-image>
+                \tdplotsetmaincoords{70}{130}
+            \begin{tikzpicture}
+            \draw[-\gt ](-2,0,0)--(5,0,0) node[below left]{\(y\)};
+            \draw[-\gt ](0,-2,0)--(0,5,0) node[below left]{\(z\)};
+            \draw[-\gt ](0,0,-2)--(0,0,5) node[below left]{\(x\)};
+            
+            \draw[-\gt , line width=2pt,blue, -stealth](0,0,0)--(0,4,5)node[above right]{\(\begin{bmatrix}5\\0\\4\end{bmatrix}\)};
+            \draw[-\gt , line width=2pt,red, -stealth](0,0,0)--(4,2,0)node[above left]{\(\begin{bmatrix}0\\4\\2\end{bmatrix}\)};
+            
+            \end{tikzpicture}
+            </latex-image>
+        </image>
+
+        <p>
+        The span of <m>[5,0,4]</m> and <m>[0,4,2]</m> consists of elements of the form
+
+        <me>
+            a_1\begin{bmatrix}5\\0\\4\end{bmatrix}+a_2\begin{bmatrix}0\\4\\2\end{bmatrix}.
+        </me>
+
+
+        Geometrically, we can interpret all such linear combinations as diagonals of parallelograms determined by 
+        scalar multiples of <m>[5,0,4]</m> and <m>[0,4,2]</m>.  
+        All such diagonals will lie in the plane determined by <m>[5,0,4]</m> and <m>[0,4,2]</m>.  
+        Let this plane be called <m>p</m>.  A portion of <m>p</m> is shown below.
+        </p>
+
+
+        <image width="80%">
+        <shortdescription>Span of previous two vectors drawn</shortdescription>
+            <latex-image>
+                \tdplotsetmaincoords{70}{130}
+            \begin{tikzpicture}
+            \draw[-\gt ](-2,0,0)--(5,0,0) node[below left]{\(y\)};
+            \draw[-\gt ](0,-2,0)--(0,5,0) node[below left]{\(z\)};
+            \draw[-\gt ](0,0,-2)--(0,0,5) node[below left]{\(x\)};
+            \filldraw[blue, opacity=0.3] (0,0,0)--(4, 2, 0)--(4,6,5)--(0, 4, 5)--cycle;
+            \draw[-\gt , line width=2pt,blue, -stealth](0,0,0)--(0,4,5);
+            \draw[-\gt , line width=2pt,red, -stealth](0,0,0)--(4,2,0);
+            
+            \end{tikzpicture}
+            </latex-image>
+        </image>
+
+        <p>
+        Because <xref ref="exp-linCombR2"/> can be applied to vectors that lie in <m>p</m> just as easily as it can be applied to vectors of <m>\R^2</m>,
+        we conclude that every vector in <m>p</m> can be expressed as a linear combination of <m>[5,0,4]</m> and 
+        <m>[0,4,2]</m>.  Thus, 
+
+
+        <me>
+            \text{span}\left(\begin{bmatrix}5\\0\\4\end{bmatrix}, \begin{bmatrix}0\\4\\2\end{bmatrix}\right)=p.
+        </me>
+            </p>
+            </answer>
+        </example>
+
+    </subsection>
+
+
+
+
+
+
+
+    <exercises>
+        <exercise xml:id="prob-lincombtwovectors1">
+            <statement>
+                <p>
+                    Solve a system of linear equations to express <m>[-1, 7]</m> as a linear combination of
+                    <m>[1,2]</m> and <m>[-1,1]</m>.
+                </p>
+            </statement>
+            <answer>
+                <p>
+                    System of linear equations:
+                    <me>
+                        \begin{array}{ccccc}
+                        1a \amp  +\amp -1b\amp = \amp -1 \\
+                        2a\amp  +\amp 1b\amp =\amp 7
+                        \end{array}.
+                    </me>             
+                    Values of <m>a</m> and <m>b</m>:   
+                    <me>
+                        a=2\quad\text{and}\quad b=3
+                    </me>
+
+                        
+                        Linear Combination:
+                        
+                    <me>
+                        \begin{bmatrix}-1\\7\end{bmatrix}=2\begin{bmatrix}1\\2\end{bmatrix}+3\begin{bmatrix}-1\\1\end{bmatrix}.
+                    </me>
+                </p>
+            </answer>
+        </exercise>
+
+
+        <exercise xml:id="prob-lincombtwovectors2">
+            <statement>
+                <p>
+                    Use <xref ref="init-solvinglincombeqn"/> to express <m>[-3, 0]</m> as a linear combination of
+                    <m>[2,4]</m> and <m>[-1, 1]</m>.
+                </p>
+            </statement>
+            <answer>
+                <p>
+                    Linear Combination:
+                    <me>
+                        \begin{bmatrix}-3\\0\end{bmatrix}=-0.5\begin{bmatrix}2\\4\end{bmatrix}+2\begin{bmatrix}-1\\1\end{bmatrix}.
+                    </me>
+                </p>
+            </answer>
+        </exercise>
+
+        <exercise xml:id="prob-lincombtwovectors3">
+            <statement>
+                <p>
+                    Use two different approaches (algebraic and geometric) to explain why the vector <m>[5,1]</m>
+                    cannot be expressed as a linear combination of vectors <m>[2,-1]</m> and <m>[-4,2]</m>.
+                </p>
+            </statement>
+        </exercise>
+
+
+
+
+
+        <exercise>
+            <statement>
+                <p>
+        <xref ref="exp-linCombR2"/> shows geometrically how to write one vector in <m>\R^2</m> as a linear combination of two others.
+        The same process can, in certain cases be applied to vectors in <m>\R^3</m>.  
+        In both parts of this problem you will be asked to follow the steps in <xref ref="exp-linCombR2"/> 
+        to express one vector as a linear combination of two given vectors.  Then you will be asked to identify the condition which makes it possible to do so.
+                </p>
+
+        <p>
+        The following GeoGebra interactive shows vectors <m>u=[3,0,-1]</m>, <m>v=[1,-2,1]</m> and <m>w=[7,4,-5]</m>.
+        RIGHT-CLICK and DRAG to rotate the image.
+
+
+        <figure>
+        <caption>
+        </caption>
+        <interactive xml:id="geogebra-Span-Lineardep-Vectors" platform="geogebra" width="100%" aspect="800:600">
+            <slate xml:id="Span-Lineardep-Vectors" surface="geogebra" material="kk5hwjka" aspect="800:600" />
+        </interactive>
+        </figure>
+        </p>
+        </statement>
+        </exercise>
+
+        <exercise>
+        <statement>
+            <p> Can <m>\mathbf{w}</m> be expressed as a linear combination of <m>\mathbf{u}</m> and <m>\mathbf{v}</m>? </p>
+        </statement>
+
+        <choices>
+            <choice>
+            <statement>
+                <p> No, because <m>\mathbf{w}</m> is not between <m>\mathbf{u}</m> and <m>\mathbf{v}</m> </p>.
+            </statement>
+            </choice>
+            <choice>
+            <statement>
+                <p> Yes, because all three vectors are in the same plane. </p>
+            </statement>
+            </choice>
+            <choice correct="yes">
+            <statement>
+                <p> Yes, because all three vectors are in the same plane, AND <m>\mathbf{u} </m> and <m>\mathbf{v}</m> are not collinear. </p>
+            </statement>
+        </choice>
+        </choices>
+        </exercise>
+
+
+
+        <exercise>
+        <statement>
+            <p> 
+                Use the navigation bar at the bottom of the interactive window to view the step-by=step construction of the linea combination of 
+                <m>\mathbf{u}</m>, <m>\mathbf{v}</m> that equals <m>\mathbf{w}</m> (right-click and drag to rotate the image).  Use the final image to 
+        express <m>w</m> as a linear combination of <m>v</m> (blue) and <m>u</m> (red).
+            </p>
+        </statement>
+        <answer>
+        <p>
+        <me>
+            w=-2v+3u
+        </me>
+        </p>
+        </answer>
+        </exercise>
+
+
+
+
+        <exercise xml:id="prob-lincombtwovectors4b">
+            <statement>
+                <p>
+                    The following GeoGebra interactive shows vectors <m>v=[1,-2,1]</m>, <m>u=[3,0,-1]</m>, and <m>w=[7,4,0]</m>. 
+        RIGHT-CLICK and DRAG to rotate the image.  Use geometry to explain why <m>w</m> cannot be expressed as a linear combination of <m>v</m> and <m>u</m>.
+
+        <figure>
+        <caption>
+        </caption>
+        <interactive xml:id="geogebra-Span-Linearindep-Vectors" platform="geogebra" width="100%" aspect="800:600">
+            <slate xml:id="Span-Linearindep-Vectors" surface="geogebra" material="x9f6qnyr" aspect="800:600" />
+        </interactive>
+        </figure>
+        </p>
+            </statement>
+            <answer>
+                <p>
+                    <p>
+                        We can also show that <m>w</m> is not a linear combination of <m>v</m> and <m>u</m> algebraically by attempting to solve a system of equations corresponding to 
+                        
+                        <me>
+                            x_1 v + x_2 u=w.
+                        </me>
+                        
+                        Set up the system of equations
+                        
+                        <me>
+                            \begin{array}{ccccccc}
+                            1x_1 \amp  +\amp 3x_2\amp = \amp 7 \\
+                            -2x_1\amp  +\amp 0x_2\amp =\amp 4\\
+                            1x_1\amp  +\amp -1x_2\amp =\amp 0
+                            \end{array}.
+                        </me>
+                        
+                        
+                        Find the reduced row echelon form.
+                        
+                        
+                        <me>
+                            \left[\begin{array}{cc|c} 
+                        1\amp 0\amp 0\\0\amp 1\amp 0\\0\amp 0\amp 1
+                        \end{array}\right].
+                        </me>
+                                </p>
+                </p>
+            </answer>
+        </exercise>
+
+
+
+
+
+
+
+
+
+        <!--span exercises start here-->
+
+        <exercisegroup>
+            <introduction>
+                <p>
+                    Choose the best description for each set below.
+                </p>
+                </introduction>
+        
+        
+        <exercise xml:id="prob-describespan1">
+        <statement>
+        <p>
+        <me>
+            \text{span}\left(\begin{bmatrix}1\\1\\-2\end{bmatrix}, \begin{bmatrix}2\\2\\-4\end{bmatrix}\right)
+        </me>
+        </p>
+        </statement>
+        
+        
+        <choices>
+            <choice>
+        <statement>
+                <p> Plane in <m>\R^3</m> </p>
+        </statement>
+            </choice>
+            <choice>
+        <statement>
+                <p> Line in <m>\R^2</m> </p>
+        </statement>
+            </choice>
+                <choice correct="yes">
+                    <statement>
+                <p> Line in <m>\R^3</m> </p>
+                </statement>
+            </choice>
+            <choice>
+        <statement>
+                <p> <m>\R^3</m> </p>
+        </statement>
+            </choice>
+            <choice>
+                <statement>
+                <p> <m>\R^2</m> </p>
+            </statement>
+            </choice>
+        </choices>
+        </exercise>
+        
+        
+        
+        <exercise xml:id="prob-describespan2">
+            <statement>
+                <p>
+                    <me>
+            \text{span}\left(\begin{bmatrix}1\\-2\end{bmatrix}, \begin{bmatrix}1\\0\end{bmatrix}\right)
+        </me>
+        </p>
+        </statement>
+        
+        <choices>
+            <choice>
+                <statement>
+                <p> Plane in <m>\R^3</m> </p>
+                </statement>
+            </choice>
+            <choice>
+                <statement>
+                <p> Line in <m>\R^2</m> </p>
+                </statement>
+            </choice>
+                <choice>
+                    <statement>
+                <p> Line in <m>\R^3</m> </p>
+                    </statement>
+            </choice>
+            <choice>
+                <statement>
+                <p> <m>\R^3</m> </p>
+                </statement>
+            </choice>
+            <choice correct="yes">
+                <statement>
+                <p> <m>\R^2</m> </p>
+                </statement>
+            </choice>
+        </choices>
+        </exercise>
+        
+        
+        <exercise xml:id="prob-describespan3">
+            <statement>
+                <p>
+                    <me>
+            \text{span}\left(\begin{bmatrix}-3\\1\end{bmatrix}, \begin{bmatrix}6\\-2\end{bmatrix}, \begin{bmatrix}3\\-1\end{bmatrix}\right)
+        </me>
+        </p>
+        </statement>
+        
+        <choices>
+            <choice>
+                <statement>
+                <p> Plane in <m>\R^3</m> </p>
+                </statement>
+            </choice>
+            <choice correct="yes">
+                <statement>
+                <p> Line in <m>\R^2</m> </p>
+                </statement>
+            </choice>
+                <choice>
+                    <statement>
+                <p> Line in <m>\R^3</m> </p>
+                    </statement>
+            </choice>
+            <choice>
+                <statement>
+                <p> <m>\R^3</m> </p>
+                </statement>
+            </choice>
+            <choice>
+                <statement>
+                <p> <m>\R^2</m> </p>
+                </statement>
+            </choice>
+        </choices>
+        </exercise>
+        </exercisegroup>
+        
+        
+        
+        
+        <exercise xml:id="prob-equalsets">
+            <statement>
+                <p>
+                    Which of the following pairs of sets are equal?  
+                </p>
+            </statement>
+        
+        <choices>
+            <choice correct="yes">
+                <statement>
+                <p> 
+                    <m>V=\text{span}\left(\begin{bmatrix}5\\0\\0\end{bmatrix},\begin{bmatrix}10\\0\\0\end{bmatrix},\begin{bmatrix}0\\0\\-4\end{bmatrix}\right)
+                    \quad\text{and}\quad
+                    W=\text{span}\left(\begin{bmatrix}-2\\0\\0\end{bmatrix},\begin{bmatrix}0\\0\\1\end{bmatrix}\right)</m> 
+                </p>
+            </statement>
+            </choice>
+            <choice correct="yes">
+                <statement>
+                <p> 
+                    <m>V=\text{span}\left(\begin{bmatrix} 5\\ 3\end{bmatrix},\begin{bmatrix} 10\\ -1 \end{bmatrix},\begin{bmatrix} 0\\ 2 \end{bmatrix}\right)
+                    \quad\text{and}\quad
+                    W=\text{span}\left(\begin{bmatrix} -2\\ 0 \end{bmatrix},\begin{bmatrix} 0\\ 1\end{bmatrix}\right)</m>
+                </p>
+            </statement>
+            </choice>
+            <choice>
+                <statement>
+                <p> <m>V=\text{span}\left(\begin{bmatrix}1\\-2\\4\end{bmatrix}\right)\quad\text{and}\quad W=\text{span}\left(\begin{bmatrix}-1\\2\\-4\end{bmatrix},\begin{bmatrix}0\\0\\1\end{bmatrix}\right)</m> </p>
+                </statement>
+            </choice>
+            <choice correct="yes">
+                <statement>
+                <p> <m>V=\text{span}\left(\begin{bmatrix}5\\0\end{bmatrix}\right)\quad\text{and}\quad W=\text{span}\left(\begin{bmatrix}-2\\0\end{bmatrix},\begin{bmatrix}1\\0\end{bmatrix},\begin{bmatrix}-4\\0\end{bmatrix},\begin{bmatrix}0\\0\end{bmatrix}\right)</m> </p>
+                </statement>
+            </choice>
+        </choices>
+        
+        </exercise>
+        
+        <exercise xml:id="prob-notinspan">
+            <statement>
+                <p>
+                    Let <m>\mathbf{v}=[3,4,5]</m>.  Give an example of at least one vector <m>\mathbf{w}</m> such that <m>\mathbf{v}</m>, <m>\mathbf{w}</m> do NOT span a plane in <m>\R^3</m>.  Describe <m>\text{span}(\mathbf{v}, \mathbf{w})</m>.
+                </p>
+            </statement>
+        </exercise>
+        
+        <exercise xml:id="prob-zeroinspan">
+            <statement>
+                <p>
+                    Prove or disprove.  The zero vector of <m>\R^n</m> is contained in the span of any collection of vectors of <m>\R^n</m>.
+                </p>
+            </statement>
+        </exercise>
+    </exercises>
+    
+
+</section>

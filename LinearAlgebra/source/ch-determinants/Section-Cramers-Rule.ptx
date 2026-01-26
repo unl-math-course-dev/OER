@@ -1,0 +1,749 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<section xml:id="Section-Cramers-Rule" xmlns:xi="http://www.w3.org/2001/XInclude">
+    <title>Extra Topic: Cramer's Rule</title>
+
+<introduction>
+<p>
+Combining results of <xref ref="th-detofsingularmatrix"/> and <xref ref="th-nonsingularequivalency1"/> shows that the following statements 
+about matrix <m>A</m> are equivalent:
+
+
+<ul>
+<li>
+      <p> <m>A^{-1}</m> exists </p>
+</li>
+<li>
+      <p> Any equation <m>Ax=\mathbf{b}</m> has a unique solution </p>
+</li>
+<li>
+      <p> <m>\det{A}\neq 0</m> </p>
+</li>
+</ul>
+In this section, we take a closer look at the relationship between the determinants of nonsingular matrices <m>A</m>,
+solutions to <m>A\mathbf{x}=\mathbf{b}</m>, and <m>A^{-1}</m>.  
+</p> 
+</introduction>
+
+<subsection xml:id="Subsection-Cramers-Rule">
+    <title>Cramer's Rule</title>
+
+<p>
+We begin by establishing a formula that allows us to express the unique solution to the system <m>A\mathbf{x}=\mathbf{b}</m> 
+in terms of the determinant of <m>A</m>, for a nonsingular matrix <m>A</m>.  
+This formula is called <term>Cramer's rule</term>.
+
+Consider the system
+
+<me>
+    \begin{array}{ccccc}
+      ax\amp  +\amp by\amp =\amp e\\
+      cx \amp  +\amp dy\amp = \amp f 
+    \end{array}
+</me>
+
+    
+ The system can be written as a matrix equation
+ 
+<me>
+    \begin{bmatrix}a\amp b\\c\amp d\end{bmatrix}\begin{bmatrix}x\\y\end{bmatrix}=\begin{bmatrix}e\\f\end{bmatrix}.
+</me>
+
+ 
+ Using one of our standard methods for solving systems we find that 
+ 
+<me>
+    x=\frac{ed-bf}{ad-bc}\quad\text{and}\quad y=\frac{af-ec}{ad-bc}.
+</me>
+
+  
+ Observe that the denominators in the expressions for <m>x</m> and <m>y</m> are the same and equal to <m>\det{\begin{bmatrix}a\amp b\\c\amp d\end{bmatrix}}</m>.
+</p> 
+
+<p> 
+ A close examination shows that the numerators of expressions for <m>x</m> and <m>y</m> can also be interpreted as determinants of matrices.
+  The numerator of the expression for <m>x</m> is the determinant of the matrix
+  formed by replacing the first column of
+  <me>
+\begin{bmatrix}a\amp b\\c\amp d\end{bmatrix} \text{ with } \begin{bmatrix}e\\f\end{bmatrix}.
+ </me> 
+ 
+ The numerator of the expression for <m>y</m> is the determinant of the matrix that is formed by replacing the 
+second column of 
+<me>
+\begin{bmatrix}a\amp b\\c\amp d\end{bmatrix} \text{ with } \begin{bmatrix}e\\f\end{bmatrix}.
+</me>
+
+Thus, <m>x</m> and <m>y</m> can be written as
+</p> 
+
+ 
+<me>
+    x=\frac{ed-bf}{ad-bc}=\frac{\begin{vmatrix}e\amp b\\f\amp d\end{vmatrix}}{\begin{vmatrix}a\amp b\\c\amp d\end{vmatrix}}\quad\text{and}\quad y=\frac{af-ec}{ad-bc}=\frac{\begin{vmatrix}a\amp e\\c\amp f\end{vmatrix}}{\begin{vmatrix}a\amp b\\c\amp d\end{vmatrix}}.
+</me>
+
+Note that a unique solution to the system exists if and only if the determinant of the coefficient matrix is not zero.
+
+<p> 
+It turns out that a solution to any square system <m>A\mathbf{x}=\mathbf{b}</m> can be expressed using ratios of determinants, provided that <m>A</m> is nonsingular.  The general formula for the <m>i^{th}</m> component of the solution vector is
+
+<me>
+    x_i=\frac{\det{(\text{matrix } A \text{ with column } i \text{ replaced by } \mathbf{b})}}{\det{A}}.
+</me>
+
+
+To formalize this expression, we need to introduce some notation.  Given a matrix 
+
+<me>
+    A=\begin{bmatrix}
+           | \amp  |\amp  \amp |\\
+		\mathbf{a}_1 \amp  \mathbf{a}_2\amp \dots \amp \mathbf{a}_n\\
+		| \amp  |\amp  \amp |
+         \end{bmatrix}
+</me>
+ 
+and a vector <m>\mathbf{b}</m> we use 
+
+<me>
+    A_i(\mathbf{b})
+</me>
+
+to denote the matrix obtained from <m>A</m> by replacing the <m>i^{th}</m> column of <m>A</m> with <m>\mathbf{b}</m>. In other words,
+<men xml:id="eq-AiNotation">
+A_i(\mathbf{b})=\begin{bmatrix}
+           | \amp  |\amp  \amp |\amp |\amp |\amp \amp |\\
+		\mathbf{a}_1 \amp  \mathbf{a}_2\amp \dots \amp \mathbf{a}_{i-1}\amp \mathbf{b}\amp \mathbf{a}_{i+1}\amp \dots\amp \mathbf{a}_n\\
+		| \amp  |\amp  \amp |\amp |\amp |\amp \amp |
+         \end{bmatrix}
+</men>
+Using our new notation, we can write the <m>i^{th}</m> component of the solution vector as
+
+<me>
+    x_i=\frac{\det{A_i(\mathbf{b})}}{\det{A}}
+</me>
+
+
+We will work through a couple of examples before proving this result as a theorem.
+</p> 
+
+
+
+
+
+
+<example xml:id="ex-cramer2by2">
+    <statement>
+        <p>
+            Solve <m>A\mathbf{x}=\mathbf{b}</m> using Cramer's rule if
+
+<me>
+    A=\begin{bmatrix}3\amp -1\\2\amp 5\end{bmatrix}\quad\text{and}\quad \mathbf{b}=\begin{bmatrix}-2\\4\end{bmatrix}.
+</me>
+       </p>
+    </statement>
+
+
+    <answer>
+        <p>
+            We start by computing the determinant of <m>A</m>.
+
+<me>
+    \det{A}=\begin{vmatrix}3\amp -1\\2\amp 5\end{vmatrix}=(3)(5)-(-1)(2)=17.
+</me>
+
+Next, we compute <m>\det{A_1(\mathbf{b})}</m> and <m>\det{A_2(\mathbf{b})}</m>.
+
+<me>
+    \det{A_1(\mathbf{b})}=\begin{vmatrix}-2\amp -1\\4\amp 5\end{vmatrix}=(-2)(5)-(-1)(4)=-6,
+</me>
+
+
+
+<me>
+    \det{A_2(\mathbf{b})}=\begin{vmatrix}3\amp -2\\2\amp 4\end{vmatrix}=(3)(4)-(-2)(2)=16.
+</me>
+
+We now compute the components of the solution vector.
+
+<me>
+    x_1=\frac{-6}{17}\quad\text{and}\quad x_2=\frac{16}{17}.
+</me>
+
+Finally, it is a good idea to verify that what we found is a solution to the system.
+
+<me>
+    \begin{bmatrix}3\amp -1\\2\amp 5\end{bmatrix}\begin{bmatrix}-6/17\\16/17\end{bmatrix}=\begin{bmatrix}-18/17-16/17\\-12/17+80/17\end{bmatrix}=\begin{bmatrix}-34/17\\68/17\end{bmatrix}=\begin{bmatrix}-2\\4\end{bmatrix}.
+</me>
+       </p>
+    </answer>
+</example>
+
+
+
+
+
+
+
+
+
+<example xml:id="ex-cramer3by3">
+    <statement>
+        <p>
+            Solve <m>A\mathbf{x}=\mathbf{b}</m> using Cramer's rule if
+
+<me>
+    A=\begin{bmatrix}1\amp 2\amp -1\\-1\amp 1\amp 1\\0\amp 3\amp 1\end{bmatrix}\quad\text{and}\quad \mathbf{b}=\begin{bmatrix}-2\\3\\1\end{bmatrix}.
+</me>
+       </p>
+    </statement>
+    <answer>
+        <p>
+            Find the determinant of <m>A</m>.
+
+<me>
+    \det{A}=\begin{vmatrix}1\amp 2\amp -1\\-1\amp 1\amp 1\\0\amp 3\amp 1\end{vmatrix}=3.
+</me>
+
+
+Next, we compute <m>\det{A_i(\mathbf{b})}</m> for <m>i=1, 2, 3</m>.
+
+<me>
+    \det{A_1(\mathbf{b})}=\begin{vmatrix}-2\amp 2\amp -1\\3\amp 1\amp 1\\1\amp 3\amp 1\end{vmatrix}=-8,
+</me>
+
+
+
+<me>
+    \det{A_2(\mathbf{b})}=\begin{vmatrix}1\amp -2\amp -1\\-1\amp 3\amp 1\\0\amp 1\amp 1\end{vmatrix}=1,
+</me>
+
+
+
+<me>
+    \det{A_3(\mathbf{b})}=\begin{vmatrix}1\amp 2\amp -2\\-1\amp 1\amp 3\\0\amp 3\amp 1\end{vmatrix}=0.
+</me>
+
+
+This gives us the solution vector
+
+<me>
+    \mathbf{x}=\begin{bmatrix}-8/3\\1/3\\0\end{bmatrix}.
+</me>
+
+You should verify that what you found really is a solution.
+       </p>
+    </answer>
+</example>
+
+<p> 
+We are now ready to state and prove Cramer's rule as a theorem.
+</p> 
+
+
+
+
+<theorem xml:id="th-cramer">
+
+    <statement>
+        <p>
+            Let <m>A</m> be a nonsingular <m>n\times n</m> matrix, and let <m>\mathbf{b}</m> be an <m>n\times 1</m> vector.  Then the components of the solution vector <m>\mathbf{x}</m> of <m>A\mathbf{x}=\mathbf{b}</m> are given by
+
+<me>
+    x_i=\frac{\det{A_i(\mathbf{b})}}{\det{A}}
+</me>
+
+where <m>A_i(\mathbf{b})</m> is defined as in <xref ref="eq-AiNotation"/>.
+        </p>
+    </statement>
+
+<proof>
+    <p>
+For this proof we will need to think of matrices in terms of their columns.  Thus,
+
+<me>
+    A=\begin{bmatrix}
+           | \amp  |\amp  \amp |\\
+		\mathbf{a}_1 \amp  \mathbf{a}_2\amp \dots\amp \mathbf{a}_n\\
+		| \amp  |\amp  \amp |
+         \end{bmatrix}.
+</me>
+
+We will also need the identity matrix <m>I</m>.  The columns of <m>I</m> are standard unit vectors.
+
+<me>
+    I=\begin{bmatrix}
+           | \amp  |\amp  \amp |\\
+		\mathbf{e}_1 \amp  \mathbf{e}_2\amp \dots\amp \mathbf{e}_n\\
+		| \amp  |\amp  \amp |
+         \end{bmatrix}.
+</me>
+
+Recall that 
+
+<me>
+    A_i(\mathbf{b})=\begin{bmatrix}
+           | \amp  |\amp  \amp |\amp |\amp |\amp \amp |\\
+		\mathbf{a}_1 \amp  \mathbf{a}_2\amp \dots \amp \mathbf{a}_{i-1}\amp \mathbf{b}\amp \mathbf{a}_{i+1}\amp \dots\amp \mathbf{a}_n\\
+		| \amp  |\amp  \amp |\amp |\amp |\amp \amp |
+         \end{bmatrix}.
+</me>
+
+         
+Similarly,
+
+<me>
+    I_i(\mathbf{x})=\begin{bmatrix}
+           | \amp  |\amp  \amp |\amp |\amp |\amp \amp |\\
+		\mathbf{e}_1 \amp  \mathbf{e}_2\amp \dots \amp \mathbf{e}_{i-1}\amp \mathbf{x}\amp \mathbf{e}_{i+1}\amp \dots\amp \mathbf{e}_n\\
+		| \amp  |\amp  \amp |\amp |\amp |\amp \amp |
+         \end{bmatrix}.
+</me>
+
+         Observe that <m>x_i</m> is the only non-zero entry in the <m>i^{th}</m> row of <m>I_i(\mathbf{x})</m>.  Cofactor expansion along the <m>i^{th}</m> row gives us 
+<men xml:id="eq-cramerix">
+\det{I_i(\mathbf{x})}=x_i.
+</men>
+
+Now, consider the product <m>A\Big(I_i(\mathbf{x})\Big)</m>
+<md>
+<mrow> A\Big(I_i(\mathbf{x})\Big)\amp =\begin{bmatrix}
+           | \amp  |\amp  \amp |\\
+		\mathbf{a}_1 \amp  \mathbf{a}_2\amp \dots\amp \mathbf{a}_n\\
+		| \amp  |\amp  \amp |
+         \end{bmatrix}\begin{bmatrix}
+           | \amp  |\amp  \amp |\amp |\amp |\amp \amp |\\
+		\mathbf{e}_1 \amp \dots \amp \mathbf{e}_{i-1}\amp \mathbf{x}\amp \mathbf{e}_{i+1}\amp \dots\amp \mathbf{e}_n\\
+		| \amp  |\amp  \amp |\amp |\amp |\amp \amp |
+         \end{bmatrix} </mrow>
+<mrow>  \amp =\begin{bmatrix}
+           | \amp  |\amp  \amp |\amp |\amp |\amp \amp |\\
+		\mathbf{a}_1 \amp  \mathbf{a}_2\amp \dots \amp \mathbf{a}_{i-1}\amp A\mathbf{x}\amp \mathbf{a}_{i+1}\amp \dots\amp \mathbf{a}_n\\
+		| \amp  |\amp  \amp |\amp |\amp |\amp \amp |
+         \end{bmatrix} </mrow> 
+<mrow>   \amp =\begin{bmatrix}
+           | \amp  |\amp  \amp |\amp |\amp |\amp \amp |\\
+		\mathbf{a}_1 \amp  \mathbf{a}_2\amp \dots \amp \mathbf{a}_{i-1}\amp \mathbf{b}\amp \mathbf{a}_{i+1}\amp \dots\amp \mathbf{a}_n\\
+		| \amp  |\amp  \amp |\amp |\amp |\amp \amp |
+         \end{bmatrix}=A_i(\mathbf{b}).  </mrow>
+</md>
+
+This gives us 
+
+<me>
+    AI_i(\mathbf{x})=A_i(\mathbf{b}),
+</me>
+
+
+<me>
+    \det{AI_i(\mathbf{x})}=\det{A_i(\mathbf{b})},
+</me>
+
+
+<me>
+    \det{A}\det{I_i(\mathbf{x})}=\det{A_i(\mathbf{b})}.
+</me>
+
+By our earlier observation in <xref ref="eq-cramerix"/>, we have
+
+<me>
+    \det{A}x_i=\det{A_i(\mathbf{b})}.
+</me>
+
+<m>A</m> is nonsingular, so <m>\det{A}\neq 0</m>.  Thus
+
+<me>
+    x_i=\frac{\det{A_i(\mathbf{b})}}{\det{A}}.
+</me>
+
+    </p>
+</proof>
+</theorem>
+
+
+<p> 
+Finding the determinant is computationally expensive.  Because Cramer's rule requires finding many determinants, it is not a computationally efficient way of solving a system of equations.  However, Cramer's rule is often used for small systems in applications that arise in economics, natural, and social sciences, particularly when solving for only a subset of the variables.
+</p>
+</subsection>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<subsection xml:id="Subsection-Adjugate-Formula-for-the-Inverse-of-a-Matrix">
+    <title>Adjugate Formula for the Inverse of a Matrix</title>
+
+<p>
+In <xref ref="prob-inverseformula"/> we used the row reduction algorithm to show that if 
+<me>
+    A=\begin{bmatrix}a\amp b\\c\amp d\end{bmatrix}
+</me>
+ is nonsingular then 
+
+<men xml:id="eq-twobytwoinverse">
+A^{-1}=\frac{1}{\det{A}}\begin{bmatrix}d\amp -b\\-c\amp a\end{bmatrix}.
+</men>
+
+This formula is a special case of a more general formula for finding inverse matrices. 
+Just like the formula for a <m>2\times 2</m> matrix, the general formula  includes the coefficient <m>\frac{1}{\det{A}}</m>
+and a matrix related to the original matrix.  We will now derive the general formula using Cramer's rule.
+</p> 
+
+<p> 
+Let <m>A</m> be an <m>n\times n</m> nonsingular matrix.
+When looking for the inverse of <m>A</m>, we look for a matrix <m>X</m> such that <m>AX=I</m>. 
+We will think of matrices in terms of their columns
+
+<me>
+    I=\begin{bmatrix}
+           | \amp  |\amp  \amp |\\
+		\mathbf{e}_1 \amp  \mathbf{e}_2\amp \dots\amp \mathbf{e}_n\\
+		| \amp  |\amp  \amp |
+         \end{bmatrix}\quad\text{and}\quad X=\begin{bmatrix}
+           | \amp  |\amp  \amp |\\
+		\mathbf{x}_1 \amp  \mathbf{x}_2\amp \dots\amp \mathbf{x}_n\\
+		| \amp  |\amp  \amp |
+         \end{bmatrix}.
+</me>
+
+
+If <m>AX=I</m> then we must have
+
+<me>
+    A\mathbf{x}_1=\mathbf{e}_1, \quad A\mathbf{x}_2=\mathbf{e}_2, \ \vdots \  A\mathbf{x}_n=\mathbf{e}_n.
+</me>
+
+
+This gives us <m>n</m> systems of equations.  Solution vectors to these systems are the columns of <m>X</m>.  Thus, the <m>j^{th}</m> column of <m>X</m> is
+
+<me>
+    \mathbf{x}_j=\begin{bmatrix}x_{1j}\\x_{2j}\\\vdots\\x_{nj}\end{bmatrix}\quad\text{such that}\quad A\mathbf{x}_j=\mathbf{e}_j.
+</me>
+
+By Cramer's rule 
+
+<me>
+    x_{ij}=\frac{\det{A_i(\mathbf{e}_j)}}{\det{A}}.
+</me>
+
+         
+But
+
+<me>
+    A_i(\mathbf{e})=\begin{bmatrix}
+           | \amp  |\amp  \amp |\amp |\amp |\amp \amp |\\
+		\mathbf{a}_1 \amp  \mathbf{a}_2\amp \dots \amp \mathbf{a}_{i-1}\amp \mathbf{e}_j\amp \mathbf{a}_{i+1}\amp \dots\amp \mathbf{a}_n\\
+		| \amp  |\amp  \amp |\amp |\amp |\amp \amp |
+         \end{bmatrix}.
+</me>
+
+To find <m>\det{A_i(\mathbf{e}_j)}</m>, we can expand along the <m>i^{th}</m> column of <m>A_i(\mathbf{e}_j)</m>.  But the <m>i^{th}</m> column of <m>A_i(\mathbf{e}_j)</m> is the vector <m>\mathbf{e}_j</m> which has 1 in the <m>j^{th}</m> spot and zeros everywhere else.  Thus 
+
+<me>
+    \det{A_i(\mathbf{e}_j)}=(-1)^{i+j}\det{A_{ji}}=C_{ji}.
+</me>
+
+We now have
+
+<me>
+    \mathbf{x}_j=\begin{bmatrix}C_{j1}/\det{A}\\C_{j2}/\det{A}\\\vdots\\C_{jn}/\det{A}\end{bmatrix}=\frac{1}{\det{A}}\begin{bmatrix}C_{j1}\\C_{j2}\\\vdots\\C_{jn}\end{bmatrix}.
+</me>
+
+Thus,
+
+<me>
+    A^{-1}=X=\frac{1}{\det{A}}\begin{bmatrix}C_{11}\amp C_{21}\amp \ldots\amp C_{n1}\\C_{12}\amp C_{22}\amp \ldots\amp C_{n2}\\\vdots\amp \vdots\amp \ddots\amp \vdots\\
+C_{1n}\amp C_{2n}\amp \ldots\amp C_{nn}\end{bmatrix}.
+</me>
+
+
+The matrix of cofactors of <m>A</m> is called the <term>adjugate</term> of <m>A</m>.  We write
+
+<me>
+    \text{adj}(A)=\begin{bmatrix}C_{11}\amp C_{21}\amp \ldots\amp C_{n1}\\C_{12}\amp C_{22}\amp \ldots\amp C_{n2}\\\vdots\amp \vdots\amp \ddots\amp \vdots\\
+C_{1n}\amp C_{2n}\amp \ldots\amp C_{nn}\end{bmatrix}.
+</me>
+</p> 
+
+<p> 
+<m>\textbf{Warning:}</m>
+Note the order of subscripts of <m>C</m> in the adjugate matrix.  The <m>(i,j)</m>-entry of the adjugate matrix is <m>C_{ji}</m>.
+</p> 
+
+
+<p> 
+We summarize our result as a theorem.
+</p> 
+
+<theorem xml:id="th-adjugateinverseformula">
+
+    <statement>
+        <p>
+            Let <m>A</m> be a nonsingular square matrix, then
+
+<me>
+    A^{-1}=\frac{1}{\det{A}}\mbox{adj}(A).
+</me>
+        </p>
+    </statement>
+</theorem>
+
+
+
+
+<example xml:id="ex-inversebyadjugate">
+    <statement>
+        <p>
+            Use <xref ref="th-adjugateinverseformula"/> to  find <m>A^{-1}</m> if 
+
+<me>
+    A=\begin{bmatrix}1\amp -1\amp 2\\1\amp 1\amp 1\\1\amp 3\amp -1\end{bmatrix}.
+</me>
+       </p>
+    </statement>
+    <answer>
+        <p>
+            We begin by finding <m>\det{A}</m>. One checks that
+
+<me>
+    \det{A}=-2.
+</me>
+
+The first column of <m>\mbox{adj}(A)</m> has entries <m>C_{11}</m>, <m>C_{12}</m> and <m>C_{13}</m>.
+
+<me>
+    C_{11}=(-1)^{1+1}\begin{vmatrix}1\amp 1\\3\amp -1\end{vmatrix}=-4,
+</me>
+
+
+<me>
+    C_{12}=(-1)^{1+2}\begin{vmatrix}1\amp 1\\1\amp -1\end{vmatrix}=2,
+</me>
+
+
+<me>
+    C_{13}=(-1)^{1+3}\begin{vmatrix}1\amp 1\\1\amp 3\end{vmatrix}=2.
+</me>
+
+The second column of <m>\mbox{adj}(A)</m> has entries <m>C_{21}</m>, <m>C_{22}</m> and <m>C_{23}</m>. Now,
+
+<me>
+    C_{21}=(-1)^{2+1}\begin{vmatrix}-1\amp 2\\3\amp -1\end{vmatrix}=5,
+</me>
+
+
+<me>
+    C_{22}=(-1)^{2+2}\begin{vmatrix}1\amp 2\\1\amp -1\end{vmatrix}=-3,
+</me>
+
+
+<me>
+    C_{23}=(-1)^{2+3}\begin{vmatrix}1\amp -1\\1\amp 3\end{vmatrix}=-4.
+</me>
+
+Next, we compute the third column of <m>\mbox{adj}(A)</m>:
+
+<me>
+    C_{31}=-3,
+</me>
+
+
+<me>
+    C_{32}=1,
+</me>
+
+
+<me>
+    C_{33}=2.
+</me>
+
+This gives us
+
+<me>
+    A^{-1}=\begin{bmatrix}2\amp -5/2\amp 3/2\\-1\amp 3/2\amp -1/2\\-1\amp 2\amp -1\end{bmatrix}.
+</me>
+
+Compare this result to the answer in <xref ref="ex-inverse3"/>.
+       </p>
+    </answer>
+</example>
+</subsection>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<exercises>
+
+<exercisegroup>
+<introduction>
+    <p>
+        Use Cramer's rule to solve each of the following systems. 
+    </p>
+</introduction>
+
+<exercise xml:id="prob-cramer1">
+    <statement>
+        <p>
+            
+<me>
+    \begin{array}{ccccc}
+      -3x\amp  +\amp 2y\amp =\amp 1\\
+      2x \amp  -\amp y\amp = \amp 4 
+    \end{array}
+</me>
+        </p>
+    </statement>
+    <answer>
+        <p>
+            <me>
+    x=9, \quad y=14.
+</me>
+        </p>
+    </answer>
+</exercise>
+  
+  <exercise xml:id="prob-cramer2">
+    <statement>
+        <p>
+            <me>
+    \begin{bmatrix}2\amp -5\amp 1\\6\amp 0\amp -2\\-3\amp 1\amp 1\end{bmatrix}\mathbf{x}=\begin{bmatrix}1\\4\\3\end{bmatrix}.
+</me>
+        </p>
+    </statement>
+    <answer>
+        <p>
+<me>
+    \mathbf{x}=\begin{bmatrix}28/5\\5\\74/5\end{bmatrix}.
+</me>
+        </p>
+    </answer>
+</exercise>
+</exercisegroup> 
+
+
+
+
+
+
+
+<exercise xml:id="prob-cramer3">
+    <statement>
+        <p>
+            Consider the equation
+
+<me>
+    \begin{bmatrix}1\amp 1\amp 1\amp 1\\2\amp 3\amp 2\amp -1\\3\amp -2\amp 3\amp -2\\2\amp 1\amp 1\amp 1\end{bmatrix}\begin{bmatrix}x_1\\x_2\\x_3\\x_4\end{bmatrix}=\begin{bmatrix}10\\10\\0\\11\end{bmatrix}.
+</me>
+
+
+<ol>
+    <li>
+<p> Solve for <m>x_2</m> using Cramer's Rule. </p>
+    </li>
+        
+    <li>
+<p> If you had to solve for all four variables, which method would you use?  Why? </p>
+    </li>
+</ol>
+</p>
+</statement>
+
+    <answer>
+        <p> <m> x_2 = 2 </m> is the solution for part (a). </p>
+    </answer>
+</exercise>
+
+
+
+
+
+
+
+
+
+<exercisegroup>
+<introduction>
+    <p>
+        Use Theorem <xref ref="th-adjugateinverseformula"/> to find the inverse of each of the following matrices.
+    </p>
+</introduction>
+
+<exercise xml:id="prob-adjinverse1">
+    <statement>
+        <p>
+<me>
+    A=\begin{bmatrix}2\amp 7\\1\amp 3\end{bmatrix}.
+</me>
+        </p>
+    </statement>
+    <answer>
+        <p>
+            <me>
+    A^{-1}=\begin{bmatrix}-3\amp 7\\1\amp -2\end{bmatrix}.
+</me>
+        </p>
+    </answer>
+</exercise>
+  
+  <exercise xml:id="prob-adjinverse2">
+    <statement>
+        <p>
+            <me>
+    A=\begin{bmatrix}2\amp 1\amp 4\\4\amp -2\amp 1\\0\amp 3\amp -1\end{bmatrix}.
+</me>
+        </p>
+    </statement>
+    <answer>
+        <p>
+            <me>
+    A^{-1}=\frac{1}{50}\begin{bmatrix}-1\amp 13\amp 9\\4\amp -2\amp 14\\12\amp -6\amp -8\end{bmatrix}.
+</me>
+        </p>
+    </answer>
+</exercise>
+</exercisegroup> 
+
+
+<exercise xml:id="prob-2by2adjugate">
+    <statement>
+        <p>
+            Show that the formula in <xref ref="eq-twobytwoinverse"/> is a special case of the formula in <xref ref="th-adjugateinverseformula"/> by showing that 
+
+<me>
+    \mbox{adj}\left(\begin{bmatrix}a\amp b\\c\amp d\end{bmatrix}\right)=\begin{bmatrix}d\amp -b\\-c\amp a\end{bmatrix}.
+</me>
+        </p>
+    </statement>
+</exercise>
+ 
+</exercises>
+</section>

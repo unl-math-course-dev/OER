@@ -1,0 +1,701 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<section xml:id="Section-Applications-of-Systems-of-Linear-Equations" xmlns:xi="http://www.w3.org/2001/XInclude">
+    <title>Extra Topic: Applications of Systems of Linear Equations</title>
+
+    <subsection xml:id="Subsection-Network-Flows">
+        <title>Network Flows</title>
+
+        <p>
+            This section was adapted from Sections 1.4 and 1.5 of Keith Nicholson's <url href="https://open.umn.edu/opentextbooks/textbooks/linear-algebra-with-applications"><pubtitle>Linear Algebra with Applications</pubtitle></url>. (CC-BY-NC-SA)
+        </p>
+
+        <p>
+        There are many types of problems that concern a network of conductors along which some sort of flow is observed. Examples of these include an irrigation network and a network of streets or freeways. There are often points in the system at which a net flow either enters or leaves the system. The basic principle behind the analysis of such systems is that the total flow into the system must equal the total flow out. In fact, we apply this principle at every junction in the system.
+        </p>
+
+        <theorem xml:id="thm-001735">
+            <title>Junction Rule</title>
+            <statement>
+                <p>
+                    At each of the junctions in the network, the total flow into that junction must equal the total flow out.
+                </p>
+            </statement>
+        </theorem>
+
+        <p>
+        This requirement gives a linear equation relating the flows in conductors emanating from the junction.
+        </p>
+
+        <example xml:id="ex-001739">
+            <statement>
+                <p>
+                    A network of one-way streets is shown in the accompanying diagram. The rate of flow of cars into intersection <m>A</m> is 500 cars per hour, and 400 and 100 cars per hour emerge from <m>B</m> and <m>C</m>, respectively. Find the possible flows along each street.
+                </p>
+
+                <image width="80%">
+                <shortdescription>Example of a network flow.</shortdescription>
+                    <latex-image>
+                        \begin{tikzpicture}[scale=1]
+                            \draw[line width=2pt,blue, -stealth](-3,2)--(-2,2);
+                            \draw[line width=2pt,blue, -stealth](-2,2)--(0.1,2);
+                            \draw[line width=2pt,blue](-0.1,2)--(2,2);
+                            \draw[line width=2pt,blue, -stealth](2,2)--(3,2);
+                            \draw[line width=2pt,blue, -stealth](-2,2)--(-1,1);
+                            \draw[line width=2pt,blue](-1.1,1.1)--(0,0);
+                            \draw[line width=2pt,blue, -stealth](0,0)--(0,-1);
+                            \draw[line width=2pt,blue](0,-0.9)--(0,-2);
+                            \draw[line width=2pt,blue, -stealth](0,0)--(1.1,1.1);
+                            \draw[line width=2pt,blue](0.9,0.9)--(2,2);
+                            \draw[line width=2pt,blue, -stealth](-2,2)--(-0.9,-0.2);
+                            \draw[line width=2pt,blue](-1,0)--(0,-2);
+                            \draw[line width=2pt,blue, -stealth](0,-2)--(1.1,0.2);
+                            \draw[line width=2pt,blue, -stealth](0,-2)--(0,-3);
+                            \draw[line width=2pt,blue](1,0)--(2,2);
+                            \fill (-2, 2)node[above]{\(A\)} circle (1.1mm);
+                            \fill (2, 2)node[above]{\(B\)} circle (1.1mm);
+                            \fill (0, -2)node[left]{\(C\)} circle (1.1mm);
+                            \fill (0,0)node[above]{\(D\)} circle (1.1mm);
+                            \node[] at (0, 2.4)   (a) {\(f_1\)};
+                            \node[] at (-2.8, 2.3)   (a) {\(500\)};
+                            \node[] at (2.8, 2.3)   (a) {\(400\)};
+                            \node[] at (-0.6, 1)   (a) {\(f_2\)};
+                            \node[] at (0.6, 1)   (a) {\(f_4\)};
+                            \node[] at (-1.4, 0)   (a) {\(f_3\)};
+                            \node[] at (1.4, 0)   (a) {\(f_6\)};
+                            \node[] at (0.3, -0.6)   (a) {\(f_5\)};
+                            \node[] at (0.3, -2.5)   (a) {\(100\)};
+                        \end{tikzpicture}
+                    </latex-image>
+                </image>
+            </statement>
+            <answer>
+                <p>
+                    Suppose the flows along the streets are <m> f_1</m>, <m>f_2</m>, <m>f_3</m>, <m>f_4</m>, <m>f_5</m>, and <m>f_6</m> cars per hour in the directions shown.
+                </p>
+                <p>
+                    Then, equating the flow in with the flow out at each intersection, we get
+                    <me>
+                    \begin{array}{lrl}
+                        \mbox{Intersection } A \amp  500 					\amp  = f_1 + f_2 + f_3 \\
+                        \mbox{Intersection } B \amp  \quad f_1 + f_4 + f_6 	\amp  = 400 \\
+                        \mbox{Intersection } C \amp  f_3 + f_5 				\amp  = f_6 + 100 \\
+                        \mbox{Intersection } D \amp  f_2					\amp  = f_4 + f_5 \\
+                    \end{array}
+                    </me>
+                    These give four equations in the six variables <m> f_1, f_2, \dots , f_6 </m>.
+                    <me>
+                    \begin{array}{rlrlrlrlrlrcr}
+                        f_1 \amp  + \amp  f_2 \amp  + \amp  f_3 \amp    \amp      \amp    \amp      \amp    \amp      \amp  = \amp  500 \\
+                        f_1 \amp    \amp      \amp    \amp      \amp  + \amp  f_4 \amp    \amp      \amp  + \amp  f_6 \amp  = \amp  400 \\
+                            \amp    \amp      \amp    \amp  f_3 \amp    \amp      \amp  + \amp  f_5 \amp  - \amp  f_6 \amp  = \amp  100 \\
+                            \amp    \amp  f_2 \amp    \amp      \amp  - \amp  f_4 \amp  - \amp  f_5 \amp    \amp      \amp  = \amp  0 \\
+                    \end{array}
+                    </me>
+                    The reduction of the augmented matrix is
+                    <me>
+                    \left[ \begin{array}{rrrrrr|r}
+                        1 \amp  1 \amp  1 \amp  0 \amp  0 \amp  0 \amp  500 \\
+                        1 \amp  0 \amp  0 \amp  1 \amp  0 \amp  1 \amp  400 \\
+                        0 \amp  0 \amp  1 \amp  0 \amp  1 \amp -1 \amp  100 \\
+                        0 \amp  1 \amp  0 \amp -1 \amp -1 \amp  0 \amp  0
+                    \end{array} \right]
+                    \rightarrow
+                    \left[ \begin{array}{rrrrrr|r}
+                        1 \amp  0 \amp  0 \amp  1 \amp  0 \amp  1 \amp  400 \\
+                        0 \amp  1 \amp  0 \amp -1 \amp -1 \amp  0 \amp  0 \\
+                        0 \amp  0 \amp  1 \amp  0 \amp  1 \amp -1 \amp  100 \\
+                        0 \amp  0 \amp  0 \amp  0 \amp  0 \amp  0 \amp  0
+                    \end{array} \right]
+                    </me>
+                    Hence, when we use <m>f_4</m>, <m>f_5</m>, and <m>f_6</m> as parameters, the general solution is
+                    <me>
+                    f_1 = 400 - f_4 - f_6 \quad\quad f_2 = f_4 + f_5 \quad\quad f_3 = 100 - f_5 + f_6
+                    </me>
+                    This gives all solutions to the system of equations and hence all the possible flows.
+                </p>
+
+                <p>
+                    Of course, not all these solutions may be acceptable in the real situation. For example, the flows <m> f_1, f_2, \dots , f_6 </m> are all <em>positive</em> in the present context (if one came out negative, it would mean traffic flowed in the opposite direction). This imposes constraints on the flows: <m>f_1 \geq 0</m> and <m>f_3 \geq 0</m> become
+                    <me>
+                    f_4 + f_6 \leq 400 \quad\quad f_5 - f_6 \leq 100
+                    </me>
+                    Further constraints might be imposed by insisting on maximum values on the flow in each street.
+            </p>
+            </answer>
+        </example>
+    </subsection>
+
+    <subsection xml:id="Subsection-Electrical-Networks">
+        <title>Electrical Networks</title>
+    
+        <p>
+            The circuit diagrams in this section were made using <url href="https://www.circuit-diagram.org/" visual="circuit-diagram.org"/>.
+        </p>
+    
+        <p>
+            In an electrical network it is often necessary to find the current in amperes (<m>A</m>) flowing in various parts of the network. 
+            These networks usually contain resistors that retard the current. 
+            Resistance is measured in ohms (<m>\Omega</m>). 
+            The current is increased at various points by voltage sources (for example, a battery). 
+            The voltage of these sources is measured in volts (V). 
+            We use the following symbols to represent resistors and voltage sources:
+        </p>
+    
+        <image source="images/circuit7.jpg" width="80%">
+            <shortdescription>Example of a resistor and a network source.</shortdescription>
+        </image>
+    
+        <p>
+            We assume these voltage sources have no resistance. The flow of current is governed by the following principles.        
+        </p>
+    
+        <theorem xml:id="thm-001806">
+            <title>Ohm's Law</title>
+            <statement>
+                <p>
+                    The current <m>I</m> and the voltage drop <m>V</m> across a resistance <m>R</m> are related by the equation <m>V = RI</m>.\index{Ohm's Law}
+                </p>
+            </statement>
+        </theorem>
+    
+        <theorem xml:id="thm-001809">
+            <title>Kirchhoff's Laws</title>
+            <statement>
+                <p>
+                    Each of the following is true in an electric circuit.
+                    <ol>
+                        <li xml:id="item-001809j">
+                            <p> (Junction Rule) The current flow into a junction equals the current flow out of that junction. </p>
+                        </li>
+                        <li xml:id="item-001809c">
+                            <p> (Circuit Rule) The algebraic sum of the voltage drops (due to resistances) around any closed circuit of the network must equal the sum of the voltage increases around the circuit. </p>
+                        </li>
+                    </ol>
+                </p>
+            </statement>
+        </theorem>
+    
+        <p>
+            When applying the Circuit Rule, select a direction (clockwise or counterclockwise) around the closed circuit and then consider all voltages and currents positive when in this direction
+            and negative when in the opposite direction. %This is why the term <em>algebraic sum</em> is used in rule 2. 
+            Here is an example.
+        </p>
+    
+        <example xml:id="ex-001817">
+            <statement>
+                <p>
+                    Find the various currents in the circuit shown.
+                </p>
+    
+                <image source="images/circuit100.jpg" width="80%">
+                    <shortdescription>A circuit network.</shortdescription>
+                </image>
+            </statement>
+    
+            <answer>
+                <p>
+                    First apply the junction rule at junctions <m>A</m>, <m>B</m>, <m>C</m>, and <m>D</m> to obtain
+                    <me>
+                        \begin{array}{lccccccc}
+                        \mbox{Junction } A:\quad \amp \amp \amp  I_1 \amp  = \amp  I_2 \amp +\amp  I_3 \\
+                        \mbox{Junction } B:\quad \amp \amp \amp  I_6 \amp  = \amp  I_1 \amp +\amp  I_5 \\
+                        \mbox{Junction } C:\quad \amp  I_2 \amp +\amp  I_4 \amp  = \amp  I_6 \amp \amp  \\
+                        \mbox{Junction } D:\quad \amp  I_3 \amp +\amp  I_5 \amp  = \amp  I_4\amp \amp  \\
+                    \end{array}
+                    </me>
+                    Note that these equations are not independent (in fact, the third is an easy consequence of the other three).
+                </p>
+    
+                <p>
+                    Next, the circuit rule insists that the sum of the voltage increases (due to the sources) around a closed circuit must equal the sum of the voltage drops (due to resistances). By Ohm's law, the voltage loss across a resistance <m>R</m> (in the direction of the current <m>I</m>) is <m>RI</m>. Going counterclockwise around three closed circuits yields
+                    <me>
+                        \begin{array}{lcccccccc}
+                        \mbox{Upper left: } \quad\quad  \amp 10 \amp  + \amp  5 \amp  = \amp  20I_1 \amp \amp  \\
+                        \mbox{Upper right: } \amp -5 \amp  +\amp  20 \amp  = \amp  10I_3\amp  +\amp  5I_4 \\
+                        \mbox{Lower: } \amp \amp  \amp -10 \amp  = \amp  -5I_5 \amp -\amp  5I_4 \\
+                    \end{array}
+                    </me>
+                    Hence, disregarding the redundant equation obtained at junction <m>C</m>, we have six equations in the six unknowns <m>I_1, \dots, I_6</m>. The solution is
+                    <me>
+                        \begin{array}{ccccccc}
+                    I_1\amp  =\amp  \frac{15}{20}\amp \quad\amp  I_2 \amp =\amp  \frac{-1}{20}\\
+                    \amp \amp \amp \amp \amp \amp \\
+                    I_3\amp  =\amp  \frac{16}{20}\amp \quad\amp  I_4 \amp =\amp  \frac{28}{20}\\
+                    \amp \amp \amp \amp \amp \amp \\
+                    I_5 \amp =\amp  \frac{12}{20}\amp \quad\amp I_6 \amp =\amp  \frac{27}{20}
+                    \end{array}
+                    </me>
+                    The fact that <m>I_2</m> is negative means, of course, that this current is in the opposite direction, with a magnitude of <m>\frac{1}{20}</m> amperes.
+                </p>
+            </answer>
+        </example>
+    </subsection>
+
+    <subsection xml:id="Subsection-Chemical-Equations">
+        <title>Chemical Equations</title>
+    
+        <p>
+            When a chemical reaction takes place a number of molecules combine to produce new molecules. Hence, when hydrogen <m>\mbox{H}_2</m> and oxygen <m>\mbox{O}_2</m> molecules combine, the result is water <m>\mbox{H}_2\mbox{O}</m>. We express this as
+            <me>
+            \mbox{H}_2 + \mbox{O}_2 \rightarrow \mbox{H}_2\mbox{O}
+            </me>
+            Individual atoms are neither created nor destroyed, so the number of hydrogen and oxygen atoms going into the reaction must equal the number coming out (in the form of water). In
+            this case the reaction is said to be <em>balanced</em>. Note that each hydrogen molecule <m>\mbox{H}_2</m> consists of two atoms as does each oxygen molecule <m>\mbox{O}_2</m>, while a water molecule <m>\mbox{H}_2\mbox{O}</m> consists of two hydrogen atoms and one oxygen atom. In the above reaction, this requires that twice as many hydrogen molecules enter the reaction; we express this as follows:
+            <me>
+            2\mbox{H}_2 + \mbox{O}_2 \rightarrow 2\mbox{H}_2\mbox{O}
+            </me>
+            This is now balanced because there are 4 hydrogen atoms and 2 oxygen atoms on each side of the reaction.
+        </p>
+    
+        <example xml:id="ex-001872">
+            <p>
+                Balance the following reaction for burning octane <m>\mbox{C}_8\mbox{H}_{18}</m> in oxygen <m>\mbox{O}_2</m>:
+                <me>
+                    \mbox{C}_8\mbox{H}_{18} + \mbox{O}_2 \rightarrow \mbox{CO}_2 + \mbox{H}_2\mbox{O}
+                </me>
+                where <m>\mbox{CO}_2</m> represents carbon dioxide. We must find positive integers <m>x</m>, <m>y</m>, <m>z</m>, and <m>w</m> such that
+                <me>
+                    x\mbox{C}_8\mbox{H}_{18} + y\mbox{O}_2 \rightarrow z\mbox{CO}_2 + w\mbox{H}_2\mbox{O}
+                </me>
+                Equating the number of carbon, hydrogen, and oxygen atoms on each side gives <m>8x = z</m>, <m>18x = 2w</m> and <m>2y = 2z + w</m>, respectively. These can be written as a homogeneous linear system
+                <me>
+                    \begin{array}{rlrlrlrcr}
+                        8x \amp    \amp    \amp  - \amp  z \amp    \amp    \amp  = \amp  0 \\
+                        18x \amp    \amp    \amp    \amp    \amp  - \amp 2w \amp  = \amp  0 \\
+                            \amp    \amp 2y \amp  - \amp 2z \amp  - \amp  w \amp  = \amp  0
+                    \end{array}
+                </me>
+                which can be solved by gaussian elimination. In larger systems this is necessary but, in such a simple situation, it is easier to solve directly. 
+                Set <m>w = t</m>, so that <m>x = \frac{1}{9}t</m>, <m>z = \frac{8}{9}t</m>, <m>2y = \frac{16}{9}t + t = \frac{25}{9}t</m>. But <m>x</m>, <m>y</m>, <m>z</m>, and <m>w</m> must be positive integers, so the smallest value of <m>t</m> that eliminates fractions is <m>18</m>. Hence, <m>x = 2</m>, <m>y = 25</m>, <m>z = 16</m>, and <m>w = 18</m>, and the balanced reaction is
+                <me>
+                    2\mbox{C}_8\mbox{H}_{18} + 25\mbox{O}_2 \rightarrow 16\mbox{CO}_2 + 18\mbox{H}_2\mbox{O}
+                </me>
+                The reader can verify that this is indeed balanced.
+            </p>
+        </example>
+    
+        <p>
+            It is worth noting that this problem introduces a new element into the theory of linear equations: the insistence that the solution must consist of positive integers.
+        </p>
+    </subsection>
+
+    <exercises xml:id="Exercises-Applications-of-Systems-of-Linear-Equations">
+        <exercise xml:id="prob-pipenetwork">
+            <statement>
+                <p>
+                    Find the possible flows in each of the following networks of pipes.
+                    <ol marker="(a)">
+                        <li>
+                            <image width="80%">
+                                <shortdescription>A network flow.</shortdescription>
+                                    <latex-image>
+                                    \begin{tikzpicture}[scale=1]
+                                \draw[line width=2pt,blue, -stealth](-3,0)--(-2,0);
+                                \draw[line width=2pt,blue, -stealth](-2,0)--(-1,1);
+                                \draw[line width=2pt,blue](-1.1,0.9)--(0,2);
+                                \draw[line width=2pt,blue, -stealth](0,2)--(0,3);
+                                \draw[line width=2pt,blue, -stealth](2,0)--(1,1);
+                                \draw[line width=2pt,blue](1.1,0.9)--(0,2);
+                                \draw[line width=2pt,blue, -stealth](2,0)--(-0.1,0);
+                                \draw[line width=2pt,blue](0.1,0)--(-2,0);
+                                \draw[line width=2pt,blue, -stealth](2,0)--(1,-1);
+                                \draw[line width=2pt,blue](1.1,-0.9)--(0,-2);
+                                \draw[line width=2pt,blue, -stealth](-2,0)--(-1,-1);
+                                \draw[line width=2pt,blue](-1.1,-0.9)--(0,-2);
+                                \draw[line width=2pt,blue](0,-2)--(0,-3);
+                                \draw[line width=2pt,blue,-stealth](0,-2)--(0,-3);
+                                \draw[line width=2pt,blue,-stealth](3,0)--(2,0);
+                                \fill (-2, 0)circle (1.1mm);
+                                \fill (2, 0)circle (1.1mm);
+                                \fill (0, 2)circle (1.1mm);
+                                \fill (0,-2)circle (1.1mm);
+                                \node[] at (0.3, 2.4)   (a) {\(50\)};
+                                \node[] at (-2.8, 0.3)   (a) {\(40\)};
+                                \node[] at (2.8, 0.3)   (a) {\(60\)};
+                                \node[] at (-1.2, 1.2)   (a) {\(f_1\)};
+                                \node[] at (1.2, 1.2)   (a) {\(f_2\)};
+                                \node[] at (0, 0.3)   (a) {\(f_3\)};
+                                \node[] at (-1.2, -1.2)   (a) {\(f_4\)};
+                                \node[] at (1.2, -1.2)   (a) {\(f_5\)};
+                                \node[] at (0.3, -2.4)   (a) {\(50\)};
+                                    \end{tikzpicture}
+                                    </latex-image>
+                                </image>
+                        </li>
+                        <li xml:id="prob-pipenetworkb">
+                            <image width="80%">
+                                <shortdescription>A network flow.</shortdescription>
+                                    <latex-image>
+                                    \begin{tikzpicture}[scale=0.8]
+                                \draw[line width=2pt,blue, -stealth](-5,0)--(-4,0);
+                                \draw[line width=2pt,blue, -stealth](4,0)--(5,0);
+                                \draw[line width=2pt,blue, -stealth](0,4)--(0,5);
+                                \draw[line width=2pt,blue, -stealth](0,-4)--(0,-5);
+                                \draw[line width=2pt,blue, -stealth](-4,0)--(-2,-1);
+                                \draw[line width=2pt,blue, -stealth](0,-2)--(2,-1);
+                                \draw[line width=2pt,blue](-2.1,-0.95)--(0,-2);
+                                \draw[line width=2pt,blue](1.9,-1.05)--(4,0);
+                                \draw[line width=2pt,blue, -stealth](-4,0)--(-2,-2);
+                                \draw[line width=2pt,blue, -stealth](0,-4)--(2,-2);
+                                \draw[line width=2pt,blue](-2.1,-1.9)--(0,-4);
+                                \draw[line width=2pt,blue](1.9,-2.1)--(4,0);
+                                \draw[line width=2pt,blue, -stealth](-4,0)--(-2,2);
+                                \draw[line width=2pt,blue, -stealth](0,4)--(2,2);
+                                \draw[line width=2pt,blue](-2.1,1.9)--(0,4);
+                                \draw[line width=2pt,blue](1.9,2.1)--(4,0);
+                                \draw[line width=2pt,blue, -stealth](0,4)--(0,1);
+                                \draw[line width=2pt,blue](0,1.1)--(0,-2);
+                                \draw[line width=2pt,blue, -stealth](0,-2)--(0,-3);
+                                \draw[line width=2pt,blue](0,-2.9)--(0,-4);
+                                \fill (-4, 0)circle (1.1mm);
+                                \fill (0, -2)circle (1.1mm);
+                                \fill (4,0)circle (1.1mm);
+                                \fill (0,-4)circle (1.1mm);
+                                \fill (0,4)circle (1.1mm);
+                                \node[] at (-5, 0.3)   (a) {\(50\)};
+                                \node[] at (4.8, 0.3)   (a) {\(60\)};
+                                \node[] at (0.3, 4.5)   (a) {\(25\)};
+                                \node[] at (0.3, -4.5)   (a) {\(40\)};
+                                \node[] at (0.3, 0.8)   (a) {\(75\)};
+                                \node[] at (-2, 2.5)   (a) {\(f_1\)};
+                                \node[] at (2.2, 2.5)   (a) {\(f_2\)};
+                                \node[] at (-2, -0.5)   (a) {\(f_3\)};
+                                \node[] at (2, -0.5)   (a) {\(f_4\)};
+                                \node[] at (-2, -2.5)   (a) {\(f_5\)};
+                                \node[] at (2, -2.5)   (a) {\(f_7\)};
+                                \node[] at (0.3, -2.8)   (a) {\(f_6\)};
+                                    \end{tikzpicture}
+                                    </latex-image>
+                                </image>
+                        </li>
+                    </ol>
+                </p>
+            </statement>
+            <answer>
+                <p> 
+                    The answer to <xref ref="prob-pipenetworkb"/> is
+                    <me>\begin{array}[t]{rcrrr}
+                        f_1 \amp  = \amp   85 \amp  - f_4 \amp  - f_7 \\
+                        f_2 \amp  = \amp   60 \amp  - f_4 \amp  - f_7 \\
+                        f_3 \amp  = \amp  -75 \amp  + f_4 \amp  + f_6 \\
+                        f_5 \amp  = \amp   40 \amp  - f_6 \amp  - f_7 \\
+                    \end{array}</me>
+                    where <m>f_4</m>, <m>f_6</m>, <m>f_7</m> are parameters.
+                </p>
+            </answer>
+        </exercise>
+
+        <exercise xml:id="prob-pipenetwork2">
+            <statement>
+                <p>
+                    A proposed network of irrigation canals is described in the accompanying diagram. At peak demand, the flows at interchanges <m>A</m>, <m>B</m>, <m>C</m>, and <m>D</m> are as shown.
+                </p>
+                <image width="80%">
+                <shortdescription>A network flow.</shortdescription>
+                    <latex-image>
+                    \begin{tikzpicture}[scale=1]
+                \draw[line width=2pt,blue, -stealth](-3,0)--(-2,0);
+                \draw[line width=2pt,blue, -stealth](0,2)--(0,3);
+                \draw[line width=2pt,blue, -stealth](2,1)--(3,1);
+                \draw[line width=2pt,blue, -stealth](2, -2)--(2,-3);
+                \draw[line width=2pt,blue, -stealth](-2,0)--(-1,1);
+                \draw[line width=2pt,blue, -stealth](0,2)--(1,1.5);
+                \draw[line width=2pt,blue](-1.1,0.9)--(0,2);
+                \draw[line width=2pt,blue](0.9,1.55)--(2,1);
+                \draw[line width=2pt,blue, -stealth](-2, 0)--(0,-1);
+                \draw[line width=2pt,blue](-0.1,-0.95)--(2,-2);
+                \draw[line width=2pt,blue, -stealth](0, 2)--(1,0);
+                \draw[line width=2pt,blue](0.95,0.1)--(2,-2);
+                \draw[line width=2pt,blue, -stealth](2, 1)--(2,-0.5);
+                \draw[line width=2pt,blue](2,-0.4)--(2,-2);
+                \fill (-2, 0)node[above left]{\(A\)} circle (1.1mm);
+                \fill (0, 2)node[above right]{\(B\)} circle (1.1mm);
+                \fill (2,1)node[above right]{\(C\)} circle (1.1mm);
+                \fill (2, -2)node[right]{\(D\)} circle (1.1mm);
+                \node[] at (-3, 0.3)   (a) {\(55\)};
+                \node[] at (-0.3, 2.4)   (a) {\(20\)};
+                \node[] at (1.7, -2.4)   (a) {\(20\)};
+                \node[] at (2.5, 0.7)   (a) {\(15\)};
+                \node[] at (-1,1.5)   (a) {\(f_1\)};
+                \node[] at (0.5, 0.2)   (a) {\(f_2\)};
+                \node[] at (1.2, 1.8)   (a) {\(f_3\)};
+                \node[] at (0, -1.4)   (a) {\(f_4\)};
+                \node[] at (2.3, -0.5)   (a) {\(f_5\)};
+                    \end{tikzpicture}
+                    </latex-image>
+                </image>
+                <p>
+                    <ol marker="(a)">
+                    <li>
+                        <p> Find the possible flows. </p>
+                    </li>
+                    <li>
+                        <p> If canal <m>BC</m> is closed, what range of flow on <m>AD</m> must be maintained so that no canal carries a flow of more than <m>30</m>? </p>
+                    </li>
+                    </ol>
+                </p>
+            </statement>
+            <answer>
+                <p>
+                    <m>\begin{array}[t]{l}
+                        f_5 = 15 \\
+                        25 \leq f_4 \leq 30
+                    \end{array}</m>
+                </p>
+            </answer>
+        </exercise>
+
+        <exercise xml:id="prob-pipenetwork3">
+            <statement>
+                <p>
+                    A traffic circle has five one-way streets, and vehicles enter and leave as shown in the accompanying diagram.
+                </p>
+        <image width="80%">
+        <shortdescription>A network flow.</shortdescription>
+            <latex-image>
+            \begin{tikzpicture}[scale=1]
+        \draw[line width=2pt,blue, -stealth](-3,0)--(-2,0);
+        \draw[line width=2pt,blue, -stealth](0,2)--(0,3);
+        \draw[line width=2pt,blue, -stealth](2,1)--(3,1);
+        \draw[line width=2pt,blue, -stealth](3, -2)--(2,-1);
+        \draw[line width=2pt,blue, -stealth](-1,-1)--(-1,-2);
+        \draw[line width=2pt,blue, -stealth](0,2)--(-1,1);
+        \draw[line width=2pt,blue](-0.9,1.1)--(-2,0);
+        \draw[line width=2pt,blue, -stealth](-2,0)--(-1.5,-0.5);
+        \draw[line width=2pt,blue](-1.6,-0.4)--(-1,-1);
+        \draw[line width=2pt,blue, -stealth](-1,-1)--(0.5,-1);
+        \draw[line width=2pt,blue](0.4,-1)--(2,-1);
+        \draw[line width=2pt,blue, -stealth](2,-1)--(2,0);
+        \draw[line width=2pt,blue](2,-0.1)--(2,1);
+        \draw[line width=2pt,blue, -stealth](2,1)--(1,1.5);
+        \draw[line width=2pt,blue](1.1,1.45)--(0,2);
+        \fill (-2, 0)node[above left]{\(A\)} circle (1.1mm);
+        \fill (-1,-1)node[below left]{\(B\)} circle (1.1mm);
+        \fill (2, -1)node[below left]{\(C\)} circle (1.1mm);
+        \fill (2, 1)node[above right]{\(D\)} circle (1.1mm);
+        \fill (0, 2)node[above right]{\(E\)} circle (1.1mm);
+        \node[] at (-3, 0.3)   (a) {\(50\)};
+        \node[] at (-0.3, 2.4)   (a) {\(35\)};
+        \node[] at (1.7, -2.4)   (a) {\(20\)};
+        \node[] at (2.8, 0.7)   (a) {\(25\)};
+        \node[] at (-0.7, -1.7)   (a) {\(30\)};
+        \node[] at (2.8, -1.4)   (a) {\(40\)};
+        \node[] at (-1,1.5)   (a) {\(f_5\)};
+        \node[] at (2.3, 0)   (a) {\(f_3\)};
+        \node[] at (1.2, 1.8)   (a) {\(f_4\)};
+        \node[] at (0.5, -1.3)   (a) {\(f_2\)};
+        \node[] at (-1.7, -0.7)   (a) {\(f_1\)};
+            \end{tikzpicture}
+            </latex-image>
+        </image>
+
+        <p>
+        <ol>
+        <li>
+            <p> Compute the possible flows. </p>
+        </li>
+        <li>
+            <p> Which road has the greatest flow? </p>
+        </li>
+        </ol>
+        </p>
+        </statement>
+        <choices>
+        <choice>
+            <statement>
+                <p> AB </p>
+            </statement>
+        </choice>
+        <choice>
+            <statement>
+                <p> BC </p>
+            </statement>
+        </choice>
+        <choice correct="yes">
+            <statement>
+                <p> CD </p>
+            </statement>
+        </choice>
+        <choice>
+            <statement>
+                <p> DE </p>
+            </statement>
+        </choice>
+        <choice>
+            <statement>
+                <p> EA </p>
+            </statement>
+        </choice>
+        </choices>
+        </exercise>
+
+        <exercisegroup>
+            <introduction>
+                <p>
+                    Find the currents in each of the circuits.
+                </p>
+            </introduction>
+
+            <exercise xml:id="prob-circuit1">
+                <statement>
+                    <image source="images/circuit200.jpg" width="80%">
+                        <shortdescription>A circuit network.</shortdescription>
+                    </image>
+                </statement>
+                <answer>
+                    <p>
+                        <m> I_1 = \frac{40}{11}</m>, <m>I_2 = -\frac{5}{11}</m>, <m>I_3 = \frac{45}{11}</m>
+                    </p>
+                </answer>
+            </exercise>
+
+            <exercise xml:id="prob-circuit2">
+                <statement>
+                    <image source="images/circuit300.jpg" width="80%">
+                        <shortdescription>A circuit network.</shortdescription>
+                    </image>
+                </statement>
+                <answer>
+                    <p>
+                        <m> I_1 = \frac{3}{5}</m>, <m>I_2 = -\frac{1}{5}</m>, <m>I_3 = \frac{4}{5}</m>
+                    </p>
+                </answer>
+            </exercise>
+    
+            <exercise xml:id="prob-circuit4">
+                <statement>
+                    <image source="images/circuit400.jpg" width="80%">
+                        <shortdescription>A circuit network.</shortdescription>
+                    </image>
+                </statement>
+                <answer>
+                    <p>
+                        <m> I_1 = 2</m>, <m>I_2 = 2</m>, <m>I_3 = 0</m>, <m>I_4 = 0</m>, <m>I_5 = \frac{3}{4}</m>, <m>I_6 = \frac{3}{4}</m>
+                    </p>
+                </answer>
+            </exercise>
+            
+            <exercise xml:id="prob-circuit5">
+                <statement>
+                    <image source="images/circuit500.jpg" width="80%">
+                        <shortdescription>A circuit network.</shortdescription>
+                    </image>
+                </statement>
+                <answer>
+                    <p>
+                        <m> I_1 = 2</m>, <m>I_2 = 1</m>, <m>I_3 = \frac{1}{2}</m>, <m>I_4 = \frac{3}{2}</m>, <m>I_5 = \frac{3}{2}</m>, <m>I_6 = \frac{1}{2}</m>
+                    </p>
+                </answer>
+            </exercise>
+        </exercisegroup>
+
+        <exercise xml:id="prob-circuit6">
+            <statement>
+                <p>
+                    Find the voltage <m>x</m> such that the current <m>I_1 = 0</m>.
+                </p>
+                <image source="images/circuit600.jpg" width="80%">
+                    <shortdescription>A circuit network.</shortdescription>
+                </image>
+            </statement>
+            <answer>
+                <p>
+                    <m>x = 1</m>
+                </p>
+            </answer>
+        </exercise>
+
+        <exercisegroup>
+            <introduction>
+                <p>
+                    Balance each of the chemical reactions.
+                </p>
+            </introduction>
+        
+            <exercise xml:id="chemeqn1">
+                <statement>
+                    <p>
+                        <m>\mbox{CH}_{4} + \mbox{O}_2 \to \mbox{CO}_{2} + \mbox{H}_{2}\mbox{O}</m>
+                    </p>
+                    <p>
+                        This is the burning of methane <m>\mbox{CH}_{4}</m>.
+                    </p>
+                </statement>
+            </exercise>
+            
+            <exercise xml:id="chemeqn2">
+                <statement>
+                    <p>
+                        <m>\mbox{NH}_{3} + \mbox{CuO} \to \mbox{N}_{2} + \mbox{Cu} + \mbox{H}_{2}\mbox{O}</m>
+                    </p>
+                    <p>
+                        Here <m>\mbox{NH}_{3}</m> is ammonia, <m>\mbox{CuO}</m> is copper oxide, <m>\mbox{Cu}</m> is copper, and <m>\mbox{N}_{2}</m> is nitrogen.
+                    </p>
+                </statement>
+                <answer>
+                    <p>
+                        <m>2\mbox{NH}_{3} + 3\mbox{CuO} \to \mbox{N}_{2} + 3\mbox{Cu} + 3\mbox{H}_{2}\mbox{O}</m>
+                    </p>
+                </answer>
+            </exercise>
+
+            <exercise xml:id="chemeqn3">
+                <statement>
+                    <p>
+                        <m>\mbox{CO}_{2} + \mbox{H}_{2}\mbox{O} \to \mbox{C}_{6}\mbox{H}_{12}\mbox{O}_{6} + \mbox{O}_{2}</m>
+                    </p>
+                    <p>
+                        This is called the photosynthesis reaction---<m>\mbox{C}_{6}\mbox{H}_{12}\mbox{O}_{6}</m> is glucose.
+                    </p>
+                </statement>
+            </exercise>
+            
+            <exercise xml:id="chemeqn4">
+                <statement>
+                    <p>
+                        <m>\mbox{Pb}(\mbox{N}_{3})_{2} + \mbox{Cr}(\mbox{MnO}_{4})_{2} \to \mbox{Cr}_{2}\mbox{O}_{3} + \mbox{MnO}_{2} + \mbox{Pb}_{3}\mbox{O}_{4} + \mbox{NO}</m>
+                    </p>
+                </statement>
+                <answer>
+                    <p>
+                        <m>15\mbox{Pb}(\mbox{N}_{3})_{2} + 44\mbox{Cr}(\mbox{MnO}_{4})_{2} \to 22\mbox{Cr}_{2}\mbox{O}_{3} + 88\mbox{MnO}_{2} + 5\mbox{Pb}_{3}\mbox{O}_{4} + 90\mbox{NO}</m>
+                    </p>
+                </answer>
+            </exercise>
+
+            <exercise xml:id="chemeqn5">
+                <statement>
+                    <p>
+                        <m>\mbox{KNO}_{3}+\mbox{H}_{2}\mbox{CO}_{3}\rightarrow \mbox{K}_{2}\mbox{CO}_{3}+\mbox{HNO}_{3}</m>
+                    </p>
+                </statement>
+            </exercise>
+            
+            <exercise xml:id="chemeqn6">
+                <statement>
+                    <p>
+                        <m>\mbox{AgI}+\mbox{Na}_{2}\mbox{S}\rightarrow \mbox{Ag}_{2}\mbox{S}+\mbox{NaI}</m>
+                    </p>
+                </statement>
+            </exercise>
+            
+            <exercise xml:id="chemeqn7">
+                <statement>
+                    <p>
+                        <m>\mbox{Ba}_{3}\mbox{N}_{2}+\mbox{H}_{2}\mbox{O}\rightarrow \mbox{Ba}\left( \mbox{OH}\right) _{2}+\mbox{NH}_{3}</m>
+                    </p>
+                </statement>
+            </exercise>
+            
+            <exercise xml:id="chemeqn8">
+                <statement>
+                    <p>
+                        <m>\mbox{CaCl}_{2}+\mbox{Na}_{3}\mbox{PO}_{4}\rightarrow \mbox{Ca}_{3}\left( \mbox{PO}_{4}\right) _{2}+\mbox{NaCl}</m>
+                    </p>
+                </statement>
+            </exercise>
+        </exercisegroup>
+    </exercises>
+
+</section>

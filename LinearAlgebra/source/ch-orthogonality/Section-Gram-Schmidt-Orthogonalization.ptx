@@ -1,0 +1,442 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<section xml:id="Section-Gram-Schmidt-Orthogonalization" xmlns:xi="http://www.w3.org/2001/XInclude">
+    <title>Gram-Schmidt Orthogonalization</title>
+
+<introduction>
+<p>
+We said that a set <m>\{ \mathbf{f}_1, \mathbf{f}_2, \dots, \mathbf{f}_m\}</m> of nonzero vectors in <m>\R^n</m> is called an <term>orthogonal set</term> if <m>\mathbf{f}_i \cdot \mathbf{f}_j =0</m> for all <m>i \neq j</m>.  In this section we will prove that every orthogonal set is linearly independent, and therefore it is a basis for its span.  We have already seen that the expansion of a vector as a linear combination of orthogonal basis vectors is easy to obtain because formulas exist for the coefficients.  Hence the orthogonal bases are the ``nice'' bases. 
+</p> 
+</introduction>
+
+<subsection xml:id="Subsection-A-Visual-Guide-to-Creating-an-Orthogonal-Basis">
+    <title>A Visual Guide to Creating an Orthogonal Basis</title>
+
+    <p>
+Given an arbitrary basis <m>\{\mathbf{v}_1, \mathbf{v}_2\}</m> of <m>\R^2</m>, let's start building our orthogonal basis, <m>\{\mathbf{f}_1, \mathbf{f}_2\}</m>, by setting <m>\mathbf{f}_1 = \mathbf{v}_1</m>. To find the next element of our orthogonal basis, consider the orthogonal projection of <m>\mathbf{v}_2</m> onto <m>\mathbf{f}_1</m>.  (See the figure below.)  
+    </p> 
+
+
+<image width="65%">
+   <shortdescription>Projection pictured</shortdescription>
+    <latex-image>
+      \begin{tikzpicture}[scale=1.2]
+ \draw[\lt -\gt ] (-1,0)--(5,0);
+  \draw[\lt -\gt ] (0,-1)--(0,5);
+  \draw[line width=6pt,-stealth, black!20!white](0,0)--(2,4);
+\draw[line width=2pt,red,-stealth](0,0)--(1,2);  
+\draw[line width=2pt,blue,-stealth](0,0)--(4,3);
+\draw[line width=2pt,-stealth](2,4)--(4,3);  
+\node[] at (0.7, 2.8)  (p2)    {\(\mbox{proj}_{\mathbf{f}_1}\mathbf{v}_2\)};
+\node[] at (3.9, 3.8)  (p2)    {\(\mathbf{f}_2=\mathbf{v}_2-\mbox{proj}_{\mathbf{f}_1}\mathbf{v}_2\)};
+\node[red] at (-0.1, 1)  (p2)    {\(\mathbf{v}_1=\mathbf{f}_1\)};
+\node[blue] at (2, 1.2)  (p2)    {\(\mathbf{v}_2\)};
+     \end{tikzpicture}
+    </latex-image>
+</image>
+
+<image width="65%">
+   <shortdescription>Continuation of above</shortdescription>
+    <latex-image>
+      \begin{tikzpicture}[scale=1.2]
+ \draw[\lt -\gt ] (-1,0)--(5,0);
+  \draw[\lt -\gt ] (0,-1)--(0,5);
+\draw[line width=2pt,red,-stealth](0,0)--(1,2);  
+\node[red] at (0.2, 1)  (p2)    {\(\mathbf{f}_1\)};
+\draw[line width=2pt,-stealth](0,0)--(2,-1); 
+\node[] at (1.1, -0.3)  (p2)    {\(\mathbf{f}_2\)};
+     \end{tikzpicture}
+    </latex-image>
+</image>
+
+<p>
+Next, let <m>\mathbf{f}_2=\mathbf{v}_2-\mbox{proj}_{\mathbf{f}_1}\mathbf{v}_2</m>.  Observe that <m>\mathbf{f}_2</m> is orthogonal to <m>\mathbf{f}_1</m> (see <xref ref="th-orthDecompX"/>).  This gives us an orthogonal collection <m>\mathcal{B}=\{\mathbf{f}_1,\mathbf{f}_2\}</m>.  It is intuitively clear that <m>\mathbf{f}_1</m> and <m>\mathbf{f}_2</m> are linearly independent.  Therefore <m>\mathcal{B}</m> is an orthogonal basis of <m>\R^2</m>.
+
+The following exploration illustrates this process dynamically.
+</p> 
+
+
+<exploration xml:id="exp-orth1">
+    <p>
+        Choose an arbitrary basis <m>\{\mathbf{v}_1, \mathbf{v}_2\}</m> of <m>\R^2</m> by dragging the tips of vectors <m>\mathbf{v}_1</m> 
+        and <m>\mathbf{v}_2</m> to desired positions.  Use the navigation bar at the bottom of the interactive window to go through the 
+        steps of constructing an orthogonal basis of <m>\R^2</m>.
+    </p> 
+
+<figure>
+  <caption>
+  </caption>
+  <interactive xml:id="geogebra-Ortho-basis" platform="geogebra" width="100%" aspect="800:600">
+    <slate xml:id="Ortho-basis" surface="geogebra" material="xtqppyav" aspect="800:600" />
+  </interactive>
+</figure>
+</exploration>
+
+<p>
+We can apply this process to any two-dimensional subset of <m>\R^n</m>.  The following exploration will guide you through the process of constructing an orthogonal basis for a plane spanned by two arbitrary vectors in <m>\R^3</m>.
+</p>
+
+
+<exploration xml:id="exp-orth2">
+    <p>
+        Let <m>W =\mbox{span}\left(<alert>v</alert>_1,<alert>v</alert>_2\right)</m>. <m>W</m> is a plane through the origin in <m>\R^3</m>.  Use the navigation bar at the bottom of the interactive window to go through the steps of constructing an orthogonal basis for <m>W</m>.  RIGHT-CLICK and DRAG to rotate the image for a better view.
+    </p> 
+
+<figure>
+  <caption>
+  </caption>
+  <interactive xml:id="geogebra-Interactive-GramSchmidt" platform="geogebra" width="150%" aspect="900:600">
+    <slate xml:id="Interactive-GramSchmidt" surface="geogebra" material="zghsfkym" aspect="900:600" />
+  </interactive>
+</figure>
+</exploration>
+
+<p>
+In the next exploration, we take the process of constructing an orthogonal basis to the edge of the visual realm and construct an orthogonal basis for <m>\R^3</m>.
+</p>
+
+
+<exploration xml:id="exp-orth3">
+    <p>
+        In the interactive below <m>\{\mathbf{v}_1, \mathbf{v}_2, \mathbf{v}_3\}</m> is a basis of <m>\R^3</m>.  Use check boxes to go through the steps for constructing an orthogonal basis starting with the given basis.  RIGHT-CLICK and DRAG to rotate the image for a better view.
+
+
+<figure>
+  <caption>
+  </caption>
+  <interactive xml:id="geogebra-Procedure-InteractivesSteps" platform="geogebra" width="150%" aspect="900:800">
+    <slate xml:id="Procedure-InteractiveSteps" surface="geogebra" material="qjpvmsws" aspect="900:800" />
+  </interactive>
+</figure>
+    </p>
+</exploration>
+</subsection>
+
+
+
+
+
+
+
+
+
+
+<subsection xml:id="Subsection-Gram-Schmidt-Orthogonalization-Algorithm">
+    <title>Gram-Schmidt Orthogonalization Algorithm</title>
+
+
+<p>
+In the first sections of this chapter, we have repeatedly assumed that our subspaces of <m>\R^n</m> have an orthogonal basis.  We will now prove that this is indeed the case.  Recall that to be a basis of a subspace, a set of vectors must be linearly independent and it must span the subspace.  We will start by demonstrating that a set of orthogonal vectors must be linearly independent.
+</p> 
+
+<theorem xml:id="orthbasis">
+
+    <statement>
+        <p>
+            Let <m> \{ \mathbf{w}_1, \mathbf{w}_2, \cdots, \mathbf{w}_k \}</m> be an
+orthogonal set of non-zero vectors in <m>\R^n</m>. Then this set is
+linearly independent.
+        </p>
+    </statement>
+
+
+<proof>
+    <p>
+To show that this set is linearly independent, we need to demonstrate that the only solution to the following equation is the trivial solution. So suppose
+<me>
+a_1 \mathbf{w}_1 + a_2 \mathbf{w}_2 + \cdots + a_k \mathbf{w}_k = \mathbf{0}.
+</me>
+
+To accomplish this, we need to show that all <m>a_i = 0</m> for all <m>0\leq i\leq k</m>.  To do so we take the dot product of
+each side of the above equation with the vector <m>\mathbf{w}_i</m> and obtain the following.
+
+<md>
+<mrow> \mathbf{w}_i \cdot (a_1 \mathbf{w}_1 + a_2 \mathbf{w}_2 + \cdots + a_k \mathbf{w}_k ) \amp =  \mathbf{w}_i \cdot \mathbf{0} </mrow>
+<mrow> a_1 (\mathbf{w}_i \cdot \mathbf{w}_1) + a_2 (\mathbf{w}_i \cdot \mathbf{w}_2) + \cdots + a_k (\mathbf{w}_i \cdot \mathbf{w}_k)  \amp = 0 </mrow>
+</md>
+
+
+Now since the set is orthogonal, <m>\mathbf{w}_i \cdot \mathbf{w}_m = 0</m> for all <m>m \neq i</m>, so we have:
+<me>
+a_1 (0) + \cdots + a_i(\mathbf{w}_i \cdot \mathbf{w}_i) + \cdots + a_k (0) = 0,
+</me> 
+<me>
+a_i \norm{\mathbf{w}_i}^2 = 0.
+</me>
+
+We know that <m>\norm{\mathbf{w}_i}^2  \neq 0</m>, so it follows that <m>a_i =0</m>. Since <m>i</m> was chosen arbitrarily, <m>a_i =0</m> for all <m>i</m> <m>(0\leq i\leq k)</m>. This proves that <m>\{ \mathbf{w}_1, \mathbf{w}_2, \cdots, \mathbf{w}_k \}</m> is linearly independent.
+    </p>
+</proof>
+</theorem>
+
+
+
+<p>
+The following theorem shows how to start with an arbitrary basis of a subspace <m>W</m> of <m>\R^n</m> and find an orthogonal basis for <m>W</m>.  To better understand the notation and the process presented in this theorem, you may want to match the steps of the theorem to the steps of Exploration <xref ref="exp-orth3"/>.
+</p> 
+
+
+<theorem xml:id="th-GS">
+    <title>Gram-Schmidt Orthogonalization</title>
+    <statement>
+        <p>
+            If <m>\{\mathbf{v}_{1}, \mathbf{v}_{2}, \dots , \mathbf{v}_{m}\}</m> is any basis of a subspace <m>W</m> of <m>\R^n</m>, consider the following sequence of subspaces:
+<me>
+\begin{array}{ccl}
+W_1\amp =\amp \mbox{span}\{\mathbf{v}_{1}\} \\
+W_2\amp =\amp \mbox{span}\{\mathbf{v}_{1},\mathbf{v}_{2}\} \\
+W_3\amp =\amp \mbox{span}\{\mathbf{v}_{1},\mathbf{v}_{2},\mathbf{v}_{3}\} \\
+\vdots \amp \amp \\
+W_m \amp =\amp  \mbox{span}\{\mathbf{v}_{1},\mathbf{v}_{2},\mathbf{v}_{3},\ldots,\mathbf{v}_{m}\}
+\end{array}
+</me>
+
+Then we can construct an orthogonal basis <m>\{\mathbf{f}_{1},\mathbf{f}_{2},\ldots,\mathbf{f}_{m}\}</m> for <m>W_k</m> for each <m>k = 2, 3, \dots , m</m> by adding one vector at a time successively as follows:
+<me>
+\begin{array}{ccl}
+\mathbf{f}_{1} \amp =\amp  \mathbf{v}_{1} \\
+\mathbf{f}_{2} \amp =\amp  \mathbf{v}_{2} - \mbox{proj}_{W_1}(\mathbf{v}_2) \\
+\mathbf{f}_{3} \amp =\amp  \mathbf{v}_{3} - \mbox{proj}_{W_2}(\mathbf{v}_3) \\
+\vdots \amp \amp \\
+\mathbf{f}_{m} \amp =\amp  \mathbf{v}_{m} - \mbox{proj}_{W_{m-1}}(\mathbf{v}_m)
+\end{array}
+</me>
+
+Then, <m>\{\mathbf{f}_{1},\mathbf{f}_{2},\ldots,\mathbf{f}_{m}\}</m> will be an orthogonal basis for <m>W</m>.
+        </p>
+    </statement>
+
+<proof>
+    <p>
+Using the definition of projection onto a subspace, the iterative procedure above may be written:
+<men xml:id="eqn-GSproof">
+\begin{array}{ccl}
+\mathbf{f}_{1} \amp =\amp  \mathbf{v}_{1} \\
+\mathbf{f}_{2} \amp =\amp  \mathbf{v}_{2} - \frac{\mathbf{v}_{2} \cdot \mathbf{f}_{1}}{\norm{\mathbf{f}_{1}}^2}\mathbf{f}_{1} \\
+\mathbf{f}_{3} \amp =\amp  \mathbf{v}_{3} - \frac{\mathbf{v}_{3} \cdot \mathbf{f}_{1}}{\norm{\mathbf{f}_{1}}^2}\mathbf{f}_{1} - \frac{\mathbf{v}_{3} \cdot \mathbf{f}_{2}}{\norm{\mathbf{f}_{2}}^2}\mathbf{f}_{2} \\
+\vdots \amp \amp \\
+\mathbf{f}_{k} \amp =\amp  \mathbf{v}_{k} - \frac{\mathbf{v}_{k} \cdot \mathbf{f}_{1}}{\norm{\mathbf{f}_{1}}^2}\mathbf{f}_{1} - \frac{\mathbf{v}_{k} \cdot \mathbf{f}_{2}}{\norm{\mathbf{f}_{2}}^2}\mathbf{f}_{2} - \dots -\frac{\mathbf{v}_{k} \cdot \mathbf{f}_{k-1}}{\norm{\mathbf{f}_{k-1}}^2}\mathbf{f}_{k-1} \\
+\vdots \amp \amp 
+\end{array}
+</men>
+We see immediately that <m>\mbox{span}\{\mathbf{f}_{1}\}=W_1</m> and that <m>\mbox{span}\{\mathbf{f}_{1},\mathbf{f}_{2}\}=W_2</m> because <m>\mathbf{f}_{2}</m> is a linear combination of <m>\mathbf{v}_{1}</m> and <m>\mathbf{v}_{2}</m>.  In fact, for any value of <m>k</m>, we see that <m>\mbox{span}\{\mathbf{f}_{1},\mathbf{f}_{2},\ldots,\mathbf{f}_{k}\}=W_k</m>, because each <m>\mathbf{f}_{k}</m> is a linear combination of the vectors <m>\{\mathbf{v}_{1},\mathbf{v}_{2},\ldots,\mathbf{v}_{k-1}\}</m>.
+</p> 
+
+<p>
+Repeated application of <xref ref="cor-orthProjOntoW"/> shows that the set
+ <m>\{\mathbf{f}_{1},\mathbf{f}_{2},\ldots,\mathbf{f}_{m}\}</m> is orthogonal.  Linear independence follows from orthogonality by <xref ref="orthbasis"/>.  
+</p> 
+
+    <p>
+We conclude that <m>\{\mathbf{f}_{1},\mathbf{f}_{2},\ldots,\mathbf{f}_{m}\}</m> is a linearly independent orthogonal set that spans <m>W</m>.
+    </p>
+</proof>
+</theorem>
+
+
+<p>
+Knowing the Gram-Schmidt procedure in detail is important, albeit slightly tedious. As such, we better run through an example in detail.
+</p> 
+
+
+<example xml:id="exa-023743">
+    <statement>
+        <p>
+            Find an orthogonal basis of the row space of 
+        <me>A = \begin{bmatrix}
+1 \amp  1 \amp  -1 \amp  -1\\
+3 \amp  2 \amp  0 \amp  1\\
+1 \amp  0 \amp  1 \amp  0
+\end{bmatrix}.</me>
+       </p>
+    </statement>
+    <answer>
+        <p>
+            Let <m>\mathbf{v}_{1}</m>, <m>\mathbf{v}_{2}</m>, <m>\mathbf{v}_{3}</m> denote the rows of <m>A</m> 
+            and observe that <m>\{\mathbf{v}_{1}, \mathbf{v}_{2}, \mathbf{v}_{3}\}</m> is linearly independent. 
+            Take <m>\mathbf{f}_{1} = \mathbf{v}_{1}</m>. The algorithm gives
+<md>
+<mrow> \mathbf{f}_{2} \amp =  \mathbf{v}_{2} - \frac{\mathbf{v}_{2} \cdot \mathbf{f}_{1}}{\norm{\mathbf{f}_{1}}^2}\mathbf{f}_{1} = [3, 2, 0, 1] - \frac{4}{4}[1, 1, -1, -1] = [2, 1, 1, 2]  </mrow>
+<mrow> \mathbf{f}_{3} \amp =  \mathbf{v}_{3} - \frac{\mathbf{v}_{3} \cdot \mathbf{f}_{1}}{\norm{\mathbf{f}_{1}}^2}\mathbf{f}_{1} - \frac{\mathbf{v}_{3} \cdot \mathbf{f}_{2}}{\norm{\mathbf{f}_{2}}^2}\mathbf{f}_{2} = \mathbf{v}_{3}  - \frac{3}{10}\mathbf{f}_{2} = \frac{1}{10}[4, -3, 7, -6]. </mrow>
+</md>
+
+Hence 
+<me>
+\{[1, 1, -1, -1], [2, 1, 1, 2], \frac{1}{10}[4, -3, 7, -6]\}
+</me> 
+
+is the orthogonal basis provided by the algorithm. In
+hand calculations it may be convenient to eliminate fractions (see the Remark below), so 
+<me>
+\{[1, 1, -1, -1], [2, 1, 1, 2], [4, -3, 7, -6]\}
+</me>
+
+is also an orthogonal basis for <m>\mbox{row}(A)</m>.
+       </p>
+    </answer>
+</example>
+
+<remark xml:id="rem-scalarMultGS">
+<statement>
+<p>
+Observe that the vector <m>\frac{\mathbf{x} \cdot \mathbf{f}_{i}}{\norm{\mathbf{f}_{i}}^2}\mathbf{f}_{i}</m>
+ is unchanged if a nonzero scalar multiple of <m>\mathbf{f}_{i}</m> is used in place of <m>\mathbf{f}_{i}</m>. Hence, if a newly constructed <m>\mathbf{f}_{i}</m> is multiplied by a nonzero scalar at some stage of the Gram-Schmidt algorithm, the subsequent <m>\mathbf{f}</m>s will be unchanged. This is useful in actual calculations.
+</p>
+</statement>
+</remark>
+
+
+
+<p>
+The Gram-Schmidt algorithm demonstrates in a constructive way that every subspace of <m>\R^n</m> has an orthogonal basis.  We formalize this in one final theorem.
+</p> 
+
+
+
+<theorem xml:id="thm-023635">
+
+    <statement>
+        <p>
+            Let <m>W</m> be a subspace of <m>\R^n</m>.  Then  <m>W</m> has an orthogonal basis.  
+            In fact, every orthogonal subset <m>\{\mathbf{f}_{1}, \dots , \mathbf{f}_{m}\}</m> in <m>W</m> can be extended to an orthogonal basis for <m>W</m>.
+        </p>
+    </statement>
+
+
+<proof>
+    <p>
+Suppose <m>\{\mathbf{f}_{1}, \dots , \mathbf{f}_{m}\}</m> is an orthogonal subset of <m>W</m>.  If
+<me>
+\mbox{span}\left(\mathbf{f}_{1}, \dots , \mathbf{f}_{m}\right) = W,
+</me>
+
+it is already a basis. Otherwise, there exists <m>\mathbf{x}</m> in <m>W</m> outside <m>\mbox{span}\left(\mathbf{f}_{1}, \dots , \mathbf{f}_{m}\right)</m>.
+    </p> 
+    <p>
+    Using the Gram-Schmidt procedure we define 
+    <me>
+    \mathbf{f}_{m+1} = \mathbf{x} - \mbox{proj}_{W_{m}}(\mathbf{x}),
+    </me>
+    
+    where <m>W_m = \mbox{span}\{\mathbf{f}_{1},\mathbf{f}_{2},\ldots,\mathbf{f}_{m}\}</m>. 
+    If <m>\mbox{span}\left(\mathbf{f}_{1}, \dots, \mathbf{f}_{m}, \mathbf{f}_{m+1}\right) = W</m>, 
+    we are done. Otherwise, the process continues to create larger and larger orthogonal subsets of <m>W</m>. They are linearly independent by <xref ref="th-GS"/>, so we have a basis when we reach a subset containing <m>\mbox{dim}(W)</m> vectors.
+    </p>
+</proof>
+</theorem>
+
+<p>
+The process described in the proof of this theorem is used in this final example.
+</p> 
+
+
+<example xml:id="ex-GSextend">
+    <statement>
+        <p>
+            In <xref ref="exa-023743"/>, given 
+            <me>A = \begin{bmatrix}
+1 \amp  1 \amp  -1 \amp  -1\\
+3 \amp  2 \amp  0 \amp  1\\
+1 \amp  0 \amp  1 \amp  0
+\end{bmatrix},</me>
+
+we showed that an orthogonal basis for <m>\mbox{row}(A)</m> is 
+<me>
+    \lbrace \mathbf{f}_1=[1, 1, -1, -1], \mathbf{f}_2=[2, 1, 1, 2], \mathbf{f}_3=[4, -3, 7, -6] \rbrace.
+</me>
+
+
+Choose any vector <m>\mathbf{v}_4 \in \R^4</m> not in <m>\mbox{span}\{\mathbf{f}_1, \mathbf{f}_2, \mathbf{f}_3\}</m>, and apply the Gram-Schmidt algorithm to produce a vector <m>\mathbf{f}_4</m> such that <m>\{\mathbf{f}_1, \mathbf{f}_2, \mathbf{f}_3, \mathbf{f}_4\}</m> is an orthogonal basis for <m>\R^4</m>.
+       </p>
+    </statement>
+    <answer>
+        <p>
+            Let <m>\mathbf{v}_4 = [1, 0, 0, 0]</m> (quick mental exercise: How would you check that <m>\mathbf{v}_4</m> is not in <m>\mbox{span}\{\mathbf{f}_1, \mathbf{f}_2, \mathbf{f}_3\}</m>?).  To get a vector <m>\mathbf{f}</m> orthogonal to the row space, we perform an iteration of Gram-Schmidt:
+  <md>
+    <mrow>   \mathbf{f} \amp =  \mathbf{v}_{4} - \frac{\mathbf{v}_{4} \cdot \mathbf{f}_{1}}{\norm{\mathbf{f}_{1}}^2}\mathbf{f}_{1} - \frac{\mathbf{v}_{4} \cdot \mathbf{f}_{2}}{\norm{\mathbf{f}_{2}}^2}\mathbf{f}_{2} - \frac{\mathbf{v}_{4} \cdot \mathbf{f}_{3}}{\norm{\mathbf{f}_{3}}^2}\mathbf{f}_{3} </mrow>
+    <mrow>  \amp =  [1, 0, 0, 0] - \frac{1}{4}[1, 1, -1, -1] - \frac{2}{10}[2, 1, 1, 2] - \frac{4}{110}[4, -3, 7, -6] </mrow>
+    <mrow>  \amp = \frac{1}{44}[9, -15, -9, 3]. </mrow>
+  </md>
+  Since any multiple of <m>\mathbf{f}</m> will suffice, we are free to choose <m>\mathbf{f}_{4} = 44\mathbf{f} = [9, -15, -9, 3]</m> to get rid of the fraction.
+</p>
+
+        <p>
+It is easy to check that <m>\{\mathbf{f}_1, \mathbf{f}_2, \mathbf{f}_3, \mathbf{f}_4\}</m> is an orthogonal set, and it follows from <xref ref="orthbasis"/> that this set is a basis for <m>\R^4</m>.
+       </p>
+    </answer>
+</example>
+
+<remark xml:id="rem-vectorInSpan">
+<statement>
+<p>
+Suppose instead of <m>[1,0,0,0]</m> we had started with <m>\mathbf{v}_4 = [7, -1, 7, -5]</m>.  This vector <m>\mathbf{v}_4</m> is in <m>\mbox{span}\{\mathbf{f}_1, \mathbf{f}_2, \mathbf{f}_3\}</m>, as it is the sum of those three vectors.  But if we were to try to proceed as above, we would get 
+<md>
+<mrow>      \mathbf{f} \amp =  \mathbf{v}_{4} - \frac{\mathbf{v}_{4} \cdot \mathbf{f}_{1}}{\norm{\mathbf{f}_{1}}^2}\mathbf{f}_{1} - \frac{\mathbf{v}_{4} \cdot \mathbf{f}_{2}}{\norm{\mathbf{f}_{2}}^2}\mathbf{f}_{2} - \frac{\mathbf{v}_{4} \cdot \mathbf{f}_{3}}{\norm{\mathbf{f}_{3}}^2}\mathbf{f}_{3} </mrow>
+<mrow>      \amp =  [7, -1, 7, -5] - \frac{4}{4}[1, 1, -1, -1] - \frac{10}{10}[2, 1, 1, 2] - \frac{110}{110}[4, -3, 7, -6] </mrow>
+<mrow>      \amp = [0,0,0,0]. </mrow>
+</md>
+We could not add a multiple of <m>\mathbf{f}</m> to <m>\{\mathbf{f}_1, \mathbf{f}_2, \mathbf{f}_3\}</m> to get an orthogonal basis.
+</p>
+</statement>
+</remark>
+</subsection>  
+
+
+
+
+
+
+
+<exercises>
+<exercise xml:id="prob-extend">
+    <statement>
+        <p>
+            Try <xref ref="ex-GSextend"/> again starting with some other vector <m>\mathbf{v}_4 \in \R^4</m>.
+        </p>
+    </statement>
+</exercise>
+
+
+<exercisegroup>
+<introduction>
+    <p>
+        In each case, use the Gram-Schmidt algorithm to convert the given basis <m>\mathcal{B}</m> of <m>V</m> to an orthogonal basis.  
+    </p>
+</introduction>
+
+
+<exercise xml:id="GS1">
+    <statement>
+        <p>
+            <m>V = \R^2</m>, <m>\mathcal{B} = \left\{\begin{bmatrix}1\\ -1\end{bmatrix}, \begin{bmatrix}2\\ 1\end{bmatrix}\right\}</m>.
+        </p>
+    </statement>
+</exercise>
+
+<exercise xml:id="GS2">
+    <statement>
+        <p>
+            <m>V = \R^2</m>, <m>\mathcal{B} = \left\{\begin{bmatrix}2\\ 1\end{bmatrix}, \begin{bmatrix}1\\ 2\end{bmatrix}\right\}</m>.
+        </p>
+    </statement>
+</exercise>
+
+<exercise xml:id="GS3">
+    <statement>
+        <p>
+            <m>V = \R^3</m>, <m>\mathcal{B} = \left\{\begin{bmatrix}1\\ -1\\ 1\end{bmatrix}, \begin{bmatrix}1\\ 0\\ 1\end{bmatrix}, \begin{bmatrix}1\\ 1\\ 2\end{bmatrix}\right\}</m>.
+        </p>
+    </statement>
+</exercise>
+
+<exercise xml:id="GS4">
+    <statement>
+        <p>
+            <m>V = \R^3</m>, <m>\mathcal{B} = \left\{\begin{bmatrix}0\\ 1\\ 1\end{bmatrix}, \begin{bmatrix}1\\ 1\\ 1\end{bmatrix}, \begin{bmatrix}1\\ -2\\ 2\end{bmatrix}\right\}</m>.
+        </p>
+    </statement>
+</exercise>
+</exercisegroup>
+
+</exercises>
+</section>

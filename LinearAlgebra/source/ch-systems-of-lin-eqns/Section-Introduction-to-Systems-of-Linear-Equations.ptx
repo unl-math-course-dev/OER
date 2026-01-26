@@ -1,0 +1,1505 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<section xml:id="Section-Introduction-to-Systems-of-Linear-Equations">
+    <title>Introduction to Systems of Linear Equations</title>
+
+    <introduction>
+    <p>
+        You are probably familiar with the concept of a <term>system of linear equations</term> and with some methods for solving such systems.  
+        In this section, we will look at the algebra and geometry of finding and interpreting solutions of systems of linear equations.  
+        We will start with two-variable and three-variable systems, then move on to systems involving more variables.
+    </p>
+    </introduction>
+  
+    <subsection xml:id="Subsection-Algebra-of-Linear-Systems">
+        <title>Algebra of Linear Systems</title>
+        
+        <p>
+            When you were first introduced to systems of equations, you learned to solve for one variable in terms of the other(s), then substitute.  
+            Here, we will introduce a systematic method, an algorithm, to solve systems of linear equations.  
+            This alternative method, called <term>Gaussian elimination</term>, involves adding multiples of one equation to another equation in order to eliminate one of the variables.  
+            This method will form the foundation for an algorithm we will develop for solving linear systems and performing other computations related to systems. 
+            Let's explore this in <xref ref="init-systwoeqs1"/>.
+        </p>
+
+        <exploration xml:id="init-systwoeqs1">
+            <p> 
+                This problem formalizes what you may already know (perhaps under a different name) about <term>elementary row operations</term> as means of solving systems of linear equations.  Consider the system
+                <me>
+                    \begin{matrix}
+                    2x\amp   -\amp   y\amp  =\amp  -4\\
+                    3x \amp   +\amp   2y\amp  = \amp   1 
+                    \end{matrix}
+                </me>
+                We will begin by adding twice the first row to the second row, and replacing the second row with the sum. 
+                <me>
+                    R_2+2R_1\rightarrow R_2
+                </me>
+                <me>
+                    \begin{matrix}
+                    2x\amp   -\amp   y\amp  =\amp   -4\\
+                    7x \amp   +\amp   0y\amp  = \amp   -7  
+                    \end{matrix}
+                </me>
+        
+                We choose this row operation because the resulting equation has a zero coefficient for <m>y</m>.  
+        
+                Next, we make the coefficient of <m>x</m> equal to 1 by multiplying both sides of the second equation by <m>\frac{1}{7}</m>. 
+                <me>
+                    \frac{1}{7}R_2\rightarrow R_2
+                </me>
+        
+        
+                <me>
+                    \begin{matrix}
+                    2x\amp   - \amp   y\amp  =\amp  -4\\
+                    x \amp   \amp  \amp  = \amp   -1
+                    \end{matrix}
+                </me>
+        
+                
+                We now know <m>x=-1</m>.  Our next goal is to determine <m>y</m> by eliminating <m>x</m> from the first equation.  To this end, we subtract twice the second row from the first row and replace the first row with the difference. 
+                <me>
+                    R_1-2R_2\rightarrow R_1
+                </me>
+        
+        
+        
+                <me>
+                    \begin{matrix}
+                    0x\amp   -\amp   y\amp  =\amp   -2\\
+                    x \amp   \amp  \amp  = \amp  -1 \\
+                    \end{matrix}
+                </me>
+        
+        
+                Next we multiply both sides of the first equation by <m>-1</m>. 
+                <me>
+                    -R_1\rightarrow R_1
+                </me>
+        
+        
+                <me>
+                    \begin{matrix}
+                    \amp    \amp   y\amp  =\amp  2\\
+                    x \amp   \amp  \amp  = \amp  -1
+                    \end{matrix}
+                </me>
+        
+                
+                    
+                Finally, we can switch the order of equations in order to display <m>x</m> in the top row. 
+                <me>
+                    R_1\leftrightarrow R_2
+                </me>
+                
+        
+        
+                <me>
+                    \begin{matrix}
+                    x \amp   \amp  \amp  = \amp  -1\\
+                    \amp    \amp   y\amp  =\amp  2      
+                    \end{matrix}
+                </me>
+        
+                
+                This solution can be written as an ordered pair <m>(-1, 2)</m>.  
+            </p>
+        </exploration>
+
+        <p>
+            In <xref ref="init-systwoeqs1"/> we introduced elementary row operations and the notation associated with them. We now define these formally.
+        </p>
+
+        <definition xml:id="def-elemrowops">
+            <title>Elementary Row Operations</title>
+            <statement>
+                <p>
+                    The following three operations performed on a linear system are called <term>elementary row operations</term>.
+        <ol>
+        <li>
+            <p>
+                Switching the order of equations (rows) <m>i</m> and <m>j</m>:
+        
+        <me>
+            R_i\leftrightarrow R_j
+        </me>
+            </p>
+        </li> 
+        
+        <li>
+            <p>
+                Multiplying both sides of equation (row) <m>i</m> by the same non-zero constant, <m>k</m>, and replacing equation <m>i</m> with the result:
+        
+        <me>
+            kR_i\rightarrow R_i
+        </me>
+            </p>
+        </li> 
+        
+        <li>
+            <p>
+                Adding <m>k</m> times equation (row) <m>i</m> to equation (row) <m>j</m>, and replacing equation <m>j</m> with the result:
+        
+        <me>
+            R_j+kR_i\rightarrow R_j
+        </me>
+            </p>
+        </li> 
+        </ol>
+                </p>
+            </statement>
+        </definition>
+
+        <p>
+        As we applied elementary row operations to the system in <xref ref="init-systwoeqs1"/>, the system changed, but you can check that the six systems in the exploration all have the same solution: <m>(-1, 2)</m>.  
+        We say two systems are <term>equivalent</term> if they have exactly the same solutions.  So the six systems in <xref ref="init-systwoeqs1"/> are equivalent.
+        This property of row operations is so important that we state it formally and outline how to prove it.
+        </p>
+
+            
+        <theorem xml:id="th-elemRowOpsEquivSys">
+            <statement>
+                <p>
+                For a system of linear equations, performing an elementary row operation gives an equivalent system.
+                </p>
+            </statement>
+            <proof>
+                <p> 
+                Clearly, the order of equations does not affect the solution set, so <xref ref="item-rowswap"/> produces an equivalent system.  Next, you learned years ago that multiplying both sides of an equation by a non-zero constant does not change its solution set, which establishes that <xref ref="item-constantmult"/> produces an equivalent system.  To see that <xref ref="item-addrow"/> produces an equivalent system, note that if we add a multiple of an equation to another equation in the system, we are adding the same thing to both sides, which does not change the solution set of that equation, nor of the system.
+                </p>
+            </proof>
+        </theorem>
+        
+
+        <p>
+        If a matrix can be obtained from another matrix by means of elementary row operations, we say that the two matrices are <term>row-equivalent</term>.
+        <xref ref="th-elemRowOpsEquivSys"/> shows that row-equivalent systems are equivalent.
+        It turns out that equivalent systems are not always row-equivalent, but they are row-equivalent if the righthand sides of all the equations are all zeros. 
+        Justifying this is <xref ref="prob-equivrowequiv"/> in <xref ref="Section-Row-Echelon-Forms"/>.
+        </p>
+
+        <p>    
+        The summary of all this discussion is that we can use a sequence of elementary row operations to find, step-by-step, simpler and simpler systems with same solution set.
+        Next, we carry out this plan for a larger system of linear equations.
+        </p>
+
+        <exploration xml:id="ex-threeeqthreevars1">
+            <statement>
+            <p>
+                Solve the system of equations using elementary row operations.
+                <me>
+                    \begin{array}{ccccccc}
+                    3x \amp   - \amp   y\amp  +\amp  z\amp  = \amp  0 \\
+                    2x\amp   + \amp   y\amp  +\amp  2z\amp  =\amp  2\\
+                    x\amp   +\amp  4y\amp  -\amp  2z\amp  =\amp  11
+                    \end{array}
+                </me>
+            </p>
+
+            <p>
+            It may be daunting to think about how to begin.  But keep in mind the desired end-result.  What we want to do is to use elementary row operations to transform the given system into something like this
+        
+        <me>
+            \begin{array}{ccccccc}
+              x \amp   \amp  \amp  \amp  \amp  = \amp   a \\
+             \amp    \amp   y\amp  \amp  \amp  =\amp   b\\
+             \amp   \amp  \amp  \amp   z\amp  =\amp   c
+            \end{array}
+        </me>
+            </p>
+            
+            </statement>
+            <answer>
+            <p>
+        We will accomplish this by using a convenient variable in one row to ``wipe out" this variable from the other two rows.  For example, we can use <m>x</m> in the third equation to wipe out <m>3x</m> in the first equation and <m>2x</m> in the second equation.  To do this, multiply the third row by <m>-3</m> and add it to the top row, then multiply the third row by <m>-2</m> and add it to the second row.  We now have:
+        
+        <me>
+            \begin{array}{c}
+         \xrightarrow{R_1-3R_3}\\
+         \xrightarrow{R_2-2R_3}\\
+        \\
+         \end{array}
+         \begin{array}{ccccccc}
+              0x \amp   -\amp  13y\amp  +\amp  7z\amp  = \amp  -33 \\
+             0x\amp   -\amp  7y\amp  +\amp  6z\amp  =\amp  -20\\
+             x\amp   +\amp  4y\amp  -\amp  2z\amp  =\amp  11
+            \end{array}
+        </me>
+        
+        In the previous step <m>x</m> was a convenient variable to use because the coefficient in front of <m>x</m> was 1.  We no longer have a variable with coefficient 1.  We could create a coefficient of 1 using division, but that would lead to fractions, making computations cumbersome.  Instead, we will subtract twice the second row from the first row. This gives us:
+        
+        
+        <me>
+            \begin{array}{c}
+         \xrightarrow{R_1-2R_2}\\
+         \\
+        \\
+         \end{array}
+         \begin{array}{ccccccc}
+              0x \amp  +  \amp   y\amp  -\amp  5z\amp  = \amp  7 \\
+             0x\amp   -\amp  7y\amp  +\amp  6z\amp  =\amp  -20\\
+             x\amp   +\amp  4y\amp  -\amp  2z\amp  =\amp  11
+            \end{array}
+        </me>
+        
+        
+        Next we add seven times the first row to the second row, and subtract four times the first row from the third row. 
+        
+        
+        <me>
+            \begin{array}{c}
+         \\
+         \xrightarrow{R_2+7R_1}\\
+        \xrightarrow{R_3-4R_1}\\
+         \end{array}
+         \begin{array}{ccccccc}
+              0x \amp   + \amp   y\amp  -\amp  5z\amp  = \amp  7 \\
+             0x\amp   +\amp  0y\amp  -\amp  29z\amp  =\amp  29\\
+             x\amp   +\amp  0y\amp  +\amp  18z\amp  =\amp  -17
+            \end{array}
+        </me>
+        
+            
+            Now we divide both sides of the second row by <m>-29</m>.
+            
+            
+        <me>
+            
+            \begin{array}{c}
+            \\
+         \xrightarrow{-\frac{1}{29}R_2}\\
+        \\
+         \end{array}
+         \begin{array}{ccccccc}
+              0x \amp   + \amp   y\amp  -\amp  5z\amp  = \amp  7 \\
+             0x\amp   +\amp  0y\amp  +\amp  z\amp  =\amp  -1\\
+             x\amp   +\amp  0y\amp  +\amp  18z\amp  =\amp  -17
+            \end{array}
+        </me>
+        
+            
+            Adding <m>5</m> times the second row to the first row and subtracting <m>18</m> times the second row from the third row gives us
+            
+            
+        <me>
+            \begin{array}{c}
+         \xrightarrow{R_1+5R_2}\\
+         \\
+        \xrightarrow{R_3-18R_2}\\
+         \end{array}
+         \begin{array}{ccccccc}
+              0x \amp   + \amp   y\amp  +\amp  0z\amp  = \amp  2 \\
+             0x\amp   +\amp  0y\amp  +\amp  z\amp  =\amp  -1\\
+             x\amp   +\amp  0y\amp  +\amp  0z\amp  =\amp  1
+            \end{array}
+        </me>
+        
+        
+        Finally, rearranging the rows gives us
+        
+        
+        <me>
+            \begin{array}{ccccccc}
+             x\amp   +\amp  0y\amp  +\amp  0z\amp  =\amp  1\\
+             0x \amp   + \amp   y\amp  +\amp  0z\amp  = \amp  2 \\
+             0x\amp   +\amp  0y\amp  +\amp  z\amp  =\amp  -1
+             \end{array}
+        </me>
+        
+             
+         
+        <me>
+            \begin{array}{ccccccc}
+             x\amp   \amp  \amp  \amp  \amp  =\amp  1\\
+              \amp    \amp   y\amp  \amp  \amp  = \amp  2 \\
+             \amp  \amp  \amp  \amp  z\amp  =\amp  -1
+             \end{array}
+        </me>
+            
+             
+        Thus the system has a unique solution <m>(1, 2, -1)</m>.
+                </p>
+            </answer>
+        </exploration>
+
+        <p>
+        At this point you may be wondering whether it will always be possible to take a system of three equations and three unknowns and use elementary row operations to transform it to a system of the form
+        <me>
+            \begin{array}{ccccccc}
+              x \amp   \amp  \amp  \amp  \amp  = \amp  a \\
+             \amp    \amp   y\amp  \amp  \amp  = \amp   b\\
+             \amp   \amp  \amp  \amp  z\amp  =\amp  c
+            \end{array}
+        </me>
+        The short answer to this question is NO.  The existence of an equivalent system of this form implies that the original system has exactly one solution, namely <m>(a, b, c)</m>.  However, it is possible for a system to have no solutions or to have infinitely many solutions.  We will study these different possibilities from an algebraic perspective in subsequent sections.  For now, we will attempt to gain insight into existence and uniqueness of solutions through geometry.     
+        </p>
+    </subsection>
+
+    <subsection xml:id="Subsection-Augmented-Matrix-Notation">
+        <title>Augmented Matrix Notation</title>
+
+        <p>
+            It is time consuming to rewrite each equation, with all variable names and plus signs, after each row operation. 
+            So let's find a more efficient method for performing elementary row operations. 
+        </p>
+
+        <p>
+            Recall that the following three operations performed on a linear system are called <term>elementary row operations</term>
+            <ul>
+            <li>
+                <p>
+                    Switching the order of two equations
+                </p>
+            </li> 
+            <li>
+                <p>
+                    Multiplying both sides of an equation by the same non-zero constant
+                </p>
+            </li> 
+            <li>
+                <p>
+                    Adding a multiple of one equation to another
+                </p>
+            </li> 
+            </ul>
+            </p>
+            
+
+            <exploration xml:id="init-augmentedmatrixex">
+                <statement>
+                    <p>
+                        The linear system in this Exploration comes from Jim Hefferon's <url href="http://joshua.smcvt.edu/linearalgebra/#current_version">Linear Algebra</url>.
+                    </p>
+                <p>
+            Consider the linear system
+            <men xml:id="eq-sys20originalsystem1">
+            \begin{array}{ccccccccc}
+                  x \amp - \amp y\amp \amp \amp \amp \amp = \amp 0 \\
+                 2x\amp  -\amp 2y\amp +\amp z\amp +\amp 2w\amp =\amp 4\\
+                 \amp  \amp y\amp \amp \amp +\amp w\amp =\amp 0\\
+                 \amp  \amp \amp \amp 2z\amp +\amp w\amp =\amp 5
+                \end{array}
+                </men>
+            Our goal is to use elementary row operations to transform this system into an equivalent system of the form
+            <me>\begin{array}{ccccccccc}
+                  x \amp  \amp \amp \amp \amp \amp \amp = \amp a \\
+                 \amp  \amp y\amp \amp \amp \amp \amp =\amp b\\
+                 \amp  \amp \amp \amp z\amp \amp \amp =\amp c\\
+                 \amp  \amp \amp \amp \amp \amp w\amp =\amp d
+                \end{array}
+                </me>
+             We have to keep in mind that given an arbitrary system, an equivalent system of this form may not exist (we will talk a lot more about this later).  However, it does exist in this case, and we would like to find a more efficient way of getting to it than having to write and rewrite our equations at each step.   
+            </p>
+            </statement>
+            <answer>
+                <p>
+                    We start by subtracting twice row 1 from row 2. (<m>R_2-2R_1\rightarrow R_2</m>)
+            
+            <me>
+                \begin{matrix}
+                  x \amp - \amp y\amp +\amp 0z\amp +\amp 0w\amp = \amp 0 \\
+                 0x\amp  +\amp 0y\amp +\amp  1z\amp +\amp  2w\amp =\amp  4\\
+                 0x\amp  +\amp y\amp +\amp 0z\amp +\amp w\amp =\amp 0\\
+                 0x\amp +\amp 0y\amp +\amp 2z\amp +\amp w\amp =\amp 5
+                \end{matrix}
+            </me>
+            
+            Next, we add row 3 to row 1. (<m>R_1+R_3\rightarrow R_1</m>)  
+             
+            <me>
+                \begin{matrix}
+                  x \amp + \amp   0 y\amp +\amp  0 z\amp +\amp   1 w\amp = \amp   0 \\
+                 0x\amp  +\amp 0y\amp +\amp z\amp +\amp 2w\amp =\amp 4\\
+                 0x\amp  +\amp y\amp +\amp 0z\amp +\amp w\amp =\amp 0\\
+                 0x\amp +\amp 0y\amp +\amp 2z\amp +\amp w\amp =\amp 5
+                \end{matrix}
+            </me>
+            
+            Subtract twice row 2 from row 4. (<m>R_4-2R_2\rightarrow R_4</m>)
+            
+            <me>
+                \begin{matrix}
+                  x \amp + \amp 0y\amp +\amp 0z\amp +\amp 1w\amp = \amp 0 \\
+                 0x\amp  +\amp 0y\amp +\amp z\amp +\amp 2w\amp =\amp 4\\
+                 0x\amp  +\amp y\amp +\amp 0z\amp +\amp w\amp =\amp 0\\
+                  0x\amp +\amp  0y\amp +\amp   0z\amp +\amp   -3w\amp =\amp  -3
+                \end{matrix}
+            </me>
+            
+            Divide row 4 by <m>-3</m>. (<m>-\frac{1}{3}R_4</m>)
+            
+            <me>
+                \begin{matrix}
+                  x \amp + \amp 0y\amp +\amp 0z\amp +\amp 1w\amp = \amp 0 \\
+                 0x\amp  +\amp 0y\amp +\amp z\amp +\amp 2w\amp =\amp 4\\
+                 0x\amp  +\amp y\amp +\amp 0z\amp +\amp w\amp =\amp 0\\
+                  0x\amp +\amp  0y\amp +\amp  0z\amp +\amp   1w\amp =\amp  1
+                \end{matrix}
+            </me>
+            
+            We will do three operations in one step.
+            
+            <me>
+                R_1-R_4\rightarrow R_1
+            </me>
+            
+            
+            <me>
+                R_2-2R_4\rightarrow R_2
+            </me>
+            
+            
+            <me>
+                R_3-R_4\rightarrow R_3
+            </me>
+            
+            
+            <me>
+                \begin{matrix}
+                  x \amp + \amp  0y\amp +\amp  0z\amp +\amp   0w\amp = \amp   -1 \\
+                  0x\amp  +\amp  0y\amp +\amp  1z\amp +\amp   0w\amp =\amp   2\\
+                  0x\amp  +\amp  1y\amp +\amp  0z\amp +\amp   0w\amp =\amp  -1\\
+                 0x\amp +\amp 0y\amp +\amp 0z\amp +\amp 1w\amp =\amp 1
+                \end{matrix}
+            </me>
+            
+            We now exchange rows 2 and 3. (<m>R_2\leftrightarrow R_3</m>)
+            <men xml:id="eq-sys20rref1">
+            \begin{array}{ccccccccc}
+                  x \amp + \amp 0y\amp +\amp 0z\amp +\amp 0w\amp = \amp -1 \\
+               0x\amp  +\amp y\amp +\amp 0z\amp +\amp 0w\amp =\amp -1\\
+               0x\amp  +\amp 0y\amp +\amp z\amp +\amp 0w\amp =\amp 2\\
+                 0x\amp +\amp 0y\amp +\amp 0z\amp +\amp w\amp =\amp 1
+                \end{array}
+                </men>
+                If we drop all of the zero terms, we have:
+                <men xml:id="eq-sys20rrefnozeros">
+                \begin{array}{ccccccccc}
+                  x \amp  \amp \amp \amp \amp \amp \amp = \amp -1 \\
+               \amp  \amp y\amp \amp \amp \amp \amp =\amp -1\\
+               \amp  \amp \amp \amp z\amp \amp \amp =\amp 2\\
+                 \amp \amp \amp \amp \amp \amp w\amp =\amp 1
+                \end{array}
+                </men>
+            Now we see that <m>(-1, -1, 2, 1)</m> is the solution.
+            </p>
+            
+            <p>
+            Observe that throughout the entire process, variables <m>x</m>, <m>y</m>, <m>z</m> and <m>w</m> remained in place; only the coefficients in front of the variables and the entries on the right changed.  Let's try to recreate this process without writing down the variables.  We can capture the original system in <xref ref="eq-sys20originalsystem1"/> as follows:
+            
+            <me>
+                \left[\begin{array}{cccc|c}  
+             1\amp -1\amp 0\amp 0\amp 0\\2\amp -2\amp 1\amp 2\amp 4\\0\amp 1\amp 0\amp 1\amp 0\\0\amp 0\amp 2\amp 1\amp 5
+             \end{array}\right]
+            </me>
+            
+             
+               The side to the left of the vertical bar is called the <term>coefficient matrix</term>, while the side to the right of the bar is a vector that consists of constants on the right side of the system.  
+               The coefficient matrix, together with the vector, is called an <term>augmented matrix</term>.
+            </p> 
+            
+            <p>
+             We can capture all of the elementary row operations we performed earlier as follows:
+            
+            
+            <me>
+                \left[\begin{array}{cccc|c}  
+             1\amp -1\amp 0\amp 0\amp 0\\2\amp -2\amp 1\amp 2\amp 4\\0\amp 1\amp 0\amp 1\amp 0\\0\amp 0\amp 2\amp 1\amp 5
+             \end{array}\right]
+             \begin{array}{c}
+             \\
+             \xrightarrow{R_2-2R_1}\\
+            \\
+            \\
+             \end{array}
+             \left[\begin{array}{cccc|c}  
+             1\amp -1\amp 0\amp 0\amp 0\\0\amp 0\amp 1\amp 2\amp 4\\0\amp 1\amp 0\amp 1\amp 0\\0\amp 0\amp 2\amp 1\amp 5
+             \end{array}\right]
+             \begin{array}{c}
+             \xrightarrow{R_1+R_3}\\
+             \\
+            \\
+            \\
+             \end{array}
+            </me>
+            
+             
+            <me>
+                \left[\begin{array}{cccc|c}  
+             1\amp 0\amp 0\amp 1\amp 0\\2\amp -2\amp 1\amp 2\amp 4\\0\amp 1\amp 0\amp 1\amp 0\\0\amp 0\amp 2\amp 1\amp 5
+             \end{array}\right]
+             \begin{array}{c}
+             \\
+             \\
+            \\
+            \xrightarrow{R_4-2R_2}\\
+             \end{array}
+             \left[\begin{array}{cccc|c}  
+             1\amp 0\amp 0\amp 1\amp 0\\0\amp 0\amp 1\amp 2\amp 4\\0\amp 1\amp 0\amp 1\amp 0\\0\amp 0\amp 0\amp -3\amp -3
+             \end{array}\right]
+             \begin{array}{c}
+             \\
+             \\
+            \\
+            \xrightarrow{(-1/3)R_4}\\
+             \end{array}
+            </me>
+            
+             
+            <me>
+                \left[\begin{array}{cccc|c}  
+             1\amp 0\amp 0\amp 1\amp 0\\0\amp 0\amp 1\amp 2\amp 4\\0\amp 1\amp 0\amp 1\amp 0\\0\amp 0\amp 0\amp 1\amp 1
+             \end{array}\right]
+             \begin{array}{c}
+             \xrightarrow{R_1-R_4}\\
+             \xrightarrow{R_2-2R_4}\\
+            \xrightarrow{R_3-R_4}\\
+            \\
+             \end{array}\left[\begin{array}{cccc|c}  
+             1\amp 0\amp 0\amp 0\amp -1\\0\amp 0\amp 1\amp 0\amp 2\\0\amp 1\amp 0\amp 0\amp -1\\0\amp 0\amp 0\amp 1\amp 1
+             \end{array}\right]\begin{array}{c}
+             \\
+             \xrightarrow{R_2\leftrightarrow R_3}\\
+            \\
+            \\
+             \end{array}
+            </me>
+             <men xml:id="eq-sys20rref">
+                \left[\begin{array}{cccc|c}  
+             1\amp 0\amp 0\amp 0\amp -1\\0\amp 1\amp 0\amp 0\amp -1\\0\amp 0\amp 1\amp 0\amp 2\\0\amp 0\amp 0\amp 1\amp 1
+             \end{array}\right]</men>
+             
+             The last augmented matrix corresponds to systems in <xref ref="eq-sys20rref1"/> and <xref ref="eq-sys20rrefnozeros"/>, and we can easily see the solution.   
+                </p>
+                </answer>
+            </exploration>
+            
+            <p>
+            We will regularly use the language of coefficient matrix and augmented matrix introduced in this exploration.
+            </p>
+
+            <exploration xml:id="init-backsub">
+                <p>
+                    Consider the system
+            <me>
+                \begin{array}{ccccccc}
+                  x_1 \amp - \amp x_2\amp -\amp 3x_3\amp = \amp 1 \\
+               4x_1\amp  -\amp 2x_2\amp -\amp 7x_3\amp =\amp 1\\
+               -x_1\amp  +\amp x_2\amp +\amp 4x_3\amp =\amp 1
+                \end{array}
+            </me>
+            Recall that in <xref ref="init-augmentedmatrixex"/> we converted the given system to an augmented matrix form, then performed elementary row operations until we arrived at a ``convenient" form.  
+            We then converted the ``convenient" augmented matrix back to a system of equations and identified a solution.  
+            </p>
+
+            <p>
+            The term ``convenient" is open to interpretation.  In this problem we will explore two ``convenient" forms.  Each one will lead to a definition.  
+            <mdn>
+                <mrow number="no"> 
+                    \amp \left[\begin{array}{ccc|c}  
+                    1\amp -1\amp -3\amp 1\\4\amp -2\amp -7\amp 1\\-1\amp 1\amp 4\amp 1
+                    \end{array}\right]
+                </mrow>
+                <mrow number="yes" xml:id="eq-sys20rowechelon"> 
+                    \begin{array}{c} \\
+              \xrightarrow{R_2-4R_1}\\
+            \xrightarrow{R_3+R_1}\\
+             \end{array}
+             \amp \left[\begin{array}{ccc|c}  
+             1\amp -1\amp -3\amp 1\\0\amp 2\amp 5\amp -3\\0\amp 0\amp 1\amp 2
+             \end{array}\right]
+                </mrow>
+                <mrow number="no">
+                    \begin{array}{c}
+             \\
+             \xrightarrow{(1/2)R_2}\\
+            \\
+            \end{array}
+            \amp \left[\begin{array}{ccc|c}  
+             1\amp -1\amp -3\amp 1\\0\amp 1\amp 5/2\amp -3/2\\0\amp 0\amp 1\amp 2
+             \end{array}\right] 
+                </mrow>
+                <mrow number="no"> 
+                    \begin{array}{c}
+             \xrightarrow{R_1+R_2}\\
+             \\
+            \\
+            \end{array}\amp \left[\begin{array}{ccc|c}  
+             1\amp 0\amp -1/2\amp -1/2\\0\amp 1\amp 5/2\amp -3/2\\0\amp 0\amp 1\amp 2
+             \end{array}\right]
+                </mrow>
+                <mrow number="yes" xml:id="eq-sys20reducedrowechelon">
+                    \begin{array}{c}
+             \xrightarrow{R_1+ (1/2)R_3}\\
+             \xrightarrow{R_2- (5/2)R_3}\\
+            \\
+            \end{array}
+            \amp \left[\begin{array}{ccc|c}  
+             1\amp 0\amp 0\amp 1/2\\0\amp 1\amp 0\amp -13/2\\0\amp 0\amp 1\amp 2
+             \end{array}\right]
+                </mrow> 
+             </mdn>
+            
+            The augmented matrix in <xref ref="eq-sys20reducedrowechelon"/> has the same convenient form as the one in <xref ref="eq-sys20rref"/>.  This augmented matrix corresponds to the system
+            <me>
+                \begin{array}{ccccccc}
+                  x_1 \amp  \amp \amp \amp \amp = \amp 1/2 \\
+               \amp  \amp x_2\amp \amp \amp =\amp -13/2\\
+               \amp  \amp \amp \amp x_3\amp =\amp 2
+                    \end{array}
+                </me>
+            This gives us the solution <m>(\frac{1}{2}, -\frac{13}{2}, 2)</m>.
+            </p>
+            
+            <p>
+            While the augmented matrix in <xref ref="eq-sys20reducedrowechelon"/> was certainly ``convenient", we could have converted back to the equation format a little earlier.  Let's take a look at the augmented matrix in <xref ref="eq-sys20rowechelon"/>.  Converting <xref ref="eq-sys20rowechelon"/> to a system of equations gives us
+            <me>
+                \begin{array}{ccccccc}
+                  x_1 \amp - \amp x_2\amp -\amp 3x_3\amp = \amp 1\\
+               \amp  \amp 2x_2\amp +\amp 5x_3\amp =\amp -3\\
+               \amp  \amp \amp \amp x_3\amp =\amp 2
+                    \end{array}
+                </me>
+            Substituting <m>x_3=2</m> into the second equation and solving for <m>x_2</m> gives us 
+            <me>
+                x_2=\frac{-3-5(2)}{2}=-\frac{13}{2}
+            </me>
+              Now substituting <m>x_3=2</m> and <m>x_2=-\frac{13}{2}</m> into the first equation results in 
+            <me>
+                x_1=1+\left(-\frac{13}{2}\right)+3(2)=\frac{1}{2}
+            </me>
+              This process is called <term>back substitution</term> and it produces the same solution as we obtained earlier.
+                </p>
+            </exploration>
+            
+            <p>
+            Observe that the coefficient matrices in <xref ref="eq-sys20rref"/> and <xref ref="eq-sys20reducedrowechelon"/> have the same format: 1's along the diagonal, zeros above and below the 1's.  The other ``convenient" format, exhibited by the coefficient matrix in <xref ref="eq-sys20rowechelon"/>,  also has zeros below the diagonal, but not all of the diagonal entries are 1's and some of the entries above the diagonal are not zero.  Each of these formats gives rise to a definition.  These definitions are the topic of the next section.
+            </p>
+    </subsection>
+
+    <subsection xml:id="Subsection-Geometry-of-Linear-Systems-in-Two-Variables">
+        <title>Geometry of Linear Systems in Two Variables</title>
+        
+        <p>
+            <xref ref="init-systwoeqs1"/> offers an example of a linear system of two equations and two unknowns (variables) with a unique solution.  
+            <me>
+                \begin{array}{ccccc}
+                2x\amp   - \amp   y\amp  =\amp  -4\\
+                3x \amp   +\amp  2y\amp  = \amp  1 
+                \end{array}
+            </me>
+            Geometrically, the graph of each equation is a line in <m>\R^2</m>.  The point <m>(-1, 2)</m> is a solution to both equations, so it must lie on both lines.
+            The graph below shows the two lines intersecting at <m>(-1, 2)</m>.
+        </p>
+
+        <image width="50%">
+            <shortdescription></shortdescription>
+             <latex-image>
+               \begin{tikzpicture}[scale=.5]
+         \draw[thin,gray!40] (-4,-4) grid (4,5);
+           \draw[\lt-\gt] (-4,0)--(4,0);
+           \draw[\lt-\gt] (0,-4)--(0,5);
+         
+          \draw[line width=2pt,blue](-4, -4)--(0.5,5) node[below right]{\(2x-y=-4\)};
+          \draw[line width=2pt,red](3, -4)--(-3,5) node[below left]{\(3x+2y=1\)};
+             \end{tikzpicture}
+             </latex-image>
+         </image>
+
+         <p>
+            Given a system of two equations with two unknowns, there are three possible geometric outcomes.  
+            <ul>
+            <li>
+                <p>
+                    First, the graphs of the two equations intersect at a point.  If this is the case, the system has exactly one solution. We say that the system is <term>consistent</term> and has a <term>unique solution</term>.
+                </p>
+                <image width="50%">
+                    <shortdescription></shortdescription>
+                     <latex-image>
+                       \begin{tikzpicture}[scale=.5]
+                 
+                   \draw[\lt-\gt] (-4,0)--(4,0);
+                   \draw[\lt-\gt] (0,-4)--(0,4);
+                 
+                  \draw[line width=1pt](-4, -3)--(4,2);
+                  \draw[line width=1pt](3, -4)--(1,4);
+                     
+                     \end{tikzpicture}
+                     </latex-image>
+                 </image>
+            </li>  
+            <li>
+                <p>
+                    Second, the two lines may have no points in common.  If this is the case, the system has no solutions.  We say that the system is <term>inconsistent</term>.  
+                </p>
+                <image width="50%">
+                    <shortdescription></shortdescription>
+                     <latex-image>
+                       \begin{tikzpicture}[scale=.5]
+                 
+                   \draw[\lt-\gt] (-4,0)--(4,0);
+                   \draw[\lt-\gt] (0,-4)--(0,4);
+                 
+                  \draw[line width=1pt](-4, -4)--(4,1);
+                  \draw[line width=1pt](-4, -2)--(4,3);
+                     
+                     \end{tikzpicture}
+                     </latex-image>
+                 </image>
+            </li>
+            <li>
+                <p>
+                    Finally, the two lines may coincide.  In this case, there are infinitely many points that satisfy both equations simultaneously.  We say that the system is consistent and has infinitely many solutions.
+                </p>
+                <image width="50%">
+                    <shortdescription></shortdescription>
+                     <latex-image>
+                       \begin{tikzpicture}[scale=.5]
+                 
+                   \draw[\lt-\gt] (-4,0)--(4,0);
+                   \draw[\lt-\gt] (0,-4)--(0,4);
+                 
+                  \draw[line width=2pt](-4, -3)--(4,2);
+                  
+                     
+                     \end{tikzpicture}
+                     </latex-image>
+                 </image>
+            </li> 
+            </ul>
+            </p>
+
+
+
+            <p>
+            The following examples are in-depth full runs on linear systems of equations.
+            </p> 
+            
+            <example xml:id="ex-systwoeqs2">
+                <statement>
+                <p> 
+                    Solve the system of equations and interpret your results geometrically.
+            
+            <me>
+                \begin{array}{ccccc}
+                  -2x \amp   + \amp   y\amp  = \amp  3 \\
+                 4x\amp   -\amp  2y\amp  =\amp  5
+                \end{array}
+            </me>
+                </p>
+                </statement>
+                <answer>
+                    <p>
+            We will use elementary row operations.  Adding twice the first equation to the second equation gives us
+            
+            <me>
+                \begin{array}{cccccc}
+                  -2x \amp   + \amp   y\amp  = \amp  3\amp   \\
+                 0x\amp   -\amp  0y\amp  =\amp  11\amp  \quad\leftarrow\mbox{Never true}
+                \end{array}
+            </me>
+            
+            This is where we run into a problem: there are no values of <m>x</m> and <m>y</m> that satisfy the second equation.  We conclude that the system is inconsistent.  Plotting the two lines in the same coordinate plane shows that the two lines are parallel.  
+                </p>
+            <image width="50%">
+               <shortdescription></shortdescription>
+                <latex-image>
+                  \begin{tikzpicture}[scale=.5]
+            \draw[thin,gray!40] (-4,-4) grid (4,4);
+              \draw[\lt-\gt] (-4,0)--(4,0);
+              \draw[\lt-\gt] (0,-4)--(0,4);
+            
+             \draw[line width=2pt,blue](-3.5, -4)--(0.5,4) node[below left=3mm]{\(-2x+y=3\)};
+             \draw[line width=2pt,red](-0.75, -4)--(3.25,4) node[below right]{\(4x-2y=5\)};
+                
+                \end{tikzpicture}
+                </latex-image>
+            </image>
+            </answer>
+            </example>
+
+            <example xml:id="ex-systwoeqs3infmany">
+                <statement>
+                <p> 
+                    Solve the system of equations and interpret your results geometrically.
+            
+            <me>
+                \begin{array}{ccccc}
+                  4x \amp   +\amp  3y\amp  = \amp  2 \\
+                 x\amp   +\amp  \frac{3}{4}y\amp  =\amp  \frac{1}{2}
+                \end{array}
+            </me>
+            </p>
+            </statement>
+            <answer>
+                <p>
+            To eliminate <m>x</m> from the second equation, we subtract one quarter of the first equation from the second.  This gives us
+            <me>
+                \begin{array}{cccccc}
+                  4x \amp   +\amp  3y\amp  = \amp  2\amp   \\
+                 0x\amp   +\amp  0y\amp  =\amp  0\amp  \quad\leftarrow\mbox{Always true}
+                \end{array}
+            </me>
+            Unlike the situation in <xref ref="ex-systwoeqs2"/>, any combination of <m>x</m> and <m>y</m> satisfies the second equation.  So, any ordered pair <m>(x, y)</m> that satisfies the first equation will satisfy the second equation.  Thus, the solution set for this system is the same as the set of all solutions of <m>4x+3y=2</m>.  
+            </p>
+            
+            <p>
+            When we plot the two equations of the original system, we find that the two lines coincide.
+            </p>
+            
+            <image width="50%">
+               <shortdescription></shortdescription>
+                <latex-image>
+                  \begin{tikzpicture}[scale=.5]
+            \draw[thin,gray!40] (-4,-4) grid (4,4);
+              \draw[\lt-\gt] (-4,0)--(4,0);
+              \draw[\lt-\gt] (0,-4)--(0,4);  
+            
+             \draw[line width=1pt,red](-2.5, 4)node[below left]{\(x +\frac{3}{4}y=\frac{1}{2}\)}--(3.5,-4);
+             \draw[line width=1pt,blue](-2.5, 4.1)--(3.5,-3.9) node[above right]{\(4x+3y=2\)};
+             
+                
+                \end{tikzpicture}
+                </latex-image>
+            </image>
+            </answer>
+            </example>
+
+            <p>
+                Given a linear system in two variables and more than two equations, we have a variety of geometric possibilities.  In terms of the number of solutions, there are three possibilities. 
+                
+                <ul>
+                <li>
+                    <p>
+                        First, it is possible for the graphs of all equations in the system to intersect at a single point, giving us a unique solution.
+                    </p>
+                    <image width="50%">
+                        <shortdescription></shortdescription>
+                         <latex-image>
+                           \begin{tikzpicture}[scale=.5]
+                     
+                       \draw[\lt-\gt] (-4,0)--(4,0);
+                       \draw[\lt-\gt] (0,-4)--(0,4);
+                     
+                      \draw[line width=1pt](-2, 4)--(4,1);
+                      \draw[line width=1pt](3, 4)--(-1,-4);
+                      \draw[line width=1pt](1, 4)--(4,-2);
+                         
+                         \end{tikzpicture}
+                         </latex-image>
+                     </image>
+                </li>   
+                <li>
+                    <p>
+                        Second, it is possible for the graphs to have no points common to all of them.  If this is the case, the system is inconsistent.
+                    </p>
+                    <sidebyside>
+                        <image width="50%">
+                            <shortdescription></shortdescription>
+                             <latex-image>
+                               \begin{tikzpicture}[scale=.5]
+                         
+                           \draw[\lt-\gt] (-4,0)--(4,0);
+                           \draw[\lt-\gt] (0,-4)--(0,4);
+                         
+                          \draw[line width=1pt](-4, -3)--(4,4);
+                          \draw[line width=1pt](3, -4)--(1,4);
+                          \draw[line width=1pt](3, -1)--(-4,3);
+                             
+                             \end{tikzpicture}
+                             </latex-image>
+                         </image>
+                
+                         <image width="50%">
+                            <shortdescription></shortdescription>
+                             <latex-image>
+                               \begin{tikzpicture}[scale=.5]
+                         
+                           \draw[\lt-\gt] (-4,0)--(4,0);
+                           \draw[\lt-\gt] (0,-4)--(0,4);
+                         
+                          \draw[line width=1pt](-2, -3)--(3,3);
+                          \draw[line width=1pt](-2, -2)--(3,4);
+                          \draw[line width=1pt](-2, -4)--(3,2);
+                             
+                             \end{tikzpicture}
+                             </latex-image>
+                         </image>
+                    </sidebyside>
+                </li> 
+                <li>
+                    <p>
+                        Finally, it is possible for all of the lines to coincide, giving us infinitely many solutions.
+                    </p>
+                </li> 
+                </ul>
+            </p>
+    </subsection>
+
+    <subsection xml:id="Subsection-Geometry-of-Linear-Systems-in-Three-Variables">
+        <title>Geometry of Linear Systems in Three Variables</title>
+
+        <p>
+            In <xref ref="ex-threeeqthreevars1"/>, we solved the following linear system of three equations and three unknowns
+            <me>
+                \begin{array}{ccccccc}
+                  3x \amp   - \amp   y\amp  +\amp  z\amp  = \amp  0 \\
+                 2x\amp   + \amp   y\amp  +\amp  2z\amp  =\amp  2\\
+                 x\amp   +\amp  4y\amp  -\amp  2z\amp  =\amp  11
+                \end{array}
+            </me>
+            We found that the system has a unique solution <m>(1, 2, -1)</m>.  The graph of each equation is a plane.  The three planes intersect at a single point, as shown in the figure.
+        </p>
+
+        <image width="80%">
+            <shortdescription></shortdescription>
+             <latex-image>
+                 \tdplotsetmaincoords{70}{130}
+               \begin{tikzpicture}[scale=0.8]
+             \draw[-\gt](-1,0,0)--(4,0,0) ;
+             \draw[-\gt](0,-4,0)--(0,2,0) ;
+             \draw[-\gt](0,0,-1)--(0,0,4) ;
+             
+            \filldraw[blue, opacity=0.3](2,-1,1)--(18/5,-3,11/5)--(6,0,2)--(47/13,2,7/13)--cycle;
+            \filldraw[red, opacity=0.3] (2,-1,1)--(47/13,2,7/13)--(4,3,9)--(2/7,-3,27/7)--cycle;
+            \filldraw[gray, opacity=0.5] (2,-1,1)--(2/7,-3,27/7)--(18/5,-3,11/5)--cycle;
+              
+              \draw[](2,-1,1)--(18/5,-3,11/5) ;
+             \draw[](2,-1,1)--(47/13,2,7/13) ;
+             \draw[](2,-1,1)--(2/7,-3,27/7) ;
+             \fill[] (2,-1,1)node[right]{\((1,2,-1)\)} circle (0.1cm);
+             
+             \end{tikzpicture}
+             </latex-image>
+         </image>
+
+         <p>
+            Given a linear system of three equations in three variables, there are three ways in which the system can be consistent.
+            <ul>
+            <li>
+                <p>
+                    First, the three planes could intersect at a single point, giving us a unique solution.
+                </p>
+                <image>
+                    <shortdescription></shortdescription>
+                     <latex-image>
+                         \tdplotsetmaincoords{70}{130}
+                       \begin{tikzpicture}
+                 \filldraw[blue, opacity=0.3](0,0,0)--(2,0,0)--(2,2,0)--(0,2,0)--cycle;
+                 \filldraw[red, opacity=0.3] (0,0,0)--(0,0,2)--(0,2,2)--(0,2,0)--cycle;
+                 \filldraw[gray, opacity=0.5] (0,0,0)--(0,0,2)--(2,0,2)--(2,0,0)--cycle;
+                 \fill[] (0,0,0) circle (0.1cm);
+                         \end{tikzpicture}
+                     </latex-image>
+                 </image>
+            </li> 
+            <li>
+                <p>
+                    Second, the three planes can intersect in a line, forming a paddle-wheel shape.  In this case, every point along the line of intersection is a solution to the system, giving us infinitely many solutions.
+                </p>
+                <image width="70%">
+                    <shortdescription></shortdescription>
+                     <latex-image>
+                         \tdplotsetmaincoords{70}{130}
+                       \begin{tikzpicture}[scale=0.8]
+                 \filldraw[blue, opacity=0.3](0,-2,2)--(0,2,2)--(0,2,-2)--(0,-2,-2)--cycle;
+                 \filldraw[red, opacity=0.3] (2,0,2)--(-2,0,2)--(-2,0,-2)--(2,0,-2)--cycle;
+                 \filldraw[gray, opacity=0.5] (2,1,2)--(2,1,-2)--(-2,-1,-2)--(-2,-1,2)--cycle;
+                 \draw[-](0,0,-2)--(0,0,2) ;
+                          \end{tikzpicture}
+                     </latex-image>
+                 </image>
+            </li> 
+            <li>
+                <p>
+                    Finally, the three planes can coincide.  If this is the case, there are infinitely many solutions.
+                </p>
+                <image width="80%">
+                    <shortdescription></shortdescription>
+                     <latex-image>
+                         \tdplotsetmaincoords{70}{130}
+                       \begin{tikzpicture}[scale=0.8]
+                 \filldraw[gray, opacity=0.5] (2,0,2)--(-2,0,2)--(-2,0,-2)--(2,0,-2)--cycle;
+                 \filldraw[blue, opacity=0.3] (1.5,0,1.5)--(-1.5,0,1.5)--(-1.5,0,-1.5)--(1.5,0,-1.5)--cycle;
+                 \filldraw[red, opacity=0.3] (1,0,1)--(-1,0,1)--(-1,0,-1)--(1,0,-1)--cycle;    	    \end{tikzpicture}
+                     </latex-image>
+                 </image>
+            </li>
+            </ul>
+            There are four ways for a system to be inconsistent.  They are depicted below.
+            </p>
+            
+            <sidebyside>
+                <image width="20%">
+                    <shortdescription></shortdescription>
+                     <latex-image>
+                         \tdplotsetmaincoords{70}{130}
+                       \begin{tikzpicture}[scale=0.5]
+                    \filldraw[blue, opacity=0.3](0,0,2)--(0,2,2)--(0,2,-2)--(0,0,-2)--cycle;
+                    \filldraw[red, opacity=0.3] (2,0,2)--(0,0,2)--(0,0,-2)--(2,0,-2)--cycle;
+                    \filldraw[gray, opacity=0.5] (0,2,2)--(0,2,-2)--(2,0,-2)--(2,0,2)--cycle;
+                     \end{tikzpicture}
+                     </latex-image>
+                 </image>
+            
+                 <image width="20%">
+                    <shortdescription></shortdescription>
+                     <latex-image>
+                       \begin{tikzpicture}[scale=0.5]
+                 \filldraw[blue, opacity=0.3](-1,-1,2)--(0,2,2)--(0,2,-2)--(-1,-1,-2)--cycle;
+                 \filldraw[red, opacity=0.3] (2,0,2)--(-2,0,2)--(-2,0,-2)--(2,0,-2)--cycle;
+                 \filldraw[gray, opacity=0.5] (2,1,2)--(-2,1,2)--(-2,1,-2)--(2,1,-2)--cycle;
+                 \draw[-](-2/3,0,-2)--(-2/3,0,2) ;
+                 \draw[-](-1/3,1,-2)--(-1/3,1,2) ;
+                          \end{tikzpicture}
+                     </latex-image>
+                 </image>
+            
+                 <image width="20%">
+                    <shortdescription></shortdescription>
+                     <latex-image>
+                       \begin{tikzpicture}[scale=0.5]
+                 \filldraw[gray, opacity=0.5] (2,1.2,2)--(-2,1.2,2)--(-2,1.2,-2)--(2,1.2,-2)--cycle;
+                 \filldraw[red, opacity=0.3] (2,0,2)--(-2,0,2)--(-2,0,-2)--(2,0,-2)--cycle;
+                 \filldraw[blue, opacity=0.3] (-1.5,0,1.5)--(-1.5,0,-1.5)--(1.5,0,-1.5)--(1.5,0,1.5)--cycle;
+                         \end{tikzpicture}
+                     </latex-image>
+                 </image>
+            
+                 <image width="20%">
+                    <shortdescription></shortdescription>
+                     <latex-image>
+                       \begin{tikzpicture}[scale=0.5]
+                 \filldraw[gray, opacity=0.5] (2,1.2,2)--(-2,1.2,2)--(-2,1.2,-2)--(2,1.2,-2)--cycle;
+                 \filldraw[red, opacity=0.3] (2,0,2)--(-2,0,2)--(-2,0,-2)--(2,0,-2)--cycle;
+                 \filldraw[blue, opacity=0.3] (2,-1.2,2)--(-2,-1.2,2)--(-2,-1.2,-2)--(2,-1.2,-2)--cycle;
+                         \end{tikzpicture}
+                     </latex-image>
+                 </image>
+            </sidebyside>
+    </subsection>
+
+    <subsection xml:id="Subsection-General-Systems-of-Linear-Equations">
+        <title>General Systems of Linear Equations</title>
+
+        <p> 
+        Here we collect together all of the definitions from this section, written as generally as possible.
+        </p>
+
+        <definition xml:id="def-lineq">
+            <statement>
+                <p>
+        A <term>linear equation</term> in variables <m>x_1, \ldots, x_n</m> is an equation that can be written in the form
+        
+        <me>
+            a_1x_1+a_2x_2+\ldots +a_nx_n=b
+        </me>
+        
+        where <m>a_1,\ldots ,a_n</m> and <m>b</m> are constants.
+        We call <m>a_i</m> the <term>coefficient</term> of <m>x_i</m> in the equation, and we call <m>b</m> the <term>constant term</term>.
+                </p>
+            </statement>
+        </definition>
+
+        <p>
+            An <m>n</m>-tuple of numbers
+            <me>
+            (z_1, z_2,\ldots ,z_n)
+            </me>
+
+            is a <term>solution</term> to the equation <m>a_1x_1+a_2x_2+\ldots +a_nx_n=b</m> provided that, when we set <m>x_1</m> equal to <m>z_1</m> and so on, the equation becomes a true statement.
+        </p>
+        <p>
+        The set of all <m>n</m>-tuples that are solutions to a given equation is called the <term>graph</term> of the equation. The graph of a linear equation in two variables is a line in <m>\R^2</m>.  The graph of a linear equation in three variables is a plane in <m>\R^3</m>.  In <m>\R^n</m>, for <m>n\gt3</m>, we say that the graph of a linear equation is a <term>hyperplane</term>. A hyperplane cannot be visualized, but we can still talk about intersections of hyperplanes and their other attributes in algebraic terms.  
+        </p>
+            
+            <p>
+            A linear system of <m>m</m> equations and <m>n</m> unknowns is typically written as follows
+            <me>
+                \begin{array}{ccccccccc}
+                  a_{11}x_1 \amp  + \amp  a_{12}x_2\amp  +\amp  \ldots\amp  +\amp  a_{1n}x_n\amp  =  \amp   b_1 \\
+                 a_{21}x_1 \amp  + \amp  a_{22}x_2\amp  +\amp  \ldots\amp  +\amp  a_{2n}x_n\amp  =  \amp   b_2 \\
+                 \amp  \amp  \amp  \amp  \vdots\amp  \amp  \amp  \amp   \\
+                 a_{m1}x_1 \amp  + \amp  a_{m2}x_2\amp  +\amp  \ldots\amp  +\amp  a_{mn}x_n\amp  =  \amp   b_m
+                \end{array}
+            </me>
+            </p>
+            
+            <p>
+            A <term>solution to a system</term> of linear equations in <m>n</m> variables is an <m>n</m>-tuple that satisfies every equation in  the system.  All solutions to a system of equations, taken together, form its <term>solution set</term>.
+            We say that a system of equations is <term>consistent</term> if it has at least one solution, and <term>inconsistent</term> if it has no solutions.  If a system is consistent, we say that it has a <term>unique solution</term> if there is exactly one solution, or <term>infinitely many solutions</term> if there are infinitely many solutions.
+            </p>
+            
+            <definition xml:id="def-equivsystems">
+
+                <statement>
+                    <p> 
+                        Two systems of linear equations are said to be <term>equivalent</term> if they have the same solution set.
+                    </p>
+                </statement>
+            </definition>
+
+            <p>
+                The <term>augmented matrix</term> of a linear system of <m>m</m> equations and <m>n</m> unknowns is
+                <me>
+                    \left[\begin{array}{cccc|c}  
+                        a_{11}\amp a_{12}\amp \ldots\amp a_{1n}\amp b_1\\a_{21}\amp a_{22}\amp \ldots\amp a_{2n}\amp b_2\\\vdots\amp \vdots\amp \ddots\amp \vdots\amp \vdots\\a_{m1}\amp a_{m2}\amp \ldots\amp a_{mn}\amp b_m
+                    \end{array}\right]
+                </me>
+                The array to the left of the vertical bar is called the <term>coefficient matrix</term> of the linear system and is often given a capital letter name, like <m>A</m>.  The vertical array to the right of the bar is called a <term>constant vector</term>.
+                <me>
+                    A=\begin{bmatrix}a_{11}\amp a_{12}\amp \ldots\amp a_{1n}\\a_{21}\amp a_{22}\amp \ldots\amp a_{2n}\\\vdots\amp \vdots\amp \ddots\amp \vdots\\a_{m1}\amp a_{m2}\amp \ldots\amp a_{mn}\end{bmatrix}\quad\text{and}\quad\mathbf{b}=\begin{bmatrix}b_1\\b_2\\\vdots\\b_m\end{bmatrix}
+                </me>
+                The <term>dimension of a matrix</term> with <m>m</m> rows and <m>n</m> columns is <m>m\times n</m>, 
+                read <q><m>m</m> by <m>n</m>.</q>
+            </p>
+            <p>
+                We will sometimes use the following notation to represent an augmented matrix.
+                <me>
+                    \left[\begin{array}{c|c}  
+                        A \amp  \mathbf{b}\\
+                    \end{array}\right]
+                </me>
+      
+            </p>
+            
+            <p>
+            The same elementary row operations that we perform on a system of equations can be performed on the corresponding augmented matrix, or any matrix for that matter. 
+            From <xref ref="def-elemrowops"/>, we have three <term>elementary row operations</term>, namely
+            <ol>
+            <li xml:id="item-rowswap">
+                <p>
+                    Switching the order of two rows/equations
+                </p>
+            </li>
+            <li xml:id="item-constantmult">
+                <p>
+                    Multiplying a row, or both sides of an equation, by the same non-zero constant
+                </p>
+            </li>
+            <li xml:id="item-addrow">
+                <p>
+                    Adding a multiple of one row/equation to another
+                </p>
+            </li>
+            </ol>
+            </p>
+
+    </subsection>
+
+
+
+        <exercises xml:id="Exercises-Introduction-to-Systems-of-Linear-Equations">
+            <exercise xml:id="prob-sysgraphillustration">
+                <statement>
+                   <p>
+                    Give a graphical illustration of each of the following scenarios for a system of three equations and two unknowns:
+              <ol>
+              <li>
+                <p>
+                    The system of three equations is inconsistent, but a combination of any two of the three equations forms a consistent system.
+                </p>
+            </li> 
+              <li>
+                <p>
+                    The system is consistent and has a unique solution.
+                </p>
+            </li> 
+              <li>
+                <p>
+                    The system is consistent and has infinitely many solutions.
+                </p>
+            </li> 
+              <li>
+                <p>
+                    The system is inconsistent and no two equations form a consistent system.
+                </p>
+            </li> 
+              </ol>
+                   </p>
+              </statement>
+            </exercise>
+
+            <exercisegroup>
+            
+                <introduction>
+                    <p>
+                        Solve each system of linear equations or demonstrate that a solution does not exist, and interpret your results geometrically.
+                    </p>
+                </introduction>
+            
+                <exercise xml:id="prob-solvesys1">
+                    <statement>
+                       <p>
+                        <me>
+                            \begin{array}{ccccc}
+                              x \amp   +\amp  3y\amp  = \amp  4 \\
+                             x\amp   -\amp  2y\amp  =\amp  -6
+                            \end{array}
+                        </me>
+                       </p>
+                  </statement>
+                      <answer>
+                      <p>
+                        <me>
+                            (-2, 2)
+                        </me>
+                       </p>
+                    </answer>
+                </exercise>
+
+                <exercise xml:id="prob-solvesys2">
+                    <statement>
+                       <p>
+                        <me>
+                            \begin{array}{ccccc}
+                              -3x \amp   +\amp  2y\amp  = \amp  7 \\
+                             6x\amp   -\amp  4y\amp  =\amp  5
+                            \end{array}
+                        </me>
+                       </p>
+                  </statement>
+                </exercise>
+                  
+                  
+                  <exercise xml:id="prob-solvesys3">
+                    <statement>
+                       <p>
+                        <me>
+                            \begin{array}{ccccccc}
+                              x \amp   -\amp  2y\amp  +\amp  z\amp  = \amp  0 \\
+                             3x\amp   -\amp  2y\amp  +\amp  4z\amp  =\amp  2\\
+                             2x\amp   - \amp   y\amp  +\amp  2z\amp  =\amp  3
+                            \end{array}
+                        </me>
+                       </p>
+                  </statement>
+                    <answer>
+                      <p>
+                        <me>
+                            (4, 1, -2)
+                        </me>
+                       </p>
+                    </answer>
+                </exercise>
+            </exercisegroup>
+
+            <exercisegroup>
+            
+                <introduction>
+                    <p>
+                        Consider the following system of equations.  
+                        <me>
+                            \begin{array}{ccccc}
+                            kx \amp   +\amp  8y\amp  = \amp  4 \\
+                            2x\amp   +\amp  ky\amp  =\amp  -2
+                            \end{array}
+                        </me>
+                    </p>
+                </introduction>
+            
+                <exercise xml:id="prob-sysnosolfindk">
+                    <statement>
+                       <p>
+                        Find all possible values of k such that this system has no solution.
+                       </p>
+                  </statement>
+                      <answer>
+                      <p>
+                        <me>
+                            k= 4
+                        </me>
+                       </p>
+                    </answer>
+                </exercise>
+
+                <exercise xml:id="prob-sysinfmanysolfindk">
+                    <statement>
+                       <p>
+                        Find all possible values of <m>k</m> such that this system has infinitely many solutions.
+                       </p>
+                  </statement>
+                      <answer>
+                      <p>
+                        <me>
+                            k= -4
+                        </me>
+                       </p>
+                    </answer>
+                </exercise>
+            </exercisegroup>
+
+            <exercise xml:id="prob-nonzeroprovision">
+                <statement>
+                   <p>
+                    Why is there a non-zero provision in <xref ref="item-constantmult"/> of <xref ref="def-elemrowops"/>?  Why is there not a non-zero provision in <xref ref="item-addrow"/>?
+                   </p>
+              </statement>
+            </exercise>
+            
+            <exercise xml:id="prob-reverseelemrowops">
+                <statement>
+                   <p>
+                    Suppose the following system was obtained from system <m>(A)</m> by adding twice the second row of <m>(A)</m> to the first row.
+            <me>
+                \begin{array}{ccccc}
+                  8x \amp  + \amp  3y\amp  = \amp  11\\
+                  3x\amp  + \amp  2y\amp  =\amp  5      
+                \end{array}
+            </me>
+            
+                Find system <m>(A)</m>.
+                   </p>
+              </statement>    
+                <answer>
+                  <p>
+                    <me>
+                        \begin{array}{ccccc}
+                           2x \amp  + \amp   -1y \amp  = \amp   1\\
+                          3x\amp  + \amp   2y\amp  =\amp   5      
+                        \end{array}
+                    </me>
+                   </p>
+                </answer>
+            </exercise>
+            
+            <exercise xml:id="prob-reverserowopsgeometry">
+                <statement>
+                   <p>
+                    The following figures show a geometric depiction of two equivalent systems.  (The systems are equivalent because they have the same solution set.)  Can the first system be transformed into the second system by elementary row operations?  If so, how?
+                   </p>
+                   <sidebyside>
+                    <image width="50%">
+                        <shortdescription></shortdescription>
+                         <latex-image>
+                           \begin{tikzpicture}[scale=.5]
+                     \draw[thin,gray!40] (-2,-2) grid (6,6);
+                       \draw[\lt-\gt] (-2,0)--(6,0);
+                       \draw[\lt-\gt] (0,-2)--(0,6);
+                     
+                      \draw[line width=2pt,blue](-2, 6)--(6,-2);
+                       \node[blue] at (3.5, -2)   (b) {\(x+y=4\)};
+                      \draw[line width=2pt,red](-2,3.5)--(6,-0.5) ;
+                         \node[red] at (5.2, 1)   (b) {\(x+2y=5\)};
+                         \end{tikzpicture}
+                         </latex-image>
+                     </image>
+            
+                     <image width="50%">
+                        <shortdescription></shortdescription>
+                         <latex-image>
+                           \begin{tikzpicture}[scale=.5]
+                     \draw[thin,gray!40] (-2,-2) grid (6,6);
+                       \draw[\lt-\gt] (-2,0)--(6,0);
+                       \draw[\lt-\gt] (0,-2)--(0,6);
+                     
+                      \draw[line width=2pt,blue](1.5, -2)--(5.5,6);
+                      \node[blue] at (6.5, 4)   (b) {\(2x-y=5\)};
+                      \draw[line width=2pt,red](2, -2)--(14/3,6);
+                       \node[red] at (2.4, 5)   (b) {\(3x-y=8\)};    
+                         \end{tikzpicture}
+                         </latex-image>
+                     </image>
+                   </sidebyside>
+              </statement>
+              <hint>
+                <p>
+                    Begin by carrying the first system to 
+            <me>
+                \begin{array}{ccccc}
+                  x \amp   \amp  \amp  = \amp   3\\
+                  \amp   \amp   y\amp  =\amp   1      
+                \end{array}
+            </me>
+            
+                Then carry this system to the second system.  (If you can figure out how to carry the second system to this one, you should be able to reverse the process.)
+                </p>
+              </hint>
+            </exercise>
+            
+            <exercise xml:id="prob-prob-equivsystems1">
+                <statement>
+                   <p>
+                    Suppose that we have two solutions, call them <m>(g,h)</m> and <m>(p,q)</m> to the following system:
+            
+            <me>
+                \begin{array}{ccccc}
+                  ax \amp  + \amp   by\amp  = \amp   e\\
+                  cx\amp   + \amp   dy\amp  =\amp   f      
+                \end{array}
+            </me>
+            </p>
+            <ol>
+                <li>
+                    <p>
+                        Show that <m>(g-p,h-q)</m> is a solution to the system
+                        <me>
+                            \begin{array}{ccccc}
+                              ax \amp  + \amp   by\amp  = \amp   0\\
+                              cx\amp   + \amp   dy\amp  =\amp   0      
+                            \end{array}
+                        </me>
+                    </p>
+                </li>
+                <li>
+                    <p>
+                        Show that for any number $t$, <m>(p+t(g-p),q+t(h-q))</m> is a solution to the system
+                        <me>
+                            \begin{array}{ccccc}
+                              ax \amp  + \amp   by\amp  = \amp   e\\
+                              cx\amp   + \amp   dy\amp  =\amp   f      
+                            \end{array}
+                        </me>
+                    </p>
+                </li>
+            </ol>
+              </statement>
+            </exercise>
+
+            <exercise xml:id="prob-prob-equivsystems2">
+                <statement>
+                   <p>
+                    Consider the system of equations
+            
+            <me>
+                \begin{array}{ccccc}
+                  ax \amp  + \amp   by\amp  = \amp   e\\
+                  cx\amp   + \amp   dy\amp  =\amp   f      
+                \end{array}
+            </me>
+            
+            
+            Show that  if  <m>(x_0,y_0)</m> is a solution to this system, and if we apply elementary row operation <xref ref="item-addrow"/> to the system, then <m>(x_0,y_0)</m> will be a solution to the new system of equations.
+                   </p>
+              </statement>
+            </exercise>
+            
+            
+            <exercise xml:id="prob-elemrowopsreverse">
+                <statement>
+                   <p>
+                    Demonstrate that elementary row operations are reversible by answering the following questions.  Be specific about the elementary row operation that you would use.
+            <ol>
+             <li>
+                <p>
+                    Suppose we obtained system (B) from system (A) by swapping two equations. How would we obtain system (A) from system (B)?
+                </p>
+            </li> 
+             <li>
+                <p>
+                    Suppose we obtained system (B) from system (A) by multiplying one of the equations of (A) by a non-zero constant <m>k</m>.  How would we obtain system (A) from system (B)?
+                </p>
+            </li> 
+             <li>
+                <p>
+                    Suppose we obtained system (B) from system (A) by adding a multiple of one of the equations of (A) to  another.  How would we obtain system (A) from system (B)?
+                </p>
+            </li> 
+             </ol>
+                   </p>
+              </statement>
+            </exercise>
+        </exercises>
+
+</section>

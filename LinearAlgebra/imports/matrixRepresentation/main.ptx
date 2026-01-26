@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<pretext xml:lang="en-US" xmlns:xi="http://www.w3.org/2001/XInclude">
+  <!-- we first include a file which contains the docinfo element: -->
+  <xi:include href="./docinfo.ptx" />
+
+<book xml:id="a0000000001" >
+    <title>Matrix representations of transformations</title>
+
+    <!-- Include frontmatter -->
+    <!-- <xi:include href="./frontmatter.ptx" /> -->
+
+    <abstract>
+   A linear transformation can be represented in terms of multiplication by a matrix. 
+</abstract>
+<frontmatter>
+<titlepage>
+<title>Matrix representations of transformations</title>
+<author>Crichton Ogle</author>
+</titlepage>
+</frontmatter>
+<p>
+  Suppose <m>V = \mathbb R^n, W = \mathbb R^m</m>, and <m>L_A:V\to W</m> is given by 
+</p>
+<me>
+    L_A({\bf v}) = A*{\bf v}  
+</me>
+<p>
+   for some <m>m\times n</m> real matrix <m>A</m>. Then it follows immediately from the properties of matrix algebra that <m>L_A</m> is a linear transformation: 
+</p>
+<me>
+    L_A(\alpha {\bf v} + \beta {\bf w}) = A*(\alpha {\bf v} + \beta {\bf w}) = \alpha (A*{\bf v}) + \beta (A*{\bf w}) = \alpha L_A({\bf v}) + \beta L_A({\bf w})  
+</me>
+
+<p>
+  Conversely, suppose the linear transformation <m>L</m> is given. Define the matrix <m>A_L</m> by 
+</p>
+<me>
+    A_L = [L({\bf e}_1)\  L({\bf e}_2)\  \dots L({\bf e}_n)]  
+</me>
+<p>
+   that is, the <m>m\times n</m> matrix with <m>A(:,i) = L({\bf e}_i),\,  1\le i\le n</m>. Then by construction 
+</p>
+<me>
+    A_L*({\bf e}_i) = A(:,i) = L({\bf e}_i),\,  1\le i\le n  
+</me>
+<p>
+   so that <m>{\bf v}\mapsto L({\bf v})</m> and <m>{\bf v}\mapsto A_L*{\bf v}</m> are two linear transformations which agree on a basis for <m>\mathbb R^n</m>, which by the previous corollary implies 
+</p>
+<me>
+    L({\bf v}) = A_L*({\bf v})\qquad \forall {\bf v}\in \mathbb R^n  
+</me>
+<p>
+   Because of this, the matrix <m>A_L</m> is referred to as a <!-- \it --><em>matrix representation</em> of <m>L</m>. Note that this representation is with respect to to the standard basis for <m>\mathbb R^n</m> and <m>\mathbb R^m</m>. 
+</p>
+<p>
+  We see now that the same type of representation applies for arbitrary vector spaces <!-- \it --><em>once a basis has been fixed for both the domain and target</em>. In other words, given 
+</p>
+<ul>
+  <li><p>
+  A vector space <m>V</m> with basis <m>S = \{ {\bf v}_1,\dots ,{\bf v}_n\} </m>, 
+</p>
+</li>
+  <li><p>
+  a vector space <m>W</m> with basis <m>T = \{ {\bf w}_1,\dots ,{\bf w}_m\} </m>, and 
+</p>
+</li>
+  <li><p>
+  a linear transformation <m>L:V\to W</m> 
+</p>
+</li>
+</ul>
+<p>
+   we could ask if there is a similar representation of <m>L</m> in terms of a matrix (which depends on these two choices of bases). The answer is “yes". 
+</p>
+<p>
+   For any <m>{\bf v}\in V</m> 
+</p>
+<me>
+    {}_TL({\bf v}) = {}_TL_S*{}_S{\bf v}  
+</me>
+<p>
+   where <m>{}_TL_S</m> is the <m>m\times n</m> matrix defined by 
+</p>
+<me>
+    {}_TL_S = [{}_TL({\bf v}_1)\  {}_TL({\bf v}_2)\  \dots \  {}_TL({\bf v}_n)]  
+</me>
+
+<p>
+  <proof>
+  
+</proof> Again by the above corollary it suffices to verify the equality for basis vectors. But <m>{}_S{\bf v}_i</m> is the <m>n\times 1</m> coordinate vector identical to the basis vector <m>{\bf e}_i</m> for <m>\mathbb R^n</m>. From this we get 
+</p>
+<me>
+    {}_TL({\bf v}_i) = {}_TL_S(:,i) = {}_TL_S*{}_S{\bf v}_i,\qquad 1\le i\le n  
+</me>
+<p>
+   completing the proof. <proof>
+  
+</proof> 
+</p>
+<p>
+   Suppose <m>L:\mathbb R^3\to \mathbb R^2</m> is the linear transformation given by 
+</p>
+<me>
+    L({\bf x}) = L\left(\begin{bmatrix} \end{bmatrix} x_1\\ x_2\\ x_3\end{bmatrix}\right) = \begin{bmatrix} \end{bmatrix} 2x_1 - 3x_2 + 7x_3\\ 4x_2 - 5x_3\end{bmatrix}  
+</me>
+<p>
+   To compute the matrix representation of <m>L</m> with respect to the standard bases of <m>\mathbb R^3</m> and <m>\mathbb R^2</m>, we evaluate <m>L</m> on the basis vectors <m>{\bf e}_i, 1\le i\le 3</m> and then form the matrix <m>A_L = \begin{bmatrix} \end{bmatrix} {L(\bf e}_1) &  L({\bf e}_2) &  L({\bf e}_3)\end{bmatrix}</m>, yielding 
+</p>
+<me>
+    A_L = \begin{bmatrix} \end{bmatrix} 2 &  -3 &  7\\ 0 &  4 &  -5 \end{bmatrix}  
+</me>
+
+<p>
+   Recall that <m>P_n</m> is the vector space of polynomials in one variable with real coefficients. Let <m>L:P_3\to P_3</m> be given by <m>L(p(x)) = 2p'(x) - p(x)</m>, where <m>p'(x)</m> denotes the derivative of <m>p(x)</m>. To find the matrix representation of <m>L</m> with respect to the basis <m>\{ 1,x,x^2\} </m> for <m>P_3</m>, we first compute <m>L(1) = -1; L(x) = 2 - 2x; L(x^2) = 4x - x^2</m>. Then 
+</p>
+<me>
+    A_L = \begin{bmatrix} \end{bmatrix} L(1) &  L(x) &  L(x^2)\end{bmatrix} = \begin{bmatrix} \end{bmatrix} -1 &  2 &  0\\ 0 &  -2 &  4\\ 0 &  0 &  -1\end{bmatrix}  
+</me>
+
+<p>
+  Returning once more to the general case where <m>L:V\to W</m> is linear, <m>S</m> a basis for <m>V</m>, <m>T</m> a basis for <m>W</m>, we note that the bases <m>S</m> and <m>T</m> can be used to identify the kernel and image of <m>L</m>. Precisely, we have 
+</p>
+<p>
+   Assume <m>Dim(V) = n</m>, <m>Dim(W) = m</m>. Let <m>A = {}_{T}L_{S}</m> be the <m>m\times n</m> matrix representation of <m>L</m> with respect to the pair of bases <m>S,T</m>. Then 
+</p>
+<ul>
+  <li><p>
+  <m>{\bf v}\in ker(L)\subset V</m> iff <m>{}_{S}{\bf v}\in N(A)\subset \mathbb R^n</m>. 
+</p>
+</li>
+  <li><p>
+  <m>{\bf w}\in im(L)\subset W</m> iff <m>{}_{T}{\bf w}\in C(A)\subset \mathbb R^m</m>. 
+</p>
+</li>
+</ul>
+
+<p>
+  This theorem tells us that, once we have fixed a basis for <m>V</m> and <m>W</m>, the representation of <m>L</m> by the matrix <m>A={}_{T}L_{S}</m> further identifies i) the kernel <m>ker(L)</m> of <m>L</m> with the nullspace <m>N(A)</m> of <m>A</m> and ii) the image <m>im(L)</m> with the column space <m>C(A)</m> of <m>A</m>. 
+</p>
+<p>
+   Suppose <m>L: P_3\to P_3</m> is the linear transformation represented with respect to the standard basis on <m>P_3</m> by the matrix <m> A = \begin{bmatrix} \end{bmatrix} 2 &  3 &  1\\ 3 &  9 &  6\\ 1 &  6 &  5\end{bmatrix}</m>. Our objective is to find a minimal spanning set <m>ker(L)</m> and <m>im(L)</m> (with respect to the standard basis for <m>P^3</m>). First we compute <m>rref(A) = \begin{bmatrix} \end{bmatrix} 1 &  0 &  -1\\ 0 &  1 &  1\\ 0 &  0 &  0\end{bmatrix}</m>. We then see 
+</p>
+<ul>
+  <li><p>
+  The column space <m>C(A)</m> of <m>A</m> is <m>Span\{ A(:,1), A(:,2)\}  = Span\left\{ \begin{bmatrix} \end{bmatrix} 2\\ 3\\ \mathbf{1}\end{bmatrix}, \begin{bmatrix} \end{bmatrix} 3\\ 9\\ 6\end{bmatrix}\right\} </m>; 
+</p>
+</li>
+  <li><p>
+  the nullspace <m>N(A)</m> of <m>A</m> is <m>Span\left\{ \begin{bmatrix} \end{bmatrix} 1\\ -1\\ 1 \end{bmatrix} \right\} </m>. Note that these are coordinate vectors. 
+</p>
+</li>
+  <li><p>
+  The corresponding vectors, written as polynomials in <m>P_3</m>, give 
+</p>
+<me>
+    im(L) = Span\left\{ (2 + 3x + x^2), (3 + 9x + 6x^2)\right\} , \quad ker(L) = Span\left\{ (1 - x + x^2)\right\}   
+</me>
+</li>
+</ul>
+
+<p>
+   Suppose <m>L:P_4\to P_4</m> is the linear transformation whose representation in the standard basis for <m>P_4</m> is given by 
+</p>
+<me>
+    A =\begin{bmatrix} \end{bmatrix} 10 &  -16 &  -2 &  -2\\ -16 &  36 &  22 &  12\\ -2 &  22 &  53 &  -4\\ -2 &  12 &  -4 &  30\end{bmatrix}  
+</me>
+<p>
+   Following the method in the above example, write down a minimal spanning set for <m>ker(L)</m> and <m>im(L)</m> (the elements should be vectors in <m>P_4</m> - i.e., polynomials, not their coordinate representations.)  
+</p>
+
+
+
+
+    <!-- Include backmatter -->
+   <!-- <xi:include href="./backmatter.ptx" /> -->
+
+  </book>
+</pretext>

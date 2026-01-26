@@ -1,0 +1,1608 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<section xml:id="Section-Matrix-Operations" xmlns:xi="http://www.w3.org/2001/XInclude">
+    <title>Matrix Operations</title>
+
+<introduction>
+<p>
+A <term>matrix</term> is a rectangular array of numbers. The plural form of <term>matrix</term> is <term>matrices</term> (not matrixes). 
+You have encountered matrices before in the context of augmented matrices and coefficient matrices associate with linear systems.
+</p>
+
+<p>
+Consider the matrix
+<me>
+    M=\begin{bmatrix}
+1 \amp  2 \amp  3 \amp  4 \\
+5 \amp  2 \amp  8 \amp  7 \\
+6 \amp  -9 \amp  1 \amp  2
+\end{bmatrix}.
+</me>
+</p>
+
+<p>
+The <term>dimension of a matrix</term> is defined as <m>m\times n</m> where <m>m</m> is the
+number of rows and <m>n</m> is the number of columns. The above matrix is a 
+<m>3\times 4</m> matrix because there are three rows and four columns.  
+</p>
+
+<p>
+A <term>column vector</term> in <m>\R^n</m> is an <m>n\times 1</m> matrix.  A <term>row vector</term> in <m>\R^n</m> is a <m>1\times n</m> matrix.  
+</p>
+
+<p>
+The individual <term>entries</term> in the matrix are identified according to their position. The <m>( i, j)</m>-entry of a matrix is the entry 
+in the <m>i^{th}</m> row and <m>j^{th}</m> column. For example, in matrix <m>M</m> above,  <m>8</m> is called the <m>(2,3)</m>-entry because it is in the second row and the third column. 
+</p>
+
+<p>
+We denote the entry in the <m>i^{th}</m> row  and the <m>j^{th}</m> column of matrix <m>A</m> by <m>a_{ij}</m>, and write <m>A</m> in terms of its entries
+as 
+<me>
+    A= \begin{bmatrix} a_{ij} \end{bmatrix}=\begin{bmatrix}
+           a_{11} \amp  a_{12}\amp \dots\amp a_{1j}\amp \dots\amp a_{1n}\\
+           a_{21}\amp a_{22} \amp \dots\amp a_{2j}\amp \dots \amp a_{2n}\\
+		\vdots \amp  \vdots\amp \amp \vdots\amp \amp \vdots\\
+        a_{i1}\amp a_{i2}\amp \dots \amp a_{ij}\amp \dots \amp a_{in}\\
+        \vdots \amp  \vdots\amp \amp \vdots\amp \amp \vdots\\
+		a_{m1}\amp a_{m2}\amp \dots \amp a_{mj}\amp \dots \amp a_{mn}
+         \end{bmatrix}.
+</me>
+
+Occasionally it will be convenient to talk about columns and rows of a matrix <m>A</m> as vectors.  We will use the following notation:
+
+<me>
+    A=\begin{bmatrix}|\amp |\amp \amp |\\\mathbf{c}_1\amp  \mathbf{c}_2 \amp \ldots \amp  \mathbf{c}_n\\|\amp |\amp \amp |\end{bmatrix}\quad\text{or}\quad A=\begin{bmatrix}\mathbf{c}_1\amp  \mathbf{c}_2 \amp \ldots \amp  \mathbf{c}_n\end{bmatrix}
+</me>
+
+
+
+<me>
+    A=\begin{bmatrix}
+- \amp  \mathbf{r}_1 \amp  - \\ - \amp  \mathbf{r}_2 \amp  - \\ \amp  \vdots \amp  \\ - \amp  \mathbf{r}_m \amp  -
+\end{bmatrix}\quad\text{or}\quad A=\begin{bmatrix}\mathbf{r}_1\\\mathbf{r}_2\\\vdots\\\mathbf{r}_m\end{bmatrix}.
+</me>
+</p>
+
+
+<p>
+A matrix is called a <term>square matrix</term> if it has the same number of rows and columns.
+If <m>B=\begin{bmatrix}b_{ij}\end{bmatrix}</m> is an <m>n \times n</m> square matrix, the entries of the form <m>b_{ii}</m> 
+are said to lie on the <term>main diagonal</term>.  For example, if 
+<me>
+    B=\begin{bmatrix}1\amp 2\amp 3\\4\amp 5\amp 6\\7\amp 4\amp 9\end{bmatrix},
+</me>
+
+then the main diagonal consists of entries <m>b_{11}=1</m>, <m>b_{22}=5</m> and <m>b_{33}=9</m>.
+</p>
+
+<p>
+There are various operations which are done on matrices of appropriate 
+sizes. Matrices can be added to and subtracted from other matrices,
+multiplied by a scalar, and multiplied by other matrices. We will
+never divide a matrix by another matrix, but we will see later how multiplication by a matrix inverse (if an inverse exists) plays a similar role to division. 
+</p>
+
+<p>
+In doing arithmetic with matrices, we often define the action by what
+happens in terms of the entries (or components) of the
+matrices. Before looking at these operations in depth, consider a few
+general definitions.
+</p>
+
+
+
+<definition xml:id="def-zeromatrix">
+    <title>The Zero Matrix</title>
+    <statement>
+        <p>
+            The <m>m\times n</m> <term>zero matrix</term> is the <m>m\times n</m> matrix
+having every entry equal to zero. The zero matrix is
+denoted by <m>O</m>.
+        </p>
+    </statement>
+</definition>
+
+<definition xml:id="def-equalityofmatrices">
+    <title>Equality of Matrices</title>
+    <statement>
+        <p>
+            Let <m>A=\begin{bmatrix} a_{ij}\end{bmatrix}</m> and <m>B=\begin{bmatrix} b_{ij}\end{bmatrix}</m> be two <m>m \times n</m> matrices. 
+            Then <m>A=B</m> means
+that <m>a_{ij}=b_{ij}</m> for all <m>1\leq i\leq m</m> and 
+<m>1\leq j\leq n</m>.
+        </p>
+    </statement>
+</definition>
+</introduction>
+
+<subsection xml:id="Subsection-Addition-of-Matrices">
+    <title>Addition and Scalar Multiplication of Matrices</title>
+
+<p>
+Given two matrices of the same dimensions, we can add them together by adding their corresponding entries.
+</p>
+
+<definition xml:id="def-additionofmatrices">
+    <title>Addition of Matrices</title>
+    <statement>
+        <p>
+            Let <m>A=\begin{bmatrix} a_{ij}\end{bmatrix} </m> and <m>B=\begin{bmatrix} b_{ij}\end{bmatrix}</m> be two
+<m>m\times n</m> matrices. Then the <term>sum of matrices</term> <m>A</m> and <m>B</m>, denoted by <m>A+B</m>,  is an <m>m \times n</m>
+matrix  given by 
+
+<me>
+    A+B=\begin{bmatrix}a_{ij}+b_{ij}\end{bmatrix}.
+</me>
+        </p>
+    </statement>
+</definition>
+
+<p>
+An example might help unravel the formal definition.
+</p>
+
+<example xml:id="ex-samesizematrixaddition">
+    <statement>
+        <p>
+            Find the sum of <m>A</m> and <m>B</m>, if possible.
+<me>
+A = \begin{bmatrix}
+1 \amp  2 \amp  3 \\
+1 \amp  0 \amp  4
+\end{bmatrix},
+B = \begin{bmatrix}
+5 \amp  2 \amp  3 \\
+-6 \amp  2 \amp  1
+\end{bmatrix}.
+</me>
+       </p>
+    </statement>
+    <answer>
+        <p>
+            Notice that both <m>A</m> and <m>B</m> are of size <m>2 \times 3</m>. 
+Since <m>A</m> and <m>B</m> are of the same size, addition is possible. 
+<md>
+<mrow> A + B \amp = \begin{bmatrix}
+1 \amp  2 \amp  3 \\
+1 \amp  0 \amp  4
+\end{bmatrix}
++
+\begin{bmatrix}
+5 \amp  2 \amp  3 \\
+-6 \amp  2 \amp  1
+\end{bmatrix} </mrow>
+<mrow> \amp =
+\begin{bmatrix}
+1+5 \amp  2+2 \amp  3+3 \\
+1+ -6 \amp  0+2 \amp  4+1
+\end{bmatrix} </mrow>
+<mrow> \amp =
+\begin{bmatrix}
+6 \amp  4 \amp  6 \\
+-5 \amp  2 \amp  5
+\end{bmatrix}. </mrow>
+</md>
+       </p>
+    </answer>
+</example>
+
+<p>
+Going forward, whenever we write <m>A+B</m> it will be assumed that the two matrices are of equal size and addition is possible.
+</p> 
+
+<theorem xml:id="th-propertiesofaddition">
+    <title>Properties of Matrix Addition</title>
+    <statement>
+        <p>
+            Let <m>A,B</m> and <m>C</m> be matrices (of the same size). Then the following properties hold. 
+
+<ol>
+<li xml:id="item-mataddcomm">
+  <p> Commutative Law of Addition:
+
+<me>
+    A+B=B+A
+</me>
+</p>
+</li>
+  
+
+
+<li xml:id="item-mataddass">
+  <p> Associative Law of Addition:
+<me>
+    \left( A+B\right) +C=A+\left( B+C\right) 
+</me>
+</p>
+</li>
+
+
+<li xml:id="item-mataddid">
+  <p> Additive Identity: There exists a zero matrix such that
+<me>
+    A+O=A
+</me>
+</p>
+</li>
+
+
+<li xml:id="item-mataddinv">
+  <p> Additive Inverse: There exists a matrix, <m>-A</m>, such that
+<me>
+    A+\left( -A\right) =O 
+</me>
+</p>
+</li>
+
+</ol>
+        </p>
+    </statement>
+    <proof>
+        <p>
+            We will prove Properties <xref ref="item-mataddcomm"/> and <xref ref="item-mataddinv"/>.  The remaining properties are left as exercises.  
+        </p>   
+            <p>[Proof of <xref ref="item-mataddcomm"/>:]
+                The <m>(i,j)</m>-entry of <m>A+B</m> is given by
+                
+                <me>
+                    a_{ij}+b_{ij}.
+                </me>
+                
+                
+                The <m>(i,j)</m>-entry of <m>B+A</m> is given by
+                
+                <me>
+                    b_{ij}+a_{ij}.
+                </me>
+                
+                
+                Since <m>a_{ij}+b_{ij}=b_{ij}+a_{ij}</m>, for all <m>i</m>, <m>j</m>, we conclude that <m>A+B=B+A</m>.
+                    </p>
+               
+                    <p>[Proof of <xref ref="item-mataddinv"/>:]
+                Let <m>-A</m> be defined by
+                
+                <me>
+                    -A=\begin{bmatrix}-a_{ij}\end{bmatrix}.
+                </me>
+                
+                Then <m>A+(-A)=O</m>.
+                    </p>
+    </proof>
+</theorem>
+
+
+<p>
+You will recognize the zero matrix of <xref ref="th-propertiesofaddition"/><xref ref="item-mataddid"/> as the zero matrix of <xref ref="def-zeromatrix"/>. 
+</p>
+
+
+
+
+
+
+
+<p>
+When a matrix is multiplied by a scalar, the new matrix is obtained by multiplying every entry of the original matrix
+by the given scalar. 
+</p>
+
+<definition xml:id="def-scalarmultofmatrices">
+    <title>Scalar Multiplication of Matrices</title>
+    <statement>
+        <p>
+            If <m>A=\begin{bmatrix} a_{ij}\end{bmatrix} </m> and <m>k</m> is a scalar,
+then <m>kA=\begin{bmatrix} ka_{ij}\end{bmatrix}</m>.
+        </p>
+    </statement>
+</definition>
+
+
+<p> 
+A hands down example is given below.
+</p> 
+
+<example xml:id="ex-effectofscalarmult">
+    <statement>
+        <p>
+            Find <m>7A</m> if
+<me>
+    A=\begin{bmatrix}
+2 \amp  0 \\
+1 \amp  -4
+\end{bmatrix}.
+</me>
+       </p>
+    </statement>
+
+    <answer>
+        <p>
+            By Definition <xref ref="def-scalarmultofmatrices"/>, we multiply each entry of <m>A</m> by <m>7</m>. Therefore,
+<me>
+    7A = 
+7\begin{bmatrix}
+2 \amp  0 \\
+1 \amp  -4
+\end{bmatrix} =
+\begin{bmatrix}
+7(2) \amp  7(0) \\
+7(1) \amp  7(-4)
+\end{bmatrix} =
+\begin{bmatrix}
+14 \amp  0 \\
+7 \amp  -28
+\end{bmatrix}
+</me>
+       </p>
+    </answer>
+</example>
+
+
+
+
+<theorem xml:id="th-propertiesscalarmult">
+    <title>Properties of Scalar Multiplication</title>
+    <statement>
+        <p>
+            Let <m>A, B</m> be matrices (of the same size), and <m>k, p</m> be scalars. Then scalar multiplication has the following properties.
+<ol>
+<li xml:id="item-scalardistmatadd">
+<p> 
+Distributive Law over Matrix Addition:
+<me>
+k \left( A+B\right) =k A+ kB  
+</me>
+</p>
+</li>
+
+<li xml:id="item-matdistscalaradd">
+  <p>Distributive Law over Scalar Addition:
+<me>
+\left( k +p \right) A= k A+p A
+</me>
+</p>
+</li>
+
+<li xml:id="item-scalarmatmultass">
+  <p> Associative Law for Scalar Multiplication:
+<me>
+k \left( p A\right) = \left( k p \right) A 
+</me> </p>
+</li>
+
+<li xml:id="item-matmult1">
+  <p> Multiplication by <m>1</m>:
+<me>
+1A=A  
+</me> </p>
+</li>
+</ol>
+        </p>
+    </statement>
+
+</theorem>
+
+<p>
+The proof of this theorem is similar to the proof of <xref ref="th-propertiesofaddition"/> and is left as an exercise.
+</p> 
+</subsection>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<subsection xml:id="Subsection-Matrix-Multiplication">
+    <title>Matrix Multiplication</title>
+
+    <introduction>
+    <p>
+    Matrix multiplication is a generalization of the matrix-vector product considered in <xref ref="Subsection-Matrix-Vector-Multiplication"/>
+    Recall that for a <m>m \times n</m> matrix <m>A</m> and a vector <m>\mathbf{x}</m> in <m>\R^n</m>, the matrix-vector product,
+    <m>A\mathbf{x}</m> is a vector in <m>\R^m</m>. 
+    The change is that now second factor can be a matrix rather than a vector.  But just as we could only multiply a <m>3 \times 3</m> matrix by
+    a vector in <m>\R^3</m>, we can only multiply together matrices of the right size. 
+    </p> 
+    </introduction>
+    
+<!-- This is already defined in the previous chapter, so we can talk about Matrix equations-->
+<!-- <subsubsection xml:id="Subsection-Matrix-Vector-Multiplication">
+    <title>Matrix-Vector Multiplication</title>
+
+
+    <p>
+        Prior to presenting the formal definition in full generality, it is better to see a concrete example because the formal version is notation heavy.
+    </p>
+
+    <example xml:id="exp-matrixvectormultdef">
+        <statement>
+            <p> 
+                Let 
+                <me>
+                    A=\begin{bmatrix}2\amp -1\amp 3\amp 2\\0\amp 3\amp -2\amp 1\\-2\amp 4\amp 1\amp 0\end{bmatrix}\quad\text{and}\quad \mathbf{x}=\begin{bmatrix}3\\-1\\4\\1\end{bmatrix}.
+                </me>
+            </p>
+            <p>
+                One way to understand the matrix-vector product <m>A\mathbf{x}</m> is by thinking of it as a linear combination of the columns of <m>A</m>, using the entries in <m>x</m> as our coefficients.  
+                <md>
+                    <mrow>  A\mathbf{x} \amp =\begin{bmatrix}\color{red}2\amp \color{blue}-1\amp \color{brown}3\amp 2\\ \color{red}0\amp \color{blue}3\amp \color{brown}-2\amp 1\\ \color{red}-2\amp \color{blue}4\amp \color{brown}1\amp 0\end{bmatrix}\begin{bmatrix}\color{red}3\\ \color{blue}-1\\ \color{brown}4\\1\end{bmatrix} </mrow>
+                    <mrow>  = \color{red}3\begin{bmatrix}\color{red}2\\ \color{red}0\\ \color{red}-2\end{bmatrix}\color{black}+
+                    \color{blue}(-1)\begin{bmatrix}\color{blue}-1\\ \color{blue}3\\ \color{blue}4\end{bmatrix}
+                    \color{black}+\color{brown}4\begin{bmatrix}\color{brown}3\\ \color{brown}-2\\ \color{brown}1\end{bmatrix}
+                    \color{black}+\begin{bmatrix}2\\1\\0\end{bmatrix} </mrow> 
+                    <mrow> =\begin{bmatrix}21\\-10 \\ -6\end{bmatrix}. </mrow>
+                </md>
+
+                We can also compute the product one entry at a time.  First, let's focus on the first row of <m>A</m>.
+
+                <md>
+                    <mrow> \amp \begin{bmatrix}{\color{red}2}\amp {\color{blue}-1}\amp {\color{brown}3}\amp 2\\0\amp 3\amp -2\amp 1\\-2\amp 4\amp 1\amp 0\end{bmatrix}\begin{bmatrix}{\color{red}3}\\{\color{blue}-1}\\{\color{brown}4}\\1\end{bmatrix}  </mrow>
+                    <mrow> \amp= \begin{bmatrix}{\color{red}(2)( 3)}+{\color{blue}(-1)(-1)}+{\color{brown}(3)(4)}+(2)(1)\\ \\ \\\end{bmatrix}=\begin{bmatrix}21\\ \\ \\\end{bmatrix}. </mrow>   
+                </md>
+
+                Next, let's look a the second row of <m>A</m>.
+
+                <md>
+                    <mrow>    \amp \begin{bmatrix}2\amp -1\amp 3\amp 2\\{\color{red}0}\amp {\color{blue}3}\amp {\color{brown}-2}\amp 1\\-2\amp 4\amp 1\amp 0\end{bmatrix}\begin{bmatrix}{\color{red}3}\\{\color{blue}-1}\\{\color{brown}4}\\1\end{bmatrix}=\begin{bmatrix}21\\{\color{red}(0)( 3)}+{\color{blue}(3)(-1)}+{\color{brown}(-2)(4)}+(1)(1)\\ \\ \end{bmatrix} </mrow>
+                    <mrow>    \amp =\begin{bmatrix}21\\-10 \\ \\\end{bmatrix}. </mrow>
+                </md>
+
+                Finally, let's do the third row of <m>A</m>.
+
+                <md>
+                    <mrow>  \amp \begin{bmatrix}2\amp -1\amp 3\amp 2\\0\amp 3\amp -2\amp 1\\{\color{red}-2}\amp {\color{blue}4}\amp {\color{brown}1}\amp 0\end{bmatrix}\begin{bmatrix}{\color{red}3}\\{\color{blue}-1}\\{\color{brown}4}\\1\end{bmatrix}=\begin{bmatrix}21\\-10\\{\color{red}(-2)( 3)}+{\color{blue}(4)(-1)}+{\color{brown}(1)(4)}+(0)(1) \end{bmatrix} </mrow>
+                    <mrow> \amp =\begin{bmatrix}21\\-10 \\ -6\end{bmatrix}. </mrow>
+                </md>
+
+            </p>
+        </statement>
+    </example>
+
+
+    <definition xml:id="def-matrixvectormult">
+        <statement>
+            <p>
+                Let <m>A</m> be an <m>m\times n</m> matrix, and let <m>\mathbf{x}</m> be an <m>n\times 1</m> vector.  The product <m>A\mathbf{x}</m> is the <m>m\times 1</m> vector given by:
+                <md>
+                    <mrow>    A\mathbf{x} \amp =\begin{bmatrix}
+                            a_{11} \amp  a_{12}\amp \dots\amp a_{1n}\\
+                            a_{21}\amp a_{22} \amp \dots \amp a_{2n}\\
+                            \vdots \amp  \vdots\amp \ddots \amp \vdots\\
+                            a_{m1}\amp \dots \amp \dots \amp a_{mn}
+                            \end{bmatrix}\begin{bmatrix}x_1\\x_2\\\vdots\\x_n\end{bmatrix} 
+                    </mrow>
+                    <mrow>   
+                        \amp =
+                        x_1\begin{bmatrix}a_{11}\\a_{21}\\ \vdots \\a_{m1}\end{bmatrix}+
+                        x_2\begin{bmatrix}a_{12}\\a_{22}\\ \vdots \\a_{m2}\end{bmatrix}+\dots+
+                        x_n\begin{bmatrix}a_{1n}\\a_{2n}\\ \vdots \\a_{mn}\end{bmatrix} 
+                    </mrow>
+                </md>
+                or, equivalently,
+                <me>
+                    A\mathbf{x}=\begin{bmatrix}a_{11}x_1+a_{12}x_2+\ldots +a_{1n}x_n\\a_{21}x_1+a_{22}x_2+\ldots +a_{2n}x_n\\\vdots\\a_{m1}x_1+a_{m2}x_2+\ldots +a_{mn}x_n\end{bmatrix}.
+                </me>
+            </p>
+        </statement>
+    </definition>
+
+
+    <p>
+        We can now make a couple of observations about the matrix-vector product.  The first observation is part of the definition, but it is still worth pointing out.
+    </p>
+
+
+    <observation>
+        <statement>
+            In order for the product <m>A\mathbf{x}</m> to exist, <m>A</m> and <m>\mathbf{x}</m> must have compatible dimensions.  
+            In particular, vector <m>\mathbf{x}</m> must have as many components as the number of columns of <m>A</m>
+            (otherwise, we would not be have a well-defined linear combination of the columns).  So, if <m>A</m> is an <m>m\times n</m> matrix, 
+            <m>\mathbf{x}</m> must be an <m>n\times 1</m> vector.  
+            If we write these dimensions next to each other, we will notice that the inner dimensions (<m>n</m>) must match, while the outer dimensions, <m>m</m> and <m>1</m>, 
+            give us the dimensions of the product.
+
+            <me>
+                \begin{array}{ccccc}
+                    A\amp  \amp  \mathbf{x} \amp =\amp  A\mathbf{x}\\
+                    (m\times n) \amp  \amp (n\times 1) \amp  \amp (m\times 1)
+                \end{array}
+            </me>
+        </statement>
+    </observation>
+
+
+
+    <observation>
+        <statement>
+            <p>
+                If you are familiar with the <term>dot product</term>, you may have noticed that each individual entry in the product matrix <m>A\mathbf{x}</m> 
+                is the dot product of a row of <m>A</m> with <m>\mathbf{x}</m>.  
+                Thus, if the rows of <m>A</m> are vectors <m>\mathbf{r}_1</m>, <m>\mathbf{r}_2,\ldots ,\mathbf{r}_n</m> 
+                we can restate Definition <xref ref="def-matrixvectormult"/> as follows:
+                <me>
+                    A\mathbf{x}=\begin{bmatrix}-\amp \mathbf{r}_1\amp -\\-\amp \mathbf{r}_2\amp -\\ \amp \vdots \amp  \\-\amp \mathbf{r}_n \amp -\end{bmatrix}\mathbf{x}=\begin{bmatrix}\mathbf{r}_1\cdot\mathbf{x}\\\mathbf{r}_2\cdot\mathbf{x}\\\vdots\\\mathbf{r}_n\cdot\mathbf{x}\end{bmatrix}.
+                </me> 
+            </p>
+        </statement>
+    </observation>
+
+
+    <p>
+        Let's find another matrix-vector product.
+    </p>
+
+
+    <example xml:id="ex-matrixvectormultpractice">
+        <statement>
+            <p>  
+                Let 
+                <me>
+                    A=\begin{bmatrix}1\amp -1\\2\amp 3\\-2\amp 1\\4\amp 0\end{bmatrix}\quad\text{and}\quad\mathbf{x}=\begin{bmatrix}-3\\5\end{bmatrix}.
+
+                </me>
+                Find <m>A\mathbf{x}</m>.
+            </p>
+        </statement>
+        <answer>
+            <p> 
+                <me>
+                    A\mathbf{x}=\begin{bmatrix}1\amp -1\\2\amp 3\\-2\amp 1\\4\amp 0\end{bmatrix}\begin{bmatrix}-3\\5\end{bmatrix}=\begin{bmatrix}-8\\9\\11\\-12\end{bmatrix}.
+                </me>
+            </p>
+        </answer>
+    </example>
+</subsubsection>
+
+    -->
+
+
+<subsubsection xml:id="Subsection-Matrix-Matrix-Multiplication">
+    <title>Matrix-Matrix Multiplication</title>
+
+<p>
+As we mentioned just now, matrix-matrix multiplication is an extension of the idea of matrix-vector multiplication.  
+In order for the product definition to work, matrix dimensions must be compatible.  
+Let <m>A</m> be an <m>m\times n</m> matrix, and let <m>B</m> be an <m>n\times p</m> matrix, then the product <m>AB</m> will be an <m>m\times p</m> matrix.
+
+<me>
+    \begin{array}{ccccc}
+A\amp  \amp  B \amp =\amp  AB\\
+(m\times n) \amp  \amp (n\times p) \amp  \amp (m\times p)
+\end{array}
+</me>
+
+Just like with vector products, the inner dimensions must be the same, while the outer dimensions, <m>m</m> and <m>p</m>, give us the dimensions of the product.
+</p>
+
+<!--
+
+
+<definition xml:id="def-matmatproduct">
+    <statement>
+        <p>
+            Let <m>A</m> be an <m>m\times n</m> matrix whose rows are vectors <m>\mathbf{r}_1</m>, <m>\mathbf{r}_2,\ldots ,\mathbf{r}_n</m>.  Let <m>B</m> be an <m>n\times p</m> matrix with columns <m>\mathbf{b}_1, \mathbf{b}_2, \ldots, \mathbf{b}_p</m>.  Then the entries of the matrix product <m>AB</m> are given by the dot products
+<md>AB\amp =\begin{bmatrix}-\amp \mathbf{r}_1\amp -\\-\amp \mathbf{r}_2\amp -\\ \amp \vdots \amp  \\-\amp \mathbf{r}_i \amp -\\ \amp \vdots\amp  \\-\amp \mathbf{r}_m\amp -\end{bmatrix}\begin{bmatrix}|\amp |\amp \amp |\amp \amp |\\\mathbf{b}_1\amp  \mathbf{b}_2 \amp \ldots  \amp  \mathbf{b}_j\amp \ldots\amp  \mathbf{b}_p\\|\amp |\amp \amp |\amp \amp |\end{bmatrix}\\ \amp =\begin{bmatrix}\mathbf{r}_1\cdot \mathbf{b}_1\amp \mathbf{r}_1\cdot \mathbf{b}_2\amp \ldots\amp \mathbf{r}_1\cdot \mathbf{b}_j\amp \ldots \amp \mathbf{r}_1\cdot \mathbf{b}_p\\\mathbf{r}_2\cdot \mathbf{b}_1\amp \mathbf{r}_2\cdot \mathbf{b}_2\amp \ldots\amp \mathbf{r}_2\cdot \mathbf{b}_j\amp \ldots \amp \mathbf{r}_2\cdot \mathbf{b}_p\\\vdots\amp \vdots\amp \amp \vdots\amp \amp \vdots\\\mathbf{r}_i\cdot \mathbf{b}_1\amp \mathbf{r}_i\cdot \mathbf{b}_2\amp \ldots\amp \mathbf{r}_i\cdot \mathbf{b}_j\amp \ldots \amp \mathbf{r}_i\cdot \mathbf{b}_p\\\vdots\amp \vdots\amp \amp \vdots\amp \amp \vdots\\\mathbf{r}_m\cdot \mathbf{b}_1\amp \mathbf{r}_m\cdot \mathbf{b}_2\amp \ldots\amp \mathbf{r}_m\cdot \mathbf{b}_j\amp \ldots \amp \mathbf{r}_m\cdot \mathbf{b}_p\end{bmatrix}
+</md>
+        </p>
+    </statement>
+</definition>
+
+<p>
+So the <m>(i,j)</m>-entry of <m>AB</m> is the dot product of the <m>i^{th}</m> row of <m>A</m> and the <m>j^{th}</m> column of <m>B</m>.  
+</p>
+
+<p>
+In terms of components, if the <m>i^{th}</m> row of <m>A</m> is 
+<me>
+    \begin{bmatrix}a_{i1}\amp  a_{i2} \amp \ldots \amp a_{in}\end{bmatrix}
+</me>
+ and the <m>j^{th}</m> column of <m>B</m> is 
+
+<me>
+    \begin{bmatrix}b_{1j}\\b_{2j}\\\vdots\\b_{nj}\end{bmatrix}
+</me>
+
+then the <m>(i,j)</m>-entry of <m>AB</m> is given by
+<men xml:id="ijentrymatrixproduct">a_{i1}b_{1j}+a_{i2}b_{2j}+\dots +a_{in}b_{nj}=\sum_{k=1}^na_{ik}b_{kj}
+</men>
+</p>
+
+
+
+
+<example xml:id="ex-matmatproduct">
+    <statement>
+        <p>
+            Let 
+<me>
+    A=\begin{bmatrix}3 \amp  2 \amp  -1 \amp  1\\0 \amp  3 \amp  1 \amp  1\\1 \amp  4 \amp  -1 \amp  0\end{bmatrix}\quad\text{and}\quad B=\begin{bmatrix}1 \amp  -2 \\-1 \amp  4 \\2 \amp  3 \\2 \amp  0\end{bmatrix}
+</me>
+
+Find <m>AB</m>.
+       </p>
+    </statement>
+    <answer>
+        <p>
+            Observe that <m>A</m> is a <m>3\times 4</m> matrix and <m>B</m> is a <m>4\times 2</m> matrix.  So, we expect the product <m>AB</m> to be a <m>3\times 2</m> matrix.
+<md>
+<mrow> AB\amp =\begin{bmatrix}3 \amp  2 \amp  -1 \amp  1\\0 \amp  3 \amp  1 \amp  1\\1 \amp  4 \amp  -1 \amp  0\end{bmatrix}\begin{bmatrix}1 \amp  -2 \\-1 \amp  4 \\2 \amp  3 \\2 \amp  0\end{bmatrix} </mrow>
+<mrow> \amp =\begin{bmatrix}(3)(1)+(2)(-1)+(-1)(2)+(1)(2) \amp  (3)(-2)+(2)(4)+(-1)(3)+(1)(0)\\(0)(1)+(3)(-1)+(1)(2)+(1)(2) \amp  (0)(-2)+(3)(4)+(1)(3)+(1)(0)\\(1)(1)+(4)(-1)+(-1)(2)+(0)(2) \amp  (1)(-2)+(4)(4)+(-1)(3)+(0)(0) \end{bmatrix} </mrow>
+<mrow> \amp =\begin{bmatrix}1 \amp  -1 \\ 1 \amp  15\\ -5 \amp  11\end{bmatrix} </mrow>
+</md>
+       </p>
+    </answer>
+</example>
+
+-->
+
+<definition xml:id="def-matmatproduct">
+    <statement>
+    <p>
+    Let <m>A</m> be an <m>m\times n</m> matrix and <m>B</m> be an <m>n\times p</m> matrix with columns <m>\mathbf{b}_1, \mathbf{b}_2, \ldots, \mathbf{b}_p</m>. 
+    Then the matrix product <m>AB</m> is an <m>m \times p</m> whose <m>p</m> columns are each a matrix-vector product:
+    <me>
+    AB = \begin{bmatrix} | \amp  | \amp  \dots \amp  |\\
+    A\mathbf{b}_1 \amp  A\mathbf{b}_2 \amp  \dots \amp  A\mathbf{b}_p\\| \amp  | \amp  \dots \amp  |\end{bmatrix}.
+    </me>
+    Equivalently, we can compute  the <m>(i,j)</m>-entry of <m>AB</m> by taking the <m>i^{th}</m> row of <m>A</m> and the <m>j^{th}</m> column of <m>B</m> and multiplying the corresponding
+    entries together.  That is, the <m>(i,j)</m>-entry of <m>AB</m> is given by
+    <men xml:id="ijentrymatrixproduct">a_{i1}b_{1j}+a_{i2}b_{2j}+\dots +a_{in}b_{nj}=\sum_{k=1}^na_{ik}b_{kj} </men>
+    </p>
+    </statement>
+</definition>
+
+<p>
+    Here are several concrete examples.
+</p>
+
+<example xml:id="ex-matmatproduct">
+    <statement>
+        <p>
+            Let 
+        <me>
+        A=\begin{bmatrix}3 \amp  2 \amp  -1 \amp  1\\0 \amp  3 \amp  1 \amp  1\\1 \amp  4 \amp  -1 \amp  0\end{bmatrix}\quad\text{and}\quad B=\begin{bmatrix}1 \amp  -2 \\-1 \amp  4 \\2 \amp  3 \\2 \amp  0\end{bmatrix}
+        </me>
+        Find <m>AB</m>.
+        </p>
+    </statement>
+    <answer>
+        <p>
+        Observe that <m>A</m> is a <m>3\times 4</m> matrix and <m>B</m> is a <m>4\times 2</m> matrix.  So, we expect the product <m>AB</m> to be a <m>3\times 2</m> matrix.
+        The two columns of <m>AB</m> are each given by 
+        <me>
+        A\mathbf{b}_1=\begin{bmatrix}3\\0\\1\end{bmatrix}-\begin{bmatrix}2\\3\\4\end{bmatrix} +2\begin{bmatrix}-1\\1\\-1\end{bmatrix}
+        +2\begin{bmatrix}1\\1\\0\end{bmatrix} 
+        = \begin{bmatrix}1\\1\\-5\end{bmatrix}
+        </me>
+        and 
+        <me>
+        A\mathbf{b}_2=-2\begin{bmatrix}3\\0\\1\end{bmatrix}
+        +4\begin{bmatrix}2\\3\\4\end{bmatrix}
+        +3\begin{bmatrix}-1\\1\\-1\end{bmatrix}+0 = \begin{bmatrix}-1\\15\\11\end{bmatrix}.
+        </me>
+        Thus, we have
+        <me> AB =\begin{bmatrix}1 \amp  -1 \\ 1 \amp  15\\ -5 \amp  11\end{bmatrix}. </me>
+        The alternative approach of using rows of <m>A</m> and columns of <m>B</m> works as follows:
+        <md>
+        <mrow> AB\amp =\begin{bmatrix}3 \amp  2 \amp  -1 \amp  1\\0 \amp  3 \amp  1 \amp  1\\1 \amp  4 \amp  -1 \amp  0\end{bmatrix}\begin{bmatrix}1 \amp  -2 \\-1 \amp  4 \\2 \amp  3 \\2 \amp  0\end{bmatrix} </mrow>
+        <mrow> \amp =\begin{bmatrix}(3)(1)+(2)(-1)+(-1)(2)+(1)(2) \amp  (3)(-2)+(2)(4)+(-1)(3)+(1)(0)\\(0)(1)+(3)(-1)+(1)(2)+(1)(2) \amp  (0)(-2)+(3)(4)+(1)(3)+(1)(0)\\(1)(1)+(4)(-1)+(-1)(2)+(0)(2) \amp  (1)(-2)+(4)(4)+(-1)(3)+(0)(0) \end{bmatrix} </mrow>
+        <mrow> \amp =\begin{bmatrix}1 \amp  -1 \\ 1 \amp  15\\ -5 \amp  11\end{bmatrix} </mrow>
+        </md>
+        </p>
+    </answer>
+</example>
+
+
+<example xml:id="ex-matmatproduct2">
+    <statement>
+        <p>
+            Let
+
+<me>
+    A=\begin{bmatrix}-2 \amp  1\\3 \amp  0\\1 \amp  -3\end{bmatrix}\quad\text{and}\quad B=\begin{bmatrix}4 \amp  -2 \amp  3 \amp  -2 \amp 2\\1 \amp  -3 \amp  1 \amp  1 \amp 0\end{bmatrix}.
+</me>
+
+Find <m>AB</m>.
+       </p>
+    </statement>
+    <answer>
+        <p>
+            Check the calculation of each entry below.  
+
+<md>
+<mrow>    AB \amp=\begin{bmatrix}-2 \amp  1\\3 \amp  0\\1 \amp  -3\end{bmatrix}\begin{bmatrix}4 \amp  -2 \amp  3 \amp  -2 \amp 2\\1 \amp  -3 \amp  1 \amp  1 \amp 0\end{bmatrix} </mrow> 
+<mrow>            \amp =\begin{bmatrix}-7 \amp 1 \amp  -5 \amp  5 \amp  -4\\12 \amp  -6 \amp  9 \amp  -6 \amp  6\\1 \amp  7 \amp  0 \amp  -5 \amp  2\end{bmatrix}. </mrow>
+</md>
+       </p>
+    </answer>
+</example>
+
+<example xml:id="ex-linearcombofcols1">
+    <statement>
+        <p>
+            Suppose that we know that <m>\mathbf{x}=\begin{bmatrix} -2\\5\end{bmatrix}</m> satisfies
+
+<me>
+    \begin{bmatrix}
+-2\amp 3\\
+4\amp -1
+\end{bmatrix}\mathbf{x}=\begin{bmatrix} 19\\-13\end{bmatrix}
+</me>
+</p>
+
+<p>
+Use this information to express <m>\begin{bmatrix} 19\\-13\end{bmatrix}</m> as a linear combination of the columns of <m>\begin{bmatrix}
+-2\amp 3\\
+4\amp -1
+\end{bmatrix}</m>.
+</p>
+    </statement>
+    <answer>
+        <p>
+            <me>
+    -2\begin{bmatrix} -2\\4\end{bmatrix}+5\begin{bmatrix} 3\\-1\end{bmatrix}=\begin{bmatrix} 19\\-13\end{bmatrix}
+</me>
+       </p>
+    </answer>
+</example>
+</subsubsection>
+
+
+
+
+<subsubsection xml:id="Subsection-Properties-of-Matrix-Multiplication">
+    <title>Properties of Matrix Multiplication</title>
+
+<exploration xml:id="init-matmultnotcomm">
+    <p>
+        Let 
+<me>
+    A=\begin{bmatrix}1\amp 2\\3\amp 4\end{bmatrix}\quad\text{and}\quad B=\begin{bmatrix}5\amp 6\\7\amp 8\end{bmatrix}.
+</me>
+</p>
+
+<p>
+Observe that both <m>AB</m> and <m>BA</m> are defined, and both products are <m>2\times 2</m> matrices.  Let's compute the two products
+
+<me>
+    AB=\begin{bmatrix}19\amp 22\\43\amp 50\end{bmatrix}\quad\text{and}\quad BA=\begin{bmatrix}23\amp 34\\31\amp 46\end{bmatrix}.
+</me>
+
+Clearly <m>AB\neq BA</m>. We say that <m>A</m> and <m>B</m> <term>do not commute</term>.
+    </p>
+</exploration>
+
+
+
+
+<warning>
+    <p>
+    Matrix multiplication is not commutative. While it is possible to find specific matrices that commute, matrix multiplication is not commutative in general.
+    </p>
+</warning>
+
+
+<p>
+One example of an <m>n\times n</m> square matrix that commutes with all <m>n\times n</m> matrices is the matrix <m>I_n</m> defined by
+
+<me>
+    I_n=\begin{bmatrix}1\amp 0\amp \ldots \amp 0\\0\amp 1\amp \ldots \amp 0\\\vdots \amp \vdots \amp \ddots \amp \vdots \\0 \amp 0 \amp \ldots \amp  1\end{bmatrix}
+</me>
+
+<m>I_n</m> has 1's along the main diagonal and 0's everywhere else.  It is often useful to think of <m>I_n</m> as a matrix whose <m>j^{th}</m> column (and <m>j^{th}</m> row) is <m>\mathbf{e}_j</m>, the <m>j^{th}</m> standard unit vector of <m>\R^n</m>.  When the dimensions of <m>I_n</m> are clear from the context, or irrelevant, we will omit the subscript <m>n</m> and simply refer to this matrix as <m>I</m>.
+</p>
+
+<p>
+You can easily convince yourself that <m>I</m> commutes with all square matrices of appropriate dimensions.  Let 
+<me>
+    A=\begin{bmatrix}a\amp b\amp c\\d\amp e\amp f\\g\amp h\amp i\end{bmatrix}\quad\text{and}\quad I=\begin{bmatrix}1\amp 0\amp 0\\0\amp 1\amp 0\\0\amp 0\amp 1\end{bmatrix}.
+</me>
+
+Verify that <m>AI=A</m> and <m>IA=A</m>.  
+</p>
+
+<p>
+Because <m>I</m> acts like the multiplicative identity <m>1</m> in regular multiplication, <m>I</m> (or <m>I_n</m>) is called the <term>identity matrix</term>.
+</p>
+
+<p>
+Next we list several important properties of matrix multiplication. These properties hold only when matrix sizes are such that the products are defined. 
+</p>
+
+
+<theorem xml:id="th-propertiesofmatrixmultiplication">
+    <title>Properties of Matrix Multiplication</title>
+    <statement>
+        <p>
+            The following hold for matrices <m>A,B,</m> and <m>C</m> and for scalar <m>c</m>,
+<ol>
+<li xml:id="matrixproperties1">
+  <p> Left Distributive Property
+
+<me>
+    A\left( B+C\right) =AB +AC
+</me> </p>
+</li>
+
+<li xml:id="matrixproperties2">
+  <p> Right Distributive Property:
+
+<me> 
+    \left( B+C\right) A=BA+CA
+</me>
+</p>
+</li>
+
+<li xml:id="matrixproperties3">
+  <p>  Associativity:
+
+<me>
+    A\left( BC\right) =\left( AB\right) C
+</me> </p>
+</li>
+
+<li xml:id="matrixproperties4">
+  <p> Matrix multiplication behaves well with scalar multiplication:
+
+<me>
+    c(AB)=(cA)B=A(cB)
+</me> </p>
+</li>
+
+<li xml:id="identitymatrix">
+  <p> Multiplicative Identity:
+
+<me>
+    AI=IA=A
+</me> </p>
+</li>
+
+</ol>
+        </p>
+    </statement>
+</theorem>
+
+<proof>
+    <p>
+We prove <xref ref="matrixproperties1"/> using the expression in (<xref ref="ijentrymatrixproduct"/>) for the <m>(i,j)</m>-entry of a matrix product. (The proof of <xref ref="matrixproperties2"/> is similar.) The <m>(i,j)</m>-entry of <m>A(B+C)</m> is given by
+
+
+<me>
+    
+\sum_{k}a_{ik}( b_{kj}+c_{kj})=\sum_{k}a_{ik}b_{kj}+\sum_{k}a_{ik}c_{kj}.
+
+</me>
+
+We recognize the right hand side as the <m>(i,j)</m>-entry of <m>AB+AC</m>.
+Thus <m>A(B+C) =AB+AC</m>.
+</p>
+
+<p>
+For <xref ref="matrixproperties4"/>,
+
+<me>
+    c\left(\sum_{k}a_{ik}b_{kj}\right) = \sum_{k}\left(c a_{ik}\right)b_{kj} = \sum_{k}a_{ik} \left(b_{kj} c\right).
+</me>
+
+For <xref ref="identitymatrix"/>, the <m>(i,j)</m>-entry of the product <m>AI</m> is given by the dot product of the <m>i^{th}</m> row of <m>A</m> with the standard unit vector <m>\mathbf{e}_j</m>.  Clearly, this dot product is <m>a_{ij}</m>.  Because the <m>(i,j)</m>-entry of the product <m>AI</m> is equal to the <m>(i,j)</m>-entry <m>A</m>, we conclude that <m>AI=A</m>.  The proof that <m>IA=A</m> is similar.
+</p>
+
+<p>
+Note that we skipped the proof of <xref ref="matrixproperties3"/>, which is quite cumbersome using sigma notation.  
+We will easily tackle this proof later in the course when we cover composition of linear Transformations.
+    </p>
+</proof>
+</subsubsection>
+
+
+</subsection>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 
+
+
+
+
+  
+
+
+
+
+<subsection xml:id="Subsection-Transpose-of-a-Matrix">
+    <title>Transpose of a Matrix</title>
+
+
+
+<p>
+Another important operation on matrices is that of taking the <term>transpose</term>. For a matrix <m>A</m>, we denote the
+<term>transpose of <m>A</m></term> by <m>A^T</m>. Before formally defining the transpose, we explore this
+operation on the following matrix.
+<me>
+\begin{bmatrix}
+1 \amp  4 \\
+3 \amp  1 \\
+2 \amp  6
+\end{bmatrix}^{T}=
+\begin{bmatrix}
+1 \amp  3 \amp  2 \\
+4 \amp  1 \amp  6
+\end{bmatrix}
+</me>
+
+What happened? The first column became the first row and the second column
+became the second row. Thus the <m>3\times 2</m> matrix became a <m>2\times 3</m>
+matrix. The number <m>4</m> was in the first row and the second column and it
+ended up in the second row and first column. 
+</p>
+
+<p>
+The definition of the transpose is as follows.
+</p>
+
+
+
+<definition xml:id="def-matrixtranspose">
+    <title>The Transpose of a Matrix</title>
+    <statement>
+        <p>
+            Let <m>A=\begin{bmatrix} a _{ij}\end{bmatrix}</m> be an <m>m\times n</m> matrix. Then the <term>transpose of <m>A</m></term>, denoted by <m>A^{T}</m>, is the <m>n\times m</m>
+matrix given by 
+<me>
+A^{T} = \begin{bmatrix} a _{ij}\end{bmatrix}^{T}= \begin{bmatrix} a_{ji} \end{bmatrix}
+</me>
+
+The <m>( i, j)</m>-entry of <m>A</m> becomes the 
+<m>( j,i)</m>-entry of <m>A^T</m>. 
+        </p>
+    </statement>
+</definition>
+
+<p> 
+Here is a short exercise to warm you up to the transpose matrix.
+</p> 
+
+
+<problem xml:id="ex-transposematrix">
+    <statement>
+        <p>
+            Calculate <m>A^T</m> for the following matrix
+<me>
+A =
+\begin{bmatrix}
+1 \amp  2 \amp  -6 \\
+3 \amp  5 \amp  4
+\end{bmatrix}.
+</me>
+       </p>
+    </statement>
+    <answer>
+        <p>
+            <me>
+A^T = 
+\begin{bmatrix}
+1 \amp  3 \\
+2 \amp  5 \\
+-6 \amp  4
+\end{bmatrix}.
+</me>
+
+Note that <m>A</m> is a <m>2 \times 3</m> matrix, while <m>A^T</m> is a <m>3 \times 2</m> matrix. The columns of <m>A</m> are the rows of <m>A^T</m>, and the rows of <m>A</m> are the columns of <m>A^T</m>.
+       </p>
+    </answer>
+</problem>
+
+
+
+
+
+<theorem xml:id="th-transposeproperties">
+    <title>Properties of the Transpose of a Matrix</title>
+    <statement>
+        <p>
+            Let <m>A</m> be an <m>m\times n</m> matrix, <m>B</m> an <m>n\times p</m> matrix, and <m>k</m> a scalar. Then
+<ol>
+<li xml:id="item-transoftrans">
+  <p>
+<m>\left(A^{T}\right)^{T} = A</m> </p>
+</li>
+<li xml:id="item-matrixtranspose1">
+    <p> 
+        <m>\left( AB\right) ^{T}=B^{T}A^{T} </m>
+    </p>
+</li>
+<li xml:id="item-matrixtranspose2">
+  <p>
+<m>\left( A+ B\right) ^{T}=A^{T}+ B^{T}</m>   </p>
+</li>
+<li xml:id="item-matrixtranspose3">
+  <p> 
+<m>\left(kA\right)^T=kA^T</m> </p>
+</li>
+</ol>
+        </p>
+    </statement>
+</theorem>
+
+<p>
+We will prove <xref ref="item-matrixtranspose1"/>.  The remaining properties are left as exercises.
+</p>
+
+
+<proof>
+    <p>[Proof of <xref ref="item-matrixtranspose1"/>:]
+Note that <m>A</m> and <m>B</m> have compatible dimensions, so that <m>AB</m> is defined and has dimensions <m>m\times p</m>.  
+Thus, <m>(AB)^T</m> has dimensions <m>p\times m</m>.  On the right side of the equality, <m>A^T</m> has dimensions <m>n\times m</m>, 
+and <m>B^T</m> has dimensions <m>p\times n</m>.  Therefore <m>B^TA^T</m> is defined and has dimensions <m>p\times m</m>.  
+    </p> 
+    
+    <p> 
+    Now we know that <m>(AB)^T</m> and <m>B^TA^T</m> have the same dimensions.
+    </p>
+
+<p>
+To show that <m>(AB)^T=B^TA^T</m> we need to show that their corresponding entries are equal. 
+Recall that the <m>(i,j)</m>-entry of <m>AB</m> is given by
+the dot product of the <m>i^{th}</m> row of <m>A</m> and the <m>j^{th}</m> column of <m>B</m>.  
+The same dot product is also the <m>(j,i)</m>-entry of <m>(AB)^T</m>.  
+</p>
+
+<p>
+The <m>(j,i)</m>-entry of <m>B^TA^T</m> is given by the dot product of the <m>j^{th}</m> row of <m>B^T</m> and the <m>i^{th}</m> column of <m>A^T</m>.  But the <m>j^{th}</m> row of <m>B^T</m> is has the same entries as the <m>j^{th}</m> column of <m>B</m>, and   the <m>i^{th}</m> column of <m>A^T</m> has the same entries as the <m>i^{th}</m> row of <m>A</m>.  Therefore the <m>(j,i)</m>-entry of <m>B^TA^T</m> is also equal to the <m>(i,j)</m>-entry of <m>AB</m>.
+</p>
+
+<p>
+Thus, the corresponding components of <m>(AB)^T</m> are equal and we conclude that <m>(AB)^T=B^TA^T</m>.
+</p>
+</proof>
+
+
+<p>
+The transpose of a matrix is related to other important topics. Consider the following definition.  
+</p>
+
+<definition xml:id="def-symmetricandskewsymmetric">
+    <title>Symmetric and Skew Symmetric Matrices</title>
+    <statement>
+        <p>
+            An <m>n\times n</m> matrix <m>A</m> is said to be
+<term>symmetric</term> if <m>A=A^{T}.</m> It is said to be
+<term>skew symmetric</term> if <m>A=-A^{T}.</m>
+        </p>
+    </statement>
+</definition>
+
+
+<p>
+We will explore these definitions in the following examples.
+</p>
+
+
+<example xml:id="ex-symmetricmatrix">
+    <statement>
+        <p>
+            Let
+<me>
+A=
+\begin{bmatrix}
+2 \amp  1 \amp  3 \\
+1 \amp  5 \amp  -3 \\
+3 \amp  -3 \amp  7
+\end{bmatrix}.
+</me>
+Show that <m>A</m> is symmetric.
+       </p>
+    </statement>
+    <answer>
+        <p>
+            <me>
+A^{T} =
+\begin{bmatrix}
+2 \amp  1 \amp  3 \\
+1 \amp  5 \amp  -3 \\
+3 \amp  -3 \amp  7
+\end{bmatrix}.
+</me>
+Hence, <m>A = A^{T}</m>, so <m>A</m> is symmetric.
+       </p>
+    </answer>
+</example>
+
+<example xml:id="ex-skewsymmetricmatrix">
+    <statement>
+        <p>
+            Let
+<me>
+A=
+\begin{bmatrix}
+0 \amp  1 \amp  3 \\
+-1 \amp  0 \amp  2 \\
+-3 \amp  -2 \amp  0
+\end{bmatrix}.
+</me>
+Show that <m>A</m> is skew symmetric.
+       </p>
+    </statement>
+    <answer>
+        <p>
+            <me>
+A^{T} = 
+\begin{bmatrix}
+0 \amp  -1 \amp  -3\\
+1 \amp   0 \amp  -2\\
+3 \amp   2 \amp   0
+\end{bmatrix}.
+</me>
+
+Each entry of <m>A^T</m> is equal to <m>-1</m> times the same entry of <m>A</m>. 
+Hence, <m>A^{T} = - A</m> and so by <xref ref="def-symmetricandskewsymmetric"/>, <m>A</m> is skew symmetric.
+       </p>
+    </answer>
+</example>
+
+
+<p>
+A special case of a symmetric matrix is a <term>diagonal matrix</term>.  A diagonal matrix is a square matrix whose entries outside of the main diagonal are all zero.  The identity matrix <m>I</m> is a diagonal matrix.  Here is another example.
+<me>
+    \begin{bmatrix}2\amp 0\amp 0\amp 0\\0\amp -3\amp 0\amp 0\\0\amp 0\amp 1\amp 0\\0\amp 0\amp 0\amp 4\end{bmatrix}.
+</me>
+</p>
+</subsection>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<exercises>
+<exercise xml:id="prob-matrixops1">
+    <statement>
+        <p>
+            If 
+<me>
+    A=\begin{bmatrix}2\amp -1\\3\amp 4\end{bmatrix}\quad\text{and}\quad B=\begin{bmatrix}3\amp 0\\-2\amp 1\end{bmatrix}
+</me>
+
+then what is the matrix <m>2(A+B)</m>?
+</p>
+</statement>
+
+<answer>
+<p>
+    <me>
+2(A+B) = \begin{bmatrix}10\amp -2\\2\amp 10\end{bmatrix}
+    </me>
+</p>
+</answer>
+</exercise>
+
+
+
+    <exercise xml:id="prob-matrixops2">
+        <statement>
+            <p>
+                If 
+    <me>
+        A=\begin{bmatrix}2\amp -1\\3\amp 4\end{bmatrix}\quad\text{and}\quad B=\begin{bmatrix}3\amp 0\\-2\amp 1\end{bmatrix}
+    </me>
+    
+    then what is the matrix <m>3A-2B</m>?
+</p>
+    </statement>
+    
+    <answer>
+<p>
+        <me>
+    3A-2B=\begin{bmatrix}0\amp -3\\13\amp 10\end{bmatrix}
+        </me>
+ </p>
+    </answer>
+</exercise>
+
+
+
+
+<exercise xml:id="prob-proofmataddass">
+    <statement>
+        <p>
+            Prove properties <xref ref="item-mataddass"/> and  <xref ref="item-mataddid"/> of <xref ref="th-propertiesofaddition"/>.
+        </p>
+    </statement>
+</exercise>
+
+<exercise xml:id="prob-proofpropertiesscalarmult">
+    <statement>
+        <p>
+            Prove <xref ref="th-propertiesscalarmult"/>.
+        </p>
+    </statement>
+</exercise>
+
+
+
+
+
+
+
+
+
+
+
+<!--Matrix multiplication exercises start here-->
+
+<exercise xml:id="prob-matprodundefined">
+    <statement>
+        <p>
+            Explain why the following product is not defined.
+
+<me>
+    \begin{bmatrix}a\amp b\amp c\\d\amp e\amp f\\g\amp h\amp i\end{bmatrix}\begin{bmatrix}1\\2\\3\\4\end{bmatrix}
+</me>
+        </p>
+    </statement>
+</exercise>
+
+
+
+
+
+<exercise xml:id="prob-lincombcols">
+    <statement>
+        <p>
+            Express the given product as a linear combination of the columns of the matrix.
+
+<me>
+    \begin{bmatrix}1\amp 2\amp 3\amp 4\\5\amp 6\amp 7\amp 8\end{bmatrix}\begin{bmatrix}-2\\3\\-5\\7\end{bmatrix}.
+</me>
+        </p>
+    </statement>
+
+<answer>
+    <p>
+<me>
+    \begin{bmatrix}1\amp 2\amp 3\amp 4\\5\amp 6\amp 7\amp 8\end{bmatrix}\begin{bmatrix}-2\\3\\-5\\7\end{bmatrix}=-2\begin{bmatrix}1\\5\end{bmatrix}+3\begin{bmatrix}2\\6\end{bmatrix}+-5\begin{bmatrix}3\\7\end{bmatrix}+7\begin{bmatrix}4\\8\end{bmatrix}
+</me>
+    </p>
+</answer>
+</exercise>
+
+
+
+
+
+<exercisegroup xml:id="prob-matproddim">
+<introduction>
+    <p>
+        Predict the dimensions of each product.
+    </p>
+</introduction>
+
+<exercise>
+    <statement>
+        <p>
+            <me>
+    \begin{bmatrix}1\amp 2\amp 3\end{bmatrix}\begin{bmatrix}4\\5\\6\end{bmatrix}
+</me>
+</p>
+</statement>
+
+<answer>
+<p>
+Dimensions of product: <m>1\times 1</m>.
+</p>
+</answer>
+</exercise>
+
+<exercise>
+    <statement>
+ <p>
+ <me>
+    \begin{bmatrix}1\amp 2\\3\amp 4\\5\amp 6\end{bmatrix}\begin{bmatrix}1\amp 2\amp 3\amp 4\\5\amp 6\amp 7\amp 8\end{bmatrix}
+</me>
+</p>
+</statement>
+
+<answer>
+    <p>
+Dimensions of product: <m>3\times 4</m>
+</p>
+</answer>
+        
+</exercise>
+</exercisegroup>
+
+
+
+
+<exercisegroup xml:id="prob-matprod">
+<introduction>
+    <p>
+    Find each product.
+    </p>
+</introduction>
+
+<exercise>
+    <statement>
+        <p>
+            <me>
+    \begin{bmatrix}1\amp 3\amp -2\amp 1\\-2\amp 1\amp 0\amp 4\end{bmatrix}\begin{bmatrix}4\\-2\\1\\1\end{bmatrix}
+</me>
+        </p>
+    </statement>
+    <answer>
+        <p>
+    <me>\begin{bmatrix}-3\\-6\end{bmatrix}</me>
+    </p>
+    </answer>
+</exercise>
+
+<exercise>
+    <statement>
+        <p>
+            <me>
+    \begin{bmatrix}1\amp 2\amp 3\end{bmatrix}\begin{bmatrix}-1\amp 2\amp -3\amp 1\\1\amp 1\amp -1\amp -2\\0\amp 1\amp 2\amp 1\end{bmatrix}
+</me>
+        </p>
+    </statement>
+    <answer>
+        <p>
+    <me>\begin{bmatrix}1\amp 7\amp 1\amp 0\end{bmatrix}</me>
+    </p>
+    </answer>
+</exercise>
+
+<exercise>
+    <statement>
+        <p>
+            <me>
+    \begin{bmatrix}1\amp 2\\-1\amp 0\\2\amp 3\\-4\amp -1\end{bmatrix}\begin{bmatrix}-1\amp 1\\2\amp -3\end{bmatrix}
+</me>
+        </p>
+    </statement>
+    <answer>
+        <p>
+    <me>\begin{bmatrix}3\amp -5\\1\amp -1\\4\amp -7\\2\amp -1\end{bmatrix}</me>
+    </p>
+    </answer>
+</exercise>
+</exercisegroup>
+
+
+
+
+
+
+
+<!--Transpose exercies-->
+
+
+
+
+
+
+<exercise xml:id="prob-transpropsproofs">
+    <statement>
+        <p>
+            Prove Properties <xref ref="item-transoftrans"/>, <xref ref="item-matrixtranspose2"/> and <xref ref="item-matrixtranspose3"/> of <xref ref="th-transposeproperties"/>.
+        </p>
+    </statement>
+</exercise>
+
+<exercise xml:id="prob-ATtimesAdimensions">
+    <statement>
+        <p>
+            Let <m>A</m> be an arbitrary matrix.  What can you say about the dimensions of the product <m>A^TA</m>?
+        </p>
+    </statement>
+</exercise>
+
+<exercisegroup>
+<introduction>
+    <p>
+    Classify each matrix as symmetric, skew symmetric, or neither.
+    </p>
+</introduction>
+
+<exercise>
+    <statement>
+        <p>
+           
+<me>
+    \begin{bmatrix}
+0 \amp  -1 \amp  -3\\
+1 \amp  -1 \amp  -2\\
+3 \amp   2 \amp   0
+\end{bmatrix}
+</me>
+</p>
+</statement>
+
+<choices>
+  <choice>
+      <statement>
+          <p> Symmetric </p>
+      </statement>
+  </choice>
+   <choice>
+      <statement>
+          <p> Skew symmetric </p>
+      </statement>
+  </choice>
+       <choice correct="yes">
+      <statement>
+          <p> Neither </p>
+      </statement>
+  </choice>
+</choices>
+</exercise>
+
+
+<exercise xml:id="prob-symmetricclassification2">
+    <statement>
+        <p>
+<me>
+    \begin{bmatrix}
+0 \amp  1 \amp  -3\\
+-1 \amp  0 \amp  -2\\
+3 \amp   2 \amp   0
+\end{bmatrix}
+</me>
+</p>
+</statement>
+
+<choices>
+  <choice>
+      <statement>
+          <p> Symmetric </p>
+      </statement>
+  </choice>
+   <choice correct="yes">
+      <statement>
+          <p> Skew symmetric </p>
+      </statement>
+  </choice>
+       <choice>
+      <statement>
+          <p> Neither </p>
+      </statement>
+  </choice>
+</choices>
+</exercise>
+
+
+
+<exercise xml:id="prob-symmetricclassification3">
+    <statement>
+        <p>
+ <me>
+    \begin{bmatrix}
+1 \amp  1 \amp  3\\
+1 \amp  -1 \amp  2\\
+3 \amp   2 \amp   4
+\end{bmatrix}
+</me>
+        </p>
+    </statement>
+
+
+<choices>
+  <choice correct="yes">
+      <statement>
+          <p> Symmetric </p>
+      </statement>
+  </choice>
+   <choice>
+      <statement>
+          <p> Skew symmetric </p>
+      </statement>
+  </choice>
+       <choice>
+      <statement>
+          <p> Neither </p>
+      </statement>
+  </choice>
+</choices>
+</exercise>
+</exercisegroup>
+
+
+
+<exercise xml:id="prob-4by4symmetricex">
+    <statement>
+        <p>
+            Give your own example of a <m>4\times 4</m> skew symmetric matrix.
+        </p>
+    </statement>
+</exercise>
+
+<exercise>
+    <statement>
+        <p>
+Make a conjecture about the main diagonal entries of a skew symmetric matrix.  Prove your conjecture.
+        </p>
+    </statement>
+</exercise>
+
+
+
+
+
+
+
+
+</exercises>
+</section>

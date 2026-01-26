@@ -1,0 +1,913 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<section xml:id="Section-Orthogonality-and-Projections" xmlns:xi="http://www.w3.org/2001/XInclude">
+    <title>Orthogonality and Projections</title>
+
+
+
+  
+
+
+
+<subsection xml:id="Subsection-Orthogonal-and-Orthonormal-Sets">
+    <title>Orthogonal and Orthonormal Sets</title>
+<p>
+In this section, we examine what it means for vectors (and sets of
+vectors) to be orthogonal and orthonormal. Recall that two non-zero vectors are orthogonal if their dot product is zero.  
+A collection of non-zero vectors in <m>\R^n</m> is called <term>orthogonal</term> if the vectors are pair-wise orthogonal.  
+</p> 
+
+<p>
+The diagram below shows two orthogonal vectors in <m>\R^2</m> and three orthogonal vectors in <m>\R^3</m>.
+</p>
+
+
+<image width="65%">
+   <shortdescription>Perpendicular vectors drawn</shortdescription>
+    <latex-image>
+      \begin{tikzpicture}[scale=0.5]
+\draw[line width=0.5pt, dashed](-2,-0.5)--(2,-0.5)--(2,3.5)--(-2,3.5)--cycle;
+\draw[line width=2pt,red,-stealth](0,0)--(1.5,0.5);  
+\draw[line width=2pt,blue,-stealth](0,0)--(-1,3);
+\node[] at (-0.5, -1.5)  (p2)    {Orthogonal vectors in \(\R^2\)};
+     \end{tikzpicture}
+    </latex-image>
+</image>
+
+<image width="65%">
+   <shortdescription>Continuation of above</shortdescription>
+    <latex-image>
+      \begin{tikzpicture}[scale=0.5]
+	\draw[line width=2pt,red,-stealth](0,0,0)--(4,1,0);
+    \draw[line width=2pt,blue,-stealth](0,0,0)--(-0.5,2,0);
+    \draw[line width=2pt,black,-stealth](0,0,0)--(0,0,5);
+    \node[] at (3, -3,1.5)  (p2)    {Orthogonal vectors in \(\R^3\)};
+        \draw[-,line width=0.2mm, dashed](6.5,3.5,5.5)--(6.5,-1,5.5) ;
+    \draw[-,line width=0.2mm, dashed](6.5,3.5,5.5)--(-1,3.5,5.5) ;
+    \draw[-,line width=0.2mm, dashed](6.5,3.5,5.5)--(6.5,3.5,-1) ;
+    \draw[-,line width=0.2mm, dashed](-1,-1,5.5)--(6.5,-1,5.5) ;
+    \draw[-,line width=0.2mm, dashed](-1,-1,5.5)--(-1,3.5,5.5) ;
+    \draw[-,line width=0.2mm, dashed](6.5,-1,5.5)--(6.5,-1,-1) ;
+    \draw[-,line width=0.2mm, dashed](6.5,3.5,-1)--(6.5,-1,-1) ;
+    \draw[-,line width=0.2mm, dashed](6.5,3.5,-1)--(-1,3.5,-1) ;
+    \draw[-,line width=0.2mm, dashed](-1,3.5,5.5)--(-1,3.5,-1) ;
+            \end{tikzpicture}
+    </latex-image>
+</image>
+
+<p>
+If every vector in an orthogonal set of vectors is also a unit vector, then we say that the given set of vectors is <term>orthonormal</term>.
+</p> 
+
+
+
+<image width="65%">
+   <shortdescription>An orthonormal set drawn this time for emphasis</shortdescription>
+    <latex-image>
+      \begin{tikzpicture}[scale=0.5]
+\draw[line width=2pt,red,-stealth](0,0)--(3,4);  
+\draw[line width=2pt,blue,-stealth](0,0)--(-4,3);
+\node[] at (-1, -1)  (p2)    {An orthonormal set of two vectors};
+\node[] at (-1.8, 2)  (p2)    {1};
+\node[] at (1.3, 2.5)  (p2)    {1};
+     \end{tikzpicture}
+    </latex-image>
+</image>
+
+<p>
+Formally, we can define orthogonal and orthonormal vectors as follows.
+</p>
+
+
+<definition xml:id="orthset">
+
+    <statement>
+        <p>
+            Let <m>\{ \mathbf{v}_1, \mathbf{v}_2, \cdots, \mathbf{v}_k \}</m> be a set of nonzero
+vectors in <m>\R^n</m>. Then this set is called an
+<term>orthogonal set</term> if 
+<m>\mathbf{v}_i \cdot \mathbf{v}_j = 0</m> for all <m>i \neq j</m>.
+Moreover, if <m>\norm{\mathbf{v}_i}=1</m> for <m>i=1,\ldots,m</m> (i.e., each vector in the set is a unit vector), we say the set of vectors is an <term>orthonormal set</term>.
+        </p>
+    </statement>
+</definition>
+
+<p>
+An orthogonal set of vectors may not be orthonormal.  To convert an orthogonal set to an orthonormal set, we need to divide each vector by its own length.
+</p> 
+
+
+<definition xml:id="normalizing">
+
+    <statement>
+        <p>
+            <term>Normalizing</term> an orthogonal set is the process of turning an orthogonal set into an orthonormal set.
+If <m>\{ \mathbf{v}_1, \mathbf{v}_2, \ldots, \mathbf{v}_k\}</m>
+is an orthogonal subset of <m>\R^n</m>,
+then
+<me> \left \lbrace
+\frac{1}{\norm{\mathbf{v}_1}}\mathbf{v}_1,
+\frac{1}{\norm{\mathbf{v}_2}}\mathbf{v}_2, \ldots,
+\frac{1}{\norm{\mathbf{v}_k}}\mathbf{v}_k \right \rbrace
+</me>
+is an orthonormal set.
+        </p>
+    </statement>
+</definition>
+
+<p>
+We illustrate this concept in the following example.
+</p>
+
+
+<example xml:id="ex-orthonormalset">
+    <statement>
+        <p>
+            Consider the vectors
+<me>
+\mathbf{v}_1=\begin{bmatrix}
+1 \\
+1
+\end{bmatrix},\quad \mathbf{v}_2  =
+\begin{bmatrix}
+-1 \\
+1
+\end{bmatrix}
+</me>
+
+
+Show that <m>\{\mathbf{v}_1,\mathbf{v}_2\}</m> is an orthogonal set of vectors  but not an orthonormal one. Find the corresponding orthonormal set.
+       </p>
+    </statement>
+
+    
+    <answer>
+        <p>
+            One easily verifies that <m>\mathbf{v}_1 \cdot \mathbf{v}_2 = 0</m> and
+<m>\left\{ \mathbf{v}_1, \mathbf{v}_2 \right\}</m> is an orthogonal set of
+vectors. On the other hand one can compute that <m>{\norm{\mathbf{v}_1}}= {\norm{\mathbf{v}_2}} =
+\sqrt{2} \neq 1</m> and so the set is not orthonormal.
+
+To find a corresponding orthonormal set, we need to
+normalize each vector. 
+<me>
+\mathbf{q}_1 =  \frac{1}{\norm{\mathbf{v}_1}}\mathbf{v}_1\\
+ =  \frac{1}{\sqrt{2}} \begin{bmatrix}
+1 \\
+1
+\end{bmatrix} \\
+ =
+\begin{bmatrix}
+\frac{1}{\sqrt{2}} \\
+\frac{1}{\sqrt{2}}
+\end{bmatrix}.
+</me>
+
+Similarly,
+<me>
+\mathbf{q}_2 =  \frac{1}{\norm{\mathbf{v}_2}}\mathbf{v}_2\\
+ =  \frac{1}{\sqrt{2}} \begin{bmatrix}
+-1 \\
+1
+\end{bmatrix} \\
+ =
+\begin{bmatrix}
+-\frac{1}{\sqrt{2}} \\
+\frac{1}{\sqrt{2}}
+\end{bmatrix}.
+</me>
+
+Therefore the corresponding orthonormal set is
+<me>
+\left \lbrace \mathbf{q}_1, \mathbf{q}_2 \right \rbrace =
+\left \lbrace
+\begin{bmatrix}
+\frac{1}{\sqrt{2}} \\
+\frac{1}{\sqrt{2}}
+\end{bmatrix},
+\begin{bmatrix}
+-\frac{1}{\sqrt{2}} \\
+\frac{1}{\sqrt{2}}
+\end{bmatrix}
+\right \rbrace.
+</me>
+
+You can verify that this set is orthonormal.
+       </p>
+    </answer>
+</example>
+</subsection>
+
+
+
+
+
+
+
+
+
+
+<subsection xml:id="Subsection-Orthogonal-and-Orthonormal-Bases">
+    <title>Orthogonal and Orthonormal Bases</title>
+
+    <p>
+Recall that every basis of <m>\R^n</m> (or a subspace <m>W</m> of <m>\R^n</m>) imposes a coordinate system on <m>\R^n</m> (or <m>W</m>) that can be used to express any vector of <m>\R^n</m> (or <m>W</m>) as a linear combination of the elements of the basis.  For example, vectors <m>\mathbf{v}_1</m> and <m>\mathbf{v}_2</m> impose a coordinate system onto the plane, as shown in the figure below.  We readily see that <m>\mathbf{x}</m>, contained in the plane, can be written as <m>\mathbf{x}=\mathbf{v}_1+2\mathbf{v}_2</m>.
+    </p>
+
+<image width="65%">
+   <shortdescription>ONB drawing</shortdescription>
+    <latex-image>
+      \begin{tikzpicture}[scale=1]
+\draw[line width=0.5pt, gray](-2,1)--(0.5,6);  
+\draw[line width=0.5pt, gray](-1,-2)--(3,6);
+\draw[line width=0.5pt, gray](1.5,-2)--(5.5,6);
+\draw[line width=0.5pt, gray](4,-2)--(8,6);
+\draw[line width=0.5pt, gray](6.5,-2)--(8,1);
+\draw[line width=0.5pt, gray](-2, 4.33)--(3,6);
+\draw[line width=0.5pt, gray](-2, 2.66)--(8,6);
+\draw[line width=0.5pt, gray](-2, 1)--(8,4.33);
+\draw[line width=0.5pt, gray](-2, -0.66)--(8,2.66);
+\draw[line width=0.5pt, gray](-1, -2)--(8,1);
+\draw[line width=0.5pt, gray](4,-2)--(8,-0.66);
+ \draw[line width=2pt,blue,-stealth](0,0)--(1,2);
+\draw[line width=2pt,red,-stealth](0,0)--(3,1);
+\draw[line width=2pt,-stealth](0,0)--(7,4);
+\node[blue] at (0.5, 1.5)  (p2)    {\(\mathbf{v}_1\)};
+\node[red] at (1.6, 0.2)  (p2)    {\(\mathbf{v}_2\)};
+\node[] at (3.5, 2.3)  (p2)    {\(\mathbf{x}\)};
+     \end{tikzpicture}
+    </latex-image>
+</image>
+
+<p>
+Vector <m>\mathbf{x}</m> is visually easy to work with.  In general, one way to express an arbitrary vector as a linear combination of the basis vectors is to solve a system of linear equations, which can be costly.  One reason we like <m>\{\mathbf{i},\mathbf{j}\}</m> as a basis of <m>\R^2</m> is because any vector <m>\mathbf{x}</m> of <m>\R^2</m> can be easily expressed as the sum of the orthogonal projections of <m>\mathbf{x}</m> onto the basis vectors <m>\mathbf{i}</m> and <m>\mathbf{j}</m>, as shown below.
+</p> 
+
+
+<image width="65%">
+   <shortdescription>ONB completed</shortdescription>
+    <latex-image>
+      \begin{tikzpicture}[scale=1.4]
+ \draw[\lt -\gt ] (-1,0)--(3.5,0);
+  \draw[\lt -\gt ] (0,-1)--(0,3.5);
+  \draw[line width=6pt,-stealth, black!20!white](0,0)--(2,0);
+  \draw[line width=6pt,-stealth, black!20!white](0,0)--(0,3);
+\draw[line width=2pt,red,-stealth](0,0)--(1,0);  
+\draw[line width=2pt,blue,-stealth](0,0)--(0,1);
+\draw[line width=2pt,-stealth](0,0)--(2,3);  
+\draw[line width=0.5pt,dashed](2,3)--(2,0);  
+\draw[line width=0.5pt,dashed](2,3)--(0,3); 
+\node[] at (1.7, -0.4)  (p2)    {\(\mbox{proj}_{\mathbf{i}}\mathbf{x}\)};
+\node[] at (-0.7, 2.5)  (p2)    {\(\mbox{proj}_{\mathbf{j}}\mathbf{x}\)};
+\node[] at (3, 3.1)  (p2)    {\(\mathbf{x}=\mbox{proj}_{\mathbf{i}}\mathbf{x}+\mbox{proj}_{\mathbf{j}}\mathbf{x}\)};
+\node[red] at (0.5, -0.3)  (p2)    {\(\mathbf{i}\)};
+\node[blue] at (-0.3, 0.5)  (p2)    {\(\mathbf{j}\)};
+     \end{tikzpicture}
+    </latex-image>
+</image>
+
+<p>
+We can see why an ``upright" coordinate system with basis <m>\{\mathbf{i},\mathbf{j}\}</m> works well.  
+What if we tilt this coordinate system while preserving the orthogonal relationship between the basis vectors? 
+</p> 
+
+<p>
+The following exploration allows you to investigate the consequences.
+</p> 
+
+
+<exploration xml:id="exp-orth1a">
+    <p>
+        In the following GeoGebra interactive, vectors <m>\mathbf{v}_1</m> and <m>\mathbf{v}_2</m> are orthogonal (slopes of the lines containing them are negative reciprocals of each other).  These vectors are clearly linearly independent and span <m>\R^2</m>.  Therefore <m>\{\mathbf{v}_1,\mathbf{v}_2\}</m> is a basis of <m>\R^2</m>.  
+    
+    Let <m>\mathbf{x}</m> be an arbitrary vector.  Orthogonal projections of <m>\mathbf{x}</m> onto <m>\mathbf{v}_1</m> and <m>\mathbf{v}_2</m> are depicted in light grey.
+    <ul>
+           <li>
+      <p> Use the tip of vector <m>\mathbf{x}</m> to manipulate the vector and convince yourself that <m>\mathbf{x}</m> is always the diagonal of the parallelogram (a rectangle!) determined by the projections. </p>
+</li>
+        <li>
+      <p> Use the tips of <m>\mathbf{v}_1</m> and <m>\mathbf{v}_2</m> to change the basis vectors.  What happens when <m>\mathbf{v}_1</m> and <m>\mathbf{v}_2</m> are no longer orthogonal? </p>
+</li>
+        <li>
+      <p> Pick another pair of orthogonal vectors <m>\mathbf{v}_1</m> and <m>\mathbf{v}_2</m>.  Verify that <m>\mathbf{x}</m> is the sum of its projections. </p>
+</li>
+    </ul>
+</p> 
+
+<figure>
+  <caption>
+  </caption>
+  <interactive xml:id="geogebra-ONB-interactive" platform="geogebra" width="200%" aspect="800:600">
+    <slate xml:id="ONB-interactive" surface="geogebra" material="nsqzhsxv" aspect="800:600" />
+  </interactive>
+</figure>
+</exploration>
+
+<p> 
+As you have just discovered in <xref ref="exp-orth1a"/>, we can express an arbitrary vector of <m>\R^2</m> as the sum of its projections onto the basis vectors, 
+provided that the basis is orthogonal. It turns out that this result holds for any subspace of <m>\R^n</m>, 
+making a basis consisting of orthogonal vectors especially useful. 
+</p> 
+
+<p> 
+If an orthogonal set is a basis, we call it an
+<term>orthogonal basis</term>. Similarly, if an orthonormal set is a basis, we call it an <term>orthonormal basis</term>.
+</p> 
+
+<p>
+The following theorem generalizes our observation in <xref ref="exp-orth1a"/>.  
+As you read the statement of the theorem, it will be helpful to recall that the orthogonal projection of vector <m>\mathbf{x}</m> 
+onto a non-zero vector <m>\mathbf{d}</m> is given by
+<men xml:id="eq-orthProj">
+\mbox{proj}_{\mathbf{d}}\mathbf{x}=\left(\frac{\mathbf{x}\cdot\mathbf{d}}{\norm{\mathbf{d}}^2}\right)\mathbf{d}.
+</men>
+</p> 
+
+
+<theorem xml:id="th-fourierexpansion">
+
+    <statement>
+        <p>
+            Let <m>W</m> be a subspace of <m>\R^n</m> and suppose <m>\{ \mathbf{f}_1, \mathbf{f}_2, \ldots, \mathbf{f}_m \}</m>
+is an orthogonal basis of <m>W</m>.
+Then for every <m>\mathbf{x}</m> in <m>W</m>,
+<men xml:id="FourierEqn">
+\mathbf{x} =
+\left(\frac{\mathbf{x}\cdot \mathbf{f}_1}{\norm{\mathbf{f}_1}^2}\right) \mathbf{f}_1 +
+\left(\frac{\mathbf{x}\cdot \mathbf{f}_2}{\norm{\mathbf{f}_2}^2}\right) \mathbf{f}_2 +
+\cdots +
+\left(\frac{\mathbf{x}\cdot \mathbf{f}_m}{\norm{\mathbf{f}_m}^2}\right) \mathbf{f}_m.
+</men>
+        </p>
+    </statement>
+
+
+<proof>
+    <p>
+We may express <m>\mathbf{x}</m> as a linear combination of the basis elements:
+<me> \mathbf{x} =
+c_1 \mathbf{f}_1 +
+c_2 \mathbf{f}_2 +
+\cdots +
+c_m \mathbf{f}_m.
+</me> 
+We claim that <m>c_i = \frac{\mathbf{x}\cdot \mathbf{f}_i}{\norm{\mathbf{f}_i}^2}</m> for <m>i=1,\ldots,m</m>. To see this, we take the dot product of
+each side with the vector <m>\mathbf{f}_i</m> and obtain the following.
+
+<me>
+  \mathbf{x} \cdot \mathbf{f}_i =  \left(c_1\mathbf{f}_1 +
+c_2\mathbf{f}_2 +
+\cdots +
+c_m\mathbf{f}_m\right) \cdot \mathbf{f}_i 
+</me>
+Our basis is orthogonal, so <m>\mathbf{f}_j \cdot \mathbf{f}_i = 0</m> for all <m>j \neq i</m>, 
+which means after we distribute the dot product, only one term will remain on the right-hand side.  We have 
+<me>
+  \mathbf{x} \cdot \mathbf{f}_i =  c_i\mathbf{f}_i \cdot \mathbf{f}_i.
+</me>
+
+We now divide both sides by <m>\mathbf{f}_i \cdot \mathbf{f}_i = \norm{\mathbf{f}_i}^2</m>, and since our claim holds for <m>i=1,\ldots,m</m>, the proof is complete.
+    </p>
+</proof>
+</theorem>
+
+
+<p>
+In <xref ref="th-fourierexpansion"/> shows one important benefit of a basis being orthogonal. 
+ With an orthogonal basis it is easy to represent any vector in terms of the basis vectors.   The example below exemplifies these new ideas.
+</p> 
+
+<example xml:id="fourier">
+    <statement>
+        <p>
+            Let
+<me>\mathbf{f}_1= \begin{bmatrix}
+1 \\ -1 \\ 2
+\end{bmatrix}, \quad 
+\mathbf{f}_2= \begin{bmatrix}
+0 \\ 2 \\ 1 
+\end{bmatrix},
+\mathbf{f}_3 =\begin{bmatrix}
+5 \\ 1 \\ -2
+\end{bmatrix}, \quad 
+\text{and} \quad
+\mathbf{x} =\begin{bmatrix}
+1 \\ 1 \\ 1
+\end{bmatrix}.</me>  
+
+Notice that <m>\mathcal{B}=\{ \mathbf{f}_1, \mathbf{f}_2, \mathbf{f}_3\}</m>
+is an orthogonal set of vectors, and <m>\mathcal{B}</m> spans <m>\R^3</m>.  Use this fact to write <m>\mathbf{x}</m> as  a linear combination of the vectors of <m>\mathcal{B}</m>.
+       </p>
+    </statement>
+
+
+    <answer>
+        <p>
+            We first observe that <m>\mathcal{B}</m> is a linearly independent set of vectors, and so <m>\mathcal{B}</m> is a basis for <m>\R^3</m>. Next we apply Theorem~<xref ref="th-fourierexpansion"/> to express <m>\mathbf{x}</m> as  a linear combination of the vectors of <m>\mathcal{B}</m>.  We wish to write:
+
+<me>
+\mathbf{x}   =
+\left(\frac{\mathbf{x}\cdot \mathbf{f}_1}{\norm{\mathbf{f}_1}^2}\right) \mathbf{f}_1 +
+\left(\frac{\mathbf{x}\cdot \mathbf{f}_2}{\norm{\mathbf{f}_2}^2}\right) \mathbf{f}_2 +
+\left(\frac{\mathbf{x}\cdot \mathbf{f}_3}{\norm{\mathbf{f}_3}^2}\right) \mathbf{f}_3.
+</me>
+
+We readily compute:
+
+<me>
+\frac{\mathbf{x}\cdot\mathbf{f}_1}{\norm{\mathbf{f}_1}^2} = \frac{2}{6}, \;
+\frac{\mathbf{x}\cdot\mathbf{f}_2}{\norm{\mathbf{f}_2}^2} = \frac{3}{5},
+\mbox{ and }
+\frac{\mathbf{x}\cdot\mathbf{f}_3}{\norm{\mathbf{f}_3}^2} = \frac{4}{30}.
+</me>
+
+Therefore,
+<me> \begin{bmatrix}
+1 \\ 1 \\ 1
+\end{bmatrix}
+= \frac{1}{3}\begin{bmatrix}
+1 \\ -1 \\ 2
+\end{bmatrix}
++\frac{3}{5}\begin{bmatrix}
+0 \\ 2 \\ 1
+\end{bmatrix}
++\frac{2}{15}\begin{bmatrix}
+5 \\ 1 \\ -2
+\end{bmatrix}.</me>
+       </p>
+    </answer>
+</example>
+
+<p>
+The formula from <xref ref="th-fourierexpansion"/> is easy to use, and it becomes even easier when our basis is <em>orthonormal</em>.
+</p> 
+
+
+<corollary xml:id="cor-orthonormal">
+
+    <statement>
+        <p>
+            Let <m>W</m> be a subspace of <m>\R^n</m> and suppose <m>\{ \mathbf{q}_1, \mathbf{q}_2, \ldots, \mathbf{q}_m \}</m>
+is an orthonormal basis of <m>W</m>.
+Then for any <m>\mathbf{x}</m> in <m>W</m>,
+<me> \mathbf{x} =
+\left(\mathbf{x}\cdot \mathbf{q}_1\right) \mathbf{q}_1 +
+\left(\mathbf{x}\cdot \mathbf{q}_2\right) \mathbf{q}_2 +
+\cdots +
+\left(\mathbf{x}\cdot \mathbf{q}_m\right)  \mathbf{q}_m.
+</me>
+        </p>
+    </statement>
+
+<proof>
+    <p>
+This is a special case of <xref ref="th-fourierexpansion"/>.  Because <m>\norm{\mathbf{u_i}} = 1</m> for <m>i=1,\ldots,m</m>, %where we can compute the coefficients of <m>x</m> with respect to the basis by simply taking the dot product with each basis vector, for in this case 
+the terms are given by 
+
+<me>
+    \left(\frac{\mathbf{x}\cdot \mathbf{q}_i}{\norm{\mathbf{q}_i}^2}\right)\mathbf{q}_i=\left(\mathbf{x}\cdot \mathbf{q}_i\right) \mathbf{q}_i.
+</me>
+
+
+    </p>
+</proof>
+</corollary>
+</subsection>
+
+
+
+
+
+
+
+
+
+
+<subsection xml:id="Subsection-Orthogonal-Projection-onto-a-Subspace">
+    <title>Orthogonal Projection onto a Subspace</title>
+
+    <p>
+In the previous section we found that given a subspace <m>W</m> of <m>\R^n</m> with an orthogonal basis <m>\mathcal{B}</m>, 
+every vector <m>\mathbf{x}</m> in <m>W</m> can be expressed as the sum of the orthogonal projections of <m>\mathbf{x}</m> onto the elements of <m>\mathcal{B}</m>.  
+We wish to emphasize that our premise is <m>\mathbf{x}</m> being in <m>W</m>. 
+    </p> 
+    
+    <p> 
+    In this section, we look into the meaning of the sum of orthogonal projections of <m>\mathbf{x}</m> onto the elements of an orthogonal basis of <m>W</m> 
+    for those vectors <m>\mathbf{x}</m> of <m>\R^n</m> that are <em>not</em> in <m>W</m>.
+    </p>
+    
+
+<exploration xml:id="exp-orthProjSub">
+    <p>
+        In the interactive below, <m>W</m> is a plane spanned by <m>\mathbf{v}_1</m> and <m>\mathbf{v}_2</m>, in <m>\R^3</m>.  <m>W</m> is subspace of <m>\R^3</m>.  In the initial set up, <m>\mathbf{v}_1</m> and <m>\mathbf{v}_2</m> are orthogonal.  Vector <m>\mathbf{x}</m> is not in <m>W</m>.  
+
+Use check-boxes to construct the sum of orthogonal projections of <m>\mathbf{x}</m> onto <m>\mathbf{v}_1</m> and <m>\mathbf{v}_2</m>.  RIGHT-CLICK and DRAG to rotate the image.   
+    </p> 
+
+<figure>
+  <caption>
+  </caption>
+  <interactive xml:id="geogebra-Check-Ortho-Interactive" platform="geogebra" width="200%" aspect="950:800">
+    <slate xml:id="Check-Ortho-Interactive" surface="geogebra" material="hehqyayz" aspect="950:800" />
+  </interactive>
+</figure>
+
+<p> 
+If moved, return the basis vectors <m>\mathbf{v}_1</m> and <m>\mathbf{v}_2</m> to their default position (set <m>s_1=s_2=0</m>) to ensure that they are orthogonal. 
+</p> 
+
+
+<problem>
+<statement>
+<p>
+Rotate the image to convince yourself that the perpendiculars dropped from the tip of <m>\mathbf{x}</m> to <m>\mathbf{v}_1</m> and <m>\mathbf{v}_2</m> are indeed perpendicular to <m>\mathbf{v}_1</m> and <m>\mathbf{v}_2</m> in the diagram (you'll have to look at it just right to convince yourself of this).  Are both of these perpendiculars also necessarily perpendicular to the plane?
+</p>
+</statement>
+
+<answer>
+    <p>
+No.
+    </p>
+</answer>
+</problem> 
+
+
+<problem>
+<statement>
+    <p>
+Use sliders <m>x_1, x_2</m> and <m>x_3</m> to manipulate <m>\mathbf{x}</m>.  Rotate the figure for a better view.  What is true about about vector <m>\mathbf{p}</m>?
+<ol>
+    <li>
+        <p>
+            <m>\mathbf{p} =\mathbf{x}-(\mbox{proj}_{\mathbf{v}_1}\mathbf{x}+\mbox{proj}_{\mathbf{v}_2}\mathbf{x}).</m>
+        </p>
+    </li>
+
+    <li>
+        <p>
+            Vector <m>\mathbf{p}</m> is orthogonal to <m>W</m>.
+        </p>
+    </li>
+
+    <li>
+        <p>
+            Both of the above.
+        </p>
+    </li>
+</ol> 
+    </p>
+</statement>
+  
+<answer>
+    <p>
+Option (3): "Both of the above."
+    </p>
+</answer>
+</problem>
+
+
+<p>
+Rotate the figure so that you're looking directly down at the plane.  If you're looking at it correctly, you will notice that (1) the parallelogram determined by the projections of <m>\mathbf{x}</m> onto <m>\mathbf{v}_1</m> and <m>\mathbf{v}_2</m> is a rectangle; (2) the sum of projections, <m>\mbox{proj}_{\mathbf{v}_1}\mathbf{x}+\mbox{proj}_{\mathbf{v}_2}\mathbf{x}</m>, is located directly underneath <m>\mathbf{x}</m>, like a shadow at midday. 
+</p>
+   
+ 
+<problem>
+<statement>
+<p>
+    Use sliders <m>s_1</m> and <m>s_2</m> to manipulate the basis vectors <m>\mathbf{v}_1</m> and <m>\mathbf{v}_2</m> so that they are no longer orthogonal. Rotate the figure for a better view.  Which of the following is true?  
+<ol>
+    <li>
+        <p>
+            <m>
+                \mathbf{p} =\mathbf{x}-(\mbox{proj}_{\mathbf{v}_1}\mathbf{x}+\mbox{proj}_{\mathbf{v}_2}\mathbf{x}).
+            </m> 
+        </p>
+    </li>
+
+    <li>
+        <p>
+            Vector <m>\mathbf{p}</m> is orthogonal to <m>W</m>.
+        </p>
+    </li>
+
+
+    <li>
+        <p>
+            All of the above.
+        </p>
+    </li>
+</ol>
+
+</p>
+</statement>
+
+<answer>
+    <p>
+    Option (1): 
+    <me>
+        \mathbf{p} =\mathbf{x}-(\mbox{proj}_{\mathbf{v}_1}\mathbf{x}+\mbox{proj}_{\mathbf{v}_2}\mathbf{x}).
+    </me> 
+    </p>
+</answer>
+
+</problem>
+
+
+
+<problem>
+    <statement>
+    <p>
+        Rotate your figure so that you're looking directly down at the plane. Which of the following is true?
+
+    <ol>
+        <li>
+            <p>
+                Parallelogram determined by <m>\mathbf{v}_1</m> and <m>\mathbf{v}_2</m> is a rectangle.
+            </p>
+        </li>
+
+        <li>
+            <p>
+                <m>\mbox{proj}_{\mathbf{v}_1}\mathbf{x}+\mbox{proj}_{\mathbf{v}_2}\mathbf{x}</m> is located directly underneath <m>\mathbf{x}</m>.
+            </p>
+        </li>
+
+        <li>
+            <p>
+                Neither of the above.
+            </p>
+        </li>
+    </ol>
+    </p>
+    </statement>
+
+<answer>
+    <p>
+Option (3): Neither of the above.
+    </p>
+</answer>
+</problem> 
+</exploration>
+
+
+
+<p>
+In <xref ref="exp-orthProjSub"/>, you discovered that given a plane, spanned by orthogonal vectors <m>\mathbf{v}_1,\mathbf{v}_2</m>, in <m>\R^3</m>, 
+and a vector <m>\mathbf{x}</m>, not in the plane, we can interpret the sum of orthogonal projections of <m>\mathbf{x}</m> onto <m>\mathbf{v}_1</m> 
+and <m>\mathbf{v}_2</m> as a ``shadow" of <m>\mathbf{x}</m> that lies in the plane directly underneath the vector <m>\mathbf{x}</m>. 
+We say that this ``shadow" is an <term>orthogonal projection</term> of <m>\mathbf{x}</m> onto <m>W</m>. 
+</p> 
+
+<p>
+You have also found that if <m>\mathbf{v}_1,\mathbf{v}_2</m> are not orthogonal, the parallelogram representing the sum of the orthogonal projections of <m>\mathbf{x}</m> onto <m>\mathbf{v}_1</m> and <m>\mathbf{v}_2</m> will not be a rectangle.  In this case, <m>\mathbf{x}</m> minus this sum will NOT be orthogonal to the plane.  It is essential that <m>\mathbf{v}_1,\mathbf{v}_2</m> are orthogonal for <m>\mbox{proj}_{\mathbf{v}_1}\mathbf{x}+\mbox{proj}_{\mathbf{v}_2}\mathbf{x}</m> to be considered an orthogonal projection.  
+</p> 
+
+<p> 
+In general, we can define an orthogonal projection of <m>\mathbf{x}</m> in <m>\R^n</m> onto a subspace <m>W</m> of <m>\R^n</m> as the sum of the orthogonal projections of <m>\mathbf{x}</m> onto the elements of an orthogonal basis of <m>W</m>. 
+ A pivotal aspect of this definition is that it allows us to express <m>\mathbf{x}</m> as the sum of its orthogonal projection, <m>\mathbf{w}</m>, 
+ onto <m>W</m> and a vector orthogonal to <m>\mathbf{w}</m>, called <m>\mathbf{w}^\perp</m>.  
+ <xref ref="def-projOntoSubspace"/> and the subsequent diagram summarize this discussion.
+</p>
+
+<definition xml:id="def-projOntoSubspace">
+    <title>Projection onto a Subspace of <m>\R^n</m></title>
+    <statement>
+        <p>
+            Suppose <m>W</m> is a subspace of <m>\R^n</m> with orthogonal basis <m>\{\mathbf{f}_{1}, \mathbf{f}_{2}, \dots, \mathbf{f}_{m}\}</m>. If <m>\mathbf{x}</m> is in <m>\R^n</m>, the vector
+<men xml:id="def-projectontoWeasy">
+\mathbf{w}=\mbox{proj}_W(\mathbf{x}) = \mbox{proj}_{\mathbf{f}_1}\mathbf{x} + \mbox{proj}_{\mathbf{f}_2}\mathbf{x} + \dots + \mbox{proj}_{\mathbf{f}_m}\mathbf{x}
+</men>
+
+is called the <term>orthogonal projection</term> of <m>\mathbf{x}</m> onto <m>W</m>. 
+        </p>
+    </statement>
+</definition>
+
+<p>
+An illustration of <xref ref="def-projOntoSubspace"/> for a two-dimensional subspace <m>W</m> with orthogonal basis <m>\{\mathbf{f}_1,\mathbf{f}_2\}</m> is shown below.
+</p> 
+
+	<image width="65%">
+   <shortdescription></shortdescription>
+    <latex-image>
+        \tdplotsetmaincoords{70}{130}
+      \begin{tikzpicture}[scale=0.8]
+\filldraw[blue, opacity=0.2] (0,0,0)--(5,0,0)--(5,0,5)--(0,0,5)--cycle;
+\draw[-\gt ,line width=0.4mm, -stealth, blue](0,0,0)--(6,0,0) ;
+\draw[-\gt ,line width=0.4mm, -stealth, blue](0,0,0)--(0,0,6) ;
+\node[label={above:\(\mathbf{f}_1\)}] at (6,0,0) {};
+\node[label={above:\(W\)}] at (5.2,0,5) {};
+\node[label={left:\(\mathbf{f}_2\)}] at (0,0,6) {};
+\node[label={above:\(\mathbf{x}\)}] at (2,1.5,2) {};
+\node[label={above:\(\mathbf{w}\)}] at (2.2,0,3.5) {};
+\draw[-,line width=0.2mm, dashed](4,3,4)--(4,0,4) ;
+    \draw[-,line width=0.2mm, dashed](0,0,4)--(4,0,4) ;
+    \draw[-,line width=0.2mm, dashed](4,0,4)--(4,0,0) ;
+    \draw[-\gt ,line width=1.5mm, -stealth, black,opacity=0.4](0,0,0)--(0,0,4) ;
+    \draw[-\gt ,line width=1.5mm, -stealth, black,opacity=0.4](0,0,0)--(4,0,0) ;
+   \draw[-\gt ,line width=0.8mm, -stealth, red](0,0,0)--(4,3,4) ;
+    \draw[-\gt ,line width=1.5mm, -stealth, red,opacity=0.2](0,0,0)--(4,0,4) ;
+    \node[label={below:\(\mathbf{w}=\mbox{proj}_W\mathbf{x}=\mbox{proj}_{\mathbf{f}_1}\mathbf{x}+\mbox{proj}_{\mathbf{f}_2}\mathbf{x}\)}] at (3,-1,3) {};
+          \end{tikzpicture}
+    </latex-image>
+</image>
+
+<p>
+Using <xref ref="eq-orthProj"/> multiple times, we can also express <m>\mathbf{w}</m> in <xref ref="def-projOntoSubspace"/> using the following formula.
+</p>
+
+<identity xml:id="form-orthProjOntoW">
+
+    <statement>
+        <p>
+            <men xml:id="def-projectontoW">
+\mathbf{w} = \mbox{proj}_W(\mathbf{x}) =\frac{\mathbf{x} \cdot \mathbf{f}_{1}}{\norm{\mathbf{f}_{1}}^2}\mathbf{f}_{1} + \frac{\mathbf{x} \cdot \mathbf{f}_{2}}{\norm{\mathbf{f}_{2}}^2}\mathbf{f}_{2}+ \dots +\frac{\mathbf{x} \cdot \mathbf{f}_{m}}{\norm{\mathbf{f}_{m}}^2}\mathbf{f}_{m}
+</men>
+        </p>
+    </statement>
+</identity>
+</subsection>
+
+
+
+
+
+
+
+
+
+<subsection xml:id="Subsection-Orthogonal-Decomposition-of-x">
+    <title>Orthogonal Decomposition of <m>\mathbf{x}</m></title>
+<p>
+From before, <xref ref="def-projOntoSubspace"/> allows us to express <m>\mathbf{x}</m> as the sum of its orthogonal projection, <m>\mathbf{w}=\mbox{proj}_W\mathbf{x}</m>, located in <m>W</m>, and a vector we will call <m>\mathbf{w}^\perp</m> (pronounced ``W-perp"), given by <m>\mathbf{w}^\perp=\mathbf{x}-\mathbf{w}</m>. This decomposition of <m>\mathbf{x}</m> is shown in the diagram below.  
+</p>
+
+
+	<image width="65%">
+   <shortdescription></shortdescription>
+    <latex-image>
+        \tdplotsetmaincoords{70}{130}
+      \begin{tikzpicture}[scale=0.8]
+\filldraw[blue, opacity=0.2] (0,0,0)--(5,0,0)--(5,0,5)--(0,0,5)--cycle;
+\node[label={above:\(\mathbf{x}\)}] at (2,1.5,2) {};
+\node[label={above:\(\mathbf{w}\)}] at (2.2,0,3.5) {};
+\node[label={above:\(\mathbf{w}^{\perp}\)}] at (5.3,2.2,6) {};
+\draw[-\gt ,line width=0.8mm, -stealth, red](0,0,0)--(4,3,4) ;
+    \draw[-\gt ,line width=1.5mm, -stealth, red,opacity=0.2](0,0,0)--(4,0,4) ;
+\draw[-\gt ,line width=1.5mm, -stealth, red,opacity=0.2](4,0,4)--(4,3,4) ;
+    \node[label={below:\(\mathbf{x}=\mathbf{w}+\mathbf{w}^{\perp}\)}] at (3,-1,3) {};
+    \node[label={above:\(W\)}] at (5,0,1.9) {};
+          \end{tikzpicture}
+    </latex-image>
+</image>
+          
+<p>
+You have already met <m>\mathbf{w}^\perp</m>, under the name of <m>\mathbf{p}</m> in <xref ref="exp-orthProjSub"/>, and observed that this vector is orthogonal to <m>W</m>. We will now prove that <m>\mathbf{w}^\perp</m> is orthogonal to every vector in <m>W</m>.  This will be accomplished in two steps.  First, in <xref ref="th-orthDecompX"/> we will prove that <m>\mathbf{w}^\perp</m> is orthogonal to all of the basis elements of <m>W</m>. Next, you will use this result to demonstrate that <m>\mathbf{w}^\perp</m> is orthogonal to every vector in <m>W</m>.
+</p> 
+
+
+<theorem xml:id="th-orthDecompX">
+
+    <statement>
+        <p>
+            Let <m>W</m> be a subspace of <m>\R^n</m> with orthogonal basis <m>\{\mathbf{f}_{1}, \mathbf{f}_{2}, \dots, \mathbf{f}_{m}\}</m>. Let <m>\mathbf{x}</m> be in <m>\R^n</m>, and define <m>\mathbf{w}^\perp</m> as
+<me>
+\mathbf{w}^\perp=\mathbf{x}-\mbox{proj}_W\mathbf{x} = \mathbf{x}-(\mbox{proj}_{\mathbf{f}_1}\mathbf{x} + \mbox{proj}_{\mathbf{f}_2}\mathbf{x} + \dots + \mbox{proj}_{\mathbf{f}_m}\mathbf{x}).
+</me>
+Then <m>\mathbf{w}^\perp</m> is orthogonal to <m>\mathbf{f}_i</m> for <m>1\leq i\leq m</m>.
+        </p>
+    </statement>
+
+<proof>
+    <p>
+We will use <xref ref="form-orthProjOntoW"/> to show that <m>\mathbf{w}^\perp\cdot \mathbf{f}_i</m>=0.  Recall that <m>\{\mathbf{f}_{1}, \mathbf{f}_{2}, \dots, \mathbf{f}_{m}\}</m> is an orthogonal basis.  Therefore <m>\mathbf{f}_j\cdot\mathbf{f}_i=0</m> for <m>i\neq j</m>.  This observation enables us to compute as follows.
+<md>
+<mrow> \mathbf{w}^\perp\cdot \mathbf{f}_i\amp = \left[\mathbf{x}-\left(\frac{\mathbf{x} \cdot \mathbf{f}_{1}}{\norm{\mathbf{f}_{1}}^2}\mathbf{f}_{1} +\dots + \frac{\mathbf{x} \cdot \mathbf{f}_{i}}{\norm{\mathbf{f}_{i}}^2}\mathbf{f}_{i}+ \dots +\frac{\mathbf{x} \cdot \mathbf{f}_{m}}{\norm{\mathbf{f}_{m}}^2}\mathbf{f}_{m}\right)\right]\cdot \mathbf{f}_i </mrow>
+<mrow> \amp  =  \mathbf{x}\cdot \mathbf{f}_i- \frac{\mathbf{x} \cdot \mathbf{f}_{i}}{\norm{\mathbf{f}_{i}}^2}(\mathbf{f}_{i}\cdot\mathbf{f}_i) </mrow>
+<mrow> \amp =  \mathbf{x}\cdot \mathbf{f}_i- \frac{\mathbf{x} \cdot \mathbf{f}_{i}}{\norm{\mathbf{f}_{i}}^2}\norm{\mathbf{f}_{i}}^2=\mathbf{x}\cdot \mathbf{f}_i-\mathbf{x}\cdot \mathbf{f}_i=0. </mrow>
+</md>
+    </p>
+</proof>
+</theorem>
+
+<p>
+We leave the proof of the following Corollary as <xref ref="prob-proofCor"/>.
+</p>
+
+
+<corollary xml:id="cor-orthProjOntoW">
+
+    <statement>
+        <p>
+            Let <m>W</m> be a subspace of <m>\R^n</m> with orthogonal basis <m>\{\mathbf{f}_{1}, \mathbf{f}_{2}, \dots, \mathbf{f}_{m}\}</m>. Let <m>\mathbf{x}</m> be in <m>\R^n</m>, and define <m>\mathbf{w}^\perp</m> as
+<me>
+\mathbf{w}^\perp=\mathbf{x}-\mbox{proj}_W\mathbf{x} = \mathbf{x}-(\mbox{proj}_{\mathbf{f}_1}\mathbf{x} + \mbox{proj}_{\mathbf{f}_2}\mathbf{x} + \dots + \mbox{proj}_{\mathbf{f}_m}\mathbf{x})
+</me>
+Then <m>\mathbf{w}^\perp</m> is orthogonal to every vector in <m>W</m>.
+        </p>
+    </statement>
+</corollary>
+
+
+<p>
+The fact that the decomposition of <m>\mathbf{x}</m> into the sum of <m>\mathbf{w}</m> and <m>\mathbf{w}^\perp</m> is unique is the subject of the Orthogonal Decomposition Theorem which we will prove later on.
+
+Throughout this section we have worked with orthogonal bases of subspaces.  Does every subspace of <m>\R^n</m> have an orthogonal basis?  If so, how do we find one?  These questions will be addressed in subsuming sections.
+</p>
+</subsection>
+
+
+
+
+
+
+
+
+
+
+<exercises>
+<exercise xml:id="prob-rref-way">
+    <statement>
+        <p>
+            Retry <xref ref="fourier"/> using Gaussian elimination.  Which method seems easier to you?
+        </p>
+    </statement>
+</exercise>
+
+<exercise xml:id="prob-vec-eq-0">
+    <statement>
+        <p>
+            Let <m>\mathbf{x}_1, \mathbf{x}_2, \ldots, \mathbf{x}_k\in\R^n</m> and
+suppose 
+<me>
+    \mbox{span}\{\mathbf{x}_1, \mathbf{x}_2, \ldots, \mathbf{x}_k\}=\R^n.
+</me>
+Furthermore, suppose that there exists a vector <m>\mathbf{v}\in\R^n</m> for which <m>\mathbf{v}\cdot \mathbf{x}_j=0</m> for all <m>j</m>, <m>1\leq j\leq k</m>.
+Show that <m>\mathbf{v}=\mathbf{0}</m>.
+        </p>
+    </statement>
+</exercise>
+
+
+<exercisegroup>
+<introduction>
+    <p>
+        Let 
+<me>
+\mathbf{x} = \begin{bmatrix}1\\ -2\\ 1\\ 6\end{bmatrix} \quad \text{in} \ \R^4 \quad \text{and} \quad W = \mbox{span}\left(\begin{bmatrix}2\\ 1\\ 3\\ -4\end{bmatrix}, \begin{bmatrix}1\\ 2\\ 0\\ 1\end{bmatrix}\right)
+</me>
+
+in the following three exercises.
+    </p>
+</introduction>
+
+<exercise xml:id="OrthoProj1-1">
+    <statement>
+        <p>
+            Compute <m>\mbox{proj}_W(\mathbf{x})</m>.
+        </p>
+    </statement>
+    <answer>
+        <p>
+            <me>
+    \frac{1}{10}\begin{bmatrix}-9\\3\\-21\\33\end{bmatrix}.
+</me>
+        </p>
+    </answer>
+</exercise>
+
+<exercise xml:id="OrthoProj1-2">
+    <statement>
+        <p>
+            Show that <m>\left\{\begin{bmatrix}1\\ 0\\ 2\\ -3\end{bmatrix}, \begin{bmatrix}4\\ 7\\ 1\\ 2\end{bmatrix}\right\}</m> is another orthogonal basis of <m>W</m>.
+        </p>
+    </statement>
+</exercise>
+
+<exercise xml:id="OrthoProj1-3">
+    <statement>
+        <p>
+            Use the basis in <xref ref="OrthoProj1-2"/> to compute <m>\mbox{proj}_W(\mathbf{x})</m>.
+        </p>
+    </statement>
+    <answer>
+        <p>
+            <me>
+    \frac{1}{70}\begin{bmatrix}-63\\21\\-147\\231\end{bmatrix}.
+</me>
+        </p>
+    </answer>
+</exercise>
+</exercisegroup>
+
+<exercise xml:id="prob-proofCor">
+    <statement>
+        <p>
+            Prove <xref ref="cor-orthProjOntoW"/>
+        </p>
+    </statement>
+</exercise>
+
+</exercises>
+</section>

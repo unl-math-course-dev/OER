@@ -1,0 +1,1539 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<section xml:id="Section-Geometric-Transformations-of-the-Plane" xmlns:xi="http://www.w3.org/2001/XInclude">
+    <title>Extra Topic: Geometric Transformations of the Plane</title>
+
+
+
+<p> 
+In <xref ref="exp-shapeTransformation"/>, we saw how geometric shapes in the plane can be manipulated with matrix transformations.  
+In this section we will study matrix transformations of the plane in more detail by applying transformations to pixels in photos.  
+</p> 
+
+<p> 
+We treat every pixel of a picture as a point or a vector in <m>\R^2</m>.  
+A transformation is applied to each pixel, and the output pixel is colored the same color as the input pixel. 
+
+The figure below shows the result of one such transformation.
+</p> 
+
+
+
+<image width="70%">
+    <shortdescription></shortdescription>
+     <latex-image>
+       \begin{tikzpicture}[scale=2]
+ \node[inner sep=0pt, anchor=base] (gulls) at (6.25mm,0)
+   {\includegraphics[width=25mm]{/workspaces/unl_math314/assets/twobuildings.jpg}};
+            \end{tikzpicture}
+     </latex-image>
+ </image>
+
+
+<p> 
+Not all transformations are matrix transformations.  <xref ref="prob-translation-does-not-work"/> offers a cautionary tale on trying to find a matrix for a transformation when such a matrix does not exist.
+Luckily, many familiar transformations, including rotations, scalings, reflections and shears, are matrix transformations. We will focus our attention on those.
+</p> 
+
+<p> 
+Recall that by <xref ref="obs-imagesofijk"/>, we can find a matrix for each transformation by examining its action on standard basis vectors <m>\mathbf{i}</m> and <m>\mathbf{j}</m>. 
+</p> 
+
+
+
+
+
+
+
+
+
+
+<subsection xml:id="Subsection-Horizontal-and-Vertical-Scaling">
+    <title>Horizontal and Vertical Scaling</title>
+
+
+<exploration xml:id="init-vertstretch">
+    <p>
+        Let us attempt to find a matrix <m>M</m> for the transformation <m>T</m> that stretches an image vertically by a factor of 2, as shown in the figure below.  
+    </p> 
+
+<sidebyside>
+		<image width="55%">
+   <shortdescription></shortdescription>
+    <latex-image>
+      \begin{tikzpicture}[scale=2]
+\node[inner sep=0pt, anchor=base] (gulls) at (6.25mm,0)
+  {\includegraphics[width=25mm]{/workspaces/unl_math314/assets/images/gulls.jpg}};
+  \draw[\lt -\gt ] (-0.5,0)--(2,0);
+  \draw[\lt -\gt ] (0,-0.5)--(0,2);
+           \end{tikzpicture}
+    </latex-image>
+</image>
+  
+   <image width="55%">
+   <shortdescription></shortdescription>
+    <latex-image>
+      \begin{tikzpicture}[scale=2]
+ \node[inner sep=0pt, anchor=base]  (stretchedgulls) at (6.25mm,0)
+  {\includegraphics[width=25mm]{/workspaces/unl_math314/assets/stretchedgulls.jpg}};
+\draw[\lt -\gt ] (-0.5,0)--(2,0);
+  \draw[\lt -\gt ] (0,-0.5)--(0,2);
+        \end{tikzpicture}
+    </latex-image>
+</image>
+</sidebyside>
+
+<p> 
+Consider what this transformation does to the standard unit vectors.  We observe that <m>T(\mathbf{i})=\mathbf{i}</m> and <m>T(\mathbf{j})=2\mathbf{j}</m>. 
+</p> 
+
+<sidebyside>
+
+<image width="55%">
+   <shortdescription></shortdescription>
+    <latex-image>
+      \begin{tikzpicture}[scale=1.5]
+
+  \draw[\lt -\gt ] (-0.5,0)--(2.5,0);
+  \draw[\lt -\gt ] (0,-0.5)--(0,2.5);
+   \draw[-\gt ,line width=1pt,red,-stealth](0,0)--(1,0);
+   \node[red] at (0.5, -0.2)   (a) {\(\mathbf{i}\)};
+    \draw[-\gt ,line width=1pt,blue,-stealth](0,0)--(0,1);
+    \node[blue] at (-0.2, 0.5)   (b) {\(\mathbf{j}\)};
+      \end{tikzpicture}
+    </latex-image>
+</image>
+  \quad\quad
+    <image width="100%">
+   <shortdescription></shortdescription>
+    <latex-image>
+      \begin{tikzpicture}[scale=1.5]
+\draw[\lt -\gt ] (-0.5,0)--(2.5,0);
+  \draw[\lt -\gt ] (0,-0.5)--(0,2.5);
+  \node[red] at (0.5, -0.2)   (a) {\(T(\mathbf{i})\)};
+  \node[blue] at (-0.3, 1)   (b) {\(T(\mathbf{j})\)};
+   \draw[-\gt ,line width=1pt,red,-stealth](0,0)--(1,0);
+    \draw[-\gt ,line width=1pt,blue,-stealth](0,0)--(0,2);
+    
+     \end{tikzpicture}
+    </latex-image>
+</image>   
+</sidebyside>
+
+<p> 
+ This allows us to construct a candidate for the transformation matrix <m>M</m>, by making the images of <m>\mathbf{i}</m> and <m>\mathbf{j}</m> the columns of <m>M</m>.  Thus, 
+
+<me>
+    M=\begin{bmatrix}
+1 \amp  0\\
+0 \amp  2
+\end{bmatrix}
+</me>
+
+
+We can now check to see what this matrix does to an arbitrary point <m>(a, b)</m>.  Treating this point as a vector <m>[a,b]</m>, we compute
+
+<me>
+    M=\begin{bmatrix}
+1 \amp  0\\
+0 \amp  2
+\end{bmatrix}\begin{bmatrix}a\\b\end{bmatrix}=\begin{bmatrix}a\\2b\end{bmatrix}
+</me>
+
+ Thus, this transformation takes point <m>(a, b)</m> to point <m>(a, 2b)</m>.  So, the proposed transformation doubles all <m>y</m>-coordinates resulting in a vertical stretch by a factor of 2.
+    </p>
+</exploration>
+
+
+
+
+
+<p> 
+ In general, a vertical stretch (or compression) leaves <m>\mathbf{i}</m> unchanged, and scales the vector <m>\mathbf{j}</m> while preserving its vertical direction.
+ Thus, a vertical stretch (or compression) maps <m>\mathbf{i}</m> to <m>\mathbf{i}</m>, and maps <m>\mathbf{j}</m> to <m>k\mathbf{j}</m> for some positive number <m>k</m>. 
+ Similarly, a horizontal stretch (or compression) maps <m>\mathbf{i}</m> to <m>k\mathbf{i}</m>, and maps <m>\mathbf{j}</m> to <m>\mathbf{j}</m>.
+</p> 
+
+<identity xml:id="form-horvertscaling">
+    <title>Horizontal and Vertical Scaling</title>
+    <statement>
+        <p>
+            A matrix transformation induced by 
+  <men xml:id="vscale">
+M_v=\begin{bmatrix}
+1 \amp  0\\
+0 \amp  k
+\end{bmatrix},
+</men>
+where (<m>k\gt 0</m>), scales objects in the plane vertically by a factor of <m>k</m>.
+
+A matrix transformation induced by
+  <men xml:id="hscale"> 
+M_h=\begin{bmatrix}
+k \amp  0\\
+0 \amp  1
+\end{bmatrix},
+</men>
+where (<m>k\gt 0</m>), scales objects in the plane horizontally by a factor of <m>k</m>.
+        </p>
+    </statement>
+</identity>
+
+<p> 
+In stating the above formula we stipulated that <m>k\gt 0</m>.
+If we were to allow <m>k</m> to be zero, what would the resulting transformations accomplish? 
+In what way would the resulting matrices be fundamentally different from matrices <m>M_v</m> and <m>M_h</m>?
+ What would happen if <m>k</m> were allowed to be negative? See <xref ref="prob-k0"/>.
+</p> 
+</subsection> 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<subsection xml:id="Subsection-Horizontal-and-Vertical-Shears">
+    <title>Horizontal and Vertical Shears</title>
+
+<p> 
+A <term>horizontal shear</term> is a transformation that takes an arbitrary point <m>(a, b)</m> and maps it to the point <m>(a+kb, b)</m>. 
+The effect of this transformation is that all points along a fixed horizontal line slide to the left or to the right by a fixed amount.
+ Note that the higher the point <m>(a, b)</m> is above the <m>x</m>-axis, the greater is the magnitude of <m>kb</m>, resulting in a greater amount of horizontal slide.
+</p> 
+
+<sidebyside>
+<image width="55%">
+   <shortdescription></shortdescription>
+    <latex-image>
+      \begin{tikzpicture}[scale=0.8]
+
+  \draw[\lt -\gt ] (-2,0)--(4,0);
+   \draw[\lt -\gt ] (0,-2)--(0,4);
+  \draw[dashed] (-2,-1)--(4,-1);
+  \draw[dashed] (-2,1)--(4,1);
+  \draw[dashed] (-2,2)--(4,2);
+  \draw[dashed] (-2,3)--(4,3);
+  
+  
+  \fill[] (0,-1) circle (0.1cm);
+  \fill[] (1,-1) circle (0.1cm);
+  \fill[] (2,-1) circle (0.1cm);
+   
+  \fill[red] (0,0) circle (0.1cm);
+  \fill[red] (1,0) circle (0.1cm);
+  \fill[red] (2,0) circle (0.1cm);
+  
+  \fill[blue] (0,1) circle (0.1cm);
+  \fill[blue] (1,1) circle (0.1cm);
+  \fill[blue] (2,1) circle (0.1cm);
+  
+  \fill[gray] (0,2) circle (0.1cm);
+  \fill[gray] (1,2) circle (0.1cm);
+  \fill[gray] (2,2) circle (0.1cm);
+  
+  \fill[orange] (0,3) circle (0.1cm);
+  \fill[orange] (1,3) circle (0.1cm);
+  \fill[orange] (2,3) circle (0.1cm);
+  
+   
+      \end{tikzpicture}
+    </latex-image>
+</image>
+
+
+<image width="55%">
+   <shortdescription></shortdescription>
+    <latex-image>
+      \begin{tikzpicture}[scale=0.8]
+
+\draw[\lt -\gt ] (-2,0)--(4,0);
+  \draw[\lt -\gt ] (0,-2)--(0,4);
+  \draw[dashed] (-2,-1)--(4,-1);
+  \draw[dashed] (-2,1)--(4,1);
+  \draw[dashed] (-2,2)--(4,2);
+  \draw[dashed] (-2,3)--(4,3);
+   
+   \fill[] (0-0.5,-1) circle (0.1cm);
+  \fill[] (1-0.5,-1) circle (0.1cm);
+  \fill[] (2-0.5,-1) circle (0.1cm);
+   
+  \fill[red] (0,0) circle (0.1cm);
+  \fill[red] (1,0) circle (0.1cm);
+  \fill[red] (2,0) circle (0.1cm);
+  
+  \fill[blue] (0+0.5,1) circle (0.1cm);
+  \fill[blue] (1+0.5,1) circle (0.1cm);
+  \fill[blue] (2+0.5,1) circle (0.1cm);
+  
+  \fill[gray] (0+1,2) circle (0.1cm);
+  \fill[gray] (2,2) circle (0.1cm);
+  \fill[gray] (3,2) circle (0.1cm);
+  
+  \fill[orange] (1.5,3) circle (0.1cm);
+  \fill[orange] (2.5,3) circle (0.1cm);
+  \fill[orange] (3.5,3) circle (0.1cm);
+ 
+     \end{tikzpicture}
+    </latex-image>
+</image>
+</sidebyside>
+
+
+<p> 
+Adding a scalar multiple of the <m>y</m> component to the <m>x</m> component can be accomplished by matrix multiplication.  Observe that 
+
+<me>
+    \begin{bmatrix}
+1 \amp  k\\
+0 \amp  1
+\end{bmatrix}\begin{bmatrix}a\\b\end{bmatrix}=\begin{bmatrix}a+kb\\b\end{bmatrix}.
+</me>
+
+
+A <term>vertical shear</term> is a transformation that takes an arbitrary point <m>(a, b)</m> and maps it to the point <m>(a, b+ka)</m>. 
+This too, can be accomplished by matrix multiplication.
+
+<me>
+    \begin{bmatrix}
+1 \amp  0\\
+k \amp  1
+\end{bmatrix}\begin{bmatrix}a\\b\end{bmatrix}=\begin{bmatrix}a\\b+ka\end{bmatrix}.
+</me>
+</p> 
+
+<identity xml:id="form-shears">
+    <title>Horizontal and Vertical Shears</title>
+    <statement>
+        <p>
+            A matrix transformation induced by 
+  <men> 
+M_{hs}=\begin{bmatrix}
+1 \amp  k\\
+0 \amp  1
+\end{bmatrix}
+</men>
+shears the plane horizontally.
+
+A matrix transformation induced by
+  <men> 
+M_{vs}=\begin{bmatrix}
+1 \amp  0\\
+k \amp  1
+\end{bmatrix}
+</men>
+shears the plane vertically.
+        </p>
+    </statement>
+</identity>
+
+<example xml:id="ex-vertshear1">
+    <statement>
+        <p>
+            Find the matrix <m>M_{vs}</m> of a matrix transformation <m>T</m> that <em>shears</em> the image of a seagull, as shown in the figure below. 
+        </p> 
+
+<sidebyside>
+		<image width="55%">
+   <shortdescription></shortdescription>
+    <latex-image>
+      \begin{tikzpicture}[scale=2]
+\node[inner sep=0pt, anchor=base] (gulls) at (6.25mm,0)
+  {\includegraphics[width=25mm]{/workspaces/unl_math314/assets/images/gull.jpg}};
+  \draw[\lt -\gt ] (-0.5,0)--(2,0);
+  \draw[\lt -\gt ] (0,-0.5)--(0,2);
+           \end{tikzpicture}
+    </latex-image>
+</image>
+
+<image width="55%">
+   <shortdescription></shortdescription>
+    <latex-image>
+      \begin{tikzpicture}[scale=2]
+ \node[inner sep=0pt, anchor=base]  (stretchedgulls) at (6.25mm,0)
+  {\includegraphics[width=25mm]{/workspaces/unl_math314/assets/shearedgull.jpg}};
+  
+  \draw (0.5,0) arc (0:30:0.5);
+  \node[] at (0.75, 0.2)   (a) {\(30^{\circ}\)};
+
+\draw[\lt -\gt ] (-0.5,0)--(2,0);
+  \draw[\lt -\gt ] (0,-0.5)--(0,2);
+    
+     \end{tikzpicture}
+    </latex-image>
+</image>
+</sidebyside>
+</statement> 
+
+    <answer>
+        <p>
+            Consider what this transformation does to the standard unit vectors.
+        </p> 
+
+<sidebyside>
+<image width="55%">
+   <shortdescription></shortdescription>
+    <latex-image>
+      \begin{tikzpicture}[scale=2]
+
+  \draw[\lt -\gt ] (-0.5,0)--(1.5,0);
+  \draw[\lt -\gt ] (0,-0.5)--(0,1.5);
+   \draw[-\gt ,line width=1pt,red,-stealth](0,0)--(1,0);
+    \draw[-\gt ,line width=1pt,blue,-stealth](0,0)--(0,1);
+    \node[red] at (0.5, -0.1)   (a) {\(\mathbf{i}\)};
+  \node[blue] at (-0.1, 0.5)   (b) {\(\mathbf{j}\)};
+      \end{tikzpicture}
+    </latex-image>
+</image>
+
+<image width="55%">
+   <shortdescription></shortdescription>
+    <latex-image>
+      \begin{tikzpicture}[scale=2]
+
+\draw[\lt -\gt ] (-0.5,0)--(1.5,0);
+  \draw[\lt -\gt ] (0,-0.5)--(0,1.5);
+  \fill[] (1,0.58)node[above]{\((1,\tan 30^{\circ})\)} circle (0.03cm);   
+   \draw[-\gt ,line width=1pt,red,-stealth](0,0)--(1,0.58);
+    \draw[-\gt ,line width=1pt,blue,-stealth](0,0)--(0,1);
+    \node[red] at (0.65, 0.15)   (a) {\(T(\mathbf{i})\)};
+  \node[blue] at (-0.2, 0.5)   (b) {\(T(\mathbf{j})\)};
+      \end{tikzpicture}
+    </latex-image>
+</image>
+</sidebyside> 
+
+<p> 
+The tip of the vector <m>\mathbf{i}</m> slides up a vertical line and its <m>x</m>-component remains the same.  Vector <m>\mathbf{j}</m> stays fixed.  
+We observe that 
+<me>T(\mathbf{i})=\begin{bmatrix}
+1 \\
+\tan 30^{\circ}
+\end{bmatrix}=\begin{bmatrix}
+1 \\
+\sqrt{3}/3
+\end{bmatrix}</me> and <m>T(\mathbf{j})=\mathbf{j}</m>.  This allows us to construct <m>M_{vs}</m>, by making the images of <m>\mathbf{i}</m> and <m>\mathbf{j}</m> the columns of <m>M_{vs}</m>.  Thus, 
+
+<me>
+    M_{vs}=\begin{bmatrix}
+1 \amp  0\\
+\sqrt{3}/3 \amp  1
+\end{bmatrix}.
+</me>
+       </p>
+    </answer>
+</example>
+</subsection>
+
+
+
+
+
+
+
+
+
+
+
+
+<subsection xml:id="Subsection-Rotations-about-the-Origin">
+    <title>Rotations about the Origin</title>
+
+    <p> 
+It turns out that rotations about the origin are also matrix transformations.
+    </p> 
+
+<example xml:id="ex-rotate45">
+    <statement>
+        <p>
+            Let <m>R_{45^{\circ}}:\R^2\rightarrow\R^2</m> be a transformation that rotates <m>\R^2</m> countercolockwise about the origin by <m>45^{\circ}</m>. 
+            Find a matrix that induces <m>R_{45^{\circ}}</m>.
+        </p> 
+
+    <sidebyside>
+  
+		<image width="55%">
+   <shortdescription></shortdescription>
+    <latex-image>
+      \begin{tikzpicture}[scale=1.3]
+\node[inner sep=0pt] (tower) at (0,0)
+  {\includegraphics[width=45mm]{/workspaces/unl_math314/assets/tower.jpg}};
+           \end{tikzpicture}
+    </latex-image>
+</image>\quad
+<image width="55%">
+   <shortdescription></shortdescription>
+    <latex-image>
+      \begin{tikzpicture}[scale=1.3]
+\node[inner sep=0pt] (tower) at (0,0)
+  {\includegraphics[width=50mm]{/workspaces/unl_math314/assets/rotatedtower.jpg}};
+           \end{tikzpicture}
+    </latex-image>
+</image>
+</sidebyside>
+
+    </statement>
+    <answer>
+        <p>
+            Consider the action of <m>R_{\theta}</m> on the standard unit vectors. 
+        </p> 
+
+<sidebyside>
+  
+<image width="55%">
+   <shortdescription></shortdescription>
+    <latex-image>
+      \begin{tikzpicture}[scale=2.2]
+    \node[red] at (0.5, -0.1)   (a) {\(\mathbf{i}\)};
+    \node[blue] at (-0.1, 0.5)   (b) {\(\mathbf{j}\)};
+  \draw[\lt -\gt ] (-0.5,0)--(1.5,0);
+  \draw[\lt -\gt ] (0,-0.5)--(0,1.5);
+   \draw[-\gt ,line width=1pt,red,-stealth](0,0)--(1,0);
+    \draw[-\gt ,line width=1pt,blue,-stealth](0,0)--(0,1);
+      \end{tikzpicture}
+    </latex-image>
+</image>
+  <image width="55%">
+   <shortdescription></shortdescription>
+    <latex-image>
+      \begin{tikzpicture}[scale=2.2]
+\node[red] at (0.3, 0.5)   (a) {\(T(\mathbf{i})\)};
+    \node[blue] at (-0.5, 0.2)   (b) {\(T(\mathbf{j})\)};
+     \node[] at (-0.7, 0.9)   (c) {\((-\sin 45^{\circ}, \cos 45^{\circ})\)};
+      \node[] at (0.7, 0.9)   (c) {\((\cos 45^{\circ}, \sin 45^{\circ})\)};
+  \draw[\lt -\gt ] (0,-0.5)--(0,1.5);
+  \draw[\lt -\gt ] (-1,0)--(1,0);
+  \fill[] (0.71,0.71) circle (0.03cm); 
+  \fill[] (-0.71,0.71) circle (0.03cm); 
+   \draw[-\gt ,line width=1pt,red,-stealth](0,0)--(0.71,0.71);
+    \draw[-\gt ,line width=1pt,blue,-stealth](0,0)--(-0.71,0.71);
+ \filldraw[blue, opacity=0.2](0,0)--(0.71,0.71)--(0.71,0)--cycle;
+ \filldraw[orange, opacity=0.3](0,0)--(-0.71,0.71)--(0,0.71)--cycle;
+  \draw (0.25,0) arc (0:45:0.25) ;
+  \draw (0,0.25) arc (90:135:0.25) ;
+  \node[] at (-0.15, 0.35)   (a) {\(45^{\circ}\)};
+\node[] at (0.40, 0.15)   (b) {\(45^{\circ}\)};
+     \end{tikzpicture}
+    </latex-image>
+</image>
+</sidebyside>
+
+
+<p> 
+We observe that 
+<me>R_{\theta}(\mathbf{i})=\begin{bmatrix}
+\cos 45^{\circ} \\
+\sin 45^{\circ}
+\end{bmatrix}=\begin{bmatrix}
+\frac{1}{\sqrt{2}} \\
+\frac{1}{\sqrt{2}}
+\end{bmatrix} \text{ and } R_{\theta}(\mathbf{j})=\begin{bmatrix}
+-\sin 45^{\circ} \\
+\cos 45^{\circ}
+\end{bmatrix}=\begin{bmatrix}
+-\frac{1}{\sqrt{2}} \\
+\frac{1}{\sqrt{2}}
+\end{bmatrix}.</me>
+
+This allows us to construct the matrix <m>M_{\theta}</m>, by making the images of <m>\mathbf{i}</m> and <m>\mathbf{j}</m> the columns of <m>M_{\theta}</m>.  Thus, 
+
+<me>
+    M_{\theta}=\begin{bmatrix}
+\frac{1}{\sqrt{2}} \amp  -\frac{1}{\sqrt{2}}\\
+\frac{1}{\sqrt{2}} \amp  \frac{1}{\sqrt{2}}
+\end{bmatrix}.
+</me>
+       </p>
+    </answer>
+</example>
+
+<p> 
+In general, we find the rotation matrix by determining the images of the two standard vectors <m>\mathbf{i}</m> and <m>\mathbf{j}</m>.
+</p> 
+
+
+<sidebyside>
+
+<image width="55%">
+   <shortdescription></shortdescription>
+    <latex-image>
+      \begin{tikzpicture}[scale=2.5]
+  \draw[\lt -\gt ] (-0.5,0)--(1.5,0);
+  \draw[\lt -\gt ] (0,-0.5)--(0,1.5);
+  \node[red] at (0.5, -0.1)   (a) {\(\mathbf{i}\)};
+    \node[blue] at (-0.1, 0.5)   (b) {\(\mathbf{j}\)};
+   \draw[-\gt ,line width=1pt,red,-stealth](0,0)--(1,0);
+    \draw[-\gt ,line width=1pt,blue,-stealth](0,0)--(0,1);
+      \end{tikzpicture}
+    </latex-image>
+</image>
+
+<image width="55%">
+   <shortdescription></shortdescription>
+    <latex-image>
+      \begin{tikzpicture}[scale=2.5]
+\node[blue] at (-0.5, 0.5)   (a) {\(R_{\theta}(\mathbf{j})\)};
+\node[red] at (0.4, 0.4)   (b) {\(R_{\theta}(\mathbf{i})\)};
+
+\node[] at (0.9, 0.6)   (c) {\((\cos \theta,\sin \theta)\)};
+\node[] at (-0.5, 1)   (d) {\((-\sin \theta, \cos \theta)\)};
+
+\node[] at (-0.15, 0.55)   (a) {\(\theta\)};
+\node[] at (0.55, 0.15)   (b) {\(\theta\)};
+\draw[\lt -\gt ] (-1,0)--(1,0);
+  \draw[\lt -\gt ] (0,-0.5)--(0,1.5);
+  \fill[] (0.87,0.5) circle (0.03cm); 
+  \fill[] (-0.5, 0.87) circle (0.03cm); 
+   \draw[-\gt ,line width=1pt,red,-stealth](0,0)--(0.87,0.5);
+    \draw[-\gt ,line width=1pt,blue,-stealth](0,0)--(-0.5, 0.87);
+ \draw (0.5,0) arc (0:30:0.5) ;
+  \draw (0,0.5) arc (90:120:0.5) ;
+     \end{tikzpicture}
+    </latex-image>
+</image>
+</sidebyside>
+
+
+
+
+<identity xml:id="form-rotation">
+    <title>Counterclockwise Rotation</title>
+    <statement>
+        <p>
+            A matrix transformation induced by
+    <men xml:id="eq-rotation">
+M_{\theta}=\begin{bmatrix}
+\cos\theta \amp  -\sin\theta\\
+\sin\theta \amp  \cos\theta
+\end{bmatrix}
+</men>
+rotates the plane counterclockwise through angle <m>\theta</m> about the origin.
+        </p>
+    </statement>
+</identity>
+</subsection>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<subsection xml:id="Subsection-Reflections-about-Lines-of-the-Form">
+    <title>Reflections about Lines of the Form <m>y=mx</m></title>
+
+    <p> 
+When a point is reflected about a line, its image is located on the opposite side of the line and the same distance away from the line as the original point.  
+This is another example of a matrix transformation.  
+    </p> 
+
+    <p> 
+For example, the figure below shows the reflection of point <m>A</m> about line <m>l</m>.  Note that the reflection lies on a line through <m>A</m> perpendicular to <m>l</m>.
+    </p> 
+
+
+
+<image width="55%">
+   <shortdescription></shortdescription>
+    <latex-image>
+      \begin{tikzpicture}[scale=1.2]
+
+   \draw[line width=1pt](-1,2)node[below, left]{\(l\)}--(1,-2);
+  \draw[thin, dashed](-2,-1.5)--(2,0.5);
+  
+  \fill[red](1,0) circle (0.08)node[above]{\(A\)};
+  \fill[](-0.6,-0.8) circle (0.08);
+        \end{tikzpicture}
+    </latex-image>
+</image>
+
+<p>  
+Our task is to find the matrix of a reflection of the plane about an arbitrary line through the origin.  
+</p> 
+
+<exploration xml:id="init-reflectionxyaxes">
+    <p>
+        In this problem we will find the matrix for the reflection about the <m>x</m> and <m>y</m> axes.  You can easily do this on your own by finding the images of vectors <m>\mathbf{i}</m> and <m>\mathbf{j}</m>.  
+  
+  We will start with the reflection about the <m>x</m>-axis.
+  
+  
+<me>
+    \mathbf{i}=\begin{bmatrix}1\\0\end{bmatrix}\quad\text{maps to}\quad\begin{bmatrix}1\\0\end{bmatrix},
+</me>
+
+  
+  
+<me>
+    \mathbf{j}=\begin{bmatrix}0\\1\end{bmatrix}\quad\text{maps to}\quad\begin{bmatrix}0\\-1\end{bmatrix}.
+</me>
+
+  
+  So, the matrix that induces the reflection about the <m>x</m>-axis is
+  
+<me>
+    \begin{bmatrix}1\amp 0\\0\amp -1\end{bmatrix}.
+</me>
+
+Next, we will consider the reflection about the <m>y</m>-axis.
+
+<me>
+    \mathbf{i}=\begin{bmatrix}1\\0\end{bmatrix}\quad\text{maps to}\quad\begin{bmatrix}-1\\0\end{bmatrix},
+</me>
+
+  
+  
+<me>
+    \mathbf{j}=\begin{bmatrix}0\\1\end{bmatrix}\quad\text{maps to}\quad\begin{bmatrix}0\\1\end{bmatrix}.
+</me>
+
+  
+  Thus, the matrix that induces the reflection about the <m>y</m>-axis is
+  
+<me>
+    \begin{bmatrix}-1\amp 0\\0\amp 1\end{bmatrix}.
+</me>
+    </p>
+</exploration>
+  
+<p> 
+  Now we will turn our attention to transformations that reflect the plane about the line <m>y=mx</m>.  We will assume that <m>m\neq 0</m>.
+  
+  Consider the vector <m>\mathbf{i}</m> and its reflection. 
+</p> 
+
+
+<image width="55%">
+   <shortdescription></shortdescription>
+    <latex-image>
+      \begin{tikzpicture}[scale=1.2]
+
+  \draw[\lt -\gt ] (-2,0)--(2,0);
+  \draw[\lt -\gt ] (0,-2)--(0,2);
+
+  \draw[line width=1pt](-1,2)node[below, left]{\(y=mx\)}--(1,-2);
+  \draw[thin, dashed](-2,-1.5)node[below]{\(y=-\frac{1}{m}x+\frac{1}{m}\)}--(2,0.5);
+  \node[red] at (0.5, 0.2)   (a) {\(\mathbf{i}\)};
+  \node[] at (-0.5, -0.2)   (b) {\(T(\mathbf{i})\)};
+  \draw[-\gt ,line width=1pt, -stealth, red](0,0)--(1,0);
+  \draw[-\gt ,line width=1pt, -stealth](0,0)--(-0.6,-0.8);
+  \draw[dashed] (0,0) circle (1);
+ 
+      \end{tikzpicture}
+    </latex-image>
+</image>
+
+
+   
+<p> 
+   Observe that the head of the image vector, <m>T(\mathbf{i})</m>, will lie on the line that passes through <m>(1,0)</m> and is perpendicular to the line <m>y=mx</m>.  The equation of this line is given by
+   
+   <men xml:id="eq-reflectionline"> 
+   y=-\frac{1}{m}x+\frac{1}{m}.
+   </men>
+   
+ The head of <m>T(\mathbf{i})</m> will also lie on the circle with equation
+   
+<me>
+    x^2+y^2=1.
+</me>
+
+   
+   
+   To find the image of <m>\mathbf{i}</m> we need to determine where the line  <m>y=-\frac{1}{m}x+\frac{1}{m}</m> intersects the circle.  Substitution gives us
+   
+   
+<me>
+    x^2+\left(-\frac{1}{m}x+\frac{1}{m}\right)^2=1.
+</me>
+
+   After a little algebra we get
+   
+<me>
+    \left(1+\frac{1}{m^2}\right)x^2-\left(\frac{2}{m^2}\right)x+\left(\frac{1}{m^2}-1\right)=0.
+</me>
+
+   The quadratic formula yields 
+   
+<me>
+    x=1\quad\text{and}\quad x=\frac{1-m^2}{m^2+1}.
+</me>
+
+   
+   The solution <m>x=1</m> corresponds to the head of the vector <m>\mathbf{i}</m>. 
+   So, the <m>x</m>-component of <m>T(\mathbf{i})</m> is <m>x=\frac{1-m^2}{m^2+1}</m>. 
+   We find the <m>y</m>-component of <m>T(\mathbf{i})</m> by substituting <m>x=\frac{1-m^2}{m^2+1}</m> into <xref ref="eq-reflectionline"/>.
+   
+<me>
+     y=-\frac{1}{m}\left(\frac{1-m^2}{m^2+1}\right)+\frac{1}{m}=\frac{2m}{m^2+1}.
+</me>
+
+   Thus, the image of <m>\mathbf{i}</m> under this reflection is given by
+   
+<me>
+    T(\mathbf{i})=\begin{bmatrix}\frac{1-m^2}{m^2+1}\\\frac{2m}{m^2+1}\end{bmatrix}.
+</me>
+
+   
+Next we need to find the image of <m>\mathbf{j}</m>. The head of <m>T(\mathbf{j})</m> is located at one of the intersections of line <m>y=-\frac{1}{m}x+1</m> and the circle <m>x^2+y^2=1</m>.  
+</p> 
+
+
+<image width="55%">
+   <shortdescription></shortdescription>
+    <latex-image>
+      \begin{tikzpicture}[scale=1.2]
+
+  \draw[\lt -\gt ] (-2,0)--(2,0);
+  \draw[\lt -\gt ] (0,-2)--(0,2);
+ 
+  \draw[line width=1pt](-1,2)--(1,-2)node[above, right]{\(y=mx\)};
+  \draw[thin, dashed](-2,0)--(2,2)node[below,right]{\(y=-\frac{1}{m}x+1\)};
+  \node[blue] at (0.15, 0.5)   (a) {\(\mathbf{j}\)};
+  \draw[-\gt ,line width=1pt, -stealth, blue](0,0)--(0,1);
+  \draw[-\gt ,line width=1pt, -stealth](0,0)--(-0.8,0.6)node[above, left]{\(T(\mathbf{j})\)};
+  \draw[dashed] (0,0) circle (1);
+      \end{tikzpicture}
+    </latex-image>
+</image>
+ 
+
+<p> 
+We leave it to the reader to verify that
+<men>\label{eq:imageofj} T(\mathbf{j})=\begin{bmatrix}\frac{2m}{m^2+1}\\\frac{m^2-1}{m^2+1}\end{bmatrix}</men>
+
+This reflection is induced by the matrix 
+
+<me>
+    M_{y=mx}=\begin{bmatrix}\frac{1-m^2}{m^2+1} \amp  \frac{2m}{m^2+1}\\\frac{2m}{m^2+1} \amp  \frac{m^2-1}{m^2+1}\end{bmatrix}=\frac{1}{1+m^2}\begin{bmatrix}
+1-m^2 \amp  2m \\
+2m \amp  m^2-1
+\end{bmatrix}.
+</me>
+</p> 
+
+
+
+
+<identity xml:id="form-reflection">
+    <title>Reflection about the line <m>y=mx</m></title>
+    <statement>
+        <p>
+            A matrix transformation induced by
+<men xml:id="eq-reflectionymx">
+M_{y=mx}=\frac{1}{1+m^2}\begin{bmatrix}
+1-m^2 \amp  2m \\
+2m \amp  m^2-1
+\end{bmatrix}
+</men>
+
+reflects the plane about the line <m>y=mx</m>.
+        </p>
+    </statement>
+</identity>
+
+<p> 
+Note that when <m>m=0</m>, expression <xref ref="eq-reflectionymx"/> is consistent with the reflection matrix you found in <xref ref="init-reflectionxyaxes"/>.
+</p>
+
+
+<example xml:id="ex-reflectedduck">
+    <statement>
+        <p>
+            Find matrix <m>M</m> that reflects the image of the duck about the line <m>y=\frac{3}{5}x</m>.
+        </p> 
+<sidebyside>
+		<image width="55%">
+   <shortdescription></shortdescription>
+    <latex-image>
+      \begin{tikzpicture}[scale=2]
+\node[inner sep=0pt, anchor=base] (gulls) at (6.25mm,0)
+  {\includegraphics[width=25mm]{/workspaces/unl_math314/assets/images/duck.jpg}};
+  \draw[\lt -\gt ] (-0.5,0)--(2,0);
+  \draw[\lt -\gt ] (0,-0.5)--(0,1.5);
+  \draw[red,thick] (0,0)--(2,1.2);
+  \node[red] at (1.5, 1.3)   (a) {\(y=\frac{3}{5}x\)};
+           \end{tikzpicture}
+    </latex-image>
+</image>
+<image width="55%">
+   <shortdescription></shortdescription>
+    <latex-image>
+      \begin{tikzpicture}[scale=2]
+ \node[inner sep=0pt, anchor=base]  (stretchedgulls) at (6.875mm,-4.2mm)
+  {\includegraphics[width=27.5mm]{/workspaces/unl_math314/assets/reflectedduck.jpg}};
+  \node[red] at (1.5, 1.3)   (a) {\(y=\frac{3}{5}x\)};
+\draw[red,thick] (0,0)--(2,1.2);
+\draw[\lt -\gt ] (-0.5,0)--(2,0);
+  \draw[\lt -\gt ] (0,-0.5)--(0,1.5);
+    
+     \end{tikzpicture}
+    </latex-image>
+</image>
+</sidebyside> 
+
+    </statement>
+    <answer>
+        <p>
+            <md>
+<mrow> M \amp =\frac{1}{1+9/25}\begin{bmatrix}1-9/25 \amp  6/5\\6/5 \amp  9/25 -1\end{bmatrix} </mrow> 
+<mrow>  \amp =\frac{25}{34}\begin{bmatrix}16/25 \amp  6/5\\6/5 \amp  -16/25\end{bmatrix}=\begin{bmatrix}8/17 \amp  15/17\\15/17 \amp  -8/17\end{bmatrix}. </mrow>
+</md>
+       </p>
+    </answer>
+</example>
+
+<p> 
+Note that the eye of the duck in <xref ref="ex-reflectedduck"/> is located on the line <m>y=\frac{3}{5}x</m>. 
+The reflection leaves the eye fixed in place.  The eye is an example of a <term>fixed point</term>. 
+In <xref ref="prob-fixedpoint"/> you will be asked to show that every point along the line <m>y=\frac{3}{5}x</m> is a fixed point.
+</p> 
+</subsection>
+
+
+
+
+
+
+
+
+
+
+
+<subsection xml:id="Subsection-Composition-of-Linear-Transformations">
+    <title>Composition of Linear Transformations</title>
+
+<p> 
+If a matrix transformation is followed by another matrix transformation, the resulting transformation can be represented as a product of the matrices that induce the individual transformations. 
+Thus, if <m>T_1</m> is induced by <m>M_1</m> and <m>T_2</m> is induced by <m>M_2</m>, then <m>T=T_2\circ T_1</m> is induced by <m>M=M_2M_1</m>.
+</p> 
+
+
+
+<image width="50%">
+   <shortdescription></shortdescription>
+    <latex-image>
+      \begin{tikzpicture}
+\node{
+\begin{tikzcd}
+\R^2\rar{T_1}\arrow[black, bend right]{rr}[black,swap]{T}  \amp  \R^2 \rar{T_2}  \amp  \R^2
+\end{tikzcd}
+};
+    \end{tikzpicture}
+    </latex-image>
+</image>
+
+<p> 
+Remember that matrix multiplication is not commutative, so the order in which the matrices are multiplied is of utmost importance.
+
+Consider the following example which incorporates a reflection as well as a rotation of vectors.
+</p> 
+
+
+<example xml:id="exa-rotationreflection">
+    <statement>
+        <p>
+            <ol>
+    <li>
+      <p> Find the matrix of the linear transformation which is obtained by first rotating all vectors counterclockwise by an angle of <m>\pi /6</m> and then reflecting across the <m>x</m>-axis. </p>
+</li>
+    <li>
+      <p> Multiply the vector <m>\mathbf{v}=[1/2, \sqrt{3}/2]</m> by the matrix you found in part (a) to illustrate how the transformation works. </p>
+</li>
+</ol>
+       </p>
+    </statement>
+
+
+    <answer>
+        <p>
+            <ol>
+    <li>
+      <p> Using <xref ref="form-rotation"/>, the matrix of the transformation which
+involves rotating through an angle of <m>\pi /6</m> is
+<me>
+M_1 =
+\begin{bmatrix}
+\cos \left( \pi /6\right) \amp  -\sin \left( \pi /6\right) \\
+\sin \left( \pi /6\right) \amp  \cos \left( \pi /6\right)
+\end{bmatrix}
+ =
+\begin{bmatrix}
+\frac{1}{2}\sqrt{3} \amp  -\frac{1}{2} \\
+\frac{1}{2} \amp  \frac{1}{2}\sqrt{3}
+\end{bmatrix}.
+</me>
+
+As we learned in <xref ref="init-reflectionxyaxes"/>, the matrix for the transformation which reflects all vectors about the <m>x</m>-axis is
+<me>
+M_2 = \begin{bmatrix}1 \amp  0 \\ 0 \amp  -1 \end{bmatrix}.
+</me>
+
+Therefore, the matrix of the linear transformation which first rotates
+through <m>\pi /6</m> and then reflects through the <m>x</m>-axis is given by
+<me>
+M = M_2 M_1 = 
+\begin{bmatrix}1 \amp  0 \\ 0 \amp  -1 \end{bmatrix} \begin{bmatrix}
+\frac{1}{2}\sqrt{3} \amp  -\frac{1}{2} \\
+\frac{1}{2} \amp  \frac{1}{2}\sqrt{3}
+\end{bmatrix} = \begin{bmatrix}
+\frac{1}{2}\sqrt{3} \amp  \frac{1}{2} \\
+-\frac{1}{2} \amp  -\frac{1}{2}\sqrt{3}
+\end{bmatrix}.
+</me>
+</p>
+</li> 
+
+<li>
+      <p> From unit circle trigonometry, we know that <m>\mathbf{v}</m> makes a <m>\pi/3</m> angle with the <m>x</m>-axis. 
+        If we rotate <m>\mathbf{v}</m> counterclockwise by <m>\pi /6</m>, it will point straight up. 
+      </p>
+
+
+<image width="55%">
+   <shortdescription></shortdescription>
+    <latex-image>
+      \begin{tikzpicture}[scale=2]
+  \draw[\lt -\gt ] (-0.5,0)--(1,0);
+  \draw[\lt -\gt ] (0,-0.5)--(0,1.5);
+\draw[line width=1pt, blue, stealth-](0.5,1.73/2)--(0,0);
+\draw[line width=1pt, red, -stealth](0,0)--(0,1);
+\fill[blue] (0.4,0.3)node[right]{\(\pi/3\)};
+\fill[red] (0.2,0.7)node[above]{\(\pi/6\)};
+\draw[blue] (0.4,0) arc (0:60:0.4) ;
+\draw[red] (0.25,1.73/4) arc (60:90:0.5) ;
+\node[blue] at (0.9, 1.75/2)   (b) {\((\frac{1}{2},\frac{\sqrt{3}}{2})\)}; 
+     \end{tikzpicture}
+    </latex-image>
+</image>
+
+
+<p> 
+Following the rotation with reflection across the <m>x</m>-axis will make it point straight down.  Sure enough, 
+
+<me>
+    M\mathbf{v} = \begin{bmatrix}
+\frac{1}{2}\sqrt{3} \amp  -\frac{1}{2} \\
+-\frac{1}{2} \amp  -\frac{1}{2}\sqrt{3}
+\end{bmatrix} \begin{bmatrix}
+    1/2 \\ \sqrt{3}/2 \end{bmatrix} = \begin{bmatrix}
+    0 \\ -1 \end{bmatrix}.
+</me>
+</p>
+</li>
+</ol>
+
+</p> 
+    </answer>
+</example>
+
+<exploration xml:id="exp-matrixComp">
+    <p>
+        You can use the GeoGebra interactive below to decompose a matrix into a product of two matrices corresponding to the basic transformations we discussed above: scalings, rotations, shears and reflections.
+    </p> 
+
+    <figure>
+        <caption>
+        </caption>
+        <interactive xml:id="geogebra-Try-and-Error" platform="geogebra" width="130%" aspect="950:500">
+          <slate xml:id="Try-and-Error" surface="geogebra" material="d6jyt85s" aspect="950:500" />
+        </interactive>
+      </figure>
+      
+
+<problem> 
+<statement>
+<p> 
+Consider the matrix
+<me>
+M=\begin{bmatrix} 1 \amp  0\\-1 \amp  -1\end{bmatrix}.
+</me>
+
+This matrix induces a transformation that can be broken into two parts: (1) a reflection followed by (2) a shear. 
+Find matrices <m>M_1</m> and <m>M_2</m> that induce the reflection and the shear respectively. 
+Verify that the product of the two matrices is equal to <m>M</m> (be careful about the order of the product!).
+</p> 
+</statement> 
+
+<answer>
+<p> 
+<me>
+    M=M_2M_1=\begin{bmatrix}1\amp 0\\-1\amp 1\end{bmatrix}\begin{bmatrix}1\amp 0\\0\amp -1\end{bmatrix}.
+</me>
+</p> 
+</answer>
+</problem> 
+
+
+<problem>
+<statement> 
+<p> 
+Let
+<me>
+M=\begin{bmatrix}-1\amp 0\\0\amp -1\end{bmatrix}.
+</me>
+
+Use the GeoGebra interactive above to visually examine the transformation induced by <m>M</m>. 
+The composition of which transformation is equivalent to the transformation induced by <m>M</m>? 
+
+<ol>
+<li>
+    <p>
+        Rotation by 180 degrees. 
+    </p>
+</li>
+
+
+<li>
+    <p>
+        Reflection about the <m>x</m>-axis, followed by a reflection about the <m>y</m>-axis.   
+    </p>
+</li>
+
+
+<li>
+    <p>
+        Reflection about the <m>y</m>-axis, followed by a reflection about the <m>x</m>-axis.
+    </p>
+</li>
+
+
+<li>
+    <p>
+        All of the above.
+    </p>
+</li>
+</ol>
+</p> 
+</statement> 
+
+<answer>
+<p>
+Option (d).
+</p>
+</answer>
+</problem>
+
+<problem>
+<statement>
+    <p>
+Let
+<me>
+M=\begin{bmatrix}0\amp 1\\-1\amp 0\end{bmatrix}.
+</me>
+
+Use the GeoGebra interactive above to visually examine the transformation induced by <m>M</m>.
+The composition of which transformations is equivalent to the transformation induced by <m>M</m>?
+
+<ol>
+    <li>
+        <p>
+            Reflection about the <m>x</m>-axis, followed by a reflection about the line <m>y=-x</m>.   
+        </p>
+    </li>
+
+
+    <li>
+        <p>
+            Reflection about the <m>y</m>-axis, followed by a reflection about the <m>x</m>-axis.   
+        </p>
+    </li>
+
+
+    <li>
+        <p>
+    All of the above.       
+        </p>
+    </li>
+
+
+    <li>
+        <p>
+    None of the above.
+        </p>
+    </li>
+</ol>
+    </p>
+</statement>
+
+<answer>
+    <p>
+Option (a).
+    </p>
+</answer>
+</problem>
+</exploration>
+
+
+
+
+
+
+
+<example xml:id="init-reflectioncomp">
+    <p>
+        In this problem we will consider compositions of two reflections and use geometry to illustrate non-commutativity of matrix multiplication.  
+Let 
+<me>
+    T_{y=-2x}:\R^2\rightarrow \R^2
+</me>
+ be a reflection about the line <m>y=-2x</m>.  Let 
+<me>
+    T_{y=x}:\R^2\rightarrow \R^2
+</me>
+
+ be a reflection about the line <m>y=x</m>. We will denote the standard matrices for these transformations by <m>M_{y=-2x}</m> and <m>M_{y=x}</m>, and
+use geometry to demonstrate that <m>M_{y=x}M_{y=-2x}\neq M_{y=-2x}M_{y=x}</m>.  
+</p> 
+
+<p> 
+ To do this, consider transformations
+ <me>
+T_1=T_{y=x}\circ T_{y=-2x} \text{ and } T_2=T_{y=-2x}\circ T_{y=x}.
+ </me>
+ 
+Transformation <m>T_1</m> is induced by <m>M_{y=x}M_{y=-2x}</m>, and <m>T_2</m> is induced by <m>M_{y=-2x}M_{y=x}</m>.
+</p> 
+
+<p> 
+The figure on the left illustrates the action of <m>T_1</m> on a single point <m>A</m>.  First, <m>A</m> is reflected about the line <m>y=-2x</m>, then <m>A</m> is reflected about the line <m>y=x</m>.   
+</p> 
+
+<p> 
+The figure on the right shows the action of <m>T_2</m> on the same point <m>A</m>.  The point is first reflected about the line <m>y=x</m>, followed by a reflection about the line <m>y=-2x</m>.  The final images of point <m>A</m> under <m>T_1</m> and <m>T_2</m> are clearly different.
+</p> 
+
+<sidebyside> 
+<image width="55%">
+   <shortdescription></shortdescription>
+    <latex-image>
+      \begin{tikzpicture}[scale=.3]
+\draw[thin,gray!40] (-8,-8) grid (8,8);
+  \draw[\lt -\gt ] (-8,0)--(8,0);
+  \draw[\lt -\gt ] (0,-8)--(0,8);
+  \draw[line width=1pt,blue](-8,-8)--(8,8)node[below=4mm]{\(y=x\)} ;
+  \draw[line width=1pt,red](-4,8)--(4,-8)node[above=2mm, right=1mm]{\(y=-2x\)};
+ 
+  \draw[gray, dashed] (-5,5)--(-1,7);
+  \draw[gray, dashed] (-1,7)--(7,-1);
+  \fill[] (-5,5)node[above=2mm, left=1mm]{\(A\)} circle (0.2cm);
+  \fill[] (-1,7)node[above=3mm]{} circle (0.2cm);
+  \fill[] (7,-1)node[below=2mm]{\(T_1(A)\)} circle (0.3cm);
+      \end{tikzpicture}
+    </latex-image>
+</image>
+
+<image width="55%">
+   <shortdescription></shortdescription>
+    <latex-image>
+      \begin{tikzpicture}[scale=.3]
+ 
+\draw[thin,gray!40] (-8,-8) grid (8,8);
+  \draw[\lt -\gt ] (-8,0)--(8,0);
+  \draw[\lt -\gt ] (0,-8)--(0,8);
+\draw[gray, dashed] (-5,5)--(5,-5);
+  \draw[gray, dashed] (5,-5)--(1,-7);
+  \fill[] (-5,5)node[above=2mm, left=1mm]{\(A\)} circle (0.2cm);
+  \fill[] (5,-5)node[above=3mm]{} circle (0.2cm);
+  \fill[] (1,-7)node[left=2mm]{\(T_2(A)\)} circle (0.3cm);
+  the transformation induced by
+  \draw[line width=1pt,blue](-8,-8)--(8,8)node[below=4mm]{\(y=x\)} ;
+  \draw[line width=1pt,red](-4,8)--(4,-8)node[above=2mm, right=1mm]{\(y=-2x\)} ;
+     \end{tikzpicture}
+    </latex-image>
+</image>
+</sidebyside> 
+
+<p> 
+Since <m>T_1\neq T_2</m>, we conclude that <m>M_{y=x}M_{y=-2x}\neq M_{y=-2x}M_{y=x}</m>.
+</p>
+</example>
+
+<example xml:id="ex-rotationscommute">
+    <p>
+        Some pairs of matrices do commute.  For example, geometry makes it is easy to see that two rotation matrices commute.
+    </p>
+</example>
+</subsection>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<exercises>
+
+
+<exercise xml:id="prob-k0">
+    <statement>
+        <p>
+            Consider matrices <m>M_v</m> and <m>M_h</m> in <xref ref="vscale"/> and <xref ref="hscale"/>.  
+<ol>
+<li>
+      <p> If we were to allow <m>k</m> to be zero, what would the resulting transformations accomplish?   </p>
+</li>
+<li>
+      <p> If <m>k=0</m>, in what way would the resulting matrices be fundamentally different from matrices <m>M_v</m> and <m>M_h</m> <m>(k\neq 0)</m>?   </p>
+</li>
+<li>
+      <p> Do <m>M_v</m> and <m>M_h</m> <m>(k\neq 0)</m> have inverses?  What about <m>M_v</m> and <m>M_h</m> <m>(k= 0)</m>?   </p>
+</li>
+<li>
+      <p> What would happen if we allowed <m>k</m> to be negative? </p>
+</li>
+</ol>
+        </p>
+    </statement>
+</exercise>
+
+
+
+
+<exercise xml:id="prob-matrixlintrans">
+    <statement>
+        <p>
+            Find a matrix <m>M</m> that would double the length of a photo horizontally, and triple the height of the photo.
+
+<me>
+    M=\begin{bmatrix}2 \amp  0\\0 \amp  3\end{bmatrix}.
+</me>
+        </p>
+    </statement>
+</exercise>
+
+<exercise xml:id="prob-shearedsheep">
+    <statement>
+        <p>
+            (Sheared Sheep) Find a matrix that induces the transformation shown in the figure. 
+        </p> 
+
+<sidebyside>
+		<image width="30%">
+   <shortdescription>Sheep</shortdescription>
+    <latex-image>
+      \begin{tikzpicture}[scale=2]
+\node[inner sep=0pt, anchor=base] (gulls) at (8.75mm,0)
+  {\includegraphics[width=35mm]{/workspaces/unl_math314/assets/sheep.jpg}};
+  \draw[\lt -\gt ] (-0.25,0)--(2,0);
+  \draw[\lt -\gt ] (0,-0.25)--(0,1.8);
+           \end{tikzpicture}
+    </latex-image>
+</image>
+
+<image width="55%">
+   <shortdescription></shortdescription>
+    <latex-image>
+      \begin{tikzpicture}[scale=2]
+ \node[inner sep=0pt, anchor=base]  (stretchedgulls) at (12.35mm,0)
+  {\includegraphics[width=49.4mm]{/workspaces/unl_math314/assets/shearedsheep.jpg}};
+  \node[] at (2.4, 0.25)   (a) {\(60^{\circ}\)};
+ \draw (22.3mm,0) arc (0:60:0.5) ;
+
+\draw[\lt -\gt ] (-0.25,0)--(3,0);
+  \draw[\lt -\gt ] (0,-0.25)--(0,1.8);
+    
+     \end{tikzpicture}
+    </latex-image>
+</image>
+</sidebyside>
+
+    </statement>
+</exercise>
+
+
+
+
+<exercise xml:id="prob-translation-does-not-work">
+    <statement>
+        <p>
+            Suppose a 1 by 1 photo of a chipmunk was shifted as shown in the figure. 
+        </p> 
+
+<sidebyside>
+		<image width="55%">
+   <shortdescription></shortdescription>
+    <latex-image>
+      \begin{tikzpicture}[scale=2]
+\node[inner sep=0pt, anchor=base] (gulls) at (6.25mm,0)
+  {\includegraphics[width=25mm]{/workspaces/unl_math314/assets/images/chipmunk.jpg}};
+  \draw[\lt -\gt ] (-0.5,0)--(2,0);
+  \draw[\lt -\gt ] (0,-0.5)--(0,2);
+  \draw[-\gt ,red, line width=1mm, -stealth] (0mm,0mm)--(12.5mm,0mm)node[below right]{\((1, 0)\)};
+  \draw[-\gt ,blue, line width=1mm, -stealth] (0mm,0mm)--(0mm,12.5mm)node[above left]{\((0, 1)\)};
+           \end{tikzpicture}
+    </latex-image>
+</image>
+
+   <image width="55%">
+   <shortdescription></shortdescription>
+    <latex-image>
+      \begin{tikzpicture}[scale=2]
+ \node[inner sep=0pt, anchor=base]  (stretchedgulls) at (11.25mm,5mm)
+  {\includegraphics[width=25mm]{/workspaces/unl_math314/assets/images/chipmunk.jpg}};
+\draw[\lt -\gt ] (-0.5,0)--(2,0);
+  \draw[\lt -\gt ] (0,-0.5)--(0,2);
+  \draw[-\gt ,red, line width=1mm, -stealth] (0mm,0mm)--(17.5mm,5mm)node[below right]{\((1.4, 0.4)\)};
+  \draw[-\gt ,blue, line width=1mm, -stealth] (0mm,0mm)--(5mm,17.5mm)node[above right]{\((0.4, 1.4)\)};
+        \end{tikzpicture}
+    </latex-image>
+</image>
+</sidebyside>
+
+<p> 
+Suppose we tried to construct a standard matrix <m>M</m> for this transformation by making the images of <m>\mathbf{i}</m> and <m>\mathbf{j}</m> the columns of <m>M</m>.  We would obtain
+
+<me>
+    M=\begin{bmatrix}1.4 \amp  0.4\\0.4 \amp  1.4\end{bmatrix}
+</me>
+
+Does this matrix describe the transformation?  If so, prove it.  If not, explain why not.
+        </p>
+    </statement>
+</exercise>
+
+<exercise xml:id="prob-translationtrans">
+    <statement>
+        <p>
+            A transformation <m>T:\R^2\rightarrow \R^2</m> that shifts all points in the plane horizontally or vertically 
+            by a fixed amount is called a <term>translation</term>. 
+            Is <m>T</m> a matrix transformation?  Prove your claim.
+        </p> 
+    </statement>
+</exercise>
+
+<exercise xml:id="prob-reflectreflect">
+    <statement>
+        <p>
+            A reflection about the line <m>y=mx</m> followed by another reflection about the same line, returns all points to their original position.  Prove this using matrix multiplication.
+
+        </p>
+    </statement>
+
+<hint>
+<p> 
+    Find the product of <m>M_{y=mx}M_{y=mx}</m>.
+</p> 
+</hint>
+</exercise>
+
+<exercise xml:id="eq-imageofj">
+    <statement>
+        <p>
+Verify <xref ref="eq-imageofj"/>.
+        </p>
+    </statement>
+</exercise>
+
+<exercise xml:id="prob-fixedpoint">
+    <statement>
+        <p>
+            Prove that every point along the line <m>y=\frac{3}{5}x</m> in <xref ref="ex-reflectedduck"/> is a fixed point.
+        </p>
+    </statement>
+</exercise>
+
+<exercise xml:id="prob-reflectedduck">
+    <statement>
+        <p>
+            The figure below shows a sequence of two matrix transformations that accomplishes a reflection about the line <m>y=\frac{3}{5}x</m>. 
+            The first transformation is a reflection of the plane about the <m>x</m>-axis.
+             The second transformation is a rotation of the plane about the origin. 
+             Find matrices that induce the two transformations and verify that their product 
+             (in the correct order) is the reflection matrix of <xref ref="ex-reflectedduck"/>.
+        </p>
+
+		<image width="55%">
+   <shortdescription></shortdescription>
+    <latex-image>
+      \begin{tikzpicture}[scale=2]
+\node[inner sep=0pt, anchor=base] (gulls) at (6.25mm,0)
+  {\includegraphics[width=25mm]{/workspaces/unl_math314/assets/images/duck.jpg}};
+  \draw[\lt -\gt ] (-0.5,0)--(2,0);
+  \draw[\lt -\gt ] (0,-0.5)--(0,1.5);
+  \draw[red,thick] (0,0)--(2,1.2);
+  \node[red] at (1.5, 1.3)   (a) {\(y=\frac{3}{5}x\)};
+           \end{tikzpicture}
+    </latex-image>
+</image>
+     
+		<image width="55%">
+   <shortdescription></shortdescription>
+    <latex-image>
+      \begin{tikzpicture}[scale=2]
+\node[inner sep=0pt, anchor=base] (gulls) at (6.25mm,-8.9mm)
+  {\includegraphics[width=25mm]{/workspaces/unl_math314/assets/upsidedownduck.jpg}};
+  \draw[\lt -\gt ] (-0.5,0)--(2,0);
+  \draw[\lt -\gt ] (0,-1.5)--(0,1.5);
+  \draw[red,thick] (0,0)--(2,1.2);
+  \node[red] at (1.5, 1.3)   (a) {\(y=\frac{3}{5}x\)};
+  \draw[dashed] (0,0)--(0.8,1.5)node[above=2mm, left=1mm]{};
+           \end{tikzpicture}
+    </latex-image>
+</image>
+
+<image width="55%">
+   <shortdescription></shortdescription>
+    <latex-image>
+      \begin{tikzpicture}[scale=2]
+ \node[inner sep=0pt, anchor=base]  (stretchedgulls) at (6.875mm,-4.2mm)
+  {\includegraphics[width=27.5mm]{/workspaces/unl_math314/assets/reflectedduck.jpg}};
+  
+  
+\draw[red,thick] (0,0)--(2,1.2);
+\node[red] at (1.5, 1.3)   (a) {\(y=\frac{3}{5}x\)};
+\draw[\lt -\gt ] (-0.5,0)--(2,0);
+  \draw[\lt -\gt ] (0,-0.5)--(0,1.5);
+   \draw[dashed] (0,0)--(0.8,1.5)node[above=2mm, left=1mm]{}; 
+     \end{tikzpicture}
+    </latex-image>
+</image>
+
+    </statement>
+</exercise>
+
+
+
+
+</exercises>
+ 
+</section>

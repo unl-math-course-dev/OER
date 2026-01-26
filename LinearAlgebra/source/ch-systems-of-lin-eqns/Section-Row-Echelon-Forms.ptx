@@ -1,0 +1,1646 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<section xml:id="Section-Row-Echelon-Forms" xmlns:xi="http://www.w3.org/2001/XInclude">
+    <title>Row Echelon Forms</title>
+
+    <introduction>
+    <p>
+    In <xref ref="Section-Introduction-to-Systems-of-Linear-Equations"/>, we saw that systems of linear equations may not have a unique solution, but we did not discuss what to do about it.
+    Now we will address all possible solutions of a system, including systems with no solution at all.  
+    In the first subsection, we work out what a <q>fully reduced</q> system should look like and then, in the second subsection, we describe how to use Gaussian elimination to get this form.
+    Finally, the last subsection describes the solution set of the <q>fully reduced</q> matrix when the solution is not unique or when there is no solution.
+    </p>
+    </introduction>
+
+    <subsection xml:id="Subsection-Row-Echelon-and-Reduced-Row-Echelon-Forms">
+        <title>Row Echelon Form and Reduced Row Echelon Form</title>
+
+        <p>
+        Before looking for a <q>reduced form</q>, we need a name for for the first non-zero entry in a row of a matrix.  Using this name, we can then define the first special form for a matrix.
+        </p>
+
+        <definition xml:id="def-leadentry">
+            <statement>
+                <p>
+                    The first non-zero entry in a row of a matrix (when read from left to right) is called the <term>leading entry</term>.  When the leading entry is 1, we call it a <term>leading 1</term>.
+                </p>
+            </statement>
+        </definition>
+        
+        <definition xml:id="def-ref">
+            <title>Row Echelon Form</title>
+            <statement>
+                <p>
+                    A matrix is said to be in <term>row echelon form</term> if:
+        <ol>
+        <li>
+            <p>
+                All entries below each leading entry are 0.
+            </p>
+        </li> 
+        <li>
+            <p>
+                Each leading entry is in a column to the right of the leading entries in the rows above it.
+            </p>
+        </li> 
+        <li>
+            <p>
+                All rows of zeros, if there are any, are located below non-zero rows.
+            </p>
+        </li> 
+        </ol>
+                </p>
+            </statement>
+        </definition>
+        
+        <p>
+        The term row echelon form can be applied to matrices whether or not they are augmented matrices (matrices with the vertical bar). For example, both the coefficient matrix and the augmented matrix in <xref ref="eq-sys20rowechelon"/> are in row echelon form.  Note that the leading entries form a staircase pattern. All entries below the leading entries are zero, but the entries above the leading entries are not all zero.
+        </p>
+        
+        <p>
+        Below are two more examples of matrices in row echelon form.  The leading entries of each matrix are boxed.
+        <me>
+            \begin{bmatrix} 
+         \fbox{1}\amp 2\amp -1\amp -5\amp 0\amp 2\\0\amp 0\amp \fbox{3}\amp 1\amp 2\amp 0\\0\amp 0\amp 0\amp 0\amp \fbox{1}\amp 0
+         \end{bmatrix}\quad\text{and}\quad\begin{bmatrix}
+         \fbox{4}\amp 2\\0\amp \fbox{1}\\0\amp 0
+         \end{bmatrix}
+        </me>
+        </p>
+         
+         
+        <p>
+        The difference between the coefficient matrix in  <xref ref="eq-sys20rowechelon"/> and the coefficient matrix in <xref ref="eq-sys20reducedrowechelon"/> is that the leading entries of the  matrix in <xref ref="eq-sys20reducedrowechelon"/> are all 1's, and the matrix has zeros above each leading 1.  This motivates our next definition.
+        </p>
+        
+        <definition xml:id="def-rref">
+            <title>Reduced Row Echelon Form</title>
+            <statement>
+                <p>
+        A matrix that is already in <term>row echelon</term> form is said to be in <term>reduced row echelon form</term> if:
+        <ol>
+        <li>
+            <p>
+                Each leading entry is <m>1</m>
+            </p>
+        </li> 
+        <li>
+            <p>
+                All entries <em>above</em> and below each leading <m>1</m> are <m>0</m>
+            </p>
+        </li> 
+        </ol>
+                </p>
+            </statement>
+        </definition>
+        
+        <p>
+        The following two matrices are in <term>reduced row echelon form</term>.  Note that there are <m>0</m>'s below and above each leading <m>1</m>.
+        <me>
+            \begin{bmatrix}  
+         \fbox{1}\amp 0\amp -1\amp 0\amp 1\\0\amp \fbox{1}\amp 0\amp 0\amp 2\\0\amp 0\amp 0\amp \fbox{1}\amp 2
+         \end{bmatrix}\quad\text{and}\quad\begin{bmatrix}
+         \fbox{1}\amp 0\\0\amp \fbox{1}\\0\amp 0
+         \end{bmatrix}
+        </me>
+         When solving linear systems using the augmented matrix notation, our goal will be to transform the augmented matrix <m>M=[A|\mathbf{b}]</m> into a row echelon or reduced row echelon form.  The reduced row echelon form of <m>M</m> is denoted by 
+        <m>\mbox{rref}(M)</m>.  As we transform the augmented matrix <m>M</m> to its reduced row echelon form, the coefficient matrix <m>A</m> (the matrix to the left of the bar) also gets transformed to its reduced row echelon form, <m>\mbox{rref}(A)</m>. 
+        </p>
+
+        <p>
+            Perhaps you may be asking some questions. 
+            Can every augmented matrix be reduced to a row echelon or reduced row echelon form?  
+            If so, is the row echelon or reduced row echelon form unique?  
+            We will answer the second question in this subsection and the first question in the next subsection.
+        </p>
+
+        <exploration xml:id="init-gaussianelim1">
+            <p>
+                Solve the following system of equations.
+
+            <me>
+                \begin{array}{ccccccccc}
+                x \amp + \amp 2y\amp -\amp 3z\amp = \amp 1 \\
+                -5x\amp  +\amp 2y\amp -\amp 3z\amp =\amp 1\\
+                x\amp - \amp 2y\amp +\amp z\amp =\amp 1
+                \end{array}
+            </me>
+
+
+            We create an augmented matrix corresponding to the system and apply row operations until the matrix is in row echelon form.  
+
+            <me>
+                    \left[\begin{array}{ccc|c}  
+                1\amp 2\amp -3\amp 1\\-5\amp 2\amp -3\amp 1\\1\amp -2\amp 1\amp 1
+                \end{array}\right]
+                \begin{array}{c}
+                \\
+                \xrightarrow{R_2+5R_1}\\
+                \xrightarrow{R_3-R_1}\\
+                \end{array}
+                \left[\begin{array}{ccc|c}  
+                1\amp 2\amp -3\amp 1\\0\amp 12\amp -18\amp 6\\0\amp -4\amp 4\amp 0
+                \end{array}\right]
+                \begin{array}{c}
+                \\
+                \\
+                \xrightarrow{R_3+\frac{1}{3}R_2}\\
+                \end{array}
+            </me>
+
+            <men xml:id="eq-ref1">
+                \left[\begin{array}{ccc|c}  
+                1\amp 2\amp -3\amp 1\\0\amp 12\amp -18\amp 6\\0\amp 0\amp -2\amp 2
+                \end{array}\right]
+            </men>
+
+            Note that the elementary row operations that lead to <xref ref="eq-ref1"/> were not prescribed.  We may employ row-operations in a different manner and obtain a different matrix in row echelon form.  For example, suppose for some reason we had begun by switching the first and third rows.
+
+
+            <me>
+                    \left[\begin{array}{ccc|c}  
+                1\amp 2\amp -3\amp 1\\-5\amp 2\amp -3\amp 1\\1\amp -2\amp 1\amp 1
+                \end{array}\right]
+                \begin{array}{c}
+                \\
+                \xrightarrow{R_1\leftrightarrow R_3}\\
+                \\
+                \end{array}
+                \left[\begin{array}{ccc|c}  
+                1\amp -2\amp 1\amp 1\\-5\amp 2\amp -3\amp 1\\1\amp 2\amp -3\amp 1
+                \end{array}\right]
+                \begin{array}{c}
+                \\
+                \\
+                \\
+                \end{array}
+            </me>
+
+
+            Next we would reduce this matrix to row echelon form, perhaps in this way:
+
+
+            <me>
+                    \left[\begin{array}{ccc|c}  
+                1\amp -2\amp 1\amp 1\\-5\amp 2\amp -3\amp 1\\1\amp 2\amp -3\amp 1
+                \end{array}\right]
+                \begin{array}{c}
+                \\
+                \xrightarrow{R_2+5R_1}\\
+                \xrightarrow{R_3-R_1}\\
+                \end{array}
+                \left[\begin{array}{ccc|c}  
+                1\amp -2\amp 1\amp 1\\0\amp -8\amp 2\amp 6\\0\amp 4\amp -4\amp 0
+                \end{array}\right]
+                \begin{array}{c}
+                \\
+                \\
+                \xrightarrow{R_3+\frac{1}{2}R_2}\\
+                \end{array}
+            </me>
+
+            <men xml:id="eq-ref2">
+                \left[\begin{array}{ccc|c}  
+                1\amp -2\amp 1\amp 1\\0\amp -8\amp 2\amp 6\\0\amp 0\amp -3\amp 3
+                \end{array}\right]
+            </men>
+
+                The augmented matrices in <xref ref="eq-ref1"/> and <xref ref="eq-ref2"/> are clearly not the same, but both are in row echelon form.
+
+                If we write the systems of equations corresponding to <xref ref="eq-ref1"/> and <xref ref="eq-ref2"/>, we can employ back substitution to solve them.  The matrix in <xref ref="eq-ref1"/> corresponds to
+
+            <me>
+                \begin{array}{ccccccccc}
+                x \amp + \amp 2y\amp -\amp 3z\amp = \amp 1 \\
+                \amp  \amp 12y\amp -\amp 18z\amp =\amp 6\\
+                \amp \amp \amp \amp -2z\amp =\amp 2
+                \end{array}
+            </me>
+
+                
+                The matrix in <xref ref="eq-ref2"/> corresponds to    
+
+            <me>
+                \begin{array}{ccccccccc}
+                x \amp - \amp 2y\amp +\amp z\amp = \amp 1 \\
+                \amp  \amp -8y\amp +\amp 2z\amp =\amp 6\\
+                \amp \amp \amp \amp -3z\amp =\amp 3
+                \end{array}
+            </me>
+
+            
+            Because both systems are equivalent to the original system, it is not surprising that back substitution yields the same solution for both systems. 
+
+
+            <me>
+                x=0,\quad y=-1,\quad z=-1
+            </me>
+
+
+            <!-- 
+            %From the last equation we get <m>z=-1</m>.  
+            %Next, from the second equation we have <m>12y-18(-1)=6</m>, which yields <m>y=-1</m>.
+            %Finally, the first equation gives us <m>x+2(-1)-3(-1)=1</m>.  Solving for <m>x</m> we get <m>x=0</m>.  
+            %Therefore, the solution to the system is 
+            -->
+            <me>
+                x=0, y=-1, z=-1
+            </me>
+            <!-- 
+            %We arrive at a different matrix in row echelon form, but back-substitution yields the same solution to the system (you should check this):  
+            -->
+            <me>
+                x=0, y=-1, z=-1
+            </me>
+            </p>
+        </exploration>
+
+        <p>
+            It is clear from <xref ref="init-gaussianelim1"/> that a row echelon form corresponding to a matrix is not unique.  But what about the reduced row echelon form?
+        </p>
+
+        <exploration xml:id="init-gaussianelim2">
+            <p>
+                In this problem we revisit the system
+
+                <me>
+                    \begin{array}{ccccccccc}
+                    x \amp + \amp 2y\amp -\amp 3z\amp = \amp 1 \\
+                    -5x\amp  +\amp 2y\amp -\amp 3z\amp =\amp 1\\
+                    x\amp - \amp 2y\amp +\amp z\amp =\amp 1
+                    \end{array}
+                </me>
+                
+                Following the steps we took to get <xref ref="eq-ref1"/>, but taking the process a little further, we get the reduced row echelon form.
+
+                <me>
+                        \left[\begin{array}{ccc|c}  
+                    1\amp 2\amp -3\amp 1\\-5\amp 2\amp -3\amp 1\\1\amp -2\amp 1\amp 1
+                    \end{array}\right]
+                    \begin{array}{c}
+                    \\
+                    \xrightarrow{R_2+5R_1}\\
+                    \xrightarrow{R_3-R_1}\\
+                    \end{array}
+                    \left[\begin{array}{ccc|c}  
+                    1\amp 2\amp -3\amp 1\\0\amp 12\amp -18\amp 6\\0\amp -4\amp 4\amp 0
+                    \end{array}\right]
+                    \begin{array}{c}
+                    \\
+                    \\
+                    \xrightarrow{R_3+\frac{1}{3}R_2}\\
+                    \end{array}
+                </me>
+
+                
+                <me>
+                        \left[\begin{array}{ccc|c}  
+                    1\amp 2\amp -3\amp 1\\0\amp 12\amp -18\amp 6\\0\amp 0\amp -2\amp 2
+                    \end{array}\right]
+                    \color{blue}
+                    \begin{array}{c}
+                    \\
+                    \xrightarrow{\frac{1}{12}R_2}\\
+                    \xrightarrow{-\frac{1}{2}R_3}\\
+                    \end{array}
+                    \left[\begin{array}{ccc|c}  
+                    1\amp 2\amp -3\amp 1\\0\amp 1\amp -\frac{3}{2}\amp \frac{1}{2}\\0\amp 0\amp 1\amp -1
+                    \end{array}\right]
+                    \begin{array}{c}
+                    \xrightarrow{R_1+3R_3}\\
+                    \xrightarrow{R_2+\frac{3}{2}R_3}\\
+                    \\
+                    \end{array}
+                </me>
+
+                <men xml:id="eq-rref3">  \color{blue}
+                    \left[\begin{array}{ccc|c}  
+                    1\amp 2\amp 0\amp -2\\0\amp 1\amp 0\amp -1\\0\amp 0\amp 1\amp -1
+                    \end{array}\right]
+                    \begin{array}{c}
+                    \xrightarrow{R_1-2R_2}\\
+                    \\
+                    \\
+                    \end{array}
+                    \color{black}
+                    \left[\begin{array}{ccc|c}  
+                    1\amp 0\amp 0\amp 0\\0\amp 1\amp 0\amp -1\\0\amp 0\amp 1\amp -1
+                    \end{array}\right]
+                </men>
+
+                Do you think it is possible to start with <xref ref="eq-ref2"/> and obtain the same reduced row echelon form?  Try to justify your response.  If possible, find the elementary row operations that take <xref ref="eq-ref2"/> to the reduced row echelon form in <xref ref="eq-rref3"/>.
+
+                <me>
+                        \left[\begin{array}{ccc|c}  
+                    1\amp 2\amp -3\amp 1\\-5\amp 2\amp -3\amp 1\\1\amp -2\amp 1\amp 1
+                    \end{array}\right]
+                    \begin{array}{c}
+                    \\
+                    \xrightarrow{R_1\leftrightarrow R_3}\\
+                    \\
+                    \end{array}
+                    \left[\begin{array}{ccc|c}  
+                    1\amp -2\amp 1\amp 1\\-5\amp 2\amp -3\amp 1\\1\amp 2\amp -3\amp 1
+                    \end{array}\right]
+                </me>
+
+                <me>
+                        \begin{array}{c}
+                    \\
+                    \xrightarrow{R_2+5R_1}\\
+                    \xrightarrow{R_3-R_1}\\
+                    \end{array}
+                    \left[\begin{array}{ccc|c}  
+                    1\amp -2\amp 1\amp 1\\0\amp -8\amp 2\amp 6\\0\amp 4\amp -4\amp 0
+                    \end{array}\right]
+                    \begin{array}{c}
+                    \\
+                    \\
+                    \xrightarrow{R_3+\frac{1}{2}R_2}\\
+                    \end{array}
+                </me>
+
+                <me>
+                    \left[\begin{array}{ccc|c}  
+                    1\amp -2\amp 1\amp 1\\0\amp -8\amp 2\amp 6\\0\amp 0\amp -3\amp 3
+                    \end{array}\right]
+                    \color{red}
+                    \begin{array}{c}
+                    \rightsquigarrow\text{Elementary}\rightsquigarrow\\
+                    \text{Row Ops.}
+                    \end{array}
+                    \color{black}
+                    \left[\begin{array}{ccc|c}  
+                    1\amp 0\amp 0\amp 0\\0\amp 1\amp 0\amp -1\\0\amp 0\amp 1\amp -1
+                    \end{array}\right]
+                </me>
+                You will be asked to fill in the elementary row operations in <xref ref="prob-same-rref"/>.
+            </p>
+        </exploration>
+
+        <p>
+            Our observations in <xref ref="init-gaussianelim2"/> are summarized in the following diagram.
+        </p>
+
+        <image width="100%">
+            <shortdescription></shortdescription>
+            <latex-image>
+            \begin{tikzpicture}
+                    \node[] at (0, 0)  (o)    {\(\left[\begin{array}{ccc|c}  
+                    1\amp 2\amp -3\amp 1\\-5\amp 2\amp -3\amp 1\\1\amp -2\amp 1\amp 1
+                    \end{array}\right]\)};
+                    \node[] at (-3, -2.5)  (left1)    {\(\left[\begin{array}{ccc|c}  
+                    1\amp 2\amp -3\amp 1\\0\amp 12\amp -18\amp 6\\0\amp 0\amp -2\amp 2
+                    \end{array}\right]\)};
+                    \node[] at (3, -2.5)  (right1)    {\(\left[\begin{array}{ccc|c}  
+                    1\amp -2\amp 1\amp 1\\0\amp -8\amp 2\amp 6\\0\amp 0\amp -3\amp 3
+                    \end{array}\right]\)};
+                    \node[gray] at (0, -2.5)  (c1)    {\shortstack{Row-\\Echelon\\Forms}};
+                    \node[] at (0, -5)  (c2)    {\(\left[\begin{array}{ccc|c}  1\amp 0\amp 0\amp 0\\0\amp 1\amp 0\amp -1\\0\amp 0\amp 1\amp -1
+                    \end{array}\right]\)};
+                    \node[gray] at (0, -6)  (c3)    {Reduced Row Echelon Form};
+                    
+                    \draw [-\gt ,line width=0.5pt,-stealth]  (o.west)to[out=180, in=90](left1.north);
+                    \draw [-\gt ,line width=0.5pt,-stealth]  (o.south)to[out=270, in=90](c1.north west);
+                    \draw [-\gt ,line width=0.5pt,-stealth]  (o.south)to[out=270, in=90](c1.north east);
+                    \draw [-\gt ,line width=0.5pt,-stealth]  (o.south)to[out=270, in=90](c1.north);
+                    \draw [-\gt ,line width=0.5pt,-stealth]  (o.east)to[out=0, in=90](right1.north);
+                    \draw [-\gt ,line width=0.5pt,-stealth,blue]  (left1.south)to[out=270, in=180](c2.west);
+                    \draw [-\gt ,line width=0.5pt,-stealth,red]  (right1.south)to[out=270, in=0](c2.east);
+                \end{tikzpicture}
+            </latex-image>
+        </image>
+
+        <p>
+            We observed that a row echelon form associated with a matrix is not unique.  In contrast, we also saw how different sequences of elementary row operations lead to the same solution set and the same reduced row echelon form.  It turns out that the reduced row echelon form of a matrix is unique.  
+        </p>
+
+        <theorem xml:id="th-uniquenessofrref">
+            <statement>
+                <p>
+                    The reduced row echelon form of a matrix is unique.
+                </p>
+            </statement>
+        </theorem>
+
+        <p>
+            A proof of this result can be found in <xref ref="ref-Yuster"/>. 
+        </p>
+
+        <p>
+            The reduced row echelon form of a matrix is an instance of a row echelon form of the matrix.  While a given matrix may have multiple row echelon forms, all row echelon forms will share one characteristic: the number of nonzero rows in a row echelon form of the given matrix will be the same.
+            We will prove this result in <xref ref="th-samenumberofnonzerorows"/>, but we use it now to make the following definition:
+        </p>
+
+        <definition xml:id="def-rankofamatrix">
+        <statement>
+        <p>
+        The <term>rank</term> of matrix <m>A</m>, denoted by <m>\mbox{rank}(A)</m>,
+        is the number of nonzero rows in any row echelon form of <m>A</m>.
+        </p>
+        </statement>
+        </definition>
+
+    </subsection>
+
+    <subsection xml:id="Subsection-Gaussian-and-Gauss-Jordan-Elimination">
+        <title>Gaussian and Gauss-Jordan Elimination</title>
+
+        <definition xml:id="def-GaussianElimination">
+            <title>Gaussian Elimination</title>
+            <statement>
+                <p>
+                    The process of using the elementary row operations on a matrix to transform it into row echelon form is called <term>Gaussian Elimination</term>.
+                </p>
+            </statement>
+        </definition>
+
+            <p>
+                As we saw in the previous section, it is possible to follow different sequences of row operations to arrive at various row echelon forms.  However, it was not clear whether it is <em>always possible</em> to find a row echelon form.  The following algorithm takes any matrix (or augmented matrix) and transforms it into row echelon form:
+            </p>
+
+            <algorithm xml:id="alg-gaussian">
+                <title>Gaussian Algorithm</title>
+                <statement>
+                    <p>
+                        Let <m>A</m> be an <m>m\times n</m> matrix.
+
+            Set <m>i=1</m> initially.
+            <ul>
+            <li>
+                <p> Step 1. If <m>A</m> consists entirely of zeros, stop;  <m>A</m> is already in row echelon form. </p>
+            </li>
+
+            <li>
+                <p> Step 2. Otherwise, find the first column from the left containing a nonzero entry in row <m>i</m> or below row <m>i</m>.  This column will be called a <term>pivot column</term>.  Go down the pivot column, beginning with row <m>i</m>. Pick the topmost nonzero entry and call it <m>a</m>. If <m>a</m> is not in row <m>i</m>, switch rows so that <m>a</m> moves to row <m>i</m>.  Now <m>a</m> is the <term>leading entry</term> in its row.  We will also refer to <m>a</m> as a <term>pivot</term>.   </p>
+            </li>
+
+            <li>
+                <p> Step 3. By subtracting multiples of the row containing <m>a</m> from rows below it, make each entry below <m>a</m> zero. </p>
+            </li>
+
+            <li>
+                <p> Step 4.  Set <m>i=i+1</m>.  If <m>i\gt m</m> then stop; <m>A</m> is in row echelon form. </p>
+            </li>
+
+            </ul>
+
+            Repeat steps 1--4 on the matrix consisting of the remaining rows.
+            When the process stops, <m>A</m> will be in row echelon form.
+                    </p>
+                </statement>
+            </algorithm>
+
+            <p>
+            Gaussian Algorithm guarantees that every matrix will have a row echelon form.  
+            </p>
+
+            <example xml:id="ex-non-augmented">
+                <statement>
+                    <p>
+                        Use the Gaussian Algorithm to find a row echelon form of <m>A</m> if 
+            <me>
+                A=\begin{bmatrix}2\amp 4\\1\amp 2\\-1\amp 1\\3\amp 5\end{bmatrix}
+            </me>
+                </p>
+                </statement>
+                <answer>
+                    <p>
+                        Following Step 2, we choose the first entry, <m>2</m>, as our pivot.  We then perform step 3, using the top row to get zeros in all entries below the <m>2</m>.
+
+            <me>
+                \begin{bmatrix} \fbox{\(2\)}\amp 4\\1\amp 2\\-1\amp 1\\3\amp 5\end{bmatrix}
+            \begin{array}{c}
+            \\
+            \xrightarrow{R_2-(1/2)R_1}\\
+            \xrightarrow{R_3+(1/2)R_1}\\
+            \xrightarrow{R_4-(3/2)R_1}\\
+            \end{array}
+            \begin{bmatrix}2\amp 4\\0\amp 0\\0\amp 3\\0\amp -1\end{bmatrix}
+
+            </me>
+
+            The first row is now complete, and we repeat the process on the rows below it. We identify <m>3</m> as a pivot entry in the second column and move the row containing <m>3</m> to be directly below the first completed row.  We then use the <m>3</m> to make each entry below the <m>3</m> a zero.  
+
+
+            <me>
+                \begin{bmatrix}2\amp 4\\0\amp 0\\0\amp \fbox{\(3\)}\\0\amp -1\end{bmatrix}
+            \xrightarrow{R_2\leftrightarrow R_3}\\
+            \begin{bmatrix}2\amp 4\\0\amp \fbox{\(3\)}\\0\amp 0\\0\amp -1\end{bmatrix}
+            \begin{array}{c}
+            \\
+            \\
+            \\
+            \xrightarrow{R_4+\frac{1}{3}R_2}\\
+            \end{array}
+            \begin{bmatrix}2\amp 4\\0\amp 3\\0\amp 0\\0\amp 0\end{bmatrix}
+
+            </me>
+
+            This time the algorithm terminates since row 3 and row 4 are zero rows.
+                </p>
+                </answer>
+            </example>
+ 
+
+
+            <definition xml:id="def-GaussJordanElimination">
+                <title>Gauss-Jordan Elimination</title>
+                <statement>
+                    <p>
+                        The process of using the elementary row operations on a matrix to transform it into reduced row echelon form is called <term>Gauss-Jordan elimination</term>.
+                    </p>
+                </statement>
+            </definition>
+
+            <p>
+                Given a matrix in row echelon form, it is easy to bring it to reduced row echelon form.  For example, continuing with <xref ref="ex-non-augmented"/>, we can start where we left off and compute <m>\mbox{rref}(A)</m>.  From our earlier computations we have:
+
+                <me>
+                    \begin{bmatrix}2\amp 4\\-1\amp 1\\3\amp 5\\1\amp 2\end{bmatrix}\rightsquigarrow\begin{bmatrix}2\amp 4\\0\amp 3\\0\amp 0\\0\amp 0\end{bmatrix}
+                </me>
+
+
+                Now we create leading <m>1's</m> and use them to to wipe out all non-zero entries above them.
+
+                <me>
+                    \begin{bmatrix}2\amp 4\\0\amp 3\\0\amp 0\\0\amp 0\end{bmatrix}
+                    \begin{array}{c}
+                        \xrightarrow{(1/2)R_1}\\
+                    \xrightarrow{(1/3)R_2}\\
+                    \\ 
+                    \\
+                    \end{array}
+                    \begin{bmatrix}1\amp 2\\0\amp 1\\0\amp 0\\0\amp 0\end{bmatrix}
+                    \begin{array}{c}
+                    \xrightarrow{R_1-2R_2}\\
+                    \\
+                    \\
+                    \\
+                    \end{array}
+                    \begin{bmatrix}1\amp 0\\0\amp 1\\0\amp 0\\0\amp 0\end{bmatrix}=\mbox{rref}(A)
+                </me>
+
+
+                The following modification to the Gaussian Algorithm produces the reduced row echelon form of a matrix.  This algorithm guarantees the existence of the reduced row echelon form.
+            </p>
+
+            <algorithm xml:id="alg-gauss-jordan">
+                <title>Gauss-Jordan Algorithm</title>
+                <statement>
+                    <p>
+                        Let <m>A</m> be an <m>m\times n</m> matrix.
+                        Follow the steps of the Gaussian Algorithm but modify Step 2 to create leading <m>1's</m> by multiplying the row containing <m>a</m> by <m>\frac{1}{a}</m>.
+                        When the Gaussian Algorithm terminates, subtract multiples of the rows containing leading <m>1's</m> from the rows above to make all entries above the pivots zero.
+                    </p>
+                </statement>
+            </algorithm>
+
+
+            <p> 
+                The algorithm is an essential tool in linear algebra. An fully detailed example is provided below.
+            </p> 
+
+
+            <example xml:id="ex-gaussjordanalg">
+                <statement>
+                    <p>
+                        Use the Gauss-Jordan Algorithm to solve the system
+                        <me>
+                            \begin{array}{ccccccccc}
+                            3x \amp + \amp y\amp +\amp 7z\amp = \amp 7 \\
+                            5x\amp  +\amp 3y\amp +\amp 9z\amp =\amp 13\\
+                            2x\amp + \amp y\amp +\amp 4z\amp =\amp 5
+                            \end{array}
+                        </me>
+                </p>
+                </statement>
+                
+                <answer>
+                    <p>
+                        <md>
+                            <mrow> 
+                                \amp \left[\begin{array}{ccc|c}  
+                                \fbox{\(3\)}\amp 1\amp 7\amp 7\\5\amp 3\amp 9\amp 13\\2\amp 1\amp 4\amp 5
+                                \end{array}\right] 
+                            </mrow>
+                            <mrow> 
+                                \begin{array}{c}
+                                \xrightarrow{\frac{1}{3}R_1}\\
+                            \\
+                            \\
+                            \end{array}
+                            \amp \left[\begin{array}{ccc|c}  
+                            \fbox{\(1\)}\amp 1/3\amp 7/3\amp 7/3\\5\amp 3\amp 9\amp 13\\2\amp 1\amp 4\amp 5
+                            \end{array}\right] 
+                            </mrow>
+                            <mrow> 
+                                \begin{array}{c}
+                                \\
+                                \xrightarrow{R_2-5R_1}\\
+                            \\
+                            \end{array}
+                            \amp \left[\begin{array}{ccc|c}  
+                                \fbox{\(1\)}\amp 1/3\amp 7/3\amp 7/3\\0\amp 4/3\amp -8/3\amp 4/3\\2\amp 1\amp 4\amp 5
+                                \end{array}\right]
+                            </mrow>
+                            <mrow>  
+                                \begin{array}{c}
+                                \\
+                            \\
+                            \xrightarrow{R_3-2R_1}\\
+                            \end{array}\amp \left[\begin{array}{ccc|c}  
+                            1\amp 1/3\amp 7/3\amp 7/3\\0\amp \fbox{\(4/3\)}\amp -8/3\amp 4/3\\0\amp 1/3\amp -2/3\amp 1/3
+                            \end{array}\right] 
+                            </mrow>
+                            <mrow>  
+                                \begin{array}{c}
+                                \\
+                                \xrightarrow{\frac{3}{4}R_2}\\
+                                \\
+                                \end{array}
+                                \amp \left[\begin{array}{ccc|c}  
+                                1\amp 1/3\amp 7/3\amp 7/3\\0\amp \fbox{\(1\)}\amp -2\amp 1\\0\amp 1/3\amp -2/3\amp 1/3
+                                \end{array}\right] 
+                            </mrow>
+                            <mrow>  
+                                \begin{array}{c}
+                                \\
+                                \\
+                                \xrightarrow{R_3-\frac{1}{3}R_2}\\
+                                \end{array}
+                                \amp \left[\begin{array}{ccc|c}  
+                                1\amp 1/3\amp 7/3\amp 7/3\\0\amp \fbox{\(1\)}\amp -2\amp 1\\0\amp 0\amp 0\amp 0
+                                \end{array}\right] 
+                            </mrow>
+                            <mrow> \begin{array}{c}
+                                \xrightarrow{R_1-\frac{1}{3}R_2}\\
+                                \\
+                            \\
+                            \end{array}
+                            \amp \left[\begin{array}{ccc|c}  
+                                1\amp 0\amp 3\amp 2\\0\amp 1\amp -2\amp 1\\0\amp 0\amp 0\amp 0
+                                \end{array}\right] 
+                            </mrow>
+                        </md>
+ 
+                        We convert the reduced row echelon form to a system of equations and find the solution.  The last equation contributes nothing to the system so we omit writing it down.
+            
+                        <me>
+                            \begin{array}{ccccccccc}
+                            x \amp  \amp \amp +\amp 3z\amp = \amp 2 \\
+                            \amp  \amp y\amp -\amp 2z\amp =\amp 1
+                            \end{array}
+                        </me>
+
+                        The solution is
+                
+                        <me>
+                            x=2-3t,\quad y=1+2t,\quad z=t.
+                        </me>
+                    </p>
+                </answer>
+            </example>
+            
+            <p>
+                The Gauss-Jordan Algorithm guarantees the existence of the reduced row echelon form for all matrices.  
+                When doing computations by hand, however, the algorithm may not always be the optimal method of finding a row echelon form or the reduced row echelon form because the procedure often leads to fractions early in the process. 
+                The following video shows how to arrive at the same reduced row echelon form for the matrix in <xref ref="ex-gaussjordanalg"/> without doing any fraction arithmetic.  You will see that we still employ row operations, but in a different order.
+            </p>
+
+            <video youtube="76Y41ncuLeQ" play-at="popout"/>
+
+            <p>
+                The video highlights the fact that regardless of what sequence of elementary row operations we take to arrive at the reduced row echelon form, the end result is the same.  
+            </p>
+
+    </subsection>
+
+    <subsection xml:id="Subsection-Solutions-to-Systems-of-Equations">
+        <title>Solutions to Systems of Equations</title>
+
+        <p>
+            We now have an efficient and algorithmic way to solve systems of linear equations by row reducing a corresponding augmented matrix to its reduced row echelon form.
+            Now we turn our attention to exploring how to use the reduced row echelon form to find solutions to systems of equations. 
+            Specifically, when there are infinitely many solutions or no solutions.
+        </p>
+
+        <exploration xml:id="init-freevar1">
+            <p> 
+                Let's solve the system of equations below.
+                <me>
+                    \begin{array}{ccccccccc}
+                    x \amp - \amp 2y\amp +\amp z\amp \amp \amp = \amp 2 \\
+                    -2x\amp  +\amp y\amp -\amp z\amp +\amp w\amp =\amp 0\\
+                    x\amp  +\amp 4y\amp \amp \amp +\amp w\amp =\amp 1 
+                    \end{array}
+                </me>
+            </p>
+        
+            <p>
+                We begin by rewriting the system in the augmented matrix form.
+        
+                <me>
+                    \left[\begin{array}{cccc|c}  
+                1\amp -2\amp 1\amp 0\amp 2\\-2\amp 1\amp -1\amp 1\amp 0\\1\amp 4\amp 0\amp 1\amp 1
+                \end{array}\right]
+                </me>
+        
+                Our goal is to convert this matrix to its reduced row echelon form by means of elementary row operations.  To do this, we will proceed from left to right and use leading entries to wipe out all entries above and below them.
+         
+                <me>
+                    \left[\begin{array}{cccc|c}  
+                1\amp -2\amp 1\amp 0\amp 2\\-2\amp 1\amp -1\amp 1\amp 0\\1\amp 4\amp 0\amp 1\amp 1
+                \end{array}\right]
+                \begin{array}{c}
+                \\
+                \xrightarrow{R_2+2R_1}\\
+                \xrightarrow{R_3-R_1}\\
+                \end{array}\left[\begin{array}{cccc|c}  
+                1\amp -2\amp 1\amp 0\amp 2\\0\amp -3\amp 1\amp 1\amp 4\\0\amp 6\amp -1\amp 1\amp -1
+                \end{array}\right]\begin{array}{c}
+                \\
+                \\
+                \xrightarrow{R_3+2R_2}\\
+                \end{array}
+                </me>
+            
+            
+            
+                <me>
+                    \left[\begin{array}{cccc|c}  
+                1\amp -2\amp 1\amp 0\amp 2\\0\amp -3\amp 1\amp 1\amp 4\\0\amp 0\amp 1\amp 3\amp 7
+                \end{array}\right]
+                \begin{array}{c}
+                \\
+                \xrightarrow{(-1/3)R_2}\\
+                \\
+                \end{array}\left[\begin{array}{cccc|c}  
+                1\amp -2\amp 1\amp 0\amp 2\\0\amp 1\amp -1/3\amp -1/3\amp -4/3\\0\amp 0\amp 1\amp 3\amp 7
+                \end{array}\right]\begin{array}{c}
+                \xrightarrow{R_1+2R_2}\\
+                \\
+                \\
+                \end{array}
+                </me>
+                
+                <me>
+                    \left[\begin{array}{cccc|c}  
+                1\amp 0\amp 1/3\amp -2/3\amp -2/3\\0\amp 1\amp -1/3\amp -1/3\amp -4/3\\0\amp 0\amp 1\amp 3\amp 7
+                \end{array}\right]
+                \begin{array}{c}
+                \xrightarrow{R_1-(1/3)R_3}\\
+                \xrightarrow{R_2+(1/3)R_3}\\
+                \\
+                \end{array}\left[\begin{array}{cccc|c}  
+                1\amp 0\amp 0\amp -5/3\amp -3\\0\amp 1\amp 0\amp 2/3\amp 1\\0\amp 0\amp 1\amp 3\amp 7
+                \end{array}\right]
+                </me>
+                
+                Our final matrix may not be quite as nice as the one in <xref ref="eq-sys20reducedrowechelon"/>, but it is in reduced row echelon form.  
+                Our next step is to convert our augmented matrix back to a system of equations.  
+                We have:
+                
+                <me>
+                    \begin{array}{ccccccccc}
+                    x \amp  \amp \amp \amp \amp -\amp (5/3)w\amp = \amp -3 \\
+                    \amp  \amp y\amp \amp \amp +\amp (2/3)w\amp =\amp 1\\
+                    \amp  \amp \amp \amp z\amp +\amp 3w\amp =\amp 7 
+                    \end{array}
+                </me>
+                
+                We will rewrite the system as follows:
+                
+                <me>
+                    \begin{array}{ccccccccc}
+                    x \amp  \amp \amp \amp \amp \amp \amp = \amp -3+(5/3)w \\
+                    \amp  \amp y\amp \amp \amp \amp \amp =\amp 1-(2/3)w\\
+                    \amp  \amp \amp \amp z\amp \amp \amp =\amp 7-3w 
+                    \end{array}
+                </me>
+                
+                Now we see that there are infinitely many solutions because we can assign any value to <m>w</m>, then compute <m>x</m>, <m>y</m> and <m>z</m> to obtain a solution to the system. 
+                For example, let <m>w=0</m>, then <m>x=-3</m>, <m>y=1</m> and <m>z=7</m>, so <m>(-3, 1, 7, 0)</m> is a solution.  
+                If we let <m>w=3</m>, then <m>x=2</m>, <m>y=-1</m> and <m>z=-2</m>, so <m>(2, -1, -2, 3)</m> is also a solution.
+                To emphasize that we can let <m>w</m> be any real number, we call it a <term>free variable</term>.
+            </p>
+        
+            <p>
+                We write the solution set to this system as the following:
+                <md>
+                    <mrow> x\amp =-3+\frac{5}{3}w </mrow>
+                    <mrow> y\amp =1-\frac{2}{3}w </mrow>
+                    <mrow> z\amp =7-3w </mrow>
+                    <mrow> w\amp \text{ is free} </mrow>
+                </md>
+                This describes all the points in <m>\mathbb{R}^4</m> of the form
+                <me>
+                    \left(-3+\frac{5}{3}w, 1-\frac{2}{3}w, 7-3w, w\right) .
+                </me>
+            </p>
+        </exploration>
+        
+        <p>
+            Observe that in <xref ref="init-freevar1"/>, we called variable <m>w</m> a <term>free variable</term> because it can be any real number. 
+            Notice that the variables <m>x</m>, <m>y</m> and <m>z</m> correspond to the leading <m>1's</m> in the reduced row echelon.  
+            We say that <m>x</m>, <m>y</m> and <m>z</m> are the <term>leading variables</term>.  
+            The free variable <m>w</m> is not a leading variable. 
+            In fact, free variables always correspond to a column in the reduced row echelon form of the augmented matrix which does not have a leading 1. 
+            This gives us a method for identifying free variables. 
+        </p>
+
+        <example xml:id="ex-rrefinfmanysolutionssys">
+                <statement>
+                    <p>
+                        Solve the system of equations.
+                        <me>
+                            \begin{array}{ccccccc}
+                            x \amp  -\amp 3y\amp -\amp z\amp = \amp 3 \\
+                            -3x\amp  +\amp 5y\amp \amp \amp =\amp -2\\
+                            x\amp + \amp y\amp +\amp 2z\amp =\amp -4
+                            \end{array}
+                        </me>
+                    </p>
+                </statement>
+                <answer>
+                    <p>
+                        We rewrite the system in the augmented matrix form and transform it to reduced row echelon form.  
+                        We leave the details of the elementary row operations to the reader and state the final result.   
+                        <me>
+                            \left[\begin{array}{ccc|c}  
+                            1\amp -3\amp -1\amp 3\\-3\amp 5\amp 0\amp -2\\1\amp 1\amp 2\amp -4
+                            \end{array}\right]\begin{array}{c}
+                            \\
+                            \rightsquigarrow\\
+                            \\
+                            \end{array}\left[\begin{array}{ccc|c}  
+                            1\amp 0\amp 5/4\amp -9/4\\0\amp 1\amp 3/4\amp -7/4\\0\amp 0\amp 0\amp 0
+                            \end{array}\right]
+                        </me>
+
+                        The augmented column does not have a leading 1 in the reduced row echelon form, so we know the system is consistent.
+                        To write down the solution, we note that <m>x</m> and <m>y</m> are leading variables and <m>z</m> is a free variable. 
+                    
+                        Converting the augmented matrix back to a system of equations we get
+                    
+                        <me>
+                            \begin{array}{ccccccc}
+                            x \amp + \amp 0y\amp +\amp (5/4)z\amp = \amp -9/4 \\
+                            0x\amp  +\amp y\amp +\amp (3/4)z\amp =\amp -7/4\\
+                            0x\amp + \amp 0y\amp +\amp 0z\amp =\amp 0
+                            \end{array}
+                        </me>
+                    
+                        To complete the problem, we solve for the leading variables in terms of the free variables.
+                        Since the last equation contributes nothing, we will remove it and rewrite the system as
+                    
+                        <me>
+                            \begin{array}{ccccc}
+                            x \amp  \amp \amp = \amp -9/4-(5/4)z \\
+                            \amp  \amp y\amp =\amp -7/4-(3/4)z\\
+                            \end{array}
+                        </me>
+                        
+                        Hence, the solutions to this system are points of the form
+                        
+                        <me>
+                            \left(-\frac{9}{4}-\frac{5}{4}z, -\frac{7}{4}-\frac{3}{4}z, z\right)
+                        </me>
+                        
+                        We can also write the solutions as
+                        <md>
+                            <mrow> x\amp =-\frac{9}{4}-\frac{5}{4}z </mrow>
+                            <mrow> y\amp =-\frac{7}{4}-\frac{3}{4}z </mrow>
+                            <mrow> z\amp \text{ is free} </mrow>
+                        </md>
+                    </p>
+                </answer>
+            </example>
+
+        <p>
+            We now can solve and write down the solution to any consistent system using the reduced row echelon form of an augmented matrix. 
+            We can also use row echelon forms to determine if a system is inconsistent.
+        </p>
+        
+        <exploration xml:id="init-nosolutionssys">
+            <p>
+                In this exploration, we will solve the system of equations below or determine that the system is inconsistent.
+        
+                <me>
+                    \begin{array}{ccccccc}
+                    2x \amp  -\amp y\amp \amp \amp = \amp 2 \\
+                    x\amp  +\amp y\amp -\amp 2z\amp =\amp 0\\
+                    -3x\amp  \amp \amp +\amp 2z\amp =\amp -1
+                    \end{array}
+                </me>
+            </p>
+            
+            <p>
+                We rewrite the system in augmented matrix form and transform it to reduced row echelon form.  We leave the details of the elementary row operations to the reader and state the final result.
+            
+                <men xml:id="eq-sys20nosolutionsys"> \left[\begin{array}{ccc|c}  
+                    2\amp -1\amp 0\amp 2\\1\amp 1\amp -2\amp 0\\-3\amp 0\amp 2\amp -1
+                    \end{array}\right]\begin{array}{c}
+                    \\
+                    \rightsquigarrow\\
+                    \\
+                    \end{array}\left[\begin{array}{ccc|c}  
+                    1\amp 0\amp -2/3\amp 0\\0\amp 1\amp -4/3\amp 0\\0\amp 0\amp 0\amp 1
+                    \end{array}\right]
+                </men>
+            
+                Converting back to a system of linear equations, we get
+         
+                <men xml:id="eq-sys20nosolutions">
+                    \begin{array}{ccccccc}
+                    0x \amp + \amp 0y\amp -\amp (2/3)z\amp = \amp 0 \\
+                    0x\amp + \amp 0y\amp -\amp (4/3)z\amp =\amp 0\\
+                    0x\amp + \amp 0y\amp +\amp 0z\amp =\amp 1
+                    \end{array}
+                </men>
+
+                The last equation in this system clearly has no solutions.  
+                We conclude that this system (and the original system) is inconsistent.  
+            </p>
+        </exploration>
+        
+        <observation xml:id="ob-inconsistent">
+            <p>
+                Note that the last row of the reduced row echelon form in <xref ref="eq-sys20nosolutionsys"/> looks like this
+                <me>
+                    \left[\begin{array}{ccc|c}  
+                    0\amp 0\amp 0\amp 1
+                    \end{array}\right]
+                </me>
+        
+                 This row corresponds to the equation
+         
+                <me>
+                    \begin{array}{ccccccc}
+                    0x\amp + \amp 0y\amp +\amp 0z\amp =\amp 1
+                    \end{array}
+                </me>
+                
+                which clearly has no solutions.  
+            </p>
+
+            <p>
+                In general, if the reduced row echelon form of the augmented matrix contains a row
+         
+                <me>
+                    \left[\begin{array}{ccc|c}  
+                    0\amp \ldots\amp 0\amp 1
+                    \end{array}\right]
+                </me>
+                
+                we can conclude that the system is inconsistent.
+            </p>
+        </observation>
+
+        <observation xml:id="ob-existence-and-uniqueness">
+            <p>
+                So long as the reduced row echelon form of an augmented matrix does not contain a leading 1 in the last column, the system is consistent.
+                Furthermore, if the reduced row echelon form has a leading 1 in every column except the last column, then the system has a unique solution.
+                If the reduced row echelon form has a leading 1 in the last column, but not in every other column, then the system has infinitely many solutions.
+            </p>
+
+            <p>
+                We can interpret this observation in terms of the ranks of coefficient matrix and of the augmented matrix.  
+                If the rank of coefficient matrix is less than the rank of the augmented matrix, then there is a 1 in the last column of the augmented matrix and the system is inconsistent.  
+                If the two ranks are both equal to the number of original variables, i.e., there are no are free variables, then the system has a unique solution.
+                If the two ranks are equal and less than the number of original varialbes, then the systhem has infinitely many solutions. 
+            </p>
+        </observation>
+        </subsection>
+
+
+    <exercises xml:id="Exercises-Row-Echelon-Forms">
+        <exercisegroup>
+        
+            <introduction>
+                <p>
+                    Determine whether each augmented matrix shown below is in reduced row echelon form.
+                </p>
+            </introduction>
+        
+            <exercise xml:id="prob-rrefmultchoice1">
+                <statement>
+                    <p>
+                    <me>
+                        \left[\begin{array}{cccc|c}  
+                        0\amp 1\amp 1\amp 0\amp 2\\1\amp -3\amp 0\amp 1\amp 4\\0\amp 0\amp 1\amp 0\amp -1
+                        \end{array}\right]
+                    </me>
+                    </p>
+                </statement>
+                <choices>
+                <choice>
+                    <statement>
+                        <p>
+                            Yes
+                        </p>
+                    </statement>
+                </choice>
+                <choice correct="yes">
+                    <statement>
+                        <p>
+                            No
+                        </p>
+                    </statement>
+                </choice>
+                </choices>
+            </exercise>
+                
+                <exercise xml:id="prob-rrefmultchoice2">
+                <statement>
+                    <p>
+                    <me>
+                        \left[\begin{array}{cc|c}  
+                        1\amp 1\amp 1\\0\amp 1\amp 0\\0\amp 0\amp 0
+                        \end{array}\right]
+                    </me>
+                    </p>
+                </statement>
+                <choices>
+                <choice>
+                    <statement>
+                        <p>
+                            Yes
+                        </p>
+                    </statement>
+                </choice>
+                <choice>
+                    <statement correct="yes">
+                        <p>
+                            No
+                        </p>
+                    </statement>
+                </choice>
+                </choices>
+            </exercise>
+                
+                <exercise xml:id="prob-rrefmultchoice3">
+                <statement>
+                    <p>
+                    <me>
+                        \left[\begin{array}{cc|c}  
+                        1\amp 0\amp 1\\0\amp 1\amp 0\\0\amp 0\amp 0
+                        \end{array}\right]
+                    </me>
+                    </p>
+                </statement>
+                <choices>
+                <choice correct="yes">
+                    <statement>
+                        <p>
+                            Yes
+                        </p>
+                    </statement>
+                </choice>
+                <choice>
+                    <statement>
+                        <p>
+                            No
+                        </p>
+                    </statement>
+                </choice>
+                </choices>
+            </exercise>
+                
+                <exercise xml:id="prob-rrefmultchoice4">
+                <statement>
+                    <p>
+                    <me>
+                        \left[\begin{array}{ccc|c}  
+                        1\amp 0\amp 1\amp 0\\0\amp 1\amp 0\amp 0\\0\amp 0\amp 0\amp 1
+                        \end{array}\right]
+                    </me>
+                    </p>
+                </statement>
+                <choices>
+                <choice correct="yes">
+                    <statement>
+                        <p>
+                            Yes
+                        </p>
+                    </statement>
+                </choice>
+                <choice>
+                    <statement>
+                        <p>
+                            No
+                        </p>
+                    </statement>
+                </choice>
+                </choices>
+            </exercise>
+                
+                <exercise xml:id="prob-rrefmultchoice5">
+                <statement>
+                    <p>
+                    <me>
+                        \left[\begin{array}{ccc|c}  
+                        1\amp 1\amp 0\amp 2\\0\amp 1\amp 0\amp 9\\0\amp 0\amp 1\amp -1
+                        \end{array}\right]
+                    </me>
+                    </p>
+                </statement>
+                <choices>
+                <choice>
+                    <statement>
+                        <p>
+                            Yes
+                        </p>
+                    </statement>
+                </choice>
+                <choice correct="yes">
+                    <statement>
+                        <p>
+                            No
+                        </p>
+                    </statement>
+                </choice>
+                </choices>
+            </exercise>
+        </exercisegroup>
+
+        <exercise xml:id="prob-same-rref">
+            <statement>
+                <p>
+                    Show that applying Gauss-Jordan elimination to the matrix in <xref ref="init-gaussianelim2"/> yields the same reduced row-echelon form as the matrix we obtained in <xref ref="init-gaussianelim1"/>.
+                </p>
+            </statement>
+        </exercise>
+
+        <exercisegroup xml:id="prob-twowaystorref1">
+        
+            <introduction>
+                <p>
+                    Follow the indicated steps of the Gauss-Jordan algorithm to transform the matrix to its reduced row-echelon form.
+                    <me>
+                        \left[\begin{array}{ccc|c}  2\amp 1\amp 1\amp 3\\-1\amp 0\amp 1\amp 2\\1\amp 1\amp -2\amp 0 \end{array}\right]
+                    </me>
+                </p>
+            </introduction>
+
+            <exercise>
+                <statement>
+                    <p>
+                        <m>\frac{1}{2}R_1\rightarrow R_1</m>
+                    </p>
+                </statement>
+                <answer>
+                    <p>
+                        <me>
+                            \left[\begin{array}{ccc|c}   1\amp 1/2\amp 1/2\amp 3/2\\-1\amp 0\amp 1\amp 2\\1\amp 1\amp -2\amp 0 \end{array}\right]
+                        </me>
+                    </p>
+                </answer>
+            </exercise>
+
+            <exercise>
+                <statement>
+                    <p>
+                        <m>R_1+R_2\rightarrow R_2</m>
+                    </p>
+                </statement>
+                <answer>
+                    <p>
+                        <me>
+                            \left[\begin{array}{ccc|c}  1\amp 1/2\amp 1/2\amp 3/2\\0\amp 1/2\amp 3/2\amp 7/2\\1\amp 1\amp -2\amp 0 \end{array}\right]
+                        </me>
+                    </p>
+                </answer>
+            </exercise>
+
+            <exercise>
+                <statement>
+                    <p>
+                        <m>R_3-R_1\rightarrow R_3</m>
+                    </p>
+                </statement>
+                <answer>
+                    <p>
+                        <me>
+                            \left[\begin{array}{ccc|c}   1\amp 1/2\amp 1/2\amp 3/2\\0\amp 1/2\amp 3/2\amp 7/2\\0\amp 1/2\amp -5/2\amp -3/2 \end{array}\right]
+                        </me>
+                    </p>
+                </answer>
+            </exercise>
+
+            <exercise>
+                <statement>
+                    <p>
+                        <m>2R_2\rightarrow R_2</m>
+                    </p>
+                </statement>
+                <answer>
+                    <p>
+                        <me>
+                            \left[\begin{array}{ccc|c}   1\amp 1/2\amp 1/2\amp 3/2\\0\amp 1\amp 3\amp 7\\0\amp 1/2\amp -5/2\amp -3/2 \end{array}\right]
+                        </me>
+                    </p>
+                </answer>
+            </exercise>
+
+            <exercise>
+                <statement>
+                    <p>
+                        <m>R_3-\frac{1}{2}R_2\rightarrow R_3</m>
+                    </p>
+                </statement>
+                <answer>
+                    <p>
+                        <me>
+                            \left[\begin{array}{ccc|c}  
+                            1\amp 1/2\amp 1/2\amp 3/2\\0\amp 1\amp 3\amp 7\\0\amp 0\amp -4\amp -5
+                            \end{array}\right]
+                        </me>
+                    </p>
+                </answer>
+            </exercise>
+
+            <exercise>
+                <statement>
+                    <p>
+                        <m>-\frac{1}{4}R_3\rightarrow R_3</m> 
+                    </p>
+                </statement>
+                <answer>
+                    <p>
+                        <me>
+                            \left[\begin{array}{ccc|c}    1\amp 1/2\amp 1/2\amp 3/2\\0\amp 1\amp 3\amp 7\\0\amp 0\amp 1\amp 5/4 \end{array}\right]
+                        </me>
+                    </p>
+                </answer>
+            </exercise>
+
+            <exercise>
+                <statement>
+                    <p>
+                        <m>R_2-3R_3\rightarrow R_2</m>
+                    </p>
+                </statement>
+                <answer>
+                    <p>
+                        <me>
+                            \left[\begin{array}{ccc|c}  
+                            1\amp 1/2\amp 1/2\amp 3/2\\0\amp 1\amp 0\amp 13/4\\0\amp 0\amp 1\amp 5/4
+                            \end{array}\right]
+                        </me>
+                    </p>
+                </answer>
+            </exercise>
+
+            <exercise>
+                <statement>
+                    <p>
+                        <m>R_1-\frac{1}{2}R_3\rightarrow R_1</m>
+                    </p>
+                </statement>
+                <answer>
+                    <p>
+                        <me>
+                            \left[\begin{array}{ccc|c}  
+                                1\amp 1/2\amp 0\amp 7/8\\0\amp 1\amp 0\amp 13/4\\0\amp 0\amp 1\amp 5/4
+                            \end{array}\right]
+                        </me>
+                    </p>
+                </answer>
+            </exercise>
+
+            <exercise>
+                <statement>
+                    <p>
+                        <m>R_1-\frac{1}{2}R_2\rightarrow R_1</m>
+                    </p>
+                </statement>
+                <answer>
+                    <p>
+                        <me>
+                            \left[\begin{array}{ccc|c}  
+                                1\amp 0\amp 0\amp -3/4\\0\amp 1\amp 0\amp 13/4\\0\amp 0\amp 1\amp 5/4
+                            \end{array}\right]
+                        </me>
+                    </p>
+                </answer>
+            </exercise>
+        </exercisegroup>
+        
+        <exercisegroup xml:id="prob-twowaystorref2">
+        
+            <introduction>
+                <p>
+                    The following reduction steps do not follow the algorithm but are easier for a human to carry out because they use fewer fractions. Follow the indicated steps to transform the matrix to its reduced row-echelon form.  Steps will unfold automatically as you enter correct answers.
+                    <me>
+                        \left[\begin{array}{ccc|c}  2\amp 1\amp 1\amp 3\\-1\amp 0\amp 1\amp 2\\1\amp 1\amp -2\amp 0
+                    \end{array}\right]
+                    </me>
+                </p>
+            </introduction>
+        
+            <exercise>
+                <statement>
+                    <p>
+                        <m>R_1+R_2\rightarrow R_1</m>
+                    </p>
+                </statement>
+                <answer>
+                    <p>
+                        <me>
+                            \left[\begin{array}{ccc|c}  
+                                1\amp 1\amp 2\amp 5\\-1\amp 0\amp 1\amp 2\\1\amp 1\amp -2\amp 0
+                            \end{array}\right]
+                        </me>
+                    </p>
+                </answer>
+            </exercise>
+
+            <exercise>
+                <statement>
+                    <p>
+                        <m>R_2+R_3\rightarrow R_3</m>
+                    </p>
+                </statement>
+                <answer>
+                    <p>
+                        <me>
+                            \left[\begin{array}{ccc|c}  
+                                1\amp 1\amp 2\amp 5\\-1\amp 0\amp 1\amp 2\\0\amp 1\amp -1\amp 2
+                            \end{array}\right]
+                        </me>
+                    </p>
+                </answer>
+            </exercise>
+
+            <exercise>
+                <statement>
+                    <p>
+                        <m>R_1+R_2\rightarrow R_1</m>
+                    </p>
+                </statement>
+                <answer>
+                    <p>
+                        <me>
+                            \left[\begin{array}{ccc|c}  
+                                0\amp 1\amp 3\amp 7\\-1\amp 0\amp 1\amp 2\\0\amp 1\amp -1\amp 2
+                            \end{array}\right]
+                        </me>
+                    </p>
+                </answer>
+            </exercise>
+
+            <exercise>
+                <statement>
+                    <p>
+                        <m>R_1-R_3\rightarrow R_1</m>
+                    </p>
+                </statement>
+                <answer>
+                    <p>
+                        <me>
+                            \left[\begin{array}{ccc|c}  
+                                0\amp 0\amp 4\amp 5\\-1\amp 0\amp 1\amp 2\\0\amp 1\amp -1\amp 2
+                            \end{array}\right]
+                        </me>
+                    </p>
+                </answer>
+            </exercise>
+
+            <exercise>
+                <statement>
+                    <p>
+                        <m>\frac{1}{4}R_1\rightarrow R_1</m> and <m>-R_2\rightarrow R_2</m>
+                    </p>
+                </statement>
+                <answer>
+                    <p>
+                        <me>
+                            \left[\begin{array}{ccc|c}  
+                                0\amp 0\amp 1\amp 5/4\\1\amp 0\amp -1\amp -2\\0\amp 1\amp -1\amp 2
+                            \end{array}\right]
+                        </me>
+                    </p>
+                </answer>
+            </exercise>
+
+            <exercise>
+                <statement>
+                    <p>
+                        <m>R_1+R_2\rightarrow R_2</m>
+                    </p>
+                </statement>
+                <answer>
+                    <p>
+                        <me>
+                            \left[\begin{array}{ccc|c}  
+                                0\amp 0\amp 1\amp 5/4\\1\amp 0\amp 0\amp -3/4\\0\amp 1\amp -1\amp 2
+                            \end{array}\right]
+                        </me>
+                    </p>
+                </answer>
+            </exercise>
+
+            <exercise>
+                <statement>
+                    <p>
+                        <m>R_1+R_3\rightarrow R_3</m>
+                    </p>
+                </statement>
+                <answer>
+                    <p>
+                        <me>
+                            \left[\begin{array}{ccc|c}  
+                            0\amp 0\amp 1\amp 5/4\\1\amp 0\amp 0\amp -3/4\\0\amp 1\amp 0\amp 13/4
+                            \end{array}\right]
+                        </me>
+                    </p>
+                </answer>
+            </exercise>
+
+            <exercise>
+                <statement>
+                    <p>
+                        Exchange rows.
+                    </p>
+                </statement>
+                <answer>
+                    <p>
+                        <m>
+                            \left[\begin{array}{ccc|c}  
+                                1\amp 0\amp 0\amp -3/4\\0\amp 1\amp 0\amp 13/4\\0\amp 0\amp 1\amp 5/4
+                            \end{array}\right]
+                        </m>
+                    </p>
+                </answer>
+            </exercise>
+        </exercisegroup>
+
+        <exercise xml:id="prob-rrefnosolutionssys">
+            <statement>
+                <p>
+                    Fill in the steps that lead to the reduced row echelon form in <xref ref="init-nosolutionssys"/>.
+                </p>
+            </statement>
+        </exercise>
+        
+        <exercise xml:id="prob-rreffinfmanysolutionsys">
+            <statement>
+                <p>
+                Fill in the steps that lead to the reduced row echelon form in <xref ref="ex-rrefinfmanysolutionssys"/>.
+                </p>
+            </statement>
+        </exercise>
+        
+        <exercise xml:id="prob-numberofsolutionsmultch">
+            <statement>
+                <p>
+                Suppose a system of equations has the following reduced row echelon form  
+                <me>
+                    \left[\begin{array}{ccc|c}  
+                1\amp 0\amp 0\amp 4\\0\amp 1\amp -3\amp -6\\0\amp 0\amp 0\amp 1
+                \end{array}\right]
+                </me>
+        
+                What can you say about the system?
+                </p>
+            </statement>
+            <choices>
+            <choice correct="yes">
+                <statement>
+                    <p>
+                        The system is inconsistent 
+                    </p>
+                </statement>
+            </choice>
+            <choice>
+                <statement>
+                    <p>
+                        The system has infinitely many solutions
+                    </p>
+                </statement>
+            </choice>
+            <choice>
+                <statement>
+                    <p>
+                        The system has a unique solution
+                    </p>
+                </statement>
+            </choice>
+            <choice>
+                <statement>
+                    <p>
+                        We would have to examine the original system to make the final determination
+                    </p>
+                </statement>
+            </choice>
+            </choices>
+        </exercise>
+
+        <exercisegroup>
+        
+            <introduction>
+                <p>
+                    Solve each system of equations.
+                </p>
+            </introduction>
+        
+            <exercise xml:id="prob-sys20solvesys1">
+                <statement>
+                    <p>
+                    <me>
+                        \begin{array}{ccccccc}
+                            x \amp  +\amp 3y\amp -\amp 2z\amp = \amp -11 \\
+                            2x\amp  +\amp y\amp +\amp 4z\amp =\amp 12\\
+                            x\amp  -\amp y\amp -\amp z\amp =\amp 0
+                        \end{array}
+                    </me>
+                    </p>
+                </statement>
+                <answer>
+                    <p>
+                    <me>
+                        ( 1, -2, 3)
+                    </me>
+                    </p>
+                </answer>
+            </exercise>
+            
+            <exercise xml:id="prob-sys20solvesys2">
+                <statement>
+                    <p>
+                    <me>
+                        \begin{array}{ccccccc}
+                            3x \amp  -\amp y\amp +\amp z\amp = \amp -5 \\
+                            x\amp  +\amp 2y\amp -\amp z\amp =\amp -3\\
+                            x\amp  -\amp 5y\amp +\amp 3z\amp =\amp 1
+                        \end{array}
+                    </me>
+                    </p>
+                </statement>
+                <answer>
+                    <p>
+                    <me>
+                        \left( -13/7- 1/7t, -4/7 + 4/7t, t \right)
+                    </me>
+                    </p>
+                </answer>
+            </exercise>
+        </exercisegroup>
+
+        <exercise xml:id="prob-4eq5un">
+            <statement>
+                <p>
+                    Suppose a linear system has <m>4</m> equations and <m>5</m> unknowns.  Which of the following is NOT a possibility?
+                </p>
+            </statement>
+            <choices>
+                <choice correct="yes">
+                    <statement>
+                        <p> The system has a unique solution </p>
+                    </statement>
+                   </choice>
+                <choice>
+                    <statement>
+                        <p> The system has no solutions </p>
+                    </statement>
+                </choice>
+                <choice>
+                    <statement>
+                        <p> The system has infinitely many solutions </p>
+                    </statement>
+                </choice>
+            </choices>
+        </exercise>
+
+        <exercise xml:id="prob-equivrowequiv">
+        <statement>
+            <p>
+            Suppose that we have two systems of linear equations, call them System X and System Y, both with their right hand sides all zeros. 
+            If they are equivalent systems, meaning that they have the same solution set, then must there be a (finite) sequence of elementary row operations to get from System X to System Y?
+            Justify your answer.
+            </p>
+        </statement>
+        <hint>
+            <p>
+            What can you say about reduced row echelon forms of the two coefficient matrices?  
+            </p>
+        </hint>
+        </exercise>
+    </exercises>
+
+
+    <references>
+        <biblio xml:id="ref-Nicholson">
+            <p> 
+                W. Keith Nicholson, <em>Linear Algebra with Applications</em>, Lyryx 2018, Open Edition, p 15-17. 
+            </p>
+        </biblio>
+        <biblio xml:id="ref-Yuster">
+            <p> 
+                Thomas Yuster, The Reduced Row Echelon Form of a Matrix is Unique: a Simple Proof, Mathematics Magazine, vol. 57, no. 2 (Mar. 1984), pp. 93-94. 
+            </p>
+        </biblio>
+    </references>
+
+</section>

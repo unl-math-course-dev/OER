@@ -1,0 +1,556 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<section xml:id="Section-Elementary-Matrices" xmlns:xi="http://www.w3.org/2001/XInclude">
+    <title>Extra Topic: Elementary Matrices</title>
+
+<subsection xml:id="Subsection-RowOpsAsMatricies">
+    <title>Elmentary Row Operations as Matrices</title>
+
+<exploration xml:id="init-elementarymat2">
+    <p>
+        Consider the matrices
+
+<me>
+    B = \begin{bmatrix}  
+ 1\amp 0\amp 0\\0\amp 5\amp 0\\0\amp 0\amp 1
+ \end{bmatrix}
+ \quad \text{and}\quad
+ C = \begin{bmatrix}  
+ 1\amp 0\amp 0\\0\amp 1\amp 0\\0\amp 0\amp -2
+ \end{bmatrix}.
+
+</me>
+
+The two matrices have something in common.  Can you figure out what it is?  (The answer will be given later in the problem.)
+
+
+<me>
+    \text{Let}\quad A = \begin{bmatrix}  
+ 1\amp 2\amp 3\\4\amp 5\amp 6\\7\amp 8\amp 9
+ \end{bmatrix}.
+</me>
+</p>
+
+<problem>
+    <statement>
+        <p>
+Compute <m>BA</m> and <m>CA</m>.     
+        </p>
+    </statement>
+
+<answer>
+<p>
+
+<me>
+    BA=\begin{bmatrix}1 \amp  2 \amp  3 \\ 20 \amp  25 \amp  30\\ 7 \amp  8 \amp  9\end{bmatrix}
+\quad
+\text{and}
+\quad
+CA=\begin{bmatrix}1 \amp  2 \amp  3 \\ 4 \amp  5 \amp  6\\ -14 \amp  -16 \amp  -18\end{bmatrix}.
+</me>
+
+
+Observe that multiplying <m>A</m> by <m>B</m> on the left results in multiplying the second row of <m>A</m> by <m>5</m>, while multiplying <m>A</m> by <m>C</m> on the left results in multiplying the third row of <m>A</m> by <m>-2</m>.
+</p>
+</answer>
+</problem>
+
+
+<p>
+Now we need to return to the question of what <m>B</m> and <m>C</m> have in common.  Both matrices were obtained from the identity matrix by multiplying one row of the identity by a non-zero constant.  Matrices <m>B</m> and <m>C</m> were obtained from <m>I</m> by multiplying one row of <m>I</m> by <m>5</m> and <m>-2</m> respectively.  Multiplying <m>A</m> by <m>B</m> (or <m>C</m>) on the left affects <m>A</m> in the same way.
+</p>
+
+
+<problem>
+<statement>
+<p>
+Matrix <m>A</m> does not have to be a square matrix.  Try finding <m>BA'</m> and <m>CA'</m> for 
+
+<me>
+    A'=\begin{bmatrix}1\amp 2\\3\amp 4\\5\amp 6\end{bmatrix}.
+</me>
+</p>
+</statement>
+
+<answer>
+<p>
+<me>
+    BA'=\begin{bmatrix}1\amp 2\\15\amp 20\\5\amp 6\end{bmatrix}\quad \text{and} \quad CA'=\begin{bmatrix}1\amp 2\\3\amp 4\\-10\amp -12\end{bmatrix}.
+</me>
+
+
+Observe that <m>B</m> and <m>C</m> have the same effect on <m>A'</m> as they did on <m>A</m>.
+</p>
+</answer>
+</problem>
+
+
+
+<!--<me>
+    AB=\begin{bmatrix}1 \amp  10 \amp  3 \\ 4 \amp  25 \amp  6\\ 7 \amp  40 \amp  9\end{bmatrix}
+%\quad
+%\text{and}
+%\quad
+%AC=\begin{bmatrix}1 \amp  2 \amp  -6 \\ 4 \amp  5 \amp  -12\\ 7 \amp  8 \amp  -18\end{bmatrix}
+</me>-->
+</exploration>
+ 
+
+
+<p>
+ In general, if a square matrix <m>E</m> is obtained from the identity matrix <m>I</m> by multiplying row <m>j</m> of <m>I</m> by a non-zero constant <m>k</m>, then multiplying an appropriately sized matrix <m>A</m> on the left by <m>E</m> results in row <m>j</m> of <m>A</m> being multiplied by <m>k</m>.  
+</p>
+
+<p>
+ Recall that multiplication of a row of a matrix by a non-zero constant is one of three <term>elementary row operations</term>.  Applying such an elementary row operation to <m>I</m> in order to produce <m>E</m>, results in applying the same elementary row operation to <m>A</m> when <m>A</m> is multiplied by <m>E</m> on the left.
+</p>
+
+<exploration xml:id="init-elementarymat1">
+    <p>
+        Consider the matrices
+
+<me>
+    
+D = \begin{bmatrix}  
+ 1\amp 0\amp 1\\0\amp 1\amp 0\\0\amp 0\amp 1
+ \end{bmatrix},
+ \quad \text{and}\quad
+F =  \begin{bmatrix}  
+ 1\amp 0\amp 0\\-2\amp 1\amp 0\\0\amp 0\amp 1
+ \end{bmatrix}.
+</me>
+
+As in the previous Exploration, the two matrices have something in common.  Both <m>D</m> and <m>F</m> were obtained from the identity matrix by adding a multiple of one row to another row.
+</p>
+
+<problem>
+<statement>
+    <p>
+        Can you guess what will happen if we multiply a matrix <m>A</m> by <m>D</m> and <m>F</m> on the left, were <m> A </m> is
+        <me>
+            \text{Let}\quad A = \begin{bmatrix}  
+            1\amp 2\amp 3\\4\amp 5\amp 6\\7\amp 8\amp 9
+            \end{bmatrix}.
+        </me>
+    </p>
+</statement>
+
+<answer>
+    <p>
+        <me>
+                DA=\begin{bmatrix}8 \amp  10 \amp  12 \\ 4 \amp  5 \amp  6\\ 7 \amp  8 \amp  9\end{bmatrix}
+            \quad
+            \text{and}
+            \quad
+            FA=\begin{bmatrix}1 \amp  2 \amp  3 \\ 2 \amp  1 \amp  0\\ 7 \amp  8 \amp  9\end{bmatrix}.
+        </me>    
+    </p>
+</answer>
+</problem>
+
+
+<p>
+As you had probably guessed, multiplication by <m>D</m> resulted in the third row of <m>A</m> being added to the first, and multiplication by <m>F</m> produced a matrix by adding <m>-2</m> times the first row to the second row of <m>A</m>.  The elementary row operations performed on <m>A</m> mimic the elementary row operations performed on <m>I</m> in order to obtain <m>D</m> and <m>F</m>.
+    </p>
+</exploration>
+
+
+
+
+
+<p>
+In general, if a square matrix <m>E</m> is obtained from the identity matrix <m>I</m> by adding <m>k</m> times row <m>j</m> of <m>I</m> to row <m>i</m>,  then multiplying an appropriately sized matrix <m>A</m> on the left by <m>E</m> results in <m>k</m> times row <m>j</m> of <m>A</m> being added to row <m>i</m> of <m>A</m>.  
+</p>
+
+<p>
+ Recall that adding a scalar multiple of one row to another row of a matrix is one of three <term>elementary row operations</term>.  Applying such an elementary row operation to <m>I</m> in order to produce <m>E</m>, results in applying the same elementary row operation to <m>A</m> when <m>A</m> is multiplied by <m>E</m> on the left.
+</p>
+
+
+
+
+
+ 
+<exploration xml:id="init-elementarymat3">
+    <p>
+        The matrices <m>B,C,D,F</m> above are special because when we multiply them by any appropriately sized matrix <m>A</m>, we are performing row operations on <m>A</m>.  
+    </p>
+
+<problem>
+<statement>
+    <p>
+        Can you construct a matrix <m>G</m> such that <m>GA</m> is the same as <m>A</m> except that its first and third rows are switched?       
+    </p>
+</statement>
+</problem>
+
+<answer>
+    <p>
+<me>
+    G=\begin{bmatrix}0 \amp  0 \amp  1 \\ 0 \amp  1 \amp  0\\ 1 \amp  0 \amp  0\end{bmatrix}.
+</me>
+    </p>
+</answer>
+</exploration>
+
+
+
+
+
+<remark>
+<statement>
+    <p>
+The matrices <m>B,C,D, F, G</m> of  <xref ref="init-elementarymat2"/>, <xref ref="init-elementarymat1"/> and <xref ref="init-elementarymat3"/> are known as <term>elementary matrices</term> because they perform elementary row operations on appropriately sized matrices.
+    </p>
+</statement>
+</remark>
+
+
+
+<definition xml:id="def-elemmatrix">
+
+    <statement>
+        <p>
+            An <term>elementary matrix</term> is a square matrix formed by applying a single elementary row operation to the identity matrix.
+        </p>
+    </statement>
+</definition>
+
+<p>
+Suppose <m>A</m> is an <m>m \times n</m> matrix.  If <m>E</m> is an <m>m \times m</m> elementary matrix formed by performing a certain row operation on the <m>m \times m</m> identity matrix, then multiplying any matrix <m>A</m> on the left by <m>E</m> is equivalent to performing that same row operation on <m>A</m>.  As there are three types of elementary row operations, there are three types of elementary matrices.
+</p>
+
+<p>
+Elementary matrices give us a new way of looking at Gauss-Jordan elimination.  Suppose it takes <m>j</m> elementary row operations to transform <m>A</m> into <m>R</m>, its reduced row-echelon form.  Then we can represent this reduced row-echelon form as
+
+<me>
+    R = E_j \cdots E_2 E_1 A
+</me>
+
+where each <m>E_i</m> is the elementary matrix corresponding to the <m>i</m>th row operation performed on <m>A</m>.  
+</p>
+</subsection>
+
+<subsection xml:id="Subsection-Inverses-of-Elementary-Matrices">
+    <title>Inverses of Elementary Matrices</title>
+
+<p>
+It is easy to see that any elementary matrix <m>E</m> is invertible, because if <m>E</m> is formed by applying a certain row operation to the identity matrix <m>I</m>, then there is a single row operation that may be applied to <m>E</m> to get <m>I</m> back.  For example, in <xref ref="init-elementarymat1"/>, <m>F</m> is formed by adding <m>-2</m> times the first row of the identity to the second row of the identity.  It follows that <m>F^{-1}</m> should be the matrix formed by adding <m>2</m> times the first row of the identity to the second row of the identity, i.e.
+ 
+<me>
+    F^{-1} =  \begin{bmatrix}  
+ 1\amp 0\amp 0\\2\amp 1\amp 0\\0\amp 0\amp 1
+ \end{bmatrix}.
+
+</me>
+
+
+And indeed we can check 
+<me>
+    F F^{-1} = \begin{bmatrix}  
+ 1\amp 0\amp 0\\-2\amp 1\amp 0\\0\amp 0\amp 1
+ \end{bmatrix} \begin{bmatrix}  
+ 1\amp 0\amp 0\\2\amp 1\amp 0\\0\amp 0\amp 1
+ \end{bmatrix} = \begin{bmatrix}  
+ 1\amp 0\amp 0\\0\amp 1\amp 0\\0\amp 0\amp 1
+ \end{bmatrix}
+</me>
+
+ and also <m> F^{-1} F = I</m>.
+</p>
+
+<p>
+As part of the Practice Problem set you are asked to find the inverse of each of the other elementary matrices in <xref ref="init-elementarymat2"/>, <xref ref="init-elementarymat1"/> and <xref ref="init-elementarymat3"/>.  Once we have accounted for each of the three types of elementary matrices, we will have proven the following theorem.  
+</p>
+
+
+<theorem xml:id="th-elemmatricesinvertible">
+
+    <statement>
+        <p>
+            Elementary matrices are invertible, and the inverse of an elementary matrix is an elementary matrix.
+        </p>
+    </statement>
+
+
+<proof>
+    <p>
+Suppose <m>E</m> is obtained from <m>I</m> by switching rows <m>i</m> and <m>j</m>.  To find the inverse of <m>E</m>, we need to find a matrix <m>F</m> such that <m>FE=I</m>.  To get from <m>E</m> back to <m>I</m>, rows <m>i</m> and <m>j</m> of <m>E</m> must be switched.  This can be accomplished by multiplying <m>E</m> by itself on the left.  So, <m>E</m> is its own inverse.
+
+We can use the same line of reasoning to show that the other two types of elementary matrices are also invertible, and their inverses are also elementary matrices.  The details are left to the reader. 
+    </p>
+</proof>
+</theorem>
+
+
+
+
+
+
+
+
+
+
+
+
+<p>
+Recall that a square matrix <m>A</m> is called <term>nonsingular</term> provided that <m>\mbox{rref}(A)=I</m>.
+</p>
+
+<theorem xml:id="th-elemmatrices">
+
+    <statement>
+        <p>
+            The following statements are equivalent for an <m>n\times n</m> matrix <m>A</m>.
+<ol>
+<li xml:id="item-anonsingular2">
+  <p> <m>A</m> is nonsingular </p>
+</li>
+<li xml:id="item-aproductofelemmatrices">
+  <p>  <m>A</m> is a product of elementary matrices </p>
+</li>
+<li xml:id="item-ainvertible">
+  <p>  <m>A</m> is invertible </p>
+</li>
+</ol>
+        </p>
+    </statement>
+
+    <proof>
+        <p>
+We will prove equivalence of the three statements by showing that
+<xref ref="item-anonsingular2"/><m>\Rightarrow</m><xref ref="item-aproductofelemmatrices"/><m>\Rightarrow</m><xref ref="item-ainvertible"/><m>\Rightarrow</m><xref ref="item-anonsingular2"/>
+        </p>
+
+    <p>[Proof of <xref ref="item-anonsingular2"/><m>\Rightarrow</m><xref ref="item-aproductofelemmatrices"/>]:
+Suppose <m>\mbox{rref}(A)=I</m>.  Then <m>A</m> can be carried to the identity by elementary row operations.  So, there exist elementary matrices <m>E_1, E_2, \ldots ,E_k</m> such that 
+
+<me>
+    E_k\ldots E_2E_1A=I
+</me>
+
+By <xref ref="th-elemmatricesinvertible"/>, elementary matrices are invertible and their inverses are also elementary matrices.  Thus, we can write <m>A</m> as a product of elementary matrices as follows:
+
+<me>
+    A=E_1^{-1}E_2^{-1}\ldots E_k^{-1}.
+</me>
+
+    </p>
+
+
+    <p>[Proof of <xref ref="item-aproductofelemmatrices"/><m>\Rightarrow</m><xref ref="item-ainvertible"/>]:
+Suppose <m>A=E_1E_2\ldots E_k</m>, where <m>E_1, E_2, \ldots , E_k</m> are elementary matrices.  In <xref ref="item-inverseofproduct"/> we proved that <m>(BC)^{-1} = C^{-1} B^{-1}</m>.  By repeated applications of this theorem we have
+
+<me>
+    (E_1E_2\ldots E_k)^{-1}=E_k^{-1}\ldots E_2^{-1}E_1^{-1}=A^{-1}
+</me>
+
+We conclude that <m>A</m> is invertible.
+    </p>
+
+    <p>[Proof of <xref ref="item-ainvertible"/><m>\Rightarrow</m><xref ref="item-anonsingular2"/>]:
+See the corollary to <xref ref="th-matrixinverse"/>.
+    </p>
+</proof>
+</theorem>
+</subsection> 
+
+
+
+
+
+
+
+<exercises>
+
+
+<exercisegroup>
+<introduction>
+    <p>
+For each elementary matrix <m>E</m> below, determine the elementary row operation that results from multiplying a <m>3\times n</m> matrix <m>A</m> by <m>E</m> on the left.  Write down <m>E^{-1}</m> without going through the row-reduction procedure.    
+    </p>
+</introduction>
+
+
+
+<exercise xml:id="elemmatrices1">
+    <statement>
+    <p>
+            <me>
+                E=\begin{bmatrix}0\amp 1\amp 0\\1\amp 0\amp 0\\0\amp 0\amp 1\end{bmatrix}
+            </me>
+    </p>
+    </statement> 
+
+    
+<hint>
+    <p>
+        Think of an elementary row operation that would undo the row operation caused by <m>E</m>.   
+    </p>
+</hint>
+
+    <answer>
+        <p>
+            <me>
+    E^{-1}=\begin{bmatrix}0\amp 1\amp 0\\1\amp 0\amp 0\\0\amp 0\amp 1\end{bmatrix}
+</me>
+        </p>
+    </answer>
+</exercise>
+
+
+
+<exercise xml:id="prob-elemmatrices2">
+    <statement>
+        <p>
+            <me>
+    E=\begin{bmatrix}1\amp 0\amp 0\\0\amp 1\amp 0\\0\amp 0\amp 5\end{bmatrix}
+</me>
+        </p>
+    </statement>
+    <answer>
+        <p>
+            <me>
+    E^{-1}=\begin{bmatrix}1\amp 0\amp 0\\0\amp 1\amp 0\\0\amp 0\amp 1/5\end{bmatrix}
+</me>
+        </p>
+    </answer>
+</exercise>
+
+
+
+<exercise xml:id="prob-elemmatrices3">
+    <statement>
+        <p>
+            <me>
+    E=\begin{bmatrix}1\amp 0\amp 0\\0\amp 1\amp 0\\0\amp 4\amp 1\end{bmatrix}
+</me>
+        </p>
+    </statement>
+    <answer>
+        <p>
+            <me>
+    E^{-1}=\begin{bmatrix}1\amp 0\amp 0\\0\amp 1\amp 0\\0\amp -4\amp 1\end{bmatrix}
+</me>
+        </p>
+    </answer>
+</exercise>
+</exercisegroup>
+
+
+
+
+<exercise xml:id="prob-elem-mat-inv">
+    <statement>
+        <p>
+            Find the inverse of each of the following elementary matrices from <xref ref="init-elementarymat2"/>, <xref ref="init-elementarymat1"/> and <xref ref="init-elementarymat3"/>.
+
+<me>
+    
+ B = \begin{bmatrix}  
+ 1\amp 0\amp 0\\0\amp 5\amp 0\\0\amp 0\amp 1
+ \end{bmatrix}\quad
+ C = \begin{bmatrix}  
+ 1\amp 0\amp 0\\0\amp 1\amp 0\\0\amp 0\amp -2
+ \end{bmatrix}
+ \quad
+ D = \begin{bmatrix}  
+ 1\amp 0\amp 1\\0\amp 1\amp 0\\0\amp 0\amp 1
+ \end{bmatrix}\quad 
+ G =  \begin{bmatrix}  
+ 0\amp 0\amp 1\\0\amp 1\amp 0\\1\amp 0\amp 0
+ \end{bmatrix}
+ 
+</me>
+        </p>
+    </statement>
+</exercise>
+
+
+
+
+
+<exercise xml:id="prob-proofofelemmatricesinvert">
+    <statement>
+        <p>
+            Finish the proof of <xref ref="th-elemmatricesinvertible"/>.
+        </p>
+    </statement>
+</exercise>
+
+
+
+
+<exercise xml:id="prob-prodelemmatrices">
+<statement>
+<p>
+            Express <m>A</m> as a product of elementary matrices. Then consider whether the representation unique and prove your claim.
+
+<me>
+    A=\begin{bmatrix}1\amp 2\amp 0\\-1\amp 0\amp 1\\0\amp 4\amp 0\end{bmatrix}
+</me>
+</p>
+</statement>
+
+<hint>
+    <p>
+Row-reduce <m>A</m> to find <m>\mbox{rref}(A)</m>.  Record the elementary row operations as you perform row reduction.  You will be able to conclude that <m>E_j\cdots E_2E_1A=I</m>.  Find the inverse of each <m>E_i</m> and multiply by the inverses on the left.      
+    </p>
+</hint>
+</exercise>
+
+
+
+
+
+
+<exercise xml:id="prob-explorationelemmat">
+    <statement>
+        <p>
+            In  <xref ref="init-elementarymat2"/>, <xref ref="init-elementarymat1"/> and <xref ref="init-elementarymat3"/> we performed elementary row operations on <m>A</m> by multiplying <m>A</m> by elementary matrices <m>B, C, D, F, G</m> on the left.  Compute <m>AB, AC, AD, AF</m> and <m>AG</m>.  Summarize your findings.
+        </p>
+    </statement>
+
+
+    <answer>
+        <p>
+            <me>
+    AB=\begin{bmatrix}1 \amp  10 \amp  3 \\ 4 \amp  25 \amp  6\\ 7 \amp  40 \amp  9\end{bmatrix}
+\quad
+AC=\begin{bmatrix}1 \amp  2 \amp  -6 \\ 4 \amp  5 \amp  -12\\ 7 \amp  8 \amp  -18\end{bmatrix}
+</me>
+
+
+<me>
+    AD=\begin{bmatrix}1 \amp  2 \amp  4 \\ 4 \amp  5 \amp  10\\ 7 \amp  8 \amp  16\end{bmatrix}
+\quad
+AF=\begin{bmatrix}-3 \amp  2 \amp  3 \\ -6 \amp  5 \amp  6\\ -9 \amp  8 \amp  9\end{bmatrix}
+</me>
+
+
+<me>
+    AG=\begin{bmatrix}3 \amp  2 \amp  1 \\ 6 \amp  5 \amp  4\\ 9 \amp  8 \amp  7\end{bmatrix}
+
+</me>
+        </p>
+    </answer>
+</exercise>
+
+
+<exercise xml:id="prob-expressasprodelemmat">
+    <statement>
+        <p>
+            If possible, express 
+
+<me>
+    A=\begin{bmatrix}1\amp 4\amp 7\\2\amp 5\amp 8\\3\amp 6\amp 9\end{bmatrix}
+</me>
+
+as a product of elementary matrices.
+        </p>
+    </statement>
+</exercise>
+</exercises>
+
+
+</section>

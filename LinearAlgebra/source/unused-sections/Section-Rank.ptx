@@ -1,0 +1,370 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<section xml:id="Section-Rank" xmlns:xi="http://www.w3.org/2001/XInclude">
+    <title>Rank</title>
+
+
+    <subsection xml:id="Subsection-Rank">
+
+        <title>Rank</title>
+
+        <p>
+
+        This section is an adaptation of Section 1.2 of Keith Nicholson's <url href="https://open.umn.edu/opentextbooks/textbooks/linear-algebra-with-applications"><em>*Linear Algebra with Applications*</em></url>.
+
+        </p>
+
+        <p>
+
+        As stated in <xref ref="th-uniquenessofrref"/>, the reduced row-echelon form of a matrix <m>A</m> is uniquely determined by <m>A</m>. That is, no matter which series of row operations is used to transform <m>A</m> to its reduced row-echelon matrix, the result will always be the same matrix. In contrast, this is not true for row-echelon matrices: different sequences of row operations can transform the same matrix <m>A</m> to different row-echelon matrices. However, it is true that the number <m>r</m> of nonzero rows must be the same in each of these row-echelon matrices, as we will see in Theorem <xref ref="th-dimofrowA"/>. Hence, the number <m>r</m> depends only on <m>A</m> and not on the way in which <m>A</m> is carried to row-echelon form.
+
+        </p>
+
+        <example xml:id="ex-rowechofA">
+
+        <p>
+
+        Matrices <xref ref="eq-ref1"/> and <xref ref="eq-ref2"/> of <xref ref="init-gaussianelim1"/> are both row-echelon forms of <m>A</m>.  Both matrices have three nonzero rows.  The same is true for <m>\mbox{rref}(A)</m>.
+
+        </p>
+
+        </example>
+
+        <definition xml:id="def-rankofamatrix">
+
+        <statement>
+
+        <p>
+
+        The <term>rank</term> of matrix <m>A</m>, denoted by <m>\mbox{rank}(A)</m>,
+
+        is the number of nonzero rows that remain after we reduce <m>A</m> to row-echelon form by elementary row operations.
+
+        </p>
+
+        </statement>
+
+        </definition>
+
+        <p>
+
+        The rank a notion connected closely to the existence of solutions and other more nuanced notions emerging later on. We provide an example on how to compute it.
+
+        </p>
+
+        <example xml:id="ex-rankofA1">
+
+        <statement>
+
+        <p>
+
+        Compute the rank of
+
+        <me>
+
+        A =
+
+        \begin{bmatrix}
+
+        1 \amp  1 \amp  -1 \amp  4 \\
+
+        2 \amp  1 \amp   3 \amp  0 \\
+
+        0 \amp  1 \amp  -5 \amp  8
+
+        \end{bmatrix}
+
+        </me>
+
+        </p>
+
+        </statement>
+
+        <answer>
+
+        <p>
+
+        A reduction of <m>A</m> to row-echelon form is
+
+        <me>
+
+        A =
+
+        \begin{bmatrix}
+
+        1 \amp  1 \amp  -1 \amp  4 \\
+
+        2 \amp  1 \amp   3 \amp  0 \\
+
+        0 \amp  1 \amp  -5 \amp  8
+
+        \end{bmatrix} \rightsquigarrow\begin{bmatrix}
+
+        1 \amp  1 \amp  -1 \amp  4 \\
+
+        0 \amp  -1 \amp   5 \amp  -8 \\
+
+        0 \amp   0 \amp  0 \amp  0
+
+        \end{bmatrix}
+
+        </me>
+
+        Because the row-echelon form has two nonzero rows, <m>\mbox{rank}(A) = 2</m>.
+
+        </p>
+
+        </answer>
+
+        </example>
+
+        <theorem xml:id="th-rankandsolutions">
+
+        <statement>
+
+        <p>
+
+        Suppose a system of <m>m</m> equations in <m>n</m> variables is consistent, and that the rank of the <em>*coefficient*</em> matrix is <m>r</m>.
+
+        <ol>
+
+        <li>
+
+        <p> The set of solutions involves exactly <m>n - r</m> parameters, corresponding to <m>n-r</m> free variables. </p>
+
+        </li>
+
+        <li>
+
+        <p> If <m>r \lt  n</m>, the system has infinitely many solutions. </p>
+
+        </li>
+
+        <li>
+
+        <p> If <m>r = n</m>, the system has a unique solution. </p>
+
+        </li>
+
+        </ol>
+
+        </p>
+
+        </statement>
+
+        <proof>
+
+        <p>
+
+        The fact that the rank of the coefficient matrix is <m>r</m> means that there are exactly <m>r</m> leading variables in the coefficient matrix, and hence exactly <m>n - r</m> nonleading variables. The nonleading variables are called free variables.  All free variables are assigned parameters, so the set of solutions involves exactly <m>n - r</m> parameters. Hence if <m>r \lt  n</m>, there is at least one parameter, and so infinitely many solutions. If <m>r = n</m>, there are no parameters and the resulting solution is unique.
+
+        </p>
+
+        </proof>
+
+        </theorem>
+
+        <p>
+
+        <xref ref="th-rankandsolutions"/> shows that, for any system of linear equations, exactly three possibilities exist:
+
+        <ol>
+
+        <li>
+
+        <p> Unique solution. This occurs when every variable is a leading variable. </p>
+
+        </li>
+
+        <li>
+
+        <p> Infinitely many solutions. This occurs when the system is consistent and there is at least one nonleading variable, so at least one parameter is involved. </p>
+
+        </li>
+
+        <li>
+
+        <p> No solution.  This occurs when a row <m>\left[\begin{array}{cccc|c}  0\amp 0\amp \ldots \amp 0\amp 1 \end{array}\right]</m> appears in the row-echelon form. Such a row corresponds to an equation with no solutions. (See <xref ref="ex-nosolutionssys"/>.) </p>
+
+        </li>
+
+        </ol>
+
+        </p>
+
+    </subsection>
+
+ 
+
+    <exercises xml:id="Exercises-Rank">
+        <exercisegroup>
+            <introduction>
+                <p>
+                    Find the rank of each matrix.
+                </p>
+            </introduction>
+            <exercise xml:id="prob-rankofmat1">
+                <statement>
+                    <p>
+                        <me>
+                            A=\begin{bmatrix}4\amp 3\amp -1\\-8\amp -6\amp 2\end{bmatrix}
+                        </me>
+                    </p>
+                </statement>
+                <answer>
+                    <p>
+                        <me> \mbox{rank}(A)=1 </me>
+                    </p>
+                </answer>
+            </exercise>
+
+            <exercise xml:id="prob-rankofmat2">
+                <statement>
+                    <p>
+                        <me>
+                B=\begin{bmatrix}1\amp 1\\2\amp -2\\3\amp -1\end{bmatrix}
+            </me>
+                    </p>
+                </statement>
+                <answer>
+                    <p>
+                        <me>
+                \mbox{rank}(B)=2
+            </me>
+                    </p>
+                </answer>
+            </exercise>
+
+            <exercise xml:id="prob-rankofmat3">
+                <statement>
+                    <p>
+                        <me>
+                C=\begin{bmatrix}1\amp 0\amp 1\\2\amp 1\amp 3\\0\amp 1\amp -2\end{bmatrix}
+            </me>
+                    </p>
+                </statement>
+                <answer>
+                    <p>
+                        <me>
+                \mbox{rank}(C)=3
+            </me>
+                    </p>
+                </answer>
+            </exercise>
+
+            <exercise xml:id="prob-rankofmat4">
+                <statement>
+                    <p>
+                        <me>
+                D=\begin{bmatrix}1\amp 1\amp 2\\-1\amp -2\amp 1\\1\amp 0\amp 5\end{bmatrix}
+            </me>
+                    </p>
+                </statement>
+                <answer>
+                    <p>
+                        <me>
+                \mbox{rank}(D)=2
+            </me>
+                    </p>
+                </answer>
+            </exercise>
+        </exercisegroup>
+
+        <exercise xml:id="prob-rankofmat5">
+            <statement>
+                <p>
+                    Suppose <m>A</m> is a <m>5\times 7</m> matrix.  Which of the following can be true?
+                </p>
+            </statement>
+        <choices>
+            <choice>
+            <statement>
+                <p> <m>\mbox{rank}(A)=7</m> </p>
+            </statement>
+            </choice>
+            <choice>
+            <statement>
+                <p> <m>\mbox{rank}(A)=6</m> </p>
+            </statement>
+            </choice>}
+            <choice correct="yes">
+            <statement>
+                <p> <m>\mbox{rank}(A)=5</m> </p>
+            </statement>
+            </choice>
+            <choice>
+            <statement>
+                <p> All of the above </p>
+            </statement>
+            </choice>
+        </choices>
+        </exercise>
+
+        <exercise xml:id="prob-leadones">
+            <statement>
+                <p>
+                    Suppose <m>A</m> is a matrix such that <m>\mbox{rref}(A)</m> has <m>5</m> leading <m>1's</m>.  What do we know to be true about <m>A</m>?  Select ALL that apply.
+                </p>
+            </statement>
+            <choices>
+                <choice correct="yes">
+                    <statement>
+                        <p> <m>\mbox{rank}(A)=5</m> </p>
+                    </statement>
+                </choice>
+                <choice correct="yes">
+                    <statement>
+                        <p> <m>A</m> has at least <m>25</m> entries </p>
+                    </statement>
+                </choice>
+                <choice correct="yes">
+                    <statement>
+                        <p> Any row-echelon form of <m>A</m> will have exactly <m>5</m> nonzero rows </p>
+                    </statement>
+                </choice>
+                <choice>
+                    <statement>
+                        <p> Some row-echelon forms of <m>A</m> may have more than <m>5</m> nonzero rows </p>
+                    </statement>
+                </choice>
+                <choice>
+                    <statement>
+                        <p> Some row-echelon forms of <m>A</m> may have less than <m>5</m> nonzero rows </p>
+                    </statement>
+                </choice>
+            </choices>
+        </exercise>
+
+        <exercise xml:id="prob-rankaugvscoeff">
+            <statement>
+                <p>
+                    In this problem we will discuss how the rank of the <em>coefficient matrix</em> associated with a linear system compares to the rank of the <em>augmented matrix</em> associated with the system.
+                    <ol marker="a">
+                        <li>
+                            <p> Explain why the rank of the augmented matrix has to be greater than or equal to the rank of the coefficient matrix. </p>
+                        </li>
+                        <li>
+                            <p> Prove that for a <em>consistent</em> system the rank of the coefficient matrix will be the same as the rank of the <em>augmented</em> matrix. </p>
+                        </li>
+                        <li>
+                            <p> Give an example of an inconsistent system for which the rank of the augmented matrix is greater than the rank of the coefficient matrix. </p>
+                        </li>
+                        <li>
+                            <p> Can the rank of an augmented matrix be greater than the number of variables? </p>
+                        </li>
+                        <li>
+                            <p> 
+                                Is the following statement true? 
+                            </p>
+                            <p> 
+                                <q>If the rank of the augmented matrix associated with a linear system is greater than the rank of the coefficient matrix, then the system is inconsistent.</q> 
+                            </p>
+                        </li>
+                    </ol>
+                </p>
+            </statement>
+        </exercise>
+
+    </exercises>
+
+</section>

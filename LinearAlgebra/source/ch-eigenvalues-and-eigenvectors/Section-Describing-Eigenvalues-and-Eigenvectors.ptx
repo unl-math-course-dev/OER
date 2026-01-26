@@ -1,0 +1,1626 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<section xml:id="Section-Describing-Eigenvalues-and-Eigenvectors" xmlns:xi="http://www.w3.org/2001/XInclude">
+    <title>Eigenvalues and Eigenvectors</title>
+
+<subsection xml:id="Subsection-Definition">
+    <title>Defining Eigenvectors and Eigenvalues</title>
+<p>
+At several places in this course it has been valuable to restrict ourselves to square matrices, and we do so again when discussing eigenvalues and eigenvectors.  
+
+In <xref ref="th-matrixtran"/>, we proved that any <m>n \times n</m>  matrix induces a linear transformation from <m>\R^n</m> to itself.  For our first few examples, let us consider the case <m>n = 2</m>. 
+</p>
+
+<exploration xml:id="init-eignintro">
+    <p>
+        Let 
+    <me>
+    A=\begin{bmatrix} 2\amp  1\\ 1\amp 2\end{bmatrix}.
+    </me>
+    
+    The following animation helps us to visualize the matrix transformation associated with <m>A</m>.  Given a vector <m>\mathbf{x}</m> in <m>\R^2</m>, its image, <m>A\mathbf{x}</m>, is also in <m>\R^2</m>.
+    Set slider to <m>0</m> to see input vectors <m>\mathbf{x}</m>; change it to <m>1</m> see their images <m>A\mathbf{x}</m>.
+    </p>
+
+<figure>
+  <caption>
+    A larger version of this activity is available 
+    <url href="https://www.geogebra.org/calculator/ub4kqvmz" visual="geogebra.org">here</url>.
+  </caption>
+  <interactive xml:id="geogebra-Geometry-of-Eigenvectors" platform="geogebra" width="125%" aspect="800:600">
+    <slate xml:id="Geometry-of-Eigenvectors" surface="geogebra" material="ub4kqvmz" aspect="800:600" />
+  </interactive>
+</figure>
+
+<p>
+  For many vectors, <m>A\mathbf{x}</m> does not point in the same direction as <m>\mathbf{x}</m>.  
+  This is the case for all of the gray vectors in the animation, as we can see that <m>A\mathbf{x}</m> points in a different direction than <m>\mathbf{x}</m>.  
+  But if we look at the red vectors (vectors parallel to <m>[-1,1]</m>), we notice that they appear unchanged in magnitude and direction.  
+  Such vectors are sometimes called <term>fixed vectors</term> of <m>A</m>.
+
+Looking next at the blue vectors (vectors parallel to <m>[1,1]</m>), we observe that the magnitudes of the vectors are changed, but the direction 
+in which the blue vectors point is unchanged by this linear transformation.
+    </p>
+</exploration>
+
+
+<p>
+In <xref ref="init-eignintro"/> we found that certain vectors do not change direction under the linear transformation induced by matrix <m>A</m>.  Such vectors are examples of <term>eigenvectors</term> of <m>A</m>. 
+
+In general, any nonzero vector whose image under a matrix transformation is parallel to the original vector is called an <term>eigenvector</term> of the matrix that induced the transformation.  The following definition captures this idea algebraically.
+</p> 
+
+
+<definition xml:id="def-eigen1">
+
+    <statement>
+        <p>
+            Let <m>A</m> be an <m>n \times n</m> matrix.  We say that a non-zero vector <m>\mathbf{x}</m> is an <term>eigenvector</term> of <m>A</m> if 
+<me>
+    A\mathbf{x} = \lambda \mathbf{x},
+</me>
+
+for some scalar <m>\lambda</m>.
+We say that <m>\lambda</m> is an <term>eigenvalue</term> of <m>A</m> associated with the eigenvector <m>\mathbf{x}</m>.
+        </p>
+    </statement>
+</definition>
+
+<p>
+Let's revisit <xref ref="init-eignintro"/> in light of <xref ref="def-eigen1"/>.  In the exploration, we observed visually that vectors parallel to <m>[1,1]</m> were eigenvectors associated with 
+ <me>
+    A=\begin{bmatrix} 2\amp  1\\ 1\amp 2 \end{bmatrix},
+</me>
+
+as these vectors changed length but remained parallel to the original vector under the linear transformation induced by <m>A</m>.  To verify this algebraically, observe that all vectors parallel to <m>[1,1]</m> can be written in the form <m>[a,a]</m>, <m>(a\neq 0)</m>.  We compute 
+
+
+<me>
+    \begin{bmatrix} 2\amp  1\\ 1\amp 2 \end{bmatrix} \begin{bmatrix} a\\ a \end{bmatrix} =
+\begin{bmatrix} 3a\\ 3a \end{bmatrix}= 3 \begin{bmatrix} a\\ a \end{bmatrix}.
+</me>
+
+This shows that any non-zero scalar multiple of <m>[1,1]</m> is an eigenvector of <m>A</m> which has a corresponding eigenvalue of 3.
+</p> 
+
+
+
+<image width="55%">
+   <shortdescription>Eigenvalue property drawn</shortdescription>
+    <latex-image>
+      \begin{tikzpicture}
+
+  \draw[\lt -\gt ] (-4,0)--(4,0);
+  \draw[\lt -\gt ] (0,-4)--(0,4);
+  
+ \draw[line width=1pt,-stealth, blue](0, 0)--(1, 1);
+ \draw[line width=1pt,-stealth, blue](0, 0)--(2, 2);
+ \draw[line width=1pt,-stealth, blue](0, 0)--(3, 3);
+ \draw[line width=1pt,-stealth, blue](0, 0)--(-1, -1);
+ \draw[line width=1pt,-stealth, blue](0, 0)--(-2, -2);
+ \draw[line width=1pt,-stealth, blue](0, 0)--(-3, -3);
+
+
+  \node[blue] at (3, 3.5)   (a) {\(\begin{bmatrix}2\amp 1\\1\amp 2\end{bmatrix}\begin{bmatrix}a\\a\end{bmatrix}=3\begin{bmatrix}a\\a\end{bmatrix}\)};
+
+     \end{tikzpicture}
+    </latex-image>
+</image>
+
+<p> 
+<term>Fixed vectors</term> of <xref ref="init-eignintro"/> are also eigenvectors. 
+For example,  
+
+<me>
+    \begin{bmatrix} 2\amp  1\\ 1\amp 2 \end{bmatrix} \begin{bmatrix} 1\\ -1 \end{bmatrix} =
+\begin{bmatrix} 1\\ -1 \end{bmatrix}= 1 \begin{bmatrix} 1\\ -1 \end{bmatrix}.
+</me>
+
+This shows that <m>[1,-1]</m> is a fixed vector and an eigenvector of <m>A</m> which has a corresponding eigenvalue of <m>1</m>.
+</p> 
+
+<p> 
+The above discussion leads us to the following result.
+</p> 
+
+
+<theorem xml:id="th-eigenScalarMult">
+
+    <statement>
+        <p>
+            If <m>\mathbf{x}</m> is an eigenvector of matrix <m>A</m> and <m>\lambda</m> is the corresponding eigenvalue, then every scalar multiple of <m>\mathbf{x}</m> is also an eigenvector of <m>A</m> 
+ and <m>\lambda</m> is the corresponding eigenvalue.
+        </p>
+    </statement>
+
+<proof>
+    <p>
+See<xref ref="prob-eigenScalarMult"/>
+    </p>
+</proof>
+</theorem>
+
+<observation xml:id="obs-finerPointsOfEigDe">
+<statement>
+<p>
+A couple of finer points of  <xref ref="def-eigen1"/> require clarification.
+  <ul>
+  <li>
+      <p> The definition requires that eigenvectors be non-zero.  Imagine what would happen if we allowed <m>\mathbf{x}=\mathbf{0}</m> to be an eigenvector of <m>A</m>. Clearly <m>A\mathbf{0}=\lambda\mathbf{0}</m> for all scalars <m>\lambda</m>.  This means that every number would be an eigenvalue of every matrix.  Because eigenvalues are supposed to capture certain information about the matrix, allowing every number to be an eigenvalue of every matrix would defeat the purpose. </p>
+</li>
+  <li>
+      <p> Until now, we had talked about  eigenvectors as vectors whose images under a matrix transformation are parallel to the original vectors.  But the algebraic definition allows non-zero vectors that map to zero to be considered eigenvectors.  (What would an eigenvalue of such an eigenvector be?)  The zero vector has no direction, so we cannot say that the image of such an eigenvector is parallel to the original vector.  However, <xref ref="ex-eigen"/> will illustrate this point. </p>
+</li>
+  </ul>
+</p>
+</statement>
+</observation>
+
+
+
+<p> 
+The observations are exemplified in detail below.
+</p> 
+
+<example xml:id="ex-eigen">
+    <statement>
+        <p>
+            Let 
+            <me>
+            P=\begin{bmatrix} 1\amp  0\\ 0\amp 0\end{bmatrix}.
+            </me> 
+        
+        Note that <m>P</m> takes a vector in <m>\R^2</m> and projects it onto the <m>x</m>-axis, as we learned in <xref ref="prob-standardmatrix3"/>.  
+        </p> 
+        
+        <p> 
+        Which vectors in <m>\R^2</m> would be the eigenvectors, and what are the corresponding eigenvalues?
+       </p>
+    </statement>
+
+    <answer>
+        <p>
+            Since <m>P\mathbf{x}</m> is the projection of <m>\mathbf{x}</m> onto the <m>x</m>-axis, in many cases <m>P\mathbf{x}</m> and <m>\mathbf{x}</m> are not parallel.  Notice, however, that all of the red vectors located along the <m>x</m>-axis in the diagram are fixed by <m>P</m>. So, for any of the red vectors we have <m>P\mathbf{x}=\mathbf{x}=1\mathbf{x}</m>, which means that each of the red vectors is an eigenvector of <m>P</m> with the corresponding eigenvalue of <m>1</m>.
+        </p> 
+
+<image width="55%">
+   <shortdescription>Two eigenvectors graphed</shortdescription>
+    <latex-image>
+      \begin{tikzpicture}
+
+  \draw[\lt -\gt ] (-4,0)--(4,0);
+  \draw[\lt -\gt ] (0,-4)--(0,4);
+  
+ \draw[line width=1pt,-stealth, blue](0, 0)--(0, 1);
+ \draw[line width=1pt,-stealth, blue](0, 0)--(0, 2);
+ \draw[line width=1pt,-stealth, blue](0, 0)--(0, 3);
+ \draw[line width=1pt,-stealth, blue](0, 0)--(0, -1);
+ \draw[line width=1pt,-stealth, blue](0, 0)--(0, -2);
+ \draw[line width=1pt,-stealth, blue](0, 0)--(0, -3);
+
+
+\draw[line width=0.5pt,dashed, black](1.707,1.707)--(1.707,0);
+\draw[line width=6pt,-stealth, black!30!white](0,0)--(1.707,0);
+\draw[line width=2pt,-stealth, black](0, 0)--(1.707,1.707);
+
+
+\draw[line width=0.5pt,dashed, black](-2.5,-1)--(-2.5,0);
+\draw[line width=6pt,-stealth, black!30!white](0,0)--(-2.5,0);
+\draw[line width=2pt,-stealth, black](0, 0)--(-2.5,-1);
+
+\draw[line width=1pt,-stealth, red](0, 0)--(-3,0);
+\draw[line width=1pt,-stealth, red](0, 0)--(-2,0);
+\draw[line width=1pt,-stealth, red](0, 0)--(-1,0);
+\draw[line width=1pt,-stealth, red](0, 0)--(3,0);
+\draw[line width=1pt,-stealth, red](0, 0)--(2,0);
+\draw[line width=1pt,-stealth, red](0, 0)--(1,0);
+ 
+ 
+ \node[red] at (3.5, 0.7)   (a) {\(\begin{bmatrix}1\amp 0\\0\amp 0\end{bmatrix}\mathbf{x}=1\mathbf{x}\)};
+ 
+ \node[blue] at (1.2, 3)   (a) {\(\begin{bmatrix}1\amp 0\\0\amp 0\end{bmatrix}\mathbf{x}=0\mathbf{x}\)};
+
+ \node[black] at (2.2, -1)   (a) {\(\begin{bmatrix}1\amp 0\\0\amp 0\end{bmatrix}\begin{bmatrix}x_1\\x_2\end{bmatrix}=\begin{bmatrix}x_1\\0\end{bmatrix}\)};
+     \end{tikzpicture}
+    </latex-image>
+</image>
+
+<p>
+The blue vectors along the y-axis are also eigenvectors.  To see this, note that each of the blue vectors is of the form <m>\mathbf{x}=[0,x_2]</m>.  But then 
+<me>
+    P\mathbf{x}=\begin{bmatrix}1\amp 0\\0\amp 0\end{bmatrix}\begin{bmatrix}0\\x_2\end{bmatrix}=\begin{bmatrix}0\\0\end{bmatrix}=0\begin{bmatrix}0\\x_2\end{bmatrix}=0\mathbf{x}.
+</me>
+
+So each of the blue vectors is an eigenvector of <m>P</m> with the corresponding eigenvalue of <m>0</m>.
+       </p>
+    </answer>
+</example>
+
+
+
+
+<exploration xml:id="exp-eigenvectors">
+    <p>
+        Let <me>
+            A=\begin{bmatrix}1\amp 6\\1\amp 0\end{bmatrix}.
+            </me> 
+    The GeoGebra interactive below shows the action of <m>A</m> on several vectors.  (Move the slider to <m>s=1</m> to see the result of the transformation induced by <m>A</m>.)  
+    </p>
+
+<figure>
+  <caption>
+  </caption>
+  <interactive xml:id="geogebra-Eigenvector-Test" platform="geogebra" width="100%" aspect="900:600">
+    <slate xml:id="Eigenvector-Test" surface="geogebra" material="vd3fydmg" aspect="900:600" />
+  </interactive>
+</figure>
+
+<problem>
+<statement>
+<p> 
+Note that vectors
+<me>
+\mathbf{x}_1=\begin{bmatrix}3\\1\end{bmatrix} \text{ and } 
+\mathbf{x}_2=\begin{bmatrix}-2\\1\end{bmatrix}
+</me> 
+
+(and their scalar multiples) remain positioned along the same lines even as they change magnitude and direction.  
+This indicates that <m>\mathbf{x}_1</m> and <m>\mathbf{x}_2</m>, along with all of their scalar multiples, are eigenvectors of <m>A</m>.  
+What are the eigenvalues associated with these eigenvectors?
+</p> 
+</statement>
+
+<hint>
+<p>
+The interactive shows the result of multiplication by <m>A</m>. Consider one eigenvector at a time.  Multiplication by what scalar would yield the same result?
+</p>
+</hint>
+
+<answer>
+<p>
+Eigenvalue associated with <m>\mathbf{x}_1</m> is <m>\lambda_1=3</m>.
+</p> 
+
+<p> 
+Eigenvalue associated with <m>\mathbf{x}_2</m> is <m>\lambda_2=-2</m>.
+</p> 
+</answer>
+</problem>
+</exploration>
+
+<p>
+A natural question is this: does every square matrix have eigenvalues and eigenvectors?  
+We will address this question in later sections and there discover that the answer to this question is ``yes", provided that we permit eigenvalues and entries of eigenvectors to be complex numbers.  
+</p> 
+
+<p> 
+The next example is one that requires complex numbers.
+</p> 
+
+
+<example xml:id="ex-eigsrotation">
+    <p>
+        Let <me>M=\begin{bmatrix}
+\frac{1}{\sqrt{2}} \amp  -\frac{1}{\sqrt{2}}\\
+\frac{1}{\sqrt{2}} \amp  \frac{1}{\sqrt{2}}.
+
+
+\end{bmatrix}</me>  Note that <m>M</m> takes any vector <m>\mathbf{x}</m> in <m>\R^2</m> and rotates it <m>45^{\circ}</m>. This and other transformations of the plane were given in <xref ref="pro-planetrans"/>.  
+        </p> 
+
+
+\begin{center}
+<image width="65%">
+   <shortdescription>Rotations graphed</shortdescription>
+    <latex-image>
+      \begin{tikzpicture}
+
+  \draw[\lt -\gt ] (-1.5,0)--(1.5,0);
+  \draw[\lt -\gt ] (0,-1.5)--(0,1.5);
+  
+ \draw[line width=1pt,-stealth, blue](0, 0)--(1,0);
+ \draw[line width=1pt,-stealth, blue!60!white](0, 0)--(0.924,0.383);
+ \draw[line width=1pt,-stealth, blue!40!white](0, 0)--(0.707,0.707);
+ \draw[line width=1pt,-stealth, blue!20!white](0, 0)--(0.383,0.924);
+ \draw[line width=1pt,-stealth, red!20!white](0, 0)--(0,1);
+ 
+ \draw[line width=1pt,-stealth, red!40!white](0, 0)--(-0.383,0.924);
+\draw[line width=1pt,-stealth, red!60!white](0, 0)--(-0.707,0.707);
+\draw[line width=1pt,-stealth, red!70!white](0, 0)--(-0.924, 0.383);
+\draw[line width=1pt,-stealth, red](0, 0)--(-1,0);
+
+\draw[line width=1pt,-stealth, red!90!blue](0, 0)--(-0.924,-0.383);
+\draw[line width=1pt,-stealth, red!80!blue](0, 0)--(-0.707,-0.707);
+\draw[line width=1pt,-stealth, red!70!blue](0, 0)--(-0.383,-0.924);
+\draw[line width=1pt,-stealth, red!60!blue](0, 0)--(0,-1);
+
+\draw[line width=1pt,-stealth, red!50!blue](0, 0)--(0.383,-0.924);
+\draw[line width=1pt,-stealth, red!40!blue](0, 0)--(0.707,-0.707);
+\draw[line width=1pt,-stealth, red!30!blue](0, 0)--(0.924,-0.383);
+\fill[blue] (1,0) circle (0.06cm);
+
+\draw [-\gt ,line width=0.5pt,-stealth]  (1.2,0.1) to[out=95, in=-45] (0.85, 0.85);
+     \end{tikzpicture}
+
+    </latex-image>
+</image>
+ <image width="65%">
+   <shortdescription>Continuation of above</shortdescription>
+    <latex-image>
+      \begin{tikzpicture}
+  \draw[\lt -\gt ] (-1.5,0)--(1.5,0);
+  \draw[\lt -\gt ] (0,-1.5)--(0,1.5);
+  
+ \draw[line width=1pt,-stealth, red!40!blue](0, 0)--(1,0);
+ \draw[line width=1pt,-stealth, red!30!blue](0, 0)--(0.924,0.383);
+ \draw[line width=1pt,-stealth, blue](0, 0)--(0.707,0.707);
+ \draw[line width=1pt,-stealth, blue!60!white](0, 0)--(0.383,0.924);
+ \draw[line width=1pt,-stealth, blue!40!white](0, 0)--(0,1);
+ 
+ \draw[line width=1pt,-stealth, blue!20!white](0, 0)--(-0.383,0.924);
+\draw[line width=1pt,-stealth, red!20!white](0, 0)--(-0.707,0.707);
+\draw[line width=1pt,-stealth, red!40!white](0, 0)--(-0.924, 0.383);
+\draw[line width=1pt,-stealth, red!60!white](0, 0)--(-1,0);
+
+\draw[line width=1pt,-stealth, red!70!white](0, 0)--(-0.924,-0.383);
+\draw[line width=1pt,-stealth, red](0, 0)--(-0.707,-0.707);
+\draw[line width=1pt,-stealth, red!90!blue](0, 0)--(-0.383,-0.924);
+\draw[line width=1pt,-stealth, red!80!blue](0, 0)--(0,-1);
+
+\draw[line width=1pt,-stealth, red!70!blue](0, 0)--(0.383,-0.924);
+\draw[line width=1pt,-stealth, red!60!blue](0, 0)--(0.707,-0.707);
+\draw[line width=1pt,-stealth, red!50!blue](0, 0)--(0.924,-0.383);
+
+\fill[blue] (0.707,0.707) circle (0.06cm);
+     \end{tikzpicture}
+    </latex-image>
+</image>
+
+
+<p> 
+Since <m>M</m> rotates every vector in <m>\R^2</m>, <em>every</em> nonzero vector changes direction, so there are no eigenvectors in the plane.  It turns out that <m>M</m> does have eigenvectors and eigenvalues, but in order to find them we need to work with vectors whose entries are complex numbers.  Since these vectors are not in <m>\R^2</m>, we cannot see them.  
+</p> 
+
+<p> 
+To follow the computation below, you need to recall that the imaginary unit <m>i</m> is defined to by <m>i^2=-1</m>.
+</p>
+
+<p>
+Consider the vector 
+<me>
+\begin{bmatrix} \frac{1}{\sqrt{2}}\\ \frac{1}{\sqrt{2}} i \end{bmatrix}.
+</me>
+
+We compute:
+
+<me>
+    \begin{bmatrix}
+\frac{1}{\sqrt{2}} \amp  -\frac{1}{\sqrt{2}}\\
+\frac{1}{\sqrt{2}} \amp  \frac{1}{\sqrt{2}}
+\end{bmatrix} \begin{bmatrix} \frac{1}{\sqrt{2}}\\ \frac{1}{\sqrt{2}} i \end{bmatrix} =
+\begin{bmatrix} \frac{1}{2}-\frac{1}{2} i\\ \frac{1}{2}+ \frac{1}{2} i \end{bmatrix}= \left (\frac{1}{\sqrt{2}}-\frac{1}{\sqrt{2}}i \right ) \begin{bmatrix} \frac{1}{\sqrt{2}}\\ \frac{1}{\sqrt{2}} i \end{bmatrix},
+</me>
+
+so <m>\begin{bmatrix} \frac{1}{\sqrt{2}}\\ \frac{1}{\sqrt{2}} i \end{bmatrix}</m> is an eigenvector of <m>M</m>.  
+Its corresponding eigenvalue is 
+<me>
+\frac{1}{\sqrt{2}}-\frac{1}{\sqrt{2}}i.
+</me>
+    </p>
+</example>
+
+<p> 
+We will continue to work with complex numbers as we study eigenvalues and eigenvectors.
+</p> 
+
+
+
+
+<remark>
+<statement>
+<p>
+The first in-depth study of eigenvalues can probably be attributed to Fourier as he studied partial differential equations early in the nineteenth century, 
+and in particular when he studied what is known as the heat equation.
+ By the twentieth century mathematicians understood the connections between differential equations and eigenvalues. 
+ Systems of differential equations are often best represented by matrices, especially in the context of using computers to find numerical solutions. 
+ Most algorithms to solve these systems work by iterating some process, and eigenvalues along with their corresponding eigenvectors indicate what will happen to 
+ such a process after many repetitions.
+</p>
+
+<!--
+<p>
+The most famous modern example of a large-scale eigenvalue problem is the Google PageRank algorithm, which helped set Google apart from its competitors as a search engine.  Some of the relevant mathematics can be learned by working through the paper, <url href="https://doi.org/10.1137/050623280">``The \<m>25,000,000,000 Eigenvector, The Linear Algebra Behind Google''</url>, by Kurt Bryan and Tanya Leise.  
+</p> 
+-->
+
+</statement>
+</remark>
+</subsection>
+
+
+<subsection xml:id="Section-The-Characteristic-Equation">
+    <title>The Characteristic Equation</title>
+
+
+
+
+
+<p>
+Let <m>A</m> be an <m>n \times n</m> matrix.  In the first sections, we learned that the eigenvectors and eigenvalues of <m>A</m> are vectors <m>\mathbf{x}</m> and scalars <m>\lambda</m> that satisfy the equation  
+<men xml:id="def-eigen">
+ A \mathbf{x} = \lambda \mathbf{x}.
+</men>
+
+We listed a few reasons why we are interested in finding eigenvalues and eigenvectors, but we did not give any process for finding them.  In this section we will focus on a process which can be used for small matrices.  For larger matrices, the best methods we have are iterative methods, and we will explore some of these in later sections.
+</p>
+
+<p> 
+For an <m>n \times n</m> matrix, we will see that the eigenvalues are the roots of a polynomial called the <term>characteristic polynomial</term>.  So finding eigenvalues is equivalent to solving a polynomial equation of degree <m>n</m>.  Finding the corresponding eigenvectors turns out to be a matter of computing the null space of a matrix, as the following exploration demonstrates.
+</p> 
+
+
+<exploration xml:id="exp-slowdown">
+    <p>
+        If a vector <m>\mathbf{x}</m> is an eigenvector satisfying <xref ref="def-eigen"/>, then clearly it also satisfies  <m>A\mathbf{x}-\lambda \mathbf{x} = \mathbf{0} </m>.
+
+It seems natural at this point to try to factor.  We would love to ``factor out'' <m>\mathbf{x}</m>.  Here is the procedure:
+<md>
+<mrow> A\mathbf{x}-\lambda \mathbf{x} \amp = \mathbf{0}, </mrow>
+<mrow> A\mathbf{x}-\lambda I\mathbf{x} \amp = \mathbf{0}, </mrow>
+<mrow> (A-\lambda I)\mathbf{x} \amp = \mathbf{0}. </mrow>
+</md>
+
+The middle step was necessary before factoring because we cannot subtract a <m>1 \times 1</m> scalar <m>\lambda</m> from an <m>n \times n</m> matrix <m>A</m>.
+</p>
+
+<p> 
+In the spirit of connecting eigenvalues to previous notions, the following questions are intended to keep you linking concepts together.
+</p> 
+
+<problem>
+<statement>
+<p> 
+Does the above show that any eigenvector <m>\mathbf{x}</m> of <m>A</m> is in the row space, column space or the null space of the related matrix, <m>A-\lambda I</m>?
+</p>
+</statement>
+
+<answer>
+    <p>
+The null space.
+    </p>
+</answer>
+</problem> 
+
+<problem>
+<statement>
+    <p>
+     Since eigenvectors are non-zero vectors, this means that <m>A</m> will have eigenvectors if and only if the null space of <m>A-\lambda I</m> is nontrivial.  Which option is correct of the following is correct? The only way that <m>\mbox{null}(A-\lambda I)</m> can be nontrivial is if <m>\mbox{rank}(A-\lambda I)</m> is equal to, less than or greater than <m> n </m>.
+    </p>
+</statement>
+
+<answer>
+    <p>
+Less than <m> n </m>.
+    </p>
+</answer>
+</problem>
+
+<p>
+If the rank of an <m>n \times n</m> matrix is less than <m>n</m>, then the matrix is singular.  Since <m>(A-\lambda I)</m> must be singular for any eigenvalue <m>\lambda</m>, we see that <m>\lambda</m> is an eigenvalue of <m>A</m> if and only if 
+<men xml:id="eqn-chareqn">
+\mbox{det}(A-\lambda I) = 0
+</men>
+    </p>
+</exploration>
+
+<p> 
+In theory, <xref ref="exp-slowdown"/> offers us a way to find eigenvalues.  To find the eigenvalues of <m>A</m>, one can solve <xref ref="eqn-chareqn"/> for <m>\lambda</m>. 
+</p>
+</subsection>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<subsection xml:id="Subsection-Eigenvalues">
+    <title>Eigenvalues</title>
+
+ 
+<definition xml:id="def-chareqcharpoly">
+
+    <statement>
+        <p>
+            The equation 
+
+<me>
+    \mbox{det}(A-\lambda I) = 0
+</me>
+ is called the <term>characteristic equation</term> of <m>A</m>.
+        </p>
+    </statement>
+</definition>
+
+
+<p> 
+The characteristic equation is perhaps the most computational approach to finding eigenvalues. As such, examples are important to run through:
+</p> 
+
+<example xml:id="ex-2x2eig">
+    <statement>
+        <p>
+            Let <me>A=\begin{bmatrix} 2\amp  1\\ 1\amp 2.
+\end{bmatrix}</me>  Compute the eigenvalues of this matrix using the characteristic equation.
+       </p>
+    </statement>
+    <answer>
+        <p>
+            <md>
+<mrow> \det(A-\lambda I) \amp =\begin{vmatrix}2-\lambda\amp 1\\1\amp 2-\lambda\end{vmatrix} </mrow>
+<mrow> \amp =(2-\lambda)^2-1 </mrow>
+    <mrow> \amp =\lambda^2-4\lambda+3 </mrow>
+        <mrow> \amp =(\lambda-1)(\lambda-3). </mrow>
+</md>
+
+The characteristic equation <m>(\lambda-1)(\lambda-3)=0</m> has solutions <m>\lambda_1=1</m> and <m>\lambda_2=3</m>.  These are the eigenvalues of <m>A</m>.
+       </p>
+    </answer>
+</example>
+
+<example xml:id="ex-2x2eig2">
+    <p>
+        Let 
+        <me>
+        B=\begin{bmatrix} 2\amp  1\\ 4\amp 2 \end{bmatrix}.
+       </me>
+    </p>
+
+<problem>
+<statement>
+<p>
+    Compute the eigenvalues of <m>B</m> using the characteristic equation.  (List your answers in an increasing order.)
+</p>
+</statement>
+
+<answer>
+<p>
+<me> \lambda_1=0 \quad \text{and} \quad \lambda_2=4. </me>
+</p>
+</answer>
+</problem>
+</example>
+
+<example xml:id="ex-3x3eig">
+    <statement>
+    <p>
+            Let 
+        <me>
+            C=\begin{bmatrix} 2 \amp  1 \amp  1\\ 1 \amp  2 \amp  1\\ 1 \amp  1 \amp  2\end{bmatrix}.
+        </me> 
+
+    Compute the eigenvalues of <m>C</m> using the characteristic equation.
+    </p>
+    </statement>
+
+<answer>
+    <p>
+ <md> 
+<mrow> \det(C-\lambda I)\amp =\begin{vmatrix}2-\lambda \amp  1 \amp  1\\ 1 \amp  2-\lambda \amp  1\\ 1 \amp  1 \amp  2-\lambda\end{vmatrix} </mrow>
+<mrow>            \amp =(2-\lambda)\begin{vmatrix}2-\lambda\amp 1\\1\amp 2-\lambda\end{vmatrix}-1\begin{vmatrix}1\amp 1\\1\amp 2-\lambda\end{vmatrix}+1\begin{vmatrix}1\amp 2-\lambda\\1\amp 1\end{vmatrix}  </mrow>
+<mrow>            \amp =(2-\lambda)^3-(2-\lambda)-((2-\lambda)-1)+1-(2-\lambda)  </mrow>
+<mrow>            \amp =8-12\lambda+6\lambda^2-\lambda^3-2+\lambda-2+\lambda+1+1-2+\lambda </mrow>
+<mrow>            \amp =4-9\lambda+6\lambda^2-\lambda^3  </mrow>
+<mrow>            \amp =-(\lambda-4)(\lambda-1)^2.  </mrow>
+</md>
+            Matrix <m>C</m> has eigenvalues <m>\lambda_1=1</m> and <m>\lambda_2=4</m>.   
+    </p>
+</answer>
+</example>
+
+<p> 
+In <xref ref="ex-3x3eig"/>, the factor  <m>(\lambda-1)</m> appears twice.  This repeated factor gives rise to the eigenvalue <m>\lambda_1=1</m>.  We say that the eigenvalue <m>\lambda_1=1</m> has <term>algebraic multiplicity</term> <m>2</m>. 
+</p>
+
+<p>
+The three examples above are a bit contrived.  It is not always possible to completely factor the characteristic polynomial using only real numbers.  
+However, a fundamental fact from algebra is that every degree <m>n</m> polynomial has <m>n</m> roots (counting multiplicity) provided that we allow complex numbers. 
+This is why sometimes eigenvalues and their corresponding eigenvectors involve complex numbers.  The next example highlights this point.
+</p> 
+
+
+<example xml:id="ex-3x3-complex-eig">
+    <statement>
+        <p>
+            Let
+        <me>
+        D=\begin{bmatrix} 0\amp 0\amp 0\\ 0 \amp 1\amp 1\\ 0 \amp  -1\amp 1\end{bmatrix}.
+        </me>
+        
+        Compute the eigenvalues of this matrix.
+       </p>
+    </statement>
+    <answer>
+        <p>
+            <md>
+<mrow> \det(D-\lambda I)\amp =\begin{vmatrix} -\lambda\amp 0\amp 0\\ 0 \amp 1-\lambda\amp 1\\ 0 \amp  -1\amp 1-\lambda\end{vmatrix} </mrow>
+<mrow> \amp =-\lambda\begin{vmatrix}1-\lambda\amp 1\\-1\amp 1-\lambda\end{vmatrix} </mrow>
+<mrow> \amp =-\lambda((1-\lambda)^2+1) </mrow>
+<mrow> \amp =-\lambda(\lambda^2-2\lambda+2). </mrow>
+</md>
+So one of the eigenvalues of <m>D</m> is <m>\lambda=0</m>.  To get the other eigenvalues we must solve <m>\lambda^2-2\lambda+2=0</m>.  
+Using the quadratic formula, we compute that <m>\lambda_1=1+i</m> and <m>\lambda_2=1-i</m> are also eigenvalues of <m>D</m>.
+       </p>
+    </answer>
+</example>
+
+
+
+
+
+<exploration xml:id="init-3x3tri">
+    <p>
+        Let 
+        <me>
+        T=\begin{bmatrix} 1 \amp  2 \amp  3\\ 0 \amp  5 \amp  6\\ 0 \amp  0 \amp  9\end{bmatrix}.
+        </me> 
+    </p> 
+
+    <problem>
+    <statement>
+    <p> 
+        Compute the eigenvalues of this matrix.  (Hint: The eigenvalues are the diagonal entries of the matrix.)
+    </p>
+    </statement>
+
+    <answer>
+    <p>
+<me>
+    \lambda_1=1,\quad\lambda_2=5,\quad\text{and}\quad\lambda_3=9.
+</me>
+    </p> 
+    </answer>
+    </problem> 
+
+    <p>
+What do you observe about the eigenvalues? What property of the matrix makes this ``coincidence" possible? (Hint: <m>T</m> is a triangular matrix).
+    </p>
+</exploration>
+
+<p>
+The matrix in <xref ref="init-3x3tri"/> is a triangular matrix, and the property you observed holds in general.
+</p> 
+
+
+
+<theorem xml:id="th-eigtri">
+
+    <statement>
+        <p>
+            Let <m>T</m> be a triangular matrix.  Then the eigenvalues of <m>T</m> are the entries on the main diagonal.
+        </p>
+    </statement>
+
+<proof>
+    <p>
+See <xref ref="prob-eigtri"/>.
+    </p>
+</proof>
+</theorem>
+
+
+
+<corollary xml:id="th-eigdiag">
+
+    <statement>
+        <p>
+            Let <m>D</m> be a diagonal matrix.  Then the eigenvalues of <m>D</m> are the entries on the main diagonal.
+        </p>
+    </statement>
+</corollary>
+
+<p> 
+One final note about eigenvalues.  We began this section with the sentence, 
+"In theory, then, to find the eigenvalues of <m>A</m>, one can solve <xref ref="eqn-chareqn"/> for <m>\lambda</m>."  
+In general, one does not attempt to compute eigenvalues by solving the characteristic equation of a matrix, as there is no simple way to solve this polynomial equation for <m>n\gt 4</m>.  Instead, one can often approximate the eigenvalues using <term>iterative methods</term>.  
+</p>
+</subsection>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<subsection xml:id="Subsection-Eigenvectors">
+    <title>Eigenvectors</title>
+
+<p>
+Once we have computed an eigenvalue <m>\lambda</m> of an <m>n \times n</m> matrix <m>A</m>, the next step is to compute the associated eigenvectors.  In other words, we seek vectors <m>\mathbf{x}</m> such that <m>A\mathbf{x}=\lambda \mathbf{x}</m>, or equivalently,
+<men xml:id="eqn-nullspace">
+ (A-\lambda I) \mathbf{x}=\mathbf{0}.
+</men> 
+
+For any given eigenvalue <m>\lambda</m> there are infinitely many eigenvectors associated with it.  
+In fact, the eigenvectors associated with <m>\lambda</m> form a subspace of <m>\R^n</m>. 
+</p> 
+
+
+
+<theorem xml:id="th-eigenspace">
+
+    <statement>
+        <p>
+            Let <m>A</m> be an <m>n\times n</m> matrix and let <m>\lambda</m> be an eigenvalue of <m>A</m>.  
+            Then the set of all eigenvectors associated with <m>\lambda</m> is a subspace of <m>\R^n</m>.
+        </p>
+    </statement>
+
+<proof>
+    <p>
+    See <xref ref="prob-eigenspace1"/> and <xref ref="prob-eigenspace2"/>.
+    </p>
+</proof>
+</theorem>
+
+<p>
+This motivates the following definition.
+</p> 
+
+
+<definition xml:id="def-eigspace">
+
+    <statement>
+        <p>
+            The set of all eigenvectors associated with a given eigenvalue of a matrix is known as the <term>eigenspace</term> associated with that eigenvalue.
+        </p>
+    </statement>
+</definition>
+
+<p> 
+So given an eigenvalue <m>\lambda</m>, there is an associated eigenspace <m>\mathcal{S}</m>, and our goal is to find a basis of <m>\mathcal{S}</m>, 
+for then any eigenvector <m>\mathbf{x}</m> will be a linear combination of the vectors in that basis.  
+Moreover, we are trying to find a basis for the set of vectors that satisfy <xref ref="eqn-nullspace"/>, 
+which means we seek a basis for <m>\mbox{null}(A-\lambda I)</m>.  We have already learned how to compute a basis of a null space.
+</p> 
+
+<p> 
+Let's return to the examples we did in the first part of this section.
+</p> 
+
+
+<example xml:id="ex-eigvect2x2eig">
+    <statement>
+        <p>
+            (Finding eigenvectors for <xref ref="ex-2x2eig"/>) 
+
+Recall that 
+<me>
+    A=\begin{bmatrix} 2\amp  1\\ 1\amp 2 \end{bmatrix}
+</me> 
+
+has eigenvalues <m>\lambda_1=1</m> and <m>\lambda_2=3</m>.  Compute a basis for the eigenspace associated with each of these eigenvalues.
+       </p>
+    </statement>
+
+    <answer>
+        <p>
+            Eigenvectors associated with the eigenvalue <m>\lambda_1=1</m> are in the null space of <m>A-I</m>.  So we seek a basis for <m>\mbox{null}(A-I)</m>.  We compute:
+<me>
+\mbox{rref}(A-I)=\mbox{rref}\left (\begin{bmatrix}1\amp 1\\1\amp 1\end{bmatrix}\right  ) =\begin{bmatrix}1\amp 1\\0\amp 0\end{bmatrix}.
+</me>
+
+From this we see that the eigenspace <m>\mathcal{S}_1</m> associated with <m>\lambda_1=1</m> consists of vectors of the form <m>[-1,1]t</m>.
+
+This means that <m>\left\{[-1,1]\right\}</m> is one possible basis for <m>\mathcal{S}_1</m>.
+</p> 
+
+<p> 
+In a similar way, we compute a basis for <m>\mathcal{S}_3</m>, the subspace of all eigenvectors associated with the eigenvalue <m>\lambda_2=3</m>.  Now we compute:
+<me>
+\mbox{rref}(A-3I)=\mbox{rref}\left(\begin{bmatrix}-1\amp 1\\1\amp -1\end{bmatrix}\right)=\begin{bmatrix}1\amp -1\\0\amp 0\end{bmatrix},
+</me>
+
+Vectors in the null space have the form <m>[1,1]t</m> This means that <m>{ [1,1] }</m> is one possible basis for the eigenspace <m>\mathcal{S}_3</m>.
+       </p>
+    </answer>
+</example>
+
+
+
+<example xml:id="ex-eigvectors2x2eig2">
+    <statement>
+        <p>
+            (Finding eigenvectors for <xref ref="ex-2x2eig2"/>) 
+We know from <xref ref="ex-2x2eig2"/> that 
+<me>
+    B=\begin{bmatrix} 2\amp  1\\ 4\amp 2 \end{bmatrix}
+</me> 
+
+has eigenvalues <m>\lambda_1=0</m> and <m>\lambda_2=4</m>.  Compute a basis for the eigenspace associated with each of these eigenvalues.
+       </p>
+    </statement>
+
+    <answer>
+        <p>
+            Let's begin by finding a basis for the eigenspace <m>\mathcal{S}_0</m>, which is the subspace of <m>\R^n</m> consisting of eigenvectors corresponding to the eigenvalue <m>\lambda_1=0</m>.  We need to compute a basis for <m>\mbox{null}(B-0I) = \mbox{null}(B)</m>.  We compute:
+<me>
+\mbox{rref}(B)=\mbox{rref}\left(\begin{bmatrix}2\amp 1\\4\amp 2\end{bmatrix}\right) =\begin{bmatrix}1\amp \frac{1}{2}\\0\amp 0\end{bmatrix}.
+</me>
+
+From this we see that an eigenvector in <m>\mathcal{S}_0</m> has the form <m>[-1/2, 1]t</m>. 
+This means that <m>\left\{ [-1/2, 1] \right\}</m> is one possible basis for the eigenspace <m>\mathcal{S}_0</m>.  By letting <m>t=-2</m>, we obtain an arguably nicer-looking basis: <m>{[1, -2]}</m>. 
+       </p>
+    </answer>
+</example>
+
+
+
+
+<example xml:id="ex-eigvectors3x3eig">
+    <statement>
+        <p>
+            (Finding eigenvectors for <xref ref="ex-3x3eig"/>)
+We know from <xref ref="ex-3x3eig"/> that 
+<me>
+    C=\begin{bmatrix} 2 \amp  1 \amp  1\\ 1 \amp  2 \amp  1\\ 1 \amp  1 \amp  2\end{bmatrix}.
+</me> 
+
+has eigenvalues <m>\lambda_1=1</m> and <m>\lambda_2=4</m>.  Compute a basis for the eigenspace associated to each of these eigenvalues.
+       </p>
+    </statement>
+
+    <answer>
+        <p>
+            We first find a basis for the eigenspace <m>\mathcal{S}_1</m>.  We need to compute a basis for <m>\mbox{null}(C-I)</m>.  We compute:
+<me>
+\mbox{rref}(C-I)=\mbox{rref}\left(\begin{bmatrix} 1 \amp  1 \amp  1\\ 1 \amp  1 \amp  1\\ 1 \amp  1 \amp  1\end{bmatrix}\right) =\begin{bmatrix} 1 \amp  1 \amp  1\\ 0 \amp  0 \amp  0\\ 0 \amp  0 \amp  0\end{bmatrix}.
+</me>
+
+Notice that there are two free variables. The eigenvectors in <m>\mathcal{S}_1</m> have the form
+
+<me>
+    \begin{bmatrix}-s-t\\s\\t\end{bmatrix} = s\begin{bmatrix}-1\\1\\0\end{bmatrix} + t\begin{bmatrix}-1\\0\\1\end{bmatrix}.
+</me>
+
+
+So one possible basis for the eigenspace<m>\mathcal{S}_1</m> is given by 
+<me>
+\left \lbrace \begin{bmatrix}-1\\1\\0\end{bmatrix}, \begin{bmatrix}-1\\0\\1\end{bmatrix} \right \rbrace.
+</me>
+
+Next we find a basis for the eigenspace <m>\mathcal{S}_4</m>.  We need to compute a basis for <m>\mbox{null}(C-4I)</m>.  We compute:
+<me>
+\mbox{rref}(C-4I)=\mbox{rref}\left(\begin{bmatrix} -2 \amp  1 \amp  1\\ 1 \amp  -2 \amp  1\\ 1 \amp  1 \amp  -2\end{bmatrix}\right) =\begin{bmatrix} 1 \amp  0 \amp  -1\\ 0 \amp  1 \amp  -1\\ 0 \amp  0 \amp  0\end{bmatrix}.
+</me>
+
+This time there is one free variable. From this we see
+The eigenvectors in <m>\mathcal{S}_4</m> have the form <m>[t,t,t]</m>, so a possible basis for the eigenspace <m>\mathcal{S}_4</m> is given by 
+<me>
+\left \lbrace \begin{bmatrix}1\\1\\1\end{bmatrix}\right \rbrace.
+</me>
+       </p>
+    </answer>
+</example>
+
+
+
+
+<example xml:id="ex-3x3-complex-ev">
+    <statement>
+        <p>
+            (Finding eigenvectors for Example <xref ref="ex-3x3-complex-eig"/>)
+We know from' <xref ref="ex-3x3-complex-eig"/> that
+<me>
+D=\begin{bmatrix} 0\amp 0\amp 0\\ 0 \amp 1\amp 1\\ 0 \amp  -1\amp 1\end{bmatrix}
+</me>
+
+has eigenvalues <m>\lambda=0</m>, <m>\lambda_1=1+i</m>, and <m>\lambda_2=1-i</m>.  Compute a basis for the eigenspace associated with each eigenvalue.
+       </p>
+    </statement>
+
+    <answer>
+        <p>
+            We first find a basis for the eigenspace <m>\mathcal{S}_0</m>.  We need to compute a basis for <m>\mbox{null}(D-0I)=\mbox{null}(D)</m>.  We compute:
+<me>
+\mbox{rref}(D)=\mbox{rref}\left(\begin{bmatrix} 0\amp 0\amp 0\\ 0 \amp 1\amp 1\\ 0 \amp  -1\amp 1\end{bmatrix}\right) =\begin{bmatrix} 0 \amp  1 \amp  1\\ 0 \amp  0 \amp  1\\ 0 \amp  0 \amp  0\end{bmatrix}.
+</me>
+
+From this we see that for any eigenvector <m>[x_1, x_2, x_3]</m> in <m>\mathcal{S}_0</m> we have <m>x_2=0</m> and <m>x_3=0</m>, but <m>x_1</m> is a free variable. 
+So one possible basis for the eigenspace <m>\mathcal{S}_0</m> is given by 
+<me>
+    \left \lbrace \begin{bmatrix}1\\0\\0\end{bmatrix}\right \rbrace.
+</me>
+
+Next we find a basis for the eigenspace <m>\mathcal{S}_{1+i}</m>.  We need to compute a basis for <m>\mbox{null}(D-(1+i)I)</m>.  We compute:
+<md>
+<mrow> \mbox{rref}(D-(1+i)I)\amp =\mbox{rref}\left(\begin{bmatrix} -(1+i)\amp 0\amp 0\\ 0 \amp 1-(1+i)\amp 1\\ 0 \amp  -1\amp 1-(1+i)\end{bmatrix}\right) </mrow> 
+<mrow> \amp =\begin{bmatrix} 1 \amp  0 \amp 0\\ 0 \amp  1 \amp  i\\ 0 \amp  0 \amp  0\end{bmatrix}  </mrow>
+</md>
+
+
+There is one free variable.  Setting <m>x_3=t</m>, we get <m>x_1=0</m> and <m>x_2=ti</m>.  From this we see that eigenvectors in <m>\mathcal{S}_{1+i}</m> have the form <m>[0,i,1]t</m>, so a possible basis for the eigenspace <m>\mathcal{S}_{1+i}</m> is given by 
+<me>
+    \left \lbrace \begin{bmatrix}0\\i\\1\end{bmatrix}\right \rbrace.
+</me>
+
+We ask you in <xref ref="prob-3x3-complex-ev"/> to show that 
+<me>
+\left \lbrace \begin{bmatrix}0\\-i\\1\end{bmatrix}\right \rbrace.
+</me>
+
+is a basis for <m>\mathcal{S}_{1-i}</m>.
+       </p>
+    </answer>
+</example>
+
+<p> 
+We conclude this section by establishing the significance of a matrix having an eigenvalue of zero.
+</p> 
+
+
+<theorem xml:id="th-zero-ew">
+
+    <statement>
+        <p>
+            A square matrix has an eigenvalue of zero if and only if it is singular.
+        </p>
+    </statement>
+
+
+<proof>
+    <p>
+A square matrix <m>A</m> is singular if and only if <m>\det{A}=0</m>.(see  <xref ref="th-detofsingularmatrix"/>).  But <m>\det{A}=0</m> if and only if <m>\det{A-0I}=0</m>, which is true if and only if zero is an eigenvalue of <m>A</m>.
+    </p>
+</proof>
+</theorem>
+</subsection>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<exercises>
+
+<exercisegroup>
+<introduction>
+    <p>
+        Let 
+    <me>C=\begin{bmatrix} 2 \amp  1 \amp  1\\ 1 \amp  2 \amp  1\\ 1 \amp  1 \amp  2\end{bmatrix}.</me>  
+    </p>
+</introduction>
+
+<exercise xml:id="prob-checkeig1">
+    <statement>
+        <p>
+            Show that <me>\begin{bmatrix} 1\\1\\1 \end{bmatrix}</me> is an eigenvector of <m>C</m>.  What is its corresponding eigenvalue?
+
+        </p>
+    </statement>
+
+<answer>
+    <p>
+    <me>4.</me>    
+    </p>
+</answer>
+</exercise>
+
+ <exercise xml:id="prob-checkeig2">
+    <statement>
+        <p>
+            Show that <me>\begin{bmatrix} 1\\-1\\0 \end{bmatrix}</me> is an eigenvector of <m>C</m>.  What is its corresponding eigenvalue?
+        </p>
+    </statement>
+
+    <answer>
+        <p>
+        <me>1.</me>    
+        </p>
+    </answer>
+</exercise>
+
+ <exercise xml:id="prob-checkeig3">
+    <statement>
+        <p>
+            Show that <me>\begin{bmatrix} 1\\1\\-2 \end{bmatrix}</me> is an eigenvector of <m>C</m>.  What is its corresponding eigenvalue?
+        </p>
+    </statement>
+
+    <answer>
+        <p>
+        <me>1</me>    
+        </p>
+    </answer>
+</exercise>
+</exercisegroup>
+
+
+<exercise xml:id="prob-eigprojmatrix">
+    <statement>
+        <p>
+            Let <me>Q=\begin{bmatrix} 0\amp  0\\ 0\amp 1\end{bmatrix}.</me>  Note that <m>Q</m> takes any vector in <m>\R^2</m> and projects it onto the <m>y</m>-axis, as we learned in <xref ref="prob-standardmatrix4"/>.  Which vectors in <m>\R^2</m> would be eigenvectors, and what are the corresponding eigenvalues?
+        </p>
+    </statement>
+</exercise>
+
+ 
+<exercise xml:id="ex-eigsrotation2">
+    <statement>
+        <p>
+            Returning to <xref ref="ex-eigsrotation"/>, let 
+        <me>M=\begin{bmatrix}
+\frac{1}{\sqrt{2}} \amp  -\frac{1}{\sqrt{2}}\\
+\frac{1}{\sqrt{2}} \amp  \frac{1}{\sqrt{2}}
+\end{bmatrix}.</me>
+    
+Show that <m>\begin{bmatrix} \frac{1}{\sqrt{2}}\\ -\frac{1}{\sqrt{2}} i \end{bmatrix}</m> is an eigenvector of <m>M</m>.  What is its corresponding eigenvalue?
+</p>
+</statement>
+
+    <answer>
+        <p>
+        <me>\frac{1}{\sqrt{2}}+\frac{1}{\sqrt{2}}i</me>    
+        </p>
+    </answer>
+       
+</exercise>
+
+
+<exercise xml:id="prob-eigenvalgeometry">
+    <statement>
+        <p>
+            Arguing geometrically, identify the linear transformation whose standard matrix has eigenvalues <m>\lambda_1=1</m> and <m>\lambda_2=-1</m>.
+        </p>
+    </statement>
+
+<choices>
+  <choice>
+      <statement>
+          <p> Vertical Shear. </p>
+      </statement>
+  </choice>
+    <choice>
+      <statement>
+          <p> Horizontal Shear. </p>
+      </statement>
+  </choice>
+    <choice>
+      <statement>
+          <p> Counterclockwise Rotation through a <m>90^\circ</m> angle. </p>
+      </statement>
+  </choice>
+    <choice correct="yes">
+      <statement>
+          <p> Reflection About the line <m>y=mx</m>. </p>
+      </statement>
+  </choice>
+    <choice>
+      <statement>
+          <p> Horizontal Stretch. </p>
+      </statement>
+  </choice>
+    <choice>
+      <statement>
+          <p> Vertical Stretch. </p>
+      </statement>
+  </choice>
+</choices>
+</exercise>
+
+
+
+
+<exercise xml:id="prob-eigvalvectorsofdiagmat">
+    <statement>
+        <p>
+            Let 
+        <me>
+        A=\begin{bmatrix} 3\amp 0\amp 0\\0\amp 3\amp 0\\0\amp 0\amp 3\end{bmatrix}.
+        </me>
+        
+        Can you find an eigenvector and its corresponding eigenvalue?  Can you find another ``eigenpair''?  Can you find all of the eigenvectors of <m>A</m>?
+        </p>
+    </statement>
+</exercise>
+
+<exercise xml:id="prob-rotmatrixrealeig1">
+    <statement>
+        <p>
+            The rotation matrix in <xref ref="ex-eigsrotation"/> has complex eigenvectors and eigenvalues.  Think geometrically to find an example of a (non-identity) rotation matrix with real eigenvectors and eigenvalues.  
+Enter degree measure between 0 and 360.
+        </p> 
+    </statement>
+
+    <answer>
+        <p>
+            Rotation through <m>180</m> degrees.
+        </p>
+    </answer>
+</exercise>
+
+<exercise xml:id="prob-eigenmultchoice1">
+    <statement>
+        <p>
+            Can an eigenvalue have multiple eigenvectors associated with it? 
+        </p>
+    </statement>
+
+<choices>
+  <choice correct="yes">
+      <statement>
+          <p> Yes. </p>
+      </statement>
+  </choice>
+    <choice>
+      <statement>
+          <p> No. </p>
+      </statement>
+  </choice>
+</choices>
+</exercise> 
+
+<exercise xml:id="prob-eigenmultchoice2">
+<statement>
+<p>
+ Can an eigenvector have multiple eigenvalues associated with it?
+</p>
+</statement> 
+
+ <choices>
+  <choice>
+      <statement>
+          <p> Yes </p>
+      </statement>
+  </choice>
+    <choice correct="yes">
+      <statement>
+          <p> No </p>
+      </statement>
+  </choice>
+</choices>
+</exercise>
+
+<exercise xml:id="prob-eigenScalarMult">
+    <statement>
+        <p>
+            Prove <xref ref="th-eigenScalarMult"/>.
+        </p>
+    </statement>
+</exercise>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!--Exercise of combined section half-->
+
+<exercisegroup>
+    <introduction>
+        <p>
+    In the next two exercises, we will prove that the eigenvectors associated with an eigenvalue <m>\lambda</m> of an <m>n \times n</m> matrix <m>A</m> form a subspace of <m>\R^n</m>. 
+        </p>
+    </introduction>
+    
+    <exercise xml:id="prob-eigenspace1">
+        <statement>
+            <p>
+                Let <m>\mathbf{x}</m> and <m>\mathbf{y}</m> be eigenvectors of <m>A</m> associated with <m>\lambda</m>.  Show that <m>\mathbf{x}+\mathbf{y}</m> is also an eigenvector of <m>A</m> associated with <m>\lambda</m>.  (This shows that the set of eigenvectors of <m>A</m> associated with <m>\lambda</m> is closed under addition).
+            </p>
+        </statement>
+    </exercise>
+    
+    <exercise xml:id="prob-eigenspace2">
+        <statement>
+            <p>
+                Show that the set of eigenvectors of <m>A</m> associated with <m>\lambda</m> is closed under scalar multiplication.
+            </p>
+        </statement>
+    </exercise>
+    </exercisegroup>
+    
+    
+    
+    <exercisegroup>
+    <introduction>
+        <p>
+    Compute the eigenvalues of the given matrix and find the corresponding eigenspaces.
+        </p>
+    </introduction>
+    
+    <exercise xml:id="prob-eigenspace3">
+        <statement>
+            <p>
+                <me>
+        \begin{bmatrix}4\amp 1\\8\amp -3\end{bmatrix}.
+    </me>
+            </p>
+        </statement>
+        <answer>
+            <p>
+    <me>
+        \lambda_1=-4,\quad\lambda_2=5.
+    </me>
+    
+    A basis for <m>\lambda_1</m> is 
+    <me>
+        \left \lbrace \begin{bmatrix}-1/8\\1\end{bmatrix}\right \rbrace.
+    </me>
+    
+    A basis for <m>\lambda_2</m> is 
+    <me>
+    \left \lbrace \begin{bmatrix}1\\1\end{bmatrix}\right \rbrace.
+    </me>
+            </p>
+        </answer>
+    </exercise>
+    
+    <exercise xml:id="prob-eigenspace4">
+        <statement>
+            <p>
+                <me>
+        \begin{bmatrix}1\amp -2\\2\amp 1\end{bmatrix}.
+    </me>
+            </p>
+        </statement>
+    
+        <answer>
+            <p>
+                <me>
+        \lambda_1=1+2i,\quad\lambda_2=1-2i.
+    </me>
+    
+    
+    A basis for <m>\lambda_1</m> is 
+    <me>
+    \left \lbrace \begin{bmatrix}i\\1\end{bmatrix}\right \rbrace.
+    </me>.  
+    
+    A basis for <m>\lambda_2</m> is 
+    <me>
+    \left \lbrace \begin{bmatrix}-i\\1\end{bmatrix}\right \rbrace.
+    </me>
+            </p>
+        </answer>
+    </exercise>
+    
+    
+    <exercise xml:id="prob-3x3tri-ev">
+        <statement>
+            <p>
+                Let 
+            <me>
+            T=\begin{bmatrix} 1 \amp  2 \amp  3\\ 0 \amp  5 \amp  6\\ 0 \amp  0 \amp  9\end{bmatrix}.
+            </me>
+            
+            Compute a basis for each of the eigenspaces of this matrix, <m>\mathcal{S}_1</m>, <m>\mathcal{S}_5</m>, and <m>\mathcal{S}_9</m>.
+            </p>
+        </statement>
+    </exercise>
+    </exercisegroup>
+    
+    
+    
+    
+    <exercise xml:id="prob-3x3fromKuttler1">
+        <statement>
+        <p>
+        Let
+            <me>
+            A=\begin{bmatrix} 9 \amp  2 \amp  8\\ 2 \amp  -6 \amp  -2\\ -8 \amp  2 \amp  -5\end{bmatrix}.
+            </me>
+        
+         Compute the three eigenvalues of this matrix and find a basis for each of the eigenspaces of this matrix: <m>\mathcal{S}_{\lambda_1}</m>, <m>\mathcal{S}_{\lambda_2}</m>, and <m>\mathcal{S}_{\lambda_3}</m>.
+        </p>  
+        </statement>
+     
+    <hint>
+    <p>            
+    One of the eigenvalues of <m>A</m> is -3.
+    </p>
+    </hint>
+    
+        <answer>
+            <p>
+        The eigenvalues are
+    <me>
+        \lambda_1 = -3,\quad \lambda_2 = -1,\quad \lambda_3 = 2.
+    </me>
+    
+        The bases are, respectively,
+    <me>
+        \left \lbrace \begin{bmatrix}1\\2\\-2\end{bmatrix}\right \rbrace, \quad \left \lbrace \begin{bmatrix}-2\\-2\\3\end{bmatrix}\right \rbrace, \quad \left \lbrace \begin{bmatrix}2\\1\\-2\end{bmatrix}\right \rbrace.
+    </me>
+            </p>
+        </answer>
+    </exercise>
+    
+    
+    
+    
+    <exercise xml:id="prob-3x3-complex-ev">
+        <statement>
+            <p>
+                Complete <xref ref="ex-3x3-complex-ev"/> by showing that a basis for <m>\mathcal{S}_{1-i}</m> is given by 
+                <me>
+                \left \lbrace \begin{bmatrix}0\\-i\\1\end{bmatrix}\right \rbrace,
+                </me>
+                 where  <m>\mathcal{S}_{1-i}</m> is the eigenspace associated with the eigenvalue <m>\lambda=1-i</m> of the matrix
+                 <me>
+                D=\begin{bmatrix} 0\amp 0\amp 0\\ 0 \amp 1\amp 1\\ 0 \amp  -1\amp 1\end{bmatrix}.
+                </me>
+            </p>
+        </statement>
+    </exercise>
+    
+    
+    <exercise xml:id="prob-eigtri">
+        <statement>
+            <p>
+                Prove <xref ref="th-eigtri"/>.  (HINT:  Proceed by induction on the dimension n.  For the inductive step, compute <m>\det(A-\lambda I)</m> by expanding along the first column (or row) if <m>T</m> is upper (lower) triangular.)
+            </p>
+        </statement>
+    </exercise>
+    
+    
+    
+    
+    
+    <exercisegroup>
+    
+        <introduction>
+            <p>
+                The following set of problems deals with geometric interpretation of eigenvalues and eigenvectors, as well as linear transformations of the plane.  
+            </p>
+        </introduction>
+    
+    
+    <exercise xml:id="prob-eigvectorstransfr2-1">
+        <statement>
+            <p>
+                Recall that a vertical stretch/compression of the plane is a linear transformation whose standard matrix is 
+    <me>
+        M_v=\begin{bmatrix}1\amp 0\\0\amp k\end{bmatrix}.
+    </me>
+    
+    Find the eigenvalues of <m>M_v</m>.  Find a basis for the eigenspace corresponding to each eigenvalue.
+            </p>
+        </statement>
+    
+        <answer>
+            <p>
+                A basis for <m>\mathcal{S}_1</m> is 
+            <me>
+            \left \lbrace \begin{bmatrix}1\\0\end{bmatrix}\right \rbrace.
+            </me>
+    
+    and a basis for <m>\mathcal{S}_k</m> is 
+            <me>
+            \left \lbrace \begin{bmatrix}0\\1\end{bmatrix}\right \rbrace.
+            </me>
+            </p>
+        </answer>
+    </exercise>
+    
+    <exercise xml:id="prob-eigvectorstransfr2-2">
+        <statement>
+            <p>
+                Recall that a horizontal shear of the plane is a linear transformation whose standard matrix is 
+    <me>
+        M_{hs}=\begin{bmatrix}1\amp k\\0\amp 1\end{bmatrix}.
+    </me>
+    
+    Find the eigenvalue of <m>M_{hs}</m> and its corresponding eigenspace.
+            </p>
+        </statement>
+        <answer>
+            <p>
+            The eigenvalue is  <m>\lambda=1</m> and a basis for its eigenspace is
+        <me>
+        \left \lbrace \begin{bmatrix}1\\0\end{bmatrix}\right \rbrace.
+        </me>
+            </p>
+        </answer>
+    </exercise>
+    
+    
+    
+    <exercise xml:id="prob-rotmatrixrealeig2">
+    <statement>
+    <p>
+                Recall that a counterclockwise rotation of the plane through angle <m>\theta</m> is a linear transformation whose standard matrix is 
+    <me>
+        M_{\theta}=\begin{bmatrix}\cos\theta\amp -\sin\theta\\\sin\theta\amp \cos\theta\end{bmatrix}.
+    </me>
+    
+    Verify that the eigenvalues of <m>M_{\theta}</m> are
+    
+    <me>
+        \lambda=\cos\theta\pm\sqrt{\cos^2\theta-1}.
+    </me>
+    
+    Explain why <m>\lambda</m> is real number if and only if <m>\theta</m> is a multiple of <m>\pi</m>.  After this, suppose <m>\theta</m> is a muliple of <m>\pi</m>.  Then the eigenspaces corresponding to the two eigenvalues are the same.  Which of the following describes the eigenspace?
+    </p>
+    </statement> 
+    
+    
+    <choices>
+      <choice correct="yes">
+          <statement>
+              <p> All vectors in <m>\R^2</m>. </p>
+          </statement>
+      </choice>
+          <choice>
+          <statement>
+              <p> All vectors along the <m>x</m>-axis. </p>
+          </statement>
+      </choice>
+          <choice>
+          <statement>
+              <p> All vectors along the <m>y</m>-axis. </p>
+          </statement>
+      </choice>
+          <choice>
+          <statement>
+              <p> All vectors along the line <m>y=x</m>. </p>
+          </statement>
+      </choice>
+    </choices>
+    </exercise>
+    </exercisegroup> 
+    
+    
+    <exercisegroup>
+    <introduction>
+        <p>
+            A reflection of the plane about the line <m>y=mx</m> is a linear transformation whose standard matrix is
+            <me>
+                M_{y=mx}=\frac{1}{1+m^2}\begin{bmatrix}
+            1-m^2 \amp  2m \\
+            2m \amp  m^2-1
+            \end{bmatrix}.
+            </me>
+        You can take this for granted.
+        </p>
+    </introduction>
+    
+    <exercise xml:id="prob-eigvectorstransfr2-3">
+        <statement>
+            <p>
+    Verify that the eigenvalues of <m>M_{y=mx}</m> are <m>1</m> and <m>-1</m>. Then find a basis for eigenspaces <m>\mathcal{S}_{1}</m> and <m>\mathcal{S}_{-1}</m>.  (For simplicity, assume that <m>m\neq 0</m>.)
+            </p>
+        </statement>
+    
+        <answer>
+            <p>
+                A basis for <m>\mathcal{S}_{1}</m> is 
+            <me>
+            \left \lbrace \begin{bmatrix}1\\m\end{bmatrix}\right \rbrace
+            </me>
+    
+    and a basis for <m>\mathcal{S}_{-1}</m> is 
+            <me>
+            \left \lbrace \begin{bmatrix}m\\-1\end{bmatrix}\right \rbrace.
+            </me>
+            </p>
+        </answer> 
+    </exercise>
+    
+    <exercise>
+        <statement>
+        <p>
+    Choose the best description of <m>\mathcal{S}_{1}</m>.
+        </p>
+        </statement>
+    
+    <choices>
+      <choice>
+          <statement>
+              <p> All vectors in <m>\R^2</m>. </p>
+          </statement>
+      </choice>
+          <choice correct="yes">
+          <statement>
+              <p> All vectors with ``slope" <m>m</m>. </p>
+          </statement>
+      </choice>
+          <choice>
+          <statement>
+              <p> All vectors with ``slope" <m>1/m</m>. </p>
+          </statement>
+      </choice>
+          <choice>
+          <statement>
+              <p> All vectors with ``slope" <m>-1/m</m>. </p>
+          </statement>
+      </choice>
+    </choices>
+    </exercise>
+    
+    <exercise>
+    <statement>
+    <p>
+    Choose the best description of <m>\mathcal{S}_{-1}</m>.
+    </p>
+    </statement>
+    
+    <choices>
+      <choice>
+          <statement>
+              <p> All vectors along the line <m>y=mx</m>. </p>
+          </statement>
+      </choice>
+          <choice>
+          <statement>
+              <p> All vectors parallel to the <m>x</m>-axis. </p>
+          </statement>
+      </choice>
+          <choice>
+          <statement>
+              <p> All vectors parallel to the <m>y</m>-axis. </p>
+          </statement>
+      </choice>
+          <choice correct="yes">
+          <statement>
+              <p> All vectors perpendicular to the line <m>y=mx</m>. </p>
+          </statement>
+      </choice>
+    </choices>
+    </exercise>
+    </exercisegroup>
+    
+    
+</exercises>
+</section>

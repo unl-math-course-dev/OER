@@ -1,0 +1,1110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<section xml:id="Section-Elementary-Row-Operations-and-the-Determinant" xmlns:xi="http://www.w3.org/2001/XInclude">
+    <title>Properties of the Determinant</title>
+
+<introduction>
+<p>
+When we first introduced the determinant we motivated its definition for a <m>2\times 2</m> matrix by the fact that the value of the determinant is zero 
+if and only if the matrix is singular.  We will soon be able to generalize this result to larger matrices, 
+and will eventually establish a formula for the inverse of a nonsingular matrix in terms of determinants.  
+</p>
+
+<p>
+Recall that we can find the inverse of a matrix or establish that the inverse does not exist by using elementary row operations to carry the given matrix to its reduced row-echelon form.  
+In order to start relating determinants to inverses we need to find out what elementary row operations do to the determinant of a matrix.  
+</p> 
+</introduction>
+
+<subsection xml:id="Subsection-The-Effects-of-Elementary-Row-Operations-on-the-Determinant">
+    <title>The Effects of Elementary Row Operations on the Determinant</title>
+
+<p>
+Recall that there are three elementary row operations:
+<ol>
+<li>
+      <p> Switching the order of two rows </p>
+</li>
+<li>
+      <p> Multiplying a row by a non-zero constant </p>
+</li>
+<li>
+      <p> Adding a multiple of one row to another </p>
+</li>
+</ol>
+
+Elementary row operations are used to carry a matrix to its reduced row-echelon form.  
+In <xref ref="prob-elemrowopsreverse"/> we established that elementary row operations are reversible.  
+</p> 
+
+<p> 
+In other words, if we know what elementary row operations   carried <m>A</m> to <m>\mbox{rref}(A)</m>, we can undo each operation with 
+another elementary row operation to carry <m>\mbox{rref}(A)</m> back to <m>A</m>.  This will prove useful for computing the determinant.  
+Computing the determinant of <m>\mbox{rref}(A)</m> is easy. (Why?)  If we know what elementary row operations carry <m>\mbox{rref}(A)</m> back to <m>A</m>, 
+and what effect each of these operations has on the determinant of <m>\mbox{rref}(A)</m>, we could find the determinant of <m>A</m>.  
+</p> 
+
+<exploration xml:id="init-rowswap">
+    <p>
+        Let 
+<me>
+    A=\begin{bmatrix}3\amp -1\amp -1\\3\amp 1\amp -2\\-1\amp 4\amp 2\end{bmatrix}.
+</me>
+</p>
+
+
+<problem>
+<statement>
+<p>
+Find <m>\det{A}</m>.
+</p>
+</statement>
+
+<answer>
+<p>
+<me>
+    \det{A}=21.
+</me>
+</p>
+</answer>
+</problem>
+
+<p>
+Construct matrix <m>B</m> by switching the first and the third rows of <m>A</m>.
+
+<me>
+    B=\begin{bmatrix}-1\amp 4\amp 2\\3\amp 1\amp -2\\3\amp -1\amp -1\end{bmatrix}.
+</me>
+</p>
+
+<problem>
+<statement>
+<p>
+Find <m>\det{B}</m>.
+</p>
+</statement>
+
+<answer>
+<p>
+<me>
+    \det{B}=-21
+</me>
+</p>
+</answer>
+</problem>
+
+<p>
+Next, try switching consecutive rows.  Construct matrix <m>B'</m> by interchanging the second and third rows of <m>A</m>.
+
+<me>
+    B'=\begin{bmatrix}3\amp -1\amp -1\\-1\amp 4\amp 2\\3\amp 1\amp -2\end{bmatrix}.
+</me>
+</p>
+
+<problem>
+<statement>
+<p>
+Find <m>\det{B'}</m>.
+</p>
+</statement>
+
+<answer>
+<p>
+<me>
+    \det{B'}=-21.
+</me>
+</p>
+</answer>
+</problem>
+
+<p>
+It appears that switching any two rows of a matrix produces a determinant that is negative of the determinant of the original matrix.
+
+Next, construct matrix <m>C</m> by multiplying the last row of <m>A</m> by <m>k</m>:
+
+<me>
+    C=\begin{bmatrix}3\amp -1\amp -1\\3\amp 1\amp -2\\-k\amp 4k\amp 2k\end{bmatrix}.
+</me>
+</p>
+
+<problem>
+<statement>
+<p>
+Find <m>\det{C}</m>.
+</p>
+</statement>
+
+<answer>
+<p> 
+<me>
+    \det{C}=21k.
+</me>
+</p>
+</answer>
+</problem>
+
+<p>
+It turns out that multiplying the first or the second row of <m>A</m> by <m>k</m> yields exactly  the same result as this.
+
+
+Finally, construct matrix <m>D</m> by  adding twice row 3 to row 1.
+
+<me>
+    D=\begin{bmatrix}1\amp 7\amp 3\\3\amp 1\amp -2\\-1\amp 4\amp 2\end{bmatrix}.
+</me>
+</p>
+
+
+<problem>
+    <statement>
+    <p>
+    Find <m>\det{D}</m>.
+    </p>
+    </statement>
+    
+    <answer>
+    <p> 
+    <me>
+        \det{D}=21.
+    </me>
+    </p>
+    </answer>
+    </problem>
+    
+
+<p>
+This result is particularly surprising.  Try a few more variations of this example to convince yourself that adding a multiple of one row to another row does not appear to affect the determinant.
+    </p>
+</exploration>
+
+
+<p> 
+The following theorem generalizes our observations.
+</p> 
+
+
+<theorem xml:id="th-elemrowopsanddet">
+
+    <statement>
+        <p>
+            Let <m>A=\begin{bmatrix}a_{ij}\end{bmatrix}</m> be an <m>n\times n</m> matrix.  
+<ol>
+<li xml:id="item-rowswapanddet">
+  <p> 
+If <m>B</m> is obtained from <m>A</m> by interchanging two different rows, then 
+<me> 
+
+    \det{B}=-\det{A}.
+</me>
+</p>
+</li>
+
+<li xml:id="item-rowconstantmultanddet">
+  <p> 
+If <m>B</m> is obtained from <m>A</m> by multiplying one of the rows of <m>A</m> by a non-zero constant <m>k</m>.  Then 
+<me> 
+    \det{B}=k\det{A}.
+</me>
+</p>
+</li>
+
+<li xml:id="item-addmultotherrowdet">
+  <p> 
+If <m>B</m> is obtained from <m>A</m> by adding a multiple of one row of <m>A</m> to another row, then
+
+<me> 
+    \det{B}=\det{A}.
+</me>
+</p>
+</li>
+
+</ol>
+        </p>
+    </statement>
+</theorem>
+
+<p>
+The proof of this theorem is relegated to another time.  For a sketch of the proof, you can watch this video:
+<video youtube="y0XVK-ey30c" play-at="select"/>
+</p> 
+
+<p> 
+The following lemma is a useful consequence of <xref ref="item-rowswapanddet"/> and  <xref ref="item-rowconstantmultanddet"/> of <xref ref="th-elemrowopsanddet"/>.
+</p> 
+
+
+<lemma xml:id="lemma-det0lemma">
+
+    <statement>
+        <p>
+            Let <m>A</m> be an <m>n\times n</m> matrix.  
+<ol>
+<li xml:id="item-det0lemma3">
+  <p> If <m>A</m> has a row of zeros, then <m>\det{A}=0</m>. </p>
+</li>
+<li xml:id="item-det0lemma1">
+  <p>  If two rows of <m>A</m> are the same, then <m>\det{A}=0</m>. </p>
+</li>
+<li xml:id="item-det0lemma2">
+  <p> If one row of <m>A</m> is a scalar multiple of another row, then <m>\det{A}=0</m>. </p>
+</li>
+</ol>
+        </p>
+    </statement>
+
+
+
+<proof>
+<p>
+    We will prove <xref ref="item-det0lemma1"/>.  Parts  <xref ref="item-det0lemma3"/> and <xref ref="item-det0lemma2"/> are left as exercises.
+</p> 
+
+    <p>[Proof of Part <xref ref="item-det0lemma1"/>]:
+Suppose rows <m>p</m> and <m>q</m> of <m>A</m> are the same.  Let <m>B</m> be a matrix obtained from <m>A</m> by switching <m>p</m> and <m>q</m>.  By <xref ref="th-elemrowopsanddet"/> and <xref ref="item-rowswapanddet"/> we know that <m>\det{B}=-\det{A}</m>. But <m>p</m> and <m>q</m> are the same, so <m>A=B</m>.  But then
+<m>\det{A}=-\det{A}</m>.
+We conclude that <m>\det{A}=0</m>.
+    </p>
+</proof>
+</lemma>
+
+<p>
+Because <m>\det{A}=\det{A^T}</m>, we have the following counterpart of <xref ref="th-elemrowopsanddet"/> for columns.
+</p>
+
+
+
+<theorem xml:id="th-elemcolopsanddet">
+    <title>Elementary Column Operations and the Determinant</title>
+    <statement>
+        <p>
+            Let <m>A</m> be an <m>n\times n</m> matrix.  
+<ol>
+<li xml:id="item-colswapanddet">
+  <p> 
+If <m>B</m> is obtained from <m>A</m> by interchanging two different columns, then 
+<me> 
+    \det{B}=-\det{A}.
+</me>
+</p>
+</li>
+
+
+<li xml:id="item-colconstantmultanddet">
+  <p> 
+If <m>B</m> is obtained from <m>A</m> by multiplying one of the columns of <m>A</m> by a non-zero constant <m>k</m>.  Then 
+<me> 
+    \det{B}=k\det{A}.
+</me>
+</p>
+</li>
+
+<li xml:id="item-addmultothercoldet">
+  <p> 
+If <m>B</m> is obtained from <m>A</m> by adding a multiple of one column of <m>A</m> to another column, then
+
+<me> 
+    \det{B}=\det{A}.
+</me>
+</p>
+</li>
+</ol>
+        </p>
+    </statement>
+</theorem>
+</subsection>
+
+
+
+
+
+
+
+
+
+<subsection xml:id="Subsection-Computing-the-Determinant-Using-Elementary-Row-Operations">
+    <title>Computing the Determinant Using Elementary Row Operations</title>
+
+<p> 
+What we discovered about the effects of elementary row operations on the determinant will allow us to 
+compute determinants without using the cumbersome process of cofactor expansion.
+</p>
+
+<p> 
+We discover these tricks through concrete examples.
+</p> 
+
+<example xml:id="ex-detandelemrowops">
+    <statement>
+        <p>
+            Suppose that a <m>6\times 6</m> matrix <m>A</m> is carried to the identity matrix by a sequence of elementary row operations listed below.  
+            Find <m>\det{A}</m>.
+
+<me>
+    A\xrightarrow{R_2-2R_4}A_1\xrightarrow{R_1\leftrightarrow R_3}A_2\xrightarrow{\frac{1}{2}R_6}A_3\xrightarrow{R_5+R_6}I.
+</me>
+       </p>
+    </statement>
+
+    <answer>
+        <p>
+            Let's take a look at what happens to the determinant of <m>A</m> one step at a time.  
+        <md> 
+<mrow> \det{A_1} \amp =\det{A}\quad \quad \amp \text{by} <xref ref="th-elemrowopsanddet"/><xref ref="item-addmultotherrowdet"/>, </mrow> 
+
+<mrow> \det{A_2} \amp =-\det{A_1}=-\det{A}\quad\quad \amp \text{by} <xref ref="th-elemrowopsanddet"/><xref ref="item-rowswapanddet"/>, </mrow>
+
+<mrow> \det{A_3} \amp =\frac{1}{2}\det{A_2}=-\frac{1}{2}\det{A}\quad\quad \amp \text{by} <xref ref="th-elemrowopsanddet"/><xref ref="item-rowconstantmultanddet"/>, </mrow>
+
+<mrow> \det{I} \amp =\det{A_3}=-\frac{1}{2}\det{A}\quad\quad \amp \text{by} <xref ref="th-elemrowopsanddet"/><xref ref="item-addmultotherrowdet"/>. </mrow>
+        </md>
+
+Recall that <m>\det{I}=1</m> (<xref ref="lemma-detofid"/>).  This gives us
+
+<me>
+    -\frac{1}{2}\det{A}=1.
+</me>
+
+Therefore <m>\det{A}=-2</m>.
+       </p>
+    </answer>
+</example>
+
+
+
+
+<example xml:id="ex-detandelemrowops2">
+    <statement>
+        <p>
+            Let 
+<me>
+    A=\begin{bmatrix}3\amp 0\amp -9\\10\amp 5\amp 2\\8\amp 4\amp 2 \end{bmatrix}
+</me>
+
+Find <m>\det{A}</m> by applying elementary row operations to reduce <m>A</m> to its row-echelon form.
+       </p>
+    </statement>
+    <answer>
+        <p>
+            <mdn xml:id="eq-refstep5"> 
+<mrow> 
+A \amp = \begin{bmatrix} 
+ 3\amp 0\amp -9\\10\amp 5\amp 2\\8\amp 4\amp 2
+ \end{bmatrix} 
+
+ \amp \xrightarrow{(1/3)R_1}
+
+\begin{bmatrix}  
+ 1\amp 0\amp -3\\10\amp 5\amp 2\\8\amp 4\amp 2
+ \end{bmatrix} 
+</mrow> 
+
+ <mrow> \amp \amp \xrightarrow{(1/2)R_3}
+\begin{bmatrix}  
+ 1\amp 0\amp -3\\10\amp 5\amp 2\\4\amp 2\amp 1
+ \end{bmatrix}
+ </mrow>
+
+ <mrow>
+ \amp \amp \xrightarrow{R_2-10R_1}
+\begin{bmatrix}  
+ 1\amp 0\amp -3\\0\amp 5\amp 32\\0\amp 2\amp 13
+ \end{bmatrix}
+ </mrow>
+
+<mrow> 
+\amp \amp \xrightarrow{(1/5)R_2}
+\begin{bmatrix} 
+ 1\amp 0\amp -3\\0\amp 1\amp 32/5\\0\amp 2\amp 13
+ \end{bmatrix}
+</mrow>
+
+<mrow> 
+\amp \amp \xrightarrow{R_3-2R_2}
+\begin{bmatrix}  
+ 1\amp 0\amp -3\\0\amp 1\amp 32/5\\0\amp 0\amp 1/5
+ \end{bmatrix}.
+</mrow> 
+</mdn>
+
+We stop when we get to a row-echelon form of <m>A</m> because we can see that its determinant is <m>\frac{1}{5}</m> (see <xref ref="lemma-triangulardet"/>).
+</p>
+
+<p> 
+The following table summarizes the effect of each elementary row operation on the determinant.
+
+
+<me>
+    \begin{array}{|c|c|}  
+ \hline \text{Matrix}\amp \text{Determinant}\\ \hline A\amp   \det{A}\\ \hline (1) \amp  \frac{1}{3}\det{A}\\
+ \hline (2) \amp \frac{1}{2}\cdot\frac{1}{3}\det{A}\\
+ \hline (3) \amp \frac{1}{2}\cdot\frac{1}{3}\det{A}\\
+ \hline (4)\amp \frac{1}{5}\cdot\frac{1}{2}\cdot\frac{1}{3}\det{A}\\
+ \hline (5) \amp  \frac{1}{5}\cdot\frac{1}{2}\cdot\frac{1}{3}\det{A} \\ \hline
+ \end{array}
+</me>
+
+ Since the determinant of the row-echelon form of <m>A</m> in step 5 is <m>\frac{1}{5}</m>, we have
+ 
+<me>
+    \frac{1}{5}=\frac{1}{5}\cdot\frac{1}{2}\cdot\frac{1}{3}\det{A}.
+</me>
+
+ Therefore
+ 
+<me>
+    \det{A}=6.
+</me>
+
+ You should verify this result by direct computation using cofactors.
+       </p>
+    </answer>
+</example>
+</subsection>
+
+
+
+
+
+
+
+<!--
+<?xml version="1.0" encoding="UTF-8"?>
+
+<section xml:id="Section-Properties-of-the-Determinant" xmlns:xi="http://www.w3.org/2001/XInclude">
+    <title>Properties of the Determinant</title>
+-->
+
+
+ 
+
+    <subsection xml:id="Subsection-Properties-of-the-Determinant">
+        <title>Properties of the Determinant</title>
+    
+
+
+
+ 
+<p>
+We begin by summarizing the properties of determinants we introduced in previous sections.
+</p>
+
+<fact>
+<statement>
+<p>
+<ul>
+<li>
+      <p> The determinant of the identity matrix is equal to 1. (<xref ref="lemma-detofid"/>) </p>
+</li>
+<li>
+      <p> The determinant of a triangular matrix is equal to the product of the main diagonal entries. (<xref ref="lemma-triangulardet"/>) </p>
+</li>
+<li>
+      <p> The determinant of the transpose is equal to the determinant of the matrix. (<xref ref="th-detoftrans"/>) </p>
+</li>
+<li>
+      <p> If a matrix contains a row of zeros, then its determinant is equal to 0. (<xref ref="lemma-det0lemma"/>) </p>
+</li>
+<li>
+      <p> If two rows of a matrix are the same, then the determinant of the matrix is equal to 0.  (<xref ref="lemma-det0lemma"/>) </p>
+</li>
+<li>
+      <p> If one row of a matrix is a scalar multiple of another row, then the determinant of the matrix is equal to 0. (<xref ref="lemma-det0lemma"/>) </p>
+</li>
+
+<li>
+      <p> If <m>B</m> is obtained from <m>A</m> by interchanging two different rows, then 
+<me> 
+    \det{B}=-\det{A}.
+</me>
+</p>
+</li>
+   
+
+<li>
+      <p> If <m>B</m> is obtained from <m>A</m> by multiplying one of the rows of <m>A</m> by a non-zero constant <m>k</m>.  Then 
+<me>
+    \det{B}=k\det{A}.
+</me>
+</p>
+</li>
+ 
+
+<li>
+      <p> If <m>B</m> is obtained from <m>A</m> by adding a multiple of one row of <m>A</m> to another row, then
+
+<me>
+    \det{B}=\det{A}.
+</me>
+</p>
+</li>
+</ul>
+
+(The last three properties comprise <xref ref="th-elemrowopsanddet"/>)
+</p>
+</statement>
+</fact>
+
+<p>
+In this section we will prove the following important results:
+<ol>
+<li>
+      <p> A square matrix is singular if and only if its determinant is equal to 0. </p>
+</li>
+<li>
+      <p> The determinant of a product is the product of the determinants. </p>
+</li>
+</ol>
+To get us started, we need the following lemma.
+</p>
+
+
+
+<lemma xml:id="lemma-detelemproduct">
+
+    <statement>
+        <p>
+            Let <m>A</m> be a square matrix, and let <m>E</m> be an elementary matrix, then
+
+<me>
+    \det{EA}=\det{E}\det{A}.
+</me>
+        </p>
+    </statement>
+
+<proof>
+    <p> Recall that if <m>E</m> is obtained from <m>I</m> using an elementary row operation, then the same elementary row operation carries <m>A</m> to <m>EA</m>.  There are three types of elementary row operations and three types of elementary matrices, so we will have to consider three cases.
+    </p> 
+
+<p>
+Case 1.  Suppose <m>E</m> is obtained from <m>I</m> by interchanging two rows, then
+
+<me>
+    \det{E}=-1\quad\text{and}\quad \det{EA}=-\det{A},
+</me>
+
+so
+
+<me>
+    \det{EA}=\det{E}\det{A}.
+</me>
+
+</p>
+
+<p>
+Case 2.  Suppose <m>E</m> is obtained from <m>I</m> by multiplying one of the rows of <m>I</m> by a non-zero constant <m>k</m>, then
+
+<me>
+    \det{E}=k\quad\text{and}\quad \det{EA}=k\det{A}
+</me>
+
+so
+
+<me>
+    \det{EA}=\det{E}\det{A}.
+</me>
+</p> 
+
+<p>
+Case 3.  Suppose <m>E</m> is obtained from <m>I</m> by adding a scalar multiple of one row to another row, then
+
+<me>
+    \det{E}=1\quad\text{and}\quad \det{EA}=\det{A},
+</me>
+
+so
+
+<me>
+    \det{EA}=\det{E}\det{A}.
+</me>
+    </p>
+</proof>
+</lemma>
+
+
+
+
+
+<p>
+Recall that we first introduced determinants in the context of invertibility of <m>2\times 2</m> matrices. Specifically, 
+we found that 
+<me>
+A=\begin{bmatrix}a\amp b\\c\amp d\end{bmatrix}
+</me> 
+
+is invertible if and only if <m>\det{A}\neq 0</m> (a logically equivalent statement is: <m>A</m> is singular if and only if <m>\det{A}=0</m>). 
+ We are now in the position to prove this result for all square matrices.
+</p>
+
+<theorem xml:id="th-detofsingularmatrix">
+
+    <statement>
+        <p>
+            A square matrix <m>A</m> is singular if and only if <m>\det{A}=0</m>.
+        </p>
+    </statement>
+
+<proof>
+    <p>
+Let <m>A</m> be a square matrix.  To determine whether <m>A</m> is singular we need to find <m>\mbox{rref}(A)</m>.  
+In the section on elementary matrices, we found that there exist elementary matrices <m>E_1,\ldots ,E_k</m> such that 
+
+<me>
+    E_k\ldots E_2E_1A=\mbox{rref}(A).
+</me>
+
+Therefore,
+
+<me>
+    \det{(E_k\ldots E_2E_1A)}=\det{\big(\mbox{rref}(A)\big)}.
+</me>
+
+By repeated application of <xref ref="lemma-detelemproduct"/>, we find that 
+
+<me>
+    \det{E_k}\ldots \det{E_2}\det{E_1}\det{A}=\det{\big(\mbox{rref}(A)\big)}.
+</me>
+
+Suppose that <m>A</m> is singular, then <m>\mbox{rref}(A)\neq I</m>.  But then <m>\mbox{rref}(A)</m> contains a row of zeros, 
+and <m>\det{\big(\mbox{rref}(A)\big)}=0</m> (see <xref ref="lemma-det0lemma"/>). 
+ Since determinants of elementary matrices are non-zero, we conclude that <m>\det{A}=0</m>.
+</p> 
+
+<p> 
+Conversely, suppose <m>\det{A}=0</m>, then
+
+<me>
+    \det{\big(\mbox{rref}(A)\big)}=\det{E_k}\ldots \det{E_2}\det{E_1}\det{A}=0.
+</me>
+
+It follows that <m>\mbox{rref}(A)\neq I</m>, so <m>A</m> is singular.
+    </p>
+</proof>
+</theorem>
+
+
+
+<p> 
+Let us see this in action in a concrete case.
+</p> 
+
+
+<example xml:id="ex-invanddet">
+    <statement>
+        <p>
+            Determine whether <m>A</m> is an invertible matrix without using elementary row operations.
+
+
+<me>
+    A=\begin{bmatrix}3\amp 4\amp -8\\1\amp 8\amp -10\\1\amp -2\amp 1\end{bmatrix}.
+</me>
+       </p>
+    </statement>
+    <answer>
+        <p>
+            Compute the determinant of <m>A</m>.  You will find that <m>\det{A}=0</m>.  By <xref ref="th-detofsingularmatrix"/> we conclude that <m>A</m> is not invertible.
+       </p>
+    </answer>
+</example>
+
+
+<p> 
+We now draw our attention to products and how they behave for determinants.
+</p> 
+
+
+<theorem xml:id="th-detofproduct">
+
+    <statement>
+        <p>
+            Let <m>A</m> and <m>B</m> be square matrices, then
+
+<me>
+    \det{AB}=\det{A}\det{B}
+</me>
+        </p>
+    </statement>
+
+<proof>
+    <p>
+Suppose <m>A</m> is invertible, then <m>A</m> can be written as a product of elementary matrices, see also <xref ref="th-elemmatrices"/>.
+
+<me>
+    A=E_1E_2\ldots E_k.
+</me>
+
+Then, by repeated application of <xref ref="lemma-detelemproduct"/>, we get
+<md>
+<mrow> \det{AB}\amp =\det{(E_1E_2\ldots E_kB)} </mrow>
+<mrow> \amp =\det{E_1}\det{E_2}\ldots \det{E_k}\det{B} </mrow>
+<mrow> \amp =\det{(E_1E_2\ldots E_k)}\det{B} </mrow>
+<mrow> \amp =\det{A}\det{B}. </mrow>
+</md>
+Now suppose that <m>A</m> is not invertible.  Then <m>AB</m> is also not invertible. %Needs proof
+So, <m>\det{A}=0</m> and <m>\det{AB}=0</m>.  Thus  <m>\det{AB}=0=\det{A}\det{B}</m>.
+    </p>
+</proof>
+</theorem>
+
+<p>
+The following theorem is a nice consequence of  <xref ref="th-detofproduct"/>.  We leave the proof to the reader, see <xref ref="prob-proofdetofinverse"/>.
+</p> 
+
+<theorem xml:id="th-detofinverse">
+
+    <statement>
+        <p>
+            Let <m>A</m> be a nonsingular matrix, then
+
+<me>
+    \det{A^{-1}}=\frac{1}{\det{A}}.
+</me>
+        </p>
+    </statement>
+</theorem>
+</subsection>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<exercises> 
+
+
+<exercise xml:id="prob-proofdet0lemma">
+    <statement>
+        <p>
+            Prove <xref ref="lemma-det0lemma"/><xref ref="item-det0lemma3"/>.
+        </p>
+    </statement>
+</exercise>
+
+
+
+<exercise xml:id="prob-kAdet">
+    <statement>
+        <p>
+            Let <m>A</m> be an <m>n\times n</m> matrix.  Show that 
+
+<me>
+    \det{kA}=k^n\det{A}.
+</me>
+        </p>
+    </statement>
+</exercise>
+
+<exercise xml:id="prob-proofdet0lemma2">
+    <statement>
+        <p>
+            Prove <xref ref="lemma-det0lemma"/><xref ref="item-det0lemma2"/>.
+        </p>
+    </statement>
+
+<hint>
+<p>
+Apply <xref ref="item-rowconstantmultanddet"/> of <xref ref="th-elemrowopsanddet"/> to a matrix that has two identical rows.
+</p>
+</hint>     
+</exercise>
+
+
+<exercise xml:id="prob-onerowlincombanotherdet">
+    <statement>
+        <p>
+            Prove that if one row of a matrix is a linear combination of two other rows of the matrix, then the determinant of the matrix is 0.
+        </p>
+    </statement>
+</exercise>
+
+<exercise xml:id="prob-elemrowopsdet">
+    <statement>
+        <p>
+            Find <m>\det{A}</m> and <m>\det{B}</m> using elementary row operations, where
+
+<me>
+    A=\begin{bmatrix}3\amp 1\amp -3\\12\amp 5\amp -5\\4\amp 2\amp 1\end{bmatrix} \quad \text{and} \quad B=\begin{bmatrix}3\amp 2\amp 2\\2\amp 3\amp 3\\1\amp 1\amp 1\end{bmatrix}.
+</me>
+        </p>
+    </statement>
+
+    <answer>
+        <p>
+     <m> \det{A}=1 </m> and  <m> \det{B}=0 </m> .
+        </p>
+    </answer>
+</exercise>
+
+
+
+
+<exercisegroup>
+<introduction>
+    <p>
+        Each of the following matrices is an elementary matrix. 
+
+<ol>
+<li>
+  <p> What elementary row operation does this matrix perform? </p>
+</li>
+
+<li>
+  <p> Compute the determinant of the matrix in two different ways: </p>
+</li>
+
+
+<li>
+  <p> By cofactor expansion. </p>
+</li>
+
+<li>
+  <p> By thinking about how the given matrix was obtained from the identity matrix. </p>
+</li>
+
+</ol>
+</p>
+</introduction>
+
+<exercise xml:id="prob-elemmatdet1">
+<statement>
+<p>
+    <me>
+        E_1=\begin{bmatrix}1\amp 0\amp 0\\0\amp 2\amp 0\\0\amp 0\amp 1\end{bmatrix}.
+    </me> 
+</p>
+</statement>
+  
+    <hint>
+        <p>
+        See <xref ref="def-elemmatrix"/>.
+        </p>
+    </hint>
+
+    <answer>
+        <p>
+            <me>
+    \det{E_1}=2.
+</me>
+        </p>
+    </answer>
+</exercise>
+  
+  <exercise xml:id="prob-elemmatdet2">
+    <statement>
+        <p>
+            <me>
+    E_2=\begin{bmatrix}1\amp 0\amp 4\\0\amp 1\amp 0\\0\amp 0\amp 1\end{bmatrix}.
+</me>
+        </p>
+    </statement>
+
+    <answer>
+        <p>
+            <me>
+    \det{E_2}=1.
+</me>
+        </p>
+    </answer>
+</exercise>
+  
+
+  <exercise xml:id="prob-elemmatdet3">
+    <statement>
+        <p>
+            <me>
+    E_3=\begin{bmatrix}0\amp 0\amp 1\\0\amp 1\amp 0\\1\amp 0\amp 0\end{bmatrix}.
+</me>
+        </p>
+    </statement>
+    <answer>
+        <p>
+            <me>
+    \det{E_3}=-1.
+</me>
+        </p>
+    </answer>
+</exercise>
+</exercisegroup>
+
+
+
+
+    
+<exercisegroup>
+    <introduction>
+        <p>
+    Without doing written computations, determine whether the given matrix is singular. 
+        </p>
+    </introduction>
+    
+    
+    <exercise xml:id="singmatrixdet1a">
+        <statement>
+            <p>
+                
+    <me>
+        A=\begin{bmatrix}0\amp 0\amp -3\\2\amp 3\amp -1\\0\amp 0\amp 10\end{bmatrix}
+    </me>
+            </p>
+        </statement>
+    
+      <choices>
+      <choice correct="yes">
+          <statement>
+              <p> <m>A</m> is singular </p>
+          </statement>
+      </choice>
+       <choice>
+          <statement>
+              <p> <m>A</m> is nonsingular </p>
+          </statement>
+      </choice>
+    </choices>
+    </exercise>
+    
+    <exercise xml:id="prob-singmatrixdet1b">
+        <statement>
+            <p>
+                <me>
+        A=\begin{bmatrix}2\amp -3\amp -1\\0\amp 4\amp 5\\0\amp 0\amp -3\\\end{bmatrix}
+    </me>
+            </p>
+        </statement>
+    
+      <choices>
+      <choice>
+          <statement>
+              <p> <m>A</m> is singular </p>
+          </statement>
+      </choice>
+       <choice correct="yes">
+          <statement>
+              <p> <m>A</m> is nonsingular </p>
+          </statement>
+      </choice>
+    </choices>
+    </exercise>
+    </exercisegroup>
+    
+    
+    
+    
+    <exercise xml:id="prob-singmatrixdet2">
+        <statement>
+            <p>
+                Show that all matrices of the form
+    
+    <me>
+        \begin{bmatrix}x\amp x+1\amp x+2\\x+3\amp x+4\amp x+5\\x+6\amp x+7\amp x+8\end{bmatrix}
+    </me>
+    
+    are singular.
+            </p>
+        </statement>
+    </exercise>
+    
+    
+    
+    
+    <exercise xml:id="prob-singmatrixdet3">
+        <statement>
+            <p>
+                Find values of <m>x</m> for which the given matrix is singular.
+    
+    <me>
+        \begin{bmatrix}2-x\amp 1\\5\amp 6-x\end{bmatrix}
+    </me>
+    
+    List values of <m>x</m> in an increasing order.
+            </p>
+        </statement>
+    
+        <answer>
+            <p>
+                <me>
+        x=1\quad x=7
+    </me>
+            </p>
+        </answer>
+    </exercise>
+    
+    <exercise xml:id="prob-detproduct">
+        <statement>
+            <p>
+                Suppose <m>A</m> and <m>B</m> are <m>2\times 2</m> matrices such that <m>\det{A}=2</m> and <m>\det{B}=\frac{1}{3}</m>.  Find each of the following.
+                <ol>
+                    <li> <p> <m>\det{AB^{-1}}</m> </p> </li>
+                    <li> <p> <m>\det{(AB)^{-1}}</m> </p> </li>
+                    <li> <p> <m>\det{2AB}</m> </p> </li>
+                </ol>
+            </p>
+        </statement>
+        <answer>
+            <p>
+                <ol>
+                    <li> <p> <m>\det{AB^{-1}}=6</m> </p> </li>
+                    <li> <p> <m>\det{(AB)^{-1}}=3/2</m> </p> </li>
+                    <li> <p> <m>\det{2AB}=8/3</m> </p> </li>
+                </ol>
+            </p>
+        </answer>
+    </exercise>
+    
+    
+    <exercise xml:id="prob-dettruefalse">
+        <statement>
+            <p>
+                Prove or give a counterexample.
+       
+    <me>
+        \det{(A+B)}=\det{(A^T+B^T)}
+    </me>
+            </p>
+        </statement>
+    </exercise>
+    
+    <exercise xml:id="prob-proofdetofinverse">
+        <statement>
+            <p>
+                Prove <xref ref="th-detofinverse"/>.
+            </p>
+        </statement>
+    </exercise>
+    
+    <exercise xml:id="prob-detinvertible1">
+        <statement>
+            <p>
+                Suppose <m>A</m> is an invertible matrix such that 
+    <me>
+        A^{-1}=A^T
+    </me>
+    
+    Find <m>\det{A}</m> if we know that <m>\det{A}\lt 0</m>.
+            </p>
+        </statement>
+        <answer>
+            <p>
+                <m>\det{A}=-1</m>
+            </p>
+        </answer>
+    </exercise>
+    
+    
+    
+
+
+</exercises> 
+</section>

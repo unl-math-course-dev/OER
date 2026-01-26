@@ -1,0 +1,2349 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<section xml:id="Section-Introduction-to-Vectors" xmlns:xi="http://www.w3.org/2001/XInclude">
+  <title>Introduction to Vectors</title>
+
+  <subsection xml:id="Subsection-A-Brief-Introduction-to-Real-Space">
+    <title>A Brief Introduction to <m>\R^n</m></title>
+
+    <p>
+      The set of all real numbers is denoted by <m>\R</m>.  It is convenient to associate real numbers with points on a line, called the <term>real number line</term>.
+    </p>
+
+    <image width="80%">
+      <shortdescription>Image of the real number line.</shortdescription>
+      <latex-image>
+        \begin{tikzpicture}
+        \draw[latex-latex] (-3.5,0) -- (3.5,0) ; %edit here for the axis
+        \foreach \x in  {-3,-2,-1,0,1,2,3} % edit here for the vertical lines
+        \draw[shift={(\x,0)},color=black] (0pt,3pt) -- (0pt,-3pt);
+        \foreach \x in {-3,-2,-1,0,1,2,3} % edit here for the numbers
+        \draw[shift={(\x,0)},color=black] (0pt,0pt) -- (0pt,-3pt) node[below] 
+        {$\x$};
+        \end{tikzpicture}
+      </latex-image>
+    </image>
+
+    <p>
+      The set of all ordered pairs <m>(x, y)</m>, where <m>x</m> and <m>y</m> are real numbers, is called <m>\R^2</m>.  Using set notation we write:  
+      <me>
+        \R^2=\{(x, y):x,y\in \R\}
+      </me>
+
+      Geometrically speaking, <m>\R^2</m> can be associated with a coordinate plane in which we refer to each point by its <m>x</m> and <m>y</m> coordinates.
+    </p>
+
+    <image width="80%">
+      <shortdescription>Image of the real plane with coordinate axes x and y.</shortdescription>
+      <latex-image>
+        \begin{tikzpicture}[line cap=round,line join=round,\gt=triangle 45,x=1cm,y=1cm]
+        \begin{axis}[
+        x=1cm,y=1cm,
+        axis lines=middle,
+        ymajorgrids=true,
+        xmajorgrids=true,
+        xmin=-4.5,
+        xmax=4.5,
+        ymin=-3.5,
+        ymax=3.5,
+        xtick={-4,-3,...,4},
+        ytick={-3,-2,...,3},]
+        \end{axis}
+        \end{tikzpicture}
+      </latex-image>
+    </image>
+
+    <p>
+      The set of all ordered triples <m>(x, y, z)</m>, where <m>x</m>, <m>y</m> and <m>z</m> are real numbers,  is called <m>\R^3</m>. 
+      <me>
+          \R^3=\{(x, y, z):x,y, z\in \R\}
+      </me>
+      Geometrically, an ordered triple of <m>\R^3</m> is associated with a point of a three-dimensional space whose position is given by  <m>x</m>, <m>y</m> and <m>z</m> coordinates.
+    </p>
+
+    <image width="80%">
+      <shortdescription>Image of the 3-dimensional real space with coordinate axes x, y, and z.</shortdescription>
+      <latex-image>
+        \tdplotsetmaincoords{70}{130}
+        \begin{tikzpicture}
+          \draw[-\gt](-2,0,0)--(5,0,0) node[below left]{$y$>};
+          \draw[-\gt](0,-2,0)--(0,5,0) node[below left]{$z$};
+          \draw[-\gt](0,0,-2)--(0,0,5) node[below left]{$x$};  
+        \end{tikzpicture}
+      </latex-image>
+    </image>
+
+
+    <p> 
+Here is a concrete example:
+    </p> 
+
+
+    <example xml:id="ex-plotpointsr3">
+      <p>
+        The following points are shown plotted in <m>\R^3</m>.
+
+        <ol>
+          <li>
+              <p>
+                <m>P(6, 8, 7)</m>
+              </p>
+          </li>
+          <li>
+              <p>
+                <m>Q(4, -6, 9)</m>
+              </p>
+          </li>
+          <li>
+              <p>
+                <m>R(-3, 9, -10)</m>
+              </p>
+          </li>
+        </ol>
+      </p>
+      <image width="80%">
+        <shortdescription>Points plotted in 3-dimensional real space.</shortdescription>
+        <latex-image>
+          \begin{tikzpicture}[x=0.5cm,y=0.5cm,z=0.3cm]
+          % The axes
+          \draw[-\gt] (xyz cs:x=-13.5) -- (xyz cs:x=13.5) node[above] {$y$};
+          \draw[-\gt] (xyz cs:y=-13.5) -- (xyz cs:y=13.5) node[right] {$z$};
+          \draw[-\gt] (xyz cs:z=13.5)--(xyz cs:z=-13.5) node[below] {$x$} ;
+          % The thin ticks
+          \foreach \coo in {-13,-12,...,13}
+          {
+            \draw (\coo,-1.5pt) -- (\coo,1.5pt);
+            \draw (-1.5pt,\coo) -- (1.5pt,\coo);
+            \draw (xyz cs:y=-0.15pt,z=\coo) -- (xyz cs:y=0.15pt,z=\coo);
+          }
+    
+          % Dashed lines for the points P
+          \draw[dashed,red] 
+            (xyz cs:z=-6) -- 
+            +(0,7) coordinate (u) -- 
+            (xyz cs:y=7) -- 
+            +(8,0) -- 
+            ++(xyz cs:x=8,z=-6) coordinate (v) --
+            +(0,-7) coordinate (w) --
+            cycle;
+          \draw[dashed,red] (u) -- (v);
+          \draw[dashed,red] (8,7) -- (8,0) -- (w);
+    
+          % Dots and labels for P
+          \node[fill,circle,inner sep=1.5pt,label={right:$P(6,8,7)$}] at (v) {};
+    
+          % Dashed lines for the points Q
+          \draw[dashed,blue] 
+            (xyz cs:z=-4) -- 
+            +(0,9) coordinate (u1) -- 
+            (xyz cs:y=9) -- 
+            +(-6,0) -- 
+            ++(xyz cs:x=-6,z=-4) coordinate (v1) --
+            +(0,-9) coordinate (w1) --
+            cycle;
+          \draw[dashed,blue] (u1) -- (v1);
+          \draw[dashed,blue] (-6,9) -- (-6,0) -- (w1);
+    
+          % Dots and labels for Q
+          \node[fill,circle,inner sep=1.5pt,label={left:$Q(4,-6,9)$}] at (v1) {};
+    
+          % Dashed lines for the points R
+          \draw[dashed] 
+            (xyz cs:z=3) -- 
+            +(0,-10) coordinate (u2) -- 
+            (xyz cs:y=-10) -- 
+            +(9,0) -- 
+            ++(xyz cs:x=9,z=3) coordinate (v2) --
+            +(0,10) coordinate (w2) --
+            cycle;
+          \draw[dashed] (u2) -- (v2);
+          \draw[dashed] (9,-10) -- (9,0) -- (w2);
+    
+          % Dots and labels for R
+          \node[fill,circle,inner sep=1.5pt,label={right:$R(-3,9,-10)$}] at (v2) {};
+    
+          \end{tikzpicture}
+        </latex-image>
+      </image> 
+    </example>
+
+    <p>
+      Each pair of axes in <m>\R^3</m> determines a plane. The resulting three planes are called <term>coordinate planes</term>.  
+      Each coordinate plane is named after the axes that determine it.  Thus, we have the <m>xy</m>-plane, <m>xz</m>-plane, and <m>yz</m>-plane.  
+      Coordinate planes intersect at the point <m>(0, 0, 0)</m>, called the <term>origin</term>, and subdivide <m>\R^3</m> into eight regions, called <term>octants</term>.
+    </p> 
+
+    <image>
+      <shortdescription>Graphs of the 3 coordinate planes in 3-dimensional real space.</shortdescription>
+      <latex-image>
+        \tdplotsetmaincoords{70}{130}
+        \begin{tikzpicture}
+          \draw[-\gt](-3,0,0)--(5,0,0) node[below left]{$y$};
+            \draw[-\gt](0,-2,0)--(0,5,0) node[below left]{$z$};
+            \draw[-\gt](0,0,-2)--(0,0,5) node[below left]{$x$};
+              
+            \filldraw[blue!30!white] (0,0,0)--(0,0,-2)--(4,0,-2)--(4,0,0)--cycle;
+            \filldraw[blue!50!white] (0,-1,-2)--(0, 4, -2)--(0,4,0)--(0,-1,0)--cycle;
+            \filldraw[blue!40!white] (-2,4,0)--(4,4,0)node[black, below left]{$yz$-plane}--(4,-1,0)--(-2,-1,0)--cycle;
+            \filldraw[blue!30!white] (0,0,0)--(0,0,4)--(-2,0,4)--(-2,0,0)--cycle;
+            \filldraw[blue!50!white] (0,-1,0)--(0, 4, 0)--(0,4,4)node[black, below right]{$xz$-plane}--(0,-1,4)--cycle;
+            \filldraw[blue!30!white] (0,0,0)--(0,0,4)--(4,0,4)node[black, above left]{$xy$-plane}--(4,0,0)--cycle;
+            
+            \node[fill,circle,inner sep=1.5pt,label={right:$(0,0,0)$}] at (0,0,0) {};
+        \end{tikzpicture}
+      </latex-image>
+    </image>
+
+
+    <p>
+      The set of all ordered <m>n</m>-tuples <m>(x_1, x_2, \ldots, x_n)</m>, where <m>x_i</m> is a real number for <m>1\leq i\leq n</m>, is called <m>\R^n</m>.
+      <me>
+          \R^n=\{(x_1, x_2,\ldots,x_n)|x_i\in \R\, \text{for}\, 1\leq i\leq n\}
+      </me>
+      The point <m>(0,0,\ldots, 0)</m> in <m>\R^n</m> is called the <term>origin</term>. 
+    </p>
+
+    <p>
+      <m>\R^n</m> cannot be visualized for <m>n\gt3</m>, but many familiar ideas, such as the distance formula, can be generalized to <m>\R^n</m>.
+    </p>
+  </subsection>
+
+  <subsection xml:id="Subsection-Distance-in-Real-Space">
+    <title>Distance in <m>\R^n</m></title>
+    <p>
+      In this section we will establish a formula for the distance between two points in <m>\R^n</m>.  
+      We begin by observing that the distance between two numbers (points) <m>x_1</m> and <m>x_2</m> on the number line is given by <m>|x_1-x_2|</m>.  
+      (Why do we use the absolute value brackets?).
+    </p>
+
+    <p>
+      We can use the Pythagorean Theorem to establish the distance formula for points of <m>\R^2</m>.
+    </p>
+
+    <image width="80%">
+      <shortdescription>Picture of two arbitrary points in the real plane and the corresponding triangle we use to determine the distance between them.</shortdescription>
+      <latex-image>
+        \begin{tikzpicture}[scale=1]
+          \draw[line width=2pt,black](-1,0)--(5,0);
+          \draw[line width=2pt,black](0,-1)--(0,3);
+          \draw[line width=1pt](1, 1)--(4,2.5);
+          \fill (1,1)node[below right]{$A(x_1,y_1)$} circle (1.1mm);
+          \fill (4, 2.5)node[above]{$B(x_2,y_2)$} circle (1.1mm);
+          \draw[line width=1pt, dashed](1,1)--(1,0);
+          \draw[line width=1pt, dashed](1,1)--(0,1);
+          \draw[line width=1pt, dashed](4,2.5)--(4,0);
+          \draw[line width=1pt, dashed](4, 2.5)--(0,2.5);
+          \filldraw[blue, opacity=0.3](1,1)--(4,1)--(4,2.5)--cycle;
+            \node[black] at (2.5, -0.4)   (a) {$|x_1-x_2|$};
+            \node[black] at (-0.9, 1.7)   (a) {$|y_1-y_2|$};
+        \end{tikzpicture}
+      </latex-image>
+    </image>
+    
+    <p>
+      Let <m>A(x_1, y_1)</m> and <m>B(x_2, y_2)</m> be points in <m>\R^2</m>.  By the Pythagorean Theorem we have
+      <me>
+        AB^2=(x_1-x_2)^2+(y_1-y_2)^2
+      </me>
+      <me>
+          AB=\sqrt{(x_1-x_2)^2+(y_1-y_2)^2}
+      </me>
+      Why were we able to drop the absolute value brackets?
+    </p>
+    <p>
+      The distance formula for points in <m>\R^3</m> can also be derived using the Pythagorean Theorem.  
+      Let <m>A(x_1, y_1, z_1)</m> and <m>B(x_2, y_2, z_2)</m> be points of <m>\R^3</m>.  
+      Use the navigation bar in the following GeoGebra interactive to walk through the steps of the derivation of the distance formula.
+    </p>
+
+    <figure>
+      <caption>
+        Click the arrows at the bottom of the image to progress through the illustration of the distance formula in <m>\R^3</m>.
+        A larger version of this activity is available  
+        <url href="https://www.geogebra.org/calculator/dc267r6v" visual="https://www.geogebra.org/calculator/dc267r6v">here</url>.
+      </caption>
+        <interactive xml:id="geogebra-distance-formula-in-3d" platform="geogebra" width="100%" aspect="4:3">
+          <slate xml:id="distance-formula-in-3d" surface="geogebra" material="dc267r6v" aspect="4:3" />
+        </interactive>
+    </figure>  
+
+    <identity xml:id="form-distR3">
+      <statement>
+        <p>
+          Let <m>A(x_1, y_1, z_1)</m> and <m>B(x_2, y_2, z_2)</m> be points in <m>\R^3</m>.  The distance between <m>A</m> and <m>B</m> is given by
+          <me>
+              AB=\sqrt{(x_1-x_2)^2+(y_1-y_2)^2+(z_1-z_2)^2}
+          </me>
+        </p>
+      </statement>
+    </identity>
+
+    <p>
+      Observe the similarity of pattern in the distance formulas for <m>\R^1</m>, <m>\R^2</m> and <m>\R^3</m>.  
+      We will take advantage of this pattern to define the distance between two points of <m>\R^n</m>.
+    </p>
+
+    <identity xml:id="form-distRn">
+      <statement>
+        <p>
+          Let <m>A(a_1, a_2,\ldots ,a_n)</m> and <m>B(b_1, b_2,\ldots ,b_n)</m> be points in <m>\R^n</m>.  The distance between <m>A</m> and <m>B</m> is given by
+          <me>
+              AB=\sqrt{(a_1-b_1)^2+(a_2-b_2)^2+\ldots +(a_n-b_n)^2}
+          </me>
+        </p>
+      </statement>
+    </identity>
+  </subsection>
+
+  <subsection xml:id="Subsection-What-is-a-Vector">
+    <title>What is a Vector?</title>
+    <p>
+      A <term>scalar</term> is a quantity that has size, often called  magnitude, but no direction.  
+      For example, temperature, mass and speed are scalars.  
+      In this course, scalars will typically be real numbers, but we will also see complex numbers on a few occasions.
+    </p>
+    <p>
+      A <term>vector</term> has magnitude and direction.  
+      For example, velocity is a vector because it tells us how fast the object is traveling and also the direction of travel.
+    </p>
+    <p>
+      If an object is traveling along a number line, the direction of travel is given by the sign of its velocity (positive or negative), while the speed is given by the absolute value of the velocity.  
+      If the object is traveling in a plane or in space, direction of travel can be described by an arrow, while the speed can be represented by the length of the arrow.  
+      Graphically speaking, vectors in <m>\R^2</m> and <m>\R^3</m> look like this:
+    </p>
+    <sidebyside>
+      <image width="50%">
+        <shortdescription>Vector in the real plane.</shortdescription>
+        <latex-image>
+          \begin{tikzpicture}
+            \draw[\lt-\gt] (-4,0)--(4,0);
+            \draw[\lt-\gt] (0,-4)--(0,4);
+            \draw[line width=2pt,blue,-stealth](1,2)--(-1,3);
+          \end{tikzpicture}
+        </latex-image>
+      </image>
+      <image width="50%">
+        <shortdescription>Vector in 3-dimensional real space.</shortdescription>
+        <latex-image>
+          \tdplotsetmaincoords{70}{130}
+          \begin{tikzpicture}
+            \draw[-\gt](-2,0,0)--(5,0,0) node[below left]{$y$};
+            \draw[-\gt](0,-2,0)--(0,5,0) node[below left]{$z$};
+            \draw[-\gt](0,0,-2)--(0,0,5) node[below left]{$x$};
+            \draw[-\gt, line width=2pt,blue, -stealth](2,1,3)--(3,2,-2);
+            \draw[dashed](2,1,3)--(2,0,3);
+            \draw[dashed](2,0,0)--(2,0,3);
+            \draw[dashed](0,0,3)--(2,0,3);
+            \draw[dashed](3,2,-2)--(3,0,-2);
+            \draw[dashed](3,0,0)--(3,0,-2);
+            \draw[dashed](0,0,-2)--(3,0,-2);
+          \end{tikzpicture}
+        </latex-image>
+      </image>
+    </sidebyside>
+
+    <p>
+      A vector can be denoted by a lower-case letter with an arrow over the top (like this: <m>\overrightarrow{u}</m> ), or a bold lower-case letter (like this: <m>\mathbf{u}</m>).
+    </p>
+
+    <p>
+      The magnitude, or length, of a vector is denoted by double absolute value brackets.  
+      For example, the magnitude of <m>\mathbf{u}</m>, is denoted by <m>\norm{\mathbf{u}}</m>.  
+      A vector of zero length and no direction is called the <term>zero vector.</term> We denote the zero vector by <m>\overrightarrow{0}</m> or <m>\mathbf{0}</m>.  
+      Going forward, we will use the terms magnitude of a vector and length of a vector interchangeably.
+    </p>
+
+    <p>
+      Sometimes it is convenient to refer to a vector by naming  the endpoints of the arrow.  
+      In the figure below, point <m>A</m> is the <term>tail</term>, and point <m>B</m> is the <term>head</term> of the vector.
+    </p>  
+
+    <image width="50%">
+      <shortdescription>Vector starting at a point A and ending at a point B.</shortdescription>
+      <latex-image>
+        \begin{tikzpicture}
+          \draw[line width=2pt,-stealth](-1,0)node[below left]{$A$}--(2,1)node[below right]{$B$};
+        \end{tikzpicture}
+      </latex-image>
+    </image>
+
+    <p>
+      We refer to this vector as <m>\overrightarrow{AB}</m>.
+    </p>
+  </subsection>
+
+  <subsection xml:id="Subsection-Vectors-in-Standard-Position">
+    <title>Vectors in Standard Position</title>
+  
+    <p>
+      Vectors that point in the same direction and have the same length are said to be <term>equivalent</term>.  
+      For example, vectors  <m>\mathbf{u}</m>, <m>\mathbf{v}</m> and <m>\mathbf{w}</m> in the figure below are equivalent.  
+      We write <m>\mathbf{u}=\mathbf{v}=\mathbf{w}</m>.
+    </p>
+
+
+    <image width="80%">
+        <shortdescription>Three equal vectors in the real plane with different starting points and ending points.</shortdescription>
+        <latex-image>
+          \begin{tikzpicture}
+            \draw[thin,gray!40] (-1,-1) grid (7,4);
+              \draw[\lt-\gt] (-1,0)--(7,0);
+              \draw[\lt-\gt] (0,-1)--(0,4);
+            \draw[line width=1pt,-stealth](3,0)--(5,1)node[above left]{$\mathbf{u}$};
+            \draw[line width=1pt,-stealth](4,2)--(6,3)node[above left]{$\mathbf{v}$};
+            \draw[line width=1pt,-stealth](1,2)--(3,3)node[above left]{$\mathbf{w}$};
+          \end{tikzpicture}
+        </latex-image>
+    </image> 
+
+    <p>
+      For the purpose of developing standard, convenient notation, we observe that every vector is equivalent to some vector whose tail is at the origin.  
+      Vectors with tails at the origin are said to be in <term> standard position</term>.  
+      We will refer to each vector in standard position by the coordinates of its head.   
+      For example, a vector in standard position whose head is located at the point <m>(2, 1)</m> will be referred to as <m>\begin{bmatrix}2\\1\end{bmatrix}</m>.
+    </p>  
+
+    <image width="80%">
+        <shortdescription>The vectors w, v, u, and their corresponding vector in standard position.</shortdescription>
+        <latex-image>
+          \begin{tikzpicture}
+            \draw[thin,gray!40] (-1,-1) grid (7,4);
+              \draw[\lt-\gt] (-1,0)--(7,0);
+              \draw[\lt-\gt] (0,-1)--(0,4);
+            \draw[line width=1pt,-stealth](3,0)--(5,1)node[above left]{$\mathbf{u}$};
+            \draw[line width=1pt,-stealth](4,2)--(6,3)node[above left]{$\mathbf{v}$};
+            \draw[line width=1pt,-stealth](1,2)--(3,3)node[above left]{$\mathbf{w}$};
+            \draw[line width=2pt,red,-stealth](0,0)--(2,1) node[above right]{$\begin{bmatrix}2\\1\end{bmatrix}$};
+          \end{tikzpicture}
+        </latex-image>
+    </image>
+
+
+    <p>
+      Vectors <m>\mathbf{u}, \mathbf{v}</m> and <m>\mathbf{w}</m> in the figure are equivalent to vector <m>\begin{bmatrix}2\\1\end{bmatrix}</m>.  We write <m>\mathbf{u}=\mathbf{v}=\mathbf{w}=\begin{bmatrix}2\\1\end{bmatrix}</m>.  Number <m>2</m> is called the <term>first component</term> of the vector (or the <m>x</m>-component) while number <m>1</m> is the <term>second component</term> (or the <m>y</m>-component).  The form <m>\begin{bmatrix}2\\1\end{bmatrix}</m> is called the <term>component form</term>. 
+    </p> 
+
+    <p>
+      Vector <m>\begin{bmatrix}2\\1\end{bmatrix}</m> is an example of a <term>column vector</term>.  Occasionally, we will find that representing this vector as a <term>row vector</term> <m>[2, 1]</m> is more convenient.
+    </p>
+
+    <p>
+      Column (or row) representation of vectors in component form allows us to go beyond the physical and geometric definition, and think of vectors more abstractly as arrays of numbers.
+    </p>
+
+    <p>
+      Our next goal is to find a process for writing any vector in the coordinate plane in component form.  
+    </p>
+
+    <example xml:id="init-headminustail">
+      <p>
+        Consider vector <m>\mathbf{v}</m> shown below.  We will express <m>\mathbf{v}</m> in component form.
+      </p>
+
+      <image width="80%">
+        <shortdescription>The vector v in the real plane.</shortdescription>
+        <latex-image>
+          \begin{tikzpicture}
+            \draw[thin,gray!40] (-1,-2) grid (5,4);
+            \draw[\lt-\gt] (-1,0)--(5,0);
+            \draw[\lt-\gt] (0,-2)--(0,4);
+            
+            \draw[line width=1pt,-stealth](2, -1)--(4, 2)node[above left]{$\mathbf{v}$};
+          \end{tikzpicture}
+        </latex-image>
+      </image>
+
+      <p>
+        Note that the vector has a ``run" of <m>2</m> and a ``rise" of <m>3</m>.  If we construct a vector with tail at the origin, a ``run" of <m>2</m> and a ``rise" of <m>3</m>, we will have a vector in standard position equivalent to vector <m>\mathbf{v}</m>.
+      </p>
+
+      <image width="80%">
+        <shortdescription>The vector v in the real plane plotted in its original and standard positions.</shortdescription>
+        <latex-image>
+          \begin{tikzpicture}
+            \draw[thin,gray!40] (-1,-2) grid (5,4);
+            \draw[\lt-\gt] (-1,0)--(5,0);
+            \draw[\lt-\gt] (0,-2)--(0,4);
+        
+            \draw[line width=1pt,-stealth](2, -1)--(4, 2)node[above left]{$\mathbf{v}$};
+            
+            \draw[line width=2pt,red,-stealth](0,0)--(2,3) node[above left]{$\begin{bmatrix}2\\3\end{bmatrix}$};
+          \end{tikzpicture}
+        </latex-image>
+      </image>
+
+      <p>
+        The component form for the vector we constructed is <m>\begin{bmatrix}2\\3\end{bmatrix}</m>.  
+        This gives us <m>\mathbf{v}=\begin{bmatrix}2\\3\end{bmatrix}</m>.
+      </p>
+    </example>
+
+    <p>
+      The approach we used in <xref ref="init-headminustail"/> is applicable to specific vectors that can easily be visualized.  
+      What we need now is an algebraic approach that can be generalized to higher dimensions and more abstract situations.  
+    </p>
+
+    <p>
+      Let's return to vector <m>\mathbf{v}</m> of <xref ref="init-headminustail"/>. Suppose we were to slide vector <m>\mathbf{v}</m> into standard position. Consider what would happen to the tail of <m>\mathbf{v}</m> as we do so.
+    </p>
+
+    <image width="80%">
+      <shortdescription></shortdescription>
+      <latex-image>
+        \begin{tikzpicture}
+          \draw[thin,gray!40] (-1,-2) grid (5,4);
+          \draw[\lt-\gt] (-1,0)--(5,0);
+          \draw[\lt-\gt] (0,-2)--(0,4);
+              
+          \draw[line width=1pt,-stealth](2, -1)--(4, 2)node[above right]{$\mathbf{v}$};
+          \fill[black] (2,-1)node[below right]{$(2,-1)$} circle (0.1cm);
+            
+          \draw[line width=0.5pt,-stealth, dashed, red](1.9, -1.2)--(0.1,-1.2);
+          \node[red] at (1, -1.5)   (a) {$-2$};
+            
+    
+          \draw[line width=0.5pt,-stealth, dashed, red](-0.2, -1.1)--(-0.2, -0.1);
+          \node[red] at (-0.6, -0.7)   (b) {$+1$};
+            
+          \fill[red] (0,0)node[above left]{$(0,0)$} circle (0.1cm);           
+        \end{tikzpicture}
+      </latex-image>
+    </image>
+
+    <p>
+      What happens to the tail of the vector has to happen to the head
+    </p>
+
+
+    <image width="80%">
+      <shortdescription></shortdescription>
+      <latex-image>
+        \begin{tikzpicture}
+          \draw[thin,gray!40] (-1,-2) grid (5,4);
+          \draw[\lt-\gt] (-1,0)--(5,0);
+          \draw[\lt-\gt] (0,-2)--(0,4);
+      
+          \draw[line width=1pt,-stealth](2, -1)--(4, 2);
+          \fill[black] (2,-1)node[below right]{$(2,-1)$} circle (0.1cm);
+          \fill[black] (4,2)node[below right]{$(4,2)$} circle (0.1cm);
+          
+          \draw[line width=0.5pt,-stealth, dashed, red](1.9, -1.2)--(0.1,-1.2);
+          \node[red] at (1, -1.5)   (a) {$-2$};
+          \draw[line width=0.5pt,-stealth, dashed, red](-0.2, -1.1)--(-0.2, -0.1);
+          \node[red] at (-0.6, -0.7)   (b) {$+1$};
+          
+            \draw[line width=0.5pt,-stealth, dashed, red](3.7, 1.8)--(2,1.8);
+          \node[red] at (3, 1.5)   (a) {$-2$};
+          \draw[line width=0.5pt,-stealth, dashed, red](2.2, 2.1)--(2.2, 2.9);
+          \node[red] at (2.6, 2.4)   (b) {$+1$};
+          
+          \fill[red] (0,0)node[above left]{$(0,0)$} circle (0.1cm);
+          \fill[red] (2,3)node[above left]{$(2,3)$} circle (0.1cm);
+          
+          \draw[line width=2pt,red,-stealth](0,0)--(2,3);
+        \end{tikzpicture}
+      </latex-image>
+    </image>
+
+    <p>
+      We subtracted <m>2</m> from the <m>x</m>-coordinate and added <m>1</m> to the <m>y</m>-coordinate of the tail. To find the new location of the head we subtract <m>2</m> from the <m>x</m>-coordinate of the head, and add <m>1</m> to the <m>y</m>-coordinate of the head.  This gives us  <m>(4-2, 2+1)</m>.  So, the new location of the head is <m>(2, 3)</m>, and <m>\mathbf{v}=\begin{bmatrix}2\\3\end{bmatrix}</m>.
+    </p>
+
+    <p>
+      If you look back at what we did you will find that the components of <m>\mathbf{v}</m> were computed by subtracting the coordinates of the tail from the coordinates of the head
+      <me>
+          \mathbf{v}=\begin{bmatrix}4-2\\ 2-(-1)\end{bmatrix}=\begin{bmatrix}2\\3\end{bmatrix}
+      </me>
+      The following diagram summarizes and generalizes our findings.
+    </p>
+
+    <image width="80%">
+      <shortdescription></shortdescription>
+      <latex-image>
+        \begin{tikzpicture}
+          \draw[line width=1pt,-stealth](2, 1)--(4, 4);
+          \fill[black] (2,1)node[below right]{$A(a_1, a_2)$} circle (0.1cm);
+          \fill[black] (4,4)node[below right]{$B(b_1, b_2)$} circle (0.1cm);
+          
+          \draw[line width=0.5pt,-stealth, dashed, red](1.9, 1.2)--(0.2,1.2);
+          \node[red] at (1, 1.5)   (a) {$-a_1$};
+          \draw[line width=0.5pt,-stealth, dashed, red](0.2, 1)--(0.2, 0.1);
+          \node[red] at (-0.4, 0.6)   (b) {$-a_2$};
+          
+          \draw[line width=0.5pt,-stealth, dashed, red](3.8, 4.2)--(2.2,4.2);
+          \node[red] at (3, 4.5)   (a) {$-a_1$};
+          \draw[line width=0.5pt,-stealth, dashed, red](2.2, 4)--(2.2, 3.1);
+          \node[red] at (1.6, 3.6)   (b) {$-a_2$};
+    
+          \fill[blue] (0,0)node[below left]{$A'(0,0)$} circle (0.1cm);
+          \fill[blue] (2,3)node[below left]{$B'(b_1-a_1, b_2-a_2)$} circle (0.1cm);
+        \end{tikzpicture}
+      </latex-image>
+    </image>
+
+    <p>
+      Let <m>\overrightarrow{AB}</m> be a vector in <m>\R^2</m>, with tail at point <m>A(a_1, a_2)</m> and head at point <m>B(b_1, b_2)</m>. 
+      As we slide <m>\overrightarrow{AB}</m> into standard position by moving point <m>A</m> to the origin, point <m>B</m> travels along with point <m>A</m> by undergoing the same horizontal and vertical shifts.  We now have an equivalent vector <m>\overrightarrow{A'B'}</m> in standard position.  The diagram suggests the following formula.
+    </p>
+
+    <identity xml:id="form-headminustailr2">
+      <title><q>Head - Tail</q> Formula in <m>\R^2</m></title>
+      <statement>
+        <p>
+          Suppose a vector's tail is at point <m>A(a_1, a_2)</m> and the vector's head is at <m>B(b_1, b_2)</m>, then
+          <men xml:id="headtailr2">
+            \overrightarrow{AB}=\begin{bmatrix}b_1-a_1\\ b_2-a_2\end{bmatrix}
+          </men>
+        </p>
+      </statement>
+    </identity>
+  </subsection>
+
+  <subsection xml:id="Subsection-Vectors-in-3d">
+    <title>Vectors in <m>\R^3</m></title>
+    
+    <p>
+      Definitions of standard position and component form for vectors in <m>\R^3</m> are analogous to their counterparts for vectors in <m>\R^2</m>.  For example, vector <m>\overrightarrow{OP}</m> in the figure below, is in standard position and can be written in component form as <m>\overrightarrow{OP}=\begin{bmatrix}6\\10\\7\end{bmatrix}</m>.
+    </p>
+
+    <image>
+      <shortdescription></shortdescription>
+      <latex-image>
+        \begin{tikzpicture}[x=0.5cm,y=0.5cm,z=0.3cm]
+          <!-- The axes -->
+          \draw[-\gt] (xyz cs:x=-13.5) -- (xyz cs:x=13.5) node[above] {$y$};
+          \draw[-\gt] (xyz cs:y=-13.5) -- (xyz cs:y=13.5) node[right] {$z$};
+          \draw[-\gt] (xyz cs:z=13.5)--(xyz cs:z=-13.5) node[below] {$x$} ;
+          <!-- The thin ticks -->
+          \foreach \coo in {-13,-12,...,13}
+          {
+            \draw (\coo,-1.5pt) -- (\coo,1.5pt);
+            \draw (-1.5pt,\coo) -- (1.5pt,\coo);
+            \draw (xyz cs:y=-0.15pt,z=\coo) -- (xyz cs:y=0.15pt,z=\coo);
+          }
+
+          <!-- Dashed lines for the points P -->
+          \draw[dashed,red] 
+            (xyz cs:z=-6) -- 
+            +(0,7) coordinate (u) -- 
+            (xyz cs:y=7) -- 
+            +(10,0) -- 
+            ++(xyz cs:x=10,z=-6) coordinate (v) --
+            +(0,-7) coordinate (w) --
+            cycle;
+          \draw[dashed,red] (u) -- (v);
+          \draw[dashed,red] (10,7) -- (10,0) -- (w);
+
+          <!-- Dots and labels for P -->
+          \node[fill,circle,inner sep=1.5pt,label={right:$P(6,10,7)$}] at (v) {};
+          \node[fill,circle,inner sep=1.5pt,label={above left:$O$}] at (0,0,0) {};
+
+          \draw[line width=2pt,-stealth, red](0,0,0)--(v);
+        \end{tikzpicture}
+      </latex-image>
+    </image>
+
+    <p>
+      If a vector is not in standard position but the location of its head and tail are known, a three-dimensional version of the ``Head - Tail" formula can be used to express the vector in component form.
+    </p>
+
+    <identity xml:id="form-headminustailr3">
+      <title><q>Head - Tail</q> Formula in <m>\R^3</m></title>
+      <statement>
+        <p>
+          Suppose a vector's tail is at point <m>A(a_1, a_2, a_3)</m> and the vector's head is at <m>B(b_1, b_2, b_3)</m>, then 
+          <men xml:id="headtailr3">
+            \overrightarrow{AB}=\begin{bmatrix}b_1-a_1\\ b_2-a_2\\b_3-a_3\end{bmatrix}
+          </men>
+        </p>
+      </statement>
+    </identity>
+  </subsection>
+
+  <subsection xml:id="Subsection-Vectors-in-Real-Space">
+    <title>Vectors in <m>\R^n</m></title>
+    
+    <p>
+      We cannot see <m>\R^n</m> for <m>n\gt3</m>, but we can conceptualize it by generalizing what we know about <m>\R^2</m> and <m>\R^3</m>.  A vector <m>\mathbf{v}</m> in standard position whose head is located at <m>(v_1, v_2, \ldots ,v_n)</m> can be written in component form as <m>\mathbf{v}=\begin{bmatrix}v_1\\ v_2\\ \vdots \\v_n\end{bmatrix}</m>.  
+    </p>
+
+    <p>
+      Recall that we defined the <term>zero vector</term> as a vector that has length <m>0</m> and no direction.  In component form, the zero vector is a vector all of whose components are <m>0</m>.
+    </p> 
+
+    <p>
+      We conclude this section by stating the generalized ``Head -  Tail" formula.
+    </p>
+    
+    <identity xml:id="form-headminustailrn">
+      <title><q>Head - Tail</q> Formula in <m>\R^n</m></title>
+      <statement>
+        <p>
+          Suppose a vector's tail is at point <m>A(a_1, a_2, \ldots ,a_n)</m> and the vector's head is at <m>B(b_1, b_2, \ldots ,b_n)</m>, then 
+          <men xml:id="form-headtailrn">
+            \overrightarrow{AB}=\begin{bmatrix}b_1-a_1\\ b_2-a_2\\ \vdots \\b_n-a_n\end{bmatrix}
+          </men>
+        </p>
+      </statement>
+    </identity>
+  </subsection>
+
+  <subsection xml:id="Section-Length-of-a-Vector">
+    <title>Length of a Vector</title>
+  
+      <p>
+          Vector quantities, such as velocity and force, have magnitude and direction.  
+          The magnitude of a vector quantity is the length of the vector.  
+          For example, if a force of 10 Newtons is applied to an object, we would represent the force by a 10-unit-long vector.
+      </p>
+  
+      <image width="50%">
+          <shortdescription></shortdescription>
+          <latex-image>
+              \begin{tikzpicture}
+                  \draw[line width=2pt,-stealth](0,0)--(5,1)node[right]{$\mathbf{F}$} ;
+                  \node[] at (2.5, 0.8)   {$10$};
+              \end{tikzpicture}
+          </latex-image>
+      </image>
+  
+  
+      <p>
+          The magnitude of a vector is denoted by double absolute value brackets.  In the case of force <m>\mathbf{F}</m>, we write 
+          <me>
+              \norm{\mathbf{F}}=10
+          </me>
+          To find the length of a vector, we need to find the distance between the tail of the vector and its head.  Recall that in <m>\R^2</m>, the distance between <m>A(a_1, a_2)</m> and <m>B(b_1, b_2)</m> is given by 
+          <me>
+              d_{AB}=\sqrt{(a_1-b_1)^2+(a_2-b_2)^2}
+          </me>
+          A vector <m>\mathbf{v}=\begin{bmatrix}v_1\\ v_2\end{bmatrix}</m> has the length of  the vector in standard position with its head at <m>(v_1, v_2)</m> and tail at <m>(0, 0)</m>. We find the length of <m>\mathbf{v}</m> using the distance formula
+          <men xml:id="eq-normr2">
+              \norm{\mathbf{v}}=\sqrt{(v_1-0)^2+(v_2-0)^2}=\sqrt{v_1^2+v_2^2}    
+          </men>
+      </p>
+  
+      <example xml:id="ex-findmaginr2">
+          <p>
+              Find the magnitude of <m>\mathbf{u}=\begin{bmatrix}-3\\4\end{bmatrix}</m>.
+          </p>
+          <image width="70%">
+              <shortdescription>The vector u.</shortdescription>
+              <latex-image>
+                  \begin{tikzpicture}
+                      \draw[thin,gray!40] (-4,-1) grid (2,5);
+                      \draw[\lt-\gt] (-4,0)--(2,0);
+                      \draw[\lt-\gt] (0,-1)--(0,5);
+                      \draw[line width=1pt,-stealth](0,0)--(-3,4) node[above right]{$\mathbf{u}=[-3,4]$};
+                  \end{tikzpicture}
+              </latex-image>
+          </image>
+          <p>
+              <me>
+                  \norm{\mathbf{u}}=\sqrt{(-3)^2+(4)^2}=5
+              </me>
+          </p>
+      </example>
+  
+  
+      <p>
+          The distance formula for points in <m>\R^3</m> is analogous to the distance formula in <m>\R^2</m>.  Given two points <m>A(a_1, a_2, a_3)</m> and <m>B(b_1, b_2, b_3)</m>, the distance between them is given by 
+          <me>
+              d_{AB}=\sqrt{(a_1-b_1)^2+(a_2-b_2)^2+(a_3-b_3)^2}
+          </me>
+          To find the length of vector <m>\mathbf{v}=\begin{bmatrix}v_1\\ v_2\\ v_3\end{bmatrix}</m>, we find the distance between <m>(v_1, v_2, v_3)</m> and <m>(0, 0, 0)</m>.
+          <men xml:id="eq-normr3">
+              \norm{\mathbf{v}}=\sqrt{(v_1-0)^2+(v_2-0)^2+(v_3-0)^2}=\sqrt{v_1^2+v_2^2+v_3^2}
+          </men>
+      </p>
+  
+      <p> 
+      Let us try these new formulas out:
+      </p> 
+      
+      <example xml:id="ex-findmaginr3">
+          <p>
+              The magnitude of <m>\mathbf{v}=\begin{bmatrix}6\\-2\\3\end{bmatrix}</m> is given by
+              <me>
+                  \norm{\mathbf{v}}=\sqrt{(6)^2+(-2)^2+(3)^2}=7
+              </me>
+          </p>
+      </example>
+  
+      <p>
+          Distance formulas for <m>\R^2</m> and <m>\R^3</m> motivate the following definition of distance between two points in <m>\R^n</m>.
+      </p>
+  
+      <definition xml:id="def-distrn">
+          <statement>
+              <p> 
+                  Let <m>A(a_1, a_2,\ldots, a_n)</m> and <m>B(b_1, b_2,\ldots, b_n)</m> be points in <m>\R^n</m>.  The <term>distance</term> between <m>A</m> and <m>B</m> is defined to be
+                  <me>
+                      d_{AB}=\sqrt{(a_1-b_1)^2+(a_2-b_2)^2+\ldots +(a_n-b_n)^2}
+                  </me>
+              </p>
+          </statement>
+      </definition>
+  
+      <p>
+          The following definition follows directly from the distance formula for <m>\R^n</m> in the same way that expressions (<xref ref="eq-normr2"/> and <xref ref="eq-normr3"/> followed from distance formulas in <m>\R^2</m> and <m>\R^3</m>.  
+      </p>
+  
+      <definition xml:id="def-normrn">
+          <statement>
+              <p>
+                  Let <m>\mathbf{v}=\begin{bmatrix}v_1\\ v_2\\ \vdots \\v_n\end{bmatrix}</m> be a vector in <m>\R^n</m>, then the <term>length</term>, or the <term>magnitude</term>, of <m>\mathbf{v}</m> is given by
+                  <men xml:id="eq-normrn">
+                      \norm{\mathbf{v}}=\sqrt{v_1^2+v_2^2+\ldots +v_n^2}
+                  </men>
+              </p>
+          </statement>
+      </definition>
+
+      <p> 
+        To get acquianted with the new concepts, we provide a concrete example to showcase them.
+      </p> 
+  
+      <example xml:id="ex-findnorminr4">
+          <p>
+              The magnitude of <m>\mathbf{w}=\begin{bmatrix}5\\ -1\\ -2\\ 4\end{bmatrix}</m> is given by
+              <me>
+                  \norm{\mathbf{w}}=\sqrt{5^2+(-1)^2+(-2)^2+4^2}=\sqrt{46}
+              </me>
+          </p>
+      </example>
+  </subsection>
+
+  <subsection xml:id="Subsection-Geometry-of-Scalar-Multiplication">
+    <title>Geometry of Scalar Multiplication</title>
+    
+    <p>
+      The product of vector <m>\mathbf{u}</m> with a positive scalar <m>k</m>, is a vector <m>k\mathbf{u}</m> that points in the same direction as <m>\mathbf{u}</m>, and whose length  is equal to the length of <m>\mathbf{u}</m> multiplied by <m>k</m>. 
+      For example, the figure below shows vectors <m>\mathbf{u}</m> and <m>2\mathbf{u}</m>.  
+      The vectors point in the same direction but the magnitude of <m>2\mathbf{u}</m> is twice the magnitude of <m>\mathbf{u}</m>.
+    </p>
+
+    <image width="40%">
+      <shortdescription>Vectors u and 2u.</shortdescription>
+        <latex-image>
+          \begin{tikzpicture}
+            \draw[line width=1pt,-stealth](-1,0)--(1,1)node[below right]{$\mathbf{u}$};
+            \draw[line width=1pt,-stealth](-1,-1)--(3,1)node[below right]{$2\mathbf{u}$};
+          \end{tikzpicture}
+       </latex-image>
+    </image>
+
+    <p>
+      If a vector <m>\mathbf{u}</m> is multiplied by <m>-1</m>, the resulting vector is denoted by <m>-\mathbf{u}</m>.  
+      It has the same length as vector <m>\mathbf{u}</m>, but points in the opposite direction.
+    </p>
+
+    <image width="25%">
+      <shortdescription></shortdescription>
+        <latex-image>
+          \begin{tikzpicture}
+            \draw[line width=1pt,-stealth](-1,0)--(1,1)node[below right]{$\mathbf{u}$};
+            \draw[line width=1pt,-stealth](1,0)--(-1,-1)node[below right]{$-\mathbf{u}$};
+          \end{tikzpicture}
+       </latex-image>
+    </image>
+  </subsection>
+
+  <subsection xml:id="Subsection-Algebra-of-Scalar-Multiplication">
+    <title>Algebra of Scalar Multiplication</title>
+
+    <p>
+      We know what scalar multiplication accomplishes geometrically.  Our goal now is to translate this idea to an algebraic operation.
+    </p>
+
+    <exploration xml:id="init-scalarmult">
+      <p>
+        Consider vector <m>\mathbf{u}=\begin{bmatrix}4\\2\end{bmatrix}</m>.  
+        We will find an algebraic approach for multiplying <m>\mathbf{u}</m> by <m>\frac{1}{2}</m>.
+      </p>
+
+      <image width="80%">
+        <shortdescription></shortdescription>
+          <latex-image>
+            \begin{tikzpicture}[scale=1]
+              \draw[thin,gray!40] (-1,-1) grid (5,3);
+              \draw[\lt-\gt] (-1,0)--(5,0);
+              \draw[\lt-\gt] (0,-1)--(0,3);  
+              \draw[line width=1pt,-stealth](0,0)--(4,2)node[above left]{$\mathbf{u}$};
+           \end{tikzpicture}
+          </latex-image>
+      </image>
+      
+      <p>
+        Consider <m>\mathbf{u}</m> to be the hypotenuse of a right triangle.
+      </p>
+      
+      <image width="80%">
+        <shortdescription></shortdescription>
+        <latex-image>
+          \begin{tikzpicture}[scale=1]
+            \draw[thin,gray!40] (-1,-1) grid (5,3);
+            \draw[\lt-\gt] (-1,0)--(5,0);
+            \draw[\lt-\gt] (0,-1)--(0,3);
+            \filldraw[blue, opacity=0.3](0,0)--(4,2)--(4,0)--cycle;
+            \draw[line width=1pt,-stealth](0,0)--(4,2)node[above left]{$\mathbf{u}$};
+            <!-- \draw[line width=2pt,red,-stealth](0,0)-
+              -(2,1) node[above left]{$[2,1]$}; -->
+          \end{tikzpicture}
+        </latex-image>
+      </image>
+      
+      <p>
+        The head of <m>\frac{1}{2}\mathbf{u}</m> should be the midpoint of the hypotenuse.
+      </p>
+      
+      <image width="80%">
+        <shortdescription></shortdescription>
+        <latex-image>
+          \begin{tikzpicture}[scale=1]
+            \draw[thin,gray!40] (-1,-1) grid (5,3);
+            \draw[\lt-\gt] (-1,0)--(5,0);
+            \draw[\lt-\gt] (0,-1)--(0,3);
+            \filldraw[blue, opacity=0.3](0,0)--(4,2)--(4,0)--cycle;
+            \draw[line width=1pt,-stealth](0,0)--(4,2)node[above left]{$\mathbf{u}$};
+            \draw[line width=2pt,red,-stealth](0,0)--(2,1) node[above left]{$\frac{1}{2}\mathbf{u}$};
+          \end{tikzpicture}
+        </latex-image>
+      </image>
+      
+      <p>
+        From our study of similar triangles in geometry, we know that if we drop perpendiculars from the midpoint of the hypotenuse to the two legs of the triangle, the perpendiculars will bisect the legs.
+      </p>
+      
+      <image width="80%">
+        <shortdescription></shortdescription>
+        <latex-image>
+          \begin{tikzpicture}[scale=1]
+            \draw[thin,gray!40] (-1,-1) grid (5,3);
+            \draw[\lt-\gt] (-1,0)--(5,0);
+            \draw[\lt-\gt] (0,-1)--(0,3);
+            \filldraw[blue, opacity=0.3](0,0)--(4,2)--(4,0)--cycle;
+            \draw[line width=1pt,-stealth](0,0)--(4,2)node[above left]{$\mathbf{u}$};
+            \draw[line width=2pt,red,-stealth](0,0)--(2,1) node[above left]{$\frac{1}{2}\mathbf{u}$};
+            \draw[line width=1pt,blue, dashed](2,1)--(2,0);
+            \draw[line width=1pt,blue, dashed](2,1)--(4,1);
+          \end{tikzpicture}
+        </latex-image>
+      </image>
+      
+      <p>
+        This tells us that to find <m>x</m> and <m>y</m> components of <m>\frac{1}{2}\mathbf{u}</m> we must multiply each component of <m>\mathbf{u}</m> by <m>\frac{1}{2}</m>.
+        <me>
+          \frac{1}{2}\mathbf{u}=(1/2)\begin{bmatrix}4\\2\end{bmatrix}=\begin{bmatrix}(1/2)(4)\\(1/2)(2)\end{bmatrix}=\begin{bmatrix}2\\1\end{bmatrix}
+        </me>
+      </p>
+    </exploration>
+    
+    <exploration xml:id="init-negscalarmult">
+      <p>
+        Consider vector <m>\mathbf{v}=\begin{bmatrix}3\\1\end{bmatrix}</m>.
+        It is clear that multiplying the components of <m>\mathbf{v}</m> by <m>-1</m> reverses the direction of <m>\mathbf{v}</m> while preserving its magnitude.
+      </p>
+      <image width="80%">
+        <shortdescription></shortdescription>
+        <latex-image>
+          \begin{tikzpicture}[scale=1]
+            \draw[thin,gray!40] (-4,-2) grid (4,2);
+            \draw[\lt-\gt] (-4,0)--(4,0);
+            \draw[\lt-\gt] (0,-2)--(0,2);
+            \draw[line width=1pt,-stealth](0,0)--(3,1)node[above right]{$\mathbf{v}=\begin{bmatrix}3\\1\end{bmatrix}$};
+            \draw[line width=2pt,red,-stealth](0,0)--(-3,-1) node[below left]{$-\mathbf{v}=\begin{bmatrix}-3\\-1\end{bmatrix}$};
+          \end{tikzpicture}
+        </latex-image>
+      </image>
+    </exploration>
+  
+    <p>
+      <xref ref="init-scalarmult"/> and <xref ref="init-negscalarmult"/> give rise to the following definition of scalar multiplication.
+    </p>
+
+    <definition xml:id="def-scalarmult">
+      <statement>
+          <p>  
+            Let <m>\mathbf{u}=\begin{bmatrix} u_1\\ u_2\\ \vdots\\ u_n \end{bmatrix}</m> be a vector in <m>\R^n</m>, and let <m>k</m> be a scalar, then
+    
+            <me>
+              k\mathbf{u}=k\begin{bmatrix}
+                u_1\\
+                u_2\\
+                \vdots\\
+                u_n
+              \end{bmatrix}=\begin{bmatrix}
+                ku_1\\
+                ku_2\\
+                \vdots\\
+                ku_n
+              \end{bmatrix}
+            </me>
+            </p>
+      </statement>
+    </definition>
+
+    <p>
+      If <m>\mathbf{v}=k\mathbf{u}</m> (<m>k\neq 0</m>), then <m>\mathbf{u}=\frac{1}{k}\mathbf{v}</m>, 
+      and we say that <m>\mathbf{v}</m> and <m>\mathbf{u}</m> are <term>scalar multiples of each other</term>.
+    </p>
+  </subsection>
+
+  <subsection xml:id="Subsection-Standard-Unit-Vectors-in-2d-and-3d">
+    <title>Standard Unit Vectors in <m>\R^2</m> and <m>\R^3</m></title>
+
+    <p>
+      A <term>unit vector</term> is a vector of length 1.  
+      A unit vector in the positive direction of a coordinate axis is called a <term>standard unit vector</term>. 
+      There are two standard unit vectors in <m>\R^2</m>.  The vector <m>\mathbf{i}=\begin{bmatrix} 1\\ 0 \end{bmatrix}</m> is parallel the <m>x</m>-axis, 
+      and the vector <m>\mathbf{j}=\begin{bmatrix} 0\\ 1 \end{bmatrix}</m> is parallel the <m>y</m>-axis.
+    </p>
+    
+    <figure xml:id="figure-2d-standard-unit-vectors">
+      <image width="80%">
+        <shortdescription>Standard unit vectors in the real plane.</shortdescription>
+        <latex-image>
+          \begin{tikzpicture}[scale=1]
+            \draw[thin,gray!40] (-1,-1) grid (2,2);
+            \draw[\lt-\gt] (-1,0)--(2,0);
+            \draw[\lt-\gt] (0,-1)--(0,2);
+            \draw[line width=1pt,-stealth, red](0,0)--(1,0) node[below right]{$\mathbf{i}=\begin{bmatrix}1\\0\end{bmatrix}$};
+            \draw[line width=1pt,-stealth, blue](0,0)--(0,1) node[above left]{$\mathbf{j}=\begin{bmatrix}0\\1\end{bmatrix}$};
+          \end{tikzpicture}
+        </latex-image>
+      </image>
+      <caption>
+        The standard unit vectors in <m>\mathbb{R}^2</m>.
+      </caption>
+    </figure>
+    
+    <p>
+      Vector names <m>\mathbf{i}</m> and <m>\mathbf{j}</m> are reserved for standard unit vectors in the direction of <m>x</m> and <m>y</m> axes, respectively.  
+      We chose to express <m>\mathbf{i}</m> and <m>\mathbf{j}</m> as column vectors, instead of row vectors, because the context in which we will encounter them in the future will require them to be column vectors.  
+      You may see them presented as row vectors in a different course.
+    </p>
+
+    <p>
+      There are three standard unit vectors in <m>\R^3</m>: 
+      <me>
+        \mathbf{i} = 
+          \begin{bmatrix} 1\\ 0\\ 0 \end{bmatrix},
+          \quad \mathbf{j}=\begin{bmatrix} 0\\ 1\\ 0 \end{bmatrix},
+          \quad\mathbf{k}=\begin{bmatrix} 0\\ 0\\ 1
+      \end{bmatrix}
+      </me>
+    </p>
+
+    <image width="80%">
+      <shortdescription>Standard unit vectors in 3-dimensional real space.</shortdescription>
+      <latex-image>
+        \tdplotsetmaincoords{70}{130}
+        \begin{tikzpicture}
+          \draw[-\gt](-1,0,0)--(4,0,0) node[below left]{$y$};
+          \draw[-\gt](0,-1,0)--(0,4,0) node[below left]{$z$};
+          \draw[-\gt](0,0,-1)--(0,0,4) node[below left]{$x$};  
+          \draw[-\gt, line width=1pt,blue, -stealth](0,0,0)--(3,0,0);
+          \draw[-\gt, line width=1pt,red, -stealth](0,0,0)--(0,0,3);
+          \node[blue] at (3, 0.7)   (b) {$\mathbf{j}=\begin{bmatrix}0\\1\\0\end{bmatrix}$};
+          \node[red] at (-1.9, -0.5)   (b) {$\mathbf{i}=\begin{bmatrix}1\\0\\0\end{bmatrix}$};
+          \draw[-\gt, line width=1pt,cyan, -stealth](0,0,0)--(0,3,0)node[below, right]{$\mathbf{k}=\begin{bmatrix}0\\0\\1\end{bmatrix}$};
+        \end{tikzpicture}
+      </latex-image>
+    </image>
+  </subsection>
+
+  <subsection xml:id="Subsection-A-Vector-as-a-Linear-Combination-of-Standard-Unit-Vectors">
+    <title>A Vector as a Linear Combination of Standard Unit Vectors</title>
+    <p>
+      Every vector in <m>\R^2</m> and <m>\R^3</m> can be written as a sum of scalar multiples of <m>\mathbf{i}</m>, <m>\mathbf{j}</m> and <m>\mathbf{k}</m>.  
+      For example, if <m>\mathbf{v}=\begin{bmatrix} 3\\ -2\\ 7 \end{bmatrix}</m>, then
+      <me>
+        \mathbf{v}=\begin{bmatrix} 3\\ -2\\ 7 \end{bmatrix}
+        = \begin{bmatrix} 3\\ 0\\ 0 \end{bmatrix} + \begin{bmatrix} 0\\ -2\\ 0 \end{bmatrix} + \begin{bmatrix} 0\\ 0\\ 7 \end{bmatrix}
+        = 3\begin{bmatrix} 1\\ 0\\ 0 \end{bmatrix} + (-2)\begin{bmatrix} 0\\ 1\\ 0 \end{bmatrix} + 7\begin{bmatrix} 0\\ 0\\ 1 \end{bmatrix}
+        = 3\mathbf{i}-2\mathbf{j}+7\mathbf{k}
+      </me>
+      The expression <m>3\mathbf{i}-2\mathbf{j}+7\mathbf{k}</m> is called a <term>linear combination</term> of <m>\mathbf{i}</m>, <m>\mathbf{j}</m> and <m>\mathbf{k}</m>.
+    </p>
+  </subsection>
+
+  <subsection xml:id="Subsection-Standard-Unit-Vectors-in-Real-Space">
+    <title>Standard Unit Vectors in <m>\R^n</m></title>
+
+    <p>
+      When working with vectors in <m>\R^n</m>, we often use a different notation to denote the standard unit vectors.
+    </p>
+    
+    <definition xml:id="def-standardunitvecrn">
+      <statement>
+        <p> 
+          Let <m>\mathbf{e}_i</m> denote a vector that has <m>1</m> as the <m>i^{th}</m> component and zeros elsewhere.  In other words, 
+          <me>
+            \mathbf{e}_i=\begin{bmatrix} 0\\ 0\\ \vdots\\ 1\\ \vdots\\ 0 \end{bmatrix}
+          </me>
+          where <m>1</m> is in the <m>i^{th}</m> position.  We say that  <m>\mathbf{e}_i</m> is a <term>standard unit vector of <m>\R^n</m></term>.
+        </p>
+      </statement>
+    </definition>
+  </subsection>
+
+  <subsection xml:id="Section-Unit-Vector-in-the-Direction-of-a-Given-Vector">
+    <title>Unit Vector in the Direction of a Given Vector</title>
+  
+    <p>
+      Recall that a <em>unit</em> vector is a vector of length 1.  
+      Given a non-zero vector <m>\mathbf{v}</m>, we can find a unit vector in the same direction by multiplying <m>\mathbf{v}</m> by an appropriate scalar.  
+      For example, if <m>\mathbf{v}=\begin{bmatrix}a\\b\end{bmatrix}</m> and <m>\norm{\mathbf{v}}=3</m>, then a unit vector <m>\mathbf{u}</m> in the same direction is given by <m>\mathbf{u}=\begin{bmatrix}a/3\\b/3\end{bmatrix}=\begin{bmatrix}a/\norm{\mathbf{v}}\\b/\norm{\mathbf{v}}\end{bmatrix}</m>.
+    </p>
+  
+    <image width="80%">
+      <shortdescription></shortdescription>
+      <latex-image>
+        \begin{tikzpicture}[scale=1]
+          \draw[\lt-\gt] (-1,0)--(4,0);
+          \draw[\lt-\gt] (0,-1)--(0,2);
+          \draw[line width=1pt,-stealth, red](0,0)--(3,1) node[above right]{$\mathbf{v}=\begin{bmatrix}a\\b\end{bmatrix}$}; 
+          \draw[line width=0.5pt,dashed, red](3,1)--(3,0);
+          \draw[line width=0.5pt,dashed, red](3,1)--(0,1);
+          \node[red] at (3, -0.2)   (b) {$a$};
+          \node[red] at (-0.2, 1)   (b) {$b$};
+          \node[red] at (2.2, 0.3)   (b) {$\norm{\mathbf{v}}=3$};
+        \end{tikzpicture}
+      </latex-image>
+    </image>
+  
+    <image width="80%">
+      <shortdescription></shortdescription>
+      <latex-image>
+        \begin{tikzpicture}[scale=1]
+          \draw[\lt-\gt] (-1,0)--(4,0);
+          \draw[\lt-\gt] (0,-1)--(0,2);
+          \draw[line width=1pt,-stealth, red](0,0)--(3,1) node[above right]{$\mathbf{v}=\begin{bmatrix}a\\b\end{bmatrix}$}; 
+          \draw[line width=0.5pt,dashed, red](3,1)--(3,0);
+          \draw[line width=0.5pt,dashed, red](3,1)--(0,1);
+          \node[red] at (3, -0.2)   (b) {$a$};
+          \node[red] at (-0.2, 1)   (b) {$b$};
+          \draw[line width=1.2pt,-stealth, blue](0,0)--(1,1/3); 
+          \draw[line width=0.5pt,dashed, blue](1,1/3)--(1,0);
+          \draw[line width=0.5pt,dashed, blue](1,1/3)--(0,1/3);
+          \node[blue] at (1, -0.5)   (b) {$\frac{1}{3}a$};
+          \node[blue] at (-0.4, 0.4)   (b) {$\frac{1}{3}b$};
+        \end{tikzpicture}
+      </latex-image>
+    </image>
+  
+    <p>
+      In general, dividing a non-zero vector by its own magnitude produces a unit vector in the same direction.  We summarize this observation in a theorem.
+    </p>
+  
+  
+    <theorem xml:id="th-unit">
+      <statement>
+          <p>
+            Let <m>\mathbf{v}=\begin{bmatrix}v_1\\v_2\\\vdots\\v_n\end{bmatrix}</m> be a non-zero vector in <m>\mathbb{R}^n</m>. Vector <m>\mathbf{u}</m> given by
+            <me>
+              \mathbf{u}=\frac{1}{\norm{\mathbf{v}}}\mathbf{v}=\begin{bmatrix}v_1/\norm{\mathbf{v}}\\v_2/\norm{\mathbf{v}}\\\vdots\\v_n/\norm{\mathbf{v}}\end{bmatrix}
+            </me>
+            is a unit vector in the direction of <m>\mathbf{v}</m>.
+          </p>
+      </statement>
+      <proof>
+        <p>
+          Because <m>\mathbf{u}</m> is a positive scalar multiple of <m>\mathbf{v}</m>, <m>\mathbf{u}</m> points in the direction of <m>\mathbf{v}</m>.  We now show that <m>\norm{\mathbf{u}}=1</m>.
+          <md>
+            <mrow> \norm{\mathbf{u}}\amp=\amp\sqrt{ \Big(\frac{v_1}{\norm{\mathbf{v}}}\Big)^2+\Big(\frac{v_2}{\norm{\mathbf{v}}}\Big)^2+\ldots +\Big(\frac{v_n}{\norm{\mathbf{v}}}\Big)^2} </mrow>
+            <mrow> \amp=\amp\frac{1}{\norm{\mathbf{v}}}\sqrt{v_1^2+v_2^2+\ldots +v_n^2} </mrow>
+            <mrow> \amp=\amp\frac{\norm{\mathbf{v}}}{\norm{\mathbf{v}}}=1 </mrow>
+          </md>
+        </p>
+      </proof>
+  </theorem>
+  
+<p> 
+The abstract proof can it everything seem a little odd. In practice, the actual computation is relatively straightforward. Here is an example:
+</p> 
+
+  <example xml:id="reference">
+    <p>
+      Find a unit vector in the direction of <m>\mathbf{v}=\begin{bmatrix}2\\-3\\1\\0\\1\end{bmatrix}</m>.
+    </p>
+  
+    <p>
+      We first compute <m>\norm{\mathbf{v}}</m>.
+      <me>
+          \norm{\mathbf{v}}=\sqrt{4+9+1+1}=\sqrt{15}
+      </me>
+      By <xref ref="th-unit"/>, 
+      <me>
+          \mathbf{u}=\begin{bmatrix}2/\sqrt{15}\\-3/\sqrt{15}\\1/\sqrt{15}\\0\\1/\sqrt{15}\end{bmatrix}=\frac{1}{\sqrt{15}}\begin{bmatrix}2\\-3\\1\\0\\1\end{bmatrix}
+      </me>
+    </p>
+  </example>
+  </subsection>
+
+  <subsection xml:id="Subsection-Geometry-of-Vector-Addition">
+    <title>Geometry of Vector Addition</title>
+    <introduction>
+    <p>
+      There are two ways to add vectors geometrically.
+    </p>
+    </introduction>
+    <subsubsection xml:id="Subsubsection-Head-to-Tail-Addition-Method">
+      <title><q>Head-to-Tail</q> Addition Method</title>
+      <p>
+        Given vectors <m>\mathbf{v}</m> and <m>\mathbf{u}</m>, we can find the sum <m>\mathbf{v}+\mathbf{u}</m> by sliding <m>\mathbf{u}</m> so as to place its tail at the head of vector <m>\mathbf{v}</m>.  
+        The vector connecting the tail of <m>\mathbf{v}</m> with the head of <m>\mathbf{u}</m> is the sum <m>\mathbf{v}+\mathbf{u}</m>, as shown in the figure below.
+      </p>
+
+      <sidebyside>
+        <image width="40%">
+          <shortdescription></shortdescription>
+          <latex-image>
+            \begin{tikzpicture}
+              \draw[line width=1pt,-stealth,red](-1,-2)--(2,-3)node[below right]{$\mathbf{u}$};
+              \draw[line width=1pt,-stealth, blue](-1,-1)--(3,1)node[above right]{$\mathbf{v}$};
+            \end{tikzpicture}
+          </latex-image>
+        </image>
+        <image width="40%">
+          <shortdescription></shortdescription>
+          <latex-image>
+            \begin{tikzpicture}
+              \draw[line width=1pt,-stealth,red](3,3)--(6,2);
+              \draw[line width=1pt,-stealth, blue](-1,1)--(3,3);
+              \draw[line width=1pt,-stealth](-1,1)--(6,2);
+              \node[blue] at (1, 2.3)   (a) {$\mathbf{v}$};
+              \node[red] at (4.5, 2.8)   (a) {$\mathbf{u}$};
+              \node[black] at (2.5, 1.2)   (a) {$\mathbf{v}+\mathbf{u}$};
+            \end{tikzpicture}
+          </latex-image>
+        </image>
+      </sidebyside>
+
+      <p>
+        This sum can be interpreted as the total displacement that occurs when traveling along the two vectors starting at the tail of <m>\mathbf{v}</m> and finishing at the head of <m>\mathbf{u}</m>.
+      </p>
+      
+      <p>
+        Note that if we place the tail of <m>\mathbf{v}</m> at the head of <m>\mathbf{u}</m> instead, the sum vector <m>\mathbf{u}+\mathbf{v}</m> will be the same as <m>\mathbf{v}+\mathbf{u}</m>.  Thus, addition of vectors is commutative.
+      </p>
+    </subsubsection>
+
+    <subsubsection xml:id="Subsubsection-Parallelogram-Addition-Method">
+      <title>Parallelogram Addition Method</title>
+      <p>
+        Most of the time we deal with vectors in standard position.  
+        So all vector tails are located at the origin.  
+        This motivates the <term>parallelogram method</term> for adding vectors.
+      </p>
+      <p>
+        Observe that if we slide vectors <m>\mathbf{u}</m> and <m>\mathbf{v}</m> so that their tails are together, the two vectors determine a parallelogram.
+      </p>
+      <image width="80%">
+        <shortdescription></shortdescription>
+        <latex-image>
+          \begin{tikzpicture}
+            \filldraw[blue, opacity=0.3](-1,1)--(2,0)--(6,2)--(3,3)--cycle;
+            \draw[line width=0.5pt,blue,dashed](6,2)--(2,0);
+            \draw[line width=0.5pt,red, dashed](6,2)--(3,3);
+       
+            \draw[line width=1pt,-stealth,red](-1,1)--(2,0);
+            \draw[line width=1pt,-stealth, blue](-1,1)--(3,3);
+            <!-- \draw[line width=1pt,-stealth](-1,1)-
+              -(6,2); -->
+            \node[blue] at (1, 2.3)   (a) {$\mathbf{v}$};
+            \node[red] at (0.5, 0.2)   (a) {$\mathbf{u}$};
+          \end{tikzpicture}
+        </latex-image>
+      </image>
+      
+      <p>
+        Opposite sides of a parallelogram are congruent and parallel.
+      </p>
+      
+      <image width="80%">
+        <shortdescription></shortdescription>
+        <latex-image>
+          \begin{tikzpicture}
+            \filldraw[blue, opacity=0.3](-1,1)--(2,0)--(6,2)--(3,3)--cycle;
+            \draw[line width=1pt,-stealth, blue](2,0)--(6,2);
+            \draw[line width=1pt,red, -stealth](3,3)--(6,2);
+            \draw[line width=1pt,-stealth,red](-1,1)--(2,0);
+            \draw[line width=1pt,-stealth, blue](-1,1)--(3,3);
+            <!-- \draw[line width=1pt,-stealth](-1,1)-
+              -(6,2); -->
+            \node[blue] at (1, 2.3)   (a) {$\mathbf{v}$};
+            \node[red] at (0.5, 0.2)   (a) {$\mathbf{u}$}; 
+            \node[blue] at (4, 0.7)   (a) {$\mathbf{v}$};
+            \node[red] at (4.5, 2.8)   (a) {$\mathbf{u}$};
+          \end{tikzpicture}
+        </latex-image>
+      </image>
+      
+      <p>
+        Applying the ``head-to-tail" addition method shows that the sum <m>\mathbf{v}+\mathbf{u}</m> is the diagonal of the parallelogram determined by <m>\mathbf{v}</m> and <m>\mathbf{u}</m>.
+      </p>
+      
+      <image width="80%">
+        <shortdescription></shortdescription>
+        <latex-image>
+          \begin{tikzpicture}
+            \filldraw[blue, opacity=0.3](-1,1)--(2,0)--(6,2)--(3,3)--cycle;
+            <!-- \draw[line width=1pt,-stealth, blue](2,0)-
+              -(6,2); -->
+            \draw[line width=1pt,red, -stealth](3,3)--(6,2);
+            <!-- \draw[line width=1pt,-stealth,red](-1,1)-
+              -(2,0); -->
+            \draw[line width=1pt,-stealth, blue](-1,1)--(3,3);
+            \draw[line width=1pt,-stealth](-1,1)--(6,2);
+            \node[blue] at (1, 2.3)   (a) {$\mathbf{v}$};
+            \node[red] at (4.5, 2.8)   (a) {$\mathbf{u}$};
+            \node[black] at (2.5, 1.2)   (a) {$\mathbf{v}+\mathbf{u}$};
+          \end{tikzpicture}
+        </latex-image>
+      </image>
+    </subsubsection>
+  </subsection>
+
+  <subsection xml:id="Subsection-Algebra-of-Vector-Addition">
+    <title>Algebra of Vector Addition</title>
+    <p>
+      We now know how to add vectors geometrically.  Our next goal is to translate this idea to an algebraic operation.
+    </p>
+
+    <exploration xml:id="init-vectoradd">
+      <p>
+        In this problem we will find the sum of <m>\mathbf{u}=\begin{bmatrix}5\\1\end{bmatrix}</m> and <m>\mathbf{v}=\begin{bmatrix}2\\3\end{bmatrix}</m>.
+      </p>
+
+      <image width="80%">
+        <shortdescription></shortdescription>
+        <latex-image>
+            \begin{tikzpicture}[scale=1]
+            \draw[thin,gray!40] (-1,-1) grid (8,5);
+            \draw[\lt-\gt] (-1,0)--(8,0);
+            \draw[\lt-\gt] (0,-1)--(0,5);
+            \draw[line width=1pt,blue,-stealth](0,0)--(2,3)node[above left]{$\mathbf{v}$};
+            \draw[line width=1pt,red,-stealth](0,0)--(5,1) node[above left]{$\mathbf{u}$};
+          \end{tikzpicture}
+        </latex-image>
+      </image>
+      
+      <p>
+        To use <q>head-to-tail</q> addition method, or to construct the side of a parallelogram opposite of <m>\mathbf{u}</m>, 
+        we want to slide <m>\mathbf{u}</m> so that its tail is at the point <m>(2, 3)</m>. 
+        Observe that <m>\mathbf{u}</m> has a ``run" of <m>5</m> and a ``rise" of <m>1</m>.  
+        If we start at <m>(2, 3)</m>, go over <m>5</m> then up <m>1</m>, we will land on <m>(7, 4)</m>.
+      </p>
+
+      <image width="80%">
+        <shortdescription></shortdescription>
+        <latex-image>
+          \begin{tikzpicture}[scale=1]
+            \draw[thin,gray!40] (-1,-1) grid (8,5);
+            \draw[\lt-\gt] (-1,0)--(8,0);
+            \draw[\lt-\gt] (0,-1)--(0,5);
+            \draw[line width=1pt,blue,-stealth](0,0)--(2,3);
+            \draw[line width=1pt,red,-stealth](0,0)--(5,1);
+            \draw[line width=1pt,red,-stealth](2,3)--(7,4); 
+            \draw[line width=0.5pt,red, dashed,-stealth](2.1,2.9)--(6.9,2.9);
+            \draw[line width=0.5pt,red, dashed, -stealth](7.1,3.1)--(7.1,3.9);
+            \draw[line width=0.5pt,red, dashed,-stealth](0.1,-0.1)--(4.9,-0.1);
+            \draw[line width=0.5pt,red, dashed, -stealth](5.1,0.1)--(5.1,0.9);
+            \fill[blue] (2,3)node[above left]{$(2,3)$} circle (0.1cm);
+            \fill[red] (7,4)node[above right]{$(7,4)$} circle (0.1cm);
+            \node[red] at (2.5, -0.5)   (b) {$+5$};
+            \node[red] at (4.5, 2.5)   (b) {$+5$};
+            \node[red] at (5.5, 0.5)   (b) {$+1$};
+            \node[red] at (7.5, 3.5)   (b) {$+1$};
+          \end{tikzpicture}
+        </latex-image>
+      </image>
+      
+      <p>
+        The sum <m>\mathbf{u}+\mathbf{v}</m> is shown below.
+      </p>
+      
+      <image width="80%">
+        <shortdescription></shortdescription>
+        <latex-image>
+          \begin{tikzpicture}[scale=1]
+            \draw[thin,gray!40] (-1,-1) grid (8,5);
+            \draw[\lt-\gt] (-1,0)--(8,0);
+            \draw[\lt-\gt] (0,-1)--(0,5);
+            \draw[line width=1pt,blue,-stealth](0,0)--(2,3)node[above left]{$\mathbf{v}=\begin{bmatrix}2\\3\end{bmatrix}$};
+            \draw[line width=1pt,red,-stealth](0,0)--(5,1) node[above left]{$\mathbf{u}=\begin{bmatrix}5\\1\end{bmatrix}$};
+            \draw[line width=1pt,-stealth](0,0)--(7,4) node[above left]{$\mathbf{v}+\mathbf{u}=\begin{bmatrix}7\\4\end{bmatrix}$};
+          \end{tikzpicture}
+        </latex-image>
+      </image>
+      
+      <p>
+        We see that the components of <m>\mathbf{v}+\mathbf{u}</m> can be found by adding the components of <m>\mathbf{v}</m> and <m>\mathbf{u}</m>.
+        <me>
+          \mathbf{v}+\mathbf{u}=\begin{bmatrix}2\\3\end{bmatrix}+\begin{bmatrix}5\\1\end{bmatrix}=\begin{bmatrix}7\\4\end{bmatrix}
+        </me>
+      </p>
+    </exploration>
+
+    <p>
+      <xref ref="init-vectoradd"/> motivates the following definition.
+    </p>
+    
+    <definition xml:id="def-vectoradd">
+      <statement>
+        <p> 
+          Let <m>\mathbf{u}=\begin{bmatrix} u_1\\ u_2\\ \vdots\\ u_n \end{bmatrix}</m> and <m>\mathbf{v}=\begin{bmatrix} v_1\\ v_2\\ \vdots\\ v_n \end{bmatrix}</m> be vectors in <m>\R^n</m>.  We define <m>\mathbf{u}+\mathbf{v}</m> by
+          <me>
+            \mathbf{u}+\mathbf{v}=\begin{bmatrix}
+              u_1\\
+              u_2\\
+              \vdots\\
+              u_n
+            \end{bmatrix}+\begin{bmatrix}
+              v_1\\
+              v_2\\
+              \vdots\\
+              v_n
+            \end{bmatrix}=\begin{bmatrix}
+              u_1+v_1\\
+              u_2+v_2\\
+              \vdots\\
+              u_n+v_n
+            \end{bmatrix}
+          </me>
+        </p>
+      </statement>
+    </definition>
+  </subsection>
+
+  <subsection xml:id="Subsection-Geometry-of-Vector-Addition-in-3d">
+    <title>Geometry of Vector Addition in <m>\R^3</m></title>
+    <p>
+      Vectors in <m>\R^1</m>, <m>\R^2</m>, and <m>\R^3</m> have the advantage in that we can gain insight into their behavior through visualization.  Vectors in <m>\R^1</m> and <m>\R^2</m> are the easiest to visualize.  
+      Vectors in <m>\R^3</m> are a little trickier.  
+      The following exploration will help you visualize addition of vectors in <m>\R^3</m>.
+    </p>
+    <exploration xml:id="exp-addInR3">
+      <p>
+        Adding two vectors amounts to finding the diagonal of a parallelogram determined by placing the two vectors tail to tail.  This process is not limited to vectors of <m>\R^2</m>.  Use the following GeoGebra interactive to add multiple vectors in <m>\R^3</m>, two vectors at a time, by constructing diagonals of parallelograms.  To use the interactive
+        <ul>
+          <li>
+            <p>
+              Define vectors <m>\mathbf{u}</m>, <m>\mathbf{v}</m> and <m>\mathbf{w}</m>.
+            </p>
+          </li>
+          <li>
+            <p>
+              Use check-boxes at the bottom of the right panel to display the parallelograms.
+            </p>
+          </li>
+          <li>
+            <p>
+              RIGHT-CLICK and DRAG the left panel to rotate the graph.
+            </p>
+          </li>
+        </ul>
+      </p>
+      
+      <figure>
+        <caption>
+          A larger version of this activity is available  
+          <url href="https://www.geogebra.org/calculator/ccpev33m" visual="https://www.geogebra.org/calculator/ccpev33m">here</url>.
+        </caption>
+          <interactive xml:id="geogebra-sum-of-3-vectors-in-3d" platform="geogebra" width="150%" aspect="9:8">
+            <slate xml:id="sum-of-3-vectors-in-3d" surface="geogebra" material="ccpev33m" aspect="9:8" />
+          </interactive>
+      </figure>
+
+      <p>
+        The sum of two vectors can be visualized as the diagonal of a parallelogram.  The sum of three (non-co-planar) vectors is the diagonal of a three-dimensional counterpart of a parallelogram, called a \emph{parallelepiped}.  Each face of the parallelepiped is a parallelogram determined by two out of the three given vectors.  The following GeoGebra exercise will help you visualize the sum of three vectors as the diagonal of a parallelepiped.
+      </p>
+      
+      <p>
+        Define vectors <m>\mathbf{u}</m>, <m>\mathbf{v}</m> and <m>\mathbf{w}</m>.  The sum is the diagonal of the parallelepiped.  RIGHT-CLICK and DRAG the left panel to rotate the graph.
+      </p>
+
+      <figure>
+        <caption>
+          A larger version of this activity is available  
+          <url href="https://www.geogebra.org/calculator/bpzfb7vr" visual="https://www.geogebra.org/calculator/bpzfb7vr">here</url>.
+        </caption>
+          <interactive xml:id="geogebra-sum-of-3-vectors-in-3d-parallelepiped" platform="geogebra" width="150%" aspect="9:7">
+            <slate xml:id="distance-sum-of-3-vectors-in-3d-parallelepiped" surface="geogebra" material="bpzfb7vr" aspect="9:7" />
+          </interactive>
+      </figure>
+    </exploration>
+  </subsection>
+
+  <subsection xml:id="Subsection-Vector-Subtraction">
+    <title>Vector Subtraction</title>
+    <p>
+      We can find the difference of two vectors by interpreting subtraction as ``addition of the opposite".  Thus,
+      <me>
+        \mathbf{v}-\mathbf{u}=\mathbf{v}+(-\mathbf{u})
+      </me>
+      Vector subtraction has an interesting geometric interpretation.  As shown in the figure below, if <m>\mathbf{v}+\mathbf{u}</m> is a diagonal of the parallelogram determined by <m>\mathbf{v}</m> and <m>\mathbf{u}</m>, the difference <m>\mathbf{v}-\mathbf{u}</m> is the other diagonal of the same parallelogram.
+    </p>
+    <sidebyside>
+      <image width="50%">
+        <shortdescription></shortdescription>
+        <latex-image>
+          \begin{tikzpicture}
+            \filldraw[blue, opacity=0.3](-1,1)--(2,0)--(6,2)--(3,3)--cycle;
+            \draw[line width=0.5pt,blue,dashed](6,2)--(2,0);
+            \draw[line width=0.5pt,red, dashed](6,2)--(3,3);
+            \draw[line width=1pt,-stealth,red](-1,1)--(2,0);
+            \draw[line width=1pt,-stealth, blue](-1,1)--(3,3);
+            \draw[line width=1pt,-stealth](-1,1)--(6,2);
+            \node[blue] at (1, 2.3)   (a) {$\mathbf{v}$};
+            \node[red] at (0.5, 0.2)   (a) {$\mathbf{u}$};
+            \node[black] at (2.4, 1.2)   (a) {$\mathbf{v}+\mathbf{u}$};
+          \end{tikzpicture}
+        </latex-image>
+      </image>
+      <image width="50%">
+        <shortdescription></shortdescription>
+        <latex-image>
+          \begin{tikzpicture}
+            \filldraw[blue, opacity=0.3](-1,1)--(2,0)--(6,2)--(3,3)--cycle;
+            \draw[line width=0.5pt,blue,dashed](6,2)--(2,0);
+            \draw[line width=0.5pt,red, dashed](6,2)--(3,3);
+            \draw[line width=1pt,-stealth,red](2,0)--(-1,1); 
+            \draw[line width=1pt,-stealth, blue](-1,1)--(3,3);
+            \draw[line width=1pt,-stealth](2,0)--(3,3);
+            \node[blue] at (1, 2.3)   (a) {$\mathbf{v}$};
+            \node[red] at (0.5, 0.2)   (a) {$-\mathbf{u}$};
+            \node[black] at (3.4, 1.5)   (a) {$\mathbf{v}+(-\mathbf{u})$};
+          \end{tikzpicture}
+        </latex-image>
+      </image>
+    </sidebyside>
+  </subsection>
+
+  <subsection xml:id="Subsection-Properties-of-Vector-Addition-and-Scalar-Multiplication">
+    <title>Properties of Vector Addition and Scalar Multiplication</title>
+
+    <theorem xml:id="th-vecproperties">
+      <statement>
+        <p>
+          The following properties hold for vectors <m>\mathbf{u}</m>, <m>\mathbf{v}</m> and <m>{\bf w}</m> in <m>\R^n</m> and scalars <m>k</m> and <m>p</m> in <m>\R</m>.
+          <ol>
+            <li xml:id="item-commvectoradd">
+              <p>
+                Commutative Property of Addition
+                <me>
+                    \mathbf{u}+\mathbf{v}=\mathbf{v}+\mathbf{u}
+                </me>
+              </p>
+            </li>
+            <li xml:id="item-assocvectoradd">
+              <p>
+                Associative Property of Addition  
+                <me>
+                    (\mathbf{u}+\mathbf{v})+{\bf w}=\mathbf{u}+(\mathbf{v}+{\bf w})
+                </me>
+              </p>
+            </li>
+            <li xml:id="item-identityvectoradd">
+              <p>
+                Existence of Additive Identity: There exists a vector <m>\mathbf{0}</m> such that
+                <me>
+                    \mathbf{u}+\mathbf{0}=\mathbf{u}
+                </me>
+              </p>
+            </li>
+            <li xml:id="item-inversevectoradd">
+              <p>
+                Existence of Additive Inverse: For every vector <m>\mathbf{u}</m>, there exists a vector <m>-\mathbf{u}</m> such that  
+                <me>
+                    \mathbf{u}+(-\mathbf{u})=\mathbf{0}
+                </me>
+              </p>
+            </li>
+            <li xml:id="item-distvectoradd">
+              <p>
+                Distributive Property over Vector Addition  
+                <me>
+                    k(\mathbf{u}+\mathbf{v})=k\mathbf{u}+k\mathbf{v}
+                </me>
+              </p>
+            </li>
+            <li xml:id="item-distvectoradd2">
+              <p>
+                Distributive Property over Scalar Addition  
+                <me>
+                    (k+p)\mathbf{u}=k\mathbf{u}+p\mathbf{u}
+                </me>
+              </p>
+            </li>
+            <li xml:id="item-assocvectorscalarmult">
+              <p>
+                Associative Property for Scalar Multiplication  
+                <me>
+                    k(p\mathbf{u})=(kp)\mathbf{u}
+                </me>
+              </p>
+            </li>
+            <li xml:id="item-onevectorscalarmult">
+              <p>
+                Multiplication by 1  
+                <me>
+                    1\mathbf{u}=\mathbf{u}
+                </me>
+              </p>
+            </li>
+          </ol>
+        </p>
+      </statement>
+      <proof>
+        <p>
+          We will prove <xref ref="item-inversevectoradd"/> and <xref ref="item-distvectoradd"/>.  Proofs of the remaining properties are left to the reader.
+        </p>
+        <p>
+          For any vector <m>\mathbf{u}=\begin{bmatrix} u_1\\ u_2\\ \vdots\\ u_n \end{bmatrix}</m> in <m>\R^n</m>, let 
+          <me>
+            -\mathbf{u}=(-1)\mathbf{u}=\begin{bmatrix}
+              -u_1\\
+              -u_2\\
+              \vdots\\
+              -u_n
+            \end{bmatrix}
+          </me>
+          Then <m>\mathbf{u}+(-\mathbf{u})=\mathbf{0}</m>.
+        </p>
+        <p>
+          Now to prove <xref ref="item-distvectoradd"/>:
+          <me>    
+            k(\mathbf{u}+\mathbf{v})=k\left(\begin{bmatrix}
+              u_1\\
+              u_2\\
+              \vdots\\
+              u_n
+            \end{bmatrix}+\begin{bmatrix}
+              v_1\\
+              v_2\\
+              \vdots\\
+              v_n
+            \end{bmatrix}\right)=k\begin{bmatrix}
+              u_1+v_1\\
+              u_2+v_2\\
+              \vdots\\
+              u_n+v_n
+            \end{bmatrix}=\begin{bmatrix}
+              k(u_1+v_1)\\
+              k(u_2+v_2)\\
+              \vdots\\
+              k(u_n+v_n)
+            \end{bmatrix}=
+          </me>
+          <me>
+            =\begin{bmatrix} ku_1+kv_1\\ ku_2+kv_2\\ \vdots\\ ku_n+kv_n \end{bmatrix}
+            =\begin{bmatrix} ku_1\\ ku_2\\ \vdots\\ ku_n \end{bmatrix} + \begin{bmatrix} kv_1\\ kv_2\\ \vdots\\ kv_n \end{bmatrix}
+            =k\begin{bmatrix}u_1\\ u_2\\ \vdots\\ u_n \end{bmatrix}+k\begin{bmatrix} v_1\\ v_2\\ \vdots\\ v_n \end{bmatrix}
+            =k\mathbf{u}+k\mathbf{v}
+          </me>
+        </p>
+      </proof>
+    </theorem>
+
+  </subsection>
+
+
+    <exercises xml:id="Exercises-Introduction-to-Vectors">
+      <exercise xml:id="prob-plotpointsr3">
+        <statement>
+          <p>
+            Find the coordinates of each point.
+          </p>
+          <image width="90%">
+            <shortdescription>Points P, Q, and R plotted in 3-dimensional real space.</shortdescription>
+            <latex-image>
+              \begin{tikzpicture}[x=0.5cm,y=0.5cm,z=0.3cm]
+                % The axes
+                \draw[-\gt] (xyz cs:x=-13.5) -- (xyz cs:x=13.5) node[above] {$y$};
+                \draw[-\gt] (xyz cs:y=-13.5) -- (xyz cs:y=13.5) node[right] {$z$};
+                \draw[-\gt] (xyz cs:z=13.5)--(xyz cs:z=-13.5) node[below] {$x$>} ;
+                % The thin ticks
+                \foreach \coo in {-13,-12,...,13}
+                {
+                  \draw (\coo,-1.5pt) -- (\coo,1.5pt);
+                  \draw (-1.5pt,\coo) -- (1.5pt,\coo);
+                  \draw (xyz cs:y=-0.15pt,z=\coo) -- (xyz cs:y=0.15pt,z=\coo);
+                }
+      
+                % Dashed lines for the points P
+                \draw[dashed,red] 
+                  (xyz cs:z=-5) -- 
+                  +(0,10) coordinate (u) -- 
+                  (xyz cs:y=10) -- 
+                  +(5,0) -- 
+                  ++(xyz cs:x=5,z=-5) coordinate (v) --
+                  +(0,-10) coordinate (w) --
+                  cycle;
+                \draw[dashed,red] (u) -- (v);
+                \draw[dashed,red] (5,10) -- (5,0) -- (w);
+      
+                % Dots and labels for P
+                \node[fill,circle,inner sep=1.5pt,label={right:$P$}] at (v) {};
+      
+                % Dashed lines for the points Q
+                \draw[dashed,blue] 
+                  (xyz cs:z=6) -- 
+                  +(0,2) coordinate (u1) -- 
+                  (xyz cs:y=2) -- 
+                  +(3,0) -- 
+                  ++(xyz cs:x=3,z=6) coordinate (v1) --
+                  +(0,-2) coordinate (w1) --
+                  cycle;
+                \draw[dashed,blue] (u1) -- (v1);
+                \draw[dashed,blue] (3,2) -- (3,0) -- (w1);
+      
+                % Dots and labels for Q
+                \node[fill,circle,inner sep=1.5pt,label={right:$Q$}] at (v1) {};
+      
+                % Dashed lines for the points R
+                \draw[dashed] 
+                  (xyz cs:z=-3) -- 
+                  +(0,-8) coordinate (u2) -- 
+                  (xyz cs:y=-8) -- 
+                  +(-5,0) -- 
+                  ++(xyz cs:x=-5,z=-3) coordinate (v2) --
+                  +(0,8) coordinate (w2) --
+                  cycle;
+                \draw[dashed] (u2) -- (v2);
+                \draw[dashed] (-5,-8) -- (-5,0) -- (w2);
+      
+                % Dots and labels for R
+                \node[fill,circle,inner sep=1.5pt,label={left:$R$}] at (v2) {};
+              \end{tikzpicture}
+            </latex-image>
+          </image>
+        </statement>
+        <answer>
+          <p>
+            <me>
+              P(5, 5, 10)
+            </me>
+            <me>
+                Q(-6, 3, 2)
+            </me>
+            <me>
+                R(3, -5, -8)
+            </me>
+          </p>
+        </answer>
+      </exercise>
+
+      <exercise xml:id="prob-geogebrapts">
+        <statement>
+          <p>
+            Find the coordinates of each point. RIGHT-CLICK and DRAG to rotate the image.
+          </p>
+          <figure>
+            <caption>
+              A larger version of this activity is available 
+              <url href="https://www.geogebra.org/calculator/bynu3r84" visual="https://www.geogebra.org/calculator/bynu3r84">here</url>.
+            </caption>
+            <interactive xml:id="geogebra-prob-points-in-3d" platform="geogebra" width="100%" aspect="4:3">
+              <slate xml:id="prob-points-in-3d" surface="geogebra" material="bynu3r84" aspect="4:3" />
+            </interactive>
+          </figure>
+        </statement>
+        <answer>
+          <p>
+            <me>
+              A(-1, 4, 2)
+            </me>
+            <me>
+                B(3, 2, -3)
+            </me>       
+            <me>
+                C(2, -5, 3)
+            </me>
+            <me>
+                D(-3, -2, 4)
+            </me>
+          </p>
+        </answer>
+      </exercise>
+
+      <exercise xml:id="prob-distR3">
+        <statement>
+          <p>
+            Find the distance between <m>A(-2, -1, 4)</m> and <m>B(1, -5, -8)</m>.
+          </p>
+        </statement>
+        <answer>
+          <p>
+            <me>
+              AB=13
+            </me>          
+          </p>
+        </answer>
+      </exercise>
+
+      <exercise xml:id="prob-distR4">
+        <statement>
+          <p>
+            Consider the equation 
+            <me>
+                x^2+y^2+z^2+w^2=25
+            </me>
+            What can be said about all points <m>(x, y, z, w)\in \R^4</m> that satisfy this equation?
+          </p>
+        </statement>
+        <choices>
+          <choice>
+            <statement>
+              <p>
+                Such points are equidistant from the origin.
+              </p>
+            </statement>
+          </choice>
+          <choice>
+            <statement>
+              <p>
+                Such points form a four-dimensional sphere of radius <m>5</m>.
+              </p>
+            </statement>
+          </choice>
+          <choice>
+            <statement>
+              <p>
+                Such points are located 5 units from the origin.
+              </p>
+            </statement>
+          </choice>
+          <choice correct="yes">
+            <statement>
+              <p>
+                All of the above.
+              </p>
+            </statement>
+          </choice>
+        </choices>
+      </exercise>
+
+      <exercisegroup>
+        <introduction>
+          <p>
+            Sketch each pair of vectors described below.  Express each vector in component form. 
+          </p>
+        </introduction>
+      
+        <exercise xml:id="prob-componentform1">
+          <statement>
+            <p>
+              Vector <m>\mathbf{v}</m> has a tail at <m>(-2,4)</m> and a head at <m>(4,5)</m>. Vector <m>\mathbf{w}</m> has a tail at <m>(8,-5)</m> and a head at <m>(6,7)</m>.
+            </p>
+          </statement>
+          <answer>
+            <p>
+              <me>
+                \mathbf{v}=\begin{bmatrix} 6\\ 1\end{bmatrix},\quad\mathbf{w}=\begin{bmatrix} -2\\ 12\end{bmatrix}
+              </me>
+            </p>
+          </answer>
+        </exercise>
+        <exercise xml:id="prob-componentform2">
+          <statement>
+            <p>
+              Vector <m>\mathbf{v}</m> has a tail at <m>(2,4,5)</m> and a head at <m>(-2,4,8)</m>. Vector <m>\mathbf{w}</m> has a tail at <m>(-3,4,5)</m> and a head at <m>(7,7,8)</m>.
+            </p>
+        </statement>
+          <answer>
+            <p>
+              <me>
+                \mathbf{v}=\begin{bmatrix} -4\\ 0\\ 3\end{bmatrix},\quad\mathbf{w}=\begin{bmatrix} 10\\ 3\\ 3\end{bmatrix}
+              </me>
+            </p>
+          </answer>
+        </exercise>
+      </exercisegroup>
+
+      <exercise xml:id="prob-compformgivenlength">
+          <statement>
+            <p>
+              Express vector <m>\mathbf{v}</m> shown in the figure  in component form if the magnitude (length) of <m>\mathbf{v}</m> is <m>5</m>.
+            </p>
+            <image width="80%">
+              <shortdescription></shortdescription>
+              <latex-image>
+                \begin{tikzpicture}
+                  <!-- %\draw[thin,gray!40] (-1,-1) grid (4,4); -->
+                  \draw[\lt-\gt] (-1,0)--(5,0);
+                  \draw[\lt-\gt] (0,-1)--(0,4);
+                  \draw[line width=1pt,-stealth](0, 0)--(4,3)node[above left]{$\mathbf{v}$};
+                  \draw[line width=0.5pt, dashed](4, 0)node[below]{$4$}--(4,3);
+                  <!-- %\draw[line width=2pt,red,-stealth](0,0) -
+                    - (2,3) node[above left]{$[2,3]$}; -->
+                \end{tikzpicture}
+              </latex-image>
+            </image>
+        </statement>
+        <answer>
+          <p>
+            <me>
+              \mathbf{v}=\begin{bmatrix} 4\\ 3\end{bmatrix}
+            </me>
+          </p>
+        </answer>
+      </exercise>
+
+      <exercise xml:id="prob-compformpractice">
+          <statement>
+            <p>
+              Let <m>A(-2, 3)</m>, <m>B(3, 1)</m> and <m>C(-1, -1)</m>.  Find point <m>D</m> such that <m>\overrightarrow{AB}=\overrightarrow{CD}</m>.
+            </p>
+        </statement>
+          <answer>
+            <p>
+              <me>
+                D(4, -3)
+              </me>
+            </p>
+          </answer>
+      </exercise>
+
+      <exercisegroup>
+        <introduction>
+            <p>
+                Find the length of the following vectors.
+            </p>
+        </introduction>
+
+        <exercise xml:id="prob-magnitude1">
+            <statement>
+                <p>
+                    <me>
+                        \mathbf{u}=\begin{bmatrix}1\\3\end{bmatrix}
+                    </me>
+                </p>
+            </statement>            
+            <answer>
+                <p>
+                    <me>
+                        \norm{\mathbf{u}}=\sqrt{10}
+                    </me>
+                </p>
+            </answer>
+        </exercise>
+        
+        <exercise xml:id="prob-magnitude2">
+            <statement>
+                <p>
+                    <me>
+                        \mathbf{v}=\begin{bmatrix}-4\\-6\end{bmatrix}
+                    </me>
+                </p>
+            </statement>
+            <answer>
+                <p>
+                    <me>
+                        \norm{\mathbf{v}}= 2\sqrt{13}
+                    </me>
+                </p>
+            </answer>
+        </exercise>
+        
+        <exercise xml:id="prob-magnitude3">
+            <statement>
+                <p>
+                    <me>
+                        \mathbf{w}=\begin{bmatrix}2\\-4\\6\end{bmatrix}
+                    </me>
+            </p>
+            </statement>
+            <answer>
+                <p>
+                    <me>
+                        \norm{\mathbf{w}}=\answer{2}\sqrt{\answer{14}}
+                    </me>
+                </p>
+            </answer>
+        </exercise>
+        
+        <exercise xml:id="prob-magnitude4">
+            <statement>
+                <p>
+                    <me>
+                        \mathbf{q}=\begin{bmatrix}-10\\ 4\\ -7\\ 5\\ 3\end{bmatrix}
+                    </me>
+            </p>
+            </statement>
+            <answer>
+                <p>
+                    <me>
+                        \norm{\mathbf{q}}=\sqrt{199}
+                    </me>
+                </p>
+            </answer>
+        </exercise>
+    </exercisegroup>
+    
+    <exercise xml:id="prob-compformgivenmag">
+        <statement>
+        <p>
+                Find the component form of vector <m>\mathbf{v}</m> in <m>\R^2</m> if we know that <m>\norm{\mathbf{v}}=15</m>, the <m>x</m> component of <m>\mathbf{v}</m> is <m>-9</m> and the vector is located in the third quadrant.
+        </p>
+    </statement>
+        <answer>
+            <p>
+                <me>
+                    \mathbf{v}=\begin{bmatrix} -9\\ -12\end{bmatrix}
+                </me>
+            </p>
+        </answer>
+    </exercise>
+
+    <exercise xml:id="prob-comppossibilities">
+        <statement>
+            <p>
+                For a vector in <m>\R^2</m> with a length of 26 and the <m>y</m> component of 10, what are the possibilities for the <m>x</m> component?
+            </p>
+        </statement>
+        <answer>
+            <p>
+                <me>
+                    -24 \quad\text{and}\quad 24
+                </me>
+            </p>
+        </answer>
+    </exercise>
+
+    <exercise xml:id="prob-yvaluesgivennorm">
+        <statement>
+            <p>
+                Let <m>\mathbf{v}=\begin{bmatrix}1\\ y\\ 4\end{bmatrix}</m>.  Find all possible values of <m>y</m> if <m>\norm{\mathbf{v}}=9</m>.  
+            </p>
+        </statement>
+        <answer>
+            <p>
+                <me>
+                    -8 \quad\text{and}\quad 8
+                </me>
+            </p>
+        </answer>
+    </exercise>
+
+    <exercise xml:id="prob-comppossibilitiesinr4">
+        <statement>
+            <p>
+                For a vector in <m>\R^4</m>, what are the possibilities for the fourth component if the length of the vector is 14, and the <m>x</m>, <m>y</m> and <m>z</m> components are 1, 5 and 13, respectively? 
+            </p>
+        </statement>
+        <answer>
+            <p>
+                <me>
+                    -1 \quad\text{and}\quad 1
+                </me>
+            </p>
+        </answer>
+    </exercise>
+
+    <exercise xml:id="prob-pythagoreanR3">
+        <statement>
+        <p>
+            The points <m>A(2,1,4),B(4,2,-1)</m>, and <m>C(6,8,7)</m> form a triangle in <m>\R^3</m>.  Is it a right triangle?
+        </p>
+        </statement>
+        <hint>
+            <p>
+                Does the Pythagorean Theorem hold?
+            </p>
+        </hint>
+    </exercise>
+
+    <exercise xml:id="prob-sketchsumdiff">
+      <statement>
+        <p>
+          The figure below shows vectors <m>\mathbf{u}</m> and <m>\mathbf{v}</m>.  Sketch each of the following in the same coordinate plane.
+        </p>
+        <image width="80%">
+          <shortdescription></shortdescription>
+          <latex-image>
+            \begin{tikzpicture}[scale=1]
+              \draw[thin,gray!40] (-4,-3) grid (2,1);
+              \draw[\lt-\gt] (-4,0)--(2,0);
+              \draw[\lt-\gt] (0,-3)--(0,1);
+              \draw[line width=1pt,blue,-stealth](0,0)--(-3,-1)node[above left]{$\mathbf{v}$};
+              \draw[line width=1pt,red,-stealth](0,0)--(1,-2) node[below right]{$\mathbf{u}$};
+            \end{tikzpicture}
+          </latex-image>
+        </image>
+        <p>
+          <ol>
+            <li>
+              <p>
+                <m>\mathbf{u}+\mathbf{v}</m>
+              </p>
+            </li> 
+            <li>
+              <p>
+                <m>2\mathbf{u}-\mathbf{v}</m>
+              </p>
+            </li>
+            <li>
+              <p>
+                <m>3\mathbf{v}</m>
+              </p>
+            </li> 
+            <li>
+              <p>
+                <m>-2\mathbf{u}</m>
+              </p>
+            </li>
+          </ol>
+        </p>
+      </statement>
+    </exercise>
+    
+    <exercisegroup>
+    
+      <introduction>
+        <p>
+          Let 
+          <me>
+              \mathbf{u}=\begin{bmatrix}-2\\1\\4\end{bmatrix},\quad\mathbf{v}=\begin{bmatrix}3\\-1\\0\end{bmatrix} .
+          </me>
+          Find the following:
+        </p>
+      </introduction>
+    
+      <exercise xml:id="prob-evaluatevectsumdiff1">
+        <statement>
+          <p>
+            <me>
+              2\mathbf{u}-\mathbf{v}
+            </me>
+          </p>
+        </statement>
+        <answer>
+          <p>
+            <me>
+              2\mathbf{u}-\mathbf{v}=\begin{bmatrix} -7\\ 3\\ 8\end{bmatrix}
+            </me>
+          </p>
+        </answer>
+      </exercise>
+    
+      <exercise xml:id="prob-evaluatevectsumdiff2">
+        <statement>
+          <p>
+            The additive inverse of <m>\mathbf{v}</m>. 
+          </p>
+        </statement>
+        <answer>
+          <p>
+            <me>
+              \begin{bmatrix} -3\\ 1\\ 0\end{bmatrix}
+            </me>
+          </p>
+        </answer>
+      </exercise>
+    </exercisegroup>
+
+    <exercise xml:id="prob-vecpropproof1">
+      <statement>
+        <p>
+          Prove <xref ref="item-commvectoradd"/>-<xref ref="item-identityvectoradd"/> of <xref ref="th-vecproperties"/>.
+        </p>
+      </statement>
+    </exercise>
+    
+    <exercise xml:id="prob-vecpropproof2">
+      <statement>
+        <p>
+          Prove <xref ref="item-distvectoradd2"/>-<xref ref="item-onevectorscalarmult"/> of <xref ref="th-vecproperties"/>.
+        </p>
+      </statement>
+    </exercise>
+
+    <exercisegroup>
+
+        <introduction>
+          <p>
+            Express each of the following vectors as a linear combination of appropriate standard unit vectors.
+          </p>
+        </introduction>
+
+        <exercise xml:id="prob-lincombijk1a">
+          <statement>
+            <p>
+              <me>
+                \mathbf{u}=\begin{bmatrix} 0\\ 4\\ -3 \end{bmatrix}
+              </me>
+            </p>
+          </statement>
+          <answer>
+            <p>
+              <me>
+                \mathbf{u}= 4\mathbf{j} + -3\mathbf{k}
+              </me>
+            </p>
+          </answer>
+        </exercise>
+        
+        <exercise xml:id="prob-lincombijk1b">
+            <statement>
+               <p>
+                <me>
+                  \mathbf{v}=\begin{bmatrix} -1\\ 1 \end{bmatrix}
+                </me>
+               </p>
+          </statement>
+          <answer>
+            <p>
+              <me>
+                \mathbf{u}= -1\mathbf{i} + \mathbf{j}
+              </me>
+            </p>
+          </answer>
+        </exercise>
+        
+        <exercise xml:id="prob-lincombijk1c">
+          <statement>
+            <p>
+              <me>
+                \mathbf{w}=\begin{bmatrix} 5\\ -3\\ 1\\ 7 \end{bmatrix}
+              </me>
+            </p>
+          </statement>
+          <answer>
+            <p>
+              <me>
+                \mathbf{u}= 5\mathbf{e}_1 + -3\mathbf{e}_2 + \mathbf{e}_3 + 7\mathbf{e}_4
+              </me>
+            </p>
+          </answer>
+        </exercise>
+      </exercisegroup>
+
+      <exercisegroup>
+      
+        <introduction>
+          <p>
+            Express each given vector in component form.  
+          </p>
+        </introduction>
+      
+        <exercise xml:id="prob-lincombijk2a">
+          <statement>
+            <p>
+              <m>\mathbf{u}=\mathbf{i}+3\mathbf{j}</m> is a vector in <m>\R^2</m>.
+            </p>
+          </statement>
+          <answer>
+            <p>
+              <me>
+                \mathbf{u} = \begin{bmatrix} 1\\ 3\end{bmatrix}
+              </me>
+            </p>
+          </answer>
+        </exercise>
+        
+        <exercise xml:id="prob-lincombijk2b">
+          <statement>
+            <p>
+              <m>\mathbf{v}=-\mathbf{j}+5\mathbf{k}</m> is a vector in <m>\R^3</m>.
+            </p>
+          </statement>
+          <answer>
+            <p>
+              <me>
+                \mathbf{v}=\begin{bmatrix} 0 \\ -1\\ 5 \end{bmatrix}
+              </me>
+            </p>
+          </answer>
+        </exercise>
+        
+        <exercise xml:id="prob-lincombijk2c">
+          <statement>
+            <p>
+              <m>\mathbf{w}=\mathbf{e}_1-2\mathbf{e}_3+4\mathbf{e}_4</m> is a vector in <m>\R^4</m>.
+            </p>
+          </statement>
+          <answer>
+            <p>
+              <me>
+                \mathbf{w}=\begin{bmatrix} 1\\ 0\\ -2\\ 4\end{bmatrix}
+              </me>
+            </p>
+          </answer>
+        </exercise>
+      </exercisegroup>
+
+      <exercise xml:id="prob-lincombijk3">
+        <statement>
+          <p>
+            Is it possible to express <m>\mathbf{u}=\begin{bmatrix} -6\\ 1\\ 4 \end{bmatrix}</m> as a linear combination of <m>\mathbf{i}</m> and <m>\mathbf{j}</m> alone, where <m>\mathbf{i}</m> and <m>\mathbf{j}</m> are in <m>\R^3</m>?  Explain your reasoning.
+          </p>
+        </statement>
+      </exercise>
+
+      <exercisegroup>
+    
+        <introduction>
+          <p>
+            Find a unit vector in the direction of the given vector <m>\mathbf{v}</m>.
+          </p>
+        </introduction>
+      
+        <exercise xml:id="prob-00361">
+          <statement>
+            <p>
+              <m>\mathbf{v}=\begin{bmatrix}-3\\4\end{bmatrix}</m>
+            </p>
+          </statement>
+          <answer>
+            <p>
+              <m>\mathbf{u}=\begin{bmatrix} -0.6\\ 0.8 \end{bmatrix}</m>
+            </p>
+          </answer>
+        </exercise>
+        
+        <exercise xml:id="prob-00362">
+          <statement>
+            <p>
+              <m>\mathbf{v}=\begin{bmatrix}2\\-3\\6\end{bmatrix}</m>
+            </p>
+          </statement>
+          <answer>
+            <p>
+              <m>\mathbf{u}=\begin{bmatrix} 2/7\\ -3/7\\ 6/7 \end{bmatrix}</m>
+            </p>
+          </answer>
+        </exercise>
+        
+        <exercise xml:id="prob-00363">
+          <statement>
+            <p>
+              <m>\mathbf{v}=\begin{bmatrix}1\\3\\-2\end{bmatrix}</m>
+            </p>
+          </statement>        
+          <answer>
+            <p>
+              <m>\mathbf{u}=\begin{bmatrix} 1/\sqrt{14}\\ 3/\sqrt{14}\\ -2/\sqrt{14}\end{bmatrix}</m>
+            </p>
+          </answer>
+        </exercise>
+      </exercisegroup>
+  
+      <exercise xml:id="prob-00364">
+        <statement>
+          <p>
+            Let <m>\mathbf{v}=\begin{bmatrix}-1\\1\\\sqrt{7}\end{bmatrix}</m>.
+            Apply the concepts from this section to find a vector <m>\mathbf{w}</m> that points in the same direction as <m>\mathbf{v}</m> and whose length is 5.
+          </p>
+        </statement>
+        <answer>
+          <p>
+            <m>\mathbf{w}=\begin{bmatrix} -5/3\\ 5/3\\ 5\sqrt{7}/3 \end{bmatrix}</m>
+          </p>
+        </answer>
+      </exercise>
+
+  </exercises>
+</section>

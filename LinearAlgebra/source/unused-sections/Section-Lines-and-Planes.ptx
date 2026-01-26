@@ -1,0 +1,922 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<section xml:id="Section-Lines-and-Planes" xmlns:xi="http://www.w3.org/2001/XInclude">
+    <title>Lines and Planes</title>
+
+    <p>
+        At this point you should be very familiar with graphing linear equations of the form <m>y=mx+b</m>, where <m>m</m> is the slope of the line and <m>b</m> is the <m>y</m>-intercept.  
+        Unfortunately, there is no equivalent way of representing lines in <m>\R^3</m>, or better yet, <m>\R^n</m>.  
+        In this section we will develop an alternative way of representing lines and discuss the generalization of the graphs of linear equations in higher dimensions.
+    </p>
+
+    <subsection xml:id="Subsection-Parametric-Lines-in-the-Real-Plane">
+        <title>Parametric Lines in <m>\R^2</m></title>
+
+        <exploration xml:id="init-paramline2d">
+            <p>
+                Imagine a ladybug crawling around a plane.  At every instant in time, the ladybug's position in the plane can be described by an ordered pair <m>(x, y)</m>.  Coordinates <m>x</m> and <m>y</m> are functions of time.  Suppose the position of the ladybug at time <m>t</m> is given by:
+                <md>
+                    <mrow> x\amp=2t-1 </mrow>
+                    <mrow> y\amp=-3t+6 </mrow>
+                </md>
+                Our goal is to sketch the path of the ladybug during the time interval <m>0\leq t\leq 3</m>.  To do this we will make a table of values, just like you did when you first started sketching graphs of functions.
+                <me>
+                    \begin{array}{|c|c|c|}  
+                    \hline t\amp x \amp y\\ 
+                    \hline 0 \amp -1 \amp 6\\ 
+                    \hline 1 \amp 1 \amp 3 \\
+                    \hline 2 \amp 3\amp 0\\
+                    \hline 3 \amp 5\amp -3\\
+                    \hline
+                    \end{array}
+                </me>
+                The point <m>(x, y)</m>, corresponding to each value of <m>t</m> is the location of the ladybug in the coordinate plane at time <m>t</m>. 
+            </p>
+            <image width="50%">
+                <shortdescription></shortdescription>
+                <latex-image>
+                    \begin{tikzpicture}[scale=0.5]
+                        \draw[thin,gray!40] (-5,-6) grid (7,10);
+                        \draw[\lt-\gt] (-5,0)--(7,0);
+                        \draw[\lt-\gt] (0,-6)--(0,10);
+                        \draw[line width=2pt,blue](-1,6)--(5,-3) ;
+                        \fill[red] (-1,6) node[above right]{\(t=0\)} circle (0.2cm);
+                        \fill[red] (1,3) node[above right]{\(t=1\)} circle (0.2cm);
+                        \fill[red] (3,0) node[above right]{\(t=2\)} circle (0.2cm);
+                        \fill[red] (5,-3) node[above right]{\(t=3\)} circle (0.2cm);
+                    \end{tikzpicture}
+                </latex-image>
+            </image>
+            <p>
+                It appears that the points corresponding to <m>t=0, 1, 2, 3</m> lie on a line with slope <m>-\frac{3}{2}</m>.  In the next problem we will find the equation of the line that contains the path of the ladybug.
+            </p>
+        </exploration>
+        
+        <exploration xml:id="init-paramline2dpart2">
+            <p>
+                In <xref ref="init-paramline2d"/> we considered equations
+                <md>
+                    <mrow> x\amp=2t-1 </mrow>
+                    <mrow> y\amp=-3t+6 </mrow>
+                </md>
+                that described the path of a ladybug in the plane.  We will now consider these equations in a broader context as simply describing a curve in the plane.  We conjectured that the curve described by these equations is a line with slope <m>-\frac{3}{2}</m>.  We will now find the equation of this line.
+            </p>
+            <p>
+                One approach to finding the equation is to solve one of the given equations for <m>t</m>, then substitute into the other equation.
+                Solving <m>x=2t-1</m> for <m>t</m> gives us
+                <me>
+                    t=\frac{1}{2}x+\frac{1}{2}
+                </me>
+                Substituting this expression into <m>y=-3t+6</m> we get
+                <me>
+                    y=-3\left(\frac{1}{2}x+\frac{1}{2}\right)+6=-\frac{3}{2}x+\frac{9}{2}
+                </me>
+                Plotting the line <m>y=-\frac{3}{2}x+\frac{9}{2}</m> together with the path we plotted earlier, we see that our original path lies on the line.
+            </p>
+            <image width="50%">
+                <shortdescription></shortdescription>
+                <latex-image>
+                    \begin{tikzpicture}[scale=0.5]
+                        \draw[thin,gray!40] (-5,-6) grid (7,10);
+                        \draw[\lt-\gt] (-5,0)--(7,0);
+                        \draw[\lt-\gt] (0,-6)--(0,10);
+                        \draw[line width=2pt,blue](-1,6)--(5,-3) ;
+                        \draw[line width=1pt,blue, dashed](-11/3,10)node[below=5mm, left=0mm]{\(y=-\frac{3}{2}x+\frac{9}{2}\)}--(7,-6) ;
+                        \fill[red] (-1,6) node[above right]{\(t=0\)} circle (0.2cm);
+                        \fill[red] (1,3) node[above right]{\(t=1\)} circle (0.2cm);
+                        \fill[red] (3,0) node[above right]{\(t=2\)} circle (0.2cm);
+                        \fill[red] (5,-3) node[above right]{\(t=3\)} circle (0.2cm);
+                    \end{tikzpicture}
+                </latex-image>
+            </image>
+            <p>
+                If we do not restrict <m>t</m> to values between 0 and 3, we can get every point on the line <m>y=-\frac{3}{2}x+\frac{9}{2}</m>.  
+            </p>
+        </exploration>
+        
+        <p>
+            Equations such as
+            <md>
+                <mrow> x\amp=2t-1 </mrow>
+                <mrow> y\amp=-3t+6 </mrow>
+            </md>
+            are called <term>parametric equations</term>, and <m>t</m> is called a <term>parameter</term>.
+        </p>
+        
+        <p>
+            When given an equation of the form <m>y=mx+b</m>, we recognize it as an equation whose graph is a line and we don't need to make a table of values to sketch the graph of the equation.  We should be able to do the same for parametric equations of lines.  In the next Exploration we will examine our equations carefully to see if we can discern any patterns that would help us plot the line without making a table of values.  
+        </p>
+        
+        
+        <exploration xml:id="init-paramline2dpart3">
+            <p>
+                Let's return to parametric equations from the previous problem.
+                <md>
+                    <mrow> x\amp=2t-1 </mrow>
+                    <mrow> y\amp=-3t+6 </mrow>
+                </md>
+                Consider the table of values we constructed in <xref ref="init-paramline2d"/>.
+                <me>
+                    \begin{array}{|c|c|c|}  
+                    \hline t\amp x \amp y\\ 
+                    \hline 0 \amp -1 \amp 6\\ 
+                    \hline 1 \amp 1 \amp 3 \\
+                    \hline 2 \amp 3\amp 0\\
+                    \hline 3 \amp 5\amp -3\\
+                    \hline
+                    \end{array}
+                </me>
+                Observe that every time <m>t</m> increases by <m>1</m>, <m>x</m> increases by <m>2</m> and <m>y</m> decreases by <m>3</m>.  An increase by <m>2</m> in the <m>x</m>-coordinate combined with a decrease of <m>3</m> in the <m>y</m>-coordinate corresponds to the coefficients <m>2</m> and <m>-3</m> of <m>t</m> in the parametric equations.  Our findings are in agreement with the fact that the slope of the line is <m>-\frac{2}{3}</m>.  
+            </p>
+            <p>
+                We will capture the ``rise" and ``run" aspect of the line by using vector <m>\mathbf{v}=\begin{bmatrix}2\\-3\end{bmatrix}</m>. Sketching <m>\mathbf{v}</m> together with the line, we find that the vector is parallel to the line.  
+            </p>
+            <image width="50%">
+                <shortdescription></shortdescription>
+                <latex-image>
+                    \begin{tikzpicture}[scale=0.5]
+                        \draw[thin,gray!40] (-5,-6) grid (7,10);
+                        \draw[\lt-\gt] (-5,0)--(7,0);
+                        \draw[\lt-\gt] (0,-6)--(0,10);
+                        
+                        \draw[line width=1pt,blue](-11/3,10)node[below=5mm, left=0mm]{\(y=-\frac{3}{2}x+\frac{9}{2}\)}--(7,-6) ;
+        
+                        \draw[line width=1pt,red, -stealth](0,0)--(2,-3)node[below]{\(\mathbf{v}=\begin{bmatrix}2\\-3\end{bmatrix}\)} ;
+                 \end{tikzpicture}
+                </latex-image>
+            </image>
+            <p>
+                Vector <m>\mathbf{v}</m> is called a <term>direction vector</term>.  Observe that the components of <m>\mathbf{v}</m> are the coefficients of <m>t</m> in the parametric equations.
+                <md>
+                    <mrow> x\amp={\color{red}2}t-1 </mrow>
+                    <mrow> y\amp={\color{red}-3}t+6 </mrow>
+                </md>
+                Next, let's turn our attention to constants <m>-1</m> and <m>6</m>.  They are the values of <m>x</m> and <m>y</m> when <m>t=0</m>, and correspond to the point <m>(-1, 6)</m>.  
+            </p>
+            <p>
+                Recall that in <xref ref="init-paramline2d"/> we said that the given parametric equations describe the position of a ladybug crawling in the coordinate plane.  If we are concerned with the position of the ladybug at time <m>t</m>, the point <m>(-1, 6)</m> is very important - this is where the bug is located when <m>t=0</m>.  But, if we are using parametric equations simply to describe the line <m>y=-\frac{3}{2}x+\frac{9}{2}</m>, without regard for when the bug is located at each point, then the point <m>(-1, 6)</m> is not any more special than any other point on the line.  In fact, we can use any other point on this line to find another set of parametric equations that describe the same line.  In <xref ref="prob-paramnotunique"/> you will be asked to show that equations
+                <md>
+                    <mrow> x\amp=2t+1 </mrow>
+                    <mrow> y\amp=-3t+3 </mrow>
+                </md>
+                describe the same line.  Thus, parametric representations are not unique.
+            </p>
+        </exploration>
+
+        <p>
+            We can generalize our observations in <xref ref="init-paramline2dpart3"/> as follows.
+        </p>
+        
+        <identity xml:id="form-paramline2d">
+            <statement>
+                <p>
+                    Let <m>\mathbf{v}=\begin{bmatrix}a\\b\end{bmatrix}</m> be a direction vector for line <m>l</m>, and let <m>(x_0, y_0)</m> be an arbitrary point on <m>l</m>.  Then the following parametric equations describe <m>l</m>:
+                    <md>
+                        <mrow> x\amp=at+x_0 </mrow>
+                        <mrow> y\amp=bt+y_0 </mrow>
+                    </md>
+                </p>
+            </statement>
+        </identity>
+        
+        <p> 
+        An example on using these formulas is show next.
+        </p> 
+
+        <example xml:id="ex-parameqlinepoint">
+            <p>
+                Find parametric equations for line <m>l</m> if <m>l</m> contains the point <m>(2, -5)</m> and is parallel to line <m>k</m> with parametric equations
+                <md>
+                    <mrow> x\amp=3t+4 </mrow>
+                    <mrow> y\amp=-8t+1 </mrow>
+                </md>
+            </p>
+            <p>
+                To find a set of parametric equations for <m>l</m>, we need a point on <m>l</m> and a direction vector.  Point <m>(2, -5)</m> is on <m>l</m>.  Line <m>l</m> is parallel to <m>k</m>, so we can use <m>\begin{bmatrix}3\\-8\end{bmatrix}</m>, a direction vector for <m>k</m>, as a direction vector for <m>l</m>.   This gives us the following parametric equations for <m>l</m>:
+                <md>
+                    <mrow> x\amp=3t+2 </mrow>
+                    <mrow> y\amp=-8t-5 </mrow>
+                </md>
+            </p>
+        </example>
+    </subsection>
+
+    <subsection xml:id="Subsection-Parametric-Lines-in-3d">
+        <title>Parametric Lines in <m>\R^3</m></title>
+
+        <exploration xml:id="init-paramline3d">
+            <p>
+                Consider the following set of parametric equations
+                <md>
+                    <mrow> x\amp=4t+1 </mrow>
+                    <mrow> y\amp=8t-3 </mrow>
+                    <mrow> z\amp=5t+1 </mrow>
+                </md>
+                We will begin by making a table of values.
+                <me>
+                    \begin{array}{|c|c|c|c|}  
+                    \hline t\amp x \amp y \amp z\\ 
+                    \hline -1 \amp -3 \amp -11 \amp -4\\ 
+                    \hline 0 \amp 1 \amp -3 \amp 1 \\
+                    \hline 1 \amp 5\amp 5 \amp 6\\
+                    \hline 2 \amp 9\amp 13 \amp 11\\
+                    \hline
+                    \end{array}
+                </me>
+                Observe that every time <m>t</m> increases by <m>1</m>, <m>x</m> increases by <m>4</m>, <m>y</m> increases by <m>8</m>, and <m>z</m> increases by <m>5</m>.  The pattern ``out <m>4</m>, over <m>8</m>, up <m>5</m>" is illustrated in the diagram.  
+            </p>
+            <image width="80%">
+                <shortdescription></shortdescription>
+                <latex-image>
+                    \tdplotsetmaincoords{70}{130}
+                    \begin{tikzpicture}
+                \draw[line width=2pt,blue](-3,1,1)--(5,6,5);
+                \draw[line width=0.5pt, dashed, gray](-3,1,1)--(5,1,1);
+                \draw[line width=0.5pt, dashed, gray](5,1,1)--(5,1,5);
+                \draw[line width=0.5pt, dashed, gray](5,1,1)--(5,6,1);
+                \draw[line width=0.5pt, dashed, gray](5,6,5)--(5,6,1);
+                \draw[line width=0.5pt, dashed, gray](-3,6,1)--(5,6,1);
+                \draw[line width=0.5pt, dashed, gray](-3,6,1)--(-3,6,5);
+                \draw[line width=0.5pt, dashed, gray](-3,6,1)--(-3,1,1);
+                \draw[line width=0.5pt, dashed, gray](-3,6,5)--(-3,1,5);
+                \draw[line width=0.5pt, dashed, gray](-3,6,5)--(5,6,5);
+                
+                
+                \draw[line width=1pt,red, dashed, -stealth](5,1,5)--(5,5.8,5);
+                \draw[line width=1pt,red, dashed, -stealth](-3,1,5)--(4.9,1,5);
+                 \draw[line width=1pt,red, dashed,-stealth](-3,1,1)--(-3,1,4.8);
+                 
+                
+                \fill[red] (-3,1,1) node[above left]{\((1,-3,1)\)} circle (0.1cm); 
+                \fill[red] (5,6,5) node[above left]{\((5,5,6)\)} circle (0.1cm);
+                
+                \node[red] at (0.8, 1.3, 5)   {over \(8\)};
+                \node[red] at (-2.1, 1.3, 3.6)   {out \(4\)};
+                \node[red] at (5.1, 3, 4)   {up \(5\)};
+                
+                \end{tikzpicture}
+                </latex-image>
+            </image>
+        
+            <p>
+                We will use a direction vector <m>\mathbf{v}=\begin{bmatrix}4\\8\\5\end{bmatrix}</m> to represent the direction of the line.  Note that the components of  <m>\mathbf{v}</m> are the same as the coefficients of <m>t</m> in the parametric equations.  
+                <md>
+                    <mrow> x\amp={\color{red}4}t+1 </mrow>
+                    <mrow> y\amp={\color{red}8}t-3 </mrow>
+                    <mrow> z\amp={\color{red}5}t+1 </mrow>
+                </md>
+                Also, observe that the constants <m>1, -3, 1</m> correspond to the coordinates of the point on the line for which <m>t=0</m>.
+                <md>
+                    <mrow> x\amp=4t+{\color{red}1} </mrow>
+                    <mrow> y\amp=8t+({\color{red}-3}) </mrow>
+                    <mrow> z\amp=5t+{\color{red}1} </mrow>
+                </md>
+                As before, the point <m>(1, -3, 1)</m> may be replaced with any other point on the line to produce a different set of parametric equations describing the same line.
+            </p>
+        </exploration>
+        
+        <p>
+            We can generalize our observations in <xref ref="init-paramline3d"/> as follows.
+        </p>
+        
+        <identity xml:id="form-paramline3d">
+            <statement>
+                <p>
+                    Let <m>\mathbf{v}=\begin{bmatrix}a\\b\\c\end{bmatrix}</m> be a direction vector for line <m>l</m>, and let <m>(x_0, y_0, z_0)</m> be an arbitrary point on <m>l</m>.  Then the following parametric equations describe <m>l</m>:
+                    <md>
+                        <mrow> x\amp=at+x_0 </mrow>
+                        <mrow> y\amp=bt+y_0 </mrow>
+                        <mrow> z\amp=ct+z_0 </mrow>
+                    </md>
+                </p>
+            </statement>
+        </identity>
+        
+        <p> 
+        As before, using these in explicit situations is the most important part:
+        </p>
+
+        <example xml:id="ex-paramline3d">
+            <p>
+                Find a set of parametric equations for a line in <m>\R^3</m> that passes through <m>(1, -2, 4)</m> and <m>(-3, 1, 1)</m>.
+            </p>
+            <p>
+                We need a point and a direction vector.  To find the direction vector we will use the ``head-tail" formula (<xref ref="form-headminustailrn"/>) to find the vector whose tail is at <m>(1, -2, 4)</m> and whose head is at <m>(-3, 1, 1)</m>.  The direction vector is
+                <me>
+                    \begin{bmatrix}-3-1\\1-(-2)\\1-4\end{bmatrix}=\begin{bmatrix}-4\\3\\-3\end{bmatrix}
+                </me>
+                For our point, we can pick either of the two given points.  The equations will differ depending on the point we pick, but they will describe the same line.  Remember, parametric representations are not unique!  If we choose <m>(1, -2, 4)</m> for our point we get the following set of parametric equations:
+                <md>
+                    <mrow> x\amp=-4t+1 </mrow>
+                    <mrow> y\amp=3t-2 </mrow>
+                    <mrow> z\amp=-3t+4 </mrow>
+                </md>
+            </p>
+        </example>
+    </subsection>
+
+    <subsection xml:id="Subsection-Parametric-Lines-in-Real-Space">
+        <title>Parametric Lines in <m>\R^n</m></title>
+
+        <p>
+            After working with parametric equations of lines in <m>\R^2</m> and <m>\R^3</m>, it should be easy to surmise what parametric equations of lines look like for lines in <m>\R^n</m>.
+        </p>
+
+        <identity xml:id="form-paramlinend">
+            <statement>
+                <p>
+                    Let <m>\mathbf{v}=\begin{bmatrix}v_1\\v_2\\\vdots\\v_n\end{bmatrix}</m> be a direction vector for line <m>l</m> in <m>\R^n</m>, and let <m>(a_1, a_2,\ldots , a_n)</m> be an arbitrary point on <m>l</m>.  Then the following parametric equations describe <m>l</m>:
+                    <md>
+                        <mrow> x_1\amp=v_1t+a_1 </mrow>
+                        <mrow> x_2\amp=v_2t+a_2 </mrow>
+                        <mrow> \amp\quad\vdots </mrow>
+                        <mrow> x_n\amp=v_nt+a_n </mrow>
+                    </md>
+                </p>
+            </statement>
+        </identity>
+    </subsection>
+
+    <subsection xml:id="Subsection-From-Parametric-Equations-to-Vector-Equations">
+        <title>From Parametric Equations to Vector Equations</title>
+
+        <p>
+            Consider again the parametric equations from <xref ref="init-paramline2d"/>.
+            <md>
+                <mrow> x\amp=2t-1 </mrow>
+                <mrow> y\amp=-3t+6 </mrow>
+            </md>
+            These equations describe the line by providing coordinates of individual points on the line, as shown in the left figure below.
+        </p>
+        
+        <sidebyside>
+            <image width="50%">
+                <shortdescription></shortdescription>
+                <latex-image>
+                    \begin{tikzpicture}[scale=0.5]
+                        \draw[thin,gray!40] (-3,-4) grid (6,7);
+                        \draw[\lt-\gt] (-3,0)--(6,0);
+                        \draw[\lt-\gt] (0,-4)--(0,7);
+                        \draw[line width=2pt,blue](-1,6)--(5,-3) ;
+                        \fill[red] (-1,6) node[above right]{\(t=0\)} circle (0.2cm);
+                        \fill[red] (1,3) node[above right]{\(t=1\)} circle (0.2cm);
+                        \fill[red] (3,0) node[above right]{\(t=2\)} circle (0.2cm);
+                        \fill[red] (5,-3) node[above right]{\(t=3\)} circle (0.2cm);
+                    \end{tikzpicture}
+                </latex-image>
+            </image>
+            
+            <image width="50%">
+                <shortdescription></shortdescription>
+                <latex-image>
+                    \begin{tikzpicture}[scale=0.5]
+                        \draw[thin,gray!40] (-3,-4) grid (6,7);
+                        \draw[\lt-\gt] (-3,0)--(6,0);
+                        \draw[\lt-\gt] (0,-4)--(0,7);
+                        \draw[line width=2pt,blue](-1,6)--(5,-3) ;
+                        \draw[line width=1pt,red,-stealth](0,0)--(-1,6) ;
+                        \draw[line width=1pt,red,-stealth](0,0)--(1,3) ;
+                        \draw[line width=1pt,red,-stealth](0,0)--(3,0) ;
+                        \draw[line width=1pt,red,-stealth](0,0)--(5,-3) ;
+                        \fill[red] (-1,6) node[above right]{\(t=0\)} circle (0.1cm);
+                        \fill[red] (1,3) node[above right]{\(t=1\)} circle (0.1cm);
+                        \fill[red] (3,0) node[above right]{\(t=2\)} circle (0.1cm);
+                        \fill[red] (5,-3) node[above right]{\(t=3\)} circle (0.1cm);
+                    \end{tikzpicture}
+                </latex-image>
+            </image>
+        </sidebyside>
+
+        <p>
+            If we consider the points on the line to be heads of vectors, then we can think of the line as being ``traced" by a vector as <m>t</m> changes  (See above, right).  We can capture this algebraically by using a <term>vector equation</term> for the line:
+            <me>
+                \mathbf{x}(t)=\begin{bmatrix}2t-1\\-3t+6\end{bmatrix}=\begin{bmatrix}2\\-3\end{bmatrix}t+\begin{bmatrix}-1\\6\end{bmatrix}
+            </me>
+            Note that the direction vector <m>\begin{bmatrix}2\\-3\end{bmatrix}</m> and the point <m>(-1, 6)</m>, now vector <m>\begin{bmatrix}-1\\6\end{bmatrix}</m>, are easy to identify in the equation.
+        </p>
+
+        <p>
+            We can use vector equations to describe lines in <m>\R^n</m> using the following formula.
+        </p>
+
+        <identity xml:id="form-vectorlinend">
+            <statement>
+                <p>
+                    Let <m>\mathbf{v}=\begin{bmatrix}v_1\\v_2\\\vdots\\v_n\end{bmatrix}</m> be a direction vector for line <m>l</m> in <m>\R^n</m>, and let <m>(a_1, a_2,\ldots , a_n)</m> be an arbitrary point on <m>l</m>.  Then the following vector equation describes <m>l</m>:
+                    <me>
+                        \mathbf{x}(t)=\begin{bmatrix}v_1\\v_2\\\vdots\\v_n\end{bmatrix}t+\begin{bmatrix}a_1\\a_2\\\vdots\\a_n\end{bmatrix}
+                    </me>
+                </p>
+            </statement>
+        </identity>
+    </subsection>
+
+    <subsection xml:id="Subsection-Planes-in-3d">
+        <title>Planes in <m>\R^3</m></title>
+      
+        <p>
+          The text in this subsection is an adaptation of Section 4.2 of Keith Nicholson's <url href="https://open.umn.edu/opentextbooks/textbooks/linear-algebra-with-applications"><pubtitle>Linear Algebra with Applications</pubtitle></url>.
+        </p>
+      
+        <p>
+          You are probably familiar with the expression <q>two points determine a line.</q>  
+          This means that given two distinct points, there is exactly one line that passes through both of them.  
+        </p>
+      
+        <p>
+          You are probably also familiar with the fact that three non-collinear points determine a plane. 
+          (This is why photographers use tripods for stability, while four-legged chairs often wobble!)  Is there another way to determine a plane?  
+        </p>
+      
+        <p>
+          The diagram below shows several planes perpendicular to vector <m>\mathbf{n}</m>.  In fact, there are infinitely many such planes.  Vector <m>\mathbf{n}</m> does not determine a plane, but if we know of a point <m>P</m> contained in the plane, then together, <m>P</m> and <m>\mathbf{n}</m> describe a unique plane.
+        </p>
+      
+        <image width="80%">
+          <shortdescription></shortdescription>
+          <latex-image>
+            \tdplotsetmaincoords{70}{130}
+            \begin{tikzpicture}[scale=1]
+      
+        \filldraw[blue, opacity=0.3] (2,-1,2)--(2,-1,-2)--(-2,1,-2)--(-2,1,2)--cycle;
+      
+        \filldraw[blue, opacity=0.3] (2,-0.5,2)--(2,-0.5,-2)--(-2,1.5,-2)--(-2,1.5,2)--cycle;
+      
+        \filldraw[blue, opacity=0.3] (2,-1.5,2)--(2,-1.5,-2)--(-2,0.5,-2)--(-2,0.5,2)--cycle;
+      
+            \draw[-\gt,line width=1mm, -stealth, blue](0,-1,-2)--(0.8,0.6,-2) ;%normal to grey
+            \node[fill,circle,inner sep=1.5pt,label={\(P\)}] at (-2,1.5,2) {};
+            \node[label={below right:\(\mathbf{n}\)}] at (0.8,0.6,-2) {};
+                \end{tikzpicture}
+            </latex-image>
+        </image>
+                  
+        <definition xml:id="def-normalvectoplane">
+          <title>Normal Vector</title>
+          <statement>
+                <p>
+                  A nonzero vector <m>\mathbf{n}</m> is called a <term>normal</term> for a plane if it is orthogonal to every vector in the plane.
+                </p>
+            </statement>
+        </definition>
+      
+        <p> 
+        There are details in the definition worth flagging up, such as the wordin "to every vector". To emphasize this, we demonstrate an example in detail.
+        </p> 
+
+        <example xml:id="ex-standardunitvectnormals">
+            <p>
+              The standard unit vector <m>\mathbf{k}</m> is orthogonal to every vector in the <m>xy</m>-plane, therefore it is a normal for the <m>xy</m>-plane.
+            </p>
+      
+          <image width="80%">
+          <shortdescription></shortdescription>
+            <latex-image>
+              \tdplotsetmaincoords{70}{130}
+              \begin{tikzpicture}[scale=1]
+      
+        \draw[-\gt](-2,0,0)--(2,0,0) node[below left]{\(y\)};
+            \draw[-\gt](0,-2,0)--(0,3,0) node[below left]{\(z\)};
+            \draw[-\gt](0,0,-2)--(0,0,2) node[below left]{\(x\)};
+        \filldraw[blue, opacity=0.3] (1.5,0,1.5)--(-1.5,0,1.5)--(-1.5,0,-1.5)--(1.5,0,-1.5)--cycle;
+            
+            \draw[-\gt,blue,line width=1mm, -stealth](0,0,0)--(0,2,0) ;
+            
+            \node[blue] at (0.2, 1, 0)   {\(\mathbf{k}\)};
+      
+        \draw[-\gt,line width=0.4mm, -stealth, red](0,0,0)--(1,0,-1.3) ;
+      
+        \draw[-\gt,line width=0.4mm, -stealth, red](-1,0,1)--(1,0,1.3) ;
+      
+        \draw[-\gt,line width=0.4mm, -stealth, red](0,0,0)--(-1,0,-0.5) ;
+      
+            \end{tikzpicture}
+            </latex-image>
+        </image>
+        </example>
+      
+        <p>
+          Given a point <m>P_{0} = P_{0}(x_{0}, y_{0}, z_{0})</m> and a nonzero vector <m>\mathbf{n}</m>, there is a unique plane through <m>P_{0}</m> with normal <m>\mathbf{n}</m>.
+        </p>
+      
+          <image width="80%">
+          <shortdescription></shortdescription>
+            <latex-image>
+              \tdplotsetmaincoords{70}{130}
+              \begin{tikzpicture}[scale=1]
+      
+        \filldraw[blue, opacity=0.3] (2,-0.5,2)--(2,-0.5,-2)--(-2,1.5,-2)--(-2,1.5,2)--cycle;
+      
+            \draw[-\gt,line width=1mm, -stealth, blue](0,-1,-2)--(0.8,0.6,-2) ;%normal to grey
+            \node[fill,circle,inner sep=1.5pt,label={left:\(P_0(x_0, y_0, z_0)\)}] at (-2,1.5,2) {};
+            \node[label={below right:\(\mathbf{n}\)}] at (0.8,0.6,-2) {};
+                \end{tikzpicture}
+            </latex-image>
+        </image>
+      
+        <p>
+          This fact can be used to give a very simple description of a plane.
+          Observe that a point <m>P = P(x, y, z)</m> lies on this plane if and only if the vector <m>\overrightarrow{P_{0}P}</m> is orthogonal to <m>\mathbf{n}</m> (i.e. <m>P</m> lies in the plane if and only if <m>\mathbf{n} \cdot \overrightarrow{P_{0}P} = 0</m>).
+        </p> 
+        
+          <image width="80%">
+          <shortdescription></shortdescription>
+            <latex-image>
+              \tdplotsetmaincoords{70}{130}
+              \begin{tikzpicture}[scale=1]
+      
+        \filldraw[blue, opacity=0.3] (2,-0.5,2)--(2,-0.5,-2)--(-2,1.5,-2)--(-2,1.5,2)--cycle;
+      
+            \draw[-\gt,line width=1mm, -stealth, blue](0,-1,-2)--(0.8,0.6,-2) ;%normal to grey
+            
+            \node[fill,red,circle,inner sep=1.5pt,label={above right:\(P(x, y, z)\)}] at (0,2,1.5) {};
+            \node[label={below right:\(\mathbf{n}\)}] at (0.8,0.6,-2) {};
+            
+            \draw[-\gt,line width=0.4mm, -stealth, red](-2,1.5,2)--(0,2,1.5) ;
+            
+            \node[fill,circle,inner sep=1.5pt,label={left:\(P_0(x_0, y_0, z_0)\)}] at (-2,1.5,2) {};
+                \end{tikzpicture}
+            </latex-image>
+        </image>
+      
+        <p>
+          Let <m>\mathbf{n}=\begin{bmatrix}a\\b\\c\end{bmatrix}</m>.  By ``head-tail" formula (<xref ref="form-headminustailr3"/>), we have: <m>\overrightarrow{P_{0}P} = \begin{bmatrix}
+            x - x_{0}\\
+            y - y_{0}\\
+            z - z_{0}
+            \end{bmatrix}</m>. So, <m>P(x, y, z)</m> lies in the plane if and only if
+            <me>
+                \begin{bmatrix}a\\b\\c\end{bmatrix}\cdot\begin{bmatrix}
+            x - x_{0}\\
+            y - y_{0}\\
+            z - z_{0}
+            \end{bmatrix}=a(x-x_0)+b(y-y_0)+c(z-z_0)=0
+            </me>
+            We summarize this result as a theorem.
+        </p>
+      
+        <theorem xml:id="th-scalareqofplane">
+            <statement>
+              <p>
+                The plane through <m>P_{0}(x_{0}, y_{0}, z_{0})</m> with a normal vector 
+                <me>
+                    \mathbf{n} = 
+                \begin{bmatrix}
+                a\\
+                b\\
+                c
+                \end{bmatrix}\neq\mathbf{0}
+                </me>
+                is given by
+                <men xml:id="eq-plane">
+                  a(x - x_{0}) + b(y - y_{0}) + c(z - z_{0}) = 0
+                </men>
+              </p>
+            </statement>
+        </theorem>
+      
+        <example xml:id="ex-planewithnormalvector">
+            <p>
+              Find an equation of the plane through <m>P_{0}(1, -1, 3)</m> with <m>\mathbf{n} = 
+        \begin{bmatrix}
+        3\\
+        -1\\
+        2
+        \end{bmatrix}</m>
+        as a normal vector.
+        \begin{explanation}
+          Here the equation becomes
+        <me>
+        3(x - 1) - (y + 1) + 2(z - 3) = 0
+        </me>
+        This simplifies to <m>3x - y + 2z = 10</m>.
+        </p>
+        <figure>
+          <caption>
+            GeoGebra interactive below shows the plane, together with point <m>P_0</m> and the normal vector.  RIGHT-CLICK and DRAG to rotate the image for a better view.
+            A larger version of this activity is available 
+            <url href="https://www.geogebra.org/calculator/gsaag2dx" visual="https://www.geogebra.org/calculator/gsaag2dx">here</url>.
+          </caption>
+          <interactive xml:id="geogebra-plane-in-3d" platform="geogebra" width="100%" aspect="3:2">
+            <slate xml:id="plane-in-3d" surface="geogebra" material="gsaag2dx" aspect="3:2" />
+          </interactive>
+        </figure>
+        </example>
+      
+        <p>
+          As demonstrated in <xref ref="ex-planewithnormalvector"/>, we can distribute coefficients <m>a</m>, <m>b</m> and <m>c</m>  of <xref ref="eq-plane"/> as follows:
+        <me>
+            ax-ax_0+by-by_0+cz-cz_0=0
+        </me>
+        Setting <m>d = ax_{0} + by_{0} + cz_{0}</m>, shows that every plane with a normal vector <m>\mathbf{n} =
+        \begin{bmatrix}
+        a\\
+        b\\
+        c
+        \end{bmatrix}</m>
+        has a linear equation of the form
+        <men xml:id="eq-eqofline"> 
+        ax + by + cz = d
+        </men>
+        for some constant <m>d</m>. Conversely, the graph of this equation is a plane with <m>\mathbf{n} =
+        \begin{bmatrix}
+        a\\
+        b\\
+        c
+        \end{bmatrix}</m> as a normal vector (assuming that <m>a</m>, <m>b</m>, and <m>c</m> are not all zero).
+        </p>
+      
+        <example xml:id="ex-planeparalleltoplane">
+            <p>
+              Find an equation of the plane through <m>P_{0}(3, -1, 2)</m> that is parallel to the plane with equation <m>2x - 3y = 6</m>.
+            </p>
+            <p>
+        The plane with equation <m>2x -3y = 6</m> has a normal vector <m>\mathbf{n} =
+        \begin{bmatrix}
+        2\\
+        -3\\
+        0
+        \end{bmatrix}</m>. Because the two planes are parallel, <m>\mathbf{n}</m> serves as a normal for the plane we seek, so the equation is <m>2x - 3y = d</m> for some <m>d</m> by <xref ref="eq-eqofline"/>. Insisting that <m>P_{0}(3, -1, 2)</m> lies on the plane determines <m>d</m>; that is, <m>d = 2 \cdot 3 - 3(-1) = 9</m>. Hence, the equation is <m>2x - 3y = 9</m>.
+        </p>
+        <figure>
+          <caption>
+            GeoGebra interactive below shows the two planes, together with point <m>P_0</m> and the normal vector.  RIGHT-CLICK and DRAG to rotate the image for a better view.
+            A larger version of this activity is available 
+            <url href="https://www.geogebra.org/calculator/unceva9g" visual="https://www.geogebra.org/calculator/unceva9g">here</url>.
+          </caption>
+          <interactive xml:id="geogebra-parallel-planes" platform="geogebra" width="100%" aspect="3:2">
+            <slate xml:id="parallel-planes" surface="geogebra" material="unceva9g" aspect="3:2" />
+          </interactive>
+        </figure>
+        </example>
+      </subsection>
+      
+        <subsection xml:id="Subsection-Linear-Equations-and-their-Graphs-From-Lines-to-Hyperplanes">
+          <title>Linear Equations and their Graphs: From Lines to Hyperplanes</title>
+          
+          <p>
+          An equation of the form <m>ax+by=d</m> is a linear equation whose graph is a line in <m>\R^2</m>. If we solve for <m>y</m> in terms of <m>x</m>, we obtain a more familiar form of this equation, <m>y=-\frac{a}{b}x+\frac{d}{b}</m>.  The slope of the corresponding line is <m>m=-\frac{a}{b}</m>.  Observe that a line perpendicular to this line has the slope <m>\frac{b}{a}</m>.  If we interpret <m>a</m> as a horizontal ``run" and <m>b</m> as a vertical ``rise", we see that the vector <m>\begin{bmatrix}a\\b\end{bmatrix}</m> is perpendicular to the line <m>ax+by=d</m>.  You can use the following GeoGebra interactive to solidify your understanding of this.
+          </p>
+      
+          <figure>
+            <caption>
+              A larger version of this activity is available 
+              <url href="https://www.geogebra.org/calculator/tg2duwqk" visual="https://www.geogebra.org/calculator/tg2duwqk">here</url>.
+            </caption>
+            <interactive xml:id="geogebra-normal-vector" platform="geogebra" width="100%" aspect="3:2">
+              <slate xml:id="normal-vector" surface="geogebra" material="tg2duwqk" aspect="3:2" />
+            </interactive>
+          </figure>
+      
+          <p>
+          The idea of coefficients in front of variables forming components of a normal vector should be very familiar to you.  Recall that the graph of <m>ax+by+cz=d</m> is a plane in <m>\R^3</m> with a normal vector <m>\mathbf{n}=\begin{bmatrix}a\\b\\c\end{bmatrix}</m>.
+          </p>
+      
+          <p>
+          Lines and planes may seem very different, but they are all graphs of linear equations, just in different dimensions.  In general, an equation of the form
+          <me>
+              a_1x_1+a_2x_2+\dots +a_nx_n=d
+          </me>
+          is called a <term>linear equation</term> in <m>n</m> variables.  The graph of such an equation, for <m>n\gt3</m>, is called a <term>hyperplane</term>.  The vector in <m>\R^n</m> whose components are the coefficients <m>a_1, a_2, \dots ,a_n</m> is orthogonal to every vector in the hyperplane.  Unfortunately, hyperplanes are impossible to see, but we can often use insights we gain from working with lines and planes and generalize them to the invisible world of higher dimensions.
+          </p>
+        </subsection>
+
+        <exercises xml:id="Exercises-Lines-and-Planes">
+            <exercise xml:id="prob-paramnotunique">
+                <statement>
+                    <p>
+                        In <xref ref="init-paramline2d"/>, <xref ref="init-paramline2dpart2"/> and <xref ref="init-paramline2dpart3"/> you encountered a set of parametric equations
+                        <md>
+                            <mrow> x\amp=2t-1 </mrow>
+                            <mrow> y\amp=-3t+6 </mrow>
+                        </md>
+                        Show that the following parametric equations describe the same line.
+                        <md>
+                            <mrow> x\amp=2t+1 </mrow>
+                            <mrow> y\amp=-3t+3 </mrow>
+                        </md>
+                    </p>
+              </statement>
+            </exercise>
+            
+            <exercise xml:id="prob-paramnotunique2">
+                <statement>
+                    <p>
+                        Find two different parametric representations for a line with slope <m>3</m> and <m>y</m>-intercept <m>(0, -4)</m>.
+                    </p>
+                </statement>
+            </exercise>
+            
+            <exercise xml:id="prob-parameqpointparalline">
+                <statement>
+                    <p>
+                        Find a parametric representation for line <m>l</m> passing through <m>(4, -2, 5)</m> if line <m>l</m> has a direction vector parallel to that of the line with parametric equations 
+                        <md>
+                            <mrow> x\amp=t-4 </mrow>
+                            <mrow> y\amp=3t </mrow>
+                            <mrow> z\amp=7t+1 </mrow>
+                        </md>
+                    </p>
+                </statement>
+            </exercise>
+            
+            <exercise xml:id="prob-directionvect">
+                <statement>
+                    <p>
+                        Find a direction vector for a line that passes through <m>(-2, 1, -3)</m> and <m>(6, -7, 9)</m>.  Is the direction vector you found unique?
+                    </p>
+                </statement>
+            </exercise>
+            
+            <exercise xml:id="prob-directionvect2">
+                <statement>
+                    <p>
+                        Suppose line <m>l</m> has a parametric representation:
+                        <md>
+                            <mrow> x_1\amp=t+3 </mrow>
+                            <mrow> x_2\amp=t-4 </mrow>
+                            <mrow> x_3\amp=3t </mrow>
+                            <mrow> x_4\amp=7t+1 </mrow>
+                        </md>
+                        Find the missing components for the two vectors below if we know that both vectors can be considered  direction vectors for line <m>l</m>.
+                        <me>
+                          \begin{bmatrix} \boxed{~~}\\ \boxed{~~}\\ \boxed{~~}\\ 7\end{bmatrix},\begin{bmatrix} \boxed{~~}\\ -2\\ \boxed{~~}\\ \boxed{~~}\end{bmatrix}
+                        </me>
+                      </p>
+                </statement>
+                <answer>
+                    <p>
+                        <me>
+                            \begin{bmatrix} 1\\ 1\\ 3\\ 7\end{bmatrix},\begin{bmatrix} -2\\ -2\\ -6\\ -14\end{bmatrix}
+                        </me>
+                    </p>
+                </answer>
+            </exercise>
+            
+            <exercise xml:id="prob-dotproductdirvect">
+                <statement>
+                    <p>
+                        What can you say about two lines in <m>\R^2</m> if the dot product of their direction vectors is <m>0</m>?
+                    </p>
+                </statement>
+            </exercise>
+
+            <exercisegroup>
+
+                <introduction>
+                  <p>
+                    Find an equation for each plane described below.
+                  </p>
+                </introduction>
+              
+                <exercise xml:id="prob-eqplane1">
+                  <statement>
+                     <p>
+                      The plane has a normal vector <m>\mathbf{n}=\begin{bmatrix}2\\-3\\1\end{bmatrix}</m> and the plane passes through the point <m>(4, 4, -3)</m>.
+                     </p>
+                </statement>
+                    <answer>
+                    <p>
+                      <me>
+                         2x-3y+ z= -7
+                    </me>
+                     </p>
+                  </answer>
+              </exercise>
+                
+                <exercise xml:id="prob-eqplane2">
+                  <statement>
+                     <p>
+                      The plane contains the point <m>(-1, 3, 0)</m> and is parallel to the plane described by <m>2x-5y+4z=7</m>.
+                     </p>
+                </statement>
+                    <answer>
+                    <p>
+                      <me>
+                        2x-5y+4z= -17
+                   </me>
+                     </p>
+                  </answer>
+              </exercise>
+                
+                <exercise xml:id="prob-eqplane3">
+                  <statement>
+                     <p>
+                      
+                The plane contains the point <m>(2, 0, 5)</m> and is parallel to the <m>xz</m>-plane.
+                     </p>
+                </statement>
+                    <answer>
+                    <p>
+                      <me>
+                        y = 0
+                   </me>
+                     </p>
+                  </answer>
+              </exercise>
+              
+              </exercisegroup>
+              
+              <exercisegroup>
+              
+                <introduction>
+                  <p>
+                    How many planes satisfying each set of conditions are there?
+                  </p>
+                </introduction>
+              
+              <exercise xml:id="prob-eqplane4">
+                  <statement>
+                     <p>
+                      Planes containing <m>(1, 2, 3)</m> and <m>(4, 5, 6)</m> with a normal vector <m>\mathbf{n}=\begin{bmatrix}-9\\-9\\-9\end{bmatrix}</m>.
+                     </p>
+                </statement>
+                <choices>
+                  <choice correct="yes">
+                    <statement>
+                      <p>
+                        0
+                      </p>
+                    </statement>
+                  </choice>
+                  <choice>
+                    <statement>
+                      <p>
+                        1
+                      </p>
+                    </statement>
+                  </choice>
+                  <choice>
+                    <statement>
+                      <p>
+                        Infinitely Many
+                      </p>
+                    </statement>
+                  </choice>
+                </choices>
+              </exercise>
+              
+              <exercise xml:id="prob-eqplane5">
+                  <statement>
+                     <p>
+                      Planes containing <m>(0,2, 4)</m>, <m>(-1, 5, 3)</m>, <m>(4, 9, 1)</m>.
+                     </p>
+                </statement>
+                <choices>
+                  <choice>
+                    <statement>
+                      <p>
+                        0
+                      </p>
+                    </statement>
+                  </choice>
+                  <choice correct="yes">
+                    <statement>
+                      <p>
+                        1
+                      </p>
+                    </statement>
+                  </choice>
+                  <choice>
+                    <statement>
+                      <p>
+                        Infinitely Many
+                      </p>
+                    </statement>
+                  </choice>
+                </choices>
+              </exercise>
+              
+              <exercise xml:id="prob-eqplane6">
+                  <statement>
+                     <p>
+                      Planes containing <m>(-1, 3, 5)</m>, <m>(1, 3, 6)</m>, <m>(3, 3, 7)</m>.
+                     </p>
+                </statement>
+                <choices>
+                  <choice>
+                    <statement>
+                      <p>
+                        0
+                      </p>
+                    </statement>
+                  </choice>
+                  <choice>
+                    <statement>
+                      <p>
+                        1
+                      </p>
+                    </statement>
+                  </choice>
+                  <choice correct="yes">
+                    <statement>
+                      <p>
+                        Infinitely Many
+                      </p>
+                    </statement>
+                  </choice>
+                </choices>
+              </exercise>
+              </exercisegroup>
+        </exercises>
+</section>

@@ -1,0 +1,308 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<section xml:id="Section-Block-Matrix-Multiplication" xmlns:xi="http://www.w3.org/2001/XInclude">
+    <title>Block Matrix Multiplication</title>
+
+
+
+  
+
+
+
+
+
+
+
+<subsection xml:id="Subsection-Block-Matrix-Multiplication">
+    <title>Block Matrix Multiplication</title>
+
+<p>
+It is often useful to partition a matrix into smaller matrices, called <term>blocks</term>. A matrix viewed in this way is said to be <term>partitioned into blocks</term>.  For example, each column of a matrix can be considered to be a block.  Writing a matrix <m>B</m> in the form
+<me>
+B = \begin{bmatrix}
+\mathbf{b}_{1} \amp  \mathbf{b}_{2} \amp  \ldots \amp  \mathbf{b}_{k}
+\end{bmatrix} \mbox{ where the } \mathbf{b}_{j} \mbox{ are the columns of } B
+</me>
+is a block partition of <m>B</m>. 
+</p>
+
+<p>
+Here is another example.  Consider matrix <m>A</m>.
+<me>
+A = \left[ \begin{array}{rrrrr}
+1 \amp  0 \amp  0 \amp  0 \amp  0 \\
+0 \amp  1 \amp  0 \amp  0 \amp  0 \\
+2 \amp  -1 \amp  4 \amp  2 \amp  1 \\
+3 \amp  1 \amp  -1 \amp  7 \amp  5
+\end{array} \right]
+</me>
+There is a natural way to partition <m>A</m>. Observe the <m>2\times 2</m> identity matrix, <m>I_2</m>, in the upper left corner.  There is also a <m>2\times 3</m> zero matrix, <m>O_{23}</m>, in the upper right corner.  We will take advantage of these features to partition <m>A</m> as follows.
+
+<me>
+A = \left[ \begin{array}{rr|rrr}
+1 \amp  0 \amp  0 \amp  0 \amp  0 \\
+0 \amp  1 \amp  0 \amp  0 \amp  0 \\
+\hline
+2 \amp  -1 \amp  4 \amp  2 \amp  1 \\
+3 \amp  1 \amp  -1 \amp  7 \amp  5
+\end{array} \right] = \left[ \begin{array}{cc}
+I_{2} \amp  O_{23} \\
+P \amp  Q
+\end{array} \right]
+</me>
+
+This notation is particularly useful when we are multiplying two matrices because the product can be computed in block form.
+</p>
+
+<p>
+Consider matrix <m>B</m>.
+<me>
+B = \left[ \begin{array}{rr}
+4 \amp  -2 \\
+5 \amp  6 \\
+7 \amp  3 \\
+-1 \amp  0 \\
+1 \amp  6
+\end{array} \right]
+</me>
+We will compute the product <m>AB</m> by ordinary matrix multiplication, using blocks as entries. The only requirement is that the blocks be compatible. That is, the sizes of the blocks must be such that all matrix products of blocks that occur make sense. This means that the number of columns in each block of <m>A</m> must equal the number of rows in the corresponding block of <m>B</m>.
+</p>
+
+<p>
+To find the product <m>AB</m>, we need to partition <m>B</m> so that block <m>I_2</m> corresponds to a <m>2\times 2</m> block of <m>B</m>, and block <m>O_{23}</m> of <m>A</m> corresponds to a <m>3\times 2</m> block of <m>B</m>.  We partition <m>B</m> as follows.
+<me>
+B = \left[ \begin{array}{rr}
+4 \amp  -2 \\
+5 \amp  6 \\
+\hline
+7 \amp  3 \\
+-1 \amp  0 \\
+1 \amp  6
+\end{array} \right] = \left[ \begin{array}{c}
+X \\
+Y
+\end{array} \right]
+</me>
+
+Then,
+
+<me>
+AB = \left[ \begin{array}{cc}
+I \amp  O \\
+P \amp  Q
+\end{array} \right] \left[ \begin{array}{c}
+X \\
+Y
+\end{array} \right] = \left[ \begin{array}{c}
+IX + OY \\
+PX + QY
+\end{array} \right] = \left[ \begin{array}{c}
+X \\
+PX + QY
+\end{array} \right] = \left[ \begin{array}{rr}
+4 \amp  -2 \\
+5 \amp  6 \\
+\hline
+30 \amp  8 \\
+8 \amp  27
+\end{array} \right]
+</me>
+This is easily checked to be the product <m>AB</m>, computed in the conventional manner.
+</p>
+
+
+
+<theorem xml:id="th-blockmatmult">
+
+    <statement>
+        <p>
+            If matrices <m>A</m> and <m>B</m> are partitioned compatibly into blocks, the product <m>AB</m> can be computed by matrix multiplication using blocks as entries.
+        </p>
+    </statement>
+</theorem>
+
+<p>
+We omit the proof.
+</p>
+
+<p>
+Block multiplication has theoretical uses, as we shall see later. It is also useful in computing products of matrices when using a computer with limited memory capacity. The matrices are partitioned into blocks in such a way that each product of blocks can be handled. Then the blocks are stored in auxiliary memory and their products are computed one by one.
+</p>
+</subsection>
+
+
+
+
+
+
+
+
+<subsection xml:id="Subsection-Practice-Problems">
+    <title>Practice Problems</title>
+
+<exercises>
+<exercise xml:id="blockmatmult1">
+    <statement>
+        <p>
+            Compute <m>AB</m>, using the indicated block partitioning.
+<me>
+A = \left[ \begin{array}{rr|rr}
+2 \amp  -1 \amp  3 \amp  1 \\
+1 \amp  0  \amp  1 \amp  2 \\
+\hline
+0 \amp  0 \amp  1 \amp  0 \\
+0 \amp  0 \amp  0 \amp  1
+\end{array} \right] \quad
+B = \left[ \begin{array}{rr|r}
+1 \amp  2 \amp  0 \\
+-1 \amp  0  \amp  0 \\
+\hline
+0 \amp  5 \amp  1 \\
+1 \amp  -1 \amp  0 
+\end{array} \right]
+</me>
+        </p>
+    </statement>
+    <answer>
+        <p>
+            <me>
+AB = \left[ \begin{array}{rr|r}
+4 \amp  18 \amp  3 \\
+3 \amp  5  \amp  1 \\
+\hline
+0 \amp  5 \amp  1 \\
+1 \amp  -1 \amp  0
+\end{array} \right] 
+</me>
+        </p>
+    </answer>
+</exercise>
+
+<exercisegroup xml:id="block-powers">
+    <introduction>
+        <p>
+            In each case give formulas for all powers <m>A, A^{2}, A^{3}, \dots</m> of <m>A</m> using the block decomposition indicated.
+        </p>
+    </introduction>
+
+
+<exercise>
+<statement>
+<p> 
+<me>A = \left[ \begin{array}{r|rr}
+1 \amp  0 \amp  0 \\
+\hline
+1 \amp  1  \amp  -1\\
+1 \amp  -1 \amp  1
+\end{array} \right]
+</me>
+</p>
+</statement>
+
+<answer>
+<p>
+<me>
+A^{2k} = \left[ \begin{array}{rc|rr}
+1 \amp  -2k \amp  0 \amp  0 \\
+0 \amp  1 \amp  0 \amp  0 \\
+\hline
+0 \amp  0 \amp  1 \amp  0 \\
+0 \amp  0 \amp  0 \amp  1
+\end{array} \right], \quad \text{for} \ k = 0, 1, 2, \dots
+</me>
+</p>
+</answer>
+</exercise>
+
+<exercise>
+    <statement>
+    <p> 
+    <me> A = \left[ \begin{array}{rr|rr}
+        1 \amp  -1 \amp  2 \amp  -1 \\
+        0 \amp  1 \amp  0 \amp  0 \\
+        \hline
+        0 \amp  0 \amp  -1 \amp  1 \\
+        0 \amp  0 \amp  0 \amp  1
+        \end{array} \right]
+        </me>
+    </p>
+    </statement>
+
+<answer>
+<p>
+<me>A^{2k + 1} = A^{2k}A = \left[ \begin{array}{rc|rr}
+1 \amp  -(2k + 1) \amp  2 \amp  -1 \\
+0 \amp  1 \amp  0 \amp  0 \\
+\hline
+0 \amp  0 \amp  -1 \amp  1 \\
+0 \amp  0 \amp  0 \amp  1
+\end{array} \right], \quad \text{for} \ k = 0, 1, 2, \dots</me>
+</p>
+</answer>
+</exercise>
+</exercisegroup>
+
+
+
+
+<exercise xml:id="prob-blockmatmult-vars">
+    <statement>
+        <p>
+            Compute the following using block multiplication (all blocks are <m>k \times k</m>).
+
+<ol>
+<li>
+      <p> <m>\left[ \begin{array}{rr}
+I \amp  X \\
+-Y \amp  I 
+\end{array} \right] \left[ \begin{array}{rr}
+I \amp  0 \\
+Y \amp  I
+\end{array} \right]
+</m>
+</p>
+</li>
+
+<li>
+      <p> 
+<m>\left[ \begin{array}{cc}
+I \amp  X \\
+0 \amp  -I 
+\end{array} \right]^{n}, \quad \text{any} \ n \geq 1
+</m>
+</p>
+</li>
+
+<li>
+      <p>
+<m>\left[ \begin{array}{cc}
+0 \amp  X \\
+I \amp  0 
+\end{array} \right]^{n}, \quad \text{any} \  n \geq 1
+</m>
+</p>
+</li>
+
+</ol>
+</p>
+</statement>
+
+<answer>
+<p>
+<me>\left[ \begin{array}{cc}
+X^{m} \amp  0 \\
+0 \amp  X^{m}
+\end{array} \right] \quad \text{if} \ n = 2m; \quad \
+\left[ \begin{array}{cc}
+0 \amp  X^{m + 1} \\
+X^{m} \amp  0
+\end{array} \right], \quad \text{if} \ n = 2m + 1.
+ </me>
+ </p>
+    </answer>
+</exercise>
+</exercises>
+
+</subsection>
+
+</section>

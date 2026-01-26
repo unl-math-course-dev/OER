@@ -1,0 +1,892 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<section xml:id="Section-LU-Factorization" xmlns:xi="http://www.w3.org/2001/XInclude">
+    <title>Extra Topic: <m>LU</m> Factorization</title>
+
+<subsection xml:id="Subsection-LUDefn">
+    <title>Motivation and Definition of the Factorization</title>
+
+<exploration xml:id="init-LUfactorization">
+    <p>
+        Consider the equation:
+
+<me>
+    \begin{bmatrix}1\amp 0\amp 0\\3\amp 1\amp 0\\-2\amp 2\amp 1\end{bmatrix}\begin{bmatrix}2\amp -1\amp 2\\0\amp 4\amp -1\\0\amp 0\amp 3\end{bmatrix}\mathbf{x}=\begin{bmatrix}1\\8\\5\end{bmatrix}.
+</me>
+
+This equation is unusual in that it involves two matrices on the left-hand side.  If we multiply the matrices together, we get
+
+<me>
+    \begin{bmatrix}2\amp -1\amp 2\\6\amp 1\amp 5\\-4\amp 10\amp -3\end{bmatrix}\mathbf{x}=\begin{bmatrix}1\\8\\5\end{bmatrix}.
+</me>
+
+Gaussian elimination yields:
+
+<me>
+    \left[\begin{array}{ccc|c}
+2\amp -1\amp 2\amp 1\\6\amp 1\amp 5\amp 8\\-4\amp 10\amp -3\amp 5
+\end{array}\right]
+\quad\rightsquigarrow\quad
+\left[\begin{array}{ccc|c}
+ 1\amp 0\amp 0\amp 2\\0\amp 1\amp 0\amp 1\\0\amp 0\amp 1\amp -1
+\end{array}\right].
+</me>
+
+We conclude that
+
+<me>
+    \mathbf{x}=\begin{bmatrix}2\\1\\-1\end{bmatrix}.
+</me>
+
+
+Now that we know the answer, we will turn to the original question and consider the advantages of the format of the original problem.  Observe that the two matrices have a distinct pattern.  The matrix on the left has zeros above the main diagonal, while the matrix on the right has zeros below the main diagonal.  Matrices that follow such a pattern are called <term>lower triangular</term> and <term>upper triangular</term> matrices, respectively.
+</p>
+
+<p>
+Let
+<me>
+\mathbf{y}=\begin{bmatrix}2\amp -1\amp 2\\0\amp 4\amp -1\\0\amp 0\amp 3\end{bmatrix}\mathbf{x}.
+</me>
+
+Then we can write the original equation as
+
+<me>
+    \begin{bmatrix}1\amp 0\amp 0\\3\amp 1\amp 0\\-2\amp 2\amp 1\end{bmatrix}\left(\begin{bmatrix}2\amp -1\amp 2\\0\amp 4\amp -1\\0\amp 0\amp 3\end{bmatrix}\mathbf{x}\right)=\begin{bmatrix}1\amp 0\amp 0\\3\amp 1\amp 0\\-2\amp 2\amp 1\end{bmatrix}\mathbf{y}=\begin{bmatrix}1\\8\\5\end{bmatrix}.
+</me>
+
+The equation 
+
+<me>
+    \begin{bmatrix}1\amp 0\amp 0\\3\amp 1\amp 0\\-2\amp 2\amp 1\end{bmatrix}\mathbf{y}=\begin{bmatrix}1\amp 0\amp 0\\3\amp 1\amp 0\\-2\amp 2\amp 1\end{bmatrix}\begin{bmatrix}y_1\\y_2\\y_3\end{bmatrix}=\begin{bmatrix}1\\8\\5\end{bmatrix}.
+</me>
+ 
+corresponds to the system
+
+<me>
+    \begin{array}{ccccccc}
+    y_1  \amp  + \amp \amp \amp\amp = \amp 5 \\
+	3y_1  \amp  + \amp y_2 \amp \amp \amp =\amp 8\\
+    -2y_1 \amp  + \amp 2y_2 \amp +\amp y_3 \amp =\amp 11
+    \end{array}.
+</me>
+
+
+
+
+    
+This system can be easily solved by substitution, giving us
+
+<me>
+    y_1=1,
+</me>
+
+
+<me>
+    3(1)+y_2=8 \rightsquigarrow y_2=5,
+</me>
+
+
+<me>
+    -2(1)+2(5)+y_3=5 \rightsquigarrow y_3=-3.
+</me>
+
+So,
+
+<me>
+    \mathbf{y}=\begin{bmatrix}y_1\\y_2\\y_3\end{bmatrix}=\begin{bmatrix}1\\5\\-3\end{bmatrix}.
+</me>
+
+    
+Recall that we let 
+<me>
+\mathbf{y}=\begin{bmatrix}2\amp -1\amp 2\\0\amp 4\amp -1\\0\amp 0\amp 3\end{bmatrix}\mathbf{x}.-
+</me>  
+The equation
+
+<me>
+    \begin{bmatrix}2\amp -1\amp 2\\0\amp 4\amp -1\\0\amp 0\amp 3\end{bmatrix}\mathbf{x}=\begin{bmatrix}1\\5\\-3\end{bmatrix}
+</me>
+
+corresponds to the system
+
+<me>
+    \begin{array}{ccccccc}
+    2x_1  \amp  - \amp x_2 \amp + \amp 2x_3 \amp = \amp 1 \\
+	  \amp  \amp 4x_2 \amp - \amp x_3 \amp =\amp 5\\
+     \amp  \amp  \amp \amp 3x_3 \amp =\amp -3
+    \end{array}.
+</me>
+
+
+</p>
+
+<problem>
+<statement>
+<p>
+Solve the above system of equations in any way you wish.
+</p>
+</statement>
+
+<answer>
+<me>
+    x_3=-1, \quad x_2 = 1, \quad x_1 = 1.
+</me>
+</answer>
+</problem>
+    
+
+
+<p>
+    Thus, <m>\mathbf{x}= \begin{bmatrix} 2 \amp 1 \amp -1 \end{bmatrix}</m>.  Observe that this is the same answer that we obtained in the beginning of the problem using Gaussian elimination.
+    </p>
+</exploration>
+
+
+
+
+
+
+<p>
+Given a matrix equation such as 
+
+<me>
+    \begin{bmatrix}2\amp -1\amp 2\\6\amp 1\amp 5\\-4\amp 10\amp -3\end{bmatrix}\mathbf{x}=\begin{bmatrix}1\\8\\5\end{bmatrix}
+</me>
+
+of <xref ref="init-LUfactorization"/>, often in practice we express the matrix on the left as a product of an upper triangular matrix <m>U</m> and a lower triangular matrix <m>L</m> and use substitution to solve the equation instead of using Gaussian elimination to find the solution.  In <xref ref="init-LUfactorization"/>, 
+
+
+<me>
+    \begin{bmatrix}2\amp -1\amp 2\\6\amp 1\amp 5\\-4\amp 10\amp -3\end{bmatrix}=LU=\begin{bmatrix}1\amp 0\amp 0\\3\amp 1\amp 0\\-2\amp 2\amp 1\end{bmatrix}\begin{bmatrix}2\amp -1\amp 2\\0\amp 4\amp -1\\0\amp 0\amp 3\end{bmatrix}
+</me>
+
+The process of taking a matrix <m>A</m> and expressing it as a product <m>A=LU</m> of a lower triangular matrix <m>L</m> and an upper triangular matrix <m>U</m> is called <term><m>LU</m> factorization</term>.
+</p> 
+
+
+<p>
+Not every matrix has an <m>LU</m> factorization, but we will see that we can correct for that. The next examples are more involved with multiple parts to cover.    
+</p>
+
+
+
+
+
+
+
+
+
+<example xml:id="ex-usingLU">
+    <p>
+        Consider the system
+ <me>
+            \begin{array}{ccccccc}
+                 \amp   \amp 12x_2 \amp - \amp 18x_3  \amp = \amp 6 \\
+             x_1 \amp + \amp 2x_2  \amp - \amp 3x_3   \amp = \amp 1\\
+             x_1 \amp - \amp 2x_2  \amp + \amp x_3    \amp = \amp 1
+            \end{array}
+</me>
+        
+
+
+We can express this system as the matrix equation <m>A\mathbf{x}=\mathbf{b}</m>, and we get 
+<me>
+    \begin{bmatrix}0\amp 12\amp -18\\1\amp 2\amp -3\\1\amp -2\amp 1\end{bmatrix}\mathbf{x}=\begin{bmatrix}6\\1\\1\end{bmatrix}.
+</me>
+
+
+Unfortunately, for reasons we will explain below, it is not possible to find an <m>LU</m> factorization of this coefficient matrix.  However, if we simply swap the first two equations:
+<me>
+    \begin{array}{ccccccc}
+     x_1   \amp + \amp 2x_2   \amp - \amp 3x_3  \amp = \amp 1 \\
+           \amp   \amp 12x_2  \amp - \amp 18x_3   \amp = \amp 6\\
+     x_1   \amp - \amp 2x_2   \amp + \amp x_3    \amp = \amp 1
+    \end{array}.
+</me>
+
+
+
+we are able to find an <m>LU</m> factorization of the coefficient matrix.
+<me>
+\begin{bmatrix}
+1 \amp  2 \amp  -3 \\
+0 \amp  12 \amp  -18 \\
+1 \amp  -2 \amp  1\end{bmatrix}
+=
+\begin{bmatrix}
+1 \amp  0 \amp  0 \\
+0 \amp  1 \amp  0 \\
+1  \amp  -1/3  \amp  1
+\end{bmatrix} 
+\begin{bmatrix}
+1 \amp  2 \amp  -3 \\
+0 \amp  12  \amp  -18 \\
+0 \amp  0 \amp  -2
+\end{bmatrix}.
+</me>
+
+(How we actually come up with an  <m>LU</m> factorization of <m>A</m> will be discussed after this example.)
+</p>
+
+<p>
+To understand how an <m>LU</m> factorization can be used, it is helpful to think of this system of equations as a matrix equation.
+
+<me>
+    A\mathbf{x}=\mathbf{b}
+</me>
+
+
+<me>
+    (LU)\mathbf{x}=\mathbf{b}
+</me>
+
+
+<me>
+    L(U\mathbf{x})=\mathbf{b}
+</me>
+
+So if we let <m>\mathbf{y}=U\mathbf{x}</m> and also write <m>\mathbf{y}=[y_1 \\ y_2 \\ y_3]</m>, then we are able to solve for <m> y_1, y_2, \text{ and } y_3</m> using <em>forward-substitution</em>.
+
+<me>
+    L\mathbf{y}=\mathbf{b},
+</me>
+
+<me>
+\begin{bmatrix}
+1 \amp  0 \amp  0 \\
+0 \amp  1 \amp  0 \\
+1  \amp  -1/3  \amp  1
+\end{bmatrix} 
+\begin{bmatrix} y_1 \\ y_2 \\ y_3 \end{bmatrix}
+=
+\begin{bmatrix} 1 \\ 6 \\ 1 \end{bmatrix}.
+</me>
+</p>
+
+<problem>
+<statement>
+<p>
+See if you can do it!
+</p>
+</statement>
+</problem>
+
+<answer>
+<p>
+<me>
+    y_1=1,\quad y_2=6,\quad y_3=2.
+</me>
+</p>
+</answer>
+
+<p>
+Once we have the values of <m>\mathbf{y}</m>, since <m>\mathbf{y}=U\mathbf{x}</m>, all that remains is to solve the following matrix equation using back-substitution.
+
+<men xml:id="LUeq">
+    U\mathbf{x}=\mathbf{y}.
+</men>
+</p>
+
+
+<problem>
+    <statement>
+    <p>
+        By now you are quite used to solving this kind of problem... so compute <xref ref="LUeq"/> which written out takes the form
+        <me>
+            \begin{bmatrix}
+        1 \amp  2 \amp  -3 \\
+        0 \amp  12  \amp  -18 \\
+        0 \amp  0 \amp  -2
+        \end{bmatrix} 
+        \begin{bmatrix} x_1 \\ x_2 \\ x_3 \end{bmatrix}
+        =
+        \begin{bmatrix} 1 \\ 6 \\ 2 \end{bmatrix}.
+        </me>
+    </p>
+    </statement>
+    </problem>
+    
+    <answer>
+    <p>
+    <me>
+    x_1=0,\quad x_2=-1,\quad x_3=-1.
+    </me>
+    </p>
+    </answer>
+</example>
+
+
+
+
+
+
+
+
+
+
+
+<p>
+We here present one method of finding LU factorizations using inspection.
+</p>
+
+<example xml:id="ex-LU1">
+<statement>
+    <p>
+        Find an <m>LU</m> factorization of 
+        <me>A=
+\begin{bmatrix}
+1 \amp  2 \amp  0 \amp  2 \\
+1 \amp  3 \amp  2 \amp  1 \\
+2 \amp  3 \amp  4 \amp  0
+\end{bmatrix}. </me>
+    
+
+
+One way to find the <m>LU</m> factorization is to simply look for it directly.
+We need
+<me>
+\begin{bmatrix}
+1 \amp  2 \amp  0 \amp  2 \\
+1 \amp  3 \amp  2 \amp  1 \\
+2 \amp  3 \amp  4 \amp  0
+\end{bmatrix}
+=
+\begin{bmatrix}
+1 \amp  0 \amp  0 \\
+x \amp  1 \amp  0 \\
+y \amp  z \amp  1
+\end{bmatrix} 
+\begin{bmatrix}
+a \amp  d \amp  h \amp  j \\
+0 \amp  b \amp  e \amp  i \\
+0 \amp  0 \amp  c \amp  f
+\end{bmatrix}.
+</me>
+By multiplying the latter matrices we get
+<me>
+\begin{bmatrix}
+a \amp  d \amp  h \amp  j \\
+xa \amp  xd+b \amp  xh+e \amp  xj+i \\
+ya \amp  yd+zb \amp  yh+ze+c \amp  yj+iz+f
+\end{bmatrix}.
+</me>
+and from this, it is a simple exercise to determine each of the unknowns. For example, from the first
+column, we get <m>a=1</m> and then <m>x=1,y=2.</m> 
+</p>
+</statement>
+</example>
+
+
+<problem>
+<statement>
+    <p>
+    See if you can continue to determine the entire <m>LU</m> factorization of <m>A</m>.
+    </p>
+</statement>
+
+<answer>
+    <p>
+<me>
+\begin{bmatrix}
+1 \amp  2 \amp  0 \amp  2 \\
+1 \amp  3 \amp  2 \amp  1 \\
+2 \amp  3 \amp  4 \amp  0
+\end{bmatrix}
+=
+\begin{bmatrix}
+1 \amp  0 \amp  0 \\
+1 \amp  1 \amp  0 \\
+2 \amp  -1 \amp  1
+\end{bmatrix} 
+\begin{bmatrix}
+1 \amp  2 \amp  0 \amp  2 \\
+0 \amp  1 \amp  2 \amp  -1 \\
+0 \amp  0 \amp  6 \amp  -5
+\end{bmatrix}.
+</me>
+</p>
+</answer>
+</problem>
+</subsection>
+
+
+
+<subsection xml:id="Subsection-Finding-an-LU-factorization-by-the-Multiplier-Method">
+    <title>Finding an <m>LU</m> factorization by the Multiplier Method</title>
+
+
+<p>
+In the following example we demonstrate a method for computing an <m>LU</m> factorization known as the multiplier method.
+</p>
+
+
+
+
+<example xml:id="ex-multiplierLU">
+    <statement>
+        <p>
+            Find an <m>LU</m> factorization for
+<me>
+\begin{bmatrix}
+1 \amp  2 \amp  3 \\
+2 \amp  3 \amp  1 \\
+-2 \amp  3 \amp  -2
+\end{bmatrix}. 
+</me>
+       </p>
+    </statement>
+    <answer>
+        <p>
+            Write the matrix as the following product.
+<me>
+\begin{bmatrix}
+1 \amp  0 \amp  0 \\
+0 \amp  1 \amp  0 \\
+0 \amp  0 \amp  1
+\end{bmatrix} 
+\begin{bmatrix}
+1 \amp  2 \amp  3 \\
+2 \amp  3 \amp  1 \\
+-2 \amp  3 \amp  -2
+\end{bmatrix}. 
+</me>
+
+In the matrix on the right, we begin with the left row and zero out the entries below the top using the row operation which involves adding a multiple of a row to another row. You do this and also update the matrix on the left so that the product will be unchanged. 
+</p>
+
+<p>
+Here is the first step.  We take <m>-2</m> times the top row and add to the second. Then take <m>2</m> times the top row and add to the second in the matrix on the left.  This gives us
+<me>
+\begin{bmatrix}
+1 \amp  0 \amp  0 \\
+2 \amp  1 \amp  0 \\
+0 \amp  0 \amp  1
+\end{bmatrix} 
+\begin{bmatrix}
+1 \amp  2 \amp  3 \\
+0 \amp  -1 \amp  -5 \\
+-2 \amp  3 \amp  -2
+\end{bmatrix}. 
+</me>
+
+The next step is to take <m>2</m> times the top row and add to the bottom in the matrix on the right. To ensure that the product is unchanged, we place a <m>-2</m> in the bottom left corner in the matrix on the left. Thus the second step yields
+<me>
+\begin{bmatrix}
+1 \amp  0 \amp  0 \\
+2 \amp  1 \amp  0 \\
+-2 \amp  0 \amp  1
+\end{bmatrix} 
+\begin{bmatrix}
+1 \amp  2 \amp  3 \\
+0 \amp  -1 \amp  -5 \\
+0 \amp  7 \amp  4
+\end{bmatrix}. 
+</me>
+
+For our final step, we take <m>7</m> times the middle row on right and add to bottom row. Updating the matrix on the left in the manner we did earlier, we get
+<me>
+\begin{bmatrix}
+1 \amp  0 \amp  0 \\
+2 \amp  1 \amp  0 \\
+-2 \amp  -7 \amp  1
+\end{bmatrix} 
+\begin{bmatrix}
+1 \amp  2 \amp  3 \\
+0 \amp  -1 \amp  -5 \\
+0 \amp  0 \amp  -31
+\end{bmatrix}. 
+</me>
+
+At this point, we can stop. We have an <m>LU</m> factorization of the original matrix.  We can always multiply the matrices to check, if we wish.
+       </p>
+    </answer>
+</example>
+
+
+<p>
+Notice that when we perform the multiplier method, we are making repeated use of a certain type of elementary row operation, namely, we are adding a scalar multiple of one row to a row below it.  The reason this helps to create an <m>LU</m> factorization depends upon the fact that the elementary matrices corresponding to such operations are lower triangular.  To understand how this works, we begin with a lemma. 
+</p>
+
+
+
+<lemma xml:id="lem-multipliermethodtriangularmatrices">
+
+    <statement>
+        <p>
+Let <m>L</m> be a lower (upper) triangular matrix <m>m\times m</m> which has ones down the main diagonal. Then <m>L^{-1}</m> also is a lower (upper) triangular matrix which has ones down the main diagonal. In the case that <m>L</m>
+is of the form
+<men xml:id="multeq">
+L=
+\begin{bmatrix}
+1 \amp   \amp   \amp   \\
+a_{1} \amp  1 \amp   \amp   \\
+\vdots \amp   \amp  \ddots \amp   \\
+a_{n} \amp   \amp   \amp  1
+\end{bmatrix}, 
+</men>
+
+where all entries are zero except for the left column and main diagonal, it is also the case that <m>L^{-1}</m> is obtained from <m>L</m> by simply multiplying each entry below the main diagonal in <m>L</m> by <m>-1</m>. The same is true if the single nonzero column is in another position.
+        </p>
+    </statement>
+
+
+<proof>
+<p>
+Consider the usual setup for finding the inverse <m>\begin{bmatrix}L \ |\  I\end{bmatrix}</m>.  Each row operation used on <m>L</m> to transform this matrix to reduced row echelon form changes only the entries in <m>I</m> below the main diagonal. Whether we have the special case of <m>L</m> given in <xref ref="multeq"/> where the nonzero nondiagonal entries are in the left column, or if the single
+nonzero column is in another position, it is clear that multiplication by <m>-1</m> as described in the lemma gives us <m>L^{-1}</m>.
+    </p>
+</proof>
+</lemma>
+
+
+<p>
+For a simple illustration of the lemma, observe:
+<me>
+\left[\begin{array}{ccc|ccc}
+1 \amp  0 \amp  0 \amp  1 \amp  0 \amp  0 \\
+0 \amp  1 \amp  0 \amp  0 \amp  1 \amp  0 \\
+0 \amp  a \amp  1 \amp  0 \amp  0 \amp  1
+\end{array}\right]
+\rightsquigarrow 
+\left[\begin{array}{ccc|ccc}
+1 \amp  0 \amp  0 \amp  1 \amp  0 \amp  0 \\
+0 \amp  1 \amp  0 \amp  0 \amp  1 \amp  0 \\
+0 \amp  0 \amp  1 \amp  0 \amp  -a \amp  1
+\end{array}\right].
+</me>
+
+Now let <m>A</m> be an <m>m\times n</m> matrix, say
+<me>
+A=
+\begin{bmatrix}
+a_{11} \amp  a_{12} \amp  \cdots \amp  a_{1n} \\
+a_{21} \amp  a_{22} \amp  \cdots \amp  a_{2n} \\
+\vdots \amp  \vdots \amp   \amp  \vdots \\
+a_{m1} \amp  a_{m2} \amp  \cdots \amp  a_{mn}
+\end{bmatrix},
+</me>
+
+and assume <m>A</m> can be row reduced to an upper triangular form using only row
+operation 3. Thus, in particular, <m>a_{11}\neq 0</m>. Multiply on the left by 
+
+<me>
+E_{1}=
+\begin{bmatrix}
+1 \amp  0 \amp  \cdots \amp  0 \\
+-
+\frac{a_{21}}{a_{11}} \amp  1 \amp  \cdots \amp  0 \\
+\vdots \amp  \vdots \amp  \ddots \amp  \vdots \\
+-\frac{a_{m1}}{a_{11}} \amp  0 \amp  \cdots \amp  1
+\end{bmatrix}.
+</me>
+
+This is the product of elementary matrices which make modifications in the first column only. It is equivalent to taking <m>-a_{21}/a_{11}</m> times the
+first row and adding to the second. Then taking <m>-a_{31}/a_{11}</m> times the first row and adding to the third and so forth. The quotients in the first
+column of the above matrix are the multipliers. Thus the result is of the
+form
+<me>
+E_{1}A=
+\begin{bmatrix}
+a_{11} \amp  a_{12} \amp  \cdots \amp  a_{1n}^{\prime } \\
+0 \amp  a_{22}^{\prime } \amp  \cdots \amp  a_{2n}^{\prime } \\
+\vdots \amp  \vdots \amp   \amp  \vdots \\
+0 \amp  a_{m2}^{\prime } \amp  \cdots \amp  a_{mn}^{\prime }
+\end{bmatrix}.
+</me>
+By assumption, <m>a_{22}^{\prime }\neq 0</m> and so it is possible to use this
+entry to zero out all the entries below it in the matrix on the right by
+multiplication by a matrix of the form 
+<me>
+E_{2}=
+\begin{bmatrix}
+1 \amp  \mathbf{0} \\
+\mathbf{0} \amp  E
+\end{bmatrix},
+</me>
+where <m>E</m> is an <m>( m-1)\times ( m-1)</m>
+matrix of the form
+<me>
+E=\begin{bmatrix}
+1 \amp  0 \amp  \cdots \amp  0 \\
+-\frac{a_{32}^{\prime }}{a_{22}^{\prime }} \amp  1 \amp  \cdots \amp  0 \\
+\vdots \amp  \vdots \amp  \ddots \amp  \vdots \\
+-\frac{a_{m2}^{\prime }}{a_{22}^{\prime }} \amp  0 \amp  \cdots \amp  1
+\end{bmatrix}.
+</me>
+Again, the entries in the first column below the 1 are the multipliers.
+Continuing this way, zeroing out the entries below the diagonal entries, finally leads us to
+<me>
+E_{m-1}E_{m-2}\cdots E_{1}A=U,
+</me>
+where <m>U</m> is upper triangular. Each <m>E_{j}</m> has all ones down the main diagonal and is lower triangular. Now we can multiply both sides by the inverses of the <m>E_{j}</m> in the reverse order. This yields
+<me>
+A=E_{1}^{-1}E_{2}^{-1}\cdots E_{m-1}^{-1}U.
+</me>
+
+By <xref ref="lem-multipliermethodtriangularmatrices"/>, this implies that the product of those <m>E_{j}^{-1}</m>
+is a lower triangular matrix having all ones down the main diagonal.
+</p>
+
+
+
+<p>
+The above discussion and lemma explain how the multiplier
+method works. The expressions
+<me>
+-\frac{a_{21}}{a_{11}},-\frac{a_{31}}{a_{11}},\cdots, -\frac{a_{m1}}{a_{11}},
+</me>
+which we obtained in building <m>E_{1}</m>, and which we denote respectively by <m>M_{21},\cdots ,M_{m1}</m> to save notation, are the multipliers.
+\index{multipliers} Therefore, according to the lemma, to find <m>E_{1}^{-1}</m> we simply write
+<me>
+\begin{bmatrix}
+1 \amp  0 \amp  \cdots \amp  0 \\
+-M_{21} \amp  1 \amp  \cdots \amp  0 \\
+\vdots \amp  \vdots \amp  \ddots \amp  \vdots \\
+-M_{m1} \amp  0 \amp  \cdots \amp  1
+\end{bmatrix}.
+</me>
+Similar considerations apply to the other <m>E_{j}^{-1}.</m> Thus <m>L</m> is a
+product of the form
+<me>
+\begin{bmatrix}
+1 \amp  0 \amp  \cdots \amp  0 \\
+-M_{21} \amp  1 \amp  \cdots \amp  0 \\
+\vdots \amp  \vdots \amp  \ddots \amp  \vdots \\
+-M_{m1} \amp  0 \amp  \cdots \amp  1
+\end{bmatrix}
+\cdots 
+\begin{bmatrix}
+1 \amp  0 \amp  \cdots \amp  0 \\
+0 \amp  1 \amp  \cdots \amp  0 \\
+\vdots \amp  0 \amp  \ddots \amp  \vdots \\
+0 \amp  \cdots \amp  -M_{m(m-1)} \amp  1
+\end{bmatrix}, 
+</me>
+where each factor has at most one nonzero column, the position of which moves from left to right as we scan the above product of matrices from left to right. It follows from what we know  about the effect of multiplying on the left by an elementary matrix that the above product is of the form
+<me>
+\begin{bmatrix}
+1 \amp  0 \amp  \cdots \amp  0 \amp  0 \\
+-M_{21} \amp  1 \amp  \cdots \amp  0 \amp  0 \\
+\vdots \amp  -M_{32} \amp  \ddots \amp  \vdots \amp  \vdots \\
+-M_{(M-1)1} \amp  \vdots \amp  \cdots \amp  1 \amp  0 \\
+-M_{M1} \amp  -M_{M2} \amp  \cdots \amp  -M_{MM-1} \amp  1
+\end{bmatrix}.
+</me>
+
+To sum up the procedure, beginning at the left column and moving toward the right, you
+simply insert, into the corresponding position in the identity matrix, <m>-1</m>
+times the multiplier which was used to zero out an entry in that position
+below the main diagonal in <m>A,</m> while retaining the main diagonal which
+consists entirely of ones. This will give us <m>L</m> as we create <m>U</m> using row operation 3.
+</p>
+
+<p>
+We now return to <xref ref="ex-usingLU"/>, to understand why we could not use the multiplier method to find an <m>LU</m> factorization of the coefficient matrix.  Suppose we had written 
+
+<me>
+    \begin{bmatrix}1\amp 0\amp 0\\0\amp 1\amp 0\\0\amp 0\amp 1\end{bmatrix}\begin{bmatrix}0\amp 12\amp -18\\1\amp 2\amp -3\\1\amp -2\amp 1\end{bmatrix}.
+</me>
+
+Our first step of Gaussian elimination would require a row swap to get a nonzero entry into the top left corner (we swapped rows 1 and 2 in <xref ref="ex-usingLU"/>).  Unfortunately, the elementary matrix that accomplishes this, 
+<me>
+P=\begin{bmatrix}0\amp 1\amp 0\\1\amp 0\amp 0\\0\amp 0\amp 1\end{bmatrix} \quad \text{is NOT lower triangular.}
+</me> 
+
+So we cannot apply Lemma <xref ref="lem-multipliermethodtriangularmatrices"/> to generate a lower triangular <m>L</m>.
+</p>
+
+
+<p>
+If the elementary matrices used to reduce our matrix to row-echelon form are all lower triangular, then we can find an <m>LU</m> factorization.  
+    But what about the general case?
+</p>
+
+
+
+
+<theorem xml:id="th-LUPA">
+
+    <statement>
+        <p>
+            Suppose an <m>m \times n</m> matrix <m>A</m> is transformed to a row-echelon matrix <m>U</m> using Gaussian elimination. 
+            Let <m>P_1, P_2, \ldots, P_s</m> be the elementary matrices corresponding (in order) to the row interchanges used,
+and write <m>P=P_s \cdots P_2 P_1</m>. (If no interchanges are used take <m>P = I_M</m>.) Then:
+<ol>
+<li>
+      <p> <m>PA</m> is the matrix obtained from <m>A</m> by doing these interchanges (in order) to A. </p>
+</li>
+<li>
+      <p> <m>PA</m> has an <m>LU</m> factorization. </p>
+</li>
+</ol>
+        </p>
+    </statement>
+</theorem>
+
+<p>
+For a proof of the above theorem, the reader is referred to [Nicholson].
+</p>
+
+<p>
+The matrix <m>P</m> in the above theorem is called a <term>permutation matrix</term>.  These matrices have other important applications, as we will see later.
+</p>
+</subsection>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<exercises>
+
+<exercise xml:id="prob-LU1">
+    <statement>
+        <p>
+            Use the given <m>LU</m> factorization of the coefficient matrix to solve the system of equations.
+
+<me>
+    \begin{array}{ccccccc}
+      x \amp  +\amp 2y\amp +\amp 3z\amp = \amp 5 \\
+	 2x\amp +\amp 3y\amp +\amp z\amp =\amp 6\\
+     3x\amp  +\amp 5y\amp +\amp 4z\amp =\amp 11
+    \end{array}.
+</me>
+
+Observe that an <m>LU</m> factorization of the coefficient matrix is
+<me>
+\begin{bmatrix}
+1 \amp  2 \amp  3 \\
+2 \amp  3 \amp  1 \\
+3 \amp  5 \amp  4\end{bmatrix}
+=
+\begin{bmatrix}
+1 \amp  0 \amp  0 \\
+2 \amp  1 \amp  0 \\
+3 \amp  1 \amp  1
+\end{bmatrix} 
+\begin{bmatrix}
+1 \amp  2 \amp  3 \\
+0 \amp  -1 \amp  -5 \\
+0 \amp  0 \amp  0
+\end{bmatrix}.
+</me>
+        </p>
+    </statement>
+</exercise>
+
+
+
+<exercisegroup>
+<introduction>
+    <p>
+Find the <m>LU</m> factorization of the coefficient matrix and use it to solve the system of equations.
+    </p>
+</introduction>
+
+<exercise xml:id="prob-LU2a">
+    <statement>
+        <p>
+            <md>
+\begin{array}{ccccc}
+    <mrow>  x\amp  +\amp 2y\amp =\amp 5 </mrow>
+    <mrow>  2x \amp  +\amp 3y\amp = \amp 6 </mrow>
+    \end{array}.
+</md>
+</p>
+</statement>
+
+<answer>
+<p>
+The <m>LU</m> factorization is
+<me>
+    L=\begin{bmatrix}1\amp 0\\2\amp 1\end{bmatrix},\quad U=\begin{bmatrix}1\amp 2\\0\amp -1\end{bmatrix}
+</me>
+
+and the solution to the system of equations is
+<me>
+    x=-3, y=4.
+</me>
+</p>   
+</answer>
+</exercise>
+
+
+
+<exercise xml:id="prob-LU2b">
+    <statement>
+        <p>
+            <md>
+    \begin{array}{ccccccc}
+    <mrow>  x \amp  +\amp 2y\amp +\amp z\amp = \amp 1 </mrow>
+	<mrow> \amp  \amp y\amp +\amp 3z\amp =\amp 2  </mrow>
+    <mrow> 2x\amp  +\amp 3y\amp \amp \amp =\amp 6  </mrow>
+    \end{array}.
+</md>
+</p>
+</statement>
+
+<answer>
+<p>
+The <m>LU</m> factorization is
+<me>
+    L=\begin{bmatrix}1\amp 0\amp 0\\0\amp 1\amp 0\\2\amp -1\amp 1\end{bmatrix},\quad U=\begin{bmatrix} 1\amp 2\amp 1\\0\amp 1\amp 3\\0\amp 0\amp 1\end{bmatrix}
+</me>
+
+and the solution to the system of equations is
+<me>
+    x=27,y=-16, z=6.
+</me>
+        </p>
+    </answer>
+</exercise>
+</exercisegroup>
+
+
+
+
+
+
+<exercise xml:id="prob-LU4">
+    <statement>
+        <p>
+            Is there only one <m>LU</m> factorization for a given matrix?
+        </p>
+    </statement>
+
+<hint>
+<p>
+Consider the equation
+
+<me>
+\begin{bmatrix}0 \amp  1 \\0 \amp  1\end{bmatrix}=\begin{bmatrix}1\amp  0 \\1 \amp  1\end{bmatrix} \begin{bmatrix}0 \amp  1 \\0 \amp  0\end{bmatrix}.
+</me>
+
+Look for all possible <m>LU</m> factorizations.
+</p>
+</hint>
+</exercise>
+
+
+
+
+
+<exercise xml:id="prob-LU5">
+    <statement>
+        <p>
+            Can you show that every permutation matrix is invertible?  
+            If so, What does the inverse of a permutation matrix look like? Recall that a permutation matrix is matrix <m>P</m> of <xref ref="th-LUPA"/>.
+        </p>
+    </statement>
+</exercise>
+</exercises>
+
+</section>

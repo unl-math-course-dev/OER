@@ -1,0 +1,362 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<section xml:id="Section-Curve-Fitting" xmlns:xi="http://www.w3.org/2001/XInclude">
+    <title>Extra Topic: Curve Fitting</title>
+
+
+<subsection xml:id="Subsection-BasicsCurveFit">
+    <title>Basics of Curve Fitting</title>
+ 
+<p> 
+We know that two points determine a line.  Do you know how many points determine a quadratic function of the form <m>f(x)=ax^2+bx+c</m>?  
+Given any number of points in the plane, is it always possible to find a polynomial function whose graph contains every one of the given points?  
+To address these questions we will start with an alternative way of finding an equation of a line.
+</p> 
+
+<exploration xml:id="exp-curveFitLine">
+    <p>
+        Consider two points <m>A(-3, 2)</m> and <m>B(1,-2)</m>.  We will find a function <m>f</m> whose graph is a line that passes through these points.  We know that <m>f(x)=ax+b</m> for some constants <m>a</m> and <m>b</m>.  Because the graph of <m>f</m> passes through <m>A</m> and <m>B</m>, we must have the following:
+
+<me>
+    \begin{matrix}
+      f(-3)\amp =\amp a(-3)\amp +\amp b\amp =\amp 2\\
+      f(1)\amp =\amp a(1)\amp +\amp b\amp =\amp -2
+    \end{matrix}
+</me>
+
+To solve for <m>a</m> and <m>b</m>, we need to solve the following matrix equation:
+
+<me>
+    \begin{bmatrix}-3 \amp  1\\1 \amp  1\end{bmatrix}\begin{bmatrix}a\\b\end{bmatrix}=\begin{bmatrix}2\\-2\end{bmatrix}.
+</me>
+
+Solving the equation, we find that <m>a=-1</m> and <m>b=-1</m>.  This gives us:
+
+<me>
+    f(x)=-x-1.
+</me>
+
+
+The GeoGebra interactive below shows two points <m>A</m> and <m>B</m>, together with the matrix equation that produces function coefficients for the function whose graph passes through <m>A</m> and <m>B</m>.  Drag the points around the plane to see how the matrix equation changes.
+</p>
+
+
+<figure>
+  <caption>
+  </caption>
+  <interactive xml:id="geogebra-Solutions-Plotted" platform="geogebra" width="100%" aspect="950:650">
+    <slate xml:id="Solutions-Plotted" surface="geogebra" material="aupuxe5j" aspect="950:650" />
+  </interactive>
+</figure>
+
+<p> 
+From a purely formal standpoint, we observe that the matrix equation has the form:
+
+<me>
+    \begin{matrix}\text{point }A\rightarrow\\\text{point }B\rightarrow\end{matrix}\begin{bmatrix}x\text{-coordinate} \amp  1\\x\text{-coordinate} \amp  1\end{bmatrix}\begin{bmatrix}a\\b\end{bmatrix}=\begin{bmatrix}y\text{-coordinate}\\y\text{-coordinate}\end{bmatrix}.
+</me>
+
+where each row corresponds to one point.
+    </p>
+</exploration>
+
+
+<p> 
+Now we are ready to move to quadratic, and higher degree polynomial functions.
+
+The linear function in <xref ref="exp-curveFitLine"/> had two unknown coefficients that we needed to find in order to determine the function. Two points gave us a system of two equations and two unknowns.
+</p> 
+
+<p>
+A quadratic polynomial function, whose graph is a parabola, is given by:
+
+<me>
+    f(x)=ax^2+bx+c
+</me>
+
+Three unknown coefficients will require three points to determine them.
+</p>
+
+
+<exploration xml:id="exp-curveFitParabola">
+    <p>
+        We will find a quadratic function of the form <m>f(x)=ax^2+bx+c</m> whose graph passes through
+         <me>
+            A(-2,2), \ B(0, -1) \text{ and } C(1, 5).
+         </me>
+
+To do this, we need to find coefficients <m>a</m>, <m>b</m> and <m>c</m> such that
+
+<me>
+    \begin{matrix}f(-2)\amp =\amp a(-2)^2\amp +\amp b(-2)\amp +\amp c\amp =\amp 2\\f(0)\amp =\amp a(0)^2\amp +\amp b(0)\amp +\amp c\amp =\amp -1\\f(1)\amp =\amp a(1)^2\amp +\amp b(1)\amp +\amp c\amp =\amp 5\end{matrix}
+</me>
+
+
+The following GeoGebra interactive shows points <m>A</m>, <m>B</m>, and <m>C</m>, together with the matrix equation, and its solution.
+</p> 
+
+
+
+<figure>
+  <caption>
+  </caption>
+  <interactive xml:id="geogebra-Para-SolutionsPlot" platform="geogebra" width="100%" aspect="950:650">
+    <slate xml:id="Para-SolutionsPlot" surface="geogebra" material="m6mbcykf" aspect="950:650" />
+  </interactive>
+</figure>
+
+
+<p> 
+Drag the points around the plane to observe changes in the coefficient matrix.  Think geometrically to find locations of <m>A</m>, <m>B</m> and <m>C</m> such that
+<ul>
+    <li>
+      <p> <m>a=b=0</m>; <m>c\neq 0</m>. </p>
+</li>
+    <li>
+      <p> <m>a=0</m>; <m>b, c\neq 0</m>. </p>
+</li>
+</ul>
+
+Observe the structure of the matrix equation.
+
+<me>
+    \begin{matrix}\text{point }A\rightarrow\\\text{point }B\rightarrow\\\text{point }C\rightarrow\end{matrix}\begin{bmatrix}(x\text{-coordinate})^2\amp x\text{-coordinate} \amp  1\\(x\text{-coordinate})^2\amp x\text{-coordinate} \amp  1\\(x\text{-coordinate})^2\amp x\text{-coordinate} \amp  1\end{bmatrix}\begin{bmatrix}a\\b\\c\end{bmatrix}=\begin{bmatrix}y\text{-coordinate}\\y\text{-coordinate}\\y\text{-coordinate}\end{bmatrix}
+</me>
+    </p>
+</exploration>
+
+
+<p> 
+In general (provided that no one point lies directly above another), given <m>n</m> points, we can always find an <m>(n-1)</m>-degree polynomial function whose graph contains every one of the given points.  To find such a polynomial function, given by <m>f(x)=a_{n-1}x^{n-1}+\dots +a_1x+a_0</m>, we need to solve a system of <m>n</m> equations with <m>n</m> unknowns which translates into the following matrix equation.
+
+<men xml:id="eq-matEq">
+\begin{bmatrix}\vdots\amp \vdots \amp \vdots \amp \vdots\\(x\text{-coordinate})^{n-1}\amp \dots \amp x\text{-coordinate} \amp 1\\\vdots\amp \vdots \amp \vdots \amp \vdots\end{bmatrix}\begin{bmatrix}a_{n-1}\\\vdots\\a_1\\a_0\end{bmatrix}=\begin{bmatrix}\vdots\\y\text{-coordinate}\\\vdots\end{bmatrix}.
+</men>
+
+In <xref ref="prob-systemProblems1"/> and <xref ref="prob-systemProblems2"/> you will show that the matrix equation in <xref ref="eq-matEq"/> has a unique solution if and only if no two of the given points share an <m>x</m>-coordinate.
+</p> 
+</subsection>
+
+
+<!--
+<subsection xml:id="Subsection-Using-Technology">
+    <title>Using Technology</title>
+
+Throughout this section we have omitted the tedious process of solving matrix equations.  It is useful to practice solving smaller  matrix equations by hand, but for larger matrices, we can use technology.  Below is the Octave code that can be used to find the solution to Exploration <xref ref="exp-curveFitParabola"/>.  You will be able to modify this code to solve some of the practice problems.
+
+To use Octave, go to the <url href="https://sagecell.sagemath.org/">Sage Math Cell Webpage</url>, copy the code below into the cell, select OCTAVE as the language, and press EVALUATE.
+
+\begin{verbatim}
+% Define the coefficient matrix
+A=[4 -2 1;0 0 1;1 1 1];
+% Define vector b
+b=[2;-1;5];
+% We can find the solution in two ways
+% Method 1: ans1=A^(-1)b  
+ans1=inv(A)*b
+% Method 2
+ans2=A\b
+% If A is invertible, both methods produce the same result.
+\end{verbatim}
+-->
+
+
+<subsection xml:id="Subsection-On-the-Dangers-of-Overfitting">
+    <title>On the Dangers of Overfitting</title>
+
+<p>
+It is exciting to know that we can fit a function to a set of data points, but before we get carried away fitting a 299-degree polynomial function to 300 points, 
+let's consider the following situation.
+In the GeoGebra interactive below, you can see that points <m>A</m> - <m>F</m> form a somewhat linear pattern. 
+</p> 
+
+<p> A linear model can be used to describe these points.  
+Click on the ``Display linear model" check-box to see the trend line.  (You learned how to find such models when discovering Least-Squares Approximation).  
+You can see that even though the line does not pass through any of the given points, 
+it fits the overall pattern of the points and can be used to estimate the <m>y</m>-coordinates of other points whose <m>x</m>-coordinates fall within the limits of the scatter plot.
+</p> 
+
+<p>
+It might be tempting to think that we can find a better model by finding a <m>5^{th}</m>-degree polynomial function whose graph contains every one of the six points.  Click on the ``Display 5th degree poly model" check-box to see the alternative model.  Can this model be successfully used to make predictions?
+
+Try moving individual points around to see how their placement affects the line and the curve.
+</p> 
+
+
+<figure>
+  <caption>
+    A larger version of this activity is available 
+    <url href="https://www.geogebra.org/calculator/z2qhxkmm" visual="geogebra.org">here</url>.
+  </caption>
+  <interactive xml:id="geogebra-ScatterPlot" platform="geogebra" width="120%" aspect="950:650">
+    <slate xml:id="ScatterPlot" surface="geogebra" material="z2qhxkmm" aspect="950:650" />
+  </interactive>
+</figure>
+
+<p>
+Any modeling process which insists on fitting the existing data points exactly, at the risk of failing to predict future observations, 
+is referred to as <em>overfitting</em>.  While sometimes it is beneficial to have a curve that passes through specific points,
+ more often it is the trend, not the individual instances, that we try to capture.  We will return to this topic when discussing least-squares approximations.
+</p>
+</subsection>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<exercises>
+
+
+<exercisegroup>
+
+    <introduction>
+        <p>
+            In each case, find a polynomial function of an appropriate degree that passes through the given points. 
+            You are encourage to plot the graph of <m>f</m> in Desmos.
+        </p>
+    </introduction>
+
+
+<exercise xml:id="prob-polyFit1">
+    <statement>
+        <p>
+            
+<me>
+    (-3,0), \ (2, -2), \ (-1,1).
+</me>
+
+</p>
+</statement>
+
+<answer>
+<p>
+<me>
+    f(x)=-0.3x^2-0.7x+0.6.
+</me>
+</p>
+</answer>
+ 
+
+
+</exercise>
+
+<exercise xml:id="prob-polyFit2">
+<statement>
+ <p>
+ <me>
+    (0,4), \ (-2, 2), \ (-1,1),\ (0.5, 1).
+</me>
+
+</p>
+</statement>
+
+<answer>
+<p>
+<me>
+    g(x)=-3.2x^3-7.6x^2-1.4x+4.
+</me>
+</p>
+</answer>
+
+</exercise>
+</exercisegroup>
+
+
+
+<exercise xml:id="prob-systemProblems1">
+    <statement>
+        <p>
+            Two GeoGebra screenshots are below, each with an associated system of equations. Click on either one to enlarge it. 
+        </p> 
+
+<sidebyside widths="45% 45%" valign="middle">
+        <image source="images/pointsCoincide.jpg">
+   <shortdescription></shortdescription>
+   <!-- <latex-image>
+      \begin{tikzpicture}
+\node[inner sep=0pt, anchor=base] (p1) at (0,0)
+  {\includegraphics[height=50mm]{/workspaces/unl_math314/assets/images/pointsCoincide.jpg}};
+             \end{tikzpicture}
+    </latex-image> -->
+    
+</image>
+  
+   <image source="images/verticalPoints.jpg">
+   <shortdescription></shortdescription>
+   <!-- <latex-image>
+      \begin{tikzpicture}
+ \node[inner sep=0pt, anchor=base]  (p2) at (0,0)
+  {\includegraphics[height=50mm]{/workspaces/unl_math314/assets/images/verticalPoints.jpg}};
+        \end{tikzpicture}
+    </latex-image> -->
+</image>
+</sidebyside>
+
+<p> 
+In the first screenshot, points <m>A</m> and <m>B</m> coincide.  In the second screenshot, point <m>A</m> is located directly above point <m>B</m>. 
+In both cases, GeoGebra failed to produce a linear function whose graph passes through <m>A</m> and <m>B</m>.
+</p>
+
+<p> 
+Based on what you know about functions and geometry, explain why the process fails for these two examples. How do your observations correspond to what happens from an algebraic standpoint?
+</p> 
+</statement>
+
+<choices>
+  <choice>
+      <statement>
+          <p> Both systems are inconsistent. </p>
+      </statement>
+  </choice>
+      <choice>
+      <statement>
+          <p> The first system is inconsistent, the second has infinitely many solutions. </p>
+      </statement>
+  </choice>
+      <choice>
+      <statement>
+          <p> Both systems have infinitely many solutions. </p>
+      </statement>
+  </choice>
+      <choice correct="yes">
+      <statement>
+          <p> The first system has infinitely many solutions, the second system is inconsistent. </p>
+      </statement>
+  </choice>
+</choices>
+    
+</exercise>
+
+
+
+<exercise xml:id="prob-systemProblems2">
+    <statement>
+        <p>
+            Prove that <xref ref="eq-matEq"/> has a unique solution if and only if no two given points share an <m>x</m>-coordinate.
+Under what circumstances is a solution not unique?  Under what circumstances does a solution not exist?
+        </p>
+    </statement>
+
+<hint>
+    <p>
+        Show that the rows of the matrix are linearly independent if and only if no two given points share an <m>x</m>-coordinate.
+    </p>
+</hint>
+</exercise>
+
+
+
+
+</exercises>
+</section>

@@ -1,0 +1,314 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<section xml:id="Section-Dot-Product-and-Angle" xmlns:xi="http://www.w3.org/2001/XInclude">
+  <title>Extra Topic: Dot Product and Angle</title>
+
+  <p>
+    Given two vectors <m>\mathbf{u}</m> and <m>\mathbf{v}</m>, let <m>\theta</m> be the angle between them such that <m>0\leq\theta\leq \pi</m>.  
+    We will refer to <m>\theta</m> as the <term>included angle</term>.
+  </p>
+
+  <image width="60%">
+    <shortdescription>Angle between vectors.</shortdescription>
+    <latex-image>
+      \begin{tikzpicture}
+        \node[] at (0.8, 0.2)   (a) {\(\theta\)};
+        \draw (0.5,0) arc (0:30:0.5) ;
+        \draw[line width=1pt,-stealth,red](0,0)--(2.5,0)node[below right]{\(\mathbf{u}\)};
+        \draw[line width=1pt,-stealth, blue](0,0)--(3.46,2)node[above right]{\(\mathbf{v}\)};
+     \end{tikzpicture}
+    </latex-image>
+  </image>
+
+  <p>
+    The following theorem establishes a relationship between the dot product and the included angle.
+  </p>
+
+  <theorem xml:id="th-dotproductcosine">
+    <statement>
+        <p>
+          Let <m>\mathbf{u}</m> and <m>\mathbf{v}</m> be vectors in <m>\R^n</m>, and let <m>\theta</m> be the included angle. Then
+          <men xml:id="matlintrans">
+            \mathbf{u}\cdot\mathbf{v}=\norm{\mathbf{u}}\norm{\mathbf{v}}\cos \theta
+          </men>
+        </p>
+    </statement>
+  <proof>
+    <p> 
+      Consider the triangle formed by <m>\mathbf{u}</m>, <m>\mathbf{v}</m> and <m>\mathbf{u}-\mathbf{v}</m>.
+    </p>
+    <image>
+      <shortdescription></shortdescription>
+      <latex-image>
+        \begin{tikzpicture}
+          \node[] at (0.8, 0.2)   (a) {\(\theta\)};
+          \draw (0.5,0) arc (0:30:0.5) ;
+          \draw[line width=1pt,-stealth,red](0,0)--(2.5,0)node[below right]{\(\mathbf{u}\)};
+          \draw[line width=1pt,-stealth, blue](0,0)--(3.46,2)node[above right]{\(\mathbf{v}\)};
+          \draw[line width=1pt,-stealth](3.46,2)--(2.5,0);
+          \node[] at (3.5, 0.9)   (a) {\(\mathbf{u}-\mathbf{v}\)};
+        \end{tikzpicture}
+      </latex-image>
+    </image>
+    <p>
+      By the Law of Cosines we have:
+      <me>
+        \norm{\mathbf{u}-\mathbf{v}}^2=\norm{\mathbf{u}}^2+\norm{\mathbf{v}}^2-2\norm{\mathbf{u}}\norm{\mathbf{v}}\cos\theta
+      </me>
+      By <xref ref="th-dotproductproperties"/> <xref ref="item-norm"/>,
+      <me>
+        (\mathbf{u}-\mathbf{v})\cdot (\mathbf{u}-\mathbf{v})=\mathbf{u}\cdot \mathbf{u}+\mathbf{v}\cdot \mathbf{v}-2\norm{\mathbf{u}}\norm{\mathbf{v}}\cos\theta
+      </me>
+      By <xref ref="th-dotproductproperties"/> <xref ref="item-distributive-again"/>,
+      <me>
+        (\mathbf{u}-\mathbf{v})\cdot \mathbf{u}-(\mathbf{u}-\mathbf{v})\cdot \mathbf{v}=\mathbf{u}\cdot \mathbf{u}+\mathbf{v}\cdot \mathbf{v}-2\norm{\mathbf{u}}\norm{\mathbf{v}}\cos\theta
+      </me>
+      By <xref ref="th-dotproductpropert ies"/> <xref ref="item-distributive"/>,
+      <me>
+        \mathbf{u}\cdot \mathbf{u}-\mathbf{v}\cdot\mathbf{u}-\mathbf{u}\cdot\mathbf{v}+\mathbf{v}\cdot \mathbf{v}=\mathbf{u}\cdot \mathbf{u}+\mathbf{v}\cdot \mathbf{v}-2\norm{\mathbf{u}}\norm{\mathbf{v}}\cos\theta
+      </me>
+      By <xref ref="th-dotproductproperties"/> <xref ref="item-commutative"/> of <xref ref="Section-Dot-Product-and-its-Properties"/>,
+      <md>
+        <mrow> -2(\mathbf{u}\cdot \mathbf{v})=\amp-2\norm{\mathbf{u}}\norm{\mathbf{v}}\cos\theta </mrow>
+        <mrow> \mathbf{u}\cdot \mathbf{v}=\amp\norm{\mathbf{u}}\norm{\mathbf{v}}\cos\theta </mrow>
+      </md>
+    </p>
+  </proof>
+  </theorem>
+
+  <example xml:id="ex-anglebetweenvectors">
+    <p>
+      Find the included angle between vectors <m>\mathbf{u}=\begin{bmatrix}2\\-1\\4\end{bmatrix}</m> and <m>\mathbf{v}=\begin{bmatrix}1\\2\\-3\end{bmatrix}</m>. 
+    </p>
+    <p>  
+      By <xref ref="th-dotproductcosine"/>, <m>\cos \theta=\frac{\mathbf{u}\cdot \mathbf{v}}{\norm{\mathbf{u}}\norm{\mathbf{v}}}</m>.  
+      <me>
+        \mathbf{u}\cdot\mathbf{v}=2-2-12=-12
+      </me>
+      <me>
+        \norm{\mathbf{u}}=\sqrt{4+1+16}=\sqrt{21}
+      </me>
+      <me>
+        \norm{\mathbf{v}}=\sqrt{1+4+9}=\sqrt{14}
+      </me>
+      <me>
+        \cos\theta =\frac{-12}{\sqrt{21}\sqrt{14}}
+      </me>
+      <me>
+        \theta \approx 134.4^{\circ}  
+      </me>
+    </p>
+  </example>
+
+
+  <subsection xml:id="Subsection-Orthogonal-Vectors">
+    <title>Orthogonal Vectors</title>
+
+<definition xml:id="def-orthovectors">
+  <statement>
+    <p> 
+      Let <m>\mathbf{u}</m> and <m>\mathbf{v}</m> be vectors in <m>\R^n</m>. We say <m>\mathbf{u}</m> and <m>\mathbf{v}</m> are <term>orthogonal</term> if <m>\mathbf{u}\cdot \mathbf{v}=0</m>.
+    </p>
+  </statement>
+</definition>
+
+<p>
+  We can use <xref ref="th-dotproductcosine"/> to show that two non-zero <term>orthogonal</term> vectors of <m>\R^n</m> are simply <term>perpendicular</term> vectors (the included angle is <m>90^{\circ}</m>).  To see this, suppose that <m>\mathbf{u}\cdot\mathbf{v}=0</m> for nonzero vectors <m>\mathbf{u},\mathbf{v}</m>.  Then from <xref ref="th-dotproductcosine"/> we have
+  <me>
+      0=\norm{\mathbf{u}}\norm{\mathbf{v}}\cos\theta.
+  </me>
+  Since <m>\mathbf{u},\mathbf{v}</m> are nonzero vectors, we have <m>0=\cos\theta</m>, which implies <m>\theta=90^{\circ}</m>.  The converse also holds.  If <m>\theta=90^{\circ}</m>, then the dot product is clearly 0.
+</p>
+<p>
+  The reason we prefer the term ``orthogonal" to ``perpendicular" in this course is because <m>\R^n</m> is only one example of a <term>vector space</term>, and the dot product is only one example of a more general product, called an <term>inner product</term>.  For vectors in <m>\R^n</m> a zero dot product happens to coincide with the geometric idea of perpendicularity, but there are many vector spaces that do not possess the visual geometry of <m>\R^n</m>.  (Later in the text, you will encounter vector spaces whose vectors are polynomial functions!)  In these more abstract settings, a zero inner product still signals a special relationship between vectors.  The term <term>orthogonal</term> captures this relationship.
+</p>
+
+<remark>
+  <p>
+    By our definition, the zero vector is orthogonal to any vector.  
+    However, we will not use the word <term>perpendicular</term> when the zero vector is involved, as it is not possible to talk about an ``included angle''.
+  </p>
+</remark>
+</subsection>
+
+
+  <exercises xml:id="Exercises-Dot-Product-and-Angle">
+    <exercisegroup>
+      <introduction>
+        <p>
+          Find the degree measure of the included angle, <m>\theta</m> for each pair of vectors.  Round your answers to the nearest tenth.
+        </p>
+      </introduction>
+    
+      <exercise xml:id="prob-anglebetweenvectors1">
+        <statement>
+          <p>
+            <m>\begin{bmatrix}1\\2\end{bmatrix}</m> and <m>\begin{bmatrix}-3\\-1\end{bmatrix}</m>.
+          </p>
+        </statement>
+        <answer>
+          <p> <m>\theta=135^\circ</m> </p>
+        </answer>
+      </exercise>
+    
+      <exercise xml:id="prob-anglebetweenvectors2">
+        <statement>
+          <p>
+            <m>\begin{bmatrix}-1\\2\\4\end{bmatrix}</m> and <m>\begin{bmatrix}-2\\1\\-1\end{bmatrix}</m>
+          </p>
+        </statement>
+        <answer>
+          <p> <m>\theta=90^\circ</m> </p>
+        </answer>
+      </exercise>
+      
+      <exercise xml:id="prob-anglebetweenvectors3">
+        <statement>
+          <p> <m>\begin{bmatrix}0\\-3\\1\end{bmatrix}</m> and <m>\begin{bmatrix}-5\\-2\\4\end{bmatrix}</m> </p>
+        </statement>
+        <answer>
+          <p> <m>\theta= 61.9^\circ</m> </p>
+        </answer>
+      </exercise>
+      
+      <exercise xml:id="prob-anglebetweenvectors4">
+        <statement>
+          <p>
+            <m>\begin{bmatrix}1\\1\\-1\\2\end{bmatrix}</m> and <m>\begin{bmatrix}-2\\0\\-3\\1\end{bmatrix}</m>
+          </p>
+        </statement>
+        <answer>
+          <p> <m>\theta=72.4^\circ</m> </p>
+        </answer>
+      </exercise>
+    </exercisegroup>
+
+    <exercise xml:id="prob-dotproductsign">
+      <statement>
+        <p>
+          What does the sign of the dot product tell us about the included angle?
+        </p>
+      </statement>
+    </exercise>
+    
+    <exercise xml:id="prob-orthvectorsdot">
+      <statement>
+        <p>
+          Find all values of <m>a</m> so that <m>\begin{bmatrix}a^2\\2a\\1\end{bmatrix}</m> is orthogonal to <m>\begin{bmatrix}1\\2\\3\end{bmatrix}</m>.
+        </p>
+      </statement>
+        <answer>
+          <p> <m>a=-3, -1</m> </p>
+        </answer>
+    </exercise>
+    
+    <exercise xml:id="prob-parallelvectdot">
+      <statement>
+        <p>
+          Find the value of <m>x</m> for which the vector <m>\begin{bmatrix}x\\-4\end{bmatrix}</m> is parallel to the vector <m>\begin{bmatrix}3\\2\end{bmatrix}</m>. 
+          What is the measure of the included angle, <m>\theta</m>? Find the measure of the included angle using <xref ref="ex-anglebetweenvectors"/>.  
+          Do the two results agree?
+        </p>
+      </statement>
+      <answer>
+        <p> <m>x=-6</m> and <m>\theta=180^\circ</m> </p>
+      </answer>
+    </exercise>
+    
+    <exercise xml:id="prob-unitvectordot">
+      <statement>
+        <p>
+          Prove that if <m>\mathbf{u}</m> is a unit vector, then <m>\mathbf{u}\cdot \mathbf{u}=1</m>.
+        </p>
+      </statement>
+    </exercise>
+    
+    <exercise xml:id="prob-unitvectordot1">
+      <statement>
+        <p>
+          Prove that if <m>\mathbf{u}_1</m> and <m>\mathbf{u}_2</m> are unit vectors, then <m>-1\leq\mathbf{u}_1\cdot \mathbf{u}_2\leq 1</m>.  
+          In what cases are the extreme values of 1 and <m>-1</m> attained?
+        </p>
+      </statement>
+    </exercise> 
+    
+    <exercise xml:id="prob-clockproblem">
+      <statement>
+        <p>
+          Imagine a clock with hands represented by vectors <m>\mathbf{m}</m> and <m>\mathbf{h}</m>, as shown below.
+          At what whole hour will <m>\mathbf{m}\cdot\mathbf{h}</m> attain its maximum value?  
+          At what whole hour will <m>\mathbf{m}\cdot\mathbf{h}</m> be as small as possible?
+        </p>
+        <figure>
+          <caption>Image courtesy of <url href="https://commons.wikimedia.org/wiki/Main_Page">Wikipedia Commons</url>.</caption>
+          <image source="images/clockvectors.jpg" width="80%">
+            <shortdescription>Image of a wall clock.</shortdescription>
+          </image>
+        </figure>
+      </statement>
+      <answer>
+        <p>
+          <me> \mathbf{m}\cdot\mathbf{h}\text{ is greatest at }12:00 \text{ o'clock} </me>
+          <me> \mathbf{m}\cdot\mathbf{h}\text{ is smallest at }6:00 \text{ o'clock} </me>
+        </p>
+      </answer>
+    </exercise>
+    
+    <exercise xml:id="prob-righttriangleincircle">
+      <statement>
+        <p>
+          Let <m>O</m> be a circle of radius <m>r</m>.  
+          Suppose <m>A</m> and <m>B</m> are the endpoints of a diameter of <m>O</m>, and <m>C</m> is a point on <m>O</m> distinct from <m>A</m> and <m>B</m>. 
+          Show that vectors <m>\overrightarrow{AC}</m> and <m>\overrightarrow{BC}</m> are orthogonal.
+        </p>
+        <image width="80%">
+          <shortdescription>Circumscribed circle of a triangle.</shortdescription>
+          <latex-image>
+            \begin{tikzpicture}[scale=1.25]
+              \draw[] (-1.3,0)--(1.3,0);
+              \draw[] (0,-1.3)--(0,1.3);
+              \draw[](0,0) circle (1cm);
+              \draw[line width=0.5pt,red](-1,0)--(0.5,0.87);
+              \draw[line width=0.5pt,red](1,0)--(0.5,0.87);
+              \fill[] (1,0)node[above right]{\(B\)} circle (0.05cm);
+              \fill[] (-1,0)node[above left]{\(A\)} circle (0.05cm);
+              \fill[] (0.5,0.87)node[above right]{\(C\)} circle (0.05cm);
+            \end{tikzpicture}
+          </latex-image>
+        </image>
+      </statement>
+      <hint>
+        <p>
+          Assign coordinates to points <m>A</m>, <m>B</m> and <m>C</m>, express vectors <m>\overrightarrow{AC}</m> and <m>\overrightarrow{BC}</m> in component form, then find the dot product of <m>\overrightarrow{AC}</m> and <m>\overrightarrow{BC}</m>.
+        </p>
+      </hint>
+    </exercise>
+    
+    <exercise xml:id="prob-rhombusdot">
+      <statement>
+        <p>
+          A rhombus is a quadrilateral with four congruent sides.  Use vectors to prove that a parallelogram is a rhombus if and only if its diagonals are perpendicular.
+        </p>
+      </statement>
+      <hint>
+        <p>
+          See section on vector subtraction in <xref ref="Section-Vector-Arithmetic"/>.
+        </p>
+      </hint>
+    </exercise>
+    
+    <exercise xml:id="prob-pythagoreanR3usedotp">
+      <statement>
+        <p>
+          The points <m>A(2,1,4),B(4,2,-1)</m>, and <m>C(6,8,7)</m> form a triangle in <m>\R^3</m>.  Is it a right triangle?
+        </p>
+      </statement>
+      <hint>
+        <p>
+          Express each side of the triangle as a vector and use what you have learned in this section.
+        </p>
+      </hint>
+    </exercise>
+  </exercises>
+
+</section>

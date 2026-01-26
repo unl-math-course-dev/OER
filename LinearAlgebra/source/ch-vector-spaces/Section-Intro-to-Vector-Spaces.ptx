@@ -1,0 +1,1362 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<section xml:id="Section-Intro-to-Vector-Spaces" xmlns:xi="http://www.w3.org/2001/XInclude">
+    <title>Introduction to Vector Spaces</title>
+
+    <introduction>
+    <p>
+        There are two operations on vectors in <m>\R^n</m>, namely, vector addition and scalar multiplication. 
+        We learned that addition and scalar multiplication satisfy a number of nice properties (see <xref ref="th-vecproperties"/>). 
+        These properties give <m>\R^n</m> an algebraic structure.  
+    </p>
+
+    <p>
+        We begin this section by introducing another property, called <term>closure</term>.  
+        Adding closure to the properties we studied earlier allows us to show that <m>\R^n</m> satisfies all of the properties of a <term>vector space</term>, which we will formally define in this section.  
+    </p>
+    </introduction>
+
+    <subsection xml:id="Subsection-Closure">
+        <title>Closure</title>
+
+        <definition xml:id="def-closedunderaddition">
+
+            <statement>
+                <p>
+                    A set <m>V</m> is said to be <term>closed under addition</term> if for each element <m>\mathbf{u} \in V</m> and <m>\mathbf{v} \in V</m> the sum <m>\mathbf{u}+\mathbf{v}</m> is also in <m>V</m>.
+                </p>
+            </statement>
+        </definition>
+
+        <definition xml:id="def-closedunderscalarmult">
+
+            <statement>
+                <p>
+                    A set <m>V</m> is said to be <term>closed under scalar multiplication</term> if for each element <m>\mathbf{v} \in V</m>  and for each scalar <m>k \in \R</m> the product <m>k\mathbf{v}</m> is also in <m>V</m>.
+                </p>
+            </statement>
+        </definition>
+
+
+
+        <p> 
+        Here are a few examples and non-examples to understand these properties. 
+        </p>
+
+        <example xml:id="ex-posevenint">
+            <p>
+                Let <m>E</m> be the set of positive even integers.  Then <m>E</m> is closed under addition, because the sum of two even integers is again an even integer.
+            </p>
+        </example>
+
+        <example xml:id="ex-posoddint">
+            <p>
+                Let <m>D</m> be the set of positive odd integers.  Then <m>D</m> is not closed under addition, for the sum of two odd integers need not be an odd integer (in fact, it will always be even).
+            </p>
+        </example>
+
+        <example xml:id="Q1">
+            <statement>
+                <p>
+        Let <m>X_1</m> be defined as the set of vectors in <m>\mathbb{R}^2</m> in the first quadrant (or on an axis on the boundary of the first quadrant). Written in symbols:
+
+        <me>
+            X_1=\left\{\begin{bmatrix} x_1\\x_2\end{bmatrix} \in \mathbb{R}^2 : x_1 \ge 0, \ x_2 \ge 0 \right\}
+        </me>
+
+        Show that <m>X_1</m> is closed under addition, but <m>X_1</m> is not closed under scalar multiplication.
+            </p>
+            </statement>
+
+
+            <answer>
+                <p>
+                    Suppose <m>\mathbf{v}_1=[a,b]</m> and <m>\mathbf{v}_2=[c,d]</m> are in <m>X_1</m>.  This means that <m>a, b, c, d\geq 0</m>.  But then we have <m>a+c, b+d\geq 0</m>.  Therefore
+                    <me>
+                    \mathbf{v}_1+\mathbf{v}_2=\begin{bmatrix}a+c\\b+d\end{bmatrix}
+                    </me>
+                is also in <m>X_1</m>. We conclude that <m>X_1</m> is closed under addition. <m>X_1</m> is not closed under scalar multiplication because
+                <me>
+                    (-1)\mathbf{v}_1=\begin{bmatrix}-a\\-b\end{bmatrix}
+                </me>
+                is not in <m>X_1</m>.The figure below helps us see that the sum of any two vectors in <m>X_1</m> also lies in <m>X_1</m>.
+                </p>
+
+
+        <image width="65%">
+        <shortdescription>X1 Sum Example graphed</shortdescription>
+            <latex-image>
+            \begin{tikzpicture}[scale=0.7]
+        \draw[thin,gray!40] (-4,-4) grid (4,4);
+        \draw[\lt -\gt ] (-4,0)--(4,0);
+        \draw[\lt -\gt ] (0,-4)--(0,4);
+        \filldraw[blue, opacity=0.3](0,0)--(4,0)--(4,4)--(0,4)--cycle;
+        \draw[line width=2pt,red,-stealth](0,0)--(2,1) ;
+        \draw[line width=2pt,blue,-stealth](0,0)--(1,3) ;
+        \draw[line width=2pt,-stealth](0,0)--(3,4); 
+            \end{tikzpicture}
+            </latex-image>
+        </image>
+
+        <p>
+        The next picture pictures how negative multiples of a vector does not list in <m>X_1</m>.
+        </p>
+
+        <image width="65%">
+        <shortdescription>X1 Scalar Example graphed</shortdescription>
+            <latex-image>
+            \begin{tikzpicture}[scale=0.7]
+        \draw[thin,gray!40] (-4,-4) grid (4,4);
+        \draw[\lt -\gt ] (-4,0)--(4,0);
+        \draw[\lt -\gt ] (0,-4)--(0,4);
+        
+        \filldraw[blue, opacity=0.3](0,0)--(4,0)--(4,4)--(0,4)--cycle;
+        \draw[line width=2pt,red,-stealth](0,0)--(2,1) ;
+        \draw[line width=2pt,blue,-stealth](0,0)--(1,3) ;
+        \draw[line width=2pt,red,dashed,-stealth](0,0)--(-2,-1) ;
+        \draw[line width=2pt,blue,dashed,-stealth](0,0)--(-1,-3) ;
+
+            \end{tikzpicture}
+            </latex-image>
+        </image>
+            </answer>
+        </example>
+
+
+
+
+        <example>
+            <p>
+        Let <m>X_1</m> be as in <xref ref="Q1"/>.  Let 
+        <me>
+            X_3=\left\{\begin{bmatrix} x_1\\x_2\end{bmatrix} \in \mathbb{R}^2 : x_1 \le 0, \ x_2 \le 0 \right\}
+        </me>
+
+        In other words, <m>X_3</m> is the set of vectors in <m>\R^2</m> in the third quadrant (or on an axis on the boundary of the third quadrant).  
+        Let <m>Y</m> consist of <m>X_1</m> and <m>X_3</m> combined. In other words, <m>Y</m> is the set of vectors in <m>\R^2</m> that are either in the first quadrant, 
+        the third quadrant, or lie along one of the axes, as shown below.
+        </p>
+
+
+        <image width="65%">
+        <shortdescription>Y pictured</shortdescription>
+            <latex-image>
+            \begin{tikzpicture}[scale=0.7]
+        \draw[thin,gray!40] (-4,-4) grid (4,4);
+        \draw[\lt -\gt ] (-4,0)--(4,0);
+        \draw[\lt -\gt ] (0,-4)--(0,4);
+        \filldraw[blue, opacity=0.3](0,0)--(4,0)--(4,4)--(0,4)--cycle;
+        \filldraw[blue, opacity=0.3](0,0)--(-4,0)--(-4,-4)--(0,-4)--cycle;
+            \end{tikzpicture}
+            </latex-image>
+        </image>
+
+        <p>
+        Then <m>Y</m> is closed under scalar multiplication, but <m>Y</m> is not closed under addition.
+            </p>
+        </example>
+    </subsection>
+
+
+
+
+    <subsection xml:id="Subsection-Properties-of-Vector-Spaces">
+        <title>Properties of Vector Spaces</title>
+
+    <p>
+    So, we have now seen that <m>\R^n</m> is
+    <ul>
+        <li>
+        <p> closed under vector addition (why?), </p>
+    </li>
+        <li>
+        <p> closed under scalar multiplication (why?), </p>
+    </li>
+    </ul>
+    and satisfies the following properties:
+
+    <ol>
+    <li>
+        <p> Commutative Property of Addition:
+    <m>\mathbf{u}+\mathbf{v}=\mathbf{v}+\mathbf{u}.</m> </p>
+    </li>
+    <li>
+        <p> Associative Property of Addition:
+    <m>(\mathbf{u}+\mathbf{v})+\mathbf{w}=\mathbf{u}+(\mathbf{v}+\mathbf{w}).</m> </p>
+    </li>
+    <li>
+        <p> Existence of Additive Identity:
+    <m>\mathbf{u}+\mathbf{0}=\mathbf{u}.</m> </p>
+    </li>
+    <li>
+        <p> Existence of Additive Inverse:
+    <m>\mathbf{u}+(-\mathbf{u})=\mathbf{0}.</m> </p>
+    </li>
+    <li>
+        <p> Distributive Property over Vector Addition:
+    <m>k(\mathbf{u}+\mathbf{v})=k\mathbf{u}+k\mathbf{v}.</m> </p>
+    </li>
+    <li>
+        <p> Distributive Property over Scalar Addition:
+    <m>(k+p)\mathbf{u}=k\mathbf{u}+p\mathbf{u}.</m> </p>
+    </li>
+    <li>
+        <p> Associative Property for Scalar Multiplication:
+    <m>k(p\mathbf{u})=(kp)\mathbf{u}.</m> </p>
+    </li>
+    <li>
+        <p> Multiplication by <m>1</m>:
+    <m>1\mathbf{u}=\mathbf{u}.</m> </p>
+    </li>
+    </ol>
+    </p> 
+
+
+    <remark>
+        <statement>
+            <p>
+                All scalars in this text are assumed to be real numbers.  
+                Considering other scalars, such as complex numbers, is interesting and leads to the definition of <em>complex vector spaces</em>.
+                We will not discuss complex vector spaces in this text, but you may encounter them in a future course or your professional career.
+            </p>
+        </statement>
+    </remark>
+
+    <p>
+        In the next two examples we will explore two sets other than <m>\R^n</m> endowed with vector addition and scalar multiplication and satisfying the same properties.
+    </p> 
+
+
+    <example xml:id="ex-setofmatricesvectorspace">
+        <p>
+            Let <m>\mathbb{M}_{m,n}</m> be the set of all <m>m\times n</m> matrices.  Matrix addition and scalar multiplication were defined in <xref ref="Section-Matrix-Operations"/>.
+            Observe that the sum of two <m>m\times n</m> matrices is also an <m>m\times n</m> matrix. Likewise, a scalar multiple of an <m>m\times n</m> matrix is an <m>m\times n</m> matrix.  Thus 
+    <ul>
+        <li>
+        <p> <m>\mathbb{M}_{m,n}</m> is closed under matrix addition; </p>
+    </li>
+        <li>
+        <p> <m>\mathbb{M}_{m,n}</m> is closed under scalar multiplication. </p>
+    </li>
+    </ul>
+
+    Next, <xref ref="th-propertiesofaddition"/> and <xref ref="th-propertiesscalarmult"/> give us the following properties of matrix addition and scalar multiplication.  Note that these properties are analogous to the eight vector properties above.
+    <ol>
+    <li>
+        <p> Commutative Property of Addition:  <m>\quad A+B=B+A</m>. </p>
+    </li>
+    <li>
+        <p> Associative Property of Addition: <m>\quad (A+B)+C=A+(B+C)</m>. </p>
+    </li>
+    <li>
+        <p> Existence of Additive Identity:  <m>\quad A+O=A \ </m> where <m>O</m> is the <m>m \times n</m> zero matrix. </p>
+    </li>
+    <li>
+        <p> Existence of Additive Inverse:  <m>\quad A+(-A)=O</m>. </p>
+    </li>
+    <li>
+        <p> Distributive Property over Matrix Addition:  <m>\quad k(A+B)=kA+kB</m>. </p>
+    </li>
+    <li>
+        <p> Distributive Property over Scalar Addition:  <m>\quad (k+p)A=kA+pA</m>. </p>
+    </li>
+    <li>
+        <p> Associative Property for Scalar Multiplication: <m>\quad k(pA)=(kp)A</m>. </p>
+    </li>
+    <li>
+        <p> Multiplication by <m>1</m>: <m>\quad 1A=A</m>. </p>
+    </li>
+    </ol>
+        Because <m>\mathbb{M}_{m,n}</m> with these two operations satisfies all of these properties, it is a vector space.
+        </p>
+    </example>
+
+    <example xml:id="ex-linfunctionsvectspace">
+        <statement>
+            <p>
+                Consider the set <m>\mathbb{L}</m> of all linear functions.  This set includes all polynomials of degree <m>1</m> and degree <m>0</m>.  We will use addition and scalar multiplication of polynomials as the two operations, and show that <m>\mathbb{L}</m> is closed under those operations and satisfies eight properties analogous to those of vectors of <m>\R^n</m>.
+        </p>
+        </statement>
+        <answer>
+            <p>
+                Elements of <m>\mathbb{L}</m> are functions <m>f</m> given by
+
+    <me>
+        f(x)=mx+b.
+    </me>
+
+    (Note that either <m>m</m> or <m>b</m> or both can be equal to zero.)
+    </p> 
+
+    <p>
+    Given <m>f_1</m> and <m>f_2</m> in <m>\mathbb{L}</m>, it is easy to verify that <m>f_1+f_2</m> is also in <m>\mathbb{L}</m>.  This gives us closure under function addition.
+
+    For any scalar <m>k</m>, we have
+
+    <me>
+        kf(x)=k(mx+b)=(km)x+(kb).
+    </me>
+
+    Therefore <m>kf</m> is in <m>\mathbb{L}</m>, and <m>\mathbb{L}</m> is closed under scalar multiplication.
+
+    We now proceed to formulate eight properties analogous to those of vectors of <m>\R^n</m>.
+    </p> 
+
+    <p> 
+    Let <m>f_1</m>, <m>f_2</m> and <m>f_3</m> be elements of <m>\mathbb{L}</m> given by <m>f_1(x)=m_1 x + b_1</m>, <m>f_2(x)=m_2 x + b_2</m>, and <m>f_3(x)=m_3 x + b_3</m>. Let <m>k</m> and <m>p</m> be scalars.  
+    <ol>
+    <li>
+        <p> Commutative Property of Addition:  
+
+    <m>f_1+f_2=f_2+f_1.</m>
+    </p>
+
+    <p>
+    This property holds because
+    <md>
+    <mrow> f_1(x) + f_2(x) \amp = (m_1 x + b_1) + (m_2 x + b_2) </mrow> 
+    <mrow> \amp = (m_2 x + b_2) + (m_1 x + b_1) </mrow>
+    <mrow> \amp = f_2(x) + f_1(x).  </mrow>
+    </md>
+    </p>
+    </li>
+
+    <li>
+        <p> Associative property of Addition:
+    <me>(f_1 + f_2) + f_3 = f_1 + (f_2 + f_3).</me>
+        </p>
+
+        <p>
+    This property is easy to verify and is left to the reader. </p>
+    </li>
+
+    <li>
+        <p> Existence of additive identity:
+    <me>f_1 + f_0 = f_1</me>
+        </p>
+    
+        <p>
+    The additive identity <m>f_0</m> is given by <m>f_0(x)=0</m>.  Note that <m>f_0</m> is a vector in the space <m>\mathbb{L}</m>.
+    </p>
+    </li>
+
+    <li>
+        <p> Existence of additive inverse:
+        <me>f_1 + (-f_1) = f_0.</me> 
+        </p>
+        
+        <p>
+    The additive inverse of <m>f_1</m> is a function <m>-f_1</m> given by <m>-f_1(x)=-mx+(-b)</m>.    Note that <m>-f_1</m> is in <m>\mathbb{L}</m>.
+        </p>
+    </li>
+
+    <li>
+        <p> Distributive Property over Vector Addition:
+    <me>k(f_1+f_2)=kf_1+kf_2.</me>
+        </p>
+
+        <p>
+    This property holds because
+    <md>
+    <mrow> k(f_1(x) + f_2(x)) \amp = k((m_1 x + b_1) + (m_2 x + b_2)) </mrow>
+    <mrow>  \amp = k(m_1 x + b_1) + k(m_2 x + b_2) </mrow> 
+    <mrow> \amp = k f_1(x) + k f_2(x). </mrow>
+    </md>
+    </p>
+    </li>
+    
+    <li>
+        <p> Distributive property over scalar addition: <me>(k+p)f_1=kf_1+pf_1.</me>  
+        </p>
+
+        <p>
+    This property holds because
+    <md>
+    <mrow> (k+p)f_1(x)\amp = (k+p)(m_1 x + b_1) </mrow> 
+    <mrow>  \amp =k(m_1 x + b_1) + p(m_1 x + b_1) </mrow>
+    <mrow> \amp = k f_1(x) + p f_1(x). </mrow>
+    </md>
+        </p>
+    </li>
+    
+    <li>
+        <p> Associative property for scalar multiplication: <m>(k(pf_1))=(kp)f_1.</m> 
+        </p> 
+
+    <p> 
+    This property holds because
+    <md>
+    <mrow>  k(p(f_1(x)))\amp =k(p(m_1 x + b_1)) </mrow>
+    <mrow> \amp =k(p m_1 x +p b_1)  </mrow>
+    <mrow>  \amp =kp m_1 x +kp b_1  </mrow>
+    <mrow> \amp = (kp) m_1 x + (kp) b_1 </mrow>
+    <mrow>  \amp = (kp)(m_1 x + b_1)  </mrow>
+    <mrow>  \amp =(kp)f_1(x). </mrow>
+    </md>
+    </p>
+    </li>
+
+    <li>
+        <p> Multiplication by <m>1</m> 
+        </p>
+
+        <p>
+        This follows from 
+    <me>
+        1 f_1=f_1.
+    </me>
+    </p>
+    </li>
+    </ol>
+    Because <m>\mathbb{L}</m> with these two operations satisfies all of these properties, it is a vector space.
+    </p>
+        </answer>
+    </example>
+    </subsection> 
+
+    <subsection xml:id="Subsection-Definition-of-a-Vector-Space">
+        <title>Definition of a Vector Space</title>
+
+    <p>
+    Looking at <xref ref="ex-setofmatricesvectorspace"/> and <xref ref="ex-linfunctionsvectspace"/> shows us that a set with two operations (which we will call addition and scalar multiplication) such that the set is closed under the two operations, and satisfies the same eight properties as <m>\R^n</m>.  
+    We will refer to such a set with its two operations as a <term>vector space</term>.
+    </p> 
+
+
+    <definition xml:id="def-vectorspacegeneral">
+
+        <statement>
+            <p>
+                Let <m>V</m> be a nonempty set.  Suppose that elements of <m>V</m> can be added together and can be multiplied by scalars.  The set <m>V</m>, together with these operations of addition and scalar multiplication, is called a <term>vector space</term> provided that 
+    <ul>
+    <li>
+        <p> <m>V</m> is closed under addition, </p>
+    </li>
+    <li>
+        <p> <m>V</m> is closed under scalar multiplication </p>
+    </li>
+    </ul>
+    and the following properties hold for <m>\mathbf{u}</m>, <m>\mathbf{v}</m> and <m>\mathbf{w}</m> in <m>V</m> and scalars <m>k</m> and <m>p</m>:
+    
+    <ol>
+    <li xml:id="item-commaddvectspdef">
+    <p> 
+    Commutative Property of Addition:
+    <m>\mathbf{u}+\mathbf{v}=\mathbf{v}+\mathbf{u}.</m> </p>
+    </li>
+
+    <li xml:id="item-assaddvectspdef">
+    <p>
+    Associative Property of Addition:\quad
+    <m>(\mathbf{u}+\mathbf{v})+\mathbf{w}=\mathbf{u}+(\mathbf{v}+\mathbf{w}).</m> </p>
+    </li>
+
+    <li xml:id="item-idaddvectspdef">
+    <p> 
+    Existence of Additive Identity:
+    <m>\mathbf{u}+\mathbf{0}=\mathbf{u}.</m> </p>
+
+    </li>
+    <li xml:id="item-invaddvectspdef">
+    <p>
+    Existence of Additive Inverse:
+    <m>\mathbf{u}+(-\mathbf{u})=\mathbf{0}.</m> </p>
+    </li>
+
+    <li xml:id="item-distvectaddvectspdef">
+    <p> 
+    Distributive Property over Vector Addition:
+    <m>k(\mathbf{u}+\mathbf{v})=k\mathbf{u}+k\mathbf{v}.</m> </p>
+    </li>
+    <li xml:id="item-distscalaraddvectspdef">
+    <p> 
+    Distributive Property over Scalar Addition:
+    <m>(k+p)\mathbf{u}=k\mathbf{u}+p\mathbf{u}.</m> </p>
+    </li>
+
+    <li xml:id="item-assmultvectspdef">
+    <p> 
+    Associative Property for Scalar Multiplication:
+    <m>k(p\mathbf{u})=(kp)\mathbf{u}.</m> </p>
+    </li>
+    <li xml:id="item-idmultvectspdef">
+    <p> 
+    Multiplication by <m>1</m>:
+    <m>1\mathbf{u}=\mathbf{u}.</m> </p>
+    </li>
+    </ol>
+
+    We will refer to elements of <m>V</m> as <term>vectors</term>.
+            </p>
+        </statement>
+    </definition>
+
+    <p>
+    When scalars <m>k</m> and <m>p</m> in the above definition are required to be real numbers, as they usually are in this text, the vector space <m>V</m> may be called a <term>real vector space</term> or
+    <term>vector space over the real numbers</term>.
+    In <xref ref="Chapter-Eigenvalues-and-Eigenvectors"/>, we will sometimes consider complex numbers and that means that our typical vector space will be <m>\mathbb{C}^n</m> and our scalars will be complex numbers;
+    no change in the definition above is needed, other than allowing scalars to be complex numbers, for a <term>vector space over the complex numbers</term>.
+    </p> 
+
+    <p>
+    We have already encountered two real vectors spaces in <xref ref="ex-setofmatricesvectorspace"/> and <xref ref="ex-linfunctionsvectspace"/>, 
+    namely <m>\mathbb{M}_{m,n}</m> and <m>\mathbb{L}</m>. 
+    </p>
+
+    <p>
+    Sets of polynomials provide an important source of examples, so we review some basic facts. A <term>polynomial with real coefficients</term> in <m>x</m> is an expression
+    <me>
+    p(x) = a_0 + a_1x + a_2x^2 + \cdots + a_nx^n
+    </me>
+    where <m>a_{0}, a_{1}, a_{2}, \ldots, a_{n}</m> are real numbers called the <term>coefficients</term> of the polynomial. 
+    </p>
+
+    <p>
+    If all the coefficients are zero, the polynomial is called the <term>zero polynomial</term> and is denoted simply as <m>0</m>. 
+    </p> 
+
+    <p> 
+    If <m>p(x) \neq 0</m>, the highest power of <m>x</m> with a nonzero coefficient is called the <term>degree</term> of <m>p(x)</m> and denoted as <m>\mbox{deg}(p(x))</m>. The degree of the zero polynomial is not defined.
+    The coefficient of this highest power of <m>x</m> is called the <term>leading coefficient</term> of <m>p(x)</m>. 
+    Hence <m>\mbox{deg}(3 + 5x) = 1</m> and its leading coefficient is <m>5</m>, <m>\mbox{deg}(1 + 3x - x^{2}) = 2</m> and its leading coefficient is <m>-1</m>, and the constant polynomial <m>p(x)=4</m> had degree 0 and leading coefficient 4. 
+    </p> 
+
+    <p>
+    To simplify our calculations, for the polynomial <m>p(x) = a_0 + a_1x + \cdots + a_nx^n</m>, we define <m>a_{n+1}, a_{n+2}, \ldots</m> to all be zero.
+    This means <m>a_i</m> will make sense for all non-negative values of <m>i</m>.
+    For example, <m>p(x)</m> is the zero polynomial exactly when <m>a_i=0</m> for all non-negative integers <m>i</m>.
+    Because <m>p(x)</m> is a polynomial, there are only finitely many <m>i</m> with <m>a_i \neq 0</m> and, when <m>p(x)</m> is not the zero polynomial, the largest such index <m>i</m> is the degree of <m>p(x)</m>.
+    </p>
+
+    <p>
+    Let <m>\mathbb{P}</m> denote the set of all polynomials and suppose that
+    <md>
+    <mrow> p(x) \amp = a_0 + a_1x + a_2x^2 + \cdots + a_mx^m</mrow>
+    <mrow> q(x) \amp = b_0 + b_1x + b_2x^2 + \cdots + b_nx^n</mrow>
+    </md>
+    are two polynomials in <m>\mathbb{P}</m> (possibly of different degrees). Then <m>p(x)</m> and <m>q(x)</m> are called <term>equal</term> (written <m>p(x) = q(x)</m>) if and only if all the corresponding coefficients are equal---
+    that is, one has <m>a_{0} = b_{0}</m>, <m>a_{1} = b_{1}</m>, <m>a_{2} = b_{2}</m>, and so on. 
+    In particular, <m>a_{0} + a_{1}x + \ldots + a_mx^m = 0</m> means <m>a_{0} = 0</m>, <m>a_{1} = 0</m>, <m>a_{2} = 0</m>, <m>\ldots</m>. 
+    </p> 
+
+    <p>
+    The set <m>\mathbb{P}</m> has vector addition and scalar multiplication operations defined as follows: if <m>p(x)</m> and <m>q(x)</m> are as before and <m>k</m> is a real number,
+    <md>
+    <mrow> p(x) + q(x) \amp = (a_0 + b_0) + (a_1 + b_1)x + (a_2 + b_2)x^2 + \cdots + (a_j+b_j) x^j</mrow>
+    <mrow> kp(x) \amp = ka_0 + (ka_1)x + (ka_2)x^2 + \cdots + (k a_m) x^m </mrow>
+    </md> 
+    where <m>j</m> is the larger of <m>m</m> or <m>n</m>.  
+    Notice that the degree of <m>p(x)+q(x)</m> is at most the larger of the degrees of <m>p(x)</m> and <m>q(x)</m> and
+    the degree of <m>k(p(x))</m> is exactly the degree of <m>p(x)</m>, provided <m>k \ne 0</m>.
+    </p>
+
+    <p> 
+    This is a ton of terminology, so we need some examples to understand it. 
+    </p> 
+
+    <example xml:id="ex-pisavectorspace">
+        <statement>
+            <p>
+                <m>\mathbb{P}</m> is a vector space.
+        </p>
+        </statement>
+        <answer>
+            <p>
+                It is easy to see that the sum of two polynomials is again a polynomial, and that a scalar multiple of a polynomial is a polynomial.  Thus, <m>\mathbb{P}</m> is closed under addition and scalar multiplication.  The other eight vector space properties can be verified (do one yourself), and we conclude that <m>\mathbb{P}</m> is a vector space.
+        </p>
+        </answer>
+    </example>
+
+
+    <example xml:id="ex-deg2onlynotavecspace">
+        <statement>
+            <p>
+                Let <m>Y</m> be the set of all degree two polynomials in <m>x</m>.  In other words,
+
+    <me>
+        Y=\left \lbrace ax^2+bx+c : a \ne 0 \right \rbrace.
+    </me>
+
+    We claim that <m>Y</m> is not a vector space.
+        </p>
+        </statement>
+        <answer>
+            <p>
+            Observe that <m>Y</m> is not closed under addition.  To see this, let <m>y_1 = 2x^2+3x+4</m> and let <m>y_2=-2x^2</m>.  Then <m>y_1</m> and <m>y_2</m> are both elements of <m>Y</m>.  However, <m>y_1+y_2 = 3x+4</m> is not an element of <m>Y</m>, as it is only a degree one polynomial.  We require the coefficient <m>a</m> of <m>x^2</m> to be nonzero for a polynomial to be in <m>Y</m>, and this is not the case for <m>y_1+y_2</m>.
+     
+            As an exercise, check the remaining vector space properties one-by-one to see which properties hold and which do not.  
+            </p>
+        </answer> 
+    </example>
+
+    <p>
+    The set <m>Y</m> in <xref ref="ex-deg2onlynotavecspace"/> is not a vector space, but if we make a slight modification, we can make it into a vector space.  
+    </p>
+
+
+    <example xml:id="ex-deg-le-2vectorspace">
+    <p>
+    Let  <m>\mathbb{P}^2</m> be the set of polynomials of degree two or less.  In other words,
+
+    <me>
+        \mathbb{P}^2=\left \lbrace ax^2+bx+c : a,b,c \in \mathbb{R} \right \rbrace.
+    </me>
+
+
+    Note that <m>\mathbb{P}^2</m> contains the zero polynomial (let <m>a=b=c=0</m>).  
+
+    Unlike set <m>Y</m> in <xref ref="ex-deg2onlynotavecspace"/>, <m>\mathbb{P}^2</m> is closed under polynomial addition and scalar multiplication.  It is easy to verify that all vector space properties hold, so <m>\mathbb{P}^2</m> is a vector space.
+    </p>
+    </example>
+
+    <example xml:id="ex-pnisavectorspace">
+    <p>
+    Let <m>n</m> be a natural number.  Define <m>\mathbb{P}^n</m> to be the set of polynomials of degree <m>n</m> or less than <m>n</m>, then by reasoning similar to <xref ref="ex-deg-le-2vectorspace"/>, <m>\mathbb{P}^n</m> is a vector space.
+    </p>
+    </example>
+    </subsection>
+
+    <subsection xml:id="Subsection-Subspaces">
+        <title>Subspaces</title>
+
+    <definition xml:id="def-subspaceabstract">
+
+        <statement>
+            <p>
+                A nonempty subset <m>U</m> of a vector space <m>V</m> is called a <term>subspace</term> of <m>V</m>, provided that <m>U</m> is itself a vector space when given the same addition and scalar multiplication as <m>V</m>.
+            </p>
+        </statement>
+    </definition>
+
+    <p> 
+    An example to showcase this is in order.
+    </p> 
+
+    <example xml:id="ex-subspaceabstract1">
+    <p>
+    In <xref ref="ex-deg-le-2vectorspace"/> we demonstrated that <m>\mathbb{P}^2</m> is a vector space.  From <xref ref="ex-pisavectorspace"/> we know that <m>\mathbb{P}</m> is a vector space. But <m>\mathbb{P}^2</m> is a subset of <m>\mathbb{P}</m>, and uses the same operations of polynomial addition and scalar multiplication.  Therefore <m>\mathbb{P}^2</m> is a subspace of <m>\mathbb{P}</m>.
+    </p>
+    </example>
+
+    <p>
+    Checking all ten properties to verify that a subset of a vector space is a subspace can be cumbersome.  Fortunately we have the following theorem.
+    </p> 
+
+    <theorem xml:id="th-subspacetestabstract">
+        <title>Subspace Test</title>
+        <statement>
+            <p>
+                Let <m>U</m> be a nonempty subset of a vector space <m>V</m>.  If <m>U</m> is closed under the operations of addition and scalar multiplication of <m>V</m>, then <m>U</m> is a subspace of <m>V</m>.
+            </p>
+        </statement>
+
+    <proof>
+        <p>
+    To prove that closure is a sufficient condition for <m>U</m> to be a subspace, we will need to show that closure under addition and scalar multiplication of <m>V</m> guarantees that the remaining eight properties are satisfied automatically.  
+        </p>
+
+        <p>
+    Observe that <xref ref="item-commaddvectspdef"/>, <xref ref="item-assaddvectspdef"/>, <xref ref="item-distvectaddvectspdef"/>, <xref ref="item-distscalaraddvectspdef"/>, <xref ref="item-assmultvectspdef"/> and <xref ref="item-idmultvectspdef"/> hold for all elements of <m>V</m>.  Thus, these properties will hold for all elements of <m>U</m>.  We say that these properties are <term>inherited</term> from <m>V</m>.
+        </p> 
+
+        <p>
+    To prove <xref ref="item-idaddvectspdef"/> we need to show that <m>\mathbf{0}</m>, which we know to be an element of <m>V</m>, is contained in <m>U</m>.  Let <m>\mathbf{u}</m> be an element of <m>U</m> (recall that <m>U</m> is nonempty).  We will show that <m>0\mathbf{u}=\mathbf{0}</m> in <m>V</m>.  Then, by closure under scalar multiplication, we will be able to conclude that <m>0\mathbf{u}=\mathbf{0}</m> must be in <m>U</m>.
+
+    <me>
+        0\mathbf{u}=(0+0)\mathbf{u}=0\mathbf{u}+0\mathbf{u}.
+    </me>
+
+    Adding the additive inverse of <m>0\mathbf{u}</m> to both sides gives us
+
+    <me>
+        0\mathbf{u}+(-0\mathbf{u})=(0\mathbf{u}+0\mathbf{u})+(-0\mathbf{u}).
+    </me>
+
+    Thanks to <xref ref="item-assaddvectspdef"/> and <xref ref="item-invaddvectspdef"/>.
+
+
+    <me>
+        \mathbf{0}=0\mathbf{u}+(0\mathbf{u}+(-0\mathbf{u})).
+    </me>
+
+    By <xref ref="item-idaddvectspdef"/> and <xref ref="item-invaddvectspdef"/>
+
+    <me>
+        \mathbf{0}=0\mathbf{u}+\mathbf{0}=0\mathbf{u}.
+    </me>
+
+
+    Because <m>U</m> is closed under scalar multiplication <m>0\mathbf{u}=\mathbf{0}</m> is in <m>U</m>.
+
+    We know that every element of <m>U</m>, being an element of <m>V</m>, has an additive inverse  in <m>V</m>.  We need to show that the additive inverse of every element of <m>U</m> is contained in <m>U</m>. Let <m>\mathbf{u}</m> be any element of <m>U</m>.  We will show that <m>(-1)\mathbf{u}</m> is the additive inverse of <m>\mathbf{u}</m>.  Then by closure, <m>(-1)\mathbf{u}</m> will have to be contained in <m>U</m>.  To show that <m>(-1)\mathbf{u}</m> is the additive inverse of <m>\mathbf{u}</m>, we must show that <m>\mathbf{u}+(-1)\mathbf{u}=\mathbf{0}</m>.  We compute:
+
+    <me>
+        \mathbf{u}+(-1)\mathbf{u}=1\mathbf{u}+(-1)\mathbf{u}=(1+(-1))\mathbf{u}=0\mathbf{u}=\mathbf{0}.
+    </me>
+
+    Thus <m>(-1)\mathbf{u}</m> is the additive inverse of <m>\mathbf{u}</m>. By closure, <m>(-1)\mathbf{u}</m> is in <m>U</m>.  
+        </p>
+    </proof>
+    </theorem>
+
+    <p>
+    Let us apply the theorem in a couple of examples.
+    </p>
+
+
+    <example xml:id="y-axis-subspace">
+        <statement>
+            <p>
+                Let <m>V</m> be the set of vectors in <m>\R^3</m> on the <m>y-</m>axis.  Then <m>V</m> is a subspace of <m>\R^3</m>.
+        </p>
+        </statement>
+        <answer>
+            <p>
+                To verify this, note that any vector in <m>V</m> is of the form 
+                <me>
+                \begin{bmatrix}0\\y\\0 \end{bmatrix}
+                </me>. 
+            If we multiply such a vector by a scalar <m>c</m>, we get a vector of the form 
+            <me>
+                \begin{bmatrix}0\\cy\\0 \end{bmatrix},
+            </me>
+            
+            which is clearly still in <m>V</m>.  This proves <m>V</m> is closed under scalar multiplication.  Next, note that 
+            <me>
+                \begin{bmatrix}0\\y_1\\0 \end{bmatrix} + \begin{bmatrix}0\\y_2\\0 \end{bmatrix}= \begin{bmatrix}0\\y_1 + y_2\\0\end{bmatrix},
+            </me>
+            
+            so <m>V</m> is closed under addition.
+        </p>
+        </answer>
+    </example>
+
+
+    <example xml:id="ex-centralizerofA">
+    <p>
+    Let <m>A</m> be a fixed matrix in <m>\mathbb{M}_{n,n}</m>. Show that the set <m>C_A</m> of all <m>n\times n</m> matrices that commute with <m>A</m> under matrix multiplication  is a subspace of <m>\mathbb{M}_{n,n}</m>.  
+    </p> 
+
+    <answer>
+    <p>
+    The set <m>C_A</m> consists of all <m>n\times n</m> matrices <m>X</m> such that <m>AX=XA</m>.  First, observe that <m>C_A</m> is not empty because <m>I_n</m> is an element.  Now we need to show that <m>C_A</m> is closed under matrix addition and scalar multiplication.
+
+    Suppose that <m>X_1</m> and <m>X_{2}</m> lie in <m>C_A</m>.  Then <m>AX_1 = X_1A</m> and <m>AX_{2} = X_{2}A</m>. Then
+
+    <me>
+        
+    A(X_1 + X_2) 	= AX_1 + AX_2 = X_1A + X_2A + (X_1 + X_2)A.
+    </me>
+
+    Therefore <m>(X_1+X_2)</m> commutes with <m>A</m>.  Thus <m>(X_1+X_2)</m> is in <m>C_A</m>.  We conclude that <m>C_A</m> is closed under matrix addition.
+
+    Now suppose <m>X</m> is in <m>C_A</m>.  Let <m>k</m> be a scalar, then
+
+    <me>
+        
+    A(kX)= k(AX) = k(XA) = (kX)A.
+
+    </me>
+
+    Therefore <m>(kX)</m> commutes with <m>A</m>.  We conclude that <m>(kX)</m> is in <m>C_A</m>, and <m>C_A</m> is closed under scalar multiplication.
+    Hence <m>C_A</m> is a subspace of <m>\mathbb{M}_{n,n}</m>.
+        </p>
+        </answer>
+    </example>
+
+    <remark>
+    <statement>
+    <p>
+    Suppose <m>p(x)</m> is a polynomial and <m>a</m> is a number. Then the number <m>p(a)</m> obtained by replacing <m>x</m> by <m>a</m> in the expression for <m>p(x)</m> is called the <term>evaluation</term> of <m>p(x)</m> at <m>a</m>. For example, if <m>p(x) = 5 - 6x + 2x^{2}</m>, then the evaluation of <m>p(x)</m> at <m>a = 2</m> is 
+    <me>
+        p(2) = 5 - 12 + 8 = 1.
+    </me>
+
+    If <m>p(a) = 0</m>, the number <m>a</m> is called a <term>root</term> of <m>p(x)</m>.
+    </p>
+    </statement>
+    </remark> 
+
+    <p>
+    To get used to the new terminology, let us look at an example in the context of polynomials.
+    </p> 
+
+
+    <example xml:id="ex-root3">
+        <statement>
+            <p>
+                Consider the set <m>U</m> of all polynomials in <m>\mathbb{P}</m> that have <m>3</m> as a root:
+    <me>
+    U = \lbrace p(x) \in \mathbb{P} : p(3) = 0 \rbrace.
+    </me>
+    Show that <m>U</m> is a subspace of <m>\mathbb{P}</m>.
+        </p>
+        </statement>
+
+        <answer>
+            <p>
+                Observe that <m>U</m> is not empty because <m>r(x)=x-3</m> is an element of <m>U</m>.  Suppose <m>p(x)</m> and <m>q(x)</m> lie in <m>U</m>.  Then <m>p(3) = 0</m> and <m>q(3) = 0</m>. We have 
+                <me>
+                (p + q)(x) = p(x) + q(x)
+                </me> 
+                
+                for all <m>x</m>, so 
+                <me>
+                (p + q)(3) = p(3) + q(3) = 0 + 0 = 0,
+                </me>
+                
+                and <m>U</m> is closed under addition. The verification that <m>U</m> is closed under scalar multiplication is similar.
+        </p>
+        </answer>
+    </example>
+
+    <p>
+        The following important results provides us with a quick way to determine that some subsets are not subspaces.
+    </p>
+
+
+    <theorem xml:id="th-zero-in-subspace">
+
+        <statement>
+            <p>
+                If <m>W</m> is a subspace of a vector space <m>V</m>, then the zero vector <m>\mathbf{0}</m> is in <m>W</m>.
+            </p>
+        </statement>
+
+        <proof>
+            <p> 
+               Since a subspace is nonempty, there is some vector <m>\mathbf{w}</m> in <m>W</m>. Then <m>0 \mathbf{w} = \mathbf{0}</m> is in <m>W</m> because <m>W</m> is closed under scalar multiplication.
+            </p>
+        </proof>
+    </theorem>
+
+    <p>
+        Consider lines in <m>\R^n</m>. Applying <xref ref="th-zero-in-subspace"/> shows that the only lines in <m>\R^n</m> that are subspaces are those that pass through the origin. 
+        The same holds true for planes and hyperplanes.  
+        For example, the plane <m>z=3</m> in <m>\R^3</m> is not a subspace of <m>\R^3</m>. It turns out that any plane containing the origin is a subspace.
+    </p>
+
+    <p>
+        Be warned that containing the zero vector is a necessary condition but not a sufficient condition to be a subspace.
+        That is, if a subset does not contain the zero vector, then it is not a subspace.  But if a subset does contain the zero vector, it may or may not be a subspace.
+        For example, the subset of <m>\R^2</m> given by <m>\{ (x,y) : y=x^2 \}</m>, the graph of the parabola <m>y=x^2</m>, contains the zero vector of <m>\R^2</m>, but is not a subspace since it is not closed under addition.
+        (Don't belive me? Just check!)
+    </p>
+
+    <theorem xml:id="th-opposite-in-subspace">
+        <statement>
+            <p>
+                If <m>W</m> is a subspace of a vector space <m>V</m>, then for any vector <m>\mathbf{w} \in W</m>, the additive inverse, <m>-\mathbf{w}</m>, is also in <m>W</m>.
+            </p>
+        </statement>
+    </theorem>
+
+    <p>
+        The proof is similar to what was done for the previous theorem and is left as an exercise.
+    </p>
+
+    </subsection>
+
+    <subsection xml:id="Subsection-Linear-Combinations-and-Span">
+        <title>Linear Combinations and Span</title>
+
+        <p>
+            Just as we have seen in <xref ref="Section-Linear-Combination-Equations-and-Span"/>, linear combination and span are fundamental to understanding vector spaces. 
+            These concepts will be used extensively in the next section and in the rest of the text. 
+        </p>
+
+    <definition xml:id="def-lincombabstract">
+
+        <statement>
+            <p>
+                Let <m>V</m> be a vector space and let <m>\mathbf{v}_1, \mathbf{v}_2,\ldots ,\mathbf{v}_n</m> be vectors in <m>V</m>.  A vector <m>\mathbf{v}</m> is said to be a <term>linear combination</term> of vectors <m>\mathbf{v}_1, \mathbf{v}_2,\ldots, \mathbf{v}_n</m> if 
+
+    <me>
+        \mathbf{v}=a_1\mathbf{v}_1+ a_2\mathbf{v}_2+\cdots + a_n\mathbf{v}_n,
+    </me>
+
+    for some scalars <m>a_1, a_2, \ldots ,a_n</m>.
+            </p>
+        </statement>
+    </definition>
+
+    <definition xml:id="def-spanabstract">
+
+        <statement>
+            <p>
+                Let <m>V</m> be a vector space and let <m>\mathbf{v}_1, \mathbf{v}_2,\ldots ,\mathbf{v}_p</m> be vectors in <m>V</m>.  The set of all linear combinations of
+                <me>
+                \mathbf{v}_1, \mathbf{v}_2,\ldots ,\mathbf{v}_p
+                </me>
+                
+                is called the <term>span</term> of <m>\mathbf{v}_1, \mathbf{v}_2,\ldots ,\mathbf{v}_p</m> and we write it as 
+
+    <me>
+        \mbox{span}(\mathbf{v}_1, \mathbf{v}_2,\ldots ,\mathbf{v}_p)
+    </me>
+
+    Given some subset <m>S</m> we say that vectors <m>\mathbf{v}_1, \mathbf{v}_2,\ldots ,\mathbf{v}_p</m> <term>span</term> <m>S</m> if every vector in <m>S</m> is a linear combination of the <m>v_1,\ldots,v_p</m>.
+    That is, 
+    <me>
+        S = \mbox{span}(\mathbf{v}_1, \mathbf{v}_2,\ldots ,\mathbf{v}_p)
+    </me>
+     
+    Any vector in <m>S</m> is said to be <term>in the span</term> of <m>\mathbf{v}_1, \mathbf{v}_2,\ldots ,\mathbf{v}_p</m>.  The set 
+    <me>
+    \{\mathbf{v}_1, \mathbf{v}_2,\ldots ,\mathbf{v}_p\}
+    </me>
+
+    is called a <term>spanning set</term> for <m>S</m>.
+            </p>
+        </statement>
+    </definition>
+
+
+    <p>
+    We revisit the situation for some specific polynomials.
+    </p> 
+
+    <example xml:id="ex-inthespanpoly">
+        <statement>
+            <p>
+                Consider <m>p_{1} = 1 + x + 4x^{2}</m> and <m>p_{2} = 1 + 5x + x^{2}</m> in <m>\mathbb{P}^{2}</m>. 
+                Determine whether <m>p_{1}</m> and <m>p_{2}</m> lie in 
+                <me>
+                    \mbox{span}\{1 + 2x - x^{2}, 3 + 5x + 2x^{2}\}.
+                </me>
+        </p>
+        </statement>
+        <answer>
+            <p>
+                For <m>p_{1}</m>, we want to determine if <m>a</m> and <m>b</m> exist such that
+    <me>
+    p_1 = a(1 + 2x - x^2) + b(3 + 5x + 2x^2).
+    </me>
+
+    Expanding the right hand side gives us:
+
+    <me>
+        a+2ax-ax^2+3b+5bx+2bx^2.
+    </me>
+
+    Combining like terms, we get:
+
+    <me>
+        (a+3b)+(2a+5b)x+(-a+2b)x^2.
+    </me>
+
+    Setting this equal to <m>p_{1} = 1 + x + 4x^{2}</m> and
+    equating coefficients of powers of <m>x</m> gives us a system of equations
+    <me>
+    1 = a + 3b,\quad 1 = 2a + 5b, \quad \mbox{ and } \quad 4 = -a + 2b.
+    </me>
+    This system has the solution <m>a = -2</m> and <m>b = 1</m>, so <m>p_{1}</m> is indeed in <m>\mbox{span}\{1 + 2x - x^{2}, 3 + 5x + 2x^{2}\}</m>.
+
+    Turning to <m>p_{2} = 1 + 5x + x^{2}</m>, we are looking for <m>a</m> and <m>b</m> such that 
+    <me>
+    p_{2} = a(1 + 2x - x^{2}) + b(3 + 5x + 2x^{2}).
+    </me>
+    Again equating coefficients of powers of <m>x</m> gives equations <m>1 = a + 3b</m>, <m>5 = 2a + 5b</m>, and <m>1 = -a + 2b</m>. But in this case there is no solution, so <m>p_{2}</m> is not in <m>\mbox{span}\{1 + 2x - x^{2}, 3 + 5x + 2x^{2}\}</m>.
+        </p>
+        </answer>
+    </example>
+
+    <theorem xml:id="th-span-is-subspace">
+
+        <statement>
+            <p>
+                Let <m>V</m> be a vector space.  Let <m>S</m> be any subset of <m>V</m>.  Then <m>U=\mbox{span}(S)</m> is a subspace of <m>V</m>.
+            </p>
+        </statement>
+
+    <proof>
+        <p>
+            We leave this an exercise for the reader, namely <xref ref="prob-spanisasubspaceabstract"/>.
+        </p>
+    </proof>
+    </theorem>
+
+    <p>
+        This theorem is used often, as it gives a quick way to show a subset of a vector space is a subspace.  
+        If we can show the subset is the span of some set of vectors, then we know the subset is a subspace without further calculation.
+        Going back to Example <xref ref="ex-deg-le-2vectorspace"/>, a quick way to show <m>\mathbb{P}^2</m> is a subspace of <m>\mathbb{P}</m> is by observing that <m>\mathbb{P}^2=\mbox{span}(1,x,x^2)</m>.
+    </p>
+    
+    <example>
+        <statement>
+            <p>
+                Verify that every line, plane, and hyperplane through the origin in <m>\R^n</m> is a subspace of <m>\R^n</m>.
+            </p>
+        </statement>
+        <answer>
+            <p>
+                This is a direct consequence of <xref ref="th-span-is-subspace"/>.  
+                For example, consider the line through the origin in <m>\R^3</m> spanned by the vector <m>\mathbf{v} = [1,2,3]</m>.  
+                The span of this vector is the set of all scalar multiples of <m>\mathbf{v}</m>, which is a subspace of <m>\R^3</m>.  
+                Similarly, any plane or hyperplane through the origin can be expressed as the span of two or more vectors, respectively, and thus is also a subspace.
+            </p>
+        </answer>
+    </example>
+
+
+    </subsection>
+
+
+
+    <exercises>
+
+        <!--Start of Closure Exercises-->
+
+        <exercisegroup> 
+            <introduction>
+                <p>
+            Let <m>Y^+</m> be the set of all vectors <m>[x,y]</m> in <m>\mathbb{R}^2</m> whose <m>y</m> components are non-negative.      
+                </p>
+            </introduction>
+
+            <exercise xml:id="prob-Y-1">
+                <statement>
+                    <p>
+                        Is <m>Y^+</m> closed under vector addition?
+                    </p>
+                </statement>
+                <answer>
+                    <p>
+                Yes.
+                    </p>
+                </answer>
+            </exercise>
+            
+
+
+            <exercise xml:id="prob-Y-2">
+                <statement>
+                    <p>
+                        Is <m>Y^+</m> closed under scalar multiplication?
+                    </p>
+                </statement>
+                <answer>
+                    <p>
+                    No.
+                    </p>
+                </answer>
+            </exercise>
+        </exercisegroup>
+
+
+            
+        <exercisegroup>
+            <introduction>
+                <p>
+            Let <m>X</m> be the set of all vectors in <m>\R^3</m> that lie on either the <m>x</m>-axis, the <m>y</m>-axis, or the <m>z</m>-axis.    
+                </p>
+            </introduction>
+
+
+                <exercise xml:id="pr-R-3axes1">
+                <statement>
+                    <p>
+                        Is <m>X</m> closed under vector addition?
+                    </p>
+                </statement>
+                <answer>
+                    <p>
+                    No.
+                    </p>
+                </answer>
+            </exercise>
+
+
+
+                <exercise xml:id="pr-R-3axes2">
+                <statement>
+                    <p>
+                        Is <m>X</m> closed under scalar multiplication?
+                    </p>
+                </statement>
+
+                <answer>
+                    <p>
+                    Yes.
+                    </p>
+                </answer>
+            </exercise>
+        </exercisegroup>
+
+            
+        <exercisegroup>
+            <introduction>
+                <p>
+                     For each figure below, determine whether the set <m>V</m> of vectors shown in the figure is closed under vector addition and scalar multiplication.  Justify your responses.
+                </p>
+            </introduction>
+
+            <exercise xml:id="prob-closedmultchoice1">
+                <statement>
+                    <p>
+                        <m>V</m> consists of all vectors in <m>\mathbb{R}^3</m> in a slanted half-plane which has the <m>x</m>-axis as a boundary.
+                    </p>
+
+                    <image width="65%">
+                     <shortdescription> The graph of <m>V</m>, a (half) plane in <m>\R^3</m> bounded by a line. </shortdescription>
+                        <latex-image>
+                             \tdplotsetmaincoords{70}{130}
+                             \begin{tikzpicture}[scale=0.8]
+                                \draw[-\gt ](-4,0,0)--(1,0,0); %y
+                                \draw[-\gt ](0,-2,0)--(0,3,0) ;%z
+                                \draw[-\gt ](0,0,-2)--(0,0,5) ;%x
+                                \filldraw[blue, opacity=0.3] (0,0,-1)--(-3,3,-1)--(-3,3,4)--(0,0,4)--cycle;
+                            \end{tikzpicture}
+                        </latex-image>
+                    </image>
+
+                    <p>
+                        Is <m>V</m> closed under scalar multiplication? What about addition?
+                    </p>
+                </statement>
+
+                <answer>
+                    <p>
+                        It is closed under addition but not under scalar multiplication.
+                    </p>
+                </answer>
+            </exercise>
+
+
+            <exercise xml:id="closedmultchoice2">
+                <statement>
+                    <p>
+                        <m>V</m> consists of all vectors along the line, as shown.
+                    </p>
+
+                    <image width="65%">
+                        <shortdescription>The graph of the line <m>y=2x</m>.</shortdescription>
+                        <latex-image>
+                            \begin{tikzpicture}[scale=0.5]
+                                \draw[\lt -\gt ] (-4,0)--(4,0);
+                                \draw[\lt -\gt ] (0,-4)--(0,4);
+                                \draw[-\gt ,line width=2pt,blue, -stealth] (0,0)--(2,4);
+                                \draw[-\gt ,line width=2pt,blue, -stealth] (0,0)--(-2,-4);
+                                \draw[-\gt ,line width=2pt,blue, -stealth] (0,0)--(1,2);
+                                \draw[-\gt ,line width=2pt,blue, -stealth] (0,0)--(-1,-2);
+                            \end{tikzpicture}
+                        </latex-image>
+                    </image>
+            
+                    <p>
+                        Is <m>V</m> closed under scalar multiplication? What about addition?
+                    </p>
+                </statement>
+
+                <answer>
+                    <p>
+                        It is closed under both addition and scalar multiplication.
+                    </p>
+                </answer>
+            </exercise>    
+        </exercisegroup>
+
+        <!--End of Closure Exercies-->
+
+        <!--Start of Vector Space Exercises-->
+        <exercisegroup>
+        <introduction>
+            <p>
+        Is the set of all points in <m>\mathbb{R}^2</m> a vector space under the given definitions of addition and scalar multiplication?    In each case be specific about which vector space properties hold and which properties fail.
+            </p>
+        </introduction>
+
+        <exercise xml:id="prob-abstractvectspace1">
+            <statement>
+                <p>
+        Addition: <me>(a, b)+(c, d)=(a+d, b+c)</me> and scalar Multiplication: <me>k(a, b)=(ka, kb).</me>
+                </p>
+            </statement>
+        </exercise> 
+
+        <exercise xml:id="prob-abstractvectspace2">
+            <statement>
+                <p>
+                    Addition: <me>(a, b)+(c, d)=(0, b+d)</me> and scalar Multiplication: <me>k(a, b)=(ka, kb).</me>
+                </p>
+            </statement>
+        </exercise>
+
+        <exercise xml:id="prob-abstractvectspace3">
+            <statement>
+                <p>
+                    Addition: <me>(a, b)+(c, d)=(a+c, b+d)</me> and scalar Multiplication: <me>k(a, b)=(a, kb).</me>
+                </p>
+            </statement>
+        </exercise>
+
+        <exercise xml:id="prob-abstractvectspace4">
+            <statement>
+                <p>
+                    Addition: <me>(a, b)+(c, d)=(a-c, b-d)</me> and scalar Multiplication: <me>k(a, b)=(ka, kb).</me>
+                </p>
+            </statement>
+        </exercise>
+        </exercisegroup>
+        
+        <exercise xml:id="prob-abstractvectspace5">
+            <statement>
+                <p>
+                    Let <m>\mathcal{F}</m> be the set of all real-valued functions whose domain is all real numbers.  Define addition and scalar multiplication as follows:
+        
+        <me>
+            (f+g)(x)=f(x)+g(x)\quad (cf)(x)=cf(x).
+        </me>
+
+        Verify that <m>\mathcal{F}</m> is a vector space.
+                </p>
+            </statement>
+        </exercise>
+
+
+        <exercise xml:id="prob-abstractvectspacediffeq">
+            <statement>
+                <p>
+                    A differential equation is an equation that contains derivatives.  Consider the differential equation:
+        <men xml:id="diffeq">
+        f''+f=0.
+        </men>
+
+        A solution to such an equation is a function.
+
+        <ol>
+        <li>
+            <p> Verify that <m>f(x)=\sin x</m> is a solution to <xref ref="diffeq"/>. </p>
+        </li>
+        <li>
+            <p> Is <m>f(x)=2\sin x</m> a solution? </p>
+        </li>
+        <li>
+            <p> Is <m>f(x)=\cos x</m> a solution? </p>
+        </li>
+        <li>
+            <p> Is <m>f(x)=\sin x+\cos x</m> a solution? </p>
+        </li>
+        <li>
+            <p> Let <m>S</m> be the set of all solutions to <xref ref="diffeq"/>.  Prove that <m>S</m> is a vector space. </p>
+        </li>
+        </ol>
+                </p>
+            </statement>
+        </exercise>
+
+
+        <exercise xml:id="prob-abstractvectspacecomplex">
+            <statement>
+                <p>
+                    In this problem we will check that the set <m>\mathbb{C}</m> of all complex numbers is in fact a real vector space.  Let <m>z_1 = a_1 + b_1 i</m> be a complex number.  Similarly, let <m>z_2 = a_2 + b_2 i</m>, <m>z_3 = a_3 + b_3 i</m> be complex numbers, and let <m>k</m> and <m>p</m> be real number scalars.  Check that complex numbers are closed under addition and multiplication, and that they satisfy each of the vector space properties.
+                </p>
+            </statement>
+        </exercise>
+
+        <!--End of Vector Space Exercises-->
+
+        <!--Start of Subspace Exercises-->
+        <exercise xml:id="prob-opposite-in-subspace">
+            <statement>
+                <p>
+                    Prove <xref ref="th-opposite-in-subspace"/>.
+                </p>
+            </statement>
+        </exercise>
+
+        <exercise xml:id="prob-null-A-is-subspace">
+            <statement>
+                <p>
+                    Let <m>A</m> be an <m>m \times n</m> matrix.  
+                    Let <m>V</m> be the subset of <m>\R^n</m> consisting of all vectors <m>\mathbf{x}</m> such that <m>A \mathbf{x} = \mathbf{0}</m>.  
+                    Prove that <m>V</m> is a subspace of <m>\R^n</m>.  
+                    (Note that this subspace is called the null space of the matrix <m>A</m> and we will denote it <m>\mbox{null}(A)</m>.)
+                </p>
+            </statement>
+        </exercise>
+
+        <exercise xml:id="prob-abstractvectspace6">
+            <statement>
+                <p>
+                    Refer to <xref ref="ex-centralizerofA"/> and describe all elements of <m>C_I</m>, where <m>I</m> is a <m>3\times 3</m> identity matrix.
+                </p>
+            </statement>
+        </exercise>
+  
+        <exercise xml:id="prob-abstractvectspace7">
+            <statement>
+                <p>
+                    Is the subset of all invertible <m>n\times n</m> matrices a subspace of <m>\mathbb{M}_{n,n}</m>?  Prove your claim.
+                </p>
+            </statement>
+        </exercise>
+
+        <exercise xml:id="prob-symmetricsubspace">
+            <statement>
+                <p>
+                    Is the subset of all symmetric <m>n\times n</m> matrices a subspace of <m>\mathbb{M}_{n,n}</m>? (eee  <xref ref="def-symmetricandskewsymmetric"/>.)  Prove your claim.
+                </p>
+            </statement>
+        </exercise>
+
+        <exercise xml:id="prob-abstractvectspace8">
+            <statement>
+                <p>
+                    Let <m>Z</m> be a subset of <m>\mathbb{M}_{n,n}</m> that consists of <m>n\times n</m> matrices that commute with <em>every</em> matrix in <m>\mathbb{M}_{n,n}</m> under matrix multiplication. In other words,
+
+        <me>
+            Z= \lbrace B : BY=YB \mbox{ for all } Y \in \mathbb{M}_{n,n} \rbrace.
+        </me>
+
+
+        Is <m>Z</m> a subspace of <m>\mathbb{M}_{n,n}</m>?
+                </p>
+            </statement>
+
+        <hint>
+        <p> 
+        Don't forget to check that <m>Z</m> is not empty!
+        </p>
+        </hint>
+        </exercise>
+        <!--End of Subspace Exercises-->
+
+
+        <!--Start of Span Exercises-->
+        <exercise xml:id="prob-abstractvectspace9">
+            <statement>
+                <p>
+                    List several elements of 
+                <me>
+                \mbox{span}\left(\begin{bmatrix}1\amp 0\\0\amp 1\end{bmatrix}, \begin{bmatrix}0\amp 1\\1\amp 0\end{bmatrix}\right).
+                </me>
+                
+                Suggest a spanning set for <m>\mathbb{M}_{2,2}</m>.
+                </p>
+            </statement>
+        </exercise>
+
+        <exercise xml:id="prob-abstractvectspace10">
+            <statement>
+                <p>
+                    Describe how every element of <m>\mbox{span}(1, x, x^2, x^3)</m> looks like.
+                </p>
+            </statement>
+        </exercise>
+
+        <exercise xml:id="prob-spanisasubspaceabstract">
+            <statement>
+                <p>
+                    Prove <xref ref="th-span-is-subspace"/>.
+                </p>
+            </statement>
+        </exercise>
+        <!--End of Span Exercises-->
+        
+
+
+    </exercises>
+
+
+</section>

@@ -1,0 +1,558 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<section xml:id="Section-Cross-Product-and-its-Properties" xmlns:xi="http://www.w3.org/2001/XInclude">
+    <title>Extra Topic: Cross Product and its Properties</title>\
+    
+    <p>
+        In <xref ref="Section-Dot-Product-and-its-Properties"/> we introduced the <term>dot product</term>, one of two important products for vectors.  
+        We will now introduce the second type of product, called the <term>cross product</term>.  There are several important distinctions to keep in mind.  
+        First, the dot product is defined for two vectors of <m>\R^n</m>, for any  natural number <m>n</m>; the cross-product will only be defined for vectors of <m>\R^3</m>.  
+        Second, the dot product is a scalar; the cross product of two vectors will be a vector.  
+        Finally, we will find that unlike the dot product, the cross product is not commutative.
+    </p>  
+
+    <p>
+        The cross product has many applications in physics and engineering.  
+        It also has important geometric properties which will be addressed in this section and in <xref ref="Section-Determinants-as-Areas-and-Volumes"/>.
+    </p>
+
+    <subsection xml:id="Subsection-Preliminaries">
+        <title>Preliminaries</title>
+        <p>
+            In order to define the cross product in a convenient way we need to define <m>2\times 2</m> and <m>3\times 3</m> determinants.  
+            If you know how to find such determinants you may skip this section and proceed directly to the definition.
+        </p>
+
+        <definition xml:id="def-twodetcrossprod">
+            <title><m>2\times 2</m> Determinant</title>
+            <statement>
+                <p>
+                    A <m>2\times 2</m> <term>determinant</term> is a number associated with a <m>2\times 2</m> matrix
+                    <me>
+                        \det{\begin{bmatrix}
+                            a \amp  b\\
+                            c \amp  d
+                            \end{bmatrix}}=\begin{vmatrix}
+                            a \amp  b\\
+                            c \amp  d
+                        \end{vmatrix} = ad-bc
+                    </me>
+                </p>
+            </statement>
+        </definition>
+        
+        <example xml:id="ex-twodetcrossprod">
+            <p>
+                <me>
+                    \begin{vmatrix}
+                        2 \amp  4\\
+                        -5 \amp  3
+                    \end{vmatrix} =(2)(3)-(4)(-5)=6+20=26
+                </me>
+            </p>
+        </example>
+        
+        <definition xml:id="def-threedetcrossprod">
+            <title><m>3\times 3</m> Determinant</title>
+            <statement>
+                <p>
+                    A <m>3\times 3</m> <term>determinant</term> is a number associated with a <m>3\times 3</m> matrix
+                    <me>
+                        \det{\begin{bmatrix}
+                        a_1 \amp  a_2 \amp  a_3\\
+                        b_1 \amp  b_2 \amp b_3\\
+                        c_1 \amp c_2 \amp c_3
+                        \end{bmatrix}}=
+                        \begin{vmatrix}
+                        a_1 \amp  a_2 \amp  a_3\\
+                        b_1 \amp  b_2 \amp b_3\\
+                        c_1 \amp c_2 \amp c_3
+                        \end{vmatrix} =a_1
+                        \begin{vmatrix}
+                        b_2 \amp  b_3\\
+                        c_2 \amp  c_3
+                        \end{vmatrix} -a_2
+                        \begin{vmatrix}
+                        b_1 \amp  b_3\\
+                        c_1 \amp  c_3
+                        \end{vmatrix} +a_3
+                        \begin{vmatrix}
+                        b_1 \amp  b_2\\
+                        c_1 \amp  c_2
+                        \end{vmatrix}
+                    </me>
+                </p>
+            </statement>
+        </definition>
+        
+        <example xml:id="ex-threedetcrossprod">
+            <p>
+                <md>
+                    <mrow> 
+                        \begin{vmatrix}
+                        4 \amp  2 \amp  1\\
+                        5 \amp  -3 \amp 0\\
+                        -2 \amp 3 \amp 2
+                        \end{vmatrix}\amp =4
+                        \begin{vmatrix}
+                        -3 \amp  0\\
+                        3 \amp  2
+                        \end{vmatrix} -2
+                        \begin{vmatrix}
+                        5 \amp  0\\
+                        -2 \amp  2
+                        \end{vmatrix} +1
+                        \begin{vmatrix}
+                        5 \amp  -3\\
+                        -2 \amp  3
+                        \end{vmatrix}
+                    </mrow>
+                    <mrow> \amp =4\Big ((-3)(2)-(0)(3)\Big)-2\Big((5)(2)-(0)(-2)\Big)+\Big((5)(3)-(-3)(-2)\Big) </mrow>
+                    <mrow> \amp =(4)(-6)-(2)(10)+(15-6) </mrow>
+                    <mrow> \amp =-35 </mrow>
+                </md>
+            </p>
+        </example>
+        
+        <p>
+            For more help on <m>3 \times 3</m> determinants, see <xref ref="ex-threebythreedet1"/> and the video located there.
+        </p>
+    </subsection>
+
+
+    <subsection xml:id="Subsection-Definition-of-the-Cross-Product">
+        <title>Definition of the Cross Product</title>
+    
+        <definition xml:id="def-crossproduct">
+            <statement>
+                <p>
+                    Let <m>\mathbf{u=\begin{bmatrix}u_1\\u_2\\u_3\end{bmatrix}}</m> and <m>\mathbf{v}=\begin{bmatrix}v_1\\v_2\\v_3\end{bmatrix}</m> be vectors in <m>\R^3</m>.  The <term>cross product</term> of <m>\mathbf{u}</m> and <m>\mathbf{v}</m>, denoted by <m>\mathbf{u}\times\mathbf{v}</m>, is given by
+                    <md>
+                        <mrow> \mathbf{u}\times\mathbf{v}\amp =(u_2v_3-u_3v_2)\mathbf{i}-(u_1v_3-u_3v_1)\mathbf{j}+(u_1v_2-u_2v_1)\mathbf{k} </mrow>
+                        <mrow> \amp =(u_2v_3-u_3v_2)\begin{bmatrix}1\\0\\0\end{bmatrix}-(u_1v_3-u_3v_1)\begin{bmatrix}0\\1\\0\end{bmatrix}+(u_1v_2-u_2v_1)\begin{bmatrix}0\\0\\1\end{bmatrix}=\begin{bmatrix}u_2v_3-u_3v_2\\-u_1v_3+u_3v_1\\u_1v_2-u_2v_1\end{bmatrix} </mrow>
+                    </md>
+                </p>
+            </statement>
+        </definition>
+        
+        <p>
+            This formula is much easier to remember when stated symbolically in terms of determinants.
+            <me>
+                \mathbf{u}\times \mathbf{v}=\begin{bmatrix}u_1\\u_2\\u_3\end{bmatrix}\times\begin{bmatrix}v_1\\v_2\\v_3\end{bmatrix}=\begin{vmatrix}\mathbf{i}\amp \mathbf{j}\amp \mathbf{k}\\u_1\amp u_2\amp u_3\\v_1\amp v_2\amp v_3\end{vmatrix}=\mathbf{i}\begin{vmatrix}u_2\amp u_3\\v_2\amp v_3\end{vmatrix}-\mathbf{j}\begin{vmatrix}u_1\amp u_3\\v_1\amp v_3\end{vmatrix}+\mathbf{k}\begin{vmatrix}u_1\amp u_2\\v_1\amp v_2\end{vmatrix} 
+            </me>
+        </p>
+
+        <example xml:id="ex-crossproduct">
+            <p>
+                Find the cross product of <m>\mathbf{u}=\begin{bmatrix}3\\ -10\\ 2\end{bmatrix}</m> and <m>\mathbf{v}=\begin{bmatrix}-2\\ 4\\ 7\end{bmatrix}</m>.
+            </p>
+            <p>
+                <md>
+                    <mrow>
+                        \mathbf{u}\times \mathbf{v}\amp =
+                        \begin{vmatrix}
+                            \mathbf{i} \amp  \mathbf{j} \amp  \mathbf{k}\\
+                            3 \amp  -10 \amp  2\\
+                            -2 \amp 4 \amp  7
+                        \end{vmatrix} =\mathbf{i}
+                        \begin{vmatrix}
+                            -10 \amp  2\\
+                            4 \amp  7
+                        \end{vmatrix} -\mathbf{j}
+                        \begin{vmatrix}
+                            3 \amp  2\\
+                            -2 \amp  7
+                        \end{vmatrix} +\mathbf{k}
+                        \begin{vmatrix}
+                            3 \amp  -10\\
+                            -2 \amp  4
+                        \end{vmatrix}
+                    </mrow>
+                    <mrow> \amp =\mathbf{i}\Big((-10)(7)-(2)(4)\Big)-\mathbf{j}\Big((3)(7)-(2)(-2)\Big)+\mathbf{k}\Big((3)(4)-(-10)(-2)\Big) </mrow>
+                    <mrow> \amp =-78\mathbf{i}-25\mathbf{j}-8\mathbf{k}=\begin{bmatrix}-78\\ -25\\ -8\end{bmatrix} </mrow>
+                </md>
+            </p>
+        </example>
+    </subsection>
+
+    <subsection xml:id="Subsection-Properties-of-the-Cross-Product">
+        <title>Properties of the Cross Product</title>
+        
+        <exploration xml:id="init-crossproduct2">
+            <p>
+                What would happen if we took the cross product of the vectors in <xref ref="ex-crossproduct"/> but reversed the order?
+            </p>
+            <p>
+                Let <m>\mathbf{v}=\begin{bmatrix}-2\\ 4\\ 7\end{bmatrix}</m> and <m>\mathbf{u}=\begin{bmatrix}3\\ -10\\ 2\end{bmatrix}</m>.
+                Recall that <m>\mathbf{u}\times\mathbf{v}=\begin{bmatrix}-78\\-25\\-8\end{bmatrix}</m>.  We need to compute <m>\mathbf{v}\times\mathbf{u}</m>.  
+                If you have already studied the effect that switching two rows of a matrix has on its determinant, you should be able to guess the outcome of the upcoming computation.
+                <md>
+                    <mrow> 
+                        \mathbf{v}\times \mathbf{u}\amp =
+                        \begin{vmatrix}
+                        \mathbf{i} \amp  \mathbf{j} \amp  \mathbf{k}\\
+                        -2 \amp 4 \amp 7\\
+                        3 \amp  -10 \amp 2
+                        \end{vmatrix} =\mathbf{i}
+                        \begin{vmatrix}
+                        4 \amp  7\\
+                        -10 \amp  2
+                        \end{vmatrix} -\mathbf{j}
+                        \begin{vmatrix}
+                        -2 \amp  7\\
+                        3 \amp  2
+                        \end{vmatrix} +\mathbf{k}
+                        \begin{vmatrix}
+                        -2 \amp  4\\
+                        3 \amp  -10
+                        \end{vmatrix}
+                    </mrow>
+                    <mrow> \amp =\mathbf{i}\Big((4)(2)-(7)(-10)\Big)-\mathbf{j}\Big((-2)(2)-(7)(3)\Big)+\mathbf{k}\Big((-2)(-10)-(4)(3)\Big) </mrow>
+                    <mrow> \amp =78\mathbf{i}+25\mathbf{j}+8\mathbf{k}=\begin{bmatrix}78\\ 25\\ 8\end{bmatrix}=-(\mathbf{u}\times\mathbf{v}) </mrow>
+                </md>
+                This computation shows that the cross product is an operation that is not commutative. It also suggests that switching the order of the vectors changes the sign of the result.
+            </p>
+        </exploration>
+        <warning>
+            <p>
+                The Cross Product is not a commutative operation.
+            </p>
+        </warning>
+        
+        <theorem xml:id="th-corssuvnegcrossvu">
+            <statement>
+                <p>
+                    Let <m>\mathbf{u}</m> and <m>\mathbf{v}</m> be vectors in <m>\R^3</m>, then
+                    <me>
+                        \mathbf{u}\times\mathbf{v}=-(\mathbf{v}\times\mathbf{u})
+                    </me>
+                </p>
+            </statement>
+            <proof>
+                <p>
+                    The proof is left to the reader.  (See Practice Problem <xref ref="prob-corssuvnegcrossvu"/>)
+                </p>
+            </proof>
+        </theorem>
+        
+        <p>
+            The next theorem lists two additional properties of the cross product.  Proofs of these properties are routine and are left to the reader.  (See <xref ref="prob-scalarassocofcrossprod"/> and <xref ref="prob-distofrossprod"/>)
+        </p>
+        
+        <theorem xml:id="th-crossproductproperties">
+            <statement>
+                <p>
+                    Let <m>\mathbf{u}</m>, <m>\mathbf{v}</m> and <m>\mathbf{w}</m> be vectors in <m>\mathbb{R}^3</m>, and <m>k</m> be a scalar, then\\
+                    <ol>
+                        <li xml:id="item-scalarassocofcrossprod">
+                            <p>
+                                Scalar Associativity
+                                <me>
+                                    (k\mathbf{u})\times \mathbf{v}=\mathbf{u}\times (k\mathbf{v})=k(\mathbf{u}\times \mathbf{v})
+                                </me>
+                            </p>
+                        </li> 
+                        <li xml:id="item-distofrossprod">
+                            <p>
+                                Distributivity
+                                <me>
+                                    (\mathbf{u}+\mathbf{v})\times \mathbf{w}=\mathbf{u}\times \mathbf{w}+\mathbf{v}\times \mathbf{w}
+                                </me>
+                                <me>
+                                    \mathbf{u}\times (\mathbf{v}+\mathbf{w})=\mathbf{u}\times \mathbf{v}+\mathbf{u}\times \mathbf{w}
+                                </me>
+                            </p>
+                        </li> 
+                    </ol>
+                </p>
+            </statement>
+        </theorem>
+        
+        <p>
+            The cross product has several important geometric properties. The following problems give us a glimpse of these properties.
+        </p>
+        
+        <exploration xml:id="init-ijkcrossproducts">
+            <p>
+                Compute the following products:
+                <me>
+                    \mathbf{i}\times\mathbf{j}=\begin{bmatrix} 0\\ 0\\ 1\end{bmatrix},\quad\mathbf{j}\times\mathbf{k}=\begin{bmatrix} 1\\ 0\\ 0\end{bmatrix}
+                </me>
+                For the two vectors in each product, sketch the vectors together with the product vector.  What do you observe about the relationship between the cross product and the plane determined by the two vectors in the product?  
+            </p>
+            <p>
+                <em>Hint:</em> <m>\mathbf{i}\times\mathbf{j}=\mathbf{k}</m>.  Vector <m>\mathbf{k}</m> is orthogonal to both <m>\mathbf{i}</m> and <m>\mathbf{j}</m>
+            </p>
+        </exploration>
+    </subsection>
+
+    <subsection xml:id="Subsection-Orthogonality-Property">
+        <title>Orthogonality Property</title>
+        <exploration xml:id="init-orthofcorssproduct">
+            <p>
+                In this problem we will return to vectors of <m>\mathbf{v}=\begin{bmatrix}-2\\ 4\\ 7\end{bmatrix}</m> and <m>\mathbf{u}=\begin{bmatrix}3\\ -10\\ 2\end{bmatrix}</m> of <xref ref="ex-crossproduct"/> and <xref ref="init-crossproduct2"/>.  We know that 
+                <me>
+                    \mathbf{u}\times\mathbf{v}=\begin{bmatrix}-78\\-25\\-8\end{bmatrix}\quad\text{and}\quad\mathbf{v}\times\mathbf{u}=\begin{bmatrix}78\\25\\8\end{bmatrix}
+                </me>
+                We will now compute the dot product of <m>\mathbf{v}\times\mathbf{u}</m> with each of the original vectors <m>\mathbf{u}</m> and <m>\mathbf{v}</m>.
+                <me>
+                    \mathbf{u}\cdot(\mathbf{v}\times\mathbf{u})=\begin{bmatrix}3\\ -10\\ 2\end{bmatrix}\cdot\begin{bmatrix}78\\25\\8\end{bmatrix}=0
+                </me>
+                <me>
+                    \mathbf{v}\cdot(\mathbf{v}\times\mathbf{u})=\begin{bmatrix}-2\\ 4\\ 7\end{bmatrix}\cdot\begin{bmatrix}78\\25\\8\end{bmatrix}=0
+                </me>
+                It is also easy to verify that <m>\mathbf{u}\cdot(\mathbf{u}\times\mathbf{v})=0</m> and <m>\mathbf{v}\cdot(\mathbf{u}\times\mathbf{v})=0</m>.  Recall that the dot product of two vectors is <m>0</m> if and only if the two vectors are orthogonal. (<xref ref="th-orth"/>)
+                We conclude that, at least in this case, the cross product of two vectors is orthogonal to each of the vectors.  
+            </p>
+        </exploration>
+        
+        <p>
+            It turns out that the orthogonality property illustrated by <xref ref="init-ijkcrossproducts"/> and <xref ref="init-orthofcorssproduct"/>  holds in general.  We state it as a theorem.
+        </p>
+        
+        <theorem xml:id="th-crossproductorthtouandv">
+            <statement>
+                <p>
+                    Let <m>\mathbf{u}</m> and <m>\mathbf{v}</m> be vectors of <m>\R^3</m>, then <m>\mathbf{u}\times\mathbf{v}</m> is orthogonal to both <m>\mathbf{u}</m> and <m>\mathbf{v}</m>.
+                </p>
+            </statement>
+            <proof>
+                <p>
+                    This proof can be done by direct computation and is left to the reader.  (See <xref ref="prob-crossproductorthtouandv"/>)
+                </p>
+            </proof>
+        </theorem>        
+    </subsection>
+
+    <subsection xml:id="Subsection-Cross-Product-and-the-Angle-between-Vectors">
+        <title>Cross Product and the Angle between Vectors</title>
+        <p>
+            Recall that the dot product of <m>\mathbf{u}</m> and <m>\mathbf{v}</m> is related to the angle <m>\theta</m> between <m>\mathbf{u}</m> and <m>\mathbf{v}</m> by the following formula
+            <men xml:id="eq-dotproductformula">
+                \mathbf{u}\cdot\mathbf{v}=\norm{\mathbf{u}}\norm{\mathbf{v}}\cos\theta
+            </men>
+            We will derive an analogous result for the cross product.  To do so, we will need the following Lemma.
+        </p>
+
+        <lemma xml:id="lemma-crossprodmagnitude">
+            <statement>
+                <p>
+                    Let <m>\mathbf{u}</m> and <m>\mathbf{v}</m> be vectors in <m>\R^3</m>.  Then
+                    <me>
+                        \norm{\mathbf{u}\times\mathbf{v}}^2=\norm{\mathbf{u}}^2\norm{\mathbf{v}}^2-(\mathbf{u}\cdot\mathbf{v})^2
+                    </me>
+                </p>
+            </statement>
+            <proof>
+                <p> 
+                    The proof is left to the reader.  (See <xref ref="prob-corssprodmagnitude"/>)
+                </p>
+            </proof>
+        </lemma>
+        
+        <p>
+            The following theorem establishes a relationship between the magnitude of the cross product, the magnitudes of the two vectors involved in the cross product and the angle between the two vectors.  It is important to note that  the identity in this theorem involves the magnitude of the cross product, not the cross product itself.
+        </p>
+        
+        <theorem xml:id="th-crossproductsin">
+            <statement>
+                <p>
+                    Let <m>\mathbf{u}</m> and <m>\mathbf{v}</m> be vectors in <m>\R^3</m>. Let <m>\theta</m> be the angle between <m>\mathbf{u}</m> and <m>\mathbf{v}</m> such that <m>0\leq\theta\leq \pi</m>. Then
+                    <me>
+                        \norm{\mathbf{u}\times\mathbf{v}}=\norm{\mathbf{u}}\norm{\mathbf{v}}\sin\theta.
+                    </me>
+                </p>
+            </statement>
+            <proof>
+                <p>
+                    By <xref ref="lemma-crossprodmagnitude"/> and <xref ref="eq-dotproductformula"/> we have
+                    <md>
+                        <mrow> \norm{\mathbf{u}\times\mathbf{v}}^2\amp =\norm{\mathbf{u}}^2\norm{\mathbf{v}}^2-(\mathbf{u}\cdot\mathbf{v})^2 </mrow>
+                        <mrow> \amp =\norm{\mathbf{u}}^2\norm{\mathbf{v}}^2-(\norm{\mathbf{u}}\norm{\mathbf{v}}\cos \theta)^2 </mrow>
+                        <mrow> \amp =\norm{\mathbf{u}}^2\norm{\mathbf{v}}^2-\norm{\mathbf{u}}^2\norm{\mathbf{v}}^2\cos^2\theta </mrow>
+                        <mrow> \amp =\norm{\mathbf{u}}^2\norm{\mathbf{v}}^2(1-\cos^2\theta) </mrow>
+                        <mrow> \amp =\norm{\mathbf{u}}^2\norm{\mathbf{v}}^2\sin^2\theta </mrow>
+                    </md>
+                    Observe that all magnitudes are non-negative.  Also, <m>\sin\theta\geq 0</m> because <m>0\leq\theta\leq \pi</m>.  Taking the square root of both sides give us
+                    <me>
+                        \norm{\mathbf{u}\times\mathbf{v}}=\norm{\mathbf{u}}\norm{\mathbf{v}}\sin\theta
+                    </me>
+                </p>
+            </proof>
+        </theorem>
+    </subsection>
+
+
+
+        <exercises xml:id="Exercises-Cross-Product-and-its-Properties">
+            <exercise xml:id="prob-crossik">
+                <statement>
+                   <p>
+                        <m>\mathbf{i}\times\mathbf{k}=</m>
+                   </p>
+                </statement>
+                <choices>
+                    <choice>
+                        <statement>
+                            <p> 
+                                <m>\mathbf{j}</m> 
+                            </p>
+                        </statement>
+                    </choice>
+                    <choice correct="yes">
+                        <statement>
+                            <p>
+                                <m>-\mathbf{j}</m>
+                            </p>
+                        </statement>
+                    </choice>
+                    <choice>
+                        <statement>
+                            <p>
+                                neither
+                            </p>
+                        </statement>
+                    </choice>
+                </choices>
+            </exercise>
+            
+            <exercise xml:id="prob-crosski">
+                <statement>
+                   <p> <m>\mathbf{k}\times\mathbf{i}=</m> </p>
+                </statement>
+                <choices>
+                    <choice correct="yes">
+                        <statement>
+                            <p>
+                                <m>\mathbf{j}</m>
+                            </p>
+                        </statement>
+                    </choice>
+                    <choice>
+                        <statement>
+                            <p>
+                                <m>-\mathbf{j}</m>
+                            </p>
+                        </statement>
+                    </choice>
+                    <choice>
+                        <statement>
+                            <p>
+                                neither
+                            </p>
+                        </statement>
+                    </choice>
+                </choices>
+            </exercise>
+
+            <exercisegroup>
+                <introduction>
+                    <p>
+                        Find the cross product <m>\mathbf{u}\times\mathbf{v}</m>, and verify that <m>\mathbf{u}\times\mathbf{v}</m> is orthogonal to both <m>\mathbf{u}</m> and <m>\mathbf{v}</m>.
+                    </p>
+                </introduction>
+                <exercise xml:id="prob-crossuv1">
+                    <statement>
+                        <p>
+                            <m>\mathbf{u}=\begin{bmatrix}2\\-1\\4\end{bmatrix}</m>, <m>\mathbf{v}=\begin{bmatrix}0\\3\\1\end{bmatrix}</m>.
+                        </p>
+                    </statement>
+                    <answer>
+                        <p>
+                            <me>
+                                \mathbf{u}\times\mathbf{v}=\begin{bmatrix} -13\\ -2\\ 6\end{bmatrix}
+                            </me>
+                        </p>
+                    </answer>
+                </exercise>
+                
+                <exercise xml:id="prob-crossuv2">
+                    <statement>
+                        <p>
+                            <m>\mathbf{u}=\begin{bmatrix}-1\\5\\-3\end{bmatrix}</m>, <m>\mathbf{v}=\begin{bmatrix}2\\-1\\-4\end{bmatrix}</m>.
+                        </p>
+                    </statement>
+                    <answer>
+                        <p>
+                            <me>
+                                \mathbf{u}\times\mathbf{v}=\begin{bmatrix} -23\\ -10\\ -9\end{bmatrix}
+                            </me>
+                        </p>
+                    </answer>
+                </exercise>
+            </exercisegroup>
+
+            <exercise xml:id="prob-corssuvnegcrossvu">
+                <statement>
+                    <p>
+                        Prove <xref ref="th-corssuvnegcrossvu"/>.
+                    </p>
+                </statement>
+            </exercise>
+            
+            <exercise xml:id="prob-scalarassocofcrossprod">
+                <statement>
+                    <p>
+                        Prove <xref ref="th-crossproductproperties"/><xref ref="item-scalarassocofcrossprod"/> in two different ways:
+                        <ol>
+                            <li>
+                                <p> By direct computation. </p>
+                            </li>
+                            <li>
+                                <p> (Optional) By using <xref ref="th-elemrowopsanddet"/><xref ref="item-rowconstantmultanddet"/>. </p>
+                            </li>
+                        </ol>
+                    </p>
+                </statement>
+            </exercise>
+            
+            <exercise xml:id="prob-distofrossprod">
+                <statement>
+                    <p>
+                        Prove <xref ref="th-crossproductproperties"/><xref ref="item-distofrossprod"/>.
+                    </p>
+                </statement>
+            </exercise>
+            
+            <exercise xml:id="prob-crossproductorthtouandv">
+                <statement>
+                   <p>
+                        Prove <xref ref="th-crossproductorthtouandv"/>.
+                   </p>
+                </statement>
+            </exercise>
+            
+            <exercise xml:id="prob-crossself">
+                <statement>
+                    <p>
+                        Prove that the cross product of any vector with itself is the zero vector.
+                    </p>
+                </statement>
+            </exercise>
+
+            <exercise xml:id="prob-crossprodzero">
+                <statement>
+                   <p>
+                        Suppose that <m>\mathbf{u}</m> is a non-zero vector.  Let <m>\mathbf{v}=k\mathbf{u}</m> for <m>k\neq 0</m>.  Argue that <m>\mathbf{u}\times \mathbf{v}=\mathbf{0}</m> in two different ways:
+                        <ol>
+                            <li>
+                                <p> By using <xref ref="th-crossproductsin"/>. </p>
+                            </li>
+                            <li>
+                                <p>
+                                    (Optional) By using <xref ref="th-detofsingularmatrix"/>.
+                                </p>
+                            </li>
+                        </ol>
+                    </p>
+                </statement>
+            </exercise>
+            
+            <exercise xml:id="prob-corssprodmagnitude">
+                <statement>
+                    <p> Prove <xref ref="lemma-crossprodmagnitude"/>. </p>
+                </statement> 
+            </exercise>
+        </exercises>
+        
+</section>

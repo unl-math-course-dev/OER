@@ -1,0 +1,405 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<section xml:id="Section-Standard-Matrix-of-a-Linear-Transformation-from-m-R-n-m-to-m-R-m-m-" xmlns:xi="http://www.w3.org/2001/XInclude">
+    <title>Standard Matrix of a Linear Transformation from <m>\R^n</m> to <m>\R^m</m></title>
+
+
+
+  
+
+
+
+ 
+<p>
+In the preceding sections, we learned several important properties of matrix transformations of <m>\R^n</m> and subspaces of <m>\R^n</m>.  Let's summarize the main points.
+</p>
+
+
+<fact xml:id="sum-matrixTrans">
+<statement>
+<p>
+For a matrix transformation <m>T:\R^n\rightarrow\R^m</m>, induced by an <m>m\times n</m> matrix <m>A</m> we have the following results:
+<ul>
+    <li>
+      <p> <m>T</m> is linear. (Theorem <xref ref="th-matrixtran"/>)  This means that 
+    
+<me>
+    T(k_1\mathbf{u}+k_2\mathbf{v})= k_1T(\mathbf{u})+k_2T(\mathbf{v})
+</me>
+
+    for vectors <m>\mathbf{u}</m> and <m>\mathbf{v}</m> in <m>\R^n</m> and scalars <m>k_1</m> and <m>k_2</m> in <m>\R</m>. </p>
+</li>
+    <li xml:id="eq-matlintrans">
+  <p> Columns of <m>A</m> are the images of the standard unit vectors of <m>\R^n</m> under <m>T</m>. <!--(<xref ref="obs-imagesOfijk"/>)-->
+ <me>
+ A=\begin{bmatrix}
+           a_{11} \amp  a_{12}\amp \dots\amp a_{1n}\\
+           a_{21}\amp a_{22} \amp \dots \amp a_{2n}\\ 
+           \vdots \amp  \vdots\amp \ddots \amp \vdots\\
+           a_{m1}\amp \dots \amp \dots \amp a_{mn}
+            \end{bmatrix}
+            = 
+            \begin{bmatrix}
+              | \amp  |\amp  \amp |\\
+           T(\mathbf{e}_1) \amp  T(\mathbf{e}_2)\amp \dots \amp T(\mathbf{e}_n)\\
+           |\amp | \amp  \amp |
+            \end{bmatrix}
+   </me>
+        </p>
+</li>
+
+    
+    <li>
+      <p> The action of <m>T</m> on all of the elements of <m>\R^n</m> is completely determined by where <m>T</m> maps the standard unit vectors. (See Examples <xref ref="ex-imageOfBasisVectors"/> and <xref ref="ex-imageofatransformation"/>) </p>
+</li>
+</ul>
+</p>
+</statement>
+</fact>
+
+<p>
+The last point in the summary is so important that it is worth illustrating again.
+</p>
+
+
+<example xml:id="ex-imageofatransformation">
+    <statement>
+        <p>
+            Let <m>T:\R^3\rightarrow \R^2</m> be a linear transformation. Suppose that the only information we have about this transformation is that 
+        <me>
+            T(\mathbf{i})=\begin{bmatrix}3\\-1\end{bmatrix}, \quad T(\mathbf{j})=\begin{bmatrix}0\\4\end{bmatrix} \quad \text{and} \quad T(\mathbf{k})=\begin{bmatrix}-2\\1\end{bmatrix}.
+        </me>
+        
+        Is this information sufficient to determine the image of <m>\mathbf{w}=\begin{bmatrix}1\\-3\\6\end{bmatrix}</m>?
+       </p>
+    </statement>
+    
+    <answer>
+        <p>
+            Observe that 
+
+<me>
+    \mathbf{w}=\mathbf{i}-3\mathbf{j}+6\mathbf{k}
+</me>
+
+We find <m>T(\mathbf{w})</m> by using the fact that <m>T</m> is linear:
+
+<md>
+    <mrow> T(\mathbf{w}) \amp =T(\mathbf{i}-3\mathbf{j}+6\mathbf{k})  </mrow>
+    <mrow> \amp=T(\mathbf{i})-3T(\mathbf{j})+6T(\mathbf{k}) </mrow>
+    <mrow> \amp=\begin{bmatrix}3\\-1\end{bmatrix}-3\begin{bmatrix}0\\4\end{bmatrix}+6\begin{bmatrix}-2\\1\end{bmatrix} </mrow>
+    <mrow> \amp=\begin{bmatrix}-9\\-7\end{bmatrix} </mrow>
+</md>
+
+Because of properties of linear transformations, the information about the images of the standard unit vectors proved to be sufficient for us to determine the image of <m>\mathbf{w}</m>.
+       </p>
+    </answer>
+</example>
+
+<p>
+In <xref ref="ex-imageofatransformation"/>, there was nothing special about the vector <m>\mathbf{w}</m>.  Any vector <m>\mathbf{x}</m> of <m>\R^n</m> can be written as a unique linear combination of the standard unit vectors <m>\mathbf{e}_1,\ldots , \mathbf{e}_n</m>.  Therefore, the image of any vector <m>\mathbf{x}</m> under a linear transformation <m>T:\R^n\rightarrow \R^m</m> is uniquely determined by the images of <m>\mathbf{e}_1, \ldots , \mathbf{e}_n</m>.  Knowing <m>T(\mathbf{e}_1),\ldots , T(\mathbf{e}_n)</m> allows us to construct a matrix <m>A</m>, with <m>T(\mathbf{e}_1),\ldots , T(\mathbf{e}_n)</m> as columns, that induces transformation <m>T</m>.  We formalize this idea in a theorem.
+</p>
+
+
+<theorem xml:id="th-matlin">
+
+    <statement>
+        <p>
+            Let <m>T:\R^n\rightarrow\R^m</m> be a linear transformation.  Then <m>T</m> is a matrix transformation with
+  <me> \label{matlintrans}
+ A=\begin{bmatrix}
+           | \amp  |\amp  \amp |\\
+		T(\mathbf{e}_1) \amp  T(\mathbf{e}_2)\amp \dots \amp T(\mathbf{e}_n)\\
+		|\amp | \amp  \amp |
+         \end{bmatrix}
+</me>
+as a matrix that induces <m>T</m>.
+        </p>
+    </statement>
+
+
+<proof>
+    <p>  Observe that
+<md>
+<mrow> \mathbf{x}=\begin{bmatrix}x_1\\x_2\\\vdots\\x_n\end{bmatrix} \amp=x_1\begin{bmatrix}1\\0\\\vdots\\0\end{bmatrix}+x_2\begin{bmatrix}0\\1\\\vdots\\0\end{bmatrix}+\dots+x_n\begin{bmatrix}0\\0\\\vdots\\1\end{bmatrix} </mrow>
+<mrow> \amp=x_1\mathbf{e}_1+x_2\mathbf{e}_2+\dots+x_n\mathbf{e}_n. </mrow>
+</md>
+Because <m>T</m> is linear, we have
+<md>
+<mrow> T(\mathbf{x})\amp =T(x_1\mathbf{e}_1+x_2\mathbf{e}_2+\dots+x_n\mathbf{e}_n) </mrow>
+<mrow> \amp=x_1T(\mathbf{e}_1)+x_2T(\mathbf{e}_2)+\dots+x_nT(\mathbf{e}_n) </mrow>
+<mrow> \amp =\begin{bmatrix}
+           | \amp  |\amp  \amp |\\
+		T(\mathbf{e}_1) \amp  T(\mathbf{e}_2)\amp \dots \amp T(\mathbf{e}_n)\\
+		|\amp | \amp  \amp |
+         \end{bmatrix}\begin{bmatrix}x_1\\x_2\\\vdots\\x_n\end{bmatrix}=A\mathbf{x}. </mrow>
+</md>
+
+Thus, for every <m>\mathbf{x}</m> in <m>\R^n</m>, we have <m>T(\mathbf{x})=A\mathbf{x}</m>. 
+    </p>
+</proof>
+</theorem>
+
+<p>
+ <xref ref="th-matrixtran"/> shows that every matrix transformation is linear.  <xref ref="th-matlin"/> states that every linear transformation from <m>\R^n</m> into <m>\R^m</m> is a matrix transformation. 
+  We combine these results in a corollary.
+</p>
+
+  <corollary xml:id="cor-lintransmattrans">
+
+    <statement>
+        <p>
+            A transformation <m>T:\R^n\rightarrow\R^m</m> is a linear transformation if and only if it is a matrix transformation.
+        </p>
+    </statement>
+</corollary>  
+
+<p>
+The results of this section rely on the fact that every vector of <m>\R^n</m> can be written as a unique linear combination of the standard unit vectors <m>\mathbf{e}_1,\mathbf{e}_2,\dots,\mathbf{e}_n</m>.  
+These vectors form the <term>standard basis</term> for <m>\R^n</m>. Later on, when we encounter transformations of arbitrary bases, we will observe that the matrix used to represent a linear transformation 
+depends on a choice of basis.  Since we are using the standard basis, it is natural to name the matrix in <xref ref="th-matlin"/> accordingly.
+</p>
+
+
+<definition xml:id="def-standardmatoflintrans">
+
+    <statement>
+        <p>
+            The matrix in <xref ref="th-matlin"/> is known as the <term>standard matrix of the linear transformation</term> <m>T</m>.
+        </p>
+    </statement>
+</definition>
+
+<example xml:id="ex-findmatrix2">
+    <p>
+        The standard matrix of a linear transformation <m>T:\R^3\rightarrow \R^2</m> such that
+    <me>
+     T(\mathbf{i})=\begin{bmatrix}2\\-1\end{bmatrix}, \quad T(\mathbf{j})=\begin{bmatrix}-1\\3\end{bmatrix} \quad \text{and} \quad T(\mathbf{k})=\begin{bmatrix}0\\4\end{bmatrix}
+    </me> 
+ is
+<me>
+    A=\begin{bmatrix}2\amp -1\amp 0\\-1\amp 3\amp 4\end{bmatrix}.
+</me>
+    </p>
+</example>
+ 
+ <example xml:id="ex-findmatrix">
+    <statement>
+        <p>
+            Find the standard matrix of a linear transformation <m>T:\R^2\rightarrow \R^2</m> such that <m>T(\mathbf{i})=2\mathbf{i}</m> and <m>T(\mathbf{j})=2\mathbf{j}</m>.
+       </p>
+    </statement>
+    <answer>
+        <p>
+            We use the images of <m>\mathbf{i}</m> and <m>\mathbf{j}</m> as columns of the matrix.  The standard matrix of <m>T</m> is
+
+<me>
+    \begin{bmatrix}2\amp 0\\0\amp 2\end{bmatrix}.
+</me>
+       </p>
+    </answer>
+</example>
+ 
+ <example xml:id="ex-transNoStBases">
+    <statement>
+        <p>
+            Find the standard matrix of a linear transformation <m>T:\R^2\rightarrow \R^4</m>, where
+            <me> 
+            T\left(\begin{bmatrix}3\\1\end{bmatrix}\right)=\begin{bmatrix}6\\1\\13\\-1\end{bmatrix} \quad \text{and} \quad T\left(\begin{bmatrix}-2\\0\end{bmatrix}\right)=\begin{bmatrix}-2\\0\\-8\\2\end{bmatrix}.
+            </me>
+       </p>
+    </statement>
+    <answer>
+        <p>
+            In this example we are not given the images of the standard basis vectors <m>\mathbf{i}</m> and <m>\mathbf{j}</m>.  However, we can find the images of <m>\mathbf{i}</m> and <m>\mathbf{j}</m> by expressing <m>\mathbf{i}</m> and <m>\mathbf{j}</m> as linear combinations of <m>[3,1]</m> and <m>[-2,0]</m>, then apply the fact that <m>T</m> is linear.
+
+Let's start with the easy one.  
+
+<me>
+    \mathbf{i}=-\frac{1}{2}\begin{bmatrix}-2\\0\end{bmatrix}.
+</me>
+
+Therefore, by linearity of <m>T</m>, we have:
+
+<me>
+    T(\mathbf{i})=T\left(-\frac{1}{2}\begin{bmatrix}-2\\0\end{bmatrix}\right)=-\frac{1}{2}T\left(\begin{bmatrix}-2\\0\end{bmatrix}\right)=-\frac{1}{2}\begin{bmatrix}-2\\0\\-8\\2\end{bmatrix}=\begin{bmatrix}1\\0\\4\\-1\end{bmatrix}.
+</me>
+
+This gives us the first column of the standard matrix for <m>T</m>.
+</p>
+
+<p>
+You can solve the vector equation
+
+<me>
+    a\begin{bmatrix}3\\1\end{bmatrix}+b\begin{bmatrix}-2\\0\end{bmatrix}=\mathbf{j}
+</me>
+
+to express <m>\mathbf{j}</m> as a linear combination of <m>[3,1]</m> and <m>[-2,0]</m> as follows:
+
+<me>
+    \mathbf{j}=\begin{bmatrix}3\\1\end{bmatrix}+\frac{3}{2}\begin{bmatrix}-2\\0\end{bmatrix}.
+</me>
+
+By linearity of <m>T</m>,
+<md>
+    <mrow> T(\mathbf{j})\amp =T\left(\begin{bmatrix}3\\1\end{bmatrix}+\frac{3}{2}\begin{bmatrix}-2\\0\end{bmatrix}\right) </mrow>
+    <mrow>    \amp =T\left(\begin{bmatrix}3\\1\end{bmatrix}\right)+\frac{3}{2}T\left(\begin{bmatrix}-2\\0\end{bmatrix}\right) </mrow> 
+    <mrow> \amp =\begin{bmatrix}6\\1\\13\\-1\end{bmatrix}+\frac{3}{2}\begin{bmatrix}-2\\0\\-8\\2\end{bmatrix}=\begin{bmatrix}3\\1\\1\\2\end{bmatrix}. </mrow>
+</md>
+This gives us the second column of the standard matrix.  Putting all of the information together, we get the following standard matrix for <m>T</m>:
+
+<me>
+    A=\begin{bmatrix}1\amp 3\\0\amp 1\\4\amp 1\\-1\amp 2\end{bmatrix}.
+</me>
+       </p>
+    </answer>
+</example>
+
+
+
+<exercises>
+
+<exercise xml:id="prob-evaluateT">
+    <statement>
+        <p>
+            Suppose that a linear transformation <m>T:\R^2\rightarrow\R^3</m> is such that 
+        <me>
+            T(\mathbf{i})=\begin{bmatrix}-4\\2\\1\end{bmatrix} \quad \text{and} \quad T(\mathbf{j})=\begin{bmatrix}0\\-1\\5\end{bmatrix}.
+        </me>
+        
+        Find 
+        <me>
+        T\Big(\begin{bmatrix}4\\-1\end{bmatrix}\Big)
+        </me>.
+    </p>
+    </statement>
+
+<answer>
+<p>
+    <me>
+        T\Big(\begin{bmatrix}4\\-1\end{bmatrix}\Big)=\begin{bmatrix}-16\\9\\-1\end{bmatrix}.
+    </me>
+</p>
+</answer>
+</exercise>
+
+<exercise xml:id="prob-standardmatrix">
+    <statement>
+        <p>
+            Suppose that a linear transformation <m>T:\R^2\rightarrow\R^3</m> is such that
+            <me>
+            T\Big(\begin{bmatrix}1\\-1\end{bmatrix}\Big)=\begin{bmatrix}1\\4\\-1\end{bmatrix} \quad \text{and} \quad T\Big(\begin{bmatrix}2\\0\end{bmatrix}\Big)=\begin{bmatrix}0\\6\\4\end{bmatrix}
+            </me>.
+        
+        Find the standard matrix <m>A</m> of <m>T</m>.
+        </p>
+    </statement>
+
+<answer>
+<p>
+<me>
+    A=\begin{bmatrix}0\amp -1\\3\amp -1\\2\amp 3\end{bmatrix}.
+</me>
+        </p>
+    </answer>
+</exercise>
+
+
+<exercisegroup>
+<introduction>
+    <p>
+        Find the standard matrix <m>A</m> of each linear transformation <m>T:\R^2\rightarrow\R^2</m> described below. 
+    </p>
+</introduction>
+
+  <exercise xml:id="prob-standardmatrix1">
+    <statement>
+        <p>
+            <m>T</m> doubles the <m>x</m> component of every vector and triples the <m>y</m> component.
+        </p>
+    </statement>
+ 
+<answer>
+    <p>
+<me>
+    A=\begin{bmatrix}2\amp 0\\0\amp 3\end{bmatrix}.
+</me>
+    </p>
+</answer>
+</exercise>
+
+
+
+  <exercise xml:id="prob-standardmatrix2">
+    <statement>
+        <p>
+            <m>T</m> reverses the direction of each vector.
+        </p>
+    </statement>
+
+<answer>
+    <p>
+<me>
+    A=\begin{bmatrix}-1\amp 0\\0\amp -1\end{bmatrix}.
+</me>
+    </p>
+</answer>
+</exercise>
+
+
+
+  <exercise xml:id="prob-standardmatrix5">
+    <statement>
+        <p>
+            <m>T</m> doubles the length of each vector.
+        </p>
+    </statement>
+  
+<answer>
+<p>
+<me>
+    A=\begin{bmatrix}2\amp 0\\0\amp 2\end{bmatrix}
+</me>
+</p>
+</answer>
+</exercise>
+
+
+  <exercise xml:id="prob-standardmatrix3">
+    <statement>
+        <p>
+            <m>T</m> projects each vector onto the <m>x</m>-axis. (e.g. <m>T([4,5])=[4,0]</m>).
+        </p>
+    </statement>
+
+<answer>
+<p>
+<me>
+    A=\begin{bmatrix}1\amp 0\\0\amp 0\end{bmatrix}.
+</me>
+</p>
+</answer>
+</exercise>
+
+
+
+  <exercise xml:id="prob-standardmatrix4">
+    <statement>
+        <p>
+            <m>T</m> projects each vector onto the <m>y</m>-axis. (e.g. <m>T([4,5])=[0,5]</m>)
+        </p>
+    </statement>
+  
+<answer>
+<p>
+<me>
+    A=\begin{bmatrix}0\amp 0\\0\amp 1\end{bmatrix}.
+</me>
+</p>
+</answer>
+</exercise>
+</exercisegroup> 
+
+</exercises>
+</section>

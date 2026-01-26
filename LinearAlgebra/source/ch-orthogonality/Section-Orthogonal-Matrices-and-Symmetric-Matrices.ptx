@@ -1,0 +1,1159 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<section xml:id="Section-Orthogonal-Matrices-and-Symmetric-Matrices" xmlns:xi="http://www.w3.org/2001/XInclude">
+    <title>Orthogonal Matrices and Symmetric Matrices</title>
+
+    <introduction>
+    <p>
+    Recall that an <m>n \times n</m> matrix <m>A</m> is diagonalizable if and only if it has <m>n</m> linearly independent eigenvectors. Moreover, the matrix <m>P</m> with these eigenvectors as columns is a diagonalizing matrix for <m>A</m>, that is
+    <me>
+    P^{-1}AP \mbox{ is diagonal.}
+    </me>
+    As we have seen, the nice bases of <m>\R^n</m> are the orthogonal ones, so a natural question is: which <m>n \times n</m> matrices have <m>n</m> orthogonal eigenvectors, so that columns of <m>P</m> form an orthogonal basis for <m>\R^n</m>? These turn out to be precisely the <term>symmetric matrices</term> (matrices for which <m>A=A^T</m>), and this is the main result of this section.
+   </p>
+    </introduction>
+
+<subsection xml:id="Subsection-Orthogonal-Matrices">
+    <title>Orthogonal Matrices</title>
+
+    <p>
+Recall that an orthogonal set of vectors is called <term>orthonormal</term> if <m>\norm{\mathbf{q}} = 1</m> for each vector <m>\mathbf{q}</m> in the set, and that any orthogonal set <m>\{\mathbf{v}_{1}, \mathbf{v}_{2}, \dots, \mathbf{v}_{k}\}</m> can be <em>normalized</em>, i.e., converted into an orthonormal set 
+<me>
+\left\{ \frac{1}{\norm{\mathbf{v}_{1}}}\mathbf{v}_{1}, \frac{1}{\norm{\mathbf{v}_{2}}}\mathbf{v}_{2}, \dots, \frac{1}{\norm{\mathbf{v}_{k}}}\mathbf{v}_{k} \right\}.
+</me> 
+
+In particular, if a matrix <m>A</m> has <m>n</m> orthogonal eigenvectors, they can (by normalizing) be taken to be orthonormal. The corresponding diagonalizing matrix (we will use <m>Q</m> instead of <m>P</m>) has orthonormal columns, and such matrices are very easy to invert.
+    </p>
+
+<theorem xml:id="th-orthogonal-matrices">
+
+    <statement>
+        <p>
+            The following conditions are equivalent for an <m>n \times n</m> matrix <m>Q</m>.
+
+<ol>
+<li xml:id="th-orthogonal-matrices-a">
+  <p> <m>Q</m> is invertible and <m>Q^{-1} = Q^{T}</m>. </p>
+</li>
+
+<li xml:id="th-orthogonal-matrices-b">
+  <p> The rows of <m>Q</m> are orthonormal. </p>
+</li>
+
+<li xml:id="th-orthogonal-matrices-c">
+  <p> The columns of <m>Q</m> are orthonormal. </p>
+</li>
+
+</ol>
+        </p>
+    </statement>
+
+
+<proof>
+    <p>
+Note that condition <xref ref="th-orthogonal-matrices-a"/> is equivalent to <m>Q^{T}Q = I</m>. Let <m>\mathbf{q}_{1}, \mathbf{q}_{2}, \dots, \mathbf{q}_{n}</m> denote the columns of <m>Q</m>. Then <m>\mathbf{q}_{i}^{T}</m> is the <m>i</m>th row of <m>Q^{T}</m>, so the <m>(i, j)</m>-entry of <m>Q^{T}Q</m> is <m>\mathbf{q}_{i} \cdot \mathbf{q}_{j}</m>. Thus <m>Q^{T}Q = I</m> means that <m>\mathbf{q}_{i} \cdot \mathbf{q}_{j} = 0</m> if <m>i \neq j</m> and <m>\mathbf{q}_{i} \cdot \mathbf{q}_{j} = 1</m> if <m>i = j</m>. Hence <xref ref="th-orthogonal-matrices-a"/> is equivalent to <xref ref="th-orthogonal-matrices-c"/>. 
+    </p> 
+    
+    <p>
+    The proof of the equivalence of <xref ref="th-orthogonal-matrices-a"/> and <xref ref="th-orthogonal-matrices-b"/> is similar, using <m>QQ^{T}=I</m>.
+    </p>
+</proof>
+</theorem>
+
+
+
+<definition xml:id="def-orthogonal-matrices">
+    <title>Orthogonal Matrices</title>
+    <statement>
+        <p>
+            An <m>n \times n</m> matrix <m>Q</m> is called an <term>orthogonal matrix</term> if it satisfies one (and hence all) of the conditions in <xref ref="th-orthogonal-matrices"/>.
+        </p>
+    </statement>
+</definition>
+
+
+<p> 
+Rotation matrices are perhaps the most familiar examples of orthogonal matrices, as discussed below.
+</p> 
+
+<example xml:id="ex-rotation-ortho">
+    <statement>
+        <p>
+            The rotation matrix
+<me>\begin{bmatrix}
+\cos\theta \amp  -\sin\theta \\
+\sin\theta \amp  \cos\theta
+\end{bmatrix}</me> is orthogonal for any angle <m>\theta</m>.
+       </p>
+    </statement>
+
+    <answer>
+        <p>
+            See <xref ref="prob-rotation-ortho"/>.
+       </p>
+    </answer>
+</example>
+
+
+
+<p>
+It is not enough that the rows of a matrix <m>A</m> are merely orthogonal for <m>A</m> to be an orthogonal matrix. Here is an example.
+</p> 
+
+
+
+<remark xml:id="orthVsOrthnormMat">
+    <statement>
+    <p>
+    In view of <xref ref="th-orthogonal-matrices-b"/> and <xref ref="th-orthogonal-matrices-c"/> of <xref ref="th-orthogonal-matrices"/>, <term>orthonormal matrix</term> might be a better name. But <term>orthogonal matrix</term> is standard.
+    </p> 
+    </statement>
+    </remark>
+
+<exploration xml:id="exp-make-orthogonal">
+    <p>
+        Let <me>A=\begin{bmatrix}
+    2\amp 1\amp 1\\-1\amp 1\amp 1\\0\amp -1\amp 1
+\end{bmatrix}.</me>
+</p> 
+
+<problem>
+<statement>
+<p>
+<ol>
+    <li>
+      <p> Check that matrix <m>A</m> has rows that are orthogonal. </p>
+</li>
+    <li>
+      <p> Check that matrix <m>A</m> has columns that are NOT orthogonal. </p>
+</li>
+    <li>
+      <p> Check that matrix <m>A</m> has rows that are NOT orthonormal. </p>
+</li>
+    <li>
+      <p> Create a matrix <m>Q</m> by normalizing each of the rows of <m>A</m>. </p>
+</li>
+    <li>
+      <p> Check that <m>Q</m> is an orthogonal matrix. </p>
+</li>
+</ol>
+</p>
+</statement>
+
+<answer>
+    <p>
+        You should get <me>Q = \begin{bmatrix}
+            \frac{2}{\sqrt{6}} \amp  \frac{1}{\sqrt{6}} \amp  \frac{1}{\sqrt{6}} \\
+            \frac{-1}{\sqrt{3}} \amp  \frac{1}{\sqrt{3}} \amp  \frac{1}{\sqrt{3}} \\
+            0 \amp  \frac{-1}{\sqrt{2}} \amp  \frac{1}{\sqrt{2}}
+            \end{bmatrix}.</me>
+    </p>
+</answer>
+</problem>
+
+<p>
+This exploration can certainly be done by hand (although it takes some time), but feel free to use an online calculator, MathLab or any other programme.
+</p>
+</exploration>
+
+<p>
+We studied the idea of closure studying subspaces of <m>\R^n</m>.  The next theorem tells us that orthogonal matrices are closed under matrix multiplication.
+</p> 
+
+
+<theorem xml:id="th-orthogonal-product-inverse">
+
+    <statement>
+        <p>
+            <ol>
+    <li xml:id="th-orthogonal-product">
+  <p> 
+    If <m>P</m> and <m>Q</m> are orthogonal matrices, then <m>PQ</m> is also orthogonal (we say that the set of orthogonal matices is closed under matrix multiplication). </p>
+</li>
+    <li xml:id="th-orthogonal-inverse">
+  <p> 
+    If <m>P</m> is an orthogonal matrix, then so is <m>P^{-1} = P^{T}</m>. </p>
+</li>
+</ol>
+
+<proof>
+    <p>
+For <xref ref="th-orthogonal-product"/>, <m>P</m> and <m>Q</m> are invertible, so <m>PQ</m> is also invertible and
+<me>
+(PQ)^{-1} = Q^{-1}P^{-1} = Q^{T}P^{T} = (PQ)^{T}.
+</me>
+Hence <m>PQ</m> is orthogonal. For <xref ref="th-orthogonal-inverse"/>,
+<me>
+(P^{-1})^{-1} = P = (P^{T})^{T} = (P^{-1})^{T}
+</me>
+shows that <m>P^{-1}</m> is orthogonal.
+    </p>
+</proof>
+        </p>
+    </statement>
+</theorem>
+
+</subsection>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<subsection xml:id="Subsection-Symmetric-Matrices">
+    <title>Symmetric Matrices</title>
+
+<p>
+We now shift our focus from orthogonal matrices to another important class of <m>n \times n</m> matrices called <term>symmetric</term> matrices.  A <term>symmetric matrix</term> is a matrix which is equal to its transpose.  We saw a few examples such when taking transpose matrices.
+</p> 
+
+<p>
+When we began our study of eigenvalues and eigenvectors, we saw numerous examples of matrices with entries that were real numbers with eigenvalues that were complex numbers.  It can be shown that symmetric matrices only have real eigenvalues.  We also learned that some matrices are diagonalizable while other matrices are not.  It turns out that every symmetric matrix is diagonalizable.  In fact, we can say more, but first we need the following definition.
+</p> 
+
+
+<definition xml:id="def-orthDiag">
+
+    <statement>
+        <p>
+            An <m>n \times n</m> matrix <m>A</m> is said to be <term>orthogonally diagonalizable</term> if an orthogonal matrix <m>Q</m> can be found such that 
+             <m>Q^{-1}AQ = Q^{T}AQ</m> is diagonal.
+        </p>
+    </statement>
+</definition>
+
+<p>
+We have learned earlier that when we diagonalize a matrix <m>A</m>, we write <m>P^{-1}AP=D</m> for some matrix <m>P</m> where <m>D</m> is diagonal, and the diagonal entries are the eigenvalues of <m>A</m>.  We have also learned that the columns of the matrix <m>P</m> are the corresponding eigenvectors of <m>A</m>.  So when a matrix is orthogonally diagonalizable, we are able to accomplish the diagonalization using a matrix <m>Q</m> consisting of <m>n</m> eigenvectors that form an orthonormal basis for <m>\R^n</m>.
+</p> 
+
+<p>
+The following remarkable theorem shows that the matrices that have this property are precisely the symmetric matrices.
+</p> 
+
+<theorem xml:id="th-PrinAxes">
+    <title>Real Spectral Theorem</title>
+    <statement>
+        <p>
+            Let  <m>A</m> be an <m>n \times n</m> matrix.  Then <m>A</m> is symmetric if and only if <m>A</m> is orthogonally diagonalizable.
+        </p>
+    </statement>
+
+<proof>
+    <p>
+If <m>A</m> is orthogonally diagonalizable, then it is an easy exercise to prove that it is symmetric.  You are asked to do this in <xref ref="prob-ortho-diag-implies-symmetric"/>.
+    </p> 
+
+    <p>
+To prove the ``only if'' part of this theorem, we assume <m>A</m> is symmetric, and we need to show it is orthogonally diagonalizable.
+    </p> 
+    
+    <p>
+    We proceed by induction on <m>n</m>, the size of the symmetric matrix. If <m>n = 1</m>, <m>A</m> is already diagonal. If <m>n \gt  1</m>, assume that we know the ``only if'' statement holds for <m>(n - 1) \times (n - 1)</m> symmetric matrices. Let <m>\lambda_{1}</m> be an eigenvalue of <m>A</m>, and let <m>A\mathbf{x}_{1} = \lambda_{1}\mathbf{x}_{1}</m>, where <m>\norm{\mathbf{x}_{1}} = 1</m>. Next, set <m>\mathbf{q}_{1}=\mathbf{x}_{1}</m>, and use the Gram-Schmidt algorithm to find an orthonormal basis <m>\{\mathbf{q}_{1}, \mathbf{q}_{2}, \dots, \mathbf{q}_{n}\}</m> for <m>\R^n</m>. Let 
+<me>Q_{1} = \begin{bmatrix}
+| \amp  | \amp    \amp  | \\
+\mathbf{q}_1 \amp  \mathbf{q}_2  \amp  \cdots \amp  \mathbf{q}_n \\
+| \amp  | \amp    \amp  |
+\end{bmatrix},</me> 
+
+so that <m>Q_{1}</m> is an orthogonal matrix.  We have
+<md>
+<mrow> Q_{1}^TAQ_{1} \amp = \begin{bmatrix}
+-- \amp  \mathbf{q}_{1}^T \amp  -- \\ -- \amp  \mathbf{q}_{2}^T \amp  -- \\ \amp  \vdots \amp  \\ -- \amp  \mathbf{q}_{n}^T \amp  --
+\end{bmatrix} A \begin{bmatrix}
+| \amp  | \amp    \amp  | \\
+\mathbf{q}_1 \amp  \mathbf{q}_2  \amp  \cdots \amp  \mathbf{q}_n \\
+| \amp  | \amp    \amp  |
+\end{bmatrix} </mrow>
+<mrow> \amp = \begin{bmatrix}
+-- \amp  \mathbf{q}_{1}^T \amp  -- \\ -- \amp  \mathbf{q}_{2}^T \amp  -- \\ \amp  \vdots \amp  \\ -- \amp  \mathbf{q}_{n}^T \amp  --
+\end{bmatrix} \begin{bmatrix}
+| \amp  | \amp    \amp  | \\
+A\mathbf{q}_1 \amp  A\mathbf{q}_2  \amp  \cdots \amp  A\mathbf{q}_n \\
+| \amp  | \amp    \amp  |
+\end{bmatrix} </mrow>
+<mrow> \amp =
+\begin{bmatrix}
+\lambda_{1} \amp  B \\
+\mathbf{0} \amp  A_{1}
+\end{bmatrix}, </mrow>
+</md> 
+where the block <m>B</m> has dimensions <m>1 \times (n-1)</m>, and the block under <m>\lambda_1</m> is a <m>(n-1) \times 1</m> zero matrix, 
+because of the orthogonality of the basis.
+</p> 
+
+
+<p>
+Next, using the fact that <m>A</m> is symmetric, we notice that
+
+<me>
+    (Q_{1}^TAQ_{1})^T = Q_{1}^T A^T (Q_{1}^T)^T = Q_{1}^TAQ_{1},
+</me>
+ so <m>Q_{1}^TAQ_{1}</m> is symmetric.  It follows that <m>B</m> is also a zero matrix and that <m>A_{1}</m> is symmetric.  
+ Since <m>A_{1}</m> is an <m>(n - 1) \times (n - 1)</m> symmetric matrix, we may apply the inductive hypothesis, so there exists an <m>(n - 1) \times (n - 1)</m> orthogonal matrix <m>Q</m> such that <m>Q^{T}A_{1}Q = D_{1}</m> is diagonal. We observe that 
+ <me>Q_{2} = \begin{bmatrix}
+ 1 \amp  0\\
+ 0 \amp  Q
+ \end{bmatrix}</me>
+ is orthogonal, and we compute:
+<md>
+<mrow> (Q_{1}Q_{2})^TA(Q_{1}Q_{2}) \amp = Q_{2}^T(Q_{1}^TAQ_{1})Q_{2} </mrow>
+<mrow> \amp = \begin{bmatrix}
+1 \amp  0 \\
+0 \amp  Q^T
+\end{bmatrix} \begin{bmatrix}
+\lambda_{1} \amp  0 \\
+0 \amp  A_{1}
+\end{bmatrix}\begin{bmatrix}
+1 \amp  0 \\
+0 \amp  Q
+\end{bmatrix} </mrow>
+<mrow> \amp = \begin{bmatrix}
+\lambda_{1} \amp  0 \\
+0 \amp  D_{1}
+\end{bmatrix} </mrow>
+</md>
+is diagonal. Because <m>Q_{1}Q_{2}</m> is orthogonal by <xref ref="th-orthogonal-product-inverse"/><xref ref="th-orthogonal-product"/>, this completes the proof.
+    </p>
+</proof>
+</theorem>
+
+<p>
+Because the eigenvalues of a real symmetric matrix are real, <xref ref="th-PrinAxes"/> is also called the <term>Real Spectral Theorem</term>, 
+and the set of distinct eigenvalues is called the <term>spectrum</term> of the matrix. 
+A similar result holds for matrices with complex entries, which we avoid digging into.
+</p>
+
+<example xml:id="ex-DiagonalizeSymmetricMatrix">
+    <statement>
+        <p>
+            Find an orthogonal matrix <m>Q</m> such that <m>Q^{-1}AQ</m> is diagonal, where <me>A = \begin{bmatrix}
+1 \amp  0 \amp  -1 \\
+0 \amp  1 \amp  2 \\
+-1 \amp  2 \amp  5
+\end{bmatrix}</me>.
+       </p>
+    </statement>
+    <answer>
+        <p>
+            The characteristic polynomial of <m>A</m> is (adding twice row 1 to row 2):
+<me>
+c_{A}(z) = \det \begin{bmatrix}
+z - 1 \amp  0 \amp  1 \\
+0 \amp  z - 1 \amp  -2 \\
+1 \amp  -2 \amp  z - 5
+\end{bmatrix} = z(z - 1)(z - 6).
+</me>
+Thus the eigenvalues are <m>\lambda = 0</m>, <m>1</m>, and <m>6</m>, and corresponding eigenvectors are
+<me>
+\mathbf{x}_{1} = \begin{bmatrix}
+1 \\
+-2 \\
+1
+\end{bmatrix} \;
+\mathbf{x}_{2} = \begin{bmatrix}
+2 \\
+1 \\
+0
+\end{bmatrix} \;
+\mathbf{x}_{3} = \begin{bmatrix}
+-1 \\
+2 \\
+5
+\end{bmatrix},
+</me>
+respectively. Moreover, by what at first appears to be remarkably good luck, these eigenvectors are <em>orthogonal</em>. 
+We have <m>\norm{\mathbf{x}_{1}}^{2} = 6</m>, <m>\norm{\mathbf{x}_{2}}^{2} = 5</m>, and <m>\norm{\mathbf{x}_{3}}^{2} = 30</m>, so
+<me>
+P = \begin{bmatrix}
+| \amp  | \amp   | \\
+\frac{1}{\sqrt{6}}\mathbf{x}_{1} \amp  \frac{1}{\sqrt{5}}\mathbf{x}_{2} \amp  \frac{1}{\sqrt{30}}\mathbf{x}_{3} \\
+| \amp  | \amp   | 
+\end{bmatrix} = \frac{1}{\sqrt{30}} \begin{bmatrix}
+\sqrt{5} \amp  2\sqrt{6} \amp  -1 \\
+-2\sqrt{5} \amp  \sqrt{6} \amp  2 \\
+\sqrt{5} \amp  0 \amp  5
+\end{bmatrix}.
+</me>
+is an orthogonal matrix. Thus <m>P^{-1} = P^{T}</m> and
+<me>
+P^TAP = \begin{bmatrix}
+0 \amp  0 \amp  0 \\
+0 \amp  1 \amp  0 \\
+0 \amp  0 \amp  6
+\end{bmatrix}.
+</me>
+       </p>
+    </answer>
+</example>
+
+<p>
+Actually, the fact that the eigenvectors in <xref ref="ex-DiagonalizeSymmetricMatrix"/> are orthogonal is no coincidence. These vectors certainly must be linearly independent (they correspond to distinct eigenvalues).  We will see that the fact that the matrix is <em>symmetric</em> implies that the eigenvectors are orthogonal. To prove this we need the following useful fact about symmetric matrices.
+</p> 
+
+<theorem xml:id="th-dotpSymmetric">
+
+    <statement>
+        <p>
+            If A is an <m>n \times n</m> symmetric matrix, then
+<me>
+(A\mathbf{x}) \cdot \mathbf{y} = \mathbf{x} \cdot (A\mathbf{y})
+</me>
+for all columns <m>\mathbf{x}</m> and <m>\mathbf{y}</m> in <m>\R^n</m>.
+        </p>
+    </statement>
+
+    <proof>
+        <p>
+    Recall that <m>\mathbf{x} \cdot \mathbf{y} = \mathbf{x}^{T} \mathbf{y}</m> for all columns <m>\mathbf{x}</m> and <m>\mathbf{y}</m>. Because <m>A^{T} = A</m>, we get
+    <me>
+    (A\mathbf{x}) \cdot \mathbf{y} = (A\mathbf{x})^T\mathbf{y} = \mathbf{x}^TA^T\mathbf{y} =  \mathbf{x}^TA\mathbf{y} = \mathbf{x} \cdot (A\mathbf{y}).
+    </me>
+        </p>
+    </proof>
+</theorem>
+
+<remark>
+<statement>
+<p>
+The converse also holds (see <xref ref="ex-8215"/>).
+</p> 
+</statement>
+</remark>
+
+
+
+<theorem xml:id="th-symmetric-has-ortho-ev">
+
+    <statement>
+        <p>
+            If <m>A</m> is a symmetric matrix, then eigenvectors of <m>A</m> corresponding to distinct eigenvalues are orthogonal.
+        </p>
+    </statement>
+
+
+<proof>
+    <p>
+Let <m>A\mathbf{x} = \lambda \mathbf{x}</m> and <m>A\mathbf{y} = \mu \mathbf{y}</m>, where <m>\lambda \neq \mu</m>. We compute
+<me>
+\lambda(\mathbf{x} \cdot \mathbf{y}) = (\lambda\mathbf{x}) \cdot \mathbf{y} = (A\mathbf{x}) \cdot \mathbf{y} = \mathbf{x} \cdot (A\mathbf{y}) = \mathbf{x} \cdot (\mu\mathbf{y}) = \mu(\mathbf{x} \cdot \mathbf{y}).
+</me>
+Hence <m>(\lambda - \mu)(\mathbf{x} \cdot \mathbf{y}) = 0</m>, and so <m>\mathbf{x} \cdot \mathbf{y} = 0</m> because <m>\lambda \neq \mu</m>.
+    </p>
+</proof>
+</theorem>
+
+<p>
+Now the procedure for diagonalizing a symmetric <m>n \times n</m> matrix is clear. Find the distinct eigenvalues
+ and find orthonormal bases for each eigenspace (the Gram-Schmidt
+algorithm may be needed when there is a repeated eigenvalue). Then the set of all these basis vectors is
+orthonormal by <xref ref="th-symmetric-has-ortho-ev"/> and contains <m>n</m> vectors. Here is an example.
+</p> 
+
+
+<example xml:id="exa-ortho-diag-symm">
+    <statement>
+        <p>
+            Orthogonally diagonalize the symmetric matrix <me>A = \begin{bmatrix}
+8 \amp  -2 \amp  2 \\
+-2 \amp  5 \amp  4 \\
+2 \amp  4 \amp  5
+\end{bmatrix}</me>.
+       </p>
+    </statement>
+    <answer>
+        <p>
+            The characteristic polynomial is
+<me>
+c_{A}(z) = \det  \begin{bmatrix}
+z-8 \amp  2 \amp  -2 \\
+2 \amp  z-5 \amp  -4 \\
+-2 \amp  -4 \amp  z-5
+\end{bmatrix} = z(z-9)^2.
+</me>
+Hence the distinct eigenvalues are <m>0</m> and <m>9</m> are of algebraic multiplicity <m>1</m> and <m>2</m>, respectively.  The geometric multiplicities must be the same, for <m>A</m> is diagonalizable, being symmetric. It follows that <m>\mbox{dim}(\mathcal{S}_0) = 1</m> and <m>\mbox{dim}(\mathcal{S}_9) = 2</m>.  Gaussian elimination gives
+<me>
+\mathcal{S}_{0}(A) = \mbox{span}\{\mathbf{x}_{1}\}, \ \mathbf{x}_{1} = \begin{bmatrix}
+1 \\
+2 \\
+-2
+\end{bmatrix}, \  \mathcal{S}_{9}(A) = \mbox{span} \left\lbrace \begin{bmatrix}
+	-2 \\
+	1 \\
+	0
+	\end{bmatrix}, \begin{bmatrix}
+2 \\
+0 \\
+1
+\end{bmatrix} \right \rbrace.
+</me>
+The eigenvectors in <m>\mathcal{S}_{9}</m> are both orthogonal to <m>\mathbf{x}_{1}</m> as Theorem~<xref ref="th-symmetric-has-ortho-ev"/> guarantees, but not to each other. However, the Gram-Schmidt process yields an orthogonal basis
+<me>
+\{\mathbf{f}_{2}, \mathbf{f}_{3}\} \mbox{ of } \mathcal{S}_{9}(A) \ \mbox{ where } \mathbf{f}_{2} = \begin{bmatrix}
+-2 \\
+1 \\
+0
+\end{bmatrix} \mbox{ and }  \mathbf{f}_{3} = \begin{bmatrix}
+2 \\
+4 \\
+5
+\end{bmatrix}.
+</me>
+Normalizing gives orthonormal vectors <m>\{\frac{1}{3}\mathbf{x}_{1}, \frac{1}{\sqrt{5}}\mathbf{f}_{2}, \frac{1}{3\sqrt{5}}\mathbf{f}_{3}\}</m>, so
+<me>
+Q = \begin{bmatrix}
+| \amp  | \amp   | \\
+\frac{1}{3}\mathbf{x}_{1} \amp  \frac{1}{\sqrt{5}}\mathbf{f}_{2} \amp  \frac{1}{3\sqrt{5}}\mathbf{f}_{3} \\
+| \amp  | \amp   | 
+\end{bmatrix} = \frac{1}{3\sqrt{5}}\begin{bmatrix}
+\sqrt{5} \amp  -6 \amp  2 \\
+2\sqrt{5} \amp  3 \amp  4 \\
+-2\sqrt{5} \amp  0 \amp  5
+\end{bmatrix}
+</me>
+is an orthogonal matrix such that <m>Q^{-1}AQ</m> is diagonal.
+</p>
+
+<p>
+It is worth noting that other, more convenient, diagonalizing matrices <m>Q</m> exist. For example, <m>\mathbf{y}_{2} =[2,1,2]</m> and <m>\mathbf{y}_{3} = [-2,2-1]</m>
+ lie in <m>\mathcal{S}_{9}(A)</m> and they are orthogonal. Moreover, they both have norm <m>3</m> (as does <m>\mathbf{x}_{1}</m>), so
+<me>
+\hat{Q} = \begin{bmatrix}
+| \amp  | \amp   | \\
+\frac{1}{3}\mathbf{x}_{1} \amp  \frac{1}{3}\mathbf{y}_{2} \amp  \frac{1}{3}\mathbf{y}_{3} \\
+| \amp  | \amp   |
+\end{bmatrix} = \frac{1}{3}\begin{bmatrix}
+1 \amp  2 \amp  -2 \\
+2 \amp  1 \amp  2 \\
+-2 \amp  2 \amp  1
+\end{bmatrix}
+</me>
+is a nicer orthogonal matrix with the property that <m>\hat{Q}^{-1}A\hat{Q}</m> is diagonal.
+       </p>
+    </answer>
+</example>
+
+<theorem xml:id="th-PrinAxesOtherStuff">
+
+    <statement>
+        <p>
+            Let <m>A</m> be an <m>n \times n</m> matrix.  <m>A</m> has an orthonormal set of <m>n</m> eigenvectors if and only if <m>A</m> is orthogonally diagonalizable.
+
+
+        </p>
+    </statement>
+
+
+
+    <proof>
+        <p>
+    Let <m>\mathbf{q}_{1}, \mathbf{q}_{2}, \dots, \mathbf{q}_{n}</m> be orthonormal eigenvectors of <m>A</m> with corresponding eigenvalues <m>\lambda_1, \lambda_2, \ldots, \lambda_n</m> .  We must show <m>A</m> is orthogonally diagonalizable. Let 
+    <me>Q = \begin{bmatrix}
+    | \amp  | \amp    \amp  | \\
+    \mathbf{q}_1 \amp  \mathbf{q}_2  \amp  \cdots \amp  \mathbf{q}_n \\
+    | \amp  | \amp    \amp  |
+    \end{bmatrix}</me> so that <m>Q</m> is orthogonal.  We have
+    
+    <md>
+     <mrow>   AQ \amp = \begin{bmatrix}
+    | \amp  | \amp    \amp  | \\
+    A\mathbf{q}_1 \amp  A\mathbf{q}_2  \amp  \cdots \amp  A\mathbf{q}_n \\
+    | \amp  | \amp    \amp  |
+    \end{bmatrix} </mrow>
+    <mrow> \amp = \begin{bmatrix}
+    | \amp  | \amp    \amp  | \\
+    \lambda_1 \mathbf{q}_{1} \amp  \lambda_2 \mathbf{q}_{2} \amp  \dots \amp  \lambda_n \mathbf{q}_{n} \\
+    | \amp  | \amp    \amp  |
+    \end{bmatrix}=QD </mrow>
+    </md>
+    
+    where <m>D</m> is the diagonal matrix with diagonal entries <m>\lambda_1, \lambda_2, \ldots, \lambda_n</m>.  But then <m>Q^TAQ=D</m>, proving this half of the theorem.
+</p> 
+
+<p>
+    For the converse, if <m>A</m> is orthogonally diagonalizable, then by <xref ref="th-PrinAxes"/> it is symmetric.  But then <xref ref="th-symmetric-has-ortho-ev"/> tells us that eigenvectors corresponding to distinct eigenvalues are orthogonal.  Because <m>A</m> is (orthogonally) diagonalizable, we know the geometric multiplicity of each eigenvalue is equal to its algebraic multiplicity.  This implies that we can use Gram-Schmidt on each eigenspace of dimension <m>\gt  1</m> to get a full set of <m>n</m> orthogonal eigenvectors.
+        </p>
+    </proof>
+</theorem>
+</subsection>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<exercises>
+
+<exercise xml:id="prob-ortho-diag-implies-symmetric">
+    <statement>
+        <p>
+            Suppose <m>A</m> is orthogonally diagonalizable.  Prove that <m>A</m> is symmetric.  This is the easy direction of the "if and only if" in <xref ref="th-PrinAxes"/>.
+        </p>
+    </statement>
+</exercise>
+
+
+<exercisegroup xml:id="prob-make-ortho-matrix">
+<introduction>
+    <p>
+        Normalize the rows to make each of the following matrices orthogonal.
+    </p>
+</introduction>
+
+
+<exercise xml:id="prob-make-ortho-matrix1">
+    <statement>
+        <p>
+            <me>A = \begin{bmatrix}
+1 \amp  1 \\
+-1 \amp  1
+\end{bmatrix}.</me>
+        </p>
+    </statement>
+</exercise>
+
+
+<exercise xml:id="prob-make-ortho-matrix3">
+    <statement>
+        <p>
+            <me>A = \begin{bmatrix}
+1 \amp  2 \\
+-4 \amp  2
+\end{bmatrix}.</me>
+        </p>
+    </statement>
+</exercise>
+
+<exercise xml:id="prob-make-ortho-matrix5">
+    <statement>
+        <p>
+            <me>A = \begin{bmatrix}
+\cos\theta \amp  -\sin\theta \amp  0 \\
+\sin\theta \amp  \cos\theta \amp  0 \\
+0 \amp  0 \amp  2
+\end{bmatrix}.</me>
+        </p>
+    </statement>
+</exercise>
+
+<exercise xml:id="prob-make-ortho-matrix7">
+    <statement>
+        <p>
+            <me>A = \begin{bmatrix}
+-1 \amp  2 \amp  2 \\
+2 \amp  -1 \amp  2 \\
+2 \amp  2 \amp  -1
+\end{bmatrix}.</me>
+        </p>
+    </statement>
+</exercise>
+</exercisegroup> 
+
+
+<exercise xml:id="prob-triag-orthogonal">
+    <statement>
+        <p>
+            If <m>Q</m> is a triangular orthogonal matrix, show that <m>Q</m> is diagonal and that all diagonal entries are <m>1</m> or <m>-1</m>.
+        </p>
+    </statement>
+
+<answer>
+    <p>
+ We have <m>Q^{T} = Q^{-1}</m>; the first step is to show that <m>Q</m> is lower triangular and also upper triangular, and so is diagonal. But then <m>Q = Q^{T} = Q^{-1}</m>, so <m>Q^{2} = I</m>. This implies that the diagonal entries of <m>Q</m> are all <m>\pm 1</m>.
+    </p>
+</answer>
+</exercise>
+
+<exercise xml:id="prob-scalar-othogonal">
+    <statement>
+        <p>
+            If <m>Q</m> is orthogonal, show that <m>kQ</m> is orthogonal if and only if <m>k = 1</m> or <m>k = -1</m>.
+        </p>
+    </statement>
+</exercise>
+
+<exercise xml:id="prob-thirdrow">
+    <statement>
+        <p>
+            If the first two rows of an orthogonal matrix are 
+        <me>
+        \left [ \frac{1}{3}, \frac{2}{3}, \frac{2}{3} \right ] \quad \text{and} \quad \left [ \frac{2}{3}, \frac{1}{3}, \frac{-2}{3} \right ],
+        </me>
+        
+        find all possible third rows.
+        </p>
+    </statement>
+</exercise>
+
+
+<exercisegroup xml:id="prob-findQ">
+<introduction>
+    <p>
+        For each matrix <m>A</m>, find an orthogonal matrix <m>Q</m> such that <m>Q^{-1}AQ</m> is diagonal.
+    </p>
+</introduction>
+
+<exercise xml:id="prob-findQa">
+    <statement>
+        <p>
+<me>A = \begin{bmatrix}
+0 \amp  1 \\
+1 \amp  0 
+\end{bmatrix}.</me>
+</p> 
+</statement> 
+</exercise>
+
+<exercise xml:id="prob-findQb">
+<statement>
+  <p> <me>A = \begin{bmatrix}
+1 \amp  -1 \\
+-1 \amp  1
+\end{bmatrix}.</me>
+  </p>
+</statement>
+</exercise>
+
+
+<exercise xml:id="prob-findQc">
+    <statement>
+      <p> <me>A = \begin{bmatrix}
+        3 \amp  0 \amp  0 \\
+        0 \amp  2 \amp  2 \\
+        0 \amp  2 \amp  5
+        \end{bmatrix}.</me>
+      </p>
+    </statement>
+    </exercise>
+
+    <exercise xml:id="prob-findQd">
+        <statement>
+          <p> <me>A = \begin{bmatrix}
+            3 \amp  0 \amp  7 \\
+            0 \amp  5 \amp  0 \\
+            7 \amp  0 \amp  3
+            \end{bmatrix}.</me>
+          </p>
+        </statement>
+        </exercise>
+
+        <exercise xml:id="prob-findQe">
+            <statement>
+              <p> <me>A = \begin{bmatrix}
+                1 \amp  1 \amp  0 \\
+                1 \amp  1 \amp  0 \\
+                0 \amp  0 \amp  2 
+                \end{bmatrix}.</me>
+              </p>
+            </statement>
+            </exercise>
+
+
+            <exercise xml:id="prob-findQf">
+                <statement>
+                  <p> As a challenge: <me>A = \begin{bmatrix}
+                    5 \amp  -2 \amp  -4 \\
+                    -2 \amp  8 \amp  -2\\
+                    -4 \amp  -2 \amp  5 
+                    \end{bmatrix}.</me>
+                  </p>
+                </statement>
+                </exercise>
+
+
+                <exercise xml:id="prob-findQg">
+                    <statement>
+                      <p> As a challenge: <me>A = \begin{bmatrix}
+                        3 \amp  5 \amp  -1 \amp  1 \\
+                        5 \amp  3 \amp  1 \amp  -1 \\
+                        -1 \amp  1 \amp  3 \amp  5 \\
+                        1 \amp  -1 \amp  5 \amp  3
+                        \end{bmatrix}.</me>
+                      </p>
+                    </statement>
+                    </exercise>
+                </exercisegroup>    
+
+
+
+                
+<exercise xml:id="prob-ortho15a">
+    <statement>
+        <p>
+            Show that the following are equivalent for a symmetric matrix <m>A</m>.
+
+
+<ol>
+<li>
+      <p> <m>A</m> is orthogonal. </p>
+</li>
+<li>
+      <p> <m>A^{2} = I</m>. </p>
+</li>
+<li>
+      <p> All eigenvalues of <m>A</m> are <m>\pm 1</m>. </p>
+</li>
+</ol>
+        </p>
+    </statement>
+
+<hint>
+<p>
+For (b) if and only if (c), use <xref ref="th-detofproduct"/>.
+</p>
+</hint>
+</exercise>
+
+
+<exercise xml:id="ex-8212">
+    <statement>
+        <p>
+            We call matrices <m>A</m> and <m>B</m> <term>orthogonally similar</term> (and write <m>A \stackrel{\circ}{\sim} B</m>) if <m>B = P^{T}AP</m> for an orthogonal matrix <m>P</m>.
+
+
+<ol>
+<li>
+      <p> Show that <m>A \stackrel{\circ}{\sim} A</m> for all <m>A</m>; <m>A \stackrel{\circ}{\sim} B \Rightarrow B \stackrel{\circ}{\sim} A</m>; and <m>A \stackrel{\circ}{\sim} B</m> and <m>B \stackrel{\circ}{\sim} C \Rightarrow A \stackrel{\circ}{\sim} C</m>. (This means that ``orthogonally similar" is an <term>equivalence relation</term>.) </p>
+</li>
+
+<li>
+      <p> Show that the following are equivalent for any pair of symmetric matrices <m>A</m> and <m>B</m>: 
+        <ol>
+            <li>
+                  <p> <m>A</m> and <m>B</m> are similar. </p>
+            </li>
+            
+            <li>
+                  <p> <m>A</m> and <m>B</m> are orthogonally similar. </p>
+            </li>
+            
+            <li>
+                  <p> <m>A</m> and <m>B</m> have the same eigenvalues. </p>
+            </li>
+            
+            </ol>
+    </p>
+</li>
+</ol>
+        </p>
+    </statement>
+</exercise>
+
+<exercise xml:id="prob-ortho14a">
+    <statement>
+        <p>
+            Assume that <m>A</m> and <m>B</m> are orthogonally similar (<xref ref="ex-8212"/>).
+
+
+<ol> 
+<li>
+      <p> If <m>A</m> and <m>B</m> are invertible, show that <m>A^{-1}</m> and <m>B^{-1}</m> are orthogonally similar. </p>
+</li>
+
+<li>
+      <p> Show that <m>A^{2}</m> and <m>B^{2}</m> are orthogonally similar. </p>
+</li>
+
+<li>
+      <p> Show that, if <m>A</m> is symmetric, so is <m>B</m>. </p>
+</li>
+
+</ol>
+        </p>
+    </statement>
+</exercise>
+
+<exercise xml:id="prob-ortho15">
+    <statement>
+        <p>
+            If <m>A</m> is symmetric, show that every eigenvalue of <m>A</m> is nonnegative if and only if <m>A = B^{2}</m> for some symmetric matrix <m>B</m>.
+        </p>
+    </statement>
+</exercise>
+
+<exercise xml:id="ex-8215">
+    <statement>
+        <p>
+            Prove the converse of <xref ref="th-dotpSymmetric"/>:
+
+If <m>(A\mathbf{x}) \cdot \mathbf{y} = \mathbf{x} \cdot (A\mathbf{y})</m> for all <m>n</m>-columns <m>\mathbf{x}</m> and <m>\mathbf{y}</m>, then <m>A</m> is symmetric.
+        </p>
+    </statement>
+</exercise>
+
+<exercise xml:id="prob-ortho17">
+    <statement>
+        <p>
+            Show that every eigenvalue of <m>A</m> is zero if and only if <m>A</m> is nilpotent (<m>A^{k} = 0</m> for some <m>k \geq 1</m>).
+        </p>
+    </statement>
+</exercise>
+
+<exercise xml:id="prob-ortho18">
+    <statement>
+        <p>
+            If <m>A</m> has real eigenvalues, show that <m>A = B + C</m> where <m>B</m> is symmetric and <m>C</m> is nilpotent. 
+        </p>
+    </statement>
+</exercise>
+
+<exercise xml:id="prob-ortho19">
+    <statement>
+        <p>
+            Let <m>Q</m> be an orthogonal matrix.
+
+<ol>
+<li>
+      <p> Show that <m>\det Q = 1</m> or <m>\det Q = -1</m>. </p>
+</li>
+
+<li>
+      <p> Give <m>2 \times 2</m> examples of <m>Q</m> such that <m>\det Q = 1</m> and <m>\det  Q = -1</m>. </p>
+</li>
+
+<li>
+      <p> If <m>\det  Q = -1</m>, show that <m>I + Q</m> has no inverse. </p>
+</li>
+
+
+<li>
+      <p> If <m>P</m> is <m>n \times n</m> and <m>\det P \neq (-1)^{n}</m>, show that <m>I - P</m> has no inverse. </p>
+</li>
+</ol>
+        </p>
+    </statement>
+
+<hint>
+    <p>
+ For part (c): <m>Q^{T}(I + Q) = (I + Q)^{T}</m>. 
+    </p> 
+    <p>
+    For part (d): <m>P^{T}(I - P) = -(I - P)^{T}</m>.
+    </p>
+    </hint>
+
+</exercise>
+
+<exercise xml:id="prob-ortho20">
+    <statement>
+        <p>
+            We call a square matrix <m>E</m> a <term>projection matrix</term> if <m>E^{2} = E = E^{T}</m>.
+
+
+<ol> 
+<li>
+      <p> If <m>E</m> is a projection matrix, show that <m>Q = I - 2E</m> is orthogonal and symmetric. </p>
+</li>
+
+<li>
+      <p> If <m>Q</m> is orthogonal and symmetric, show that \\ <m>E = \frac{1}{2}(I - Q)</m> is a projection matrix. </p>
+</li>
+
+<li>
+      <p> If <m>Q</m> is <m>m \times n</m> and <m>Q^{T}Q = I</m> (for example, a unit column in <m>\R^n</m>), show that <m>E = QQ^{T}</m> is a projection matrix. </p>
+</li>
+
+</ol>
+        </p>
+    </statement>
+</exercise>
+
+<exercise xml:id="prob-ortho21">
+    <statement>
+        <p>
+            A matrix that we obtain from the identity matrix by writing its rows in a different order is called a <term>permutation matrix</term> (see <xref ref="th-LUPA"/>). Show that every permutation matrix is orthogonal.
+        </p>
+    </statement>
+</exercise>
+
+<exercise xml:id="prob-ortho22">
+    <statement>
+        <p>
+            If the rows <m>\mathbf{r}_{1}, \dots, \mathbf{r}_{n}</m> of the <m>n \times n</m> matrix <m>A = \begin{bmatrix}
+a_{ij}
+\end{bmatrix}</m> are orthogonal, show that the <m>(i, j)</m>-entry of <m>A^{-1}</m> is <m>\frac{a_{ji}}{\norm{\mathbf{r}_{j}}^2}</m>.
+        </p>
+    </statement>
+</exercise>
+
+<exercise xml:id="prob-ortho23">
+    <statement>
+        <p>
+            <ol> 
+<li>
+      <p> Let <m>A</m> be an <m>m \times n</m> matrix. Show that the following are equivalent. </p>
+</li>
+
+
+<ol>
+<li>
+      <p> <m>A</m> has orthogonal rows. </p>
+</li>
+
+<li>
+      <p> <m>A</m> can be factored as <m>A = DP</m>, where <m>D</m> is invertible and diagonal and <m>P</m> has orthonormal rows. </p>
+</li>
+
+<li>
+      <p> <m>AA^{T}</m> is an invertible, diagonal matrix. </p>
+</li>
+
+</ol>
+<li>
+      <p> Show that an <m>n \times n</m> matrix <m>A</m> has orthogonal rows if and only if <m>A</m> can be factored as <m>A = DQ</m>, where <m>Q</m> is orthogonal and <m>D</m> is diagonal and invertible. </p>
+</li>
+
+</ol>
+        </p>
+    </statement>
+</exercise>
+
+
+
+
+
+
+<exercise xml:id="prob-ortho24">
+    <statement>
+        <p>
+            Let <m>A</m> be a skew-symmetric matrix; that is, <m>A^{T} = -A</m>. Assume that <m>A</m> is an <m>n \times n</m> matrix.
+
+
+<ol> 
+<li>
+      <p> Show that <m>I + A</m> is invertible.  </p>
+</li>
+
+
+<li>
+      <p> Show that <m>Q = (I - A)(I + A)^{-1}</m> is orthogonal. </p>
+</li>
+
+<li>
+      <p> Show that every orthogonal matrix <m>P</m> such that <m>I + P</m> is invertible arises as in part (b) from some skew-symmetric matrix <m>A</m>.  </p>
+</li>
+</ol>
+
+        </p>
+    </statement>
+
+<hint>
+<p>
+For (a): It suffices to show that <m>(I + A)\mathbf{x} = \mathbf{0}</m>, <m>\mathbf{x}</m> in <m>\R^n</m>, implies <m>\mathbf{x} = \mathbf{0}</m>. Compute <m>\mathbf{x} \cdot \mathbf{x} = \mathbf{x}^{T}\mathbf{x}</m>, and use the fact that <m>A\mathbf{x} = -\mathbf{x}</m> and <m>A^{2}\mathbf{x} = \mathbf{x}</m>.
+</p>
+
+<p>
+For (c): Solve <m>P = (I - A)(I + A)^{-1}</m> for <m>A</m>.
+</p>
+</hint>
+</exercise>
+
+
+
+
+
+
+<exercise xml:id="prob-ortho25">
+    <statement>
+        <p>
+            Show that the following are equivalent for an <m>n \times n</m> matrix <m>Q</m>.
+
+
+<ol> 
+<li>
+      <p> <m>Q</m> is orthogonal. </p>
+</li>
+
+<li>
+      <p> <m>\norm{Q\mathbf{x}} = \norm{\mathbf{x}}</m> for all <m>\mathbf{x}\in\R^n</m>. </p>
+</li>
+
+<li>
+      <p> <m>\norm{ Q\mathbf{x} - Q\mathbf{y}} = \norm{\mathbf{x} - \mathbf{y}}</m> for all <m>\mathbf{x}</m>, <m>\mathbf{y}\in \R^n</m>. </p>
+</li>
+
+<li>
+      <p> <m>(Q\mathbf{x}) \cdot (Q\mathbf{y}) = \mathbf{x} \cdot \mathbf{y}</m> for all columns <m>\mathbf{x}</m>, <m>\mathbf{y}\in\R^n</m>. </p>
+</li>
+</ol>
+</p>
+</statement>
+
+
+<hint>
+<p>
+For (d) <m>\Rightarrow</m> (a), show that column <m>i</m> of <m>Q</m> equals <m>Q\mathbf{e}_{i}</m>, where <m>\mathbf{e}_{i}</m> is column <m>i</m> of the identity matrix.
+</p>
+</hint>
+</exercise>
+
+<remark>
+<statement>
+    <p>
+        The above exercise shows that linear transformations with orthogonal standard matrices are distance-preserving (b,c) and angle-preserving (d). 
+    </p>
+</statement>    
+</remark>
+
+
+
+
+<exercise xml:id="prob-rotation-ortho">
+    <statement>
+        <p>
+            <ol>
+    <li>
+      <p> Show that <me>\begin{bmatrix} 
+\cos\theta \amp  -\sin\theta \\
+\sin\theta \amp  \cos\theta
+\end{bmatrix}</me> is an orthogonal matrix.
+</p>
+</li>
+
+    <li>
+      <p> Show that every <m>2 \times 2</m> orthogonal matrix has the form <me>\begin{bmatrix}
+\cos\theta \amp  -\sin\theta \\
+\sin\theta \amp  \cos\theta
+\end{bmatrix} \quad \text{or} \quad \begin{bmatrix}
+\cos\theta \amp  \sin\theta \\
+\sin\theta \amp  -\cos\theta
+\end{bmatrix}</me>
+
+ for some angle <m>\theta</m>.
+      </p> 
+    </li>
+
+</ol>
+        </p>
+    </statement>
+
+<hint>
+    <p>
+        If <m>a^{2} + b^{2} = 1</m>, then <m>a = \cos\theta</m> and <m>b = \sin\theta</m> for some angle <m>\theta</m>.
+    </p>
+</hint>
+</exercise>
+
+
+
+</exercises>
+</section>

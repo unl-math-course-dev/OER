@@ -1,0 +1,467 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<section xml:id="Section-Properties-of-the-Determinant" xmlns:xi="http://www.w3.org/2001/XInclude">
+    <title>Properties of the Determinant</title>
+
+
+
+ 
+
+
+
+
+ 
+<p>
+We begin by summarizing the properties of determinants we introduced in previous sections.
+</p>
+
+<fact>
+<statement>
+<p>
+<ul>
+<li>
+      <p> The determinant of the identity matrix is equal to 1. (<xref ref="lemma-detofid"/>) </p>
+</li>
+<li>
+      <p> The determinant of a triangular matrix is equal to the product of the main diagonal entries. (<xref ref="lemma-triangulardet"/>) </p>
+</li>
+<li>
+      <p> The determinant of the transpose is equal to the determinant of the matrix. (<xref ref="th-detoftrans"/>) </p>
+</li>
+<li>
+      <p> If a matrix contains a row of zeros, then its determinant is equal to 0. (<xref ref="lemma-det0lemma"/>) </p>
+</li>
+<li>
+      <p> If two rows of a matrix are the same, then the determinant of the matrix is equal to 0.  (<xref ref="lemma-det0lemma"/>) </p>
+</li>
+<li>
+      <p> If one row of a matrix is a scalar multiple of another row, then the determinant of the matrix is equal to 0. (<xref ref="lemma-det0lemma"/>) </p>
+</li>
+
+<li>
+      <p> If <m>B</m> is obtained from <m>A</m> by interchanging two different rows, then 
+<me> 
+    \det{B}=-\det{A}.
+</me>
+</p>
+</li>
+   
+
+<li>
+      <p> If <m>B</m> is obtained from <m>A</m> by multiplying one of the rows of <m>A</m> by a non-zero constant <m>k</m>.  Then 
+<me>
+    \det{B}=k\det{A}.
+</me>
+</p>
+</li>
+ 
+
+<li>
+      <p> If <m>B</m> is obtained from <m>A</m> by adding a multiple of one row of <m>A</m> to another row, then
+
+<me>
+    \det{B}=\det{A}.
+</me>
+</p>
+</li>
+</ul>
+
+(The last three properties comprise <xref ref="th-elemrowopsanddet"/>)
+</p>
+</statement>
+</fact>
+
+<p>
+In this section we will prove the following important results:
+<ol>
+<li>
+      <p> A square matrix is singular if and only if its determinant is equal to 0. </p>
+</li>
+<li>
+      <p> The determinant of a product is the product of the determinants. </p>
+</li>
+</ol>
+To get us started, we need the following lemma.
+</p>
+
+
+
+<lemma xml:id="lemma-detelemproduct">
+
+    <statement>
+        <p>
+            Let <m>A</m> be a square matrix, and let <m>E</m> be an elementary matrix, then
+
+<me>
+    \det{EA}=\det{E}\det{A}.
+</me>
+        </p>
+    </statement>
+
+<proof>
+    <p> Recall that if <m>E</m> is obtained from <m>I</m> using an elementary row operation, then the same elementary row operation carries <m>A</m> to <m>EA</m>.  There are three types of elementary row operations and three types of elementary matrices, so we will have to consider three cases.
+    </p> 
+
+<p>
+Case 1.  Suppose <m>E</m> is obtained from <m>I</m> by interchanging two rows, then
+
+<me>
+    \det{E}=-1\quad\text{and}\quad \det{EA}=-\det{A},
+</me>
+
+so
+
+<me>
+    \det{EA}=\det{E}\det{A}.
+</me>
+
+</p>
+
+<p>
+Case 2.  Suppose <m>E</m> is obtained from <m>I</m> by multiplying one of the rows of <m>I</m> by a non-zero constant <m>k</m>, then
+
+<me>
+    \det{E}=k\quad\text{and}\quad \det{EA}=k\det{A}
+</me>
+
+so
+
+<me>
+    \det{EA}=\det{E}\det{A}.
+</me>
+</p> 
+
+<p>
+Case 3.  Suppose <m>E</m> is obtained from <m>I</m> by adding a scalar multiple of one row to another row, then
+
+<me>
+    \det{E}=1\quad\text{and}\quad \det{EA}=\det{A},
+</me>
+
+so
+
+<me>
+    \det{EA}=\det{E}\det{A}.
+</me>
+    </p>
+</proof>
+</lemma>
+
+
+
+
+
+<subsection xml:id="Subsection-Invertibility-and-the-Determinant">
+    <title>Invertibility and Products</title>
+
+<p>
+Recall that we first introduced determinants in the context of invertibility of <m>2\times 2</m> matrices. Specifically, 
+we found that 
+<me>
+A=\begin{bmatrix}a\amp b\\c\amp d\end{bmatrix}
+</me> 
+
+is invertible if and only if <m>\det{A}\neq 0</m> (a logically equivalent statement is: <m>A</m> is singular if and only if <m>\det{A}=0</m>). 
+ We are now in the position to prove this result for all square matrices.
+</p>
+
+<theorem xml:id="th-detofsingularmatrix">
+
+    <statement>
+        <p>
+            A square matrix <m>A</m> is singular if and only if <m>\det{A}=0</m>.
+        </p>
+    </statement>
+
+<proof>
+    <p>
+Let <m>A</m> be a square matrix.  To determine whether <m>A</m> is singular we need to find <m>\mbox{rref}(A)</m>.  
+In the section on elementary matrices, we found that there exist elementary matrices <m>E_1,\ldots ,E_k</m> such that 
+
+<me>
+    E_k\ldots E_2E_1A=\mbox{rref}(A).
+</me>
+
+Therefore,
+
+<me>
+    \det{(E_k\ldots E_2E_1A)}=\det{\big(\mbox{rref}(A)\big)}.
+</me>
+
+By repeated application of <xref ref="lemma-detelemproduct"/>, we find that 
+
+<me>
+    \det{E_k}\ldots \det{E_2}\det{E_1}\det{A}=\det{\big(\mbox{rref}(A)\big)}.
+</me>
+
+Suppose that <m>A</m> is singular, then <m>\mbox{rref}(A)\neq I</m>.  But then <m>\mbox{rref}(A)</m> contains a row of zeros, 
+and <m>\det{\big(\mbox{rref}(A)\big)}=0</m> (see <xref ref="lemma-det0lemma"/>). 
+ Since determinants of elementary matrices are non-zero, we conclude that <m>\det{A}=0</m>.
+</p> 
+
+<p> 
+Conversely, suppose <m>\det{A}=0</m>, then
+
+<me>
+    \det{\big(\mbox{rref}(A)\big)}=\det{E_k}\ldots \det{E_2}\det{E_1}\det{A}=0.
+</me>
+
+It follows that <m>\mbox{rref}(A)\neq I</m>, so <m>A</m> is singular.
+    </p>
+</proof>
+</theorem>
+
+
+
+<p> 
+Let us see this in action in a concrete case.
+</p> 
+
+
+<example xml:id="ex-invanddet">
+    <statement>
+        <p>
+            Determine whether <m>A</m> is an invertible matrix without using elementary row operations.
+
+
+<me>
+    A=\begin{bmatrix}3\amp 4\amp -8\\1\amp 8\amp -10\\1\amp -2\amp 1\end{bmatrix}.
+</me>
+       </p>
+    </statement>
+    <answer>
+        <p>
+            Compute the determinant of <m>A</m>.  You will find that <m>\det{A}=0</m>.  By <xref ref="th-detofsingularmatrix"/> we conclude that <m>A</m> is not invertible.
+       </p>
+    </answer>
+</example>
+
+
+<p> 
+We now draw our attention to products and how they behave for determinants.
+</p> 
+
+
+<theorem xml:id="th-detofproduct">
+
+    <statement>
+        <p>
+            Let <m>A</m> and <m>B</m> be square matrices, then
+
+<me>
+    \det{AB}=\det{A}\det{B}
+</me>
+        </p>
+    </statement>
+
+<proof>
+    <p>
+Suppose <m>A</m> is invertible, then <m>A</m> can be written as a product of elementary matrices, see also <xref ref="th-elemmatrices"/>.
+
+<me>
+    A=E_1E_2\ldots E_k.
+</me>
+
+Then, by repeated application of <xref ref="lemma-detelemproduct"/>, we get
+<md>
+<mrow> \det{AB}\amp =\det{(E_1E_2\ldots E_kB)} </mrow>
+<mrow> \amp =\det{E_1}\det{E_2}\ldots \det{E_k}\det{B} </mrow>
+<mrow> \amp =\det{(E_1E_2\ldots E_k)}\det{B} </mrow>
+<mrow> \amp =\det{A}\det{B}. </mrow>
+</md>
+Now suppose that <m>A</m> is not invertible.  Then <m>AB</m> is also not invertible. %Needs proof
+So, <m>\det{A}=0</m> and <m>\det{AB}=0</m>.  Thus  <m>\det{AB}=0=\det{A}\det{B}</m>.
+    </p>
+</proof>
+</theorem>
+
+<p>
+The following theorem is a nice consequence of  <xref ref="th-detofproduct"/>.  We leave the proof to the reader, see <xref ref="prob-proofdetofinverse"/>.
+</p> 
+
+<theorem xml:id="th-detofinverse">
+
+    <statement>
+        <p>
+            Let <m>A</m> be a nonsingular matrix, then
+
+<me>
+    \det{A^{-1}}=\frac{1}{\det{A}}.
+</me>
+        </p>
+    </statement>
+</theorem>
+</subsection>
+
+
+
+
+
+
+<exercises>
+
+    
+<exercisegroup>
+<introduction>
+    <p>
+Without doing written computations, determine whether the given matrix is singular. 
+    </p>
+</introduction>
+
+
+<exercise xml:id="singmatrixdet1a">
+    <statement>
+        <p>
+            
+<me>
+    A=\begin{bmatrix}0\amp 0\amp -3\\2\amp 3\amp -1\\0\amp 0\amp 10\end{bmatrix}
+</me>
+        </p>
+    </statement>
+
+  <choices>
+  <choice correct="yes">
+      <statement>
+          <p> <m>A</m> is singular </p>
+      </statement>
+  </choice>
+   <choice>
+      <statement>
+          <p> <m>A</m> is nonsingular </p>
+      </statement>
+  </choice>
+</choices>
+</exercise>
+
+<exercise xml:id="prob-singmatrixdet1b">
+    <statement>
+        <p>
+            <me>
+    A=\begin{bmatrix}2\amp -3\amp -1\\0\amp 4\amp 5\\0\amp 0\amp -3\\\end{bmatrix}
+</me>
+        </p>
+    </statement>
+
+  <choices>
+  <choice>
+      <statement>
+          <p> <m>A</m> is singular </p>
+      </statement>
+  </choice>
+   <choice correct="yes">
+      <statement>
+          <p> <m>A</m> is nonsingular </p>
+      </statement>
+  </choice>
+</choices>
+</exercise>
+</exercisegroup>
+
+
+
+
+<exercise xml:id="prob-singmatrixdet2">
+    <statement>
+        <p>
+            Show that all matrices of the form
+
+<me>
+    \begin{bmatrix}x\amp x+1\amp x+2\\x+3\amp x+4\amp x+5\\x+6\amp x+7\amp x+8\end{bmatrix}
+</me>
+
+are singular.
+        </p>
+    </statement>
+</exercise>
+
+
+
+
+<exercise xml:id="prob-singmatrixdet3">
+    <statement>
+        <p>
+            Find values of <m>x</m> for which the given matrix is singular.
+
+<me>
+    \begin{bmatrix}2-x\amp 1\\5\amp 6-x\end{bmatrix}
+</me>
+
+List values of <m>x</m> in an increasing order.
+        </p>
+    </statement>
+
+    <answer>
+        <p>
+            <me>
+    x=1\quad x=7
+</me>
+        </p>
+    </answer>
+</exercise>
+
+<exercise xml:id="prob-detproduct1a">
+    <statement>
+        <p>
+            Suppose <m>A</m> and <m>B</m> are <m>2\times 2</m> matrices such that <m>\det{A}=2</m> and <m>\det{B}=\frac{1}{3}</m>.  Find each of the following.
+  <m>\det{AB^{-1}}=6</m>
+        </p>
+    </statement>
+</exercise>
+  
+   <exercise xml:id="prob-detproduct1b">
+    <statement>
+        <p>
+            <m>\det{(AB)^{-1}}=3/2</m>
+        </p>
+    </statement>
+</exercise>
+  
+   <exercise xml:id="prob-detproduct1c">
+    <statement>
+        <p>
+            <m>\det{2AB}=8/3</m>
+        </p>
+    </statement>
+</exercise>
+
+
+<exercise xml:id="prob-dettruefalse">
+    <statement>
+        <p>
+            Prove or give a counterexample.
+   
+<me>
+    \det{(A+B)}=\det{(A^T+B^T)}
+</me>
+        </p>
+    </statement>
+</exercise>
+
+<exercise xml:id="prob-proofdetofinverse">
+    <statement>
+        <p>
+            Prove <xref ref="th-detofinverse"/>.
+        </p>
+    </statement>
+</exercise>
+
+<exercise xml:id="prob-detinvertible1">
+    <statement>
+        <p>
+            Suppose <m>A</m> is an invertible matrix such that 
+<me>
+    A^{-1}=A^T
+</me>
+
+Find <m>\det{A}</m> if we know that <m>\det{A}\lt 0</m>.
+        </p>
+    </statement>
+    <answer>
+        <p>
+            <m>\det{A}=-1</m>
+        </p>
+    </answer>
+</exercise>
+
+</exercises>
+</section>

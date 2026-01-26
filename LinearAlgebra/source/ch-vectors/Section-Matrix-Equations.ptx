@@ -1,0 +1,934 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<section xml:id="Section-Matrix-Equations" xmlns:xi="http://www.w3.org/2001/XInclude">
+    <title>Matrix Equations</title>
+
+    <subsection xml:id="Subsection-Matrix-Vector-Multiplication">
+        <title>Matrix-Vector Multiplication</title>
+
+
+        <p>
+            In the previous section, we saw that a linear comination equation can be expressed as a system of linear equations.
+            Linear combinations are not the only type of equations that can be reinterpreted as systems of linear equations.
+            In this section, we will introduce <term>matrix equations</term>, which are another representation of a system of linear equations.
+            Before we do that, we need to introduce the concept of <term>matrix-vector multiplication</term>.
+        </p>
+
+        <p>
+            <term>Matrix-vector multiplication</term> or the <term>matrix-vector product</term> is an operation between a matrix <m>A</m> and a vector <m>\mathbf{x}</m>
+            that produces another vector, their product <m>A\mathbf{x}</m>.
+            The formal definition requires dense notation, so we work through an example before presenting it.
+        </p>
+
+        <example xml:id="exp-matrixvectormultdef">
+            <statement>
+                <p> 
+                    Let 
+                    <me>
+                        A=\begin{bmatrix}2\amp -1\amp 3\amp 2\\0\amp 3\amp -2\amp 1\\-2\amp 4\amp 1\amp 0\end{bmatrix}\quad\text{and}\quad \mathbf{x}=\begin{bmatrix}3\\-1\\4\\1\end{bmatrix}.
+                    </me>
+                </p>
+                <p>
+                    The matrix-vector product <m>A\mathbf{x}</m> is a linear combination of the columns of <m>A</m> with coefficients given by the entries in <m>x</m>.
+                    For this example,  
+                    <md>
+                        <mrow>  A\mathbf{x} \amp =\begin{bmatrix}\color{red}2\amp \color{blue}-1\amp \color{brown}3\amp 2\\ \color{red}0\amp \color{blue}3\amp \color{brown}-2\amp 1\\ \color{red}-2\amp \color{blue}4\amp \color{brown}1\amp 0\end{bmatrix}\begin{bmatrix}\color{red}3\\ \color{blue}-1\\ \color{brown}4\\1\end{bmatrix} </mrow>
+                        <mrow>  = \color{red}3\begin{bmatrix}\color{red}2\\ \color{red}0\\ \color{red}-2\end{bmatrix}\color{black}+
+                        \color{blue}(-1)\begin{bmatrix}\color{blue}-1\\ \color{blue}3\\ \color{blue}4\end{bmatrix}
+                        \color{black}+\color{brown}4\begin{bmatrix}\color{brown}3\\ \color{brown}-2\\ \color{brown}1\end{bmatrix}
+                        \color{black}+\begin{bmatrix}2\\1\\0\end{bmatrix} </mrow> 
+                        <mrow> =\begin{bmatrix}21\\-10 \\ -6\end{bmatrix}. </mrow>
+                    </md>
+
+                    We can also compute the product one entry at a time.  First, let's focus on the first row of <m>A</m>.
+
+                    <md>
+                        <mrow> \amp \begin{bmatrix}{\color{red}2}\amp {\color{blue}-1}\amp {\color{brown}3}\amp 2\\0\amp 3\amp -2\amp 1\\-2\amp 4\amp 1\amp 0\end{bmatrix}\begin{bmatrix}{\color{red}3}\\{\color{blue}-1}\\{\color{brown}4}\\1\end{bmatrix}  </mrow>
+                        <mrow> \amp= \begin{bmatrix}{\color{red}(2)( 3)}+{\color{blue}(-1)(-1)}+{\color{brown}(3)(4)}+(2)(1)\\ \\ \\\end{bmatrix}=\begin{bmatrix}21\\ \\ \\\end{bmatrix}. </mrow>   
+                    </md>
+
+                    Next, let's look a the second row of <m>A</m>.
+
+                    <md>
+                        <mrow>    \amp \begin{bmatrix}2\amp -1\amp 3\amp 2\\{\color{red}0}\amp {\color{blue}3}\amp {\color{brown}-2}\amp 1\\-2\amp 4\amp 1\amp 0\end{bmatrix}\begin{bmatrix}{\color{red}3}\\{\color{blue}-1}\\{\color{brown}4}\\1\end{bmatrix}=\begin{bmatrix}21\\{\color{red}(0)( 3)}+{\color{blue}(3)(-1)}+{\color{brown}(-2)(4)}+(1)(1)\\ \\ \end{bmatrix} </mrow>
+                        <mrow>    \amp =\begin{bmatrix}21\\-10 \\ \\\end{bmatrix}. </mrow>
+                    </md>
+
+                    Finally, let's do the third row of <m>A</m>.
+
+                    <md>
+                        <mrow>  \amp \begin{bmatrix}2\amp -1\amp 3\amp 2\\0\amp 3\amp -2\amp 1\\{\color{red}-2}\amp {\color{blue}4}\amp {\color{brown}1}\amp 0\end{bmatrix}\begin{bmatrix}{\color{red}3}\\{\color{blue}-1}\\{\color{brown}4}\\1\end{bmatrix}=\begin{bmatrix}21\\-10\\{\color{red}(-2)( 3)}+{\color{blue}(4)(-1)}+{\color{brown}(1)(4)}+(0)(1) \end{bmatrix} </mrow>
+                        <mrow> \amp =\begin{bmatrix}21\\-10 \\ -6\end{bmatrix}. </mrow>
+                    </md>
+
+                </p>
+            </statement>
+        </example>
+
+
+        <definition xml:id="def-matrixvectormult">
+            <statement>
+                <p>
+                    Let <m>A</m> be an <m>m\times n</m> matrix, and let <m>\mathbf{x}</m> be an <m>n\times 1</m> vector.  The product <m>A\mathbf{x}</m> is the <m>m\times 1</m> vector given by:
+                    <md>
+                        <mrow>    A\mathbf{x} \amp =\begin{bmatrix}
+                                a_{11} \amp  a_{12}\amp \dots\amp a_{1n}\\
+                                a_{21}\amp a_{22} \amp \dots \amp a_{2n}\\
+                                \vdots \amp  \vdots\amp \ddots \amp \vdots\\
+                                a_{m1}\amp \dots \amp \dots \amp a_{mn}
+                                \end{bmatrix}\begin{bmatrix}x_1\\x_2\\\vdots\\x_n\end{bmatrix} 
+                        </mrow>
+                        <mrow>   
+                            \amp =
+                            x_1\begin{bmatrix}a_{11}\\a_{21}\\ \vdots \\a_{m1}\end{bmatrix}+
+                            x_2\begin{bmatrix}a_{12}\\a_{22}\\ \vdots \\a_{m2}\end{bmatrix}+\dots+
+                            x_n\begin{bmatrix}a_{1n}\\a_{2n}\\ \vdots \\a_{mn}\end{bmatrix} 
+                        </mrow>
+                    </md>
+                    or, equivalently,
+                    <me>
+                        A\mathbf{x}=\begin{bmatrix}a_{11}x_1+a_{12}x_2+\ldots +a_{1n}x_n\\a_{21}x_1+a_{22}x_2+\ldots +a_{2n}x_n\\\vdots\\a_{m1}x_1+a_{m2}x_2+\ldots +a_{mn}x_n\end{bmatrix}.
+                    </me>
+                </p>
+            </statement>
+        </definition>
+
+
+        <p>
+            We can now make a couple of observations about the matrix-vector product.  The first observation is part of the definition, but it is still worth pointing out.
+        </p>
+
+
+        <observation>
+            <statement>
+                In order for the product <m>A\mathbf{x}</m> to exist, <m>A</m> and <m>\mathbf{x}</m> must have compatible dimensions.  
+                In particular, vector <m>\mathbf{x}</m> must have as many components as the number of columns of <m>A</m>
+                (otherwise, we would not be have a well-defined linear combination of the columns).  So, if <m>A</m> is an <m>m\times n</m> matrix, 
+                <m>\mathbf{x}</m> must be an <m>n\times 1</m> vector.  
+                If we write these dimensions next to each other, we will notice that the inner dimensions (<m>n</m>) must match, while the outer dimensions, <m>m</m> and <m>1</m>, 
+                give us the dimensions of the product.
+
+                <me>
+                    \begin{array}{ccccc}
+                        A\amp  \amp  \mathbf{x} \amp =\amp  A\mathbf{x}\\
+                        (m\times n) \amp  \amp (n\times 1) \amp  \amp (m\times 1)
+                    \end{array}
+                </me>
+            </statement>
+        </observation>
+
+
+        <!-- Observing that we can define matrix-vector multiplication with the dot product. -->
+        <!--
+            <observation>
+                <statement>
+                    <p>
+                        If you are familiar with the <term>dot product</term>, you may have noticed that each individual entry in the product matrix <m>A\mathbf{x}</m> 
+                        is the dot product of a row of <m>A</m> with <m>\mathbf{x}</m>.  
+                        Thus, if the rows of <m>A</m> are vectors <m>\mathbf{r}_1</m>, <m>\mathbf{r}_2,\ldots ,\mathbf{r}_n</m> 
+                        we can restate Definition <xref ref="def-matrixvectormult"/> as follows:
+                        <me>
+                            A\mathbf{x}=\begin{bmatrix}-\amp \mathbf{r}_1\amp -\\-\amp \mathbf{r}_2\amp -\\ \amp \vdots \amp  \\-\amp \mathbf{r}_n \amp -\end{bmatrix}\mathbf{x}=\begin{bmatrix}\mathbf{r}_1\cdot\mathbf{x}\\\mathbf{r}_2\cdot\mathbf{x}\\\vdots\\\mathbf{r}_n\cdot\mathbf{x}\end{bmatrix}.
+                        </me> 
+                    </p>
+                </statement>
+            </observation>
+        -->
+
+        <p>
+            Let's find another matrix-vector product.
+        </p>
+
+
+        <example xml:id="ex-matrixvectormultpractice">
+            <statement>
+                <p>  
+                    Let 
+                    <me>
+                        A=\begin{bmatrix}1\amp -1\\2\amp 3\\-2\amp 1\\4\amp 0\end{bmatrix}\quad\text{and}\quad\mathbf{x}=\begin{bmatrix}-3\\5\end{bmatrix}.
+                    </me>
+                    Find <m>A\mathbf{x}</m>.
+                </p>
+            </statement>
+            <answer>
+                <p> 
+                    <me>
+                        A\mathbf{x} = \begin{bmatrix}1\amp -1\\2\amp 3\\-2\amp 1\\4\amp 0\end{bmatrix} \begin{bmatrix}-3\\5\end{bmatrix}
+                            = -3\begin{bmatrix}1\\2\\-2\\4\end{bmatrix} + 5\begin{bmatrix}-1\\3\\1\\0\end{bmatrix}
+                            = \begin{bmatrix}-8\\9\\11\\-12\end{bmatrix}.
+                    </me>
+                </p>
+            </answer>
+        </example>
+
+        <example xml:id="ex-matrixvectormultidentity">
+            <statement>
+                <p>
+                    Compute the matrix-vector product
+                    <me>
+                        \begin{bmatrix} 
+                            1 \amp 0 \amp 0 \amp 0\\
+                            0 \amp 1 \amp 0 \amp 0\\
+                            0 \amp 0 \amp 1 \amp 0\\
+                            0 \amp 0 \amp 0 \amp 1
+                        \end{bmatrix}
+                        \begin{bmatrix} 
+                            x_1\\ x_2\\ x_3\\ x_4
+                        \end{bmatrix}.
+                    </me>
+                </p>
+            </statement>
+            <answer>
+                <p>
+                    The matrix-vector product is
+                    <me>
+                        \begin{bmatrix} 
+                            1 \amp 0 \amp 0 \amp 0\\
+                            0 \amp 1 \amp 0 \amp 0\\
+                            0 \amp 0 \amp 1 \amp 0\\
+                            0 \amp 0 \amp 0 \amp 1
+                        \end{bmatrix}
+                        \begin{bmatrix} 
+                            x_1\\ x_2\\ x_3\\ x_4
+                        \end{bmatrix}
+                        =x_1\begin{bmatrix} 
+                            1\\ 0\\ 0\\ 0
+                        \end{bmatrix}
+                        +x_2\begin{bmatrix} 
+                            0\\ 1\\ 0\\ 0
+                        \end{bmatrix}
+                        +x_3\begin{bmatrix} 
+                            0\\ 0\\ 1\\ 0
+                        \end{bmatrix}
+                        +x_4\begin{bmatrix} 
+                            0\\ 0\\ 0\\ 1
+                        \end{bmatrix}
+                        =\begin{bmatrix} 
+                            x_1\\ x_2\\ x_3\\ x_4
+                        \end{bmatrix}.
+                    </me>
+                </p>
+            </answer>
+        </example>
+        
+        <p>
+            In the previous example, we see that the matrix-vector product of any vector with a square matrix with one's along its diagonal 
+            and zeros elsewhere is the vector itself. For this reason, we call such a matrix the <term>identity matrix</term> and denote the 
+            <m>n\times n</m> indentity matrix by <m>I_n</m>. In general, if <m>\mathbf{x}</m> is a vector in <m>\R</m>, then the 
+            matrix-vector product <m>I_n\mathbf{x}=\mathbf{x}</m>.
+        </p>
+
+    <remark xml:id="rmk-matrixvectormprop">
+    <statement>
+        <p>
+            We have several operations we can do to vectors.  From <xref ref="Section-Introduction-to-Vectors"/>, we can add vectors together and multiply vectors by scalars.  
+            What we want to observe here is that both of these old operations work nicely with our new operation of multiplying a vector by a matrix.
+            That is, for <m>A</m> an <m>m\times n</m> matrix, and <m>\mathbf{x}</m> and <m>\mathbf{y}</m> in <m>\R^n</m>, 
+            <me> A(\mathbf{x}+\mathbf{y}) = A\mathbf{x}+A\mathbf{y}</me>
+            and for a scalar <m>k</m>
+            <me> A(k\mathbf{x}) = k(A\mathbf{x})</me>
+        </p>
+    </statement>
+    </remark>
+    </subsection>
+
+
+    <subsection xml:id="Subsection-Matrix-Equations">
+        <title>Matrix Equations</title>
+
+        <p>
+            Given an <m>m\times n</m> matrix <m>A</m> and an <m>m\times 1</m> constant vector <m>\mathbf{b}</m>,
+            a <term>matrix equation</term> is an equation of the form <m>A\mathbf{x}=\mathbf{b}</m>.
+            The solution, if it exists, is an <m>n\times 1</m> vector <m>\mathbf{x}</m> that satisfies the equation, that is, mutiplying <m>\mathbf{x}</m> by the matrix <m>A</m> on the left gives the vector <m>\mathbf{b}</m>.
+        </p>
+
+        <exploration xml:id="init-matrixmultsyseq">
+            <p>
+                Consider the linear system
+                <me>
+                    \begin{array}{ccccccccc}
+                    3x_1 \amp - \amp 2x_2\amp +\amp 4x_3\amp +\amp x_4\amp = \amp 5 \\
+                    -x_1\amp  \amp \amp +\amp 5x_3\amp -\amp 2x_4\amp =\amp 1\\
+                    2x_1\amp  +\amp x_2\amp -\amp x_3\amp +\amp 3x_4\amp =\amp -4   
+                    \end{array}
+                </me>
+
+        Let's construct the coefficient matrix <m>A</m> and multiply it by <m>\mathbf{x}=\begin{bmatrix}x_1\\x_2\\x_3\\x_4\end{bmatrix}</m> on the right:
+
+        <me>
+            A\mathbf{x}=\begin{bmatrix}3\amp -2\amp 4\amp 1\\-1\amp 0\amp 5\amp -2\\2\amp 1\amp -1\amp 3\end{bmatrix}\begin{bmatrix}x_1\\x_2\\x_3\\x_4\end{bmatrix}=\begin{bmatrix}3x_1-2x_2+4x_3+x_4\\-x_1+5x_3-2x_4\\2x_1+x_2-x_3+3x_4\end{bmatrix}.
+        </me>
+
+        Observe that each component of the product vector corresponds to one of the equations in the system.  Let <m>\mathbf{b}=\begin{bmatrix}5\\1\\-4\end{bmatrix}</m>.  Then 
+
+        <me>
+            A\mathbf{x}=\mathbf{b},
+        </me>
+
+
+        <me>
+            \begin{bmatrix}3\amp -2\amp 4\amp 1\\-1\amp 0\amp 5\amp -2\\2\amp 1\amp -1\amp 3\end{bmatrix}\begin{bmatrix}x_1\\x_2\\x_3\\x_4\end{bmatrix}=\begin{bmatrix}5\\1\\-4\end{bmatrix}.
+        </me>
+
+        is a matrix equation that corresponds to our system of equations.
+            </p>
+        </exploration>
+
+
+
+        <p>
+            In general, a system of linear equations
+            <me>
+                \begin{array}{ccccccccc}
+                a_{11}x_1 \amp + \amp a_{12}x_2\amp +\amp \ldots\amp +\amp a_{1n}x_n\amp = \amp b_1 \\
+                a_{21}x_1 \amp + \amp a_{22}x_2\amp +\amp \ldots\amp +\amp a_{2n}x_n\amp = \amp b_2 \\
+                \amp \amp \amp \amp \vdots\amp \amp \amp \amp  \\
+                a_{m1}x_1 \amp + \amp a_{m2}x_2\amp +\amp \ldots\amp +\amp a_{mn}x_n\amp = \amp b_m
+                \end{array}
+            </me>
+            can be written as a matrix equation as follows:
+            <me>        
+                \begin{bmatrix}
+                        a_{11} \amp  a_{12}\amp \dots\amp a_{1n}\\
+                        a_{21}\amp a_{22} \amp \dots \amp a_{2n}\\
+                        \vdots \amp  \vdots\amp \ddots \amp \vdots\\
+                        a_{m1}\amp \dots \amp \dots \amp a_{mn}
+                        \end{bmatrix}
+                        \begin{bmatrix}
+                        x_1\\
+                        x_2\\
+                        \vdots \\
+                        x_n
+                        \end{bmatrix} = \begin{bmatrix}
+                        b_1\\
+                        b_2\\
+                        \vdots \\
+                        b_m
+                        \end{bmatrix}
+            </me>
+            Solving this matrix equation (or showing that a solution does not exist) amounts to finding the reduced row-echelon form  of the augmented matrix
+            <me>
+                \left[\begin{array}{cccc|c}  
+                    a_{11} \amp  a_{12}\amp \dots\amp a_{1n}\amp b_1\\
+                    a_{21}\amp a_{22} \amp \dots \amp a_{2n}\amp b_2\\
+                    \vdots \amp  \vdots\amp \ddots \amp \vdots\amp \vdots\\
+                    a_{m1}\amp \dots \amp \dots \amp a_{mn}\amp b_m
+                \end{array}\right]
+            </me>
+        </p>
+
+        <p>
+            Being able to use matrices to rewrite and solve systems of equations is crucial, so here are two examples to get you into this mindset.
+        </p>
+
+
+        <example xml:id="ex-linsysmatrixmult">
+            <statement>
+                <p>
+                    Given a linear system
+
+                    <md>
+                        \begin{array}{ccccc}
+                        <mrow> x\amp  +\amp 2y\amp =\amp 0 </mrow>
+                        <mrow> -x \amp  +\amp y\amp = \amp -3 </mrow>
+                        <mrow> \amp  \amp y\amp =\amp -1 </mrow>
+                        <mrow> x\amp  \amp \amp =\amp 2 </mrow>
+                        \end{array}
+                    </md>
+
+                    <ol>
+                        <li xml:id="ex-linsysmatrix1a">
+                            <p> Write the system as a matrix equation </p>
+                        </li>
+                        <li xml:id="ex-linsysmatrix1b">
+                            <p> Solve the system and the matrix equation </p>
+                        </li>
+                    </ol>
+                </p>
+            </statement>
+
+            <answer>
+                <p>
+                    The matrix equation  <xref ref="ex-linsysmatrix1a"/> that corresponds to the system is    
+                    <me>
+                        \begin{bmatrix}1\amp 2\\-1\amp 1\\0\amp 1\\1\amp 0\end{bmatrix}\begin{bmatrix}x\\y\end{bmatrix}=\begin{bmatrix}0\\-3\\-1\\2\end{bmatrix}
+                    </me>
+                    The augmented matrix <xref ref="ex-linsysmatrix1b"/> that corresponds to the original system and its reduced row-echelon form are            
+                    <me>
+                        \left[\begin{array}{cc|c}  
+                            1\amp 2\amp 0\\-1\amp 1\amp -3\\0\amp 1\amp -1\\1\amp 0\amp 2
+                        \end{array}\right]\begin{array}{c} \\
+                        \rightsquigarrow \\ \\
+                        \end{array}
+                        \left[\begin{array}{cc|c}  
+                            1\amp 0\amp 2\\0\amp 1\amp -1\\0\amp 0\amp 0\\0\amp 0\amp 0
+                        \end{array}\right]
+                    </me>
+                    This shows that the ordered pair <m>(2, -1)</m> is a solution to the system.  
+                    We conclude that <m>\mathbf{x}=\begin{bmatrix}x\\y\end{bmatrix}=\begin{bmatrix}2\\-1\end{bmatrix}</m> 
+                    is a solution to the matrix equation in <xref ref="ex-linsysmatrix1a"/>. A quick verification confirms this        
+                    <me>
+                        \begin{bmatrix}1\amp 2\\-1\amp 1\\0\amp 1\\1\amp 0\end{bmatrix}\begin{bmatrix}2\\-1\end{bmatrix}=\begin{bmatrix}0\\-3\\-1\\2\end{bmatrix}
+                    </me>
+                </p>
+            </answer>
+        </example>
+
+
+        <example xml:id="ex-solveAxequalb">
+            <statement>
+                <p>
+                    Let 
+        <me>
+            A=\begin{bmatrix}2\amp 1\amp -1\amp 2\\1\amp 1\amp 0\amp 3\end{bmatrix}\quad\text{and}\quad\mathbf{b}=\begin{bmatrix}0\\-2\end{bmatrix} 
+        </me>
+
+        Solve <m>A\mathbf{x}=\mathbf{b}</m>.
+            </p>
+            </statement>
+            <answer>
+                <p>
+                    We write the equation <m>A\mathbf{x}=\mathbf{b}</m> in augmented matrix form and apply elementary row operations to find its reduced row-echelon form.
+
+        <me>
+            \left[\begin{array}{cccc|c}  
+        2\amp 1\amp -1\amp 2\amp 0\\1\amp 1\amp 0\amp 3\amp -2
+        \end{array}\right]\begin{array}{c}
+        \\
+        \rightsquigarrow\\
+        \\
+        \end{array}\left[\begin{array}{cccc|c}  
+        1\amp 0\amp -1\amp -1\amp 2\\0\amp 1\amp 1\amp 4\amp -4
+        \end{array}\right]
+        </me>
+
+    
+        One way to obtain a solution is to convert this to a system of equations.  It is not necessary to write the system down, but it helps to think about it as you write out your solution vector. 
+
+
+        <md>
+            \begin{array}{ccccccccc}
+        x_1 \amp  \amp \amp -\amp x_3\amp -\amp x_4\amp = \amp 2 \\
+        \amp  \amp x_2\amp +\amp x_3\amp +\amp 4x_4\amp =\amp -4 
+                \end{array}
+        </md>
+
+                
+                We see that <m>x_1</m> and <m>x_2</m> are leading variables because they correspond to leading 1s in the reduced row-echelon form , while <m>x_3</m> and <m>x_4</m> are free variables.  We start by assigning parameters <m>s</m> and <m>t</m> to <m>x_3</m> and <m>x_4</m>, respectively, then solve for <m>x_1</m> and <m>x_2</m>.
+        <md>
+        <mrow> x_1\amp =2+s+t </mrow>
+        <mrow>    x_2\amp =-4-s-4t </mrow>
+        <mrow>    x_3\amp =s </mrow>
+        <mrow>    x_4\amp =t  </mrow>
+            </md>
+        We can now write the solution vector as follows
+        <men xml:id="general-vs-particular">
+        \mathbf{x}=\begin{bmatrix}2+s+t\\-4-s-4t\\s\\t\end{bmatrix}=\begin{bmatrix}2\\-4\\0\\0\end{bmatrix}+\begin{bmatrix}1\\-1\\1\\0\end{bmatrix}s+\begin{bmatrix}1\\-4\\0\\1\end{bmatrix}t
+        </men>
+        </p>
+        </answer>
+        </example>
+
+        <p>
+            The solution given in <xref ref="general-vs-particular"/> is an example of a <term>general solution</term> 
+            because it accounts for all of the solutions to the system.  
+            Letting <m>s</m> and <m>t</m> take on specific values produces <term>particular solutions</term>.  
+            For example, <m>[2\\-1\\1\\-1]</m> is a particular solution that corresponds to <m>s=1</m>, <m>t=-1</m>.
+        </p>
+
+    </subsection>
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <subsection xml:id="Subsection-Singular-and-Nonsingular-Matrices">
+        <title>Singular and Nonsingular Matrices</title>
+
+        <p>
+    Our examples so far involved non-square matrices.  Square matrices, however, play a very important role in linear algebra.  
+    This section will focus on square matrices. We start this subsection with a motivating example.
+        </p>
+
+    <example xml:id="ex-nonsingularintro">
+        <statement>
+            <p>
+                Let 
+    <me>
+        A=\begin{bmatrix}3\amp -1\amp 1\\0\amp 1\amp 2\\1\amp 2\amp 2\end{bmatrix}\quad\text{and}\quad\mathbf{b}=\begin{bmatrix}2\\1\\0\end{bmatrix}.
+    </me>
+
+    Solve <m>A\mathbf{x}=\mathbf{b}</m>.
+        </p>
+        </statement>
+        <answer>
+            <p>
+                We apply elementary row operations to bring the augmented matrix to its reduced row-echelon form.
+    
+    <me>
+        \left[\begin{array}{ccc|c}  
+    3\amp -1\amp 1\amp 2\\0\amp 1\amp 2\amp 1\\1\amp 2\amp 2\amp 0
+    \end{array}\right]\begin{array}{c}
+    \\
+    \rightsquigarrow\\
+    \\
+    \end{array}\left[\begin{array}{ccc|c}  
+    1\amp 0\amp 0\amp 0\\0\amp 1\amp 0\amp -1\\0\amp 0\amp 1\amp 1
+    \end{array}\right].
+    </me>
+
+    
+    We can immediately see that the solution vector is
+    
+    <me>
+        \mathbf{x}=\begin{bmatrix}0\\-1\\1\end{bmatrix}.
+    </me>
+        </p>
+        </answer>
+    </example>
+
+
+    <p>
+    Observe that the left-hand side of the augmented matrix in <xref ref="ex-nonsingularintro"/> is the identity matrix <m>I</m>.  This means that <m>\mbox{rref}(A)=I</m>.  
+    </p>
+
+    <p>
+    The elementary row operations that carried <m>A</m> to <m>I</m> were not dependent on the vector <m>\mathbf{b}</m>.  In fact, the same row reduction process can be applied to the matrix equation <m>A\mathbf{x}=\mathbf{b}</m> for <em>any</em> vector <m>\mathbf{b}</m> to obtain a unique solution.
+
+    <me>
+        \left[\begin{array}{ccc|c}  
+    3\amp -1\amp 1\amp a\\0\amp 1\amp 2\amp b\\1\amp 2\amp 2\amp c
+    \end{array}\right]\begin{array}{c}
+    \\
+    \rightsquigarrow\\
+    \\
+    \end{array}\left[\begin{array}{ccc|c}  
+    1\amp 0\amp 0\amp a^*\\0\amp 1\amp 0\amp b^*\\0\amp 0\amp 1\amp c^*
+    \end{array}\right]
+    </me>
+
+    
+    <me>
+        \mathbf{x}=\begin{bmatrix}a^*\\b^*\\c^*\end{bmatrix}
+    </me>
+    </p>
+
+    <p>
+    Given a matrix <m>A</m> such that <m>\mbox{rref}(A)=I</m>, the system <m>A\mathbf{x}=\mathbf{b}</m> will never be inconsistent because we will never have a row like this: <m>\left[\begin{array}{cccc|c}  
+    0\amp 0\amp \ldots\amp 0\amp 1
+    \end{array}\right]</m>.  Neither will we have infinitely many solutions because there will never be free variables.  Matrices such as <m>A</m> deserve special attention.
+    </p>
+
+
+
+
+
+
+
+
+    <definition xml:id="def-nonsingularmatrix">
+
+        <statement>
+            <p>
+                A square matrix <m>A</m> is said to be <term>nonsingular</term> provided that <m>\mbox{rref}(A)=I</m>.  Otherwise we say that <m>A</m> is <term>singular</term>.
+            </p>
+        </statement>
+    </definition>
+
+
+    <p>
+    Non-singular matrices produce particularly well-behaved matrix equations.  
+    </p>
+
+    <theorem xml:id="th-nonsingularequivalency1">
+
+        <statement>
+            <p>
+                The following statements are equivalent for an <m>n\times n</m> matrix <m>A</m>.
+    <ol>
+    <li xml:id="item-asingular">
+    <p><m>A</m> is nonsingular </p>
+    </li>
+    <li xml:id="item-uniquesolution">
+    <p>  <m>A\mathbf{x}=\mathbf{b}</m> has a unique solution for any <m>\mathbf{b}</m> in <m>\R^n</m> </p>
+    </li>
+    <li xml:id="item-onlytrivialsolution">
+    <p> <m>A\mathbf{x}=\mathbf{0}</m> has only the trivial solution <m>\mathbf{x}=\mathbf{0}</m> </p>
+    </li>
+    </ol>
+            </p>
+        </statement>
+
+
+    <proof>
+    <p>
+        We will prove equivalence of the three statements by showing that <xref ref="item-asingular"/><m>\Rightarrow</m><xref ref="item-uniquesolution"/><m>\Rightarrow</m><xref ref="item-onlytrivialsolution"/><m>\Rightarrow</m><xref ref="item-asingular"/>
+    </p>
+
+        <p>[Proof of <xref ref="item-asingular"/><m>\Rightarrow</m><xref ref="item-uniquesolution"/>]:
+    Suppose <m>\mbox{rref}(A)=I</m>.  Given any vector <m>\mathbf{b}</m> in <m>\R^n</m>, the augmented matrix <m>[A|\mathbf{b}]</m> can be carried to its reduced row-echelon form <m>[I|\mathbf{b}^*]</m>.  Uniqueness of the reduced row-echelon form guarantees that <m>\mathbf{b}^*</m> is the unique solution of <m>A\mathbf{x}=\mathbf{b}</m>. 
+        </p>
+
+
+        <p>[Proof of <xref ref="item-uniquesolution"/><m>\Rightarrow</m><xref ref="item-onlytrivialsolution"/>]:
+    Suppose <m>A\mathbf{x}=\mathbf{b}</m> has a unique solution for all vectors <m>\mathbf{b}</m>.  Then <m>A\mathbf{x}=\mathbf{0}</m> has a unique solution.  But <m>\mathbf{x}=\mathbf{0}</m> is always a solution to <m>A\mathbf{x}=\mathbf{0}</m>.  Therefore <m>\mathbf{x}=\mathbf{0}</m> is the only solution.
+        </p>
+
+        <p>[Proof of <xref ref="item-onlytrivialsolution"/><m>\Rightarrow</m><xref ref="item-asingular"/>]:
+    Suppose <m>A\mathbf{x}=\mathbf{0}</m> has only the trivial solution.  This means that <m>x_1=0, x_2=0,\dots ,x_n=0</m> is the only solution of <m>A\mathbf{x}=\mathbf{0}</m>.  But then, we know that the augmented matrix <m>[A|\mathbf{0}]</m> can be reduced to <m>[I|\mathbf{0}]</m>.  The same row operations will carry <m>A</m> to <m>I</m>.
+        </p>
+    </proof>
+    </theorem>
+
+
+    <remark>
+    <statement>
+    <p>
+    Not all square matrices are nonsingular.  For example,
+
+    <me>
+        \mbox{rref}\left(\begin{bmatrix}2\amp -1\amp 1\\1\amp 1\amp 1\\3\amp 0\amp 2\end{bmatrix}\right)=\begin{bmatrix}1\amp 0\amp 2/3\\0\amp 1\amp 1/3\\0\amp 0\amp 0\end{bmatrix}\neq I
+    </me>
+    </p>
+    </statement>
+    </remark>
+
+
+    <p>
+    By <xref ref="th-nonsingularequivalency1"/>, a matrix equation <m>A\mathbf{x}=\mathbf{b}</m> involving a singular matrix <m>A</m> cannot have a unique solution. The following example illustrates the two scenarios that arise when solving equations that involve singular matrices.
+    </p>
+
+
+
+
+    <example xml:id="ex-infinfeasible">
+        <statement>
+            <p>
+                Let 
+    <me>
+        A=\begin{bmatrix}2\amp -1\amp 1\\1\amp 1\amp 1\\3\amp 0\amp 2\end{bmatrix}
+    </me>
+    Solve the equation <m>A\mathbf{x}=\mathbf{b}</m> for each case of <m>b</m> below or show that hte system is inconsistent.
+    <ol>
+        <li xml:id="item-infmany">
+    <p>
+    <me>
+    \mathbf{b}_1=\begin{bmatrix}4\\-1\\3\end{bmatrix}
+    </me>
+    </p>
+    </li>
+        
+
+        <li xml:id="item-infeasible">
+    <p> 
+    <me>
+        \mathbf{b}_2=\begin{bmatrix}1\\-1\\1\end{bmatrix}
+    </me>
+    </p>
+    </li>
+        
+    </ol>
+    </p>
+    </statement>
+
+
+
+        <answer>
+            <p>
+                For <m> b_1 </m>,  row reduction gives us
+    
+    <me>
+        \left[\begin{array}{ccc|c}  
+    2\amp -1\amp 1\amp 4\\1\amp 1\amp 1\amp -1\\3\amp 0\amp 2\amp 3
+    \end{array}\right]\begin{array}{c}
+    \\
+    \rightsquigarrow\\
+    \\
+    \end{array}\left[\begin{array}{ccc|c}  
+    1\amp 0\amp 2/3\amp 1\\0\amp 1\amp 1/3\amp -2\\0\amp 0\amp 0\amp 0
+    \end{array}\right].
+    </me>
+
+    There are infinitely many solutions and they all have the following form:
+    <me>
+        \mathbf{x}=\begin{bmatrix}1-(2/3)t\\-2-(1/3)t\\t\end{bmatrix}=\begin{bmatrix}1\\-2\\0\end{bmatrix}+\begin{bmatrix}-2/3\\-1/3\\1\end{bmatrix}t.
+    </me>
+    </p>
+
+    <p>
+    For <m>b_2</m>, the vector <m>\mathbf{b}</m> is changed and the row operations that take <m>A</m> to its reduced row-echelon form produce a <m>1</m> in the last row of the vector on the right, which shows that the system is inconsistent.
+    
+    <me>
+        \left[\begin{array}{ccc|c}  
+    2\amp -1\amp 1\amp 1\\1\amp 1\amp 1\amp -1\\3\amp 0\amp 2\amp 1
+    \end{array}\right]\begin{array}{c}
+    \\
+    \rightsquigarrow\\
+    \\
+    \end{array}\left[\begin{array}{ccc|c}  
+    1\amp 0\amp 2/3\amp 0\\0\amp 1\amp 1/3\amp 0\\0\amp 0\amp 0\amp 1
+    \end{array}\right].
+    </me>
+        </p>
+        </answer>
+    </example>
+    </subsection>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <subsection xml:id="Subsection-Connection-to-Linear-Combination-Equations">
+        <title>Connection to Linear Combination Equations</title>
+
+
+    <p>
+    Recall that the product of a matrix and a vector can be interpreted as a linear combination of the columns of the matrix.  For example,
+
+    <me>
+        \begin{bmatrix}1\amp 2\amp 3\amp 4\\5\amp 6\amp 7\amp 8\end{bmatrix}\begin{bmatrix}x_1\\x_2\\x_3\\x_4\end{bmatrix}=x_1\begin{bmatrix}1\\5\end{bmatrix}+x_2\begin{bmatrix}2\\6\end{bmatrix}+x_3\begin{bmatrix}3\\7\end{bmatrix}+x_4\begin{bmatrix}4\\8\end{bmatrix}.
+    </me>
+    </p>
+
+    <example xml:id="ex-linearcombofcols2">
+        <statement>
+            <p>
+                For each given matrix <m>A</m> and vector <m>\mathbf{b}</m>, determine whether <m>\mathbf{b}</m> is a linear combination of the columns of <m>A</m>.  If possible, express <m>\mathbf{b}</m> as a linear combination of the columns of <m>A</m>.
+
+    <ol>
+    <li xml:id="linearcombofcols2a">
+    <p> 
+
+    <me>
+        A=\begin{bmatrix}
+    3\amp 1\amp -2\\
+    1\amp 0\amp 3\\
+    -2\amp 1\amp 1
+    \end{bmatrix},\,\,\,\mathbf{b}=\begin{bmatrix} -2\\7\\-1\end{bmatrix}.
+    </me>
+    </p>
+    </li>
+
+
+    <li xml:id="linearcombofcols2b">
+    <p>
+
+    <me>
+        B=\begin{bmatrix}
+    1\amp -1\amp 3\\
+    2\amp -1\amp 1\\
+    0\amp 1\amp -5
+    \end{bmatrix},\,\,\,\mathbf{b}=\begin{bmatrix} 4\\-1\\2\end{bmatrix}.
+    </me>
+    </p>
+    </li>
+    </ol>
+        </p>
+        </statement>
+
+
+        <answer>
+            <p>
+            For <m>A</m>, we are looking for <m>x_1, x_2, x_3</m> such that
+
+    <me>
+        x_1\begin{bmatrix}3\\1\\-2\end{bmatrix}+x_2\begin{bmatrix}1\\0\\1\end{bmatrix}+x_3\begin{bmatrix}-2\\3\\1\end{bmatrix}=\begin{bmatrix}-2\\7\\-1\end{bmatrix}.
+    </me>
+
+    Solving this equation amounts to finding <m>\mathbf{x}=\begin{bmatrix}x_1\\x_2\\x_3\end{bmatrix}</m> such that <m>A\mathbf{x}=\mathbf{b}</m>.  The augmented matrix corresponding to this equation, together with its reduced row-echelon form are
+
+    <me>
+        \left[\begin{array}{ccc|c}  
+    3\amp 1\amp -2\amp -2\\1\amp 0\amp 3\amp 7\\-2\amp 1\amp 1\amp -1
+    \end{array}\right]\begin{array}{c}
+    \\
+    \rightsquigarrow\\
+    \\
+    \end{array}\left[\begin{array}{ccc|c}  
+    1\amp 0\amp 0\amp 1\\0\amp 1\amp 0\amp -1\\0\amp 0\amp 1\amp 2
+    \end{array}\right].
+    </me>
+
+
+    So, <m>\mathbf{x}=\begin{bmatrix} 1\\-1\\2\end{bmatrix}</m> is a solution to the matrix equation.  We conclude that <m>\mathbf{b}</m> is a linear combination of the columns of <m>A</m>, and write
+
+    <me>
+        \mathbf{b}=\begin{bmatrix} -2\\7\\-1\end{bmatrix}=\begin{bmatrix} 3\\1\\-2\end{bmatrix}-\begin{bmatrix} 1\\0\\1\end{bmatrix}+2\begin{bmatrix} -2\\3\\1\end{bmatrix}.
+    </me>
+    </p>
+
+    <p>
+    For <m>B</m> We begin by attempting to solve the matrix equation  <m>A\mathbf{x}=\mathbf{b}</m>.  The augmented matrix corresponding to this equation, together with its reduced row-echelon form are
+
+    <me>
+        \left[\begin{array}{ccc|c}  
+    1\amp -1\amp 3\amp 4\\2\amp -1\amp 1\amp -1\\0\amp 1\amp -5\amp 2
+    \end{array}\right]\begin{array}{c}
+    \\
+    \rightsquigarrow\\
+    \\
+    \end{array}\left[\begin{array}{ccc|c}  
+    1\amp 0\amp -2\amp 0\\0\amp 1\amp -5\amp 0\\0\amp 0\amp 0\amp 1
+    \end{array}\right].
+    </me>
+
+
+    This shows that this matrix equation has no solutions.  We conclude that <m>\mathbf{b}</m> is not a linear combination of the columns of <m>A</m>.
+        </p>
+        </answer>
+    </example>
+    </subsection>
+
+
+
+
+
+
+
+
+
+
+
+
+    <exercises>
+        <exercise xml:id="prob-systomatrixeq">
+            <statement>
+                <p>
+                    Given the system of linear equations below, write (a) the corresponding matrix equation, and (b) the corresponding linear combination equation.  DO NOT SOLVE.
+                    <md>\begin{array}{ccccccc}
+                        <mrow>  3x\amp - \amp y \amp - \amp 2z\amp = \amp 4 </mrow>
+                        <mrow>-x\amp  \amp  \amp + \amp z\amp = \amp -1 </mrow>
+                        <mrow> \amp  \amp -y \amp + \amp 5z\amp =\amp 0 </mrow>
+                        \end{array}.
+                    </md>
+                </p>
+            </statement>
+        </exercise>
+
+        <exercisegroup>
+            <introduction>
+                <p>
+                    Use an augmented matrix and elementary row operations to find coefficients <m>x_1</m> and <m>x_2</m> that make the expression true, or demonstrate that such coefficients do not exist.   
+                </p>
+            </introduction>
+
+            <exercise>
+                <statement>
+                    <p>
+                        <me xml:id="lincombeq1">
+                            x_1\begin{bmatrix}
+                                1\\
+                                -2
+                                \end{bmatrix}+ x_2\begin{bmatrix}
+                                1\\
+                                3
+                                \end{bmatrix}=\begin{bmatrix}
+                                1\\
+                                8
+                                \end{bmatrix}.
+                                </me>
+                    </p>
+                </statement>
+                <answer>
+                    <p>
+                        <me>
+                            x_1=-1, x_2=2.
+                        </me>   
+                    </p>
+                </answer>
+            </exercise>
+
+            <exercise xml:id="prob-lincombeq2">
+                <statement>
+                    <p>
+                        <me>
+                            x_1\begin{bmatrix}
+                                4\\
+                                -1
+                                \end{bmatrix}+ x_2\begin{bmatrix}
+                                -8\\
+                                2
+                                \end{bmatrix}=\begin{bmatrix}
+                                0\\
+                                3
+                                \end{bmatrix}.
+                        </me>
+                    </p>      
+                </statement>
+                <answer>
+                    <p>
+                        The system is inconsistent and no <m>x_1, x_2</m> exist.
+                    </p>
+                </answer>
+            </exercise>
+        </exercisegroup>
+
+        <exercisegroup>
+            <introduction>
+                <p>
+                    In each problem below determine whether vector <m>\mathbf{b}</m> is in the span of the given set of vectors.       
+                </p>
+            </introduction>
+
+            <exercise xml:id="spanofvect1">
+                <statement>
+                    <m>\mathbf{b}=\begin{bmatrix}2\\14\\7\end{bmatrix}</m> and <m>\left\{\begin{bmatrix}2\\-1\\1\end{bmatrix}, \begin{bmatrix}-3\\4\\1\end{bmatrix}, \begin{bmatrix}1\\-3\\-2\end{bmatrix}\right\}.</m>
+                </statement>
+
+            <answer>
+                <p>
+                    The vector <m>b</m> is not in the span.     
+                </p>
+            </answer>
+            </exercise>
+            
+            <exercise xml:id="prob-spanofvect2">
+                <statement>
+                    <p>
+                        <m>\mathbf{b}=\begin{bmatrix}5\\2\\4\end{bmatrix}</m> and <m>\left\{\begin{bmatrix}4\\2\\4\end{bmatrix}, \begin{bmatrix}4\\5\\1\end{bmatrix}, \begin{bmatrix}3\\2\\2\end{bmatrix}, \begin{bmatrix}1\\0\\2\end{bmatrix}\right\}.</m>
+                    </p>
+                    </statement>
+                        <answer>
+                            <p>
+                                The vector <m>b</m> is in the span.
+                            </p>
+                        </answer>
+            </exercise>
+            
+            <exercise xml:id="prob-spanofvect3">
+                <statement>
+                    <p>
+                        <m>\mathbf{b}=\begin{bmatrix}2\\4\\-7\\-5\end{bmatrix}</m> and <m>\left\{\begin{bmatrix}1\\-1\\2\\3\end{bmatrix}, \begin{bmatrix}4\\1\\-3\\1\end{bmatrix}\right\}.</m>
+                    </p>
+                </statement>
+                <answer>
+                    <p>
+                        The vector <m>b</m> is not in the span.               
+                    </p>
+                </answer>
+            </exercise>
+        </exercisegroup>
+    </exercises>
+</section>
