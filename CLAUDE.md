@@ -53,6 +53,24 @@ gitignored, so it isn't in the GitHub repo. The custom LaTeX
 XSL overrides `mode="half-title"`, which core renamed to `half-title-ad-card`, so that
 override is currently ignored.
 
+## Lessons from MultivariableCalculus (apply to every book)
+
+- **Project numbering:** before 2.42, activities/projects had their own counter by default.
+  Now they share the block counter unless `numbering/projects/@distinct="yes"`. Add it, or
+  nearly every activity number changes.
+- **List markers in Exercises:** 2.4.x counted every list inside an `exercises` division one
+  level deeper, so an unmarked list showed `a.`. 2.55 doesn't, so it shows `1.` instead.
+  Give such lists an explicit `@marker`.
+- **Lists in activities:** an `ol` directly inside `activity`, `exploration`, or a `statement`
+  is a schema error (only the `exercise` case is a deprecation). Wrap it in `p`.
+- **Image alt text:** `image/@alt` doesn't exist in PreTeXt and is silently dropped. Use a
+  `shortdescription` child; `description` must contain `p`.
+- **External directory:** `source/directories/@external` moved to `docinfo/directories/@external`
+  (2026-07-30). `@generated` stays in the publication file.
+- **Duplicate `xml:id`s** stop `pretext validate`. Check for them first.
+- **This cloud sandbox** can't reach `webwork-ptx.aimath.org` (blocked by network policy), has
+  no TeX/asy/Sage, and has no `jing` (use `pretext validate --engine salve`).
+
 ## Phase 0: cleanup
 
 1. Back up, then remove the inner `.git` folders in DifferentialEquations and
