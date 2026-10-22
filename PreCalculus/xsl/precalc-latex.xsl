@@ -363,6 +363,32 @@
         <xsl:value-of select="substring($trimmed, 1, string-length($trimmed) - 2)"/>
     </xsl:template>
 
+    <!-- %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% -->
+    <!--  Static WeBWorK: two-column layout tables                -->
+    <!-- %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% -->
+
+    <!-- Seven UNL problems (graph matching, piecewise formulas, function -->
+    <!-- transformations) lay out "problem text | graphs" as a one-row,   -->
+    <!-- two-cell table.  In the static (PDF) version the text cell is a  -->
+    <!-- single unbreakable line thousands of points wide, so the table   -->
+    <!-- is either far off the page or shrunk to an unreadable sliver.    -->
+    <!-- Unwrap it: the text as a paragraph, then the graphs below.       -->
+    <xsl:template match="statement/tabular[not(col)][count(row) = 1][count(row/cell) = 2][string-length(normalize-space(row/cell[1])) &gt; 60]" mode="webwork-rep-to-static">
+        <p>
+            <xsl:apply-templates select="row/cell[1]/node()" mode="webwork-rep-to-static"/>
+        </p>
+        <xsl:choose>
+            <xsl:when test="row/cell[2]/text()[normalize-space(.)]">
+                <p>
+                    <xsl:apply-templates select="row/cell[2]/node()" mode="webwork-rep-to-static"/>
+                </p>
+            </xsl:when>
+            <xsl:otherwise>
+                <xsl:apply-templates select="row/cell[2]/node()" mode="webwork-rep-to-static"/>
+            </xsl:otherwise>
+        </xsl:choose>
+    </xsl:template>
+
     <!-- Override default frontmatter pages: -->
 
     <!-- Remove the "half-title" leading page (title only, at about -->
