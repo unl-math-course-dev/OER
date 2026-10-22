@@ -52,11 +52,176 @@
     <xsl:param name="latex.preamble.late">
         <xsl:text>%This should load all the style information that ptx does not.&#xa;</xsl:text>
     <xsl:text>\input{external/latex/latex-preamble-styles}&#xa;</xsl:text>
+        <!-- Long inline math (vectors, function compositions) cannot   -->
+        <!-- break, so TeX would rather run a line into the margin than  -->
+        <!-- space it out a bit more.  \emergencystretch lets it use a   -->
+        <!-- looser line as a last resort instead.                       -->
+        <xsl:text>\setlength{\emergencystretch}{2em}&#xa;</xsl:text>
     </xsl:param>
 
 
     <xsl:param name="latex.preamble.early"> </xsl:param>
 
+
+    <!-- %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% -->
+    <!--  Wide tables: shrink to fit the line         -->
+    <!-- %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% -->
+
+    <!-- Core (pretext-latex-common.xsl, 2.55.0) shrinks a too-wide      -->
+    <!-- table only when it has @width or @margins.  Our tables are      -->
+    <!-- natural width, and some (for example the 9-column tables in     -->
+    <!-- the Vector Fields preview activity) run into the margin.  This  -->
+    <!-- copies core's "natural width" case and adds the same            -->
+    <!-- shrink-but-never-enlarge \resizebox core uses elsewhere.        -->
+    <xsl:template match="tabular[not(ancestor::sidebyside)][not(@margins) and not(@width)]" priority="10">
+        <xsl:apply-templates select="." mode="newpage"/>
+        <xsl:choose>
+            <xsl:when test="parent::table">
+                <xsl:text>\centering%&#xa;</xsl:text>
+            </xsl:when>
+            <xsl:otherwise>
+                <xsl:text>\begin{center}%&#xa;</xsl:text>
+            </xsl:otherwise>
+        </xsl:choose>
+        <xsl:text>\resizebox{\ifdim\width > \linewidth\linewidth\else\width\fi}{!}{%&#xa;</xsl:text>
+        <xsl:apply-templates select="." mode="tabular-inclusion"/>
+        <xsl:text>}%&#xa;</xsl:text>
+        <xsl:if test="not(parent::table)">
+            <xsl:text>\end{center}%&#xa;</xsl:text>
+        </xsl:if>
+    </xsl:template>
+
+    <!-- %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% -->
+    <!--  Animated GIFs: use a PNG still in the PDF  -->
+    <!-- %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% -->
+
+    <!-- LaTeX cannot include a GIF, and the build stops if it tries.  -->
+    <!-- For any image whose @source ends in ".gif", include the PNG  -->
+    <!-- with the same name instead (for example, foo.gif -> foo.png). -->
+    <!-- The PNG must exist in assets/ next to the GIF.  HTML still   -->
+    <!-- shows the animated GIF.                                      -->
+    <xsl:template match="image[@source][substring(@source, string-length(@source) - 3) = '.gif']" mode="image-inclusion" priority="10">
+        <xsl:text>\includegraphics[width=\linewidth</xsl:text>
+        <xsl:if test="@rotate">
+            <xsl:text>,angle=</xsl:text>
+            <xsl:value-of select="@rotate"/>
+            <xsl:text>,origin=c</xsl:text>
+        </xsl:if>
+        <xsl:text>]{</xsl:text>
+        <xsl:value-of select="$external-directory"/>
+        <xsl:value-of select="substring(@source, 1, string-length(@source) - 4)"/>
+        <xsl:text>.png}&#xa;</xsl:text>
+    </xsl:template>
+
+    <!-- %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% -->
+    <!--  Fill-in blanks: keep them inside the margin -->
+    <!-- %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% -->
+
+    <!-- Copy of core "fillin-text" (pretext-latex-common.xsl, 2.55.0) -->
+    <!-- with two changes, marked CHANGED.  Static WeBWorK answer      -->
+    <!-- blanks are sized by character count (0.5em each), so an       -->
+    <!-- 80-character blank is wider than our 7in page allows and runs -->
+    <!-- into the margin.  Here a blank is at most half the line wide, -->
+    <!-- and may shrink to a quarter of that when a line is crowded    -->
+    <!-- (for example "(___, ___, ___)").  If core changes this        -->
+    <!-- template, re-copy it and re-apply the changes.                -->
+    <xsl:template name="fillin-text">
+        <xsl:text>%% Used for fillin answer blank in text&#xa;</xsl:text>
+        <xsl:text>%% Relies on calc package, loaded via tcolorbox&#xa;</xsl:text>
+        <xsl:text>%% Argument is intended number of characters of blank&#xa;</xsl:text>
+        <xsl:text>%% Length may compress for output to fit in one line&#xa;</xsl:text>
+        <xsl:text>%% (multivar-latex.xsl: capped at half the line, may shrink by 3/4)&#xa;</xsl:text>
+        <xsl:text>\newlength{\ptxfillinmaxwidth}&#xa;</xsl:text>
+        <xsl:text>\newlength{\ptxfillincontract}&#xa;</xsl:text>
+        <xsl:text>\newlength{\ptxcharmaxwidth}\setlength{\ptxcharmaxwidth}{0.5em}&#xa;</xsl:text>
+        <xsl:text>\newlength{\ptxcharminwidth}\setlength{\ptxcharminwidth}{0.1em}&#xa;</xsl:text>
+        <xsl:text>\newlength{\ptxfillinheight}&#xa;</xsl:text>
+        <xsl:if test="$fillin-text-style = 'shade'">
+            <xsl:text>\definecolor{fillintextshade}{gray}{0.9}</xsl:text>
+        </xsl:if>
+        <xsl:text>\newcommand{\ptxfillintext}[1]{%&#xa;</xsl:text>
+        <xsl:text>\setlength{\ptxfillinmaxwidth}{#1\ptxcharmaxwidth}%&#xa;</xsl:text>
+        <!-- CHANGED: cap the width at half the line -->
+        <xsl:text>\ifdim\ptxfillinmaxwidth>0.5\linewidth\setlength{\ptxfillinmaxwidth}{0.5\linewidth}\fi%&#xa;</xsl:text>
+        <!-- CHANGED: allow shrinking by 3/4 (core: #1\ptxcharminwidth) -->
+        <xsl:text>\setlength{\ptxfillincontract}{0.75\ptxfillinmaxwidth}%&#xa;</xsl:text>
+        <xsl:text>\setlength{\ptxfillinheight}{\baselineskip}\addtolength{\ptxfillinheight}{1.2pt}%&#xa;</xsl:text>
+        <xsl:choose>
+            <xsl:when test="$fillin-text-style = 'underline'">
+                <xsl:text>\strut\nobreak\leaders\vbox{\hrule width 0.3pt height 0.3pt \vskip -1.2pt}\hskip 1\ptxfillinmaxwidth minus \ptxfillincontract\nobreak\strut%&#xa;</xsl:text>
+            </xsl:when>
+            <xsl:when test="$fillin-text-style = 'box'">
+                <xsl:text>\rule[-1.2pt]{0.3pt}{\heightof{\strut}+1.8pt}\nobreak\hspace{-0.3pt}\nobreak\leaders\vbox{\hrule width 0.3pt height 0.3pt \vskip \ptxfillinheight \hrule width 0.3pt height 0.3pt \vskip -1.2pt}\hskip 1\ptxfillinmaxwidth minus \ptxfillincontract\nobreak\hspace{-0.3pt}\rule[-1.2pt]{0.3pt}{\heightof{\strut}+1.8pt}%&#xa;</xsl:text>
+            </xsl:when>
+            <xsl:when test="$fillin-text-style = 'shade'">
+                <xsl:text>{\color{fillintextshade}\strut\nobreak\leaders\vbox{\hrule width 0.3pt height \ptxfillinheight \vskip -1.2pt}\hskip 1\ptxfillinmaxwidth minus \ptxfillincontract}%&#xa;</xsl:text>
+            </xsl:when>
+        </xsl:choose>
+        <xsl:text>}&#xa;</xsl:text>
+    </xsl:template>
+
+    <!-- %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% -->
+    <!--  Static WeBWorK: HTML bold/italic tags inside math -->
+    <!-- %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% -->
+
+    <!-- Some library problems (for example HGM4-14-5-16, used as       -->
+    <!-- ex-10-6-WW-DD-max) write a bold vector as <B><I>u</B></I>      -->
+    <!-- inside math.  Live WeBWorK renders it, but in the static (PDF) -->
+    <!-- version the tags show up as text (the server sends them as     -->
+    <!-- "\lt B>\lt I>u\lt /B>\lt /I>").  Turn the letter into           -->
+    <!-- \mathbf{...} and drop the tags.  Only touches math that came   -->
+    <!-- back from the WeBWorK server.                                  -->
+    <xsl:template match="m[contains(., '\lt B&gt;') or contains(., '\lt I&gt;')]|me[contains(., '\lt B&gt;') or contains(., '\lt I&gt;')]" mode="webwork-rep-to-static">
+        <xsl:copy>
+            <xsl:apply-templates select="@*" mode="webwork-rep-to-static"/>
+            <xsl:call-template name="multivar-strip-bi">
+                <xsl:with-param name="text">
+                    <xsl:call-template name="multivar-strip-bi">
+                        <xsl:with-param name="text">
+                            <xsl:call-template name="multivar-strip-bi">
+                                <xsl:with-param name="text">
+                                    <xsl:call-template name="multivar-strip-bi">
+                                        <xsl:with-param name="text" select="string(.)"/>
+                                        <xsl:with-param name="open" select="'\lt B&gt;\lt I&gt;'"/>
+                                        <xsl:with-param name="close" select="'\lt /B&gt;\lt /I&gt;'"/>
+                                    </xsl:call-template>
+                                </xsl:with-param>
+                                <xsl:with-param name="open" select="'\lt B&gt;\lt I&gt;'"/>
+                                <xsl:with-param name="close" select="'\lt /I&gt;\lt /B&gt;'"/>
+                            </xsl:call-template>
+                        </xsl:with-param>
+                        <xsl:with-param name="open" select="'\lt I&gt;\lt B&gt;'"/>
+                        <xsl:with-param name="close" select="'\lt /B&gt;\lt /I&gt;'"/>
+                    </xsl:call-template>
+                </xsl:with-param>
+                <xsl:with-param name="open" select="'\lt I&gt;\lt B&gt;'"/>
+                <xsl:with-param name="close" select="'\lt /I&gt;\lt /B&gt;'"/>
+            </xsl:call-template>
+        </xsl:copy>
+    </xsl:template>
+
+    <!-- Replace every open...close pair in $text with \mathbf{...} -->
+    <xsl:template name="multivar-strip-bi">
+        <xsl:param name="text"/>
+        <xsl:param name="open"/>
+        <xsl:param name="close"/>
+        <xsl:choose>
+            <xsl:when test="contains($text, $open) and contains(substring-after($text, $open), $close)">
+                <xsl:value-of select="substring-before($text, $open)"/>
+                <xsl:text>\mathbf{</xsl:text>
+                <xsl:value-of select="substring-before(substring-after($text, $open), $close)"/>
+                <xsl:text>}</xsl:text>
+                <xsl:call-template name="multivar-strip-bi">
+                    <xsl:with-param name="text" select="substring-after(substring-after($text, $open), $close)"/>
+                    <xsl:with-param name="open" select="$open"/>
+                    <xsl:with-param name="close" select="$close"/>
+                </xsl:call-template>
+            </xsl:when>
+            <xsl:otherwise>
+                <xsl:value-of select="$text"/>
+            </xsl:otherwise>
+        </xsl:choose>
+    </xsl:template>
 
     <!-- Override default frontmatter pages: -->
 
