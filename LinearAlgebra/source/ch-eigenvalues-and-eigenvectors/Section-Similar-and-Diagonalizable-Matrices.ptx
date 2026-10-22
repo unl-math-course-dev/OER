@@ -315,37 +315,40 @@ Diagonal matrices have some nice properties, as we demonstrate below.
 
 
 <exploration xml:id="init-multiplydiag">
-    <p>
-        Let us warm up with a small computation.
-    </p> 
+	<introduction>
+		<p>
+		    Let us warm up with a small computation.
+		</p>
+	</introduction>
 
-<problem>
-<statement>
-<p>
+	<task>
+		<statement>
+			<p>
 
-Let
-<md>
-M =\begin{bmatrix}1 \amp  2 \amp  3\\ 4\amp 5\amp 6\\7\amp 8\amp 9\end{bmatrix} \quad \text{and} \quad D =\begin{bmatrix}2 \amp  0 \amp  0\\ 0\amp -5\amp 0\\0\amp 0\amp 10\end{bmatrix}.
-</md>
+			Let
+			<md>
+			M =\begin{bmatrix}1 \amp  2 \amp  3\\ 4\amp 5\amp 6\\7\amp 8\amp 9\end{bmatrix} \quad \text{and} \quad D =\begin{bmatrix}2 \amp  0 \amp  0\\ 0\amp -5\amp 0\\0\amp 0\amp 10\end{bmatrix}.
+			</md>
 
-Compute <m>MD</m> and <m>DM</m>.
+			Compute <m>MD</m> and <m>DM</m>.
 
-</p>
-</statement>
+			</p>
+		</statement>
+		<answer>
+		<p>
+		    <md>
+		        MD = \begin{bmatrix} 2 \amp  -10 \amp  30\\ 8\amp -25\amp 60\\14\amp -40\amp 90\end{bmatrix}, \quad DM= \begin{bmatrix} 2 \amp  4 \amp  6\\ -20\amp -25\amp -30\\70\amp 80\amp 90\end{bmatrix}.
+		    </md>
 
-<answer>
-<p>
-    <md>
-        MD = \begin{bmatrix} 2 \amp  -10 \amp  30\\ 8\amp -25\amp 60\\14\amp -40\amp 90\end{bmatrix}, \quad DM= \begin{bmatrix} 2 \amp  4 \amp  6\\ -20\amp -25\amp -30\\70\amp 80\amp 90\end{bmatrix}.
-    </md>
-       
-</p>
-</answer> 
-</problem> 
+		</p>
+		</answer>
+	</task>
 
-<p> 
-Notice the patterns present in the product matrices.  Each row of <m>DM</m> is the same as its corresponding row of <m>M</m> multiplied by the scalar which is the corresponding diagonal element of <m>D</m>.  In the product <m>MD</m>, it is the columns of <m>M</m> that have been multiplied by the diagonal elements. These patterns hold in general for any diagonal matrix, and they are fundamental to understanding diagonalization, the process we discuss below.
-</p>
+	<conclusion>
+		<p> 
+		Notice the patterns present in the product matrices.  Each row of <m>DM</m> is the same as its corresponding row of <m>M</m> multiplied by the scalar which is the corresponding diagonal element of <m>D</m>.  In the product <m>MD</m>, it is the columns of <m>M</m> that have been multiplied by the diagonal elements. These patterns hold in general for any diagonal matrix, and they are fundamental to understanding diagonalization, the process we discuss below.
+		</p>
+	</conclusion>
 </exploration>
 
 
@@ -617,41 +620,45 @@ It is often easier to work with matrices that are diagonalizable, as the next Ex
 
 
 <exploration xml:id="exp-motivate-diagonalization">
-    <p>
-        Let 
-<md>A=\begin{bmatrix}
-2 \amp  0 \amp  0 \\
-1 \amp  4 \amp  -1 \\
--2 \amp  -4 \amp  4
-\end{bmatrix} \quad \text{and} \quad D=\begin{bmatrix}
-2 \amp  0 \amp  0 \\
-0 \amp  2 \amp  0 \\
-0 \amp  0 \amp  6
-\end{bmatrix}.</md>  
+	<introduction>
+		<p>
+		        Let 
+		<md>A=\begin{bmatrix}
+		2 \amp  0 \amp  0 \\
+		1 \amp  4 \amp  -1 \\
+		-2 \amp  -4 \amp  4
+		\end{bmatrix} \quad \text{and} \quad D=\begin{bmatrix}
+		2 \amp  0 \amp  0 \\
+		0 \amp  2 \amp  0 \\
+		0 \amp  0 \amp  6
+		\end{bmatrix}.</md>  
 
-Would it be easier to compute <m>A^5</m> or <m>D^5</m> if you had to do so by hand, without a computer?  Certainly <m>D^5</m> is easier, due to the number of zero entries!
-</p> 
+		Would it be easier to compute <m>A^5</m> or <m>D^5</m> if you had to do so by hand, without a computer?  Certainly <m>D^5</m> is easier, due to the number of zero entries!
+		</p>
+	</introduction>
 
-<problem>
-<statement>
-    <p>
-Do compute <m>A^5</m> together with <m>D^5</m>. Feel free to use a program or online calculator tool for <m>A^5 </m>, but do <m> D^5 </m> by hand.
-    </p>
-</statement>
-</problem>
+	<task>
+		<statement>
+			<p>
+			Do compute <m>A^5</m> together with <m>D^5</m>. Feel free to use a program or online calculator tool for <m>A^5 </m>, but do <m> D^5 </m> by hand.
+			    </p>
+		</statement>
+	</task>
 
-<p> 
-We see that raising a diagonal matrix to a power amounts to simply raising each entry to that same power, whereas computing <m>A^5</m> requires many more calculations.  However, we learned in <xref ref="ex-diagonalizematrix"/> that <m>A</m> is similar to <m>D</m>, and we can use this to make our computation easier.  This is because
-<md>
-    <mrow> A^5\amp =\left(PDP^{-1}\right)^5 </mrow>
-        <mrow>   \amp =(PDP^{-1})(PDP^{-1})(PDP^{-1})(PDP^{-1})(PDP^{-1}) </mrow>
-            <mrow>  \amp =PD(P^{-1}P)D(P^{-1}P)D(P^{-1}P)D(P^{-1}P)DP^{-1} </mrow>
-                <mrow> \amp =PD(I)D(I)D(I)D(I)DP^{-1} </mrow>
-                    <mrow> \amp =PD^5P^{-1}. </mrow>
-</md>
-With this in mind, it is not as daunting to calculate <m>A^5</m> by hand.  We can compute the product <m>PD^5</m> quite easily since <m>D^5</m> is diagonal, as we learned in <xref ref="init-multiplydiag"/>.  That leaves just one product of <m>3 \times 3</m> matrices to compute by hand to compute <m>A^5</m>.  And the savings in work would certainly be more pronounced for larger matrices or for powers larger that 5.
+	<conclusion>
+		<p> 
+		We see that raising a diagonal matrix to a power amounts to simply raising each entry to that same power, whereas computing <m>A^5</m> requires many more calculations.  However, we learned in <xref ref="ex-diagonalizematrix"/> that <m>A</m> is similar to <m>D</m>, and we can use this to make our computation easier.  This is because
+		<md>
+		    <mrow> A^5\amp =\left(PDP^{-1}\right)^5 </mrow>
+		        <mrow>   \amp =(PDP^{-1})(PDP^{-1})(PDP^{-1})(PDP^{-1})(PDP^{-1}) </mrow>
+		            <mrow>  \amp =PD(P^{-1}P)D(P^{-1}P)D(P^{-1}P)D(P^{-1}P)DP^{-1} </mrow>
+		                <mrow> \amp =PD(I)D(I)D(I)D(I)DP^{-1} </mrow>
+		                    <mrow> \amp =PD^5P^{-1}. </mrow>
+		</md>
+		With this in mind, it is not as daunting to calculate <m>A^5</m> by hand.  We can compute the product <m>PD^5</m> quite easily since <m>D^5</m> is diagonal, as we learned in <xref ref="init-multiplydiag"/>.  That leaves just one product of <m>3 \times 3</m> matrices to compute by hand to compute <m>A^5</m>.  And the savings in work would certainly be more pronounced for larger matrices or for powers larger that 5.
 
-    </p>
+		    </p>
+	</conclusion>
 </exploration>  
 
 <p>
