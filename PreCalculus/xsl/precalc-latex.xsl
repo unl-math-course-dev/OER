@@ -314,6 +314,32 @@
     <!-- image ("Graph 4" with no graph).  Drop empty p in cells.       -->
     <xsl:template match="cell/p[not(node())]" mode="webwork-rep-to-static"/>
 
+    <!-- %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% -->
+    <!--  Static WeBWorK: raw HTML tables                         -->
+    <!-- %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% -->
+
+    <!-- Two UNL problems (Algebraic_Expressions/coefficients_and_      -->
+    <!-- variable_parts, and one in Linear Functions) write an HTML     -->
+    <!-- <table><tr><td> directly.  Live WeBWorK shows it, but in the   -->
+    <!-- static (PDF) version the cells ran together as one line of     -->
+    <!-- text.  Rebuild it as a PreTeXt tabular with ruled cells.       -->
+    <xsl:template match="table[tr or tbody/tr or thead/tr]" mode="webwork-rep-to-static">
+        <tabular top="minor" bottom="minor" left="minor" right="minor">
+            <xsl:for-each select="tr|tbody/tr|thead/tr">
+                <row bottom="minor">
+                    <xsl:if test="th">
+                        <xsl:attribute name="header">yes</xsl:attribute>
+                    </xsl:if>
+                    <xsl:for-each select="th|td">
+                        <cell right="minor">
+                            <xsl:apply-templates select="node()" mode="webwork-rep-to-static"/>
+                        </cell>
+                    </xsl:for-each>
+                </row>
+            </xsl:for-each>
+        </tabular>
+    </xsl:template>
+
     <!-- Override default frontmatter pages: -->
 
     <!-- Remove the "half-title" leading page (title only, at about -->
