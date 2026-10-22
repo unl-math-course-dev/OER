@@ -127,6 +127,69 @@
         <xsl:text>}&#xa;</xsl:text>
     </xsl:template>
 
+    <!-- %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% -->
+    <!--  Static WeBWorK: HTML bold/italic tags inside math -->
+    <!-- %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% -->
+
+    <!-- Some library problems (for example HGM4-14-5-16, used as       -->
+    <!-- ex-10-6-WW-DD-max) write a bold vector as <B><I>u</B></I>      -->
+    <!-- inside math.  Live WeBWorK renders it, but in the static (PDF) -->
+    <!-- version the tags show up as text (the server sends them as     -->
+    <!-- "\lt B>\lt I>u\lt /B>\lt /I>").  Turn the letter into           -->
+    <!-- \mathbf{...} and drop the tags.  Only touches math that came   -->
+    <!-- back from the WeBWorK server.                                  -->
+    <xsl:template match="m[contains(., '\lt B&gt;') or contains(., '\lt I&gt;')]|me[contains(., '\lt B&gt;') or contains(., '\lt I&gt;')]" mode="webwork-rep-to-static">
+        <xsl:copy>
+            <xsl:apply-templates select="@*" mode="webwork-rep-to-static"/>
+            <xsl:call-template name="multivar-strip-bi">
+                <xsl:with-param name="text">
+                    <xsl:call-template name="multivar-strip-bi">
+                        <xsl:with-param name="text">
+                            <xsl:call-template name="multivar-strip-bi">
+                                <xsl:with-param name="text">
+                                    <xsl:call-template name="multivar-strip-bi">
+                                        <xsl:with-param name="text" select="string(.)"/>
+                                        <xsl:with-param name="open" select="'\lt B&gt;\lt I&gt;'"/>
+                                        <xsl:with-param name="close" select="'\lt /B&gt;\lt /I&gt;'"/>
+                                    </xsl:call-template>
+                                </xsl:with-param>
+                                <xsl:with-param name="open" select="'\lt B&gt;\lt I&gt;'"/>
+                                <xsl:with-param name="close" select="'\lt /I&gt;\lt /B&gt;'"/>
+                            </xsl:call-template>
+                        </xsl:with-param>
+                        <xsl:with-param name="open" select="'\lt I&gt;\lt B&gt;'"/>
+                        <xsl:with-param name="close" select="'\lt /B&gt;\lt /I&gt;'"/>
+                    </xsl:call-template>
+                </xsl:with-param>
+                <xsl:with-param name="open" select="'\lt I&gt;\lt B&gt;'"/>
+                <xsl:with-param name="close" select="'\lt /I&gt;\lt /B&gt;'"/>
+            </xsl:call-template>
+        </xsl:copy>
+    </xsl:template>
+
+    <!-- Replace every open...close pair in $text with \mathbf{...} -->
+    <xsl:template name="multivar-strip-bi">
+        <xsl:param name="text"/>
+        <xsl:param name="open"/>
+        <xsl:param name="close"/>
+        <xsl:choose>
+            <xsl:when test="contains($text, $open) and contains(substring-after($text, $open), $close)">
+                <xsl:value-of select="substring-before($text, $open)"/>
+                <xsl:text>\mathbf{</xsl:text>
+                <xsl:value-of select="substring-before(substring-after($text, $open), $close)"/>
+                <xsl:text>}</xsl:text>
+                <xsl:call-template name="multivar-strip-bi">
+                    <xsl:with-param name="text" select="substring-after(substring-after($text, $open), $close)"/>
+                    <xsl:with-param name="open" select="$open"/>
+                    <xsl:with-param name="close" select="$close"/>
+                </xsl:call-template>
+            </xsl:when>
+            <xsl:otherwise>
+                <xsl:value-of select="$text"/>
+            </xsl:otherwise>
+        </xsl:choose>
+    </xsl:template>
+
     <!-- Override default frontmatter pages: -->
 
     <!-- Remove the "half-title" leading page (title only, at about -->
