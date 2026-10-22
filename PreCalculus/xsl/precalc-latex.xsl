@@ -176,6 +176,66 @@
         <xsl:text>}{(view online)}}}&#xa;</xsl:text>
     </xsl:template>
 
+    <!-- %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% -->
+    <!--  Static WeBWorK: "align" environments inside math       -->
+    <!-- %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% -->
+
+    <!-- A few UNL library problems (for example piecewiseJustHint.pg)  -->
+    <!-- put \begin{align*} inside inline math.  MathJax allows it, but -->
+    <!-- LaTeX only allows align* as a display of its own, so the PDF   -->
+    <!-- build stops.  "aligned" means the same thing and works inside  -->
+    <!-- math, so swap it in.  Only touches math that came back from    -->
+    <!-- the WeBWorK server.                                            -->
+    <xsl:template match="m[contains(., '\begin{align')]|me[contains(., '\begin{align')]" mode="webwork-rep-to-static">
+        <xsl:copy>
+            <xsl:apply-templates select="@*" mode="webwork-rep-to-static"/>
+            <xsl:call-template name="precalc-replace-all">
+                <xsl:with-param name="text">
+                    <xsl:call-template name="precalc-replace-all">
+                        <xsl:with-param name="text">
+                            <xsl:call-template name="precalc-replace-all">
+                                <xsl:with-param name="text">
+                                    <xsl:call-template name="precalc-replace-all">
+                                        <xsl:with-param name="text" select="string(.)"/>
+                                        <xsl:with-param name="old" select="'\begin{align*}'"/>
+                                        <xsl:with-param name="new" select="'\begin{aligned}'"/>
+                                    </xsl:call-template>
+                                </xsl:with-param>
+                                <xsl:with-param name="old" select="'\end{align*}'"/>
+                                <xsl:with-param name="new" select="'\end{aligned}'"/>
+                            </xsl:call-template>
+                        </xsl:with-param>
+                        <xsl:with-param name="old" select="'\begin{align}'"/>
+                        <xsl:with-param name="new" select="'\begin{aligned}'"/>
+                    </xsl:call-template>
+                </xsl:with-param>
+                <xsl:with-param name="old" select="'\end{align}'"/>
+                <xsl:with-param name="new" select="'\end{aligned}'"/>
+            </xsl:call-template>
+        </xsl:copy>
+    </xsl:template>
+
+    <!-- Replace every occurrence of $old in $text with $new -->
+    <xsl:template name="precalc-replace-all">
+        <xsl:param name="text"/>
+        <xsl:param name="old"/>
+        <xsl:param name="new"/>
+        <xsl:choose>
+            <xsl:when test="contains($text, $old)">
+                <xsl:value-of select="substring-before($text, $old)"/>
+                <xsl:value-of select="$new"/>
+                <xsl:call-template name="precalc-replace-all">
+                    <xsl:with-param name="text" select="substring-after($text, $old)"/>
+                    <xsl:with-param name="old" select="$old"/>
+                    <xsl:with-param name="new" select="$new"/>
+                </xsl:call-template>
+            </xsl:when>
+            <xsl:otherwise>
+                <xsl:value-of select="$text"/>
+            </xsl:otherwise>
+        </xsl:choose>
+    </xsl:template>
+
     <!-- Override default frontmatter pages: -->
 
     <!-- Remove the "half-title" leading page (title only, at about -->
