@@ -71,6 +71,22 @@ override is currently ignored.
 - **This cloud sandbox** can't reach `webwork-ptx.aimath.org` (blocked by network policy), has
   no TeX/asy/Sage, and has no `jing` (use `pretext validate --engine salve`).
 
+## Lessons from PreCalculus
+
+- Books already on 2.42 or later number projects and letter lists like 2.55 does. Don't
+  add `projects/@distinct` there; compare against the old core before copying a fix.
+- `docinfo/feedback` is ignored by 2.53+; it lives at `publication/html/feedback/@href`.
+- Core's automatic frontmatter repair labels the colophon `front-colophon`. Keep
+  `colophon/@label="front-colophon"` so the page keeps its address.
+- `bibinfo` takes one `copyright`; put extra notices elsewhere (Zach chose Acknowledgements).
+- A `references` division can't be an appendix's only content; it goes after the appendices.
+- One-panel `sidebyside`: move `@width`/`@margins` to the `image` (for a `figure`, its
+  image). With `widths="20% 60% 20%"` and one panel, core used 20%; 60% was the intent.
+- `md` in a table `cell` must be wrapped in `p`; PreTeXt then warns about missing column
+  widths, but the HTML layout is unchanged.
+- Unwrapping an `introduction` can number blocks that weren't numbered before. Diff numbers.
+- PreCalculus's WeBWorK host `math-webwork3.unl.edu` must be allowed in the sandbox.
+
 ## Phase 0: cleanup
 
 1. Back up, then remove the inner `.git` folders in DifferentialEquations and
@@ -126,7 +142,7 @@ override is currently ignored.
 
 ## Order
 
-MultivariableCalculus first (Zach knows it best), then PreCalculus, LinearAlgebra,
+MultivariableCalculus (done, PR #102), PreCalculus (PR #103), then LinearAlgebra,
 DifferentialEquations, ContemporaryMathematics, Calculus, AppliedCalculus.
 
 ## Notes for later (deployment, on hold)
