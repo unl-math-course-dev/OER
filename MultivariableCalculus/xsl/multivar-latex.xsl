@@ -223,6 +223,17 @@
         </xsl:choose>
     </xsl:template>
 
+    <!-- %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% -->
+    <!--  Images that open an exercise                -->
+    <!-- %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% -->
+
+    <!-- Core raises an image that is the first thing in an exercise by  -->
+    <!-- 1.5\baselineskip, to sit level with a number/title placed in    -->
+    <!-- the margin.  Our latex-preamble-styles.tex sets divisional      -->
+    <!-- exercises with a run-in title on the first line instead, so the -->
+    <!-- raised image would cover the title.  No raise for those images. -->
+    <xsl:template match="image[parent::statement or parent::exercise][ancestor::exercises or ancestor::worksheet or ancestor::reading-questions]" mode="vertical-adjustment" priority="10"/>
+
     <!-- Override default frontmatter pages: -->
 
     <!-- Remove the "half-title" leading page (title only, at about -->
