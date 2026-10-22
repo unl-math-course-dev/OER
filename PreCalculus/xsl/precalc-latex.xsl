@@ -52,6 +52,11 @@
     <xsl:param name="latex.preamble.late">
         <xsl:text>%This should load all the style information that ptx does not.&#xa;</xsl:text>
         <xsl:text>\input{external/latex/latex-preamble-styles}&#xa;</xsl:text>
+        <!-- Long inline math cannot break, so TeX would rather run a    -->
+        <!-- line into the margin than space it out a bit more.          -->
+        <!-- \emergencystretch lets it use a looser line as a last       -->
+        <!-- resort instead.                                             -->
+        <xsl:text>\setlength{\emergencystretch}{2em}&#xa;</xsl:text>
     </xsl:param>
 
 
