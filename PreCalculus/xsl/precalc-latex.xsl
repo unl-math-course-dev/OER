@@ -236,6 +236,24 @@
         </xsl:choose>
     </xsl:template>
 
+    <!-- %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% -->
+    <!--  Static WeBWorK: "\(y)" typo that swallows text         -->
+    <!-- %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% -->
+
+    <!-- The hint of UNL-Problems/.../boxVolumeJustHint.pg writes "\(y)"  -->
+    <!-- instead of "\(y\)", so the server returns one math element that  -->
+    <!-- runs on into the next sentence:                                 -->
+    <!--   <m>y). Once you ... part a) for \(y</m>                         -->
+    <!-- LaTeX stops at the inner "\(".  Split it back into math, text,  -->
+    <!-- math: <m>y</m>. Once you ... part a) for <m>y</m>.               -->
+    <!-- Remove this once the problem itself is fixed.                    -->
+    <xsl:template match="m[contains(., '\(') and contains(substring-before(., '\('), ')')]" mode="webwork-rep-to-static">
+        <xsl:variable name="before" select="substring-before(., '\(')"/>
+        <m><xsl:value-of select="substring-before($before, ')')"/></m>
+        <xsl:value-of select="substring-after($before, ')')"/>
+        <m><xsl:value-of select="substring-after(., '\(')"/></m>
+    </xsl:template>
+
     <!-- Override default frontmatter pages: -->
 
     <!-- Remove the "half-title" leading page (title only, at about -->
