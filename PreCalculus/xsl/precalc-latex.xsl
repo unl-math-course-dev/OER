@@ -340,6 +340,29 @@
         </tabular>
     </xsl:template>
 
+    <!-- %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% -->
+    <!--  Static WeBWorK: worksheet LaTeX leftovers               -->
+    <!-- %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% -->
+
+    <!-- Some UNL problems still carry bits of the LaTeX worksheets they -->
+    <!-- came from, which print as text: a leading "\prob "              -->
+    <!-- (walk_through_problemJustHint, rad_to_degJustHint), a paragraph -->
+    <!-- that is just "[(a)]" (givenradiusandangleJustHint, sineoddJustHint, -->
+    <!-- two graphsdiffer problems), and a trailing "\\"                 -->
+    <!-- (intro_problemJustHint).  Drop them.  Fix the .pg files too.    -->
+    <xsl:template match="p[normalize-space(.) = '[(a)]']" mode="webwork-rep-to-static"/>
+
+    <xsl:template match="text()[starts-with(normalize-space(.), '\prob ') and not(ancestor::m or ancestor::me or ancestor::md or ancestor::mrow)]" mode="webwork-rep-to-static" priority="5">
+        <xsl:call-template name="precalc-bare-displays">
+            <xsl:with-param name="text" select="substring-after(., '\prob ')"/>
+        </xsl:call-template>
+    </xsl:template>
+
+    <xsl:template match="text()[substring(normalize-space(.), string-length(normalize-space(.)) - 1) = '\\' and not(ancestor::m or ancestor::me or ancestor::md or ancestor::mrow)]" mode="webwork-rep-to-static" priority="4">
+        <xsl:variable name="trimmed" select="normalize-space(.)"/>
+        <xsl:value-of select="substring($trimmed, 1, string-length($trimmed) - 2)"/>
+    </xsl:template>
+
     <!-- Override default frontmatter pages: -->
 
     <!-- Remove the "half-title" leading page (title only, at about -->
