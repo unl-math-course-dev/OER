@@ -25,7 +25,8 @@
   <!-- stored or created.  Directories are relative to the main -->
   <!-- source PreTeXt file                                      -->
   <source>
-    <directories external="../assets" generated="../generated-assets" />
+    <!-- the external directory is now declared in docinfo (source/bookinfo.ptx) -->
+    <directories generated="../generated-assets" />
     <!-- Set which marked elements are included in this version: -->
     <!-- See
 https://pretextbook.org/doc/guide/html/publication-file-source.html#publication-file-source-version -->
@@ -46,7 +47,8 @@ https://pretextbook.org/doc/guide/html/publication-file-source.html#publication-
     <!-- numbering of the respective elements. Can't be more than the -->
     <!-- @level on divisions above.                                   -->
     <blocks level="2" />
-    <projects level="2" />
+    <!-- distinct="yes" keeps projects/activities on their own counter, as in PreTeXt 2.4.1 -->
+    <projects level="2" distinct="yes" />
     <equations level="2" />
     <footnotes level="2" />
   </numbering>
@@ -73,6 +75,8 @@ https://pretextbook.org/doc/guide/html/publication-file-source.html#publication-
     <!-- @focused hides sections in the ToC that are not active. -->
     <!-- Small arrow expands them -->
     <tableofcontents focused="yes" />
+    <!-- masthead logo (moved here from docinfo) -->
+    <brandlogo url="https://mathbooks.unl.edu/Contemporary/" source="mathinsocietycover.jpg" />
     <platform host="web" />
     <!-- The host above could also be "runestone" -->
     <!-- Whether to knowl a particular elements is set here    -->
@@ -95,21 +99,15 @@ https://pretextbook.org/doc/guide/html/publication-file-source.html#publication-
       exercise-inline="yes"
       exercise-divisional="no"
       exercise-worksheet="no"
-      exercise-readingquestion="no"
+      exercise-reading="no"
     />
     <!-- Specify the style of the html by giving names to      -->
     <!-- override defaults.  Ex: to use "style_oscarlevin.css" -->
     <!-- put <css style="oscarlevin"/>                         -->
     <!-- See also                                              -->
     <!-- https://pretextbook.org/doc/guide/html/publication-file-online.html#online-style-options -->
-    <css
-      style="default"
-      colors="red_blue"
-      knowls="default"
-      toc="default"
-      banner="default"
-      navbar="default"
-    />
+    <!-- was the legacy css/@style="default"; default-modern matches the other UNL books -->
+    <css theme="default-modern"/>
     <!-- Search can be default or none, or you can use a Google-cx number to use google's search
     feature (but then variant should be set to none to avoid conflict) -->
     <search variant="default" />
