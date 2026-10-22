@@ -159,6 +159,23 @@
         </xsl:if>
     </xsl:template>
 
+    <!-- %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% -->
+    <!--  Images given by web address: link instead in the PDF -->
+    <!-- %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% -->
+
+    <!-- Two images (SystemsOfLinearEquations, PolynomialsAndFactoring) -->
+    <!-- use an https:// address as @source.  HTML loads them from that -->
+    <!-- site, but LaTeX cannot, and the build stops.  In the PDF, show -->
+    <!-- a framed note with the image description and a link instead.   -->
+    <xsl:template match="image[starts-with(@source, 'http://') or starts-with(@source, 'https://')]" mode="image-inclusion" priority="10">
+        <xsl:text>\fbox{\parbox{\dimexpr\linewidth-2\fboxsep-2\fboxrule}{\centering\small </xsl:text>
+        <xsl:text>Image: </xsl:text>
+        <xsl:apply-templates select="description/p[1]/node()"/>
+        <xsl:text>\\ \href{</xsl:text>
+        <xsl:value-of select="@source"/>
+        <xsl:text>}{(view online)}}}&#xa;</xsl:text>
+    </xsl:template>
+
     <!-- Override default frontmatter pages: -->
 
     <!-- Remove the "half-title" leading page (title only, at about -->
