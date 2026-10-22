@@ -254,6 +254,56 @@
         <m><xsl:value-of select="substring-after(., '\(')"/></m>
     </xsl:template>
 
+    <!-- %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% -->
+    <!--  Static WeBWorK: bare LaTeX displays in text             -->
+    <!-- %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% -->
+
+    <!-- About 26 UNL library problems (systems_of_linear_equations,     -->
+    <!-- exponents, Forms_of_a_Line, ...) write \begin{cases}..., or     -->
+    <!-- \begin{aligned}... in their text with no math delimiters.  Live -->
+    <!-- WeBWorK renders them, but the static (PDF) version has them as  -->
+    <!-- plain text, so the PDF printed the LaTeX code.  Turn each bare  -->
+    <!-- \begin{X}...\end{X} in text into a display (md), using aligned  -->
+    <!-- for align/align*.  The real fix is in the .pg files.            -->
+    <xsl:template match="text()[contains(., '\begin{') and not(ancestor::m or ancestor::me or ancestor::md or ancestor::mrow)]" mode="webwork-rep-to-static">
+        <xsl:call-template name="precalc-bare-displays">
+            <xsl:with-param name="text" select="."/>
+        </xsl:call-template>
+    </xsl:template>
+
+    <xsl:template name="precalc-bare-displays">
+        <xsl:param name="text"/>
+        <xsl:variable name="rest" select="substring-after($text, '\begin{')"/>
+        <xsl:variable name="env" select="substring-before($rest, '}')"/>
+        <xsl:variable name="end" select="concat('\end{', $env, '}')"/>
+        <xsl:choose>
+            <xsl:when test="contains($text, '\begin{') and not($env = '') and contains($rest, $end)">
+                <xsl:value-of select="substring-before($text, '\begin{')"/>
+                <xsl:variable name="newenv">
+                    <xsl:choose>
+                        <xsl:when test="$env = 'align' or $env = 'align*'">aligned</xsl:when>
+                        <xsl:otherwise><xsl:value-of select="$env"/></xsl:otherwise>
+                    </xsl:choose>
+                </xsl:variable>
+                <md>
+                    <xsl:text>\begin{</xsl:text>
+                    <xsl:value-of select="$newenv"/>
+                    <xsl:text>}</xsl:text>
+                    <xsl:value-of select="substring-before(substring-after($rest, '}'), $end)"/>
+                    <xsl:text>\end{</xsl:text>
+                    <xsl:value-of select="$newenv"/>
+                    <xsl:text>}</xsl:text>
+                </md>
+                <xsl:call-template name="precalc-bare-displays">
+                    <xsl:with-param name="text" select="substring-after($rest, $end)"/>
+                </xsl:call-template>
+            </xsl:when>
+            <xsl:otherwise>
+                <xsl:value-of select="$text"/>
+            </xsl:otherwise>
+        </xsl:choose>
+    </xsl:template>
+
     <!-- Override default frontmatter pages: -->
 
     <!-- Remove the "half-title" leading page (title only, at about -->
