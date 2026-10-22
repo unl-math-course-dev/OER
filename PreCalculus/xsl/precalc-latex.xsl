@@ -80,6 +80,53 @@
         <xsl:text>.png}&#xa;</xsl:text>
     </xsl:template>
 
+    <!-- %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% -->
+    <!--  Fill-in blanks: keep them inside the margin -->
+    <!-- %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% -->
+
+    <!-- Copy of core "fillin-text" (pretext-latex-common.xsl, 2.55.0) -->
+    <!-- with two changes, marked CHANGED.  Static WeBWorK answer      -->
+    <!-- blanks are sized by character count (0.5em each), so an       -->
+    <!-- 80-character blank is wider than the page allows and runs -->
+    <!-- into the margin.  Here a blank is at most half the line wide, -->
+    <!-- and may shrink to a quarter of that when a line is crowded    -->
+    <!-- (for example "(___, ___, ___)").  If core changes this        -->
+    <!-- template, re-copy it and re-apply the changes.                -->
+    <xsl:template name="fillin-text">
+        <xsl:text>%% Used for fillin answer blank in text&#xa;</xsl:text>
+        <xsl:text>%% Relies on calc package, loaded via tcolorbox&#xa;</xsl:text>
+        <xsl:text>%% Argument is intended number of characters of blank&#xa;</xsl:text>
+        <xsl:text>%% Length may compress for output to fit in one line&#xa;</xsl:text>
+        <xsl:text>%% (precalc-latex.xsl: capped at half the line, may shrink by 3/4)&#xa;</xsl:text>
+        <xsl:text>\newlength{\ptxfillinmaxwidth}&#xa;</xsl:text>
+        <xsl:text>\newlength{\ptxfillincontract}&#xa;</xsl:text>
+        <xsl:text>\newlength{\ptxcharmaxwidth}\setlength{\ptxcharmaxwidth}{0.5em}&#xa;</xsl:text>
+        <xsl:text>\newlength{\ptxcharminwidth}\setlength{\ptxcharminwidth}{0.1em}&#xa;</xsl:text>
+        <xsl:text>\newlength{\ptxfillinheight}&#xa;</xsl:text>
+        <xsl:if test="$fillin-text-style = 'shade'">
+            <xsl:text>\definecolor{fillintextshade}{gray}{0.9}</xsl:text>
+        </xsl:if>
+        <xsl:text>\newcommand{\ptxfillintext}[1]{%&#xa;</xsl:text>
+        <xsl:text>\setlength{\ptxfillinmaxwidth}{#1\ptxcharmaxwidth}%&#xa;</xsl:text>
+        <!-- CHANGED: cap the width at half the line -->
+        <xsl:text>\ifdim\ptxfillinmaxwidth>0.5\linewidth\setlength{\ptxfillinmaxwidth}{0.5\linewidth}\fi%&#xa;</xsl:text>
+        <!-- CHANGED: allow shrinking by 3/4 (core: #1\ptxcharminwidth) -->
+        <xsl:text>\setlength{\ptxfillincontract}{0.75\ptxfillinmaxwidth}%&#xa;</xsl:text>
+        <xsl:text>\setlength{\ptxfillinheight}{\baselineskip}\addtolength{\ptxfillinheight}{1.2pt}%&#xa;</xsl:text>
+        <xsl:choose>
+            <xsl:when test="$fillin-text-style = 'underline'">
+                <xsl:text>\strut\nobreak\leaders\vbox{\hrule width 0.3pt height 0.3pt \vskip -1.2pt}\hskip 1\ptxfillinmaxwidth minus \ptxfillincontract\nobreak\strut%&#xa;</xsl:text>
+            </xsl:when>
+            <xsl:when test="$fillin-text-style = 'box'">
+                <xsl:text>\rule[-1.2pt]{0.3pt}{\heightof{\strut}+1.8pt}\nobreak\hspace{-0.3pt}\nobreak\leaders\vbox{\hrule width 0.3pt height 0.3pt \vskip \ptxfillinheight \hrule width 0.3pt height 0.3pt \vskip -1.2pt}\hskip 1\ptxfillinmaxwidth minus \ptxfillincontract\nobreak\hspace{-0.3pt}\rule[-1.2pt]{0.3pt}{\heightof{\strut}+1.8pt}%&#xa;</xsl:text>
+            </xsl:when>
+            <xsl:when test="$fillin-text-style = 'shade'">
+                <xsl:text>{\color{fillintextshade}\strut\nobreak\leaders\vbox{\hrule width 0.3pt height \ptxfillinheight \vskip -1.2pt}\hskip 1\ptxfillinmaxwidth minus \ptxfillincontract}%&#xa;</xsl:text>
+            </xsl:when>
+        </xsl:choose>
+        <xsl:text>}&#xa;</xsl:text>
+    </xsl:template>
+
     <!-- Override default frontmatter pages: -->
 
     <!-- Remove the "half-title" leading page (title only, at about -->
