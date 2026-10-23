@@ -317,6 +317,17 @@
         <xsl:apply-templates select="row" mode="webwork-rep-to-static"/>
     </xsl:template>
 
+    <!-- %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% -->
+    <!--  Static WeBWorK: empty first choice in a drop-down       -->
+    <!-- %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% -->
+
+    <!-- A drop-down's blank "pick one" choice usually comes back as "?", -->
+    <!-- which core removes.  Some problems (e.g. ez-7-2-WW5, equilibrium -->
+    <!-- solutions) send it empty instead; an empty first \item in the     -->
+    <!-- inline choice list is a LaTeX error ("Misplaced \item") that      -->
+    <!-- stopped the PDF build.  Drop empty choices too.                   -->
+    <xsl:template match="statement//var[@form]/li[not(normalize-space(.)) and not(*[not(self::p)]) and not(.//*[normalize-space(.)])]|statement//ul[@form]/li[not(normalize-space(.)) and not(*[not(self::p)]) and not(.//*[normalize-space(.)])]" mode="webwork-rep-to-static" priority="10"/>
+
     <!-- Override default frontmatter pages: -->
 
     <!-- Remove the "half-title" leading page (title only, at about -->
