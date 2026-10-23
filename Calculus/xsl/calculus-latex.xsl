@@ -17,7 +17,7 @@
     %entities;
 ]>
 
-<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0">
+<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:pi="http://pretextbook.org/2020/pretext/internal" exclude-result-prefixes="pi" version="1.0">
 
     <!-- assumes this has been copied to mathbook/user -->
     <xsl:import href="./core/pretext-latex.xsl" />
@@ -208,6 +208,57 @@
                 <xsl:with-param name="w" select="$w"/>
             </xsl:call-template>
         </xsl:if>
+    </xsl:template>
+
+    <!-- %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% -->
+    <!--  Very tall images: cap the height            -->
+    <!-- %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% -->
+
+    <!-- Copy of core's image-inclusion for @source/@pi:generated images -->
+    <!-- (pretext-latex-common.xsl, 2.55.0) with one change, marked      -->
+    <!-- CHANGED.  A few graphs with no @width (fig-increasing-line,     -->
+    <!-- fig-decreasing-line, fig-vertical-line-test3, ...) are set at    -->
+    <!-- full width and come out over half a page tall, so they filled a  -->
+    <!-- page or ran off its bottom.  Cap the height at 0.55\textheight,  -->
+    <!-- keeping the aspect ratio and centering; ordinary images are not  -->
+    <!-- affected.                                                       -->
+    <xsl:template match="image[@source|@pi:generated]" mode="image-inclusion" priority="5">
+        <xsl:variable name="extension">
+            <xsl:call-template name="file-extension">
+                <xsl:with-param name="filename">
+                    <xsl:choose>
+                        <xsl:when test="@pi:generated">
+                            <xsl:value-of select="@pi:generated" />
+                        </xsl:when>
+                        <xsl:otherwise>
+                            <xsl:value-of select="@source" />
+                        </xsl:otherwise>
+                    </xsl:choose>
+                </xsl:with-param>
+            </xsl:call-template>
+        </xsl:variable>
+        <!-- CHANGED: add height cap with keepaspectratio -->
+        <xsl:text>\makebox[\linewidth]{\includegraphics[width=\linewidth,height=0.55\textheight,keepaspectratio</xsl:text>
+        <xsl:if test="@rotate">
+            <xsl:text>,angle=</xsl:text>
+            <xsl:value-of select="@rotate"/>
+            <xsl:text>,origin=c</xsl:text>
+        </xsl:if>
+        <xsl:text>]{</xsl:text>
+        <xsl:choose>
+            <xsl:when test="@pi:generated">
+                <xsl:value-of select="$generated-directory"/>
+                <xsl:value-of select="@pi:generated"/>
+            </xsl:when>
+            <xsl:otherwise>
+                <xsl:value-of select="$external-directory"/>
+                <xsl:value-of select="@source"/>
+            </xsl:otherwise>
+        </xsl:choose>
+        <xsl:if test="$extension = ''">
+            <xsl:text>.pdf</xsl:text>
+        </xsl:if>
+        <xsl:text>}}&#xa;</xsl:text>
     </xsl:template>
 
     <!-- Override default frontmatter pages: -->
