@@ -328,6 +328,72 @@
     <!-- stopped the PDF build.  Drop empty choices too.                   -->
     <xsl:template match="statement//var[@form]/li[not(normalize-space(.)) and not(*[not(self::p)]) and not(.//*[normalize-space(.)])]|statement//ul[@form]/li[not(normalize-space(.)) and not(*[not(self::p)]) and not(.//*[normalize-space(.)])]" mode="webwork-rep-to-static" priority="10"/>
 
+    <!-- %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% -->
+    <!--  Static WeBWorK: very long answers                       -->
+    <!-- %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% -->
+
+    <!-- A few answers from the server are one very long inline formula   -->
+    <!-- written with \left( ... \right) (e.g. ez-6-3-WW3, 250 characters). -->
+    <!-- TeX can break inline math only at a top-level + or -, never       -->
+    <!-- inside a \left...\right group, so one answer ran 149pt past the   -->
+    <!-- page edge.  For static WeBWorK math over 150 characters, use      -->
+    <!-- plain ( ) and [ ] so the line can break.                          -->
+    <xsl:template match="m[string-length(.) &gt; 150][contains(., '\left')]" mode="webwork-rep-to-static">
+        <xsl:copy>
+            <xsl:apply-templates select="@*" mode="webwork-rep-to-static"/>
+            <xsl:call-template name="calc-replace-all">
+                <xsl:with-param name="text">
+                    <xsl:call-template name="calc-replace-all">
+                        <xsl:with-param name="text">
+                            <xsl:call-template name="calc-replace-all">
+                                <xsl:with-param name="text">
+                                    <xsl:call-template name="calc-replace-all">
+                                        <xsl:with-param name="text">
+                                            <xsl:call-template name="calc-replace-all">
+                                                <xsl:with-param name="text" select="string(.)"/>
+                                                <xsl:with-param name="old" select="'\mathopen{}'"/>
+                                                <xsl:with-param name="new" select="''"/>
+                                            </xsl:call-template>
+                                        </xsl:with-param>
+                                        <xsl:with-param name="old" select="'\left('"/>
+                                        <xsl:with-param name="new" select="'('"/>
+                                    </xsl:call-template>
+                                </xsl:with-param>
+                                <xsl:with-param name="old" select="'\right)'"/>
+                                <xsl:with-param name="new" select="')'"/>
+                            </xsl:call-template>
+                        </xsl:with-param>
+                        <xsl:with-param name="old" select="'\left['"/>
+                        <xsl:with-param name="new" select="'['"/>
+                    </xsl:call-template>
+                </xsl:with-param>
+                <xsl:with-param name="old" select="'\right]'"/>
+                <xsl:with-param name="new" select="']'"/>
+            </xsl:call-template>
+        </xsl:copy>
+    </xsl:template>
+
+    <!-- Replace every occurrence of $old in $text with $new -->
+    <xsl:template name="calc-replace-all">
+        <xsl:param name="text"/>
+        <xsl:param name="old"/>
+        <xsl:param name="new"/>
+        <xsl:choose>
+            <xsl:when test="contains($text, $old)">
+                <xsl:value-of select="substring-before($text, $old)"/>
+                <xsl:value-of select="$new"/>
+                <xsl:call-template name="calc-replace-all">
+                    <xsl:with-param name="text" select="substring-after($text, $old)"/>
+                    <xsl:with-param name="old" select="$old"/>
+                    <xsl:with-param name="new" select="$new"/>
+                </xsl:call-template>
+            </xsl:when>
+            <xsl:otherwise>
+                <xsl:value-of select="$text"/>
+            </xsl:otherwise>
+        </xsl:choose>
+    </xsl:template>
+
     <!-- Override default frontmatter pages: -->
 
     <!-- Remove the "half-title" leading page (title only, at about -->
