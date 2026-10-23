@@ -159,6 +159,57 @@
         </xsl:if>
     </xsl:template>
 
+    <!-- %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% -->
+    <!--  Tables with paragraphs in cells             -->
+    <!-- %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% -->
+
+    <!-- When a table has a <p> in a cell but no col/@width, core gives   -->
+    <!-- every column 20% of the line.  Tables like this (from PreCalculus,-->
+    <!-- (two-column "Line 1 / Line 2" checks in Systems of Linear        -->
+    <!-- Equations, interest tables, ...) then crush their math, which    -->
+    <!-- crossed the cell borders and in one table overlapped the next    -->
+    <!-- column.  For the PDF only (this runs in core's "repair" pass of  -->
+    <!-- the LaTeX conversion), give such tables equal column widths that -->
+    <!-- add up to about 94%.  Existing <col> settings are kept; HTML is   -->
+    <!-- unchanged.                                                        -->
+    <xsl:template match="tabular[row/cell/p][not(col/@width)]" mode="repair">
+        <xsl:variable name="ncols">
+            <xsl:for-each select="row">
+                <xsl:sort select="count(cell)" data-type="number" order="descending"/>
+                <xsl:if test="position() = 1">
+                    <xsl:value-of select="count(cell)"/>
+                </xsl:if>
+            </xsl:for-each>
+        </xsl:variable>
+        <xsl:variable name="w" select="concat(floor(94 div $ncols), '%')"/>
+        <xsl:copy>
+            <xsl:apply-templates select="@*" mode="repair"/>
+            <xsl:for-each select="col">
+                <xsl:copy>
+                    <xsl:apply-templates select="@*" mode="repair"/>
+                    <xsl:attribute name="width"><xsl:value-of select="$w"/></xsl:attribute>
+                </xsl:copy>
+            </xsl:for-each>
+            <xsl:call-template name="precalc-extra-cols">
+                <xsl:with-param name="n" select="$ncols - count(col)"/>
+                <xsl:with-param name="w" select="$w"/>
+            </xsl:call-template>
+            <xsl:apply-templates select="node()[not(self::col)]" mode="repair"/>
+        </xsl:copy>
+    </xsl:template>
+
+    <xsl:template name="precalc-extra-cols">
+        <xsl:param name="n"/>
+        <xsl:param name="w"/>
+        <xsl:if test="$n &gt; 0">
+            <col width="{$w}"/>
+            <xsl:call-template name="precalc-extra-cols">
+                <xsl:with-param name="n" select="$n - 1"/>
+                <xsl:with-param name="w" select="$w"/>
+            </xsl:call-template>
+        </xsl:if>
+    </xsl:template>
+
     <!-- Override default frontmatter pages: -->
 
     <!-- Remove the "half-title" leading page (title only, at about -->
