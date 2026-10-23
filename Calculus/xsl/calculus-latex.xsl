@@ -295,6 +295,16 @@
         <xsl:text>}}}{\fbox{\parbox{\dimexpr\linewidth-2\fboxsep-2\fboxrule}{\centering\small (Image: see the online version of this exercise.)}}}&#xa;</xsl:text>
     </xsl:template>
 
+    <!-- %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% -->
+    <!--  Static WeBWorK: images lost from table cells           -->
+    <!-- %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% -->
+
+    <!-- Graph-choice problems (graphs_of_linear_equations/*, ...) come -->
+    <!-- back with the last image cell as <image/><p/>.  Because of the -->
+    <!-- empty p, LaTeX sets the cell as paragraph text and drops the   -->
+    <!-- image ("Graph 4" with no graph).  Drop empty p in cells.       -->
+    <xsl:template match="cell/p[not(node())]" mode="webwork-rep-to-static"/>
+
     <!-- Override default frontmatter pages: -->
 
     <!-- Remove the "half-title" leading page (title only, at about -->
