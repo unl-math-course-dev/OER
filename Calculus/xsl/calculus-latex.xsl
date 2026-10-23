@@ -394,6 +394,21 @@
         </xsl:choose>
     </xsl:template>
 
+    <!-- %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% -->
+    <!--  Static WeBWorK: LaTeX accent in text                    -->
+    <!-- %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% -->
+
+    <!-- osu_dr_21_2.pg writes "l'H\^opital" in its text.  Live WeBWorK   -->
+    <!-- shows it as written too; in the PDF it printed "H\^opital".      -->
+    <!-- Use the accented letter.  (The .pg file should be fixed too.)   -->
+    <xsl:template match="text()[contains(., '\^o') and not(ancestor::m or ancestor::me or ancestor::md or ancestor::mrow)]" mode="webwork-rep-to-static">
+        <xsl:call-template name="calc-replace-all">
+            <xsl:with-param name="text" select="."/>
+            <xsl:with-param name="old" select="'\^o'"/>
+            <xsl:with-param name="new" select="'&#xF4;'"/>
+        </xsl:call-template>
+    </xsl:template>
+
     <!-- Override default frontmatter pages: -->
 
     <!-- Remove the "half-title" leading page (title only, at about -->
