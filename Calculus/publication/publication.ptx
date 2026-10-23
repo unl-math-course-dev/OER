@@ -29,7 +29,8 @@
   <!-- stored or created.  Directories are relative to the main -->
   <!-- source PreTeXt file                                      -->
   <source>
-    <directories external="../assets" generated="../generated-assets" />
+    <!-- the external directory is now declared in docinfo (source/main.ptx) -->
+    <directories generated="../generated-assets" />
     <!-- Set which marked elements are included in this version: -->
     <!-- See
     https://pretextbook.org/doc/guide/html/publication-file-source.html#publication-file-source-version -->
@@ -77,6 +78,9 @@
 
   <html>
     <platform host="web" />
+    <!-- masthead logo and feedback button (moved here from docinfo) -->
+    <brandlogo url="https://mathbooks.unl.edu/Calculus" source="ActiveCalculusImage_sm.jpg" />
+    <feedback href="https://forms.gle/qHK2UDN6PG2nH3ja7"/>
     <!-- The host above could also be "runestone" -->
 
     <!-- Whether to knowl a particular elements is set here    -->
@@ -99,21 +103,15 @@
       exercise-inline="yes"
       exercise-divisional="no"
       exercise-worksheet="no"
-      exercise-readingquestion="no"
+      exercise-reading="no"
     />
     <!-- Specify the style of the html by giving names to      -->
     <!-- override defaults.  Ex: to use "style_oscarlevin.css" -->
     <!-- put <css style="oscarlevin"/>                         -->
     <!-- See also                                              -->
     <!-- https://pretextbook.org/doc/guide/html/publication-file-online.html#online-style-options -->
-    <css
-      style="default"
-      colors="blue_red"
-      knowls="default"
-      toc="default"
-      banner="default"
-      navbar="default"
-    />
+    <!-- was the legacy css/@style="default"; default-modern matches the other UNL books -->
+    <css theme="default-modern"/>
     <!-- Search can be default or none, or you can use a Google-cx number to use google's search
     feature (but then variant should be set to none to avoid conflict) -->
     <search variant="default" />
@@ -139,9 +137,13 @@
   </html>
 
   <!-- To use WeBWorK, you need a server.  -->
-  <webwork server="https://webwork-ptx.aimath.org" />
-    <!-- <webwork -->
-    <!-- server="https://math-webwork3.unl.edu" -->
-    <!-- course="OERProblemCourse" -->
-  <!-- /> -->
+  <!--<webwork server="https://webwork-ptx.aimath.org" />-->
+  <!-- UNL's server hosts the local/ and UNL-Problems/ problems this book uses -->
+  <webwork
+    server="https://math-webwork3.unl.edu"
+    version="2.20"
+    course="OERProblemCourse"
+    user="anonymous"
+    password="anonymous"
+  />
 </publication>

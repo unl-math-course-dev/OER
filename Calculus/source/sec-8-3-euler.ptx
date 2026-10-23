@@ -1,75 +1,75 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
 <!-- **********************************************************************--> <!-- Copyright 2019                                                        --> <!-- UNL Department of Mathematics                                         --> <!-- Based upon the work of                                                --> <!-- Matthew Boelkins                                                      --> <!-- Copyright 2012-2018                                                   --> <!--                                                                       --> <!-- This file is part of Coordinated Calculus.                            --> <!-- This file is based on Active Calculus.                                --> <!--                                                                       --> <!-- Permission is granted to copy, distribute and/or modify this document --> <!-- under the terms of the Creative Commons BY-SA license.  The work      --> <!-- may be used for free by any party so long as attribution is given to  --> <!-- the author(s), the work and its derivatives are used in the spirit of --> <!-- "share and share alike".  All trademarks are the registered marks of  --> <!-- their respective owners.                                              --> <!-- **********************************************************************-->
-<section xmlns:xi="http://www.w3.org/2001/XInclude" xml:id="sec-8-3-euler" permid="gBM">
+<section xmlns:xi="http://www.w3.org/2001/XInclude" xml:id="sec-8-3-euler">
   <title>Euler's Method</title>
 
-  <objectives permid="CjQ">
-    <ul permid="Oyi">
-      <li permid="aMA">
-        <p permid="zpk">
+  <objectives>
+    <ul>
+      <li>
+        <p>
           What is Euler's method and how can we use it to approximate the solution to an initial value problem?
         </p>
       </li>
 
-      <li permid="GTJ">
-        <p permid="fwt">
+      <li>
+        <p>
           How accurate is Euler's method?
         </p>
       </li>
     </ul>
   </objectives>
 
-  <introduction permid="iqZ">
-    <p permid="hlG">
+  <introduction>
+    <p>
       In <xref ref="sec-8-2-qualitative">Section</xref>, we saw how a slope field can be used to sketch solutions to a differential equation.
       In particular, the slope field is a plot of a large collection of tangent lines to a large number of solutions of the differential equation, and we sketch a single solution by simply following these tangent lines.
       With a little more thought, we can use this same idea to approximate numerically the solutions of a differential equation.
     </p>
 
-    <example xml:id="PA-7-3" permid="AJY">
-      <p permid="Iox">
+    <example xml:id="PA-7-3">
+      <p>
         Consider the initial value problem
-        <me permid="UCP">
+        <md>
           \frac{dy}{dt} = \frac12 (y + 1), \ y(0) = 0
-        </me>.
+        </md>.
       </p>
 
-      <p permid="ovG">
-        <ol marker="a." permid="mGt">
-          <li permid="SNC">
-            <p permid="Xxv">
+      <p>
+        <ol marker="a.">
+          <li>
+            <p>
               Use the differential equation to find the slope of the tangent line to the solution <m>y(t)</m> at <m>t=0</m>.
               Then use the given initial value to find the equation of the tangent line at <m>t=0</m>.
             </p>
           </li>
 
-          <li permid="yUL">
-            <p permid="DEE">
+          <li>
+            <p>
               Sketch the tangent line on the axes provided in <xref ref="F-7-3-PA">Figure</xref> on the interval <m>0\leq t\leq 2</m> and use it to approximate <m>y(2)</m>, the value of the solution at <m>t=2</m>.
             </p>
 
-            <figure xml:id="F-7-3-PA" permid="jLN">
+            <figure xml:id="F-7-3-PA">
               <caption>Grid for plotting the tangent line.</caption>
               <image width="47%" source="7_3_PA" />
               </figure>
             </li>
 
-            <li permid="fbU">
-              <p permid="PSW">
+            <li>
+              <p>
                 Assuming that your approximation for <m>y(2)</m> is the actual value of <m>y(2)</m>, use the differential equation to find the slope of the tangent line to <m>y(t)</m> at <m>t=2</m>.
                 Then, write the equation of the tangent line at <m>t=2</m>.
               </p>
             </li>
 
-            <li permid="Ljd">
-              <p permid="waf">
+            <li>
+              <p>
                 Add a sketch of this tangent line on the interval <m>2\leq t\leq 4</m> to your plot <xref ref="F-7-3-PA">Figure</xref>; use this new tangent line to approximate <m>y(4)</m>, the value of the solution at <m>t=4</m>.
               </p>
             </li>
 
-            <li permid="rqm">
-              <p permid="cho">
+            <li>
+              <p>
                 Repeat the same step to find an approximation for <m>y(6)</m>.
               </p>
             </li>
@@ -79,199 +79,193 @@
     </introduction>
 
 
-    <subsection permid="MIV">
+    <subsection>
       <title>Euler's Method</title>
 
       <idx><h>Euler's Method</h></idx>
-      <p permid="NsP">
+      <p>
         <xref ref="PA-7-3">Example</xref> demonstrates an algorithm known as Euler's<fn> <q>Euler</q> is pronounced <q>Oy-ler.</q> Among other things, Euler is the mathematician credited with the famous number <m>e</m>; if you incorrectly pronounce his name <q>You-ler,</q> you fail to appreciate his genius and legacy. </fn> Method, which generates a numerical approximation to the solution of an initial value problem. In this algorithm, we will approximate the solution by taking horizontal steps of a fixed size that we denote by <m>\Delta t</m>.
       </p>
 
-      <sidebyside widths="47% 47%" margins="0%" permid="Few">
+      <sidebyside widths="47% 47%" margins="0%">
         <stack>
-          <p permid="XRU">
+          <p>
             Before explaining the algorithm in detail, let's remember how we compute the slope of a line: the slope is the ratio of the vertical change to the horizontal change, as shown in <xref ref="F-7-3-slope">Figure</xref>.
           </p>
 
-          <p permid="DZd">
+          <p>
             In other words, <m>m = \frac{\Delta y}{\Delta t}</m>.
             Solving for <m>\Delta y</m>, we see that the vertical change is the product of the slope and the horizontal change, or
-            <me permid="nKM">
+            <md>
               \Delta y = m\Delta t
-            </me>.
+            </md>.
           </p>
         </stack>
 
-        <figure xml:id="F-7-3-slope" permid="kgm">
+        <figure xml:id="F-7-3-slope">
           <caption>The role of slope in Euler's Method.</caption>
-          <image permid="hVA" source="7_3_slope" />
+          <image source="7_3_slope" />
           </figure>
         </sidebyside>
 
-        <p permid="tzY">
+        <p>
           Now, suppose that we would like to solve the initial value problem
-          <me permid="TRV">
+          <md>
             \frac{dy}{dt} = t - y, \ y(0) = 1
-          </me>.
+          </md>.
         </p>
 
-        <p permid="ZHh">
+        <p>
           There is an algorithm by which we can find an algebraic formula for the solution to this initial value problem, and we can check that this solution is <m>y(t) = t -1 + 2e^{-t}</m>.
           But we are instead interested in generating an approximate solution by creating a sequence of points <m>(t_i, y_i)</m>, where <m>y_i\approx y(t_i)</m>.
           For this first example, we choose <m>\Delta t = 0.2</m>.
         </p>
 
-        <p permid="FOq">
+        <p>
           Since we know that <m>y(0) = 1</m>, we will take the initial point to be <m>(t_0,y_0) = (0,1)</m> and move horizontally by <m>\Delta t = 0.2</m> to the point <m>(t_1,y_1)</m>.
           Thus, <m>t_1=t_0+\Delta t = 0.2</m>.
           Now, the differential equation tells us that the slope of the tangent line at this point is
-          <me permid="zZe">
+          <md>
             m=\left.
             \frac{dy}{dt} \right|_{(0,1)} = 0-1 = -1
-          </me>,
+          </md>,
         </p>
 
-        <sidebyside widths="50% 44%" margins="0%" permid="llF">
-          <p permid="Qnv">
+        <sidebyside widths="50% 44%" margins="0%">
+          <p>
             so to move along the tangent line by taking a horizontal step of size <m>\Delta t=0.2</m>, we must also move vertically by
-            <me permid="ggn">
+            <md>
               \Delta y = m\Delta t = -1\cdot 0.2 = -0.2
-            </me>.
+            </md>.
             We then have the approximation <m>y(0.2) \approx y_1= y_0 + \Delta y = 1 - 0.2 = 0.8</m>.
             At this point, we have executed one step of Euler's method, as seen graphically in <xref ref="F-7-3-euler-points-1">Figure</xref>.
           </p>
 
-          <figure xml:id="F-7-3-euler-points-1" permid="wuE">
+          <figure xml:id="F-7-3-euler-points-1">
             <caption>One step of Euler's method.</caption>
             <image source="7_3_euler_points_1" />
             </figure>
           </sidebyside>
 
-          <p permid="lVz">
+          <p>
             Now we repeat this process: at <m>(t_1,y_1) = (0.2,0.8)</m>, the differential equation tells us that the slope is
-            <me permid="Mnw">
+            <md>
               m=\left.
               \frac{dy}{dt}\right|_{(0.2,0.8)} = 0.2-0.8 = -0.6
-            </me>.
+            </md>.
           </p>
 
-          <sidebyside widths="50% 44%" margins="0%" permid="RsO">
-            <p permid="cBN">
+          <sidebyside widths="50% 44%" margins="0%">
+            <p>
               If we move forward horizontally by <m>\Delta t</m> to <m>t_2=t_1+\Delta = 0.4</m>, we must move vertically by
-              <me permid="suF">
+              <md>
                 \Delta y = -0.6\cdot0.2 = -0.12
-              </me>.
+              </md>.
               We consequently arrive at <m>y_2=y_1+\Delta y = 0.8-0.12 = 0.68</m>, which gives <m>y(0.2)\approx 0.68</m>.
               Now we have completed the second step of Euler's method, as shown in <xref ref="F-7-3-euler-points-2">Figure</xref>.
             </p>
 
-            <figure xml:id="F-7-3-euler-points-2" permid="IIW">
+            <figure xml:id="F-7-3-euler-points-2">
               <caption>Two steps of Euler's method.</caption>
               <image source="7_3_euler_points_2" />
               </figure>
             </sidebyside>
 
-            <p permid="ScI">
+            <p>
               If we continue in this way, we may generate the points <m>(t_i, y_i)</m> shown in <xref ref="F-7-3-Euler-Pts-a">Figure</xref>.
               Because we can find a formula for the actual solution <m>y(t)</m> to this differential equation, we can graph <m>y(t)</m> and compare it to the points generated by Euler's method, as shown in <xref ref="F-7-3-Euler-Pts-b">Figure</xref>.
             </p>
 
-            <sidebyside widths="47% 47%" margins="0%" permid="xzX">
-              <figure xml:id="F-7-3-Euler-Pts-a" permid="oQf">
+            <sidebyside widths="47% 47%" margins="0%">
+              <figure xml:id="F-7-3-Euler-Pts-a">
                 <caption>The points and piecewise linear approximate solution generated by Euler's method.</caption>
-                <image source="7_3_euler_points_6" permid="QXp">
+                <image source="7_3_euler_points_6">
                 </image>
               </figure>
 
-              <figure xml:id="F-7-3-Euler-Pts-b" permid="UXo">
+              <figure xml:id="F-7-3-Euler-Pts-b">
                 <caption>The approximate solution compared to the exact solution (shown in blue).</caption>
-                <image source="7_3_euler" permid="xey">
+                <image source="7_3_euler">
                 </image>
               </figure>
             </sidebyside>
 
-            <p permid="yjR">
+            <p>
               Because we need to generate a large number of points <m>(t_i,y_i)</m>, it is convenient to organize the implementation of Euler's method in a table as shown.
               We begin with the given initial data.
             </p>
 
-            <sidebyside permid="dHg">
-              <tabular top="minor" bottom="minor" permid="dlH">
-                <row>
-                  <cell><m>t_i</m></cell>
-                  <cell><m>y_i</m></cell>
-                  <cell><m>dy/dt</m></cell>
-                  <cell><m>\Delta y</m></cell>
-                </row>
+            <tabular top="minor" bottom="minor">
+              <row>
+                <cell><m>t_i</m></cell>
+                <cell><m>y_i</m></cell>
+                <cell><m>dy/dt</m></cell>
+                <cell><m>\Delta y</m></cell>
+              </row>
 
-                <row>
-                  <cell><m>0.0000</m></cell>
-                  <cell><m>1.0000</m></cell>
-                  <cell></cell>
-                  <cell></cell>
-                </row>
-              </tabular>
-            </sidebyside>
+              <row>
+                <cell><m>0.0000</m></cell>
+                <cell><m>1.0000</m></cell>
+                <cell></cell>
+                <cell></cell>
+              </row>
+            </tabular>
 
-            <p permid="era">
+            <p>
               From here, we compute the slope of the tangent line <m>m=dy/dt</m> using the formula for <m>dy/dt</m> from the differential equation, and then we find <m>\Delta y</m>, the change in <m>y</m>, using the rule <m>\Delta y = m\Delta t</m>.
             </p>
 
-            <sidebyside permid="JOp">
-              <tabular top="minor" bottom="minor" permid="JsQ">
-                <row>
-                  <cell><m>t_i</m></cell>
-                  <cell><m>y_i</m></cell>
-                  <cell><m>dy/dt</m></cell>
-                  <cell><m>\Delta y</m></cell>
-                </row>
+            <tabular top="minor" bottom="minor">
+              <row>
+                <cell><m>t_i</m></cell>
+                <cell><m>y_i</m></cell>
+                <cell><m>dy/dt</m></cell>
+                <cell><m>\Delta y</m></cell>
+              </row>
 
-                <row>
-                  <cell><m>0.0000</m></cell>
-                  <cell><m>1.0000</m></cell>
-                  <cell><m>-1.0000</m></cell>
-                  <cell><m>-0.2000</m></cell>
-                </row>
-              </tabular>
-            </sidebyside>
+              <row>
+                <cell><m>0.0000</m></cell>
+                <cell><m>1.0000</m></cell>
+                <cell><m>-1.0000</m></cell>
+                <cell><m>-0.2000</m></cell>
+              </row>
+            </tabular>
 
-            <p permid="Kyj">
+            <p>
               Next, we increase <m>t_i</m> by <m>\Delta t</m> and <m>y_i</m> by <m>\Delta y</m> to get
             </p>
 
-            <sidebyside permid="pVy">
-              <tabular top="minor" bottom="minor" permid="pzZ">
-                <row>
-                  <cell><m>t_i</m></cell>
-                  <cell><m>y_i</m></cell>
-                  <cell><m>dy/dt</m></cell>
-                  <cell><m>\Delta y</m></cell>
-                </row>
+            <tabular top="minor" bottom="minor">
+              <row>
+                <cell><m>t_i</m></cell>
+                <cell><m>y_i</m></cell>
+                <cell><m>dy/dt</m></cell>
+                <cell><m>\Delta y</m></cell>
+              </row>
 
-                <row>
-                  <cell><m>0.0000</m></cell>
-                  <cell><m>1.0000</m></cell>
-                  <cell><m>-1.0000</m></cell>
-                  <cell><m>-0.2000</m></cell>
-                </row>
+              <row>
+                <cell><m>0.0000</m></cell>
+                <cell><m>1.0000</m></cell>
+                <cell><m>-1.0000</m></cell>
+                <cell><m>-0.2000</m></cell>
+              </row>
 
-                <row>
-                  <cell><m>0.2000</m></cell>
-                  <cell><m>0.8000</m></cell>
-                  <cell></cell>
-                  <cell></cell>
-                </row>
-              </tabular>
-            </sidebyside>
+              <row>
+                <cell><m>0.2000</m></cell>
+                <cell><m>0.8000</m></cell>
+                <cell></cell>
+                <cell></cell>
+              </row>
+            </tabular>
 
-            <p permid="qFs">
+            <p>
               We continue the process for however many steps we decide, eventually generating a table like <xref ref="T-7-3-Example">Table</xref>.
             </p>
 
-            <table xml:id="T-7-3-Example" permid="OcJ">
+            <table xml:id="T-7-3-Example">
               <title>Euler's method for 6 steps with <m>\Delta t = 0.2</m>.</title>
 
-              <tabular top="minor" bottom="minor" permid="ujS">
+              <tabular top="minor" bottom="minor">
                 <row>
                   <cell><m>t_i</m></cell>
                   <cell><m>y_i</m></cell>
@@ -369,26 +363,26 @@
               </p>
             </assemblage>
 
-            <example xml:id="act-7-3-1" permid="jNw">
+            <example xml:id="act-7-3-1">
               <statement>
-                <p permid="umB">
+                <p>
                   Consider the initial value problem
-                  <me permid="atK">
+                  <md>
                     \frac{dy}{dt} = 2t-1, \ y(0) = 0
-                  </me>
+                  </md>
 
-                  <ol marker="a." permid="Sfr">
-                    <li permid="ymA">
-                      <p permid="AbN">
+                  <ol marker="a.">
+                    <li>
+                      <p>
                         Use Euler's method with <m>\Delta t = 0.2</m> to approximate the solution at <m>t_i = 0.2, 0.4, 0.6, 0.8</m>, and <m>1.0</m>.
                         Record your work in the following table, and sketch the points <m>(t_i, y_i)</m> on the axes provided.
                       </p>
 
-                      <sidebyside widths="47% 47%" margins="0%" permid="rrV">
-                        <table xml:id="T-act-7-3-1" permid="yWu">
+                      <sidebyside widths="47% 47%" margins="0%">
+                        <table xml:id="T-act-7-3-1">
                           <title>Table for recording results of Euler's method.</title>
 
-                          <tabular top="minor" bottom="minor" permid="fdD">
+                          <tabular top="minor" bottom="minor">
                             <row bottom="medium">
                               <cell><m>t_i</m></cell>
                               <cell><m>y_i</m></cell>
@@ -440,27 +434,27 @@
                           </tabular>
                         </table>
 
-                        <figure xml:id="F-act-7-3-1-grid" permid="giW">
+                        <figure xml:id="F-act-7-3-1-grid">
                           <caption>Grid for plotting points generated by Euler's method.</caption>
                           <image source="7_3_euler_empty" />
                           </figure>
                         </sidebyside>
                       </li>
 
-                      <li permid="etJ">
-                        <p permid="Mqf">
+                      <li>
+                        <p>
                           Find the exact solution to the original initial value problem and use this function to find the error in your approximation at each one of the points <m>t_i</m>.
                         </p>
                       </li>
 
-                      <li permid="KAS">
-                        <p permid="sxo">
+                      <li>
+                        <p>
                           Explain why the value <m>y_5</m> generated by Euler's method for this initial value problem produces the same value as a left Riemann sum for the definite integral <m>\int_0^1 (2t-1)~dt</m>.
                         </p>
                       </li>
 
-                      <li permid="qIb">
-                        <p permid="YEx">
+                      <li>
+                        <p>
                           How would your computations differ if the initial value was <m>y(0) = 1</m>? What does this mean about different solutions to this differential equation?
                         </p>
                       </li>
@@ -468,11 +462,11 @@
                   </p>
                 </statement>
 
-                <hint permid="tCH">
-                  <p permid="Ofs">
-                    <ol marker="a." permid="lYi">
-                      <li permid="WPk">
-                        <p permid="ELG">
+                <hint>
+                  <p>
+                    <ol marker="a.">
+                      <li>
+                        <p>
                           Small hints for each of the prompts above.
                         </p>
                       </li>
@@ -480,12 +474,12 @@
                   </p>
                 </hint>
 
-                <answer permid="Nvy">
-                  <p permid="hYj">
-                    <ol marker="a." permid="FQZ">
-                      <li permid="CWt">
-                        <sidebyside widths="47% 47%" margins="0%" permid="Xze">
-                          <tabular top="minor" bottom="minor" permid="GAT">
+                <answer>
+                  <p>
+                    <ol marker="a.">
+                      <li>
+                        <sidebyside widths="47% 47%" margins="0%">
+                          <tabular top="minor" bottom="minor">
                             <row bottom="medium">
                               <cell><m>t_i</m></cell>
                               <cell><m>y_i</m></cell>
@@ -540,28 +534,28 @@
                           </sidebyside>
                         </li>
 
-                        <li permid="jdC">
-                          <p permid="kSP">
+                        <li>
+                          <p>
                             <m>y = t^2 - t</m>, with errors <m>e_1 = 0.04</m>, <m>e_2 = 0.08</m>, <m>e_3 = 0.12</m>, <m>e_4 = 0.16</m>, <m>e_5 = 0.2</m>.
                           </p>
                         </li>
 
-                        <li permid="PkL">
-                          <p permid="QZY">
+                        <li>
+                          <p>
                             If we first think about how <m>y_1</m> is generated for the initial value problem <m>\frac{dy}{dt} = f(t) = 2t-1, \ y(0) = 0</m>, we see that <m>y_1 = y_0 + \Delta t \cdot f(t_0)</m>.
                             Since <m>y_0 = 0</m>, we have <m>y_1 = \Delta t \cdot f(t_0)</m>.
                             From there, we know that <m>y_2</m> is given by <m>y_2 = y_1 + \Delta t f(t_1)</m>.
                             Substituting our earlier result for <m>y_1</m>, we see that <m>y_2 = \Delta t \cdot f(t_0) + \Delta t f(t_1)</m>.
                             Continuing this process up to <m>y_5</m>, we get
-                            <me permid="mIc">
+                            <md>
                               y_5 = \Delta t \cdot f(t_0) + \Delta t f(t_1) + \Delta t f(t_2) + \Delta t f(t_3) + \Delta t f(t_4)
-                            </me>
+                            </md>
                             This is precisely the left Riemann sum with five subintervals for the definite integral <m>\int_0^1 (2t-1)~dt</m>.
                           </p>
                         </li>
 
-                        <li permid="vrU">
-                          <p permid="xhh">
+                        <li>
+                          <p>
                             Solutions to this differential equation all differ by only a constant.
                           </p>
                         </li>
@@ -569,16 +563,16 @@
                     </p>
                   </answer>
 
-                  <solution permid="hop">
-                    <p permid="BRa">
-                      <ol marker="a." permid="ZJQ">
-                        <li permid="bzd">
-                          <p permid="doq">
+                  <solution>
+                    <p>
+                      <ol marker="a.">
+                        <li>
+                          <p>
                             Using Euler's Method with <m>\Delta t = 0.2</m>, we find the results shown in the table and graph below.
                           </p>
 
-                          <sidebyside widths="47% 47%" margins="auto" permid="DGn">
-                            <tabular top="minor" bottom="minor" permid="LkM">
+                          <sidebyside widths="47% 47%" margins="auto">
+                            <tabular top="minor" bottom="minor">
                               <row bottom="medium">
                                 <cell><m>t_i</m></cell>
                                 <cell><m>y_i</m></cell>
@@ -633,29 +627,29 @@
                             </sidebyside>
                           </li>
 
-                          <li permid="HGm">
-                            <p permid="Jvz">
+                          <li>
+                            <p>
                               The exact solution to the initial value problem <m>\frac{dy}{dt} = 2t-1, \ y(0) = 0</m> is <m>y = t^2 - t</m>, which we find by integrating both sides with respect to <m>t</m> and then applying the fact that <m>y(0) = 0</m> to determine that the integration constant is <m>0</m>.
                               From here, we can see that the errors are <m>e_1 = y(0.2) - y_1 = 0.04</m>, <m>e_2 = y(0.4) - y_2 = 0.08</m>, <m>e_3 = y(0.6) - y_3 = 0.12</m>, <m>e_4 = y(0.8) - y_4 = 0.16</m>, <m>e_5 = y(1.0) - y_5 = 0.2</m>.
                             </p>
                           </li>
 
-                          <li permid="nNv">
-                            <p permid="pCI">
+                          <li>
+                            <p>
                               If we first think about how <m>y_1</m> is generated for the initial value problem <m>\frac{dy}{dt} = f(t) = 2t-1, \ y(0) = 0</m>, we see that <m>y_1 = y_0 + \Delta t \cdot f(t_0)</m>.
                               Since <m>y_0 = 0</m>, we have <m>y_1 = \Delta t \cdot f(t_0)</m>.
                               From there, we know that <m>y_2</m> is given by <m>y_2 = y_1 + \Delta t f(t_1)</m>.
                               Substituting our earlier result for <m>y_1</m>, we see that <m>y_2 = \Delta t \cdot f(t_0) + \Delta t f(t_1)</m>.
                               Continuing this process up to <m>y_5</m>, we get
-                              <me permid="SPl">
+                              <md>
                                 y_5 = \Delta t \cdot f(t_0) + \Delta t f(t_1) + \Delta t f(t_2) + \Delta t f(t_3) + \Delta t f(t_4)
-                              </me>
+                              </md>
                               This is precisely the left Riemann sum with five subintervals for the definite integral <m>\int_0^1 (2t-1)~dt</m>.
                             </p>
                           </li>
 
-                          <li permid="TUE">
-                            <p permid="VJR">
+                          <li>
+                            <p>
                               Since <m>\frac{dy}{dt} = 2t-1</m>, the slope of the tangent line depends only on <m>t</m>.
                               Thus, the different initial condition of <m>y(0) = 1</m> simply adds <m>1</m> to every value of <m>y_i</m> in our computations, which shifts every point we compute by Euler's Method up by 1 unit.
                               This tells us that the solutions to this differential equation all differ by only a constant.
@@ -667,46 +661,46 @@
                     </solution>
                   </example>
 
-                  <example xml:id="act-7-3-2" permid="XdF">
+                  <example xml:id="act-7-3-2">
                     <statement>
-                      <p permid="NJT">
+                      <p>
                         Consider the differential equation <m>\frac{dy}{dt} = 6y-y^2</m>.
-                        <ol marker="a." permid="ALH">
-                          <li permid="gSQ">
-                            <p permid="bdE">
+                        <ol marker="a.">
+                          <li>
+                            <p>
                               Sketch the slope field for this differential equation on the axes provided in <xref ref="F-7-3-act-2-grid">Figure</xref>.
                             </p>
 
-                            <figure xml:id="F-7-3-act-2-grid" permid="HkN">
+                            <figure xml:id="F-7-3-act-2-grid">
                               <caption>Grid for plotting the slope field of the given differential equation.</caption>
                               <image width="50%" source="7_3_slopefield" />
                               </figure>
                             </li>
 
-                            <li permid="MZZ">
-                              <p permid="nrW">
+                            <li>
+                              <p>
                                 Identify any equilibrium solutions and determine whether they are stable or unstable.
                               </p>
                             </li>
 
-                            <li permid="thi">
-                              <p permid="Tzf">
+                            <li>
+                              <p>
                                 What is the long-term behavior of the solution that satisfies the initial value <m>y(0) = 1</m>?
                               </p>
                             </li>
 
-                            <li permid="Zor">
-                              <p permid="zGo">
+                            <li>
+                              <p>
                                 Using the initial value <m>y(0) = 1</m>, use Euler's method with <m>\Delta t = 0.2</m> to approximate the solution at <m>t_i = 0.2, 0.4, 0.6, 0.8</m>, and <m>1.0</m>.
                                 Record your results in <xref ref="T-7-3-act-2">Table</xref> and sketch the corresponding points <m>(t_i, y_i)</m> on the axes provided in <xref ref="F-7-3-act-2">Figure</xref>.
                                 Note the different horizontal scale on the axes in <xref ref="F-7-3-act-2">Figure</xref> compared to <xref ref="F-7-3-act-2-grid">Figure</xref>.
                               </p>
 
-                              <sidebyside widths="47% 47%" margins="0%" permid="StM">
-                                <table xml:id="T-7-3-act-2" permid="tRc">
+                              <sidebyside widths="47% 47%" margins="0%">
+                                <table xml:id="T-7-3-act-2">
                                   <title>Table for recording results of Euler's method with <m>\Delta t = 0.2</m>.</title>
 
-                                  <tabular top="minor" bottom="minor" permid="ZYl">
+                                  <tabular top="minor" bottom="minor">
                                     <row bottom="medium">
                                       <cell><m>t_i</m></cell>
                                       <cell><m>y_i</m></cell>
@@ -758,15 +752,15 @@
                                   </tabular>
                                 </table>
 
-                                <figure xml:id="F-7-3-act-2" permid="fNx">
+                                <figure xml:id="F-7-3-act-2">
                                   <caption>Axes for plotting the results of Euler's method.</caption>
                                   <image source="7_3_euler_empty_2" />
                                   </figure>
                                 </sidebyside>
                               </li>
 
-                              <li permid="FvA">
-                                <p permid="LUG">
+                              <li>
+                                <p>
                                   What happens if we apply Euler's method to approximate the solution with <m>y(0) = 6</m>?
                                 </p>
                               </li>
@@ -774,11 +768,11 @@
                           </p>
                         </statement>
 
-                        <hint permid="ciX">
-                          <p permid="hCK">
-                            <ol marker="a." permid="UEy">
-                              <li permid="lCJ">
-                                <p permid="sbP">
+                        <hint>
+                          <p>
+                            <ol marker="a.">
+                              <li>
+                                <p>
                                   Small hints for each of the prompts above.
                                 </p>
                               </li>
@@ -786,30 +780,28 @@
                           </p>
                         </hint>
 
-                        <answer permid="wbO">
-                          <p permid="BvB">
-                            <ol marker="a." permid="oxp">
-                              <li permid="RJS">
-                                <sidebyside width="50%" permid="yAV">
-                                  <image source="7_3_Act2_slope_field_soln" />
-                                  </sidebyside>
+                        <answer>
+                          <p>
+                            <ol marker="a.">
+                              <li>
+                                <image width="50%" source="7_3_Act2_slope_field_soln" />
                                 </li>
 
-                                <li permid="xRb">
-                                  <p permid="YiY">
+                                <li>
+                                  <p>
                                     <m>y = 0</m> or <m>y = 6</m>.
                                   </p>
                                 </li>
 
-                                <li permid="dYk">
-                                  <p permid="Eqh">
+                                <li>
+                                  <p>
                                     The solution will tend to <m>y = 6</m>.
                                   </p>
                                 </li>
 
-                                <li permid="Kft">
-                                  <sidebyside widths="47% 47%" margins="0%" permid="eIe">
-                                    <tabular top="minor" bottom="minor" permid="Gfu">
+                                <li>
+                                  <sidebyside widths="47% 47%" margins="0%">
+                                    <tabular top="minor" bottom="minor">
                                       <row bottom="medium">
                                         <cell><m>t_i</m></cell>
                                         <cell><m>y_i</m></cell>
@@ -864,8 +856,8 @@
                                     </sidebyside>
                                   </li>
 
-                                  <li permid="qmC">
-                                    <p permid="kxq">
+                                  <li>
+                                    <p>
                                       The value of <m>y_i = 6</m> for every value of <m>i</m>.
                                     </p>
                                   </li>
@@ -873,40 +865,38 @@
                               </p>
                             </answer>
 
-                            <solution permid="PUF">
-                              <p permid="Vos">
-                                <ol marker="a." permid="Iqg">
-                                  <li permid="WtL">
-                                    <p permid="QEz">
+                            <solution>
+                              <p>
+                                <ol marker="a.">
+                                  <li>
+                                    <p>
                                       The slope field for this differential equation is shown in the following figure.
                                     </p>
 
-                                    <sidebyside width="50%" permid="KPn">
-                                      <image source="7_3_Act2_slope_field_soln" />
-                                      </sidebyside>
+                                    <image width="50%" source="7_3_Act2_slope_field_soln" />
                                     </li>
 
-                                    <li permid="CAU">
-                                      <p permid="wLI">
+                                    <li>
+                                      <p>
                                         If <m>y</m> is an equilibrium solution, then <m>y</m> is constant so <m>\frac{dy}{dt} = 0</m>.
                                         Solving <m>0 = 6y - y^2</m>, we see that either <m>y = 0</m> or <m>y = 6</m>, which is also consistent with what we see in the slope field.
                                       </p>
                                     </li>
 
-                                    <li permid="iId">
-                                      <p permid="cSR">
+                                    <li>
+                                      <p>
                                         The long-term behavior of the solution that satisfies the initial value <m>y(0) = 1</m> is that the solution will tend to <m>y = 6</m>.
                                       </p>
                                     </li>
 
-                                    <li permid="OPm">
-                                      <p permid="Jaa">
+                                    <li>
+                                      <p>
                                         Using Euler's method with <m>\Delta t = 0.2</m>, we approximate the solution of the IVP at <m>t_i = 0.2, 0.4, 0.6, 0.8</m>, and <m>1.0</m> as shown in the following table and figure.
                                         We see that our estimates actually jump slightly above the equilibrium solution before being pulled back down.
                                       </p>
 
-                                      <sidebyside widths="47% 47%" margins="0%" permid="qWw">
-                                        <tabular top="minor" bottom="minor" permid="mmD">
+                                      <sidebyside widths="47% 47%" margins="0%">
+                                        <tabular top="minor" bottom="minor">
                                           <row bottom="medium">
                                             <cell><m>t_i</m></cell>
                                             <cell><m>y_i</m></cell>
@@ -961,8 +951,8 @@
                                         </sidebyside>
                                       </li>
 
-                                      <li permid="uWv">
-                                        <p permid="phj">
+                                      <li>
+                                        <p>
                                           If we apply Euler's method to approximate the solution with <m>y(0) = 6</m>, the value of <m>y_i = 6</m> for every value of <m>i</m> since <m>y=6</m> is an equilibrium solution and the slope of the tangent line will always be <m>0</m>.
                                         </p>
                                       </li>
@@ -973,43 +963,43 @@
                             </subsection>
 
 
-                            <subsection permid="sQe">
+                            <subsection>
                               <title>The Error in Euler's Method</title>
 
                               <idx><h>Euler's Method</h><h>error</h></idx>
-                              <p permid="WMB">
+                              <p>
                                 Since we are approximating the solutions to an initial value problem using tangent lines, we should expect that the error in the approximation will be smaller when the step size is smaller.
                                 Consider the initial value problem
-                                <me permid="YBO">
+                                <md>
                                   \frac{dy}{dt} = y, \ y(0) = 1
-                                </me>,
+                                </md>,
                                 whose solution we can easily find.
                               </p>
 
-                              <p permid="CTK">
+                              <p>
                                 The question posed by this initial value problem is <q>what function do we know that is the same as its own derivative and has value 1 when <m>t=0</m>?</q> It is not hard to see that the solution is <m>y(t) = e^t</m>.
                                 We now apply Euler's method to approximate <m>y(1) = e</m> using several values of <m>\Delta t</m>.
                                 These approximations will be denoted by <m>E_{\Delta t}</m>, and we'll use them to see how accurate Euler's Method is.
                               </p>
 
-                              <p permid="jaT">
+                              <p>
                                 To begin, we apply Euler's method with a step size of <m>\Delta t = 0.2</m>.
                                 In that case, we find that <m>y(1) \approx E_{0.2} = 2.4883</m>.
                                 The error is therefore
-                                <me permid="EIX">
+                                <md>
                                   y(1) - E_{0.2} = e - 2.4883 \approx 0.2300
-                                </me>.
+                                </md>.
                               </p>
 
-                              <p permid="Pic">
+                              <p>
                                 Repeatedly halving <m>\Delta t</m> gives the following results, expressed in both tabular and graphical form.
                               </p>
 
-                              <sidebyside widths="47% 47%" margins="0%" permid="WcH">
-                                <table permid="VHi">
+                              <sidebyside widths="47% 47%" margins="0%">
+                                <table>
                                   <title>Errors that correspond to different <m>\Delta t</m> values.</title>
 
-                                  <tabular top="minor" permid="BOr">
+                                  <tabular top="minor">
                                     <row bottom="minor">
                                       <cell><m>\Delta t</m></cell>
                                       <cell><m>E_{\Delta t}</m></cell>
@@ -1042,41 +1032,41 @@
                                   </tabular>
                                 </table>
 
-                                <figure permid="Bex">
+                                <figure>
                                   <caption>A plot of the error as a function of <m>\Delta t</m>.</caption>
                                   <image source="7_3_error" />
                                   </figure>
                                 </sidebyside>
 
-                                <p permid="vpl">
+                                <p>
                                   Notice, both numerically and graphically, that the error is roughly halved when <m>\Delta t</m> is halved.
                                   This example illustrates the following general principle.
                                 </p>
 
-                                <p permid="bwu">
+                                <p>
                                   If Euler's method is used to approximate the solution to an initial value problem at a point <m>\overline{t}</m>, then the error is proportional to <m>\Delta t</m>.
                                   That is,
-                                  <me permid="kQg">
+                                  <md>
                                     y(\overline{t}) - E_{\Delta t} \approx K\Delta t
-                                  </me>
+                                  </md>
                                   for some constant of proportionality <m>K</m>.
                                 </p>
                               </subsection>
 
 
-                              <subsection permid="YXn">
+                              <subsection>
                                 <title>Summary</title>
 
-                                <p permid="HDD">
-                                  <ul permid="uFr">
-                                    <li permid="naS">
-                                      <p permid="LDC">
+                                <p>
+                                  <ul>
+                                    <li>
+                                      <p>
                                         Euler's method is an algorithm for approximating the solution to an initial value problem by following the tangent lines while we take horizontal steps across the <m>t</m>-axis.
                                       </p>
                                     </li>
 
-                                    <li permid="Tib">
-                                      <p permid="rKL">
+                                    <li>
+                                      <p>
                                         If we wish to approximate <m>y(\overline{t})</m> for some fixed <m>\overline{t}</m> by taking horizontal steps of size <m>\Delta t</m>, then the error in our approximation is proportional to <m>\Delta t</m>.
                                       </p>
                                     </li>
@@ -1085,724 +1075,669 @@
                               </subsection>
 
                               <exercises xmlns:xi="http://www.w3.org/2001/XInclude">
-                              <exercise xml:id="ez-7-3-WW1" permid="iRl">
+                              <exercise xml:id="ez-7-3-WW1">
                                 <title>A few steps of Euler's method</title>
 
                                 <webwork source="Library/Michigan/Chap11Sec3/Q01.pg" />
                                 </exercise>
 
-                                <exercise xml:id="ez-7-3-WW2" permid="OYu">
+                                <exercise xml:id="ez-7-3-WW2">
                                   <title>Using Euler's method for a solution of <m>y'=4y</m></title>
 
                                   <webwork source="Library/Michigan/Chap11Sec3/Q03.pg" />
                                   </exercise>
 
-                                  <exercise xml:id="ez-7-3-WW3" permid="vfD">
+                                  <exercise xml:id="ez-7-3-WW3">
                                     <title>Using Euler's method with different time steps</title>
 
                                     <webwork source="Library/Michigan/Chap11Sec3/Q09.pg" />
                                     </exercise>
 
-                                    <exercise permid="bmM">
-                                      <title> Using Euler's method to approximate temperature change </title>
-
-                                      <statement>
-                                        <p permid="HIq">
-                                          Newton's Law of Cooling says that the rate at which an object, such as a cup of coffee, cools is proportional to the difference in the object's temperature and room temperature.
-                                          If <m>T(t)</m> is the object's temperature and <m>T_r</m> is room temperature, this law is expressed at
-                                          <me permid="kUT">
-                                            \frac{dT}{dt} = -k(T-T_r)
-                                          </me>,
-                                          where <m>k</m> is a constant of proportionality.
-                                          In this problem, temperature is measured in degrees Fahrenheit and time in minutes.
-                                          <ol marker="a." permid="pqr">
-                                            <li permid="hLS">
-                                              <p permid="CoD">
-                                                Two calculus students, Alice and Bob, enter a 70<m>^\circ</m> classroom at the same time.
-                                                Each has a cup of coffee that is 100<m>^\circ</m>.
-                                                The differential equation for Alice has a constant of proportionality <m>k=0.5</m>, while the constant of proportionality for Bob is <m>k=0.1</m>.
-                                                What is the initial rate of change for Alice's coffee? What is the initial rate of change for Bob's coffee?
-                                              </p>
-                                            </li>
-
-                                            <li permid="NTb">
-                                              <p permid="ivM">
-                                                What feature of Alice's and Bob's cups of coffee could explain this difference?
-                                              </p>
-                                            </li>
-
-                                            <li permid="uak">
-                                              <p permid="OCV">
-                                                As the heating unit turns on and off in the room, the temperature in the room is
-                                                <me permid="Rcc">
-                                                  T_r=70+10\sin t
-                                                </me>.
-                                                Implement Euler's method with a step size of <m>\Delta t = 0.1</m> to approximate the temperature of Alice's coffee over the time interval <m>0\leq t\leq 50</m>.
-                                                This will most easily be performed using a spreadsheet such as <em>Excel</em>.
-                                                Graph the temperature of her coffee and room temperature over this interval.
-                                              </p>
-                                            </li>
-
-                                            <li permid="aht">
-                                              <p permid="uKe">
-                                                In the same way, implement Euler's method to approximate the temperature of Bob's coffee over the same time interval.
-                                                Graph the temperature of his coffee and room temperature over the interval.
-                                              </p>
-                                            </li>
-
-                                            <li permid="GoC">
-                                              <p permid="aRn">
-                                                Explain the similarities and differences that you see in the behavior of Alice's and Bob's cups of coffee.
-                                              </p>
-                                            </li>
-                                          </ol>
-                                        </p>
-                                      </statement>
-
-                                      <answer permid="zPw">
-                                        <p permid="PmP">
-                                          <ol marker="a." permid="wUQ">
-                                            <li permid="mvL">
-                                              <p permid="GYw">
-                                                Alice's coffee: <m>\frac{dT_A}{dt} \vert_{T = 100} = -0.5(30) = -15</m> degrees per minute; Bob's coffee: <m>\frac{dT_B}{dt} \vert_{T = 100} = -0.1(30) = -3</m> degrees per minute.
-                                              </p>
-                                            </li>
-
-                                            <li permid="SCU">
-                                              <p permid="nfF">
-                                                Consider the insulation of the containers.
-                                              </p>
-                                            </li>
-
-                                            <li permid="yKd">
-                                              <p permid="TmO">
-                                                Alice's coffee:
-                                                <me permid="xjl">
-                                                  \frac{dT_A}{dt} = -0.5(T_A-(70+10\sin t))
-                                                </me>,
-                                                with the inital condition <m>T_A(0) = 100</m>.
-                                              </p>
-
-                                              <sidebyside widths="30% 30%" margins="auto" valign="top" permid="KoB">
-                                                <tabular permid="LmQ">
-                                                  <row bottom="minor">
-                                                    <cell halign="center"><m>t</m></cell>
-                                                    <cell halign="center"><m>T_A(t)</m></cell>
-                                                  </row>
-
-                                                  <row>
-                                                    <cell><m>0.0</m></cell>
-                                                    <cell><m>100</m></cell>
-                                                  </row>
-
-                                                  <row>
-                                                    <cell><m>0.1</m></cell>
-                                                    <cell><m>98.5</m></cell>
-                                                  </row>
-
-                                                  <row>
-                                                    <cell><m>0.2</m></cell>
-                                                    <cell><m>97.12492</m></cell>
-                                                  </row>
-
-                                                  <row>
-                                                    <cell><m>0.3</m></cell>
-                                                    <cell><m>95.86801</m></cell>
-                                                  </row>
-
-                                                  <row>
-                                                    <cell><m>0.4</m></cell>
-                                                    <cell><m>94.72237</m></cell>
-                                                  </row>
-
-                                                  <row>
-                                                    <cell halign="center"><m>\vdots</m></cell>
-                                                    <cell halign="center"><m>\vdots</m></cell>
-                                                  </row>
-
-                                                  <row>
-                                                    <cell><m>49.6</m></cell>
-                                                    <cell><m>65.56715</m></cell>
-                                                  </row>
-
-                                                  <row>
-                                                    <cell><m>49.7</m></cell>
-                                                    <cell><m>65.48008</m></cell>
-                                                  </row>
-
-                                                  <row>
-                                                    <cell><m>49.8</m></cell>
-                                                    <cell><m>65.43816</m></cell>
-                                                  </row>
-
-                                                  <row>
-                                                    <cell><m>49.9</m></cell>
-                                                    <cell><m>65.44183</m></cell>
-                                                  </row>
-
-                                                  <row>
-                                                    <cell><m>50</m></cell>
-                                                    <cell><m>65.49103</m></cell>
-                                                  </row>
-                                                </tabular>
-
-                                                <image source="7_3_Ez1Soln" />
-                                                </sidebyside>
-                                              </li>
-
-                                              <li permid="eRm">
-                                                <sidebyside widths="30% 30%" margins="auto" valign="top" permid="qvK">
-                                                  <tabular permid="rtZ">
-                                                    <row bottom="minor" halign="center">
-                                                      <cell><m>t</m></cell>
-                                                      <cell><m>T_A(t)</m></cell>
-                                                    </row>
-
-                                                    <row>
-                                                      <cell><m>0.0</m></cell>
-                                                      <cell><m>100</m></cell>
-                                                    </row>
-
-                                                    <row>
-                                                      <cell><m>0.1</m></cell>
-                                                      <cell><m>99.7</m></cell>
-                                                    </row>
-
-                                                    <row>
-                                                      <cell><m>0.2</m></cell>
-                                                      <cell><m>99.41298</m></cell>
-                                                    </row>
-
-                                                    <row>
-                                                      <cell><m>0.3</m></cell>
-                                                      <cell><m>99.13872</m></cell>
-                                                    </row>
-
-                                                    <row>
-                                                      <cell><m>0.4</m></cell>
-                                                      <cell><m>98.87689</m></cell>
-                                                    </row>
-
-                                                    <row halign="center">
-                                                      <cell><m>\vdots</m></cell>
-                                                      <cell><m>\vdots</m></cell>
-                                                    </row>
-
-                                                    <row>
-                                                      <cell><m>49.6</m></cell>
-                                                      <cell><m>69.39515</m></cell>
-                                                    </row>
-
-                                                    <row>
-                                                      <cell><m>49.7</m></cell>
-                                                      <cell><m>69.33946</m></cell>
-                                                    </row>
-
-                                                    <row>
-                                                      <cell><m>49.8</m></cell>
-                                                      <cell><m>69.29248</m></cell>
-                                                    </row>
-
-                                                    <row>
-                                                      <cell><m>49.9</m></cell>
-                                                      <cell><m>69.25467</m></cell>
-                                                    </row>
-
-                                                    <row>
-                                                      <cell><m>50</m></cell>
-                                                      <cell><m>69.22638</m></cell>
-                                                    </row>
-                                                  </tabular>
-
-                                                  <image source="7_3_Ez1SolnB" />
-                                                  </sidebyside>
-                                                </li>
-
-                                                <li permid="KYv">
-                                                  <p permid="ztX">
-                                                    Compare the rate of initial decrease and amplitude of oscillation.
-                                                  </p>
-                                                </li>
-                                              </ol>
-                                            </p>
-                                          </answer>
-
-                                          <solution permid="TIn">
-                                            <p permid="WRo">
-                                              <ol marker="a." permid="Ezp">
-                                                <li permid="rfE">
-                                                  <p permid="fBg">
-                                                    The differential equation for Alice's coffee is
-                                                    <me permid="dqu">
-                                                      \frac{dT_A}{dt} = -0.5(T-70)
-                                                    </me>,
-                                                    so at the instant <m>t = 0</m>, <m>T = 100</m>, and thus <m>\frac{dT_A}{dt} \vert_{T = 100} = -0.5(30) = -15</m> degrees per minute.
-                                                    For Bob's coffee,
-                                                    <me permid="JxD">
-                                                      \frac{dT_B}{dt} = -0.1(T-70)
-                                                    </me>,
-                                                    so <m>\frac{dT_B}{dt} \vert_{T = 100} = -0.1(30) = -3</m> degrees per minute.
-                                                    These are the initial rates of change of the respective cups of coffee.
-                                                  </p>
-                                                </li>
-
-                                                <li permid="XmN">
-                                                  <p permid="LIp">
-                                                    The difference between the cups of coffee could be explained by how insulated the containers are: Bob's coffee loses temperature less quickly, so his is likely better insulated.
-                                                  </p>
-                                                </li>
-
-                                                <li permid="DtW">
-                                                  <p permid="rPy">
-                                                    With this varying temperature, the governing differential equation for Alice's coffee is
-                                                    <me permid="pEM">
-                                                      \frac{dT_A}{dt} = -0.5(T_A-(70+10\sin t))
-                                                    </me>,
-                                                    with the inital condition <m>T_A(0) = 100</m>.
-                                                    Implementing Euler's Method with <m>\Delta t = 0.1</m>, we get the following (abbreviated) table of data.
-                                                  </p>
-
-                                                  <sidebyside widths="30% 30%" margins="auto" valign="top" permid="WCT">
-                                                    <tabular permid="XBi">
-                                                      <row bottom="minor">
-                                                        <cell halign="center"><m>t</m></cell>
-                                                        <cell halign="center"><m>T_A(t)</m></cell>
-                                                      </row>
-
-                                                      <row>
-                                                        <cell><m>0.0</m></cell>
-                                                        <cell><m>100</m></cell>
-                                                      </row>
-
-                                                      <row>
-                                                        <cell><m>0.1</m></cell>
-                                                        <cell><m>98.5</m></cell>
-                                                      </row>
-
-                                                      <row>
-                                                        <cell><m>0.2</m></cell>
-                                                        <cell><m>97.12492</m></cell>
-                                                      </row>
-
-                                                      <row>
-                                                        <cell><m>0.3</m></cell>
-                                                        <cell><m>95.86801</m></cell>
-                                                      </row>
-
-                                                      <row>
-                                                        <cell><m>0.4</m></cell>
-                                                        <cell><m>94.72237</m></cell>
-                                                      </row>
-
-                                                      <row>
-                                                        <cell halign="center"><m>\vdots</m></cell>
-                                                        <cell halign="center"><m>\vdots</m></cell>
-                                                      </row>
-
-                                                      <row>
-                                                        <cell><m>49.6</m></cell>
-                                                        <cell><m>65.56715</m></cell>
-                                                      </row>
-
-                                                      <row>
-                                                        <cell><m>49.7</m></cell>
-                                                        <cell><m>65.48008</m></cell>
-                                                      </row>
-
-                                                      <row>
-                                                        <cell><m>49.8</m></cell>
-                                                        <cell><m>65.43816</m></cell>
-                                                      </row>
-
-                                                      <row>
-                                                        <cell><m>49.9</m></cell>
-                                                        <cell><m>65.44183</m></cell>
-                                                      </row>
-
-                                                      <row>
-                                                        <cell><m>50</m></cell>
-                                                        <cell><m>65.49103</m></cell>
-                                                      </row>
-                                                    </tabular>
-
-                                                    <image source="7_3_Ez1Soln" />
-                                                    </sidebyside>
-
-                                                    <p permid="XWH">
-                                                      Plotting the data points that result from Euler's Method along with the room temperature function, we see how the room temperature drives the temperature of the coffee up and down as time goes on, as pictured in the figure above, where the data points for the coffee's approximate temperature are shown in dark blue, while the room temperature function, <m>T_R(t) = 70 + 10\sin(t)</m> is shown in green.
-                                                    </p>
-                                                  </li>
-
-                                                  <li permid="jBf">
-                                                    <p permid="EdQ">
-                                                      Similar work with the differential equation for Bob's coffee yields the following abbreviated table of approximate function values along with the plot of the data and the temperature function.
-                                                    </p>
-
-                                                    <sidebyside widths="30% 30%" margins="auto" valign="top" permid="CKc">
-                                                      <tabular permid="DIr">
-                                                        <row bottom="minor" halign="center">
-                                                          <cell><m>t</m></cell>
-                                                          <cell><m>T_A(t)</m></cell>
-                                                        </row>
-
-                                                        <row>
-                                                          <cell><m>0.0</m></cell>
-                                                          <cell><m>100</m></cell>
-                                                        </row>
-
-                                                        <row>
-                                                          <cell><m>0.1</m></cell>
-                                                          <cell><m>99.7</m></cell>
-                                                        </row>
-
-                                                        <row>
-                                                          <cell><m>0.2</m></cell>
-                                                          <cell><m>99.41298</m></cell>
-                                                        </row>
-
-                                                        <row>
-                                                          <cell><m>0.3</m></cell>
-                                                          <cell><m>99.13872</m></cell>
-                                                        </row>
-
-                                                        <row>
-                                                          <cell><m>0.4</m></cell>
-                                                          <cell><m>98.87689</m></cell>
-                                                        </row>
-
-                                                        <row halign="center">
-                                                          <cell><m>\vdots</m></cell>
-                                                          <cell><m>\vdots</m></cell>
-                                                        </row>
-
-                                                        <row>
-                                                          <cell><m>49.6</m></cell>
-                                                          <cell><m>69.39515</m></cell>
-                                                        </row>
-
-                                                        <row>
-                                                          <cell><m>49.7</m></cell>
-                                                          <cell><m>69.33946</m></cell>
-                                                        </row>
-
-                                                        <row>
-                                                          <cell><m>49.8</m></cell>
-                                                          <cell><m>69.29248</m></cell>
-                                                        </row>
-
-                                                        <row>
-                                                          <cell><m>49.9</m></cell>
-                                                          <cell><m>69.25467</m></cell>
-                                                        </row>
-
-                                                        <row>
-                                                          <cell><m>50</m></cell>
-                                                          <cell><m>69.22638</m></cell>
-                                                        </row>
-                                                      </tabular>
-
-                                                      <image source="7_3_Ez1SolnB" />
-                                                      </sidebyside>
-                                                    </li>
-
-                                                    <li permid="PIo">
-                                                      <p permid="kkZ">
-                                                        The behaviors of both cups of coffee are similar in that each decreases toward the room temperature initially and then is driven in an oscillating way by the room temperature function as it rises and falls.
-                                                        We see that Alice's coffee is more susceptible to being influenced away from the average room temperature, which is consistent with her mug being less well insulated, while in Bob's coffee, we see much less radical oscillations (and a slower overall rate of decrease to get near room temperature), which is consistent with being better insulated.
-                                                      </p>
-                                                    </li>
-                                                  </ol>
-                                                </p>
-                                              </solution>
+                                    <exercise>
+                                    	<title> Using Euler's method to approximate temperature change </title>
+                                    	<introduction>
+                                    		<p>
+                                    			Newton's Law of Cooling says that the rate at which an object, such as a cup of coffee, cools is proportional to the difference in the object's temperature and room temperature.
+                                    			If <m>T(t)</m> is the object's temperature and <m>T_r</m> is room temperature, this law is expressed at
+                                    			<md>
+                                    			\frac{dT}{dt} = -k(T-T_r)
+                                    			</md>,
+                                    			where <m>k</m> is a constant of proportionality.
+                                    			In this problem, temperature is measured in degrees Fahrenheit and time in minutes.
+                                    		</p>
+                                    	</introduction>
+
+                                    	<task>
+                                    		<statement>
+                                    			<p>
+                                    			  Two calculus students, Alice and Bob, enter a 70<m>^\circ</m> classroom at the same time.
+                                    			  Each has a cup of coffee that is 100<m>^\circ</m>.
+                                    			  The differential equation for Alice has a constant of proportionality <m>k=0.5</m>, while the constant of proportionality for Bob is <m>k=0.1</m>.
+                                    			  What is the initial rate of change for Alice's coffee? What is the initial rate of change for Bob's coffee?
+                                    			</p>
+                                    		</statement>
+                                    		<answer>
+                                    			<p>
+                                    			  Alice's coffee: <m>\frac{dT_A}{dt} \vert_{T = 100} = -0.5(30) = -15</m> degrees per minute; Bob's coffee: <m>\frac{dT_B}{dt} \vert_{T = 100} = -0.1(30) = -3</m> degrees per minute.
+                                    			</p>
+                                    		</answer>
+                                    		<solution>
+                                    			<p>
+                                    			  The differential equation for Alice's coffee is
+                                    			  <md>
+                                    			    \frac{dT_A}{dt} = -0.5(T-70)
+                                    			  </md>,
+                                    			  so at the instant <m>t = 0</m>, <m>T = 100</m>, and thus <m>\frac{dT_A}{dt} \vert_{T = 100} = -0.5(30) = -15</m> degrees per minute.
+                                    			  For Bob's coffee,
+                                    			  <md>
+                                    			    \frac{dT_B}{dt} = -0.1(T-70)
+                                    			  </md>,
+                                    			  so <m>\frac{dT_B}{dt} \vert_{T = 100} = -0.1(30) = -3</m> degrees per minute.
+                                    			  These are the initial rates of change of the respective cups of coffee.
+                                    			</p>
+                                    		</solution>
+                                    	</task>
+
+                                    	<task>
+                                    		<statement>
+                                    			<p>
+                                    			  What feature of Alice's and Bob's cups of coffee could explain this difference?
+                                    			</p>
+                                    		</statement>
+                                    		<answer>
+                                    			<p>
+                                    			  Consider the insulation of the containers.
+                                    			</p>
+                                    		</answer>
+                                    		<solution>
+                                    			<p>
+                                    			  The difference between the cups of coffee could be explained by how insulated the containers are: Bob's coffee loses temperature less quickly, so his is likely better insulated.
+                                    			</p>
+                                    		</solution>
+                                    	</task>
+
+                                    	<task>
+                                    		<statement>
+                                    			<p>
+                                    			  As the heating unit turns on and off in the room, the temperature in the room is
+                                    			  <md>
+                                    			    T_r=70+10\sin t
+                                    			  </md>.
+                                    			  Implement Euler's method with a step size of <m>\Delta t = 0.1</m> to approximate the temperature of Alice's coffee over the time interval <m>0\leq t\leq 50</m>.
+                                    			  This will most easily be performed using a spreadsheet such as <em>Excel</em>.
+                                    			  Graph the temperature of her coffee and room temperature over this interval.
+                                    			</p>
+                                    		</statement>
+                                    		<answer>
+                                    			<p>
+                                    			  Alice's coffee:
+                                    			  <md>
+                                    			    \frac{dT_A}{dt} = -0.5(T_A-(70+10\sin t))
+                                    			  </md>,
+                                    			  with the inital condition <m>T_A(0) = 100</m>.
+                                    			</p>
+                                    			<sidebyside widths="30% 30%" margins="auto" valign="top">
+                                    			<tabular>
+                                    			  <row bottom="minor">
+                                    			    <cell halign="center"><m>t</m></cell>
+                                    			    <cell halign="center"><m>T_A(t)</m></cell>
+                                    			  </row>
+
+                                    			  <row>
+                                    			    <cell><m>0.0</m></cell>
+                                    			    <cell><m>100</m></cell>
+                                    			  </row>
+
+                                    			  <row>
+                                    			    <cell><m>0.1</m></cell>
+                                    			    <cell><m>98.5</m></cell>
+                                    			  </row>
+
+                                    			  <row>
+                                    			    <cell><m>0.2</m></cell>
+                                    			    <cell><m>97.12492</m></cell>
+                                    			  </row>
+
+                                    			  <row>
+                                    			    <cell><m>0.3</m></cell>
+                                    			    <cell><m>95.86801</m></cell>
+                                    			  </row>
+
+                                    			  <row>
+                                    			    <cell><m>0.4</m></cell>
+                                    			    <cell><m>94.72237</m></cell>
+                                    			  </row>
+
+                                    			  <row>
+                                    			    <cell halign="center"><m>\vdots</m></cell>
+                                    			    <cell halign="center"><m>\vdots</m></cell>
+                                    			  </row>
+
+                                    			  <row>
+                                    			    <cell><m>49.6</m></cell>
+                                    			    <cell><m>65.56715</m></cell>
+                                    			  </row>
+
+                                    			  <row>
+                                    			    <cell><m>49.7</m></cell>
+                                    			    <cell><m>65.48008</m></cell>
+                                    			  </row>
+
+                                    			  <row>
+                                    			    <cell><m>49.8</m></cell>
+                                    			    <cell><m>65.43816</m></cell>
+                                    			  </row>
+
+                                    			  <row>
+                                    			    <cell><m>49.9</m></cell>
+                                    			    <cell><m>65.44183</m></cell>
+                                    			  </row>
+
+                                    			  <row>
+                                    			    <cell><m>50</m></cell>
+                                    			    <cell><m>65.49103</m></cell>
+                                    			  </row>
+                                    			</tabular>
+
+                                    			<image source="7_3_Ez1Soln"/>
+                                    			</sidebyside>
+                                    		</answer>
+                                    		<solution>
+                                    			<p>
+                                    			  With this varying temperature, the governing differential equation for Alice's coffee is
+                                    			  <md>
+                                    			    \frac{dT_A}{dt} = -0.5(T_A-(70+10\sin t))
+                                    			  </md>,
+                                    			  with the inital condition <m>T_A(0) = 100</m>.
+                                    			  Implementing Euler's Method with <m>\Delta t = 0.1</m>, we get the following (abbreviated) table of data.
+                                    			</p>
+                                    			<sidebyside widths="30% 30%" margins="auto" valign="top">
+                                    			<tabular>
+                                    			  <row bottom="minor">
+                                    			    <cell halign="center"><m>t</m></cell>
+                                    			    <cell halign="center"><m>T_A(t)</m></cell>
+                                    			  </row>
+
+                                    			  <row>
+                                    			    <cell><m>0.0</m></cell>
+                                    			    <cell><m>100</m></cell>
+                                    			  </row>
+
+                                    			  <row>
+                                    			    <cell><m>0.1</m></cell>
+                                    			    <cell><m>98.5</m></cell>
+                                    			  </row>
+
+                                    			  <row>
+                                    			    <cell><m>0.2</m></cell>
+                                    			    <cell><m>97.12492</m></cell>
+                                    			  </row>
+
+                                    			  <row>
+                                    			    <cell><m>0.3</m></cell>
+                                    			    <cell><m>95.86801</m></cell>
+                                    			  </row>
+
+                                    			  <row>
+                                    			    <cell><m>0.4</m></cell>
+                                    			    <cell><m>94.72237</m></cell>
+                                    			  </row>
+
+                                    			  <row>
+                                    			    <cell halign="center"><m>\vdots</m></cell>
+                                    			    <cell halign="center"><m>\vdots</m></cell>
+                                    			  </row>
+
+                                    			  <row>
+                                    			    <cell><m>49.6</m></cell>
+                                    			    <cell><m>65.56715</m></cell>
+                                    			  </row>
+
+                                    			  <row>
+                                    			    <cell><m>49.7</m></cell>
+                                    			    <cell><m>65.48008</m></cell>
+                                    			  </row>
+
+                                    			  <row>
+                                    			    <cell><m>49.8</m></cell>
+                                    			    <cell><m>65.43816</m></cell>
+                                    			  </row>
+
+                                    			  <row>
+                                    			    <cell><m>49.9</m></cell>
+                                    			    <cell><m>65.44183</m></cell>
+                                    			  </row>
+
+                                    			  <row>
+                                    			    <cell><m>50</m></cell>
+                                    			    <cell><m>65.49103</m></cell>
+                                    			  </row>
+                                    			</tabular>
+
+                                    			<image source="7_3_Ez1Soln"/>
+                                    			</sidebyside>
+                                    			<p>
+                                    			  Plotting the data points that result from Euler's Method along with the room temperature function, we see how the room temperature drives the temperature of the coffee up and down as time goes on, as pictured in the figure above, where the data points for the coffee's approximate temperature are shown in dark blue, while the room temperature function, <m>T_R(t) = 70 + 10\sin(t)</m> is shown in green.
+                                    			</p>
+                                    		</solution>
+                                    	</task>
+
+                                    	<task>
+                                    		<statement>
+                                    			<p>
+                                    			  In the same way, implement Euler's method to approximate the temperature of Bob's coffee over the same time interval.
+                                    			  Graph the temperature of his coffee and room temperature over the interval.
+                                    			</p>
+                                    		</statement>
+                                    		<answer>
+                                    			<sidebyside widths="30% 30%" margins="auto" valign="top">
+                                    			<tabular>
+                                    			  <row bottom="minor" halign="center">
+                                    			    <cell><m>t</m></cell>
+                                    			    <cell><m>T_A(t)</m></cell>
+                                    			  </row>
+
+                                    			  <row>
+                                    			    <cell><m>0.0</m></cell>
+                                    			    <cell><m>100</m></cell>
+                                    			  </row>
+
+                                    			  <row>
+                                    			    <cell><m>0.1</m></cell>
+                                    			    <cell><m>99.7</m></cell>
+                                    			  </row>
+
+                                    			  <row>
+                                    			    <cell><m>0.2</m></cell>
+                                    			    <cell><m>99.41298</m></cell>
+                                    			  </row>
+
+                                    			  <row>
+                                    			    <cell><m>0.3</m></cell>
+                                    			    <cell><m>99.13872</m></cell>
+                                    			  </row>
+
+                                    			  <row>
+                                    			    <cell><m>0.4</m></cell>
+                                    			    <cell><m>98.87689</m></cell>
+                                    			  </row>
+
+                                    			  <row halign="center">
+                                    			    <cell><m>\vdots</m></cell>
+                                    			    <cell><m>\vdots</m></cell>
+                                    			  </row>
+
+                                    			  <row>
+                                    			    <cell><m>49.6</m></cell>
+                                    			    <cell><m>69.39515</m></cell>
+                                    			  </row>
+
+                                    			  <row>
+                                    			    <cell><m>49.7</m></cell>
+                                    			    <cell><m>69.33946</m></cell>
+                                    			  </row>
+
+                                    			  <row>
+                                    			    <cell><m>49.8</m></cell>
+                                    			    <cell><m>69.29248</m></cell>
+                                    			  </row>
+
+                                    			  <row>
+                                    			    <cell><m>49.9</m></cell>
+                                    			    <cell><m>69.25467</m></cell>
+                                    			  </row>
+
+                                    			  <row>
+                                    			    <cell><m>50</m></cell>
+                                    			    <cell><m>69.22638</m></cell>
+                                    			  </row>
+                                    			</tabular>
+
+                                    			<image source="7_3_Ez1SolnB"/>
+                                    			</sidebyside>
+                                    		</answer>
+                                    		<solution>
+                                    			<p>
+                                    			  Similar work with the differential equation for Bob's coffee yields the following abbreviated table of approximate function values along with the plot of the data and the temperature function.
+                                    			</p>
+                                    			<sidebyside widths="30% 30%" margins="auto" valign="top">
+                                    			<tabular>
+                                    			  <row bottom="minor" halign="center">
+                                    			    <cell><m>t</m></cell>
+                                    			    <cell><m>T_A(t)</m></cell>
+                                    			  </row>
+
+                                    			  <row>
+                                    			    <cell><m>0.0</m></cell>
+                                    			    <cell><m>100</m></cell>
+                                    			  </row>
+
+                                    			  <row>
+                                    			    <cell><m>0.1</m></cell>
+                                    			    <cell><m>99.7</m></cell>
+                                    			  </row>
+
+                                    			  <row>
+                                    			    <cell><m>0.2</m></cell>
+                                    			    <cell><m>99.41298</m></cell>
+                                    			  </row>
+
+                                    			  <row>
+                                    			    <cell><m>0.3</m></cell>
+                                    			    <cell><m>99.13872</m></cell>
+                                    			  </row>
+
+                                    			  <row>
+                                    			    <cell><m>0.4</m></cell>
+                                    			    <cell><m>98.87689</m></cell>
+                                    			  </row>
+
+                                    			  <row halign="center">
+                                    			    <cell><m>\vdots</m></cell>
+                                    			    <cell><m>\vdots</m></cell>
+                                    			  </row>
+
+                                    			  <row>
+                                    			    <cell><m>49.6</m></cell>
+                                    			    <cell><m>69.39515</m></cell>
+                                    			  </row>
+
+                                    			  <row>
+                                    			    <cell><m>49.7</m></cell>
+                                    			    <cell><m>69.33946</m></cell>
+                                    			  </row>
+
+                                    			  <row>
+                                    			    <cell><m>49.8</m></cell>
+                                    			    <cell><m>69.29248</m></cell>
+                                    			  </row>
+
+                                    			  <row>
+                                    			    <cell><m>49.9</m></cell>
+                                    			    <cell><m>69.25467</m></cell>
+                                    			  </row>
+
+                                    			  <row>
+                                    			    <cell><m>50</m></cell>
+                                    			    <cell><m>69.22638</m></cell>
+                                    			  </row>
+                                    			</tabular>
+
+                                    			<image source="7_3_Ez1SolnB"/>
+                                    			</sidebyside>
+                                    		</solution>
+                                    	</task>
+
+                                    	<task>
+                                    		<statement>
+                                    			<p>
+                                    			  Explain the similarities and differences that you see in the behavior of Alice's and Bob's cups of coffee.
+                                    			</p>
+                                    		</statement>
+                                    		<answer>
+                                    			<p>
+                                    			  Compare the rate of initial decrease and amplitude of oscillation.
+                                    			</p>
+                                    		</answer>
+                                    		<solution>
+                                    			<p>
+                                    			  The behaviors of both cups of coffee are similar in that each decreases toward the room temperature initially and then is driven in an oscillating way by the room temperature function as it rises and falls.
+                                    			  We see that Alice's coffee is more susceptible to being influenced away from the average room temperature, which is consistent with her mug being less well insulated, while in Bob's coffee, we see much less radical oscillations (and a slower overall rate of decrease to get near room temperature), which is consistent with being better insulated.
+                                    			</p>
+                                    		</solution>
+                                    	</task>
+                                    </exercise>
+
+                                            <exercise>
+                                            	<title> Accelerated convergence </title>
+                                            	<introduction>
+                                            		<p>
+                                            		  We have seen that the error in approximating the solution to an initial value problem is proportional to <m>\Delta t</m>.
+                                            		  That is, if <m>E_{\Delta t}</m> is the Euler's method approximation to the solution to an initial value problem at <m>\overline{t}</m>, then
+                                            		  <md>
+                                            		    y(\overline{t})-E_{\Delta t} \approx K\Delta t
+                                            		  </md>
+                                            		  for some constant of proportionality <m>K</m>.
+                                            		</p>
+                                            		<p>
+                                            			In this problem, we will see how to use this fact to improve our estimates, using an idea called <em>accelerated convergence</em>.
+                                            		</p>
+                                            	</introduction>
+
+                                            	<task>
+                                            		<statement>
+                                            			<p>
+                                            			  We will create a new approximation by assuming the error is <em>exactly</em> proportional to <m>\Delta t</m>, according to the formula
+                                            			  <md>
+                                            			    y(\overline{t})-E_{\Delta t} =K\Delta t
+                                            			  </md>.
+                                            			  Using our earlier results from the initial value problem <m>dy/dt = y</m> and <m>y(0)=1</m> with <m>\Delta t = 0.2</m> and <m>\Delta t = 0.1</m>, we have
+                                            			  <md>
+                                            			    <mrow>y(1) - 2.4883 =\mathstrut \amp  0.2K</mrow>
+                                            			    <mrow>y(1) - 2.5937 =\mathstrut \amp  0.1K</mrow>
+                                            			  </md>.
+                                            			  This is a system of two linear equations in the unknowns <m>y(1)</m> and <m>K</m>.
+                                            			  Solve this system to find a new approximation for <m>y(1)</m>.
+                                            			  (You may remember that the exact value is <m>y(1) = e = 2.71828\ldots</m>.)
+                                            			</p>
+                                            		</statement>
+                                            		<answer>
+                                            			<p>
+                                            			  <m>K = 1.054</m>; <m>y(1) = 2.6991</m>.
+                                            			</p>
+                                            		</answer>
+                                            		<solution>
+                                            			<p>
+                                            			  To solve the linear system
+                                            			  <md>
+                                            			    <mrow>y(1) - 2.4883 =\mathstrut \amp  0.2K</mrow>
+                                            			    <mrow>y(1) - 2.5937 =\mathstrut \amp  0.1K</mrow>
+                                            			  </md>
+                                            			  we subtract the second equation from the first to eliminate <m>y(1)</m>.
+                                            			  Doing so, we find that
+                                            			  <md>
+                                            			    -2.4883 - (-2.5937) = 0.2K - 0.1K
+                                            			  </md>
+                                            			  so that
+                                            			  <md>
+                                            			    0.1054 = 0.1K
+                                            			  </md>
+                                            			  and thus <m>K = 1.054</m>.
+                                            			  Substituting this value into the first equation in the system, it follows that
+                                            			  <md>
+                                            			    y(1) - 2.4883 = 0.2(1.054)
+                                            			  </md>
+                                            			  so <m>y(1) = 0.2(1.054) + 2.4883 = 2.6991</m>.
+                                            			</p>
+                                            		</solution>
+                                            	</task>
+
+                                            	<task>
+                                            		<statement>
+                                            			<p>
+                                            			  Use the other data, <m>E_{0.05} = 2.6533</m> and <m>E_{0.025} = 2.6851</m> to do similar work as in (a) to obtain another approximation.
+                                            			  Which gives the better approximation? Why do you think this is?
+                                            			</p>
+                                            		</statement>
+                                            		<answer>
+                                            			<p>
+                                            			  <m>K = 1.272</m>; <m>y(1) = 2.7169</m>.
+                                            			</p>
+                                            		</answer>
+                                            		<solution>
+                                            			<p>
+                                            			  Recalling that <m>E_{0.05} = 2.6533</m> and <m>E_{0.025} = 2.6851</m>, it follows that this data generates the similar linear system given by
+                                            			  <md>
+                                            			    <mrow>y(1) - 2.6533 =\mathstrut \amp  0.05K</mrow>
+                                            			    <mrow>y(1) - 2.6851 =\mathstrut \amp  0.025K</mrow>
+                                            			  </md>.
+                                            			  Solving this system yields <m>K = 1.272</m> and <m>y(1) = 2.7169</m>.
+                                            			  Knowing that the true value of <m>y(1)</m> is <m>e = 2.71828\ldots</m>, we see that the approximation here in (b) is much better.
+                                            			  That is expected because we are already working with better approximations that come from using <m>\Delta t = 0.05</m> and <m>\Delta t = 0.025</m>, which have been twice halved from the smaller <m>\Delta t</m> value in (a).
+                                            			</p>
+                                            		</solution>
+                                            	</task>
+
+                                            	<task>
+                                            		<statement>
+                                            			<p>
+                                            			  Let's now study the initial value problem
+                                            			  <md>
+                                            			    \frac{dy}{dt} = t-y, \ y(0) = 0
+                                            			  </md>.
+                                            			  Approximate <m>y(0.3)</m> by applying Euler's method to find approximations <m>E_{0.1}</m> and <m>E_{0.05}</m>.
+                                            			  Now use the idea of accelerated convergence to obtain a better approximation.
+                                            			  (For the sake of comparison, you want to  note that the actual value is <m>y(0.3) = 0.0408</m>.)
+                                            			</p>
+                                            		</statement>
+                                            		<answer>
+                                            			<p>
+                                            			  <m>K = 0.122</m> and <m>y(0.3) = 0.0412</m>.
+                                            			</p>
+                                            		</answer>
+                                            		<solution>
+                                            			<p>
+                                            			  To compute <m>E_{0.1}</m> and <m>E_{0.05}</m>, we first compute the estimates to <m>y(0.3)</m> using <m>\Delta t = 0.1</m> and <m>\Delta t = 0.5</m>.
+                                            			  Doing so and making similar assumptions about the error as we did in (a) and (b), we find that for <m>\Delta t = 0.1</m>, <m>y(1) \approx 0.0290</m> and for <m>\Delta t = 0.05</m>, <m>y(1) \approx 0.0351</m>, and therefore we consider the system
+                                            			  <md>
+                                            			    <mrow>y(0.3) - 0.0290 &amp;= 0.1K</mrow>
+                                            			    <mrow>y(0.3) - 0.0351 &amp;= 0.05K</mrow>
+                                            			  </md>.
+                                            			  Solving the system, it follows that <m>K = (-0.0290 + 0.0351)/0.05 = 0.122</m> and <m>y(0.3) = 0.1(0.122) + 0.0290 = 0.0412</m>, which is much closer to the actual value of <m>y(0.3) = 0.0408</m>.
+                                            			</p>
+                                            		</solution>
+                                            	</task>
                                             </exercise>
 
-                                            <exercise permid="HtV">
-                                              <title> Accelerated convergence </title>
+                                            <exercise>
+                                            	<title> The Improved Euler's Method </title>
+                                            	<introduction>
+                                            		<p>
+                                            		  In this problem, we'll modify Euler's method to obtain better approximations to solutions of initial value problems.
+                                            		  This method is called the <em>Improved Euler's method.</em>
+                                            		</p>
+                                            		<p>
+                                            		  In Euler's method, we walk across an interval of width <m>\Delta t</m> using the slope obtained from the differential equation at the left endpoint of the interval.
+                                            		  Of course, the slope of the solution will most likely change over this interval.
+                                            		  We can improve our approximation by trying to incorporate the change in the slope over the interval.
+                                            		</p>
+                                            		<p>
+                                            		  Let's again consider the initial value problem <m>dy/dt = y</m> and <m>y(0) = 1</m>, which we will approximate using steps of width <m>\Delta t = 0.2</m>.
+                                            		  Our first interval is therefore <m>0\leq t \leq 0.2</m>.
+                                            		  At <m>t=0</m>, the differential equation tells us that the slope is 1, and the approximation we obtain from Euler's method is that <m>y(0.2)\approx y_1= 1+ 1(0.2)= 1.2</m>.
+                                            		</p>
+                                            		<p>
+                                            		  This gives us some idea for how the slope has changed over the interval <m>0\leq t\leq 0.2</m>.
+                                            		  We know the slope at <m>t=0</m> is 1, while the slope at <m>t=0.2</m> is 1.2, trusting in the Euler's method approximation.
+                                            		  We will therefore refine our estimate of the initial slope to be the average of these two slopes; that is, we will estimate the slope to be <m>(1+1.2)/2 = 1.1</m>.
+                                            		  This gives the new approximation <m>y(1) = y_1 = 1 + 1.1(0.2) = 1.22</m>.
+                                            		</p>
+                                            		<p>
+                                            		  The first few steps look like what is found in <xref ref="T-7-3-ez-3">Table</xref>.
+                                            		</p>
+                                            		<table xml:id="T-7-3-ez-3">
+                                            		  <title>The first several steps of the improved Euler's method</title>
 
-                                              <statement>
-                                                <p permid="nPz">
-                                                  We have seen that the error in approximating the solution to an initial value problem is proportional to <m>\Delta t</m>.
-                                                  That is, if <m>E_{\Delta t}</m> is the Euler's method approximation to the solution to an initial value problem at <m>\overline{t}</m>, then
-                                                  <me permid="VLV">
-                                                    y(\overline{t})-E_{\Delta t} \approx K\Delta t
-                                                  </me>
-                                                  for some constant of proportionality <m>K</m>.
-                                                </p>
+                                            		  <tabular top="minor">
+                                            		    <row bottom="minor">
+                                            		      <cell><m>t_i</m></cell>
+                                            		      <cell><m>y_i</m></cell>
+                                            		      <cell>Slope at <m>(t_{i+1},y_{i+1})</m></cell>
+                                            		      <cell>Average slope</cell>
+                                            		    </row>
 
-                                                <p permid="TWI">
-                                                  In this problem, we will see how to use this fact to improve our estimates, using an idea called <em>accelerated convergence</em>.
-                                                  <ol marker="a." permid="VxA">
-                                                    <li permid="vPx">
-                                                      <p permid="Qsi">
-                                                        We will create a new approximation by assuming the error is <em>exactly</em> proportional to <m>\Delta t</m>, according to the formula
-                                                        <me permid="BTe">
-                                                          y(\overline{t})-E_{\Delta t} =K\Delta t
-                                                        </me>.
-                                                        Using our earlier results from the initial value problem <m>dy/dt = y</m> and <m>y(0)=1</m> with <m>\Delta t = 0.2</m> and <m>\Delta t = 0.1</m>, we have
-                                                        <md>
-                                                          <mrow>y(1) - 2.4883 =\mathstrut \amp  0.2K</mrow>
-                                                          <mrow>y(1) - 2.5937 =\mathstrut \amp  0.1K</mrow>
-                                                        </md>.
-                                                        This is a system of two linear equations in the unknowns <m>y(1)</m> and <m>K</m>.
-                                                        Solve this system to find a new approximation for <m>y(1)</m>.
-                                                        (You may remember that the exact value is <m>y(1) = e = 2.71828\ldots</m>.)
-                                                      </p>
-                                                    </li>
+                                            		    <row>
+                                            		      <cell><m>0.0</m></cell>
+                                            		      <cell><m>1.0000</m></cell>
+                                            		      <cell><m>1.2000</m></cell>
+                                            		      <cell><m>1.1000</m></cell>
+                                            		    </row>
 
-                                                    <li permid="bWG">
-                                                      <p permid="wzr">
-                                                        Use the other data, <m>E_{0.05} = 2.6533</m> and <m>E_{0.025} = 2.6851</m> to do similar work as in (a) to obtain another approximation.
-                                                        Which gives the better approximation? Why do you think this is?
-                                                      </p>
-                                                    </li>
+                                            		    <row>
+                                            		      <cell><m>0.2</m></cell>
+                                            		      <cell><m>1.2200</m></cell>
+                                            		      <cell><m>1.4640</m></cell>
+                                            		      <cell><m>1.3420</m></cell>
+                                            		    </row>
 
-                                                    <li permid="IdP">
-                                                      <p permid="cGA">
-                                                        Let's now study the initial value problem
-                                                        <me permid="Ohw">
-                                                          \frac{dy}{dt} = t-y, \ y(0) = 0
-                                                        </me>.
-                                                        Approximate <m>y(0.3)</m> by applying Euler's method to find approximations <m>E_{0.1}</m> and <m>E_{0.05}</m>.
-                                                        Now use the idea of accelerated convergence to obtain a better approximation.
-                                                        (For the sake of comparison, you want to  note that the actual value is <m>y(0.3) = 0.0408</m>.)
-                                                      </p>
-                                                    </li>
-                                                  </ol>
-                                                </p>
-                                              </statement>
+                                            		    <row>
+                                            		      <cell><m>0.4</m></cell>
+                                            		      <cell><m>1.4884</m></cell>
+                                            		      <cell><m>1.7861</m></cell>
+                                            		      <cell><m>1.6372</m></cell>
+                                            		    </row>
 
-                                              <answer permid="MdO">
-                                                <p permid="vtY">
-                                                  <ol marker="a." permid="dbZ">
-                                                    <li permid="okY">
-                                                      <p permid="INJ">
-                                                        <m>K = 1.054</m>; <m>y(1) = 2.6991</m>.
-                                                      </p>
-                                                    </li>
+                                            		    <row bottom="minor">
+                                            		      <cell><m>\vdots</m></cell>
+                                            		      <cell><m>\vdots</m></cell>
+                                            		      <cell><m>\vdots</m></cell>
+                                            		      <cell><m>\vdots</m></cell>
+                                            		    </row>
+                                            		  </tabular>
+                                            		</table>
+                                            	</introduction>
 
-                                                    <li permid="Ush">
-                                                      <p permid="oUS">
-                                                        <m>K = 1.272</m>; <m>y(1) = 2.7169</m>.
-                                                      </p>
-                                                    </li>
+                                            	<task>
+                                            		<statement>
+                                            			<p>
+                                            			  Continue with this method to obtain an approximation for <m>y(1) = e</m>.
+                                            			</p>
+                                            		</statement>
+                                            		<answer>
+                                            			<p>
+                                            			  <m>y(1) \approx y_5 = 2.7027</m>.
+                                            			</p>
+                                            		</answer>
+                                            		<solution>
+                                            			<p>
+                                            			  Continuing with this method, we find <m>y(0.6) \approx y_3 = 1.8156</m>, <m>y(0.8) \approx y_4 = 2.2153</m>, and <m>y(1) \approx y_5 = 2.7027</m>, which is an approximation for <m>y(1) = e</m>.
+                                            			</p>
+                                            		</solution>
+                                            	</task>
 
-                                                    <li permid="Azq">
-                                                      <p permid="Vcb">
-                                                        <m>K = 0.122</m> and <m>y(0.3) = 0.0412</m>.
-                                                      </p>
-                                                    </li>
-                                                  </ol>
-                                                </p>
-                                              </answer>
+                                            	<task>
+                                            		<statement>
+                                            			<p>
+                                            			  Repeat this method with <m>\Delta t = 0.1</m> to obtain a better approximation for <m>y(1)</m>.
+                                            			</p>
+                                            		</statement>
+                                            		<answer>
+                                            			<p>
+                                            			  <m>y(1) \approx y_{10} = 2.7141</m>.
+                                            			</p>
+                                            		</answer>
+                                            		<solution>
+                                            			<p>
+                                            			  Updating this method with <m>\Delta t = 0.1</m>, we find <m>y(0.1) \approx y_1 = 1.105</m>, <m>y(0.2) \approx y_2 = 1.221</m>, <m>\ldots</m>, <m>y(1) \approx y_{10} = 2.7141</m>, which is an even better approximation for <m>y(1) = e</m>.
+                                            			</p>
+                                            		</solution>
+                                            	</task>
 
-                                              <solution permid="fWF">
-                                                <p permid="CYx">
-                                                  <ol marker="a." permid="kGy">
-                                                    <li permid="gGz">
-                                                      <p permid="Bjk">
-                                                        To solve the linear system
-                                                        <md>
-                                                          <mrow>y(1) - 2.4883 =\mathstrut \amp  0.2K</mrow>
-                                                          <mrow>y(1) - 2.5937 =\mathstrut \amp  0.1K</mrow>
-                                                        </md>
-                                                        we subtract the second equation from the first to eliminate <m>y(1)</m>.
-                                                        Doing so, we find that
-                                                        <me permid="uoF">
-                                                          -2.4883 - (-2.5937) = 0.2K - 0.1K
-                                                        </me>
-                                                        so that
-                                                        <me permid="avO">
-                                                          0.1054 = 0.1K
-                                                        </me>
-                                                        and thus <m>K = 1.054</m>.
-                                                        Substituting this value into the first equation in the system, it follows that
-                                                        <me permid="GCX">
-                                                          y(1) - 2.4883 = 0.2(1.054)
-                                                        </me>
-                                                        so <m>y(1) = 0.2(1.054) + 2.4883 = 2.6991</m>.
-                                                      </p>
-                                                    </li>
-
-                                                    <li permid="MNI">
-                                                      <p permid="hqt">
-                                                        Recalling that <m>E_{0.05} = 2.6533</m> and <m>E_{0.025} = 2.6851</m>, it follows that this data generates the similar linear system given by
-                                                        <md>
-                                                          <mrow>y(1) - 2.6533 =\mathstrut \amp  0.05K</mrow>
-                                                          <mrow>y(1) - 2.6851 =\mathstrut \amp  0.025K</mrow>
-                                                        </md>.
-                                                        Solving this system yields <m>K = 1.272</m> and <m>y(1) = 2.7169</m>.
-                                                        Knowing that the true value of <m>y(1)</m> is <m>e = 2.71828\ldots</m>, we see that the approximation here in (b) is much better.
-                                                        That is expected because we are already working with better approximations that come from using <m>\Delta t = 0.05</m> and <m>\Delta t = 0.025</m>, which have been twice halved from the smaller <m>\Delta t</m> value in (a).
-                                                      </p>
-                                                    </li>
-
-                                                    <li permid="sUR">
-                                                      <p permid="NxC">
-                                                        To compute <m>E_{0.1}</m> and <m>E_{0.05}</m>, we first compute the estimates to <m>y(0.3)</m> using <m>\Delta t = 0.1</m> and <m>\Delta t = 0.5</m>.
-                                                        Doing so and making similar assumptions about the error as we did in (a) and (b), we find that for <m>\Delta t = 0.1</m>, <m>y(1) \approx 0.0290</m> and for <m>\Delta t = 0.05</m>, <m>y(1) \approx 0.0351</m>, and therefore we consider the system
-                                                        <md>
-                                                          <mrow>y(0.3) - 0.0290 &amp;= 0.1K</mrow>
-                                                          <mrow>y(0.3) - 0.0351 &amp;= 0.05K</mrow>
-                                                        </md>.
-                                                        Solving the system, it follows that <m>K = (-0.0290 + 0.0351)/0.05 = 0.122</m> and <m>y(0.3) = 0.1(0.122) + 0.0290 = 0.0412</m>, which is much closer to the actual value of <m>y(0.3) = 0.0408</m>.
-                                                      </p>
-                                                    </li>
-                                                  </ol>
-                                                </p>
-                                              </solution>
-                                            </exercise>
-
-                                            <exercise permid="nBe">
-                                              <title> The Improved Euler's Method </title>
-
-                                              <statement>
-                                                <p permid="AdR">
-                                                  In this problem, we'll modify Euler's method to obtain better approximations to solutions of initial value problems.
-                                                  This method is called the <em>Improved Euler's method.</em>
-                                                </p>
-
-                                                <p permid="gla">
-                                                  In Euler's method, we walk across an interval of width <m>\Delta t</m> using the slope obtained from the differential equation at the left endpoint of the interval.
-                                                  Of course, the slope of the solution will most likely change over this interval.
-                                                  We can improve our approximation by trying to incorporate the change in the slope over the interval.
-                                                </p>
-
-                                                <p permid="Msj">
-                                                  Let's again consider the initial value problem <m>dy/dt = y</m> and <m>y(0) = 1</m>, which we will approximate using steps of width <m>\Delta t = 0.2</m>.
-                                                  Our first interval is therefore <m>0\leq t \leq 0.2</m>.
-                                                  At <m>t=0</m>, the differential equation tells us that the slope is 1, and the approximation we obtain from Euler's method is that <m>y(0.2)\approx y_1= 1+ 1(0.2)= 1.2</m>.
-                                                </p>
-
-                                                <p permid="szs">
-                                                  This gives us some idea for how the slope has changed over the interval <m>0\leq t\leq 0.2</m>.
-                                                  We know the slope at <m>t=0</m> is 1, while the slope at <m>t=0.2</m> is 1.2, trusting in the Euler's method approximation.
-                                                  We will therefore refine our estimate of the initial slope to be the average of these two slopes; that is, we will estimate the slope to be <m>(1+1.2)/2 = 1.1</m>.
-                                                  This gives the new approximation <m>y(1) = y_1 = 1 + 1.1(0.2) = 1.22</m>.
-                                                </p>
-
-                                                <p permid="YGB">
-                                                  The first few steps look like what is found in <xref ref="T-7-3-ez-3">Table</xref>.
-                                                </p>
-
-                                                <table xml:id="T-7-3-ez-3" permid="jPA">
-                                                  <title>The first several steps of the improved Euler's method</title>
-
-                                                  <tabular top="minor" permid="PWJ">
-                                                    <row bottom="minor">
-                                                      <cell><m>t_i</m></cell>
-                                                      <cell><m>y_i</m></cell>
-                                                      <cell>Slope at <m>(t_{i+1},y_{i+1})</m></cell>
-                                                      <cell>Average slope</cell>
-                                                    </row>
-
-                                                    <row>
-                                                      <cell><m>0.0</m></cell>
-                                                      <cell><m>1.0000</m></cell>
-                                                      <cell><m>1.2000</m></cell>
-                                                      <cell><m>1.1000</m></cell>
-                                                    </row>
-
-                                                    <row>
-                                                      <cell><m>0.2</m></cell>
-                                                      <cell><m>1.2200</m></cell>
-                                                      <cell><m>1.4640</m></cell>
-                                                      <cell><m>1.3420</m></cell>
-                                                    </row>
-
-                                                    <row>
-                                                      <cell><m>0.4</m></cell>
-                                                      <cell><m>1.4884</m></cell>
-                                                      <cell><m>1.7861</m></cell>
-                                                      <cell><m>1.6372</m></cell>
-                                                    </row>
-
-                                                    <row bottom="minor">
-                                                      <cell><m>\vdots</m></cell>
-                                                      <cell><m>\vdots</m></cell>
-                                                      <cell><m>\vdots</m></cell>
-                                                      <cell><m>\vdots</m></cell>
-                                                    </row>
-                                                  </tabular>
-                                                </table>
-
-                                                <p permid="ENK">
-                                                  <ol marker="a." permid="BEJ">
-                                                    <li permid="Zca">
-                                                      <p permid="tEL">
-                                                        Continue with this method to obtain an approximation for <m>y(1) = e</m>.
-                                                      </p>
-                                                    </li>
-
-                                                    <li permid="Fjj">
-                                                      <p permid="ZLU">
-                                                        Repeat this method with <m>\Delta t = 0.1</m> to obtain a better approximation for <m>y(1)</m>.
-                                                      </p>
-                                                    </li>
-
-                                                    <li permid="lqs">
-                                                      <p permid="FTd">
-                                                        We saw that the error in Euler's method is proportional to <m>\Delta t</m>.
-                                                        Using your results from parts (a) and (b), what power of <m>\Delta t</m> appears to be proportional to the error in the Improved Euler's Method?
-                                                      </p>
-                                                    </li>
-                                                  </ol>
-                                                </p>
-                                              </statement>
-
-                                              <answer permid="Ysg">
-                                                <p permid="bBh">
-                                                  <ol marker="a." permid="Jji">
-                                                    <li permid="RxB">
-                                                      <p permid="mam">
-                                                        <m>y(1) \approx y_5 = 2.7027</m>.
-                                                      </p>
-                                                    </li>
-
-                                                    <li permid="xEK">
-                                                      <p permid="Shv">
-                                                        <m>y(1) \approx y_{10} = 2.7141</m>.
-                                                      </p>
-                                                    </li>
-
-                                                    <li permid="dLT">
-                                                      <p permid="yoE">
-                                                        The square of <m>\Delta t</m>.
-                                                      </p>
-                                                    </li>
-                                                  </ol>
-                                                </p>
-                                              </answer>
-
-                                              <solution permid="skX">
-                                                <p permid="jfG">
-                                                  <ol marker="a." permid="QNH">
-                                                    <li permid="JTc">
-                                                      <p permid="evN">
-                                                        Continuing with this method, we find <m>y(0.6) \approx y_3 = 1.8156</m>, <m>y(0.8) \approx y_4 = 2.2153</m>, and <m>y(1) \approx y_5 = 2.7027</m>, which is an approximation for <m>y(1) = e</m>.
-                                                      </p>
-                                                    </li>
-
-                                                    <li permid="qal">
-                                                      <p permid="KCW">
-                                                        Updating this method with <m>\Delta t = 0.1</m>, we find <m>y(0.1) \approx y_1 = 1.105</m>, <m>y(0.2) \approx y_2 = 1.221</m>, <m>\ldots</m>, <m>y(1) \approx y_{10} = 2.7141</m>, which is an even better approximation for <m>y(1) = e</m>.
-                                                      </p>
-                                                    </li>
-
-                                                    <li permid="Whu">
-                                                      <p permid="qKf">
-                                                        We have halved the value of <m>\Delta t</m> in these two approximations of <m>y(1)</m> in the Improved Euler Method.
-                                                        Using the notation <m>I_{0.2} = 2.7027</m> and <m>I_{0.1} = 2.7141</m> for the estimates generated by the method with the respective <m>t</m>-values, we see that the following occurs with the error (using the known value of <m>y(1) = e</m>:
-                                                        <md>
-                                                          <mrow>y(1) - I_{0.2} = 2.7183 - 2.7027 = 0.0156</mrow>
-                                                          <mrow>y(1) - I_{0.1} = 2.7183 - 2.7141 = 0.0042</mrow>
-                                                        </md>
-                                                        Computing <m>I_{0.05}</m>, we find <m>I_{0.05} = 2.7172</m>, and thus <m>y(1) - I_{0.05} = 0.0011</m>.
-                                                        Experimenting with powers of <m>\Delta t</m>, it appears that these errors are each approximately <m>0.4 \Delta t^2</m>, and thus the error in the Improved Euler Method seems to be proportional to the square of <m>\Delta t</m>.
-                                                      </p>
-                                                    </li>
-                                                  </ol>
-                                                </p>
-                                              </solution>
+                                            	<task>
+                                            		<statement>
+                                            			<p>
+                                            			  We saw that the error in Euler's method is proportional to <m>\Delta t</m>.
+                                            			  Using your results from parts (a) and (b), what power of <m>\Delta t</m> appears to be proportional to the error in the Improved Euler's Method?
+                                            			</p>
+                                            		</statement>
+                                            		<answer>
+                                            			<p>
+                                            			  The square of <m>\Delta t</m>.
+                                            			</p>
+                                            		</answer>
+                                            		<solution>
+                                            			<p>
+                                            			  We have halved the value of <m>\Delta t</m> in these two approximations of <m>y(1)</m> in the Improved Euler Method.
+                                            			  Using the notation <m>I_{0.2} = 2.7027</m> and <m>I_{0.1} = 2.7141</m> for the estimates generated by the method with the respective <m>t</m>-values, we see that the following occurs with the error (using the known value of <m>y(1) = e</m>:
+                                            			  <md>
+                                            			    <mrow>y(1) - I_{0.2} = 2.7183 - 2.7027 = 0.0156</mrow>
+                                            			    <mrow>y(1) - I_{0.1} = 2.7183 - 2.7141 = 0.0042</mrow>
+                                            			  </md>
+                                            			  Computing <m>I_{0.05}</m>, we find <m>I_{0.05} = 2.7172</m>, and thus <m>y(1) - I_{0.05} = 0.0011</m>.
+                                            			  Experimenting with powers of <m>\Delta t</m>, it appears that these errors are each approximately <m>0.4 \Delta t^2</m>, and thus the error in the Improved Euler Method seems to be proportional to the square of <m>\Delta t</m>.
+                                            			</p>
+                                            		</solution>
+                                            	</task>
                                             </exercise>
                                             </exercises>
                                           </section>

@@ -60,17 +60,13 @@
 
     <!-- Override default frontmatter pages: -->
 
-    <!-- Remove "half-title" leading page with -->
-    <!-- title only, at about 1:2 split    -->
-    <xsl:template match="book" mode="half-title">
-        <xsl:text>%% no half-title&#xa;</xsl:text>
-    </xsl:template>
-
-    <!-- Remove Ad card (may contain list of other books        -->
-    <!-- Or may be overridden to make title page spread -->
-    <!-- Obverse of half-title                          -->
-    <xsl:template match="book" mode="ad-card">
-        <xsl:text>%% No adcard&#xa;</xsl:text>
+    <!-- Remove the "half-title" leading page (title only, at about -->
+    <!-- a 1:2 split) and the ad card on its obverse.  Core renamed  -->
+    <!-- this template from "half-title" to "half-title-ad-card"     -->
+    <!-- and now produces both pages from it, so this one override   -->
+    <!-- drops both.  (An "ad-card" override is no longer needed.)   -->
+    <xsl:template match="book" mode="half-title-ad-card">
+        <xsl:text>%% no half-title, no adcard&#xa;</xsl:text>
     </xsl:template>
 
 
