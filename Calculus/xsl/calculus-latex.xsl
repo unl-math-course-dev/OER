@@ -274,6 +274,27 @@
     <!-- raise for those images.                                         -->
     <xsl:template match="image[parent::statement or parent::exercise][ancestor::exercises or ancestor::worksheet or ancestor::reading-questions]" mode="vertical-adjustment" priority="10"/>
 
+    <!-- %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% -->
+    <!--  Static WeBWorK: GIF images from the server              -->
+    <!-- %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% -->
+
+    <!-- A few WeBWorK problems serve their graphs as GIFs, which core   -->
+    <!-- saves as generated-assets/webwork/images/*.gif and LaTeX cannot -->
+    <!-- include, so the PDF build stopped.  Use a PNG with the same     -->
+    <!-- name when there is one; otherwise print a short note instead of -->
+    <!-- failing.  To get the graphs, after generating WeBWorK run (from -->
+    <!-- the book folder):                                               -->
+    <!--   for f in generated-assets/webwork/images/*.gif; do            -->
+    <!--     magick "${f}[0]" "${f%.gif}.png"; done                      -->
+    <xsl:template match="image[@pi:generated][substring(@pi:generated, string-length(@pi:generated) - 3) = '.gif']" mode="image-inclusion" priority="10">
+        <xsl:variable name="png" select="concat($generated-directory, substring(@pi:generated, 1, string-length(@pi:generated) - 4), '.png')"/>
+        <xsl:text>\IfFileExists{</xsl:text>
+        <xsl:value-of select="$png"/>
+        <xsl:text>}{\makebox[\linewidth]{\includegraphics[width=\linewidth,height=0.55\textheight,keepaspectratio]{</xsl:text>
+        <xsl:value-of select="$png"/>
+        <xsl:text>}}}{\fbox{\parbox{\dimexpr\linewidth-2\fboxsep-2\fboxrule}{\centering\small (Image: see the online version of this exercise.)}}}&#xa;</xsl:text>
+    </xsl:template>
+
     <!-- Override default frontmatter pages: -->
 
     <!-- Remove the "half-title" leading page (title only, at about -->
