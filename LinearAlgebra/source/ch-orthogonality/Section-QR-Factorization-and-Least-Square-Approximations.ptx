@@ -34,26 +34,26 @@ with good control over round-off error, making it particularly useful in
 
 
 Suppose 
-<me>
+<md>
 A = \left[ \begin{array}{cccc}
 |\amp |\amp  \amp | \\
 \mathbf{c}_{1} \amp  \mathbf{c}_{2} \amp  \cdots \amp   \mathbf{c}_{n}\\
 |\amp |\amp  \amp |
 \end{array}\right]
-</me>
+</md>
 
 is an <m>m \times n</m> matrix with linearly independent columns <m>\mathbf{c}_{1}, \mathbf{c}_{2}, \dots, \mathbf{c}_{n}</m>. The Gram-Schmidt algorithm can be applied to these columns to provide orthogonal columns <m>\mathbf{f}_{1}, \mathbf{f}_{2}, \dots, \mathbf{f}_{n}</m> where <m>\mathbf{f}_{1} = \mathbf{c}_{1}</m> and
-<me>
+<md>
 \mathbf{f}_{k} = \mathbf{c}_{k} - \frac{\mathbf{c}_{k} \cdot \mathbf{f}_{1}}{\norm{ \mathbf{f}_{1} }^2}\mathbf{f}_{1} + \frac{\mathbf{c}_{k} \cdot \mathbf{f}_{2}}{\norm{ \mathbf{f}_{2} }^2}\mathbf{f}_{2} - \dots - \frac{\mathbf{c}_{k} \cdot \mathbf{f}_{k-1}}{\norm{ \mathbf{f}_{k-1} }^2}\mathbf{f}_{k-1}
-</me>
+</md>
 
 for each <m>k = 2, 3, \dots, n</m>. Now write <m>\mathbf{q}_{k} = \frac{1}{\norm{ \mathbf{f}_{k} }}\mathbf{f}_{k}</m> for each <m>k</m>. Then <m>\mathbf{q}_{1}, \mathbf{q}_{2}, \dots, \mathbf{q}_{n}</m> are orthonormal columns, and the above equation becomes
-<me>
+<md>
 \norm{ \mathbf{f}_{k} } \mathbf{q}_{k} = \mathbf{c}_{k} - (\mathbf{c}_{k} \cdot \mathbf{q}_{1})\mathbf{q}_{1} - (\mathbf{c}_{k} \cdot \mathbf{q}_{2})\mathbf{q}_{2} - \dots - (\mathbf{c}_{k} \cdot \mathbf{q}_{k-1})\mathbf{q}_{k-1}.
-</me>
+</md>
 
 Using these equations, express each <m>\mathbf{c}_{k}</m> as a linear combination of the <m>\mathbf{q}_{i}</m>:
-<me>
+<md>
 \begin{array}{ccl}
 \mathbf{c}_{1} \amp =\amp  \norm{ \mathbf{f}_{1} } \mathbf{q}_{1} \\
 \mathbf{c}_{2} \amp =\amp  (\mathbf{c}_{2} \cdot \mathbf{q}_{1})\mathbf{q}_{1} + \norm{ \mathbf{f}_{2} } \mathbf{q}_{2} \\
@@ -61,9 +61,9 @@ Using these equations, express each <m>\mathbf{c}_{k}</m> as a linear combinatio
 \vdots \amp \amp  \vdots \\
 \mathbf{c}_{n} \amp =\amp  (\mathbf{c}_{n} \cdot \mathbf{q}_{1})\mathbf{q}_{1} + (\mathbf{c}_{n} \cdot \mathbf{q}_{2})\mathbf{q}_{2} + (\mathbf{c}_{n} \cdot \mathbf{q}_{3})\mathbf{q}_{3} + \dots + \norm{ \mathbf{f}_{n} } \mathbf{q}_{n}
 \end{array}
-</me>
+</md>
 These equations have a matrix form that gives the required factorization:
-<mdn>
+<md number="yes">
 <mrow  xml:id="matrixFactEq"> A \amp  = \left[ \begin{array}{ccccc}
 |\amp |\amp |\amp  \amp | \\
 \mathbf{c}_{1} \amp  \mathbf{c}_{2} \amp  \mathbf{c}_{3} \amp \cdots \amp   \mathbf{c}_{n}\\
@@ -80,16 +80,16 @@ These equations have a matrix form that gives the required factorization:
 \vdots \amp  \vdots \amp  \vdots \amp  \ddots \amp  \vdots \\
 0 \amp  0 \amp  0 \amp  \cdots \amp  \norm{ \mathbf{f}_{n} }
 \end{array} \right]. </mrow>
-</mdn>
+</md>
 
 <xref ref="matrixFactEq"/> Here the first factor 
-<me>
+<md>
 Q = \left[ \begin{array}{ccccc}
 |\amp |\amp |\amp  \amp | \\
 \mathbf{q}_{1} \amp  \mathbf{q}_{2} \amp  \mathbf{q}_{3} \amp  \cdots \amp   \mathbf{q}_{n}\\
 |\amp |\amp |\amp  \amp |
 \end{array}\right]
-</me>
+</md>
 
 has orthonormal columns, and the second factor is an <m>n \times n</m> upper triangular matrix <m>R</m> with positive diagonal entries (and so is invertible). We record this in the following theorem.
 </p>
@@ -112,18 +112,18 @@ The matrices <m>Q</m> and <m>R</m> in <xref ref="th-QR-025133"/> are uniquely de
 <example xml:id="ex-QR4x3-025139">
     <statement>
         <p>
-            Find the QR-factorization of <me>A = \left[ \begin{array}{rrr}
+            Find the QR-factorization of <md>A = \left[ \begin{array}{rrr}
 1 \amp  1 \amp  0 \\
 -1 \amp  0 \amp  1 \\
 0 \amp  1 \amp  1 \\
 0 \amp  0 \amp  1
-\end{array}\right]</me>.
+\end{array}\right]</md>.
        </p>
     </statement>
     <answer>
         <p>
             Denote the columns of <m>A</m> as <m>\mathbf{c}_{1}</m>, <m>\mathbf{c}_{2}</m>, and <m>\mathbf{c}_{3}</m>, and observe that <m>\{\mathbf{c}_{1}, \mathbf{c}_{2}, \mathbf{c}_{3}\}</m> is independent. If we apply the Gram-Schmidt algorithm to these columns, the result is:
-<me>
+<md>
 \mathbf{f}_{1} = \mathbf{c}_{1} = \left[ \begin{array}{r}
 1  \\
 -1  \\
@@ -135,15 +135,15 @@ The matrices <m>Q</m> and <m>R</m> in <xref ref="th-QR-025133"/> are uniquely de
 1  \\
 0
 \end{array}\right], \mbox{ and }
-</me>
+</md>
 
-<me> \mathbf{f}_{3} = \mathbf{c}_{3} + \frac{1}{2}\mathbf{f}_{1} - \mathbf{f}_{2} = \left[ \begin{array}{r}
+<md> \mathbf{f}_{3} = \mathbf{c}_{3} + \frac{1}{2}\mathbf{f}_{1} - \mathbf{f}_{2} = \left[ \begin{array}{r}
 0  \\
 0  \\
 0  \\
 1
 \end{array}\right].
-</me>
+</md>
 Write <m>\mathbf{q}_{j} = \frac{1}{\norm{ \mathbf{f}_{j} }^2}\mathbf{f}_{j}</m>
  for each <m>j</m>, so <m>\{\mathbf{q}_{1}, \mathbf{q}_{2}, \mathbf{q}_{3}\}</m> is orthonormal. Then <xref ref="matrixFactEq"/> preceding<xref ref="th-QR-025133"/> gives <m>A = QR</m> where
 <md>
@@ -226,7 +226,7 @@ We now take the time to prove the uniqueness of the QR-factorization.
 <proof>
     <p>
 Write 
-<me>Q = \left[ \begin{array}{cccc}
+<md>Q = \left[ \begin{array}{cccc}
 |\amp |\amp  \amp | \\
 \mathbf{c}_{1} \amp  \mathbf{c}_{2} \amp  \cdots \amp   \mathbf{c}_{n}\\
 |\amp |\amp  \amp |
@@ -234,10 +234,10 @@ Write
 |\amp |\amp  \amp | \\
 \mathbf{d}_{1} \amp  \mathbf{d}_{2} \amp  \cdots \amp   \mathbf{d}_{n}\\
 |\amp |\amp  \amp |
-\end{array}\right]</me> in terms of their columns, and observe first that <m>Q^TQ = I_{n} = Q_{1}^TQ_{1}</m> because <m>Q</m> and <m>Q_{1}</m> have orthonormal columns. Hence it suffices to show that <m>Q_{1} = Q</m> (then <m>R_{1} = Q_{1}^TA = Q^TA = R</m>). Since <m>Q_{1}^TQ_{1} = I_{n}</m>, the equation <m>QR = Q_{1}R_{1}</m> gives <m>Q_{1}^TQ = R_{1}R^{-1}</m>; for convenience we write this matrix as
-<me>
+\end{array}\right]</md> in terms of their columns, and observe first that <m>Q^TQ = I_{n} = Q_{1}^TQ_{1}</m> because <m>Q</m> and <m>Q_{1}</m> have orthonormal columns. Hence it suffices to show that <m>Q_{1} = Q</m> (then <m>R_{1} = Q_{1}^TA = Q^TA = R</m>). Since <m>Q_{1}^TQ_{1} = I_{n}</m>, the equation <m>QR = Q_{1}R_{1}</m> gives <m>Q_{1}^TQ = R_{1}R^{-1}</m>; for convenience we write this matrix as
+<md>
 Q_{1}^TQ = R_{1}R^{-1} = \left[ \begin{array}{c} t_{ij} \end{array}\right]
-</me>
+</md>
 This matrix is upper triangular with positive diagonal elements (since this is true for <m>R</m> and <m>R_{1}</m>), so <m>t_{ii} \gt  0</m> for each <m>i</m> and <m>t_{ij} = 0</m> if <m>i \gt  j</m>. 
 On the other hand, the <m>(i, j)</m>-entry of <m>Q_{1}^TQ</m> is <m>\mathbf{d}_{i}^T\mathbf{c}_{j} = \mathbf{d}_{i} \cdot \mathbf{c}_{j}</m>, 
 so we have <m>\mathbf{d}_{i} \cdot \mathbf{c}_{j} = t_{ij}</m> for all <m>i</m> and <m>j</m>. 
@@ -248,7 +248,7 @@ We know how to write a vector as a linear combination of an orthonormal basis:
 <mrow> \amp = t_{1j}\mathbf{d}_{1} + t_{2j}\mathbf{d}_{2} + \dots + t_{jj}\mathbf{d}_{i}, </mrow>
 </md>
 because <m>\mathbf{d}_{i} \cdot \mathbf{c}_{j} = t_{ij} = 0</m> if <m>i \gt  j</m>. The first few equations here are
-<me>
+<md>
 \begin{array}{ccl}
 \mathbf{c}_{1} \amp =\amp  t_{11}\mathbf{d}_{1} \\
 \mathbf{c}_{2} \amp =\amp  t_{12}\mathbf{d}_{1} + t_{22}\mathbf{d}_{2} \\
@@ -256,11 +256,11 @@ because <m>\mathbf{d}_{i} \cdot \mathbf{c}_{j} = t_{ij} = 0</m> if <m>i \gt  j</
 \mathbf{c}_{4} \amp =\amp  t_{14}\mathbf{d}_{1} + t_{24}\mathbf{d}_{2} + t_{34}\mathbf{d}_{3} + t_{44}\mathbf{d}_{4} \\
 \vdots \amp \amp  \vdots
 \end{array}
-</me>
+</md>
 The first of these equations gives 
-<me>
+<md>
 1 = \norm{ \mathbf{c}_{1} } = \norm{ t_{11}\mathbf{d}_{1} } = | t_{11} | \norm{ \mathbf{d}_{1} } = t_{11},
-</me>
+</md>
 
 whence <m>\mathbf{c}_{1} = \mathbf{d}_{1}</m>. But then we have <m>t_{12} = \mathbf{d}_{1} \cdot \mathbf{c}_{2} = \mathbf{c}_{1} \cdot \mathbf{c}_{2} = 0</m>, so the second equation becomes <m>\mathbf{c}_{2} = t_{22}\mathbf{d}_{2}</m>. Now a similar argument gives <m>\mathbf{c}_{2} = \mathbf{d}_{2}</m>, and then <m>t_{13} = 0</m> and <m>t_{23} = 0</m> follows in the same way. Hence <m>\mathbf{c}_{3} = t_{33}\mathbf{d}_{3}</m> and <m>\mathbf{c}_{3} = \mathbf{d}_{3}</m>. Continue in this way to get <m>\mathbf{c}_{i} = \mathbf{d}_{i}</m> for all <m>i</m>. This proves that <m>Q_{1} = Q</m>.
     </p>
@@ -308,11 +308,11 @@ The example below goes through the whole QR business for a <m> 2\times 2</m>-mat
 <example xml:id="QR-algortihm-2x2-025425">
     <statement>
         <p>
-            If <me>
+            If <md>
                 A = \left[ \begin{array}{rr}
 1 \amp  1 \\
 2 \amp  0
-\end{array}\right],</me> 
+\end{array}\right],</md> 
 
 use the QR-algorithm to approximate the eigenvalues.
        </p>
@@ -320,15 +320,15 @@ use the QR-algorithm to approximate the eigenvalues.
     <answer>
         <p>
             The matrices <m>A_{1}</m>, <m>A_{2}</m>, and <m>A_{3}</m> are as follows:
-<me>
+<md>
  A_{1} =  \left[ \begin{array}{rr}
 1 \amp  1 \\
 2 \amp  0
 \end{array}\right] = Q_{1}R_{1}
-</me>
+</md>
 
 where
-<me> 
+<md> 
 Q_{1} = \frac{1}{\sqrt{5}}\left[ \begin{array}{rr}
 1 \amp  2 \\
 2 \amp  -1
@@ -336,21 +336,21 @@ Q_{1} = \frac{1}{\sqrt{5}}\left[ \begin{array}{rr}
 5 \amp  1 \\
 0 \amp  2
 \end{array}\right]
-</me> 
+</md> 
 
 In the same vein:
 
-<me> A_{2} =  \frac{1}{5}\left[ \begin{array}{rr}
+<md> A_{2} =  \frac{1}{5}\left[ \begin{array}{rr}
 7 \amp  9 \\
 4 \amp  -2
 \end{array}\right] = \left[ \begin{array}{rr}
 1.4 \amp  -1.8 \\
 -0.8 \amp  -0.4
 \end{array}\right]= Q_{2}R_{2}
-</me> 
+</md> 
 
 with
-<me>
+<md>
  \mbox{ where } Q_{2} = \frac{1}{\sqrt{65}}\left[ \begin{array}{rr}
 7 \amp  4 \\
 4 \amp  -7
@@ -358,22 +358,22 @@ with
 13 \amp  11 \\
 0 \amp  10
 \end{array}\right]
-</me>
+</md>
 
 And lastly, 
-<me> A_{3} = \frac{1}{13}\left[ \begin{array}{rr}
+<md> A_{3} = \frac{1}{13}\left[ \begin{array}{rr}
 27 \amp  -5 \\
 8 \amp  -14
 \end{array}\right] = \left[ \begin{array}{rr}
 2.08 \amp  -0.38 \\
 0.62 \amp  -1.08
 \end{array}\right].
-</me>
+</md>
 This is converging to 
-<me>\left[ \begin{array}{rr}
+<md>\left[ \begin{array}{rr}
 2 \amp  \ast \\
 0 \amp  -1
-\end{array}\right]</me> and so is approximating the eigenvalues <m>2</m> and <m>-1</m> on the main diagonal.
+\end{array}\right]</md> and so is approximating the eigenvalues <m>2</m> and <m>-1</m> on the main diagonal.
        </p>
     </answer>
 </example>
@@ -386,9 +386,9 @@ This is converging to
 
 <p>
 We here discuss shifting.  Convergence is accelerated if, at stage <m>k</m> of the algorithm, a number <m>\tau_{k}</m> is chosen and <m>A_{k} - \tau_{k}I</m> is factored in the form <m>Q_{k}R_{k}</m> rather than <m>A_{k}</m> itself. Then
-<me>
+<md>
 Q_{k}^{-1}A_{k}Q_{k} = Q_{k}^{-1}(Q_{k}R_{k} + \tau_{k}I)Q_{k} = R_{k}Q_{k} + \tau_{k}I
-</me>
+</md>
 so we take <m>A_{k+1} = R_{k}Q_{k} + \tau_{k}I</m>. If the shifts <m>\tau_{k}</m> are carefully chosen, convergence can be greatly improved.
 </subsubsection>
 
@@ -398,7 +398,7 @@ so we take <m>A_{k+1} = R_{k}Q_{k} + \tau_{k}I</m>. If the shifts <m>\tau_{k}</m
     <title>QR-Algorithm for approximating eigenvalues</title>
 
 \subsubsection*{Preliminary Preparation.} A matrix such as
-<me>
+<md>
 \left[ \begin{array}{rrrrr}
 \ast  \amp  \ast \amp  \ast \amp  \ast \amp  \ast  \\
 \ast  \amp  \ast \amp  \ast \amp  \ast \amp  \ast  \\
@@ -406,11 +406,11 @@ so we take <m>A_{k+1} = R_{k}Q_{k} + \tau_{k}I</m>. If the shifts <m>\tau_{k}</m
 0  \amp  0 \amp  \ast \amp  \ast \amp  \ast  \\
 0  \amp  0 \amp  0 \amp  \ast \amp  \ast  \\
 \end{array}\right]
-</me>
+</md>
 is said to be in <term>upper Hessenberg</term> form, and the QR-factorizations of such matrices are greatly simplified. Given an <m>n \times n</m> matrix <m>A</m>, a series of orthogonal matrices <m>H_{1}, H_{2}, \dots, H_{m}</m> (called <term>Householder matrices</term> can be easily constructed such that
-<me>
+<md>
 B = H_{m}^T \cdots H_{1}^TAH_{1} \cdots H_{m}
-</me>
+</md>
 is in upper Hessenberg form. Then the QR-algorithm can be efficiently applied to <m>B</m> and, because <m>B</m> is similar to <m>A</m>, it produces the eigenvalues of <m>A</m>.
 
 </subsubsection>
@@ -452,95 +452,93 @@ We conclude this section by showing that <m>QR</m>-factorization provides us wit
 
 
 <exploration xml:id="exp-leastSq1">
-    <p>
-        Let
-    
-<me>
-    A=\begin{bmatrix}3 \amp  1\\1 \amp  2\\1 \amp  2\end{bmatrix}\quad\text{and}\quad \mathbf{b}=\begin{bmatrix}2\\1\\3\end{bmatrix}
-</me>
+	<introduction>
+		<p>
+		        Let
 
-    Consider the matrix equation <m>A\mathbf{x}=\mathbf{b}</m>.
-    A quick examination of the last two rows should convince you that this equation has no solutions.  In other words, <m>\mathbf{b}</m> is not in the span of the columns of <m>A</m>.
+		<md>
+		    A=\begin{bmatrix}3 \amp  1\\1 \amp  2\\1 \amp  2\end{bmatrix}\quad\text{and}\quad \mathbf{b}=\begin{bmatrix}2\\1\\3\end{bmatrix}
+		</md>
 
-    If <m>\mathbf{z}</m> were an exact solution to <m>A\mathbf{x}=\mathbf{b}</m>, then <m>\mathbf{b}-A\mathbf{z}</m> would be <m>\mathbf{0}</m>.  
-</p> 
+		    Consider the matrix equation <m>A\mathbf{x}=\mathbf{b}</m>.
+		    A quick examination of the last two rows should convince you that this equation has no solutions.  In other words, <m>\mathbf{b}</m> is not in the span of the columns of <m>A</m>.
 
-<p>
-    Since the equation does not have a solution, we will attempt to find the next best thing to a solution by finding <m>\mathbf{z}</m> such that <m>\norm{\mathbf{b}-A\mathbf{z}}</m> is as small as possible.  The quantity 
-    <me>
-    \norm{\mathbf{b}-A\mathbf{z}}
-    </me>
-    
-    is called the <em>error</em>. The following GeoGebra interactive will help you understand the geometry behind finding <m>\mathbf{z}</m>.  
-    RIGHT-CLICK and DRAG to rotate the image for a better view.
-</p>
+		    If <m>\mathbf{z}</m> were an exact solution to <m>A\mathbf{x}=\mathbf{b}</m>, then <m>\mathbf{b}-A\mathbf{z}</m> would be <m>\mathbf{0}</m>.  
+		</p>
+		<p>
+		    Since the equation does not have a solution, we will attempt to find the next best thing to a solution by finding <m>\mathbf{z}</m> such that <m>\norm{\mathbf{b}-A\mathbf{z}}</m> is as small as possible.  The quantity 
+		    <md>
+		    \norm{\mathbf{b}-A\mathbf{z}}
+		    </md>
 
-<figure>
-  <caption>
-  </caption>
-  <interactive xml:id="geogebra-LeastSquares" platform="geogebra" width="150%" aspect="950:650">
-    <slate xml:id="LeastSquares" surface="geogebra" material="mm7wauhw" aspect="950:650" />
-  </interactive>
-</figure>
+		    is called the <em>error</em>. The following GeoGebra interactive will help you understand the geometry behind finding <m>\mathbf{z}</m>.  
+		    RIGHT-CLICK and DRAG to rotate the image for a better view.
+		</p>
+		<figure>
+		  <caption>
+		  </caption>
+		  <interactive xml:id="geogebra-LeastSquares" platform="geogebra" width="150%" aspect="950:650">
+		    <slate xml:id="LeastSquares" surface="geogebra" material="mm7wauhw" aspect="950:650"/>
+		  </interactive>
+		</figure>
+		<p>
+		 Record your best guess for <m>\mathbf{z}</m> -- you will have a chance to check your answer in <xref ref="ex-leastSquares1"/>. 
+		 Now, here is a few questions to keep you on yor toes.
+		</p>
+	</introduction>
 
-<p>
- Record your best guess for <m>\mathbf{z}</m> -- you will have a chance to check your answer in <xref ref="ex-leastSquares1"/>. 
- Now, here is a few questions to keep you on yor toes.
-</p>
+	<task>
+		<statement>
+			<p>
+			What did you discover about the geometry of minimizing <m>\norm{\mathbf{b}-A\mathbf{z}}</m>? 
+			Select all that apply.
 
-<problem>
-<statement>
-<p>
-What did you discover about the geometry of minimizing <m>\norm{\mathbf{b}-A\mathbf{z}}</m>? 
-Select all that apply.
+			<ol>
+			    <li>
+			        <p>
+			            <m>\mathbf{z}</m> is orthogonal to the plane spanned by the columns of <m>A</m>.
+			        </p>
+			    </li>
 
-<ol>
-    <li>
-        <p>
-            <m>\mathbf{z}</m> is orthogonal to the plane spanned by the columns of <m>A</m>.
-        </p>
-    </li>
-
-    <li>
-        <p>
-            <m>\norm{\mathbf{b-A\mathbf{z}}}</m> is orthogonal to <m>\text{col}(A)</m>.
-        </p>
-    </li>
-
-
-    <li>
-        <p>
-            <m>\mathbf{b-A\mathbf{z}}</m> is orthogonal to <m>\text{col}(A)</m>.
-        </p>
-    </li>
-
-    <li>
-        <p>
-            <m>A\mathbf{z}</m> is orthogonal to <m>\text{col}(A)</m>.
-        </p>
-    </li>
-
-    <li>
-        <p>
-            <m>A\mathbf{z}</m> is an orthogonal projection of <m>\mathbf{b}</m> onto <m>\text{col}(A)</m>.
-        </p>
-    </li>
-</ol>
-</p>
-</statement>
+			    <li>
+			        <p>
+			            <m>\norm{\mathbf{b-A\mathbf{z}}}</m> is orthogonal to <m>\text{col}(A)</m>.
+			        </p>
+			    </li>
 
 
+			    <li>
+			        <p>
+			            <m>\mathbf{b-A\mathbf{z}}</m> is orthogonal to <m>\text{col}(A)</m>.
+			        </p>
+			    </li>
 
-<answer>
-<p>
-    Option (c) and (d).
-</p>
-</answer>
-</problem>
+			    <li>
+			        <p>
+			            <m>A\mathbf{z}</m> is orthogonal to <m>\text{col}(A)</m>.
+			        </p>
+			    </li>
 
-<p>
-Our geometric observations will help us develop a method for finding <m>\mathbf{z}</m> .
-</p>
+			    <li>
+			        <p>
+			            <m>A\mathbf{z}</m> is an orthogonal projection of <m>\mathbf{b}</m> onto <m>\text{col}(A)</m>.
+			        </p>
+			    </li>
+			</ol>
+			</p>
+		</statement>
+		<answer>
+		<p>
+		    Option (c) and (d).
+		</p>
+		</answer>
+	</task>
+
+	<conclusion>
+		<p>
+		Our geometric observations will help us develop a method for finding <m>\mathbf{z}</m> .
+		</p>
+	</conclusion>
 </exploration>
 
 <p>
@@ -593,8 +591,8 @@ By <xref ref="cor-orthProjOntoW"/>, every vector <m>A\mathbf{x}</m> in <m>\text{
 
 <p>
 Therefore, we have
-<md xml:id="eq-normalForZ">
-<mrow number="yes"> A^T(\mathbf{b}-A\mathbf{z})\amp = \mathbf{0} </mrow> 
+<md>
+<mrow number="yes" xml:id="eq-normalForZ"> A^T(\mathbf{b}-A\mathbf{z})\amp = \mathbf{0} </mrow> 
 <mrow> A^T\mathbf{b}-A^TA\mathbf{z}\amp = \mathbf{0} </mrow> 
 <mrow> A^TA\mathbf{z}\amp = A^T\mathbf{b} </mrow>
 </md>
@@ -602,9 +600,9 @@ Therefore, we have
 Since <m>\mathbf{b}-A\mathbf{z}</m> is normal to the subspace <m>\text{col}(A)</m>, we call the system in (9.6.1) <!--<xref ref="eq-normalForZ"/>--> the <em>normal equations for</em> <m>\mathbf{z}</m>. 
 If <m>A^TA</m> is invertible, then we can write
 
-<men xml:id="eq-leastSquaresZ">
+<md number="yes" xml:id="eq-leastSquaresZ">
     \mathbf{z}=(A^TA)^{-1}A^T\mathbf{b}.
-</men>
+</md>
 
 We will return to the question of invertibility of <m>A^TA</m> in <xref ref="th-ATAinverse"/>.  
 For now, let's revisit the problem posed in <xref ref="exp-leastSq1"/>.
@@ -623,9 +621,9 @@ For now, let's revisit the problem posed in <xref ref="exp-leastSq1"/>.
 <answer>
 <p>
             Recall that 
-<me>
+<md>
     A=\begin{bmatrix}3 \amp  1\\1 \amp  2\\1 \amp  2\end{bmatrix}\quad\text{and}\quad \mathbf{b}=\begin{bmatrix}2\\1\\3\end{bmatrix}.
-</me>
+</md>
 
 In this case, <m>(A^TA)^{-1}</m> exists.  Applying <xref ref="eq-leastSquaresZ"/>, we compute
 <md>
@@ -682,17 +680,17 @@ We now come back to the question of when <m>A^TA</m> is invertible.
         <p>
             Let <m>A</m> be an <m>m\times n</m> matrix, let <m>\mathbf{b}</m> be a column vector in <m>\R^m</m>.  Consider the matrix equation
     
-<me>
+<md>
     A\mathbf{x}=\mathbf{b}.
-</me>
+</md>
 
     <ol>
         <li>
       <p> Any solution <m>\mathbf{z}</m> to the normal equations 
         
-<me> 
+<md> 
     \left(A^TA\right)\mathbf{z}=A^T\mathbf{b}
-</me>
+</md>
 
     is a best approximation to a solution to <m>A\mathbf{x}=\mathbf{b}</m> in the sense that <m>\norm{\mathbf{b}-A\mathbf{z}}</m> is minimized.
     </p>
@@ -702,9 +700,9 @@ We now come back to the question of when <m>A^TA</m> is invertible.
         <li>
       <p> If the columns of <m>A</m> are linearly independent, then <m>A^TA</m> is invertible and <m>\mathbf{z}</m> is given uniquely by 
         
-<me> 
+<md> 
     \mathbf{z}=\left(A^TA\right)^{-1}A^T\mathbf{b}.
-</me>
+</md>
     </p>
        </li>
     </ol>
@@ -713,48 +711,50 @@ We now come back to the question of when <m>A^TA</m> is invertible.
 </theorem>
 
 <example xml:id="ex-leastSq2">
+<statement>
 <p>
     The sytem of linear equations
         
-<me>
+<md>
     \begin{matrix}3x \amp  - \amp  y\amp =\amp 4\\x\amp +\amp 2y\amp =\amp 0\\2x\amp +\amp y\amp =\amp 1\end{matrix}
-</me>
+</md>
 
         has no solution.  Find the vector <m>\mathbf{z}</m> that best approximates a solution.
 </p> 
 
 
+</statement>
 <answer> 
 <p>         
             We have 
-<me>
+<md>
     A=\begin{bmatrix}3\amp -1\\1\amp 2\\2\amp 1\end{bmatrix},\quad\begin{bmatrix}4\\0\\1\end{bmatrix}.
-</me>
+</md>
  
             The normal equations are <m>\left(A^TA\right)\mathbf{z}=A^T\mathbf{b}</m>.  We compute
                        
-<me>
+<md>
     \begin{bmatrix}3\amp 1\amp 2\\-1\amp 2\amp 1\end{bmatrix}\begin{bmatrix}3\amp -1\\1\amp 2\\2\amp 1\end{bmatrix}\mathbf{z}=\begin{bmatrix}3\amp 1\amp 2\\-1\amp 2\amp 1\end{bmatrix}\begin{bmatrix}4\\0\\1\end{bmatrix},
-</me>
+</md>
 
                        
-<me>
+<md>
     \begin{bmatrix}14\amp 1\\1\amp 6\end{bmatrix}\mathbf{z}=\begin{bmatrix}14\\-3\end{bmatrix}.
-</me>
+</md>
  
             
             
             We observe that is <m>A^TA</m> is invertible. 
  Multiplying on the left by <m>(A^TA)^{-1}</m> yields 
-<me>
+<md>
     \mathbf{z}=\frac{1}{83}\begin{bmatrix}87\\-56\end{bmatrix}.
-</me>
+</md>
 
             With this vector <m>\mathbf{z}</m>, the left sides of the equations become
             
-<me>
+<md>
     \begin{matrix}3(87/83) \amp  - \amp  (-56/83)\amp \approx\amp 3.82\\(87/83)\amp +\amp 2(-56/83)\amp \approx\amp -0.30\\2(87/83)\amp +\amp (-56/83)\amp \approx\amp 1.42\end{matrix}.
-</me>
+</md>
 
             This is as close as possible to a solution.
        </p>
@@ -778,27 +778,27 @@ The data on the following page were collected on four players. Find the linear f
 
 
 
-<me>
+<md>
 \begin{array}{|c|c|c|} 
  \hline g\amp x_1\amp x_2\\ \hline 0.8\amp 5\amp 3\\  0.8\amp 3\amp 4\\
  0.6 \amp 1\amp 5\\
  0.4 \amp 2\amp 1\\
  \hline 
  \end{array}
-</me>
+</md>
        </p>
     </statement>
     <answer>
         <p>
             If the relationship is given by <m>g=a_0+a_1x_1+a_2x_2</m>, then the data can be described as follows:
     
-<me>
+<md>
     \begin{bmatrix}1\amp 5\amp 3\\1\amp 3\amp 4\\1\amp 1\amp 5\\1\amp 2\amp 1\end{bmatrix}\begin{bmatrix}a_0\\a_1\\a_2\end{bmatrix}=\begin{bmatrix}0.8\\0.8\\0.6\\0.4\end{bmatrix}.
-</me>
+</md>
 
     Using <xref ref="th-bestApprox"/>, we get
     
-<me>
+<md>
     \mathbf{z}=\underbrace{\frac{1}{42}\begin{bmatrix}
         119\amp -17\amp -19\\-17\amp 5\amp 1\\-19\amp 1\amp 5
     \end{bmatrix}}_{\left(A^TA\right)^{-1}}\underbrace{\begin{bmatrix}
@@ -808,7 +808,7 @@ The data on the following page were collected on four players. Find the linear f
     \end{bmatrix}=\begin{bmatrix}
         0.14\\0.09\\0.08
     \end{bmatrix}.
-</me>
+</md>
 
     Hence the best-fitting function is <m>g=0.14+0.09x_1+0.08x_2</m>.
        </p>
@@ -861,9 +861,9 @@ In practice, one can fit a function to a set of data points, so that the graph o
 </md>
 
 According to our computations, the line that best fits the data is given by 
-<me>
+<md>
     f(x)=\frac{13}{14}x+\frac{1}{2}.
-</me>
+</md>
 
 Let's take a look.
 </p> 
@@ -886,19 +886,19 @@ Let's take a look.
  
 <p>
 We found this fit by minimizing <m>\norm{\mathbf{b}-A\mathbf{z}}</m>.  We will now investigate the meaning of this expression in relation to the line and the data points.
-<men>
+<md number="yes">
     \mathbf{b}-A\mathbf{z}=\begin{bmatrix}1\\3\\4\end{bmatrix}-\begin{bmatrix}(13/14)(1)+1/2\\(13/14)(2)+1/2\\{(13/14)(4)+1/2}\end{bmatrix}\approx\begin{bmatrix}
         -0.43\\0.64\\-0.21
     \end{bmatrix}.
-</men>
+</md>
 
 Observe that each entry of <m>\mathbf{b}-A\mathbf{z}</m> is the signed vertical distance between a particular point and the line.
 
 Instead of computing the error, <m>\norm{\mathbf{b}-A\mathbf{z}}</m>, we compute <m>\norm{\mathbf{b}-A\mathbf{z}}^2</m> to avoid the square root.
 
-<men>
+<md number="yes">
     \norm{\mathbf{b}-A\mathbf{z}}^2=(-0.43)^2+0.64^2+(-0.21)^2\approx 0.64.
-</men>
+</md>
 
 Minimizing <m>\norm{\mathbf{b}-A\mathbf{z}}</m> also minimizes <m>\norm{\mathbf{b}-A\mathbf{z}}^2</m>. 
 Therefore, what we have minimized is the sum of squares of the vertical distances between the data points and the line.
@@ -922,21 +922,21 @@ In <xref ref="exp-leastSq2"/> we discovered that <m>\norm{\mathbf{b}-A\mathbf{z}
 <p>
 By minimizing <m>\norm{\mathbf{b}-A\mathbf{z}}</m>, we minimize the sum of squares of vertical distances.  
 This observation holds in general.  Given a collection of points
-<me>
+<md>
 (x_1, y_1),\ (x_2, y_2),\dots ,(x_n, y_n),
-</me>
+</md>
 
 finding a linear function of the form <m>f(x)=ax+b</m> that best fits the points we would find a best solution to the system
 
-<me>
+<md>
     \begin{bmatrix}x_1\amp 1\\x_2\amp 1\\\vdots\amp \vdots\\x_n\amp 1\end{bmatrix}\begin{bmatrix}a\\b\end{bmatrix}=\begin{bmatrix}y_1\\y_2\\\vdots\\y_n\end{bmatrix}
-</me>
+</md>
 
 by minimizing
 
-<me>
+<md>
     \norm{\begin{bmatrix}y_1-(ax_1+b)\\y_2-(ax_2+b)\\\vdots\\y_n-(ax_n+b)\end{bmatrix}}^2=(y_1-(ax_1+b))^2+(y_2-(ax_2+b))^2+\dots +(y_n-(ax_n+b))^2
-</me>
+</md>
 
 A geometric interpretation of <m>y_i-(ax_i+b)</m> is shown below.
 </p> 
@@ -971,9 +971,9 @@ A geometric interpretation of <m>y_i-(ax_i+b)</m> is shown below.
         <p>
             Find the least squares approximating quadratic polynomial of the form <m>f(x)=ax^2+bx+c</m> for the following points.
 
-<me>
+<md>
     (-3, 3), \ (-1, 1), \ (0, 1), \ (1, 2), \ (3, 4).
-</me>
+</md>
        </p>
     </statement>
 
@@ -991,27 +991,27 @@ A geometric interpretation of <m>y_i-(ax_i+b)</m> is shown below.
 
     This corresponds to the matrix equation
     
-<me>
+<md>
     \begin{bmatrix}9\amp -3\amp 1\\1\amp -1\amp 1\\0\amp 0\amp 1\\1\amp 1\amp 1\\9\amp 3\amp 1\end{bmatrix}\begin{bmatrix}a\\b\\c\end{bmatrix}=\begin{bmatrix}3\\1\\1\\2\\4\end{bmatrix}.
-</me>
+</md>
 
     Multiplying on the left by <m>A^T</m> gives us the normal equations.
     
-<me>
+<md>
     A^TA\mathbf{z}=A^T\mathbf{b}
-</me>
+</md>
 
     
-<me>
+<md>
     \begin{bmatrix}164\amp 0\amp 20\\0\amp 20\amp 0\\20\amp 0\amp 5\end{bmatrix}\mathbf{z}=\begin{bmatrix}66\\11\\4\end{bmatrix}.
-</me>
+</md>
 
     It turns out that <m>A^TA</m> is invertible, so it is easy to solve for <m>\mathbf{z}</m>. 
     You can use technology to accomplish this. Feel free to use any online tool or Mathlab for this for practice. You arrive at the solution
     
-<me>
+<md>
     \mathbf{z}=\begin{bmatrix}0.26\\0.20\\1.15\end{bmatrix}.
-</me>
+</md>
 
 
     Therefore, the quadratic function of best fit is given by <m>f(x)=0.26x^2+0.2x+1.15</m>.  You can see the graph and the points shown below.
@@ -1047,32 +1047,32 @@ Before the end of this section we will return to this problem with a more comput
 
     This corresponds to the matrix equation
     
-<me>
+<md>
     \begin{bmatrix}-1\amp 1/2\\0\amp 1\\1\amp 2\end{bmatrix}\begin{bmatrix}a\\b\end{bmatrix}=\begin{bmatrix}0\\1\\4\end{bmatrix}.
-</me>
+</md>
 
 
     Using the normal equations, we obtain
     
-<me>
+<md>
     A^TA\mathbf{z}=A^T\mathbf{b},
-</me>
+</md>
 
     
-<me>
+<md>
     \frac{1}{4}\begin{bmatrix}8\amp 6\\6\amp 21\end{bmatrix}\mathbf{z}=\begin{bmatrix}4\\9\end{bmatrix}.
-</me>
+</md>
 
 Solving for <m>\mathbf{z}</m> yields
 
-<me>
+<md>
     \mathbf{z}=\begin{bmatrix}10/11\\16/11\end{bmatrix}.
-</me>
+</md>
 
 Therefore, the function of best fit (of the given form) is given by 
-<me>
+<md>
     f(x)=\frac{10}{11}x+\frac{16}{11}(2^x).
-</me>
+</md>
 
 <!--
 \begin{onlineOnly}
@@ -1115,9 +1115,9 @@ When solving the normal equations in (9.2.1) <!--<xref ref="eq-normalForZ"/>-->,
 
 Since <m>R</m> is invertible, then <m>R^T</m> also has an inverse, and multiplying on the left by it yields
 
-<me>
+<md>
     R\mathbf{z} = Q^T b.
-</me>
+</md>
 
 
 This last equation is easily solved by back-substitution, since <m>R</m> is upper triangular.
@@ -1165,17 +1165,17 @@ This greatly reduces the computations we need to make in solving a system.
 <exercise>
     <statement>
         <p>
-            <me>A = \left[ \begin{array}{rr}
+            <md>A = \left[ \begin{array}{rr}
                 1 \amp  -1 \\
                 -1 \amp  0
-                \end{array}\right].</me>     
+                \end{array}\right].</md>     
         </p>
     </statement>
 
     
     <answer>
         <p>
-            <me>Q = \frac{1}{\sqrt{5}}\left[ \begin{array}{rr}
+            <md>Q = \frac{1}{\sqrt{5}}\left[ \begin{array}{rr}
                 2 \amp  -1 \\
                 1 \amp  2
                 \end{array}\right], \quad 
@@ -1183,7 +1183,7 @@ This greatly reduces the computations we need to make in solving a system.
                 5 \amp  3 \\
                 0 \amp  1
                 \end{array}\right].
-            </me>
+            </md>
         </p>
     </answer>
 </exercise>
@@ -1191,15 +1191,15 @@ This greatly reduces the computations we need to make in solving a system.
     <exercise>
         <statement>
             <p>
-                <me>A = \left[ \begin{array}{rr}
+                <md>A = \left[ \begin{array}{rr}
                     2 \amp  1 \\
                     1 \amp 1
-                    \end{array}\right].</me> 
+                    \end{array}\right].</md> 
             </p>
         </statement>
         <answer>
             <p>
-                <me>Q = \frac{1}{\sqrt{3}}\left[ \begin{array}{rrr}
+                <md>Q = \frac{1}{\sqrt{3}}\left[ \begin{array}{rrr}
                     1 \amp  1 \amp  0 \\
                     -1 \amp  0 \amp  1 \\
                     0 \amp  1 \amp  1 \\
@@ -1210,7 +1210,7 @@ This greatly reduces the computations we need to make in solving a system.
                     0 \amp  3 \amp  1 \\
                     0 \amp  0 \amp  2
                     \end{array}\right].
-                </me>
+                </md>
             </p>
         </answer>
     </exercise>
@@ -1218,12 +1218,12 @@ This greatly reduces the computations we need to make in solving a system.
         <exercise>
             <statement>
                 <p>
-                    <me>A = \left[ \begin{array}{rrr}
+                    <md>A = \left[ \begin{array}{rrr}
                         1 \amp  1 \amp  1 \\
                         1 \amp  1 \amp  0 \\
                         1 \amp  0 \amp  0 \\
                         0 \amp  0 \amp  0 
-                        \end{array}\right].</me>   
+                        \end{array}\right].</md>   
                 </p>
             </statement>
         </exercise>
@@ -1231,12 +1231,12 @@ This greatly reduces the computations we need to make in solving a system.
             <exercise>
                 <statement>
                     <p>
-                        <me>A = \left[ \begin{array}{rrr}
+                        <md>A = \left[ \begin{array}{rrr}
                             1 \amp  1 \amp  0 \\
                             -1 \amp  0 \amp  1 \\
                             0 \amp  1 \amp  1 \\
                             1 \amp  -1 \amp  0
-                            \end{array}\right].</me> 
+                            \end{array}\right].</md> 
                     </p>
                 </statement>
 </exercise>
@@ -1259,7 +1259,9 @@ This greatly reduces the computations we need to make in solving a system.
     </statement>
 
 <hint>
-See <xref ref="prob-take-diag-positive"/>.
+	<p>
+		See <xref ref="prob-take-diag-positive"/>.
+	</p>
 </hint>
 </exercise>
 
@@ -1276,29 +1278,29 @@ See <xref ref="prob-take-diag-positive"/>.
 <exercise>
     <statement>
         <p>
-            <me>A = \left[ \begin{array}{rr}
+            <md>A = \left[ \begin{array}{rr}
                 1 \amp  1 \\
                 1 \amp  0
-                \end{array}\right].</me>
+                \end{array}\right].</md>
             </p>
         </statement>
 <answer>
     <p>
-        <me>A_{1} = \left[ \begin{array}{rr}
+        <md>A_{1} = \left[ \begin{array}{rr}
             3 \amp  1 \\
             1 \amp  0 
             \end{array}\right], \quad Q_{1} = \frac{1}{\sqrt{10}}\left[ \begin{array}{rr}
             3 \amp  -1 \\
             1 \amp  3
             \end{array}\right]
-        </me> 
+        </md> 
         
         and
         
-        <me> R_{1} = \frac{1}{\sqrt{10}}\left[ \begin{array}{rr}
+        <md> R_{1} = \frac{1}{\sqrt{10}}\left[ \begin{array}{rr}
             10 \amp  3 \\
             0 \amp  -1
-            \end{array}\right].</me> 
+            \end{array}\right].</md> 
     </p>
 </answer>
 </exercise>
@@ -1307,16 +1309,16 @@ See <xref ref="prob-take-diag-positive"/>.
 <exercise>
 <statement>
     <p>
-        <me>A = \left[ \begin{array}{rr}
+        <md>A = \left[ \begin{array}{rr}
             3 \amp  1 \\
             1 \amp  0 
-            \end{array}\right].</me> 
+            \end{array}\right].</md> 
     </p>
 </statement>
 
 <answer>
     <p>
-        <me>A_{2} = \frac{1}{10}\left[ \begin{array}{rr}
+        <md>A_{2} = \frac{1}{10}\left[ \begin{array}{rr}
             33 \amp  -1 \\
             -1 \amp  -3
             \end{array}\right], \quad Q_{2} = \frac{1}{\sqrt{1090}}\left[ \begin{array}{rr}
@@ -1325,7 +1327,7 @@ See <xref ref="prob-take-diag-positive"/>.
             \end{array}\right], \quad R_{2} = \frac{1}{\sqrt{1090}}\left[ \begin{array}{rr}
             109 \amp  -3 \\
             0 \amp  -10
-            \end{array}\right].</me>     
+            \end{array}\right].</md>     
     </p>
 </answer>
 </exercise>
@@ -1357,10 +1359,10 @@ so the <m>A_{k}</m> converge to an upper triangular matrix <m>T</m>. But <m>T</m
     <statement>
         <p>
             Apply the QR-algorithm to 
-            <me>A = \left[ \begin{array}{rr}
+            <md>A = \left[ \begin{array}{rr}
 2 \amp  -3 \\
 1 \amp  -2
-\end{array}\right].</me> Explain.
+\end{array}\right].</md> Explain.
         </p>
     </statement>
 </exercise>
@@ -1402,9 +1404,9 @@ so the <m>A_{k}</m> converge to an upper triangular matrix <m>T</m>. But <m>T</m
         <p>
             Find the best approximation to a solution to the system of equations.
 
-<me>
+<md>
     \begin{matrix}3x\amp +\amp y\amp +\amp z\amp =\amp 6\\2x\amp +\amp 3y\amp -\amp z\amp =\amp 1\\2x\amp -\amp y\amp +\amp z\amp =\amp 0\\3x\amp -\amp 3y\amp +\amp 3z\amp =\amp 8\end{matrix}
-</me>
+</md>
 
 Enter answers in fraction form below.
         </p>
@@ -1412,9 +1414,9 @@ Enter answers in fraction form below.
 
 <answer>
     <p>
-        <me>
+        <md>
             x=\frac{-20}{12},\quad y=\frac{46}{12},\quad z=\frac{95}{12}.
-        </me>
+        </md>
     </p>
 </answer>
 </exercise>
@@ -1432,9 +1434,9 @@ Enter answers in fraction form below.
     <statement>
         <p>
 
-<me>
+<md>
     (2,4), \ (4,3), \ (7,2), \ (8,1).
-</me>
+</md>
 
 Enter your answers in fraction form.
 </p>
@@ -1443,9 +1445,9 @@ Enter your answers in fraction form.
 
 <answer>
 <p>
-<me>
+<md>
     f(x)=\frac{-6}{13}x+\frac{64}{13}.
-</me>
+</md>
 </p> 
 </answer>
 
@@ -1466,9 +1468,9 @@ Enter your answers in fraction form.
 <exercise xml:id="prob-leastSq2b">
     <statement>
         <p>
-            <me>
+            <md>
     (-2, 3), \ (-1,1), \ (0,0), \ (1, -2), \ (2, -4).
-</me>
+</md>
 
 
 <!--
@@ -1483,9 +1485,9 @@ Enter your answers in fraction form.
 
 <answer>
     <p>
-<me>
+<md>
     f(x)=-1.7x+-0.4.
-</me>
+</md>
     </p>
 </answer>
 </exercise>
@@ -1509,9 +1511,9 @@ Enter your answers in fraction form.
         <p>
             Use Mathlab or another program/tool to find the least squares approximating quadratic function for the following data points.
 
-<me>
+<md>
     (-2,1), \ (0,0), \ (3,2), \(4,3).
-</me>
+</md>
 
 Round your answers to three decimal places.
 </p>
@@ -1519,9 +1521,9 @@ Round your answers to three decimal places.
 
 <answer>
 <p>
-<me>
+<md>
     f(x)=0.194x^2+-0.024x+0.127.
-</me>
+</md>
 </p>
 </answer> 
 </exercise>
@@ -1530,28 +1532,25 @@ Round your answers to three decimal places.
 
 
 <exercise xml:id="ex-5-6-14">
-    <statement>
-        <p>
-            If <m>A</m> is an <m>m \times n</m> matrix, it can be proved that there exists a unique <m>n \times m</m> matrix <m>A^{\#}</m> satisfying the following four conditions:
-             <m>AA^{\#}A = A</m>; <m>A^{\#}AA^{\#} = A^{\#}</m>; <m>AA^{\#}</m> and <m>A^{\#}A</m> are symmetric. 
-            The matrix <m>A^{\#}</m> is called the <em>Moore-Penrose</em> inverse.
+	<introduction>
+		<p>
+			If <m>A</m> is an <m>m \times n</m> matrix, it can be proved that there exists a unique <m>n \times m</m> matrix <m>A^{\#}</m> satisfying the following four conditions:
+			<m>AA^{\#}A = A</m>; <m>A^{\#}AA^{\#} = A^{\#}</m>; <m>AA^{\#}</m> and <m>A^{\#}A</m> are symmetric.
+			The matrix <m>A^{\#}</m> is called the <em>Moore-Penrose</em> inverse.
+		</p>
+	</introduction>
 
-<ol>
-<li>
-      <p> If <m>A</m> is square and invertible, show that <m>A^{\#} = A^{-1}</m>. </p>
-</li>
+	<task>
+		<p> If <m>A</m> is square and invertible, show that <m>A^{\#} = A^{-1}</m>. </p>
+	</task>
 
-<li>
-      <p> If <m>\text{rank} A = m</m>, show that <m>A^{\#} = A^{T}(AA^{T})^{-1}</m>. </p>
-</li>
+	<task>
+		<p> If <m>\text{rank} A = m</m>, show that <m>A^{\#} = A^{T}(AA^{T})^{-1}</m>. </p>
+	</task>
 
-<li>
-      <p> If <m>\text{rank} A = n</m>, show that <m>A^{\#} = (A^{T}A)^{-1}A^{T}</m>.  (Notice the appearance of the Moore-Penrose inverse arrived when we solve the normal equations, arriving at Equation <xref ref="eq-leastSquaresZ"/>).  </p>
-</li>
-
-</ol>
-        </p>
-    </statement>
+	<task>
+		<p> If <m>\text{rank} A = n</m>, show that <m>A^{\#} = (A^{T}A)^{-1}A^{T}</m>.  (Notice the appearance of the Moore-Penrose inverse arrived when we solve the normal equations, arriving at Equation <xref ref="eq-leastSquaresZ"/>).  </p>
+	</task>
 </exercise>
 
 

@@ -18,27 +18,27 @@
 
 <p>
 It is often useful to partition a matrix into smaller matrices, called <term>blocks</term>. A matrix viewed in this way is said to be <term>partitioned into blocks</term>.  For example, each column of a matrix can be considered to be a block.  Writing a matrix <m>B</m> in the form
-<me>
+<md>
 B = \begin{bmatrix}
 \mathbf{b}_{1} \amp  \mathbf{b}_{2} \amp  \ldots \amp  \mathbf{b}_{k}
 \end{bmatrix} \mbox{ where the } \mathbf{b}_{j} \mbox{ are the columns of } B
-</me>
+</md>
 is a block partition of <m>B</m>. 
 </p>
 
 <p>
 Here is another example.  Consider matrix <m>A</m>.
-<me>
+<md>
 A = \left[ \begin{array}{rrrrr}
 1 \amp  0 \amp  0 \amp  0 \amp  0 \\
 0 \amp  1 \amp  0 \amp  0 \amp  0 \\
 2 \amp  -1 \amp  4 \amp  2 \amp  1 \\
 3 \amp  1 \amp  -1 \amp  7 \amp  5
 \end{array} \right]
-</me>
+</md>
 There is a natural way to partition <m>A</m>. Observe the <m>2\times 2</m> identity matrix, <m>I_2</m>, in the upper left corner.  There is also a <m>2\times 3</m> zero matrix, <m>O_{23}</m>, in the upper right corner.  We will take advantage of these features to partition <m>A</m> as follows.
 
-<me>
+<md>
 A = \left[ \begin{array}{rr|rrr}
 1 \amp  0 \amp  0 \amp  0 \amp  0 \\
 0 \amp  1 \amp  0 \amp  0 \amp  0 \\
@@ -49,14 +49,14 @@ A = \left[ \begin{array}{rr|rrr}
 I_{2} \amp  O_{23} \\
 P \amp  Q
 \end{array} \right]
-</me>
+</md>
 
 This notation is particularly useful when we are multiplying two matrices because the product can be computed in block form.
 </p>
 
 <p>
 Consider matrix <m>B</m>.
-<me>
+<md>
 B = \left[ \begin{array}{rr}
 4 \amp  -2 \\
 5 \amp  6 \\
@@ -64,13 +64,13 @@ B = \left[ \begin{array}{rr}
 -1 \amp  0 \\
 1 \amp  6
 \end{array} \right]
-</me>
+</md>
 We will compute the product <m>AB</m> by ordinary matrix multiplication, using blocks as entries. The only requirement is that the blocks be compatible. That is, the sizes of the blocks must be such that all matrix products of blocks that occur make sense. This means that the number of columns in each block of <m>A</m> must equal the number of rows in the corresponding block of <m>B</m>.
 </p>
 
 <p>
 To find the product <m>AB</m>, we need to partition <m>B</m> so that block <m>I_2</m> corresponds to a <m>2\times 2</m> block of <m>B</m>, and block <m>O_{23}</m> of <m>A</m> corresponds to a <m>3\times 2</m> block of <m>B</m>.  We partition <m>B</m> as follows.
-<me>
+<md>
 B = \left[ \begin{array}{rr}
 4 \amp  -2 \\
 5 \amp  6 \\
@@ -82,11 +82,11 @@ B = \left[ \begin{array}{rr}
 X \\
 Y
 \end{array} \right]
-</me>
+</md>
 
 Then,
 
-<me>
+<md>
 AB = \left[ \begin{array}{cc}
 I \amp  O \\
 P \amp  Q
@@ -106,7 +106,7 @@ PX + QY
 30 \amp  8 \\
 8 \amp  27
 \end{array} \right]
-</me>
+</md>
 This is easily checked to be the product <m>AB</m>, computed in the conventional manner.
 </p>
 
@@ -145,7 +145,7 @@ Block multiplication has theoretical uses, as we shall see later. It is also use
     <statement>
         <p>
             Compute <m>AB</m>, using the indicated block partitioning.
-<me>
+<md>
 A = \left[ \begin{array}{rr|rr}
 2 \amp  -1 \amp  3 \amp  1 \\
 1 \amp  0  \amp  1 \amp  2 \\
@@ -160,12 +160,12 @@ B = \left[ \begin{array}{rr|r}
 0 \amp  5 \amp  1 \\
 1 \amp  -1 \amp  0 
 \end{array} \right]
-</me>
+</md>
         </p>
     </statement>
     <answer>
         <p>
-            <me>
+            <md>
 AB = \left[ \begin{array}{rr|r}
 4 \amp  18 \amp  3 \\
 3 \amp  5  \amp  1 \\
@@ -173,7 +173,7 @@ AB = \left[ \begin{array}{rr|r}
 0 \amp  5 \amp  1 \\
 1 \amp  -1 \amp  0
 \end{array} \right] 
-</me>
+</md>
         </p>
     </answer>
 </exercise>
@@ -189,19 +189,19 @@ AB = \left[ \begin{array}{rr|r}
 <exercise>
 <statement>
 <p> 
-<me>A = \left[ \begin{array}{r|rr}
+<md>A = \left[ \begin{array}{r|rr}
 1 \amp  0 \amp  0 \\
 \hline
 1 \amp  1  \amp  -1\\
 1 \amp  -1 \amp  1
 \end{array} \right]
-</me>
+</md>
 </p>
 </statement>
 
 <answer>
 <p>
-<me>
+<md>
 A^{2k} = \left[ \begin{array}{rc|rr}
 1 \amp  -2k \amp  0 \amp  0 \\
 0 \amp  1 \amp  0 \amp  0 \\
@@ -209,7 +209,7 @@ A^{2k} = \left[ \begin{array}{rc|rr}
 0 \amp  0 \amp  1 \amp  0 \\
 0 \amp  0 \amp  0 \amp  1
 \end{array} \right], \quad \text{for} \ k = 0, 1, 2, \dots
-</me>
+</md>
 </p>
 </answer>
 </exercise>
@@ -217,26 +217,26 @@ A^{2k} = \left[ \begin{array}{rc|rr}
 <exercise>
     <statement>
     <p> 
-    <me> A = \left[ \begin{array}{rr|rr}
+    <md> A = \left[ \begin{array}{rr|rr}
         1 \amp  -1 \amp  2 \amp  -1 \\
         0 \amp  1 \amp  0 \amp  0 \\
         \hline
         0 \amp  0 \amp  -1 \amp  1 \\
         0 \amp  0 \amp  0 \amp  1
         \end{array} \right]
-        </me>
+        </md>
     </p>
     </statement>
 
 <answer>
 <p>
-<me>A^{2k + 1} = A^{2k}A = \left[ \begin{array}{rc|rr}
+<md>A^{2k + 1} = A^{2k}A = \left[ \begin{array}{rc|rr}
 1 \amp  -(2k + 1) \amp  2 \amp  -1 \\
 0 \amp  1 \amp  0 \amp  0 \\
 \hline
 0 \amp  0 \amp  -1 \amp  1 \\
 0 \amp  0 \amp  0 \amp  1
-\end{array} \right], \quad \text{for} \ k = 0, 1, 2, \dots</me>
+\end{array} \right], \quad \text{for} \ k = 0, 1, 2, \dots</md>
 </p>
 </answer>
 </exercise>
@@ -289,7 +289,7 @@ I \amp  0
 
 <answer>
 <p>
-<me>\left[ \begin{array}{cc}
+<md>\left[ \begin{array}{cc}
 X^{m} \amp  0 \\
 0 \amp  X^{m}
 \end{array} \right] \quad \text{if} \ n = 2m; \quad \
@@ -297,7 +297,7 @@ X^{m} \amp  0 \\
 0 \amp  X^{m + 1} \\
 X^{m} \amp  0
 \end{array} \right], \quad \text{if} \ n = 2m + 1.
- </me>
+ </md>
  </p>
     </answer>
 </exercise>
