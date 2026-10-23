@@ -58,6 +58,28 @@
     <xsl:param name="latex.preamble.early"> </xsl:param>
 
 
+    <!-- %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% -->
+    <!--  Animated GIFs: use a PNG still in the PDF  -->
+    <!-- %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% -->
+
+    <!-- LaTeX cannot include a GIF, and the build stops if it tries.  -->
+    <!-- For any image whose @source ends in ".gif", include the PNG  -->
+    <!-- with the same name instead (for example, foo.gif -> foo.png). -->
+    <!-- The PNG must exist in assets/ next to the GIF.  HTML still   -->
+    <!-- shows the animated GIF.                                      -->
+    <xsl:template match="image[@source][substring(@source, string-length(@source) - 3) = '.gif']" mode="image-inclusion" priority="10">
+        <xsl:text>\includegraphics[width=\linewidth</xsl:text>
+        <xsl:if test="@rotate">
+            <xsl:text>,angle=</xsl:text>
+            <xsl:value-of select="@rotate"/>
+            <xsl:text>,origin=c</xsl:text>
+        </xsl:if>
+        <xsl:text>]{</xsl:text>
+        <xsl:value-of select="$external-directory"/>
+        <xsl:value-of select="substring(@source, 1, string-length(@source) - 4)"/>
+        <xsl:text>.png}&#xa;</xsl:text>
+    </xsl:template>
+
     <!-- Override default frontmatter pages: -->
 
     <!-- Remove the "half-title" leading page (title only, at about -->
