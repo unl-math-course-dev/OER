@@ -305,6 +305,18 @@
     <!-- image ("Graph 4" with no graph).  Drop empty p in cells.       -->
     <xsl:template match="cell/p[not(node())]" mode="webwork-rep-to-static"/>
 
+    <!-- %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% -->
+    <!--  Static WeBWorK: table rows wrapped in paragraphs        -->
+    <!-- %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% -->
+
+    <!-- The static version of Rogawski 5.5.18 (water draining from a   -->
+    <!-- tank, Numerical Integration exercises) comes back with each     -->
+    <!-- <row> of its table wrapped in a <p>.  LaTeX then saw a table    -->
+    <!-- with no rows and the PDF build stopped.  Unwrap them.           -->
+    <xsl:template match="tabular/p" mode="webwork-rep-to-static">
+        <xsl:apply-templates select="row" mode="webwork-rep-to-static"/>
+    </xsl:template>
+
     <!-- Override default frontmatter pages: -->
 
     <!-- Remove the "half-title" leading page (title only, at about -->
