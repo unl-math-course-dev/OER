@@ -132,6 +132,33 @@
         <xsl:text>}&#xa;</xsl:text>
     </xsl:template>
 
+    <!-- %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% -->
+    <!--  Wide tables: shrink to fit the line         -->
+    <!-- %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% -->
+
+    <!-- Core (pretext-latex-common.xsl, 2.55.0) shrinks a too-wide      -->
+    <!-- table only when it has @width or @margins.  Our tables are      -->
+    <!-- natural width, and some run into the margin.  This             -->
+    <!-- copies core's "natural width" case and adds the same            -->
+    <!-- shrink-but-never-enlarge \resizebox core uses elsewhere.        -->
+    <xsl:template match="tabular[not(ancestor::sidebyside)][not(@margins) and not(@width)]" priority="10">
+        <xsl:apply-templates select="." mode="newpage"/>
+        <xsl:choose>
+            <xsl:when test="parent::table">
+                <xsl:text>\centering%&#xa;</xsl:text>
+            </xsl:when>
+            <xsl:otherwise>
+                <xsl:text>\begin{center}%&#xa;</xsl:text>
+            </xsl:otherwise>
+        </xsl:choose>
+        <xsl:text>\resizebox{\ifdim\width > \linewidth\linewidth\else\width\fi}{!}{%&#xa;</xsl:text>
+        <xsl:apply-templates select="." mode="tabular-inclusion"/>
+        <xsl:text>}%&#xa;</xsl:text>
+        <xsl:if test="not(parent::table)">
+            <xsl:text>\end{center}%&#xa;</xsl:text>
+        </xsl:if>
+    </xsl:template>
+
     <!-- Override default frontmatter pages: -->
 
     <!-- Remove the "half-title" leading page (title only, at about -->
